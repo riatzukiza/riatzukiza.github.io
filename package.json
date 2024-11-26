@@ -1,0 +1,44 @@
+{
+    "name": "game-of-life",
+    "version": "0.1.0",
+    "description": "the increasingly inaccurately named bundle of code",
+    "main": "main.js",
+    "bin": {},
+    "scripts": {
+        "dev": "kit-shell < ./scripts/dev.sibilant",
+        "start": "node ./server/index.js",
+        "publish": "git add .;git commit -m 'published';git push origin master; git push heroku master;",
+        "bundles": "browserify -r mousetrap -r tree-kit -r jimp -r kit-events -r events -r fs -r assert  -r kit/js/matrix -r kit/js/util -r deeplearn -r mathjs -r ramda -r kit-interface -r webgl -o ./bundles/dependencies.js"
+    },
+    "devDependencies": {
+        "browserify": "16.2.0",
+        "js-beautify": "^1.7.5",
+        "kit-repl": "git+https://github.com/riatzukiza/kit-repl.git",
+        "kit-shell": "git+https://github.com/riatzukiza/kit-shell.git"
+    },
+    "dependencies": {
+        "socket.io": "4.4.0",
+        "@kit-js/http": "^1.2.3",
+        "@tensorflow/tfjs": "^0.8.0",
+        "@timohausmann/quadtree-js": "^1.2.5",
+        "deeplearn": "*",
+        "jimp": "0.2.27",
+        "webgl": "git+https://bitbucket.org/kettlelogic/andy_webgl.git",
+        "kit": "git+https://github.com/riatzukiza/kit.git",
+        "kit-async": "git+https://github.com/riatzukiza/kit-async.git",
+        "kit-events": "git+https://github.com/riatzukiza/kit-events.git",
+        "kit-file-system": "git+https://github.com/riatzukiza/kit-file-system.git",
+        "kit-html": "git+https://github.com/riatzukiza/kit-html.git",
+        "kit-http": "git+https://github.com/riatzukiza/kit-http.git",
+        "kit-interface": "git+https://github.com/riatzukiza/kit-interface.git",
+        "mathjs": "*",
+        "mime-types": "^2.1.18",
+        "mousetrap": "*",
+        "react": "^16.3.1",
+        "sibilant-game-engine": "git+https://github.com:riatzukiza/sibilant-game-engine.git#",
+        "source-map-support": "^0.4.11",
+        "tone": "^14.7.77",
+        "tree-kit": "git+https://github.com/riatzukiza/tree-kit.git",
+        "webgl": "git+https://bitbucket.org/kettlelogic/andy_webgl.git"
+    }
+}

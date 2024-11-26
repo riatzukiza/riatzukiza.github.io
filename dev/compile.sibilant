@@ -1,0 +1,80 @@
+(namespace dev)
+
+(import-namespace markup)
+(import-namespace interface)
+(import-namespace async)
+
+(var compiler (.spawn Compiler))
+(var evaluator (.spawn Evaluator))
+(require! (lit (js beautify))  "js-beautify"
+          'browserify)
+
+(.on compiler 'error (aprint "compiler:error"))
+(.on evaluator 'error (aprint "evaluator:error"))
+
+(def js-target-path (src-path) (+ (strip-sibilant-extension src-path) ".js"))
+
+(def strip-sibilant-extension (path)
+     (Path.join
+      (Path.dirname path)
+      (Path.basename path ".sibilant")))
+
+(def-async compile-all-modules ()
+  (await (.each src.client (=> (file)
+                               (compile-module file  js.client))))
+  (print "done compiling modules"))
+
+(var bundles (new Map))
+(def-async bundle (file dest)
+  (print "bundling" file.path "for" dest)
+
+  (var bundle (remember bundles file.rel
+                        (var b (browserify))
+
+                        (.add b file.path (lit (expose file.rel)))
+                        ;; (.exclude b "webgl")
+                        b
+                        ))
+
+  ;; (each bundles (b k) (.exclude b file.rel))
+
+
+  (var dest-file (await (.insert dest file.rel)))
+  (var reader (.bundle bundle))
+  (var writer dest-file.write-stream)
+
+  (await (make-promise
+          (.on reader 'error fail)
+          (.on writer 'finish success)
+          (.on writer 'error fail)
+          (.pipe reader writer))))
+
+(def-async compile-module (file dest)
+  (print "compiling" file.path "to" dest)
+
+  (var lisp (await file.string))
+  (var js (await (.send compiler (+ "(meta (assign sibilant.dir \"" (Path.dirname file.path) "\" ) null)"
+                                    lisp))))
+  (await (.send compiler "(meta (assign sibilant.dir \".\") null)"))
+
+  (var dest-path (+  (strip-sibilant-extension file.rel ) ".js"))
+
+  (await (.insert dest dest-path ))
+  (await (.set dest dest-path js)))
+
+(macro then-once (emitter event-name)
+       `(new Promise (=> (resolve reject)
+                         (once @emitter @event-name (data)
+                               (resolve data)))))
+(def-async compile-html (file dest)
+
+  (var js (await file.string))
+
+  (print "compiling html from js" file.path js "for " dest)
+  ;; (.send evaluator js)
+  (var result (eval js))
+  (print (lit result))
+  (var dest-file (await (.insert dest (+ (Path.join
+                                          (Path.dirname file.rel)
+                                          (Path.basename file.rel ".js")) ".html"))))
+  (.render result dest-file.write-stream))

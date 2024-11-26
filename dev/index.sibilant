@@ -1,0 +1,87 @@
+(namespace dev)
+
+(macro html (...body) `(markup (.html ...@body)))
+
+(include "./header"
+         "./compile")
+
+(import-namespace kit)
+(import-namespace interface)
+(import-namespace async)
+(import-namespace markup)
+(def-generic File-system.watch (path opts root )
+  (var sys this)
+  (print "Watcher initiating")
+  ;; file watching should be an entirely seperate system.
+  ;;(print "watch method of File-system is pending depreciation")
+  (async-let ((node (.find sys path )))
+    (assign node.*watcher
+            (pipe chokidar
+                  (.watch  node.path)
+                  (on  'all (event-name changed-path stats)
+                       ;; (print "what" (lit event-name changed-path stats))
+                       (var rel (Path.relative root changed-path ))
+                       (async-let ((changed-node (.find sys rel )))
+                       (print "what" (lit event-name changed-path stats))
+                         (var event (lit (event event-name) (node changed-node)))
+                         (.emit node "*" event)
+                         (.emit node "all" event)
+                         (.emit node event-name event)))))
+    node))
+(define src Interface
+  (client (.load File-system "./src/client"))
+  (server (.load File-system "./src/server"))
+  (templates (.load File-system "./src/templates")))
+
+(define js Interface
+
+  (client (.load File-system "./client"))
+  (server (.load File-system "./server"))
+  (templates (.load File-system "./templates"))
+  (bundles (.load File-system "./bundles")))
+
+(define html Interface
+  (files (.load File-system "./html")))
+
+(macro html (...body) `(markup (.html ...@body)))
+
+(def-async main ()
+  (await (each src.client (file) (compile-module file js.client)))
+  (await (each src.server (file) (compile-module file js.server)))
+
+  (await (each src.templates (file) (compile-module file js.templates)))
+  (await (each js.templates (file) (compile-html file html.files)))
+
+  (await (each js.client (file) (bundle file js.bundles)))
+
+  (print "beginning watch party")
+
+  (await (watch src.server "." "change"
+                (print file.path "changed")
+                (compile-module file js.server)))
+
+  (await (watch src.client "." "change"
+
+                (print file "changed")
+                (compile-module file js.client)))
+
+  (await (watch src.templates "." "change"
+                (print file.path "changed")
+                (compile-module file js.templates)))
+
+  (await (watch js.templates "." "change"
+                (print file.path "changed")
+                (compile-html file html.files)))
+
+  (await (watch js.client "." "change"
+                (print file.path "changed")
+                (bundle file js.bundles))))
+
+
+(.catch (.then (main) (-> (print "waiting for changes")
+                   (require! server "./server")
+                   (print "server time")
+                   (.on process 'exit (=> (.stop server)))
+                   ))
+        (=> (error) (print "Error!" error)))
+

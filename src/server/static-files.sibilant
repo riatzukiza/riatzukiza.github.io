@@ -1,0 +1,33 @@
+(include "kit/header")
+(include "../../inc/async")
+(import-namespace async)
+(import-namespace kit)
+
+(require!
+ mime-types "mime-types"
+ Path 'path)
+
+(def serve-static-files (sys)
+
+     (def-async serve ((lit request response route key))
+
+       (var path (pipe (.filter key (=> (k) (not (or (= k ".") (= k "..")))))
+                       (.join "/")))
+       (pipe (.find sys path)
+             (.then (=> (file)
+                        (if (file.is-dir?) (.end response "directory")
+                            (do (var ext (Path.extname file.path)
+                                     mime (.lookup mime-types ext))
+
+                                (.set-header response "Content-Type" mime)
+                              (.pipe file.read-stream response)))))
+             (.catch (=> (err)
+                         (assign response.statusCode 404)
+                         (response.end)
+                         
+
+                         )))
+
+       ))
+
+(export serve-static-files)
