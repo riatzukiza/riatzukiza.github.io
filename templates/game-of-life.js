@@ -1,1 +1,0 @@
-create(HtmlElement)("html", {  }, [ create(HtmlElement)("script", { 'src': "/bundles/field.js" }, []), create(HtmlElement)("script", { 'src': "/bundles/gol.js" }, []), create(HtmlElement)("body", {  }, []) ]);

@@ -25,14 +25,45 @@
   (print "done compiling modules"))
 
 (var bundles (new Map))
+(var lib-bundles (new Map))
+
+(def-async bundle-shared (file dest)
+  (print "bundling" file.path "for" dest)
+
+  (var bundle (remember lib-bundles file.rel
+                        (var b (browserify))
+
+                        (.require b file.path
+                                  (lit (expose (Path.join "@shared/" file.rel))))
+                        b
+                        ))
+
+  ;; (each bundles (b k) (.exclude b file.rel))
+
+
+  (var dest-file (await (.insert dest file.rel)))
+  (var reader (.bundle bundle))
+  (var writer dest-file.write-stream)
+
+  (await (make-promise
+          (.on reader 'error fail)
+          (.on writer 'finish success)
+          (.on writer 'error fail)
+          (.pipe reader writer))))
+
 (def-async bundle (file dest)
   (print "bundling" file.path "for" dest)
 
   (var bundle (remember bundles file.rel
                         (var b (browserify))
 
+                        (each lib-bundles (_b path)
+                              (var shared-path (Path.join "@shared" path))
+                              (print "Excuding" shared-path)
+
+                              (.external b  shared-path ))
+
                         (.add b file.path (lit (expose file.rel)))
-                        ;; (.exclude b "webgl")
                         b
                         ))
 

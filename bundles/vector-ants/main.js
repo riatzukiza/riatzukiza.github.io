@@ -115,14 +115,14 @@ game.events.on("collision", (([ c, c_, d ]) => {
       return (function() {
         if (!(config.collisionStatic === 0)) {
           return c_v.accelerate([ (function() {
-            /* eval.sibilant:31:8 */
+            /* eval.sibilant:16:8 */
           
-            var rand = ((Math.random() * (config.collisionStatic - 1)) + 1);
+            var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
             return (config.collisionStatic - (rand * 2));
           }).call(this), (function() {
-            /* eval.sibilant:31:8 */
+            /* eval.sibilant:16:8 */
           
-            var rand = ((Math.random() * (config.collisionStatic - 1)) + 1);
+            var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
             return (config.collisionStatic - (rand * 2));
           }).call(this) ]);
         }
@@ -140,14 +140,14 @@ game.events.on("collision", (([ c, c_, d ]) => {
       return (function() {
         if (!(config.collisionStatic === 0)) {
           return cv.accelerate([ (function() {
-            /* eval.sibilant:31:8 */
+            /* eval.sibilant:16:8 */
           
-            var rand = ((Math.random() * (config.collisionStatic - 1)) + 1);
+            var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
             return (config.collisionStatic - (rand * 2));
           }).call(this), (function() {
-            /* eval.sibilant:31:8 */
+            /* eval.sibilant:16:8 */
           
-            var rand = ((Math.random() * (config.collisionStatic - 1)) + 1);
+            var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
             return (config.collisionStatic - (rand * 2));
           }).call(this) ]);
         }
@@ -162,25 +162,25 @@ game.events.on("collision", (([ c, c_, d ]) => {
       (function() {
         if (!(config.collisionStatic === 0)) {
           cv.accelerate([ (function() {
-            /* eval.sibilant:31:8 */
+            /* eval.sibilant:16:8 */
           
-            var rand = ((Math.random() * (config.collisionStatic - 1)) + 1);
+            var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
             return (config.collisionStatic - (rand * 2));
           }).call(this), (function() {
-            /* eval.sibilant:31:8 */
+            /* eval.sibilant:16:8 */
           
-            var rand = ((Math.random() * (config.collisionStatic - 1)) + 1);
+            var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
             return (config.collisionStatic - (rand * 2));
           }).call(this) ]);
           return c_v.accelerate([ (function() {
-            /* eval.sibilant:31:8 */
+            /* eval.sibilant:16:8 */
           
-            var rand = ((Math.random() * (config.collisionStatic - 1)) + 1);
+            var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
             return (config.collisionStatic - (rand * 2));
           }).call(this), (function() {
-            /* eval.sibilant:31:8 */
+            /* eval.sibilant:16:8 */
           
-            var rand = ((Math.random() * (config.collisionStatic - 1)) + 1);
+            var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
             return (config.collisionStatic - (rand * 2));
           }).call(this) ]);
         }
@@ -378,11 +378,11 @@ game.systems.get(Collision, home).name = "home";
 target.name = "target";
 home.name = "home";
 const ants=create(EntityGroup)("Ants", activeGameSystems, game.ent);
-var spawnAnt = (function spawnAnt$(x_y$2, home, startingLife) {
-  /* spawn-ant eval.sibilant:108:0 */
+var spawnAnt = (function spawnAnt$(x_y$5, home, startingLife) {
+  /* spawn-ant eval.sibilant:109:0 */
 
-  var x = x_y$2[0],
-      y = x_y$2[1];
+  var x = x_y$5[0],
+      y = x_y$5[1];
 
   var ant = ants.spawn(activeGameSystems);
   game.systems.get(Dot, ant).color = rgba(255, 0, 0, 255);
@@ -422,7 +422,7 @@ var nextSpawn = (() => {
 
 });
 var clearAnts = (function clearAnts$() {
-  /* clear-ants eval.sibilant:137:0 */
+  /* clear-ants eval.sibilant:138:0 */
 
   return ants.clear();
 });
@@ -582,6 +582,18 @@ module.exports.createVectorField = function createVectorField(columns,rows) {
 }
 
 },{"./config.js":2,"./game":6,"./noise":7,"./vector":10,"tone":1385}],5:[function(require,module,exports){
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
+var { 
+  Interface
+ } = require("@kit-js/interface");
 var { 
   Physics
  } = require("sibilant-game-engine/client/systems/physics"),
@@ -604,7 +616,7 @@ var Friction = Physics.Force.define("Friction", {
    }
  });
 exports.Friction = Friction;
-},{"./config":2,"sibilant-game-engine/client/systems/collision":1373,"sibilant-game-engine/client/systems/physics":1374}],6:[function(require,module,exports){
+},{"./config":2,"@kit-js/core/js/util":18,"@kit-js/interface":19,"ramda":1052,"sibilant-game-engine/client/systems/collision":1373,"sibilant-game-engine/client/systems/physics":1374}],6:[function(require,module,exports){
 (function (global){(function (){
 var R = require("ramda");
 var { 
@@ -110295,7 +110307,6 @@ var {
  } = require("@kit-js/interface");
 global.mixin = mixin;
 global.create = create;
-
 var { 
   EventEmitter,
   emit,
@@ -110433,55 +110444,13 @@ var DocumentHead = DocumentNode.define("DocumentHead", {
  });
 var createDocumentNode = create(DocumentNode);
 console.log(document.appendChild);
+alert("HELLO!");
 var { 
-  TreeMap
- } = require("tree-kit");
-var { 
-  Game
- } = require("sibilant-game-engine/client/game"),
-    { 
-  Rendering
- } = require("sibilant-game-engine/client/systems/rendering/rendering"),
-    { 
-  Dot
- } = require("sibilant-game-engine/client/systems/rendering/dot"),
-    { 
-  Position
- } = require("sibilant-game-engine/client/systems/position"),
-    { 
-  Velocity
- } = require("sibilant-game-engine/client/systems/velocity"),
-    { 
-  Physics
- } = require("sibilant-game-engine/client/systems/physics"),
-    { 
-  Scalar
- } = require("sibilant-game-engine/client/math/scalar"),
-    { 
-  Component,
-  System
- } = require("sibilant-game-engine/client/ecs/component"),
-    noise = require("./noise"),
-    Vector = require("./vector"),
-    { 
-  createVectorField,
-  updateParticle
- } = require("./field"),
-    { 
   List
  } = require("sibilant-game-engine/client/data-structures/list"),
     { 
   Collision
  } = require("sibilant-game-engine/client/systems/collision"),
-    { 
-  TreeMap
- } = require("tree-kit"),
- //    { 
- //  SignalField
- // } = require("./signal-field"),
-    { 
-  Friction
- } = require("./friction"),
     { 
   target,
   home,
@@ -110507,16 +110476,9 @@ List.rotateUntil = (function List$rotateUntil$(predicate = this.predicate, t = 0
     }
   }).call(this);
 });
-var vector2d = (function vector2d$(x, y) {
-  /* vector2d eval.sibilant:73:0 */
-
-  return [ x, y ];
-});
 require("./collision");
 nextSpawn();
-console.log(target, home, homePos, nextSpawn);
 Collision.setBounds(config.dimensions[0], config.dimensions[1], 20, 50);
 game.start();
-
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./collision":1,"./config":2,"./entities":3,"./field":4,"./friction":5,"./game":6,"./noise":7,"./settings":8,"./vector":10,"@kit-js/core/js/util":18,"@kit-js/interface":19,"kit-events":30,"ramda":1052,"sibilant-game-engine/client/data-structures/list":1363,"sibilant-game-engine/client/ecs/component":1365,"sibilant-game-engine/client/game":1367,"sibilant-game-engine/client/math/scalar":1369,"sibilant-game-engine/client/systems/collision":1373,"sibilant-game-engine/client/systems/physics":1374,"sibilant-game-engine/client/systems/position":1375,"sibilant-game-engine/client/systems/rendering/dot":1376,"sibilant-game-engine/client/systems/rendering/rendering":1379,"sibilant-game-engine/client/systems/velocity":1381,"tree-kit":1386}]},{},["vector-ants/main.js"]);
+},{"./collision":1,"./config":2,"./entities":3,"./game":6,"./settings":8,"@kit-js/core/js/util":18,"@kit-js/interface":19,"kit-events":30,"ramda":1052,"sibilant-game-engine/client/data-structures/list":1363,"sibilant-game-engine/client/systems/collision":1373}]},{},["vector-ants/main.js"]);

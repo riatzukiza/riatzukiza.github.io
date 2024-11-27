@@ -3,7 +3,6 @@
 (import-namespace kit)
 (include "kit-interface/header" )
 (import-namespace interface)
-
 ;; (const socket (io "/engine"))
 ;; (on socket "change" () (print "change ") (.reload location))
 
@@ -13,9 +12,8 @@
 
 (include "kit-html/src/dom")
 
-
+(alert "HELLO!")
 (import-namespace dom)
-
 (require! ;; (lit Game) "sibilant-game-engine/client/game"
           ;; (lit Rendering) "sibilant-game-engine/client/systems/rendering/rendering"
           ;; (lit Dot) "sibilant-game-engine/client/systems/rendering/dot"
@@ -39,7 +37,6 @@
           config "./config"
           settings "./settings"
           )
-
 (def-generic List.rotate-until (predicate (t 0))
              (if (predicate this.head.item)
                  this.head.item

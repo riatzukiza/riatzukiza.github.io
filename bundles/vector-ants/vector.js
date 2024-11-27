@@ -137,5 +137,4 @@ function createField(columns,rows) {
   }
   return field
 }
-
 },{}]},{},["vector-ants/vector.js"]);

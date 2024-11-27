@@ -114,14 +114,14 @@ game.events.on("collision", (([ c, c_, d ]) => {
       return (function() {
         if (!(config.collisionStatic === 0)) {
           return c_v.accelerate([ (function() {
-            /* eval.sibilant:31:8 */
+            /* eval.sibilant:16:8 */
           
-            var rand = ((Math.random() * (config.collisionStatic - 1)) + 1);
+            var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
             return (config.collisionStatic - (rand * 2));
           }).call(this), (function() {
-            /* eval.sibilant:31:8 */
+            /* eval.sibilant:16:8 */
           
-            var rand = ((Math.random() * (config.collisionStatic - 1)) + 1);
+            var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
             return (config.collisionStatic - (rand * 2));
           }).call(this) ]);
         }
@@ -139,14 +139,14 @@ game.events.on("collision", (([ c, c_, d ]) => {
       return (function() {
         if (!(config.collisionStatic === 0)) {
           return cv.accelerate([ (function() {
-            /* eval.sibilant:31:8 */
+            /* eval.sibilant:16:8 */
           
-            var rand = ((Math.random() * (config.collisionStatic - 1)) + 1);
+            var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
             return (config.collisionStatic - (rand * 2));
           }).call(this), (function() {
-            /* eval.sibilant:31:8 */
+            /* eval.sibilant:16:8 */
           
-            var rand = ((Math.random() * (config.collisionStatic - 1)) + 1);
+            var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
             return (config.collisionStatic - (rand * 2));
           }).call(this) ]);
         }
@@ -161,25 +161,25 @@ game.events.on("collision", (([ c, c_, d ]) => {
       (function() {
         if (!(config.collisionStatic === 0)) {
           cv.accelerate([ (function() {
-            /* eval.sibilant:31:8 */
+            /* eval.sibilant:16:8 */
           
-            var rand = ((Math.random() * (config.collisionStatic - 1)) + 1);
+            var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
             return (config.collisionStatic - (rand * 2));
           }).call(this), (function() {
-            /* eval.sibilant:31:8 */
+            /* eval.sibilant:16:8 */
           
-            var rand = ((Math.random() * (config.collisionStatic - 1)) + 1);
+            var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
             return (config.collisionStatic - (rand * 2));
           }).call(this) ]);
           return c_v.accelerate([ (function() {
-            /* eval.sibilant:31:8 */
+            /* eval.sibilant:16:8 */
           
-            var rand = ((Math.random() * (config.collisionStatic - 1)) + 1);
+            var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
             return (config.collisionStatic - (rand * 2));
           }).call(this), (function() {
-            /* eval.sibilant:31:8 */
+            /* eval.sibilant:16:8 */
           
-            var rand = ((Math.random() * (config.collisionStatic - 1)) + 1);
+            var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
             return (config.collisionStatic - (rand * 2));
           }).call(this) ]);
         }

@@ -49,124 +49,123 @@ module.exports.updateParticle = function updateParticle(
     decay=false,
     win=false,
     homePos,
-    loose =  // (vel.xd < 0.0001 && vel.yd < 0.0001) ||
-    isNaN(vel.xd)|| isNaN(vel.yd) || (vel?.trail?.length >= config.maxTrail) //Math.max(vel.winCount +config.maxTrail -vel.looseCount))
+    loose =  isNaN(vel.xd)|| isNaN(vel.yd) || (vel?.trail?.length >= config.maxTrail) //Math.max(vel.winCount +config.maxTrail -vel.looseCount))
 ) {
-    const pos = new Vector(0,0);
-    pos.x = Math.min(Math.max(Math.round(p.x / config.size),0), config.columns-1) || 1;
-    pos.y = Math.min(Math.max(Math.round(p.y / config.size),0), config.rows-1) || 1;
+    const pos = new Vector(0,0)
+    
+    pos.x = Math.max(Math.min(Math.floor(p.x / config.size), config.columns-1),0);
+    pos.y = Math.max(Math.min(Math.floor(p.y / config.size), config.rows-1),0);
 
-    let angle = noise.simplex3(pos.x/config.angleZoom/5, pos.y/config.angleZoom/5, tick *(config.noiseZ / 10000)) * Math.PI * 2;
-    let length = noise.simplex3(pos.x/50 + 40000, pos.y/50 + 40000, tick * (config.noiseZ / 10000)) * config.fieldForce / 20;
-    let pH = pheremones[pos.x][pos.y];
-    field[pos.x][pos.y].setLength(length);
-    field[pos.x][pos.y].setAngle(angle);
+    if(pos.x >= 0 && pos.x < config.columns && pos.y >= 0 && pos.y < config.rows) {
 
-    let vec = field[pos.x][pos.y];
+        let angle = noise.simplex3(pos.x/config.angleZoom/5, pos.y/config.angleZoom/5, tick *(config.noiseZ / 10000)) * Math.PI * 2;
+        let length = noise.simplex3(pos.x/50 + 40000, pos.y/50 + 40000, tick * (config.noiseZ / 10000)) * config.fieldForce / 20;
+        let pH = pheremones[pos.x][pos.y]
+        field[pos.x][pos.y].setLength(length);
+        field[pos.x][pos.y].setAngle(angle);
 
-    if(!pH.lastCheck) {
-        pH.lastCheck = tick;
-        waitingDecay.add(pH);
-    }
-    if(decay || (config.limitDecay && waitingDecay.size > config.maxInDecay)) {
-        console.log("decaying");
+        let vec = field[pos.x][pos.y];
 
-        if(pH.lastCheck < tick) {
-            for(let cell of waitingDecay) {
-                // console.log("decaying",pH,tick)
-                // cell.divTo(Math.pow (config.decay * (tick - cell.lastCheck ),2))
-                cell.divTo(config.decay * (tick - cell.lastCheck ),2);
-                // cell.subFrom({
-                //   x:cell.x * (Math.pow (config.decay * (tick - cell.lastCheck ),2)),
-                //   y:cell.y * (Math.pow (config.decay * (tick - cell.lastCheck ),2)),
-                // })
-                cell.lastCheck = tick;
-                waitingDecay.delete(cell);
+        if(!pH.lastCheck) {
+            pH.lastCheck = tick
+            waitingDecay.add(pH)
+        }
+        if(decay || (config.limitDecay && waitingDecay.size > config.maxInDecay)) {
+            console.log("decaying")
+
+            if(pH.lastCheck < tick) {
+                for(let cell of waitingDecay) {
+                    // console.log("decaying",pH,tick)
+                    // cell.divTo(Math.pow (config.decay * (tick - cell.lastCheck ),2))
+                    cell.divTo(config.decay * (tick - cell.lastCheck ),2)
+                    // cell.subFrom({
+                    //   x:cell.x * (Math.pow (config.decay * (tick - cell.lastCheck ),2)),
+                    //   y:cell.y * (Math.pow (config.decay * (tick - cell.lastCheck ),2)),
+                    // })
+                    cell.lastCheck = tick
+                    waitingDecay.delete(cell)
+                }
             }
         }
-    }
 
 
 
 
-    if(config.stepWiseUpdate) {
         pH.addTo(vec)
-    }
 
 
-    if(config.trackTrail) {
-        if(!vel.trail ) {
-            vel.winCount=0;
-            vel.looseCount=0;
-            vel.trail = [
-                {
-                    x:vel.xd,
-                    y:vel.yd,
-                    pheremones:pH
-                }
-            ];
-        } else vel.trail.push({
-            x:vel.xd,
-            y:vel.yd,
-            pheremones:pH
-        });
-    }
-    if(loose && config.punishLoosers) {
-        let weight = vel.looseCount/(vel.winCount+1);
-        for(let {x,y,pheremones} of vel.trail) {
-            pheremones.subFrom({
-                x:(x*weight*config.antInfluence),
-                y:(y*weight*config.antInfluence),
-            });
+        if(config.trackTrail) {
+            if(!vel.trail ) {
+                vel.winCount=0
+                vel.looseCount=0
+                vel.trail = [
+                    {
+                        x:vel.xd,
+                        y:vel.yd,
+                        pheremones:pH
+                    }
+                ]
+            } else vel.trail.push({
+                x:vel.xd,
+                y:vel.yd,
+                pheremones:pH
+            })
         }
-    }
-    if(loose ) {
-
-        // console.log("loose",vel)
-        game.events.emit("loose");
-        vel.xd = 0;
-        vel.yd = 0;
-
-        p.x =homePos.x;
-        p.y =homePos.y;
-
-        vel.looseCount++;
-        vel.trail = [];
-
-    }
-    if(win && config.rewardWinners) {
-        console.log("win",vel);
-        let weight = vel.winCount/(vel.looseCount + 1);
-        for(let {x,y,pheremones} of vel.trail) {
-            pheremones.addTo({
-                x:(x*weight*config.antInfluence),
-                y:(y*weight*config.antInfluence),
-            });
+        if(loose && config.punishLoosers) {
+            let weight = vel.looseCount/(vel.winCount+1)
+            for(let {x,y,pheremones} of vel.trail) {
+                pheremones.subFrom({
+                    x:x*weight*config.antInfluence,
+                    y:y*weight*config.antInfluence,
+                })
+            }
         }
+        if(loose ) {
 
-        vel.trail = [];
-        vel.winCount++;
+            // console.log("loose",vel)
+            game.events.emit("loose")
+            vel.xd = 0
+            vel.yd = 0
+
+            p.x =homePos.x
+            p.y =homePos.y
+
+            vel.looseCount++
+            vel.trail = []
+
+        }
+        if(win && config.rewardWinners) {
+            console.log("win",vel)
+            let weight = vel.winCount/(vel.looseCount + 1)
+            for(let {x,y,pheremones} of vel.trail) {
+                pheremones.addTo({
+                    x:x*weight*config.antInfluence,
+                    y:y*weight*config.antInfluence,
+                })
+            }
+
+            vel.trail = []
+            vel.winCount++
+        }
+        if(win) {
+            vel.xd = 0
+            vel.yd = 0
+        }
+        if(pH.getLength() > config.maxLength) pH.setLength(config.maxLength)
+        // vel.xd = pH.x
+        // vel.xy = pH.y
+
+        //vel.accelerate([Math.min(pH.x,config.maxSpeed),Math.min()]);
+        vel.accelerate([pH.x,pH.y]);
+        pH.addTo({
+            x:vel.xd*config.antInfluence,
+            y:vel.yd*config.antInfluence,
+        })
+        // console.log({tick,vec,vel})
+
+    } else {
+        console.log("STUCK",pos.x,pos.y,p.x,p.y,config.rows, config.columns)
     }
-    if(win) {
-        vel.xd = 0;
-        vel.yd = 0;
-
-        p.x =homePos.x;
-        p.y =homePos.y;
-    }
-    if(pH.getLength() > config.maxLength) pH.setLength(config.maxLength);
-    // vel.xd = pH.x
-    // vel.xy = pH.y
-
-    //vel.accelerate([Math.min(pH.x,config.maxSpeed),Math.min()]);
-    vel.accelerate([pH.x,pH.y]);
-    pH.addTo({
-        x:vel.xd*config.antInfluence,
-        y:vel.yd*config.antInfluence,
-    });
-    // console.log({tick,vec,vel})
-
-
 }
 
 module.exports.createVectorField = function createVectorField(columns,rows) {
@@ -180,8 +179,19 @@ module.exports.createVectorField = function createVectorField(columns,rows) {
     return field
 }
 
-
 },{"./config.js":1,"./game":4,"./noise":5,"./vector":7,"tone":1382}],3:[function(require,module,exports){
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
+var { 
+  Interface
+ } = require("@kit-js/interface");
 var { 
   Physics
  } = require("sibilant-game-engine/client/systems/physics"),
@@ -204,7 +214,7 @@ var Friction = Physics.Force.define("Friction", {
    }
  });
 exports.Friction = Friction;
-},{"./config":1,"sibilant-game-engine/client/systems/collision":1370,"sibilant-game-engine/client/systems/physics":1371}],4:[function(require,module,exports){
+},{"./config":1,"@kit-js/core/js/util":15,"@kit-js/interface":16,"ramda":1049,"sibilant-game-engine/client/systems/collision":1370,"sibilant-game-engine/client/systems/physics":1371}],4:[function(require,module,exports){
 (function (global){(function (){
 var R = require("ramda");
 var { 
@@ -707,7 +717,6 @@ module.exports.perlin3 = function(x, y, z) {
 };
 
 
-
 },{}],6:[function(require,module,exports){
 var { 
   Position
@@ -890,7 +899,6 @@ function createField(columns,rows) {
   }
   return field
 }
-
 },{}],8:[function(require,module,exports){
 var toPropertyKey = require("./toPropertyKey.js");
 function _defineProperty(e, r, t) {
@@ -109942,11 +109950,11 @@ game.systems.get(Collision, home).name = "home";
 target.name = "target";
 home.name = "home";
 const ants=create(EntityGroup)("Ants", activeGameSystems, game.ent);
-var spawnAnt = (function spawnAnt$(x_y$1, home, startingLife) {
-  /* spawn-ant eval.sibilant:108:0 */
+var spawnAnt = (function spawnAnt$(x_y$5, home, startingLife) {
+  /* spawn-ant eval.sibilant:109:0 */
 
-  var x = x_y$1[0],
-      y = x_y$1[1];
+  var x = x_y$5[0],
+      y = x_y$5[1];
 
   var ant = ants.spawn(activeGameSystems);
   game.systems.get(Dot, ant).color = rgba(255, 0, 0, 255);
@@ -109986,7 +109994,7 @@ var nextSpawn = (() => {
 
 });
 var clearAnts = (function clearAnts$() {
-  /* clear-ants eval.sibilant:137:0 */
+  /* clear-ants eval.sibilant:138:0 */
 
   return ants.clear();
 });

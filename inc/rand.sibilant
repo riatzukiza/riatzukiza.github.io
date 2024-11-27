@@ -1,0 +1,22 @@
+(macro random-sign  ( ) `(if (< (Math.random) 0.5) -1 1))
+(macro random-float ( min max) `(+ (* (Math.random) (- @max @min)) @min))
+(macro random-signed (max) `(* (random-float 0 @max) (random-sign)))
+
+;; (macro random-sign  ( ) `(if (< (Math.random) 0.5) -1 1))
+
+;; (macro random-signed (max)
+;;        `(scoped
+;;          (var rand (random-float 0 @max))
+;;          (- @max (* rand 2))))
+
+;; (macro random-float ( min max) `(+ (* (Math.random) (- @max @min)) @min))
+
+
+;; (macro random-sign  ( ) `(if (< (Math.random) 0.5) -1 1))
+
+;; (macro random-signed (max)
+;;        `(scoped
+;;          (var rand (random-float (* -1 @max) @max))
+;;          (- @max (* rand 2))))
+
+;; (macro random-float ( min max) `(+ (* (Math.random) (- @max @min)) @min))

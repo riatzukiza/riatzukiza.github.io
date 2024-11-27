@@ -93,6 +93,7 @@
      'name 'home)
 (set target 'name 'target)
 (set home 'name 'home)
+
 ;; (set (.get game.systems Velocity target)
 ;;      ;; 'xd (random-signed 10)
 ;;      ;; 'yd (random-signed 10)

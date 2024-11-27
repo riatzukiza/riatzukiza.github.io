@@ -307,5 +307,4 @@ module.exports.perlin3 = function(x, y, z) {
 };
 
 
-
 },{}]},{},["vector-ants/noise.js"]);

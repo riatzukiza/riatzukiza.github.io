@@ -12,7 +12,6 @@ var {
  } = require("@kit-js/interface");
 global.mixin = mixin;
 global.create = create;
-
 var { 
   EventEmitter,
   emit,
@@ -150,55 +149,13 @@ var DocumentHead = DocumentNode.define("DocumentHead", {
  });
 var createDocumentNode = create(DocumentNode);
 console.log(document.appendChild);
+alert("HELLO!");
 var { 
-  TreeMap
- } = require("tree-kit");
-var { 
-  Game
- } = require("sibilant-game-engine/client/game"),
-    { 
-  Rendering
- } = require("sibilant-game-engine/client/systems/rendering/rendering"),
-    { 
-  Dot
- } = require("sibilant-game-engine/client/systems/rendering/dot"),
-    { 
-  Position
- } = require("sibilant-game-engine/client/systems/position"),
-    { 
-  Velocity
- } = require("sibilant-game-engine/client/systems/velocity"),
-    { 
-  Physics
- } = require("sibilant-game-engine/client/systems/physics"),
-    { 
-  Scalar
- } = require("sibilant-game-engine/client/math/scalar"),
-    { 
-  Component,
-  System
- } = require("sibilant-game-engine/client/ecs/component"),
-    noise = require("./noise"),
-    Vector = require("./vector"),
-    { 
-  createVectorField,
-  updateParticle
- } = require("./field"),
-    { 
   List
  } = require("sibilant-game-engine/client/data-structures/list"),
     { 
   Collision
  } = require("sibilant-game-engine/client/systems/collision"),
-    { 
-  TreeMap
- } = require("tree-kit"),
- //    { 
- //  SignalField
- // } = require("./signal-field"),
-    { 
-  Friction
- } = require("./friction"),
     { 
   target,
   home,
@@ -224,13 +181,7 @@ List.rotateUntil = (function List$rotateUntil$(predicate = this.predicate, t = 0
     }
   }).call(this);
 });
-var vector2d = (function vector2d$(x, y) {
-  /* vector2d eval.sibilant:73:0 */
-
-  return [ x, y ];
-});
 require("./collision");
 nextSpawn();
-console.log(target, home, homePos, nextSpawn);
 Collision.setBounds(config.dimensions[0], config.dimensions[1], 20, 50);
 game.start();

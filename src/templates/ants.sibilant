@@ -11,12 +11,10 @@
         }
 
 ")
-       (.script .src "https://cdn.jsdelivr.net/quicksettings/3.0/quicksettings.min.js")
-       )
+       (.script .src "https://cdn.jsdelivr.net/quicksettings/3.0/quicksettings.min.js"))
 
 
       (.body (.div .id "container" (.div .id "stage")))
       (.script .src "/socket.io/socket.io.js")
-      (.script .src "/bundles/vector-ants/main.js")
-      )
+      (.script .src "/bundles/vector-ants/main.js"))
 
