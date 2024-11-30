@@ -65,7 +65,7 @@ var CollisionBounds = Component.define("CollisionBounds", {
    },
   get scale(  ){ 
     
-      return (1.2 * this.physics.scale);
+      return (1.3 * this.physics.scale);
     
    },
   get physics(  ){ 
@@ -75,13 +75,15 @@ var CollisionBounds = Component.define("CollisionBounds", {
    },
   get minBounds(  ){ 
     
+      var height = this.scale,
+          width = this.scale;
       var { 
         x,
         y
        } = this.pos;
       return { 
-        x,
-        y
+        x:x,
+        y:y
        };
     
    },
@@ -110336,9 +110338,6 @@ game.events.on("collision", ((c, c_) => {
   if( (ants.has(c.entity) && plants.has(c_.entity)) ){ 
     game.events.emit("antFoundPlant", c, c_)
    };
-  if( (v && v_ && p && p_) ){ 
-    game.events.emit("simpleCollision", c_, c)
-   };
   if( (ants.has(c.entity) && ants.has(c_.entity)) ){ 
     game.events.emit("antCollision", c, c_)
    };
@@ -110356,6 +110355,9 @@ game.events.on("collision", ((c, c_) => {
    };
   if( ((plants.has(c.entity) && plants.has(c_.entity)) || (rocks.has(c.entity) && rocks.has(c_.entity)) || (plants.has(c.entity) && rocks.has(c_.entity)) || (rocks.has(c.entity) && plants.has(c_.entity))) ){ 
     game.events.emit("staticObjectCollision", c, c_)
+   };
+  if( (v && v_ && p && p_) ){ 
+    game.events.emit("simpleCollision", c_, c)
    };
   var m = p.mass;
   var m_ = p_.mass;
@@ -110472,8 +110474,22 @@ game.events.on("simpleCollision", ((c, c_) => {
   var p_ = game.systems.get(Physics, c_.entity);
   var m = p.mass;
   var m_ = p_.mass;
-  const vector1=Vector.spawn(v.x, v.y);
-  const vector2=Vector.spawn(v_.x, v_.y);
+  var xd = ((Math.random() * (1 * config.collisionStatic)) * (function() {
+    if (Math.random() <= 0.5) {
+      return -1;
+    } else {
+      return 1;
+    }
+  }).call(this));
+  var yd = ((Math.random() * (1 * config.collisionStatic)) * (function() {
+    if (Math.random() <= 0.5) {
+      return -1;
+    } else {
+      return 1;
+    }
+  }).call(this));
+  const vector1=Vector.spawn(v.xd, v.yd);
+  const vector2=Vector.spawn(v_.xd, v_.yd);
   const theta=Math.atan2((vector1.y - vector2.y), (vector1.x - vector2.x));
   const v1=vector1.rotateTo((theta));
   const v2=vector2.rotateTo((theta));

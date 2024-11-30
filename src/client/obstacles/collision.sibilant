@@ -35,15 +35,20 @@
   (gett dimensions this.area)
   (gett dim this.dimensions)
 
-  (gett scale (* 1.2  this.physics.scale))
+  (gett scale (* 1.3  this.physics.scale))
   (gett physics (.get this.system.process.systems Physics this.entity))
 
 
   (gett min-bounds
 
-        (var (lit x y) this.pos))
-  (gett bounding-box
-        )
+        (var height   this.scale
+             width this.scale)
+
+        (var (lit x y) this.pos)
+
+        (lit (x  x)
+             (y y)))
+  (gett bounding-box)
 
   (gett max-bounds
 

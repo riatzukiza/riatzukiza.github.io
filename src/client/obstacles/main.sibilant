@@ -173,7 +173,6 @@
     (if! (and (ants.has c*.entity) (plants.has c.entity)) (.emit game.events 'ant-found-plant c*, c))
     (if! (and (ants.has c.entity) (plants.has c*.entity)) (.emit game.events 'ant-found-plant c, c*))
 
-    (if! (and v v* p p*) (.emit game.events 'simple-collision c* c))
     (if! (and (ants.has c.entity) (ants.has c*.entity)) (.emit game.events 'ant-collision c, c*))
 
     (if! (and (= c.entity home) (plants.has c*.entity)) (.emit game.events 'plant-colliding-with-spawn c, c*))
@@ -191,10 +190,13 @@
 
         (.emit game.events 'static-object-collision c, c*))
 
+    (if! (and v v* p p*) (.emit game.events 'simple-collision c* c))
+
 
 
     (var m p.mass)
     (var m* p*.mass)
+
 
     (assign c*.colliding false)
     (assign c.colliding false))
@@ -305,24 +307,23 @@
     (var m p.mass)
     (var m* p*.mass)
 
-    ;; (var xd (random-signed (* 1 config.collision-static)))
-    ;; (var yd (random-signed (* 1 config.collision-static)))
+    (var xd (random-signed (* 1 config.collision-static)))
+    (var yd (random-signed (* 1 config.collision-static)))
 
     ;; (const pos v.pos)
     ;; (const pos* v*.pos)
 
-    ;; (assign pos.x (* 1 (+ pos.x xd) ))
-    ;; (assign pos.y (* 1 (+ pos.y yd)))
+    ;; (assign pos.x (- pos.x v.x))
+    ;; (assign pos.y (- pos.y yd))
 
-
-    ;; (assign pos*.x (* 1 (- pos*.x xd)))
-    ;; (assign pos*.y (* 1 (- pos*.y yd)))
+    ;; (assign pos*.x (- pos*.x xd))
+    ;; (assign pos*.y (- pos*.y yd))
 
     ;; (.accelerate v [xd yd])
     ;; (.accelerate v* [(* xd -1) (* yd -1)])
 
-    (const vector1 (.spawn Vector v.x v.y))
-    (const vector2 (.spawn Vector v*.x v*.y))
+    (const vector1 (.spawn Vector v.xd v.yd))
+    (const vector2 (.spawn Vector v*.xd v*.yd))
 
     (const theta (Math.atan2 (- vector1.y vector2.y)
                              (- vector1.x vector2.x)))

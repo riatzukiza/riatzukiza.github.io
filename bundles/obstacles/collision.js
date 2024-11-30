@@ -12936,7 +12936,7 @@ var CollisionBounds = Component.define("CollisionBounds", {
    },
   get scale(  ){ 
     
-      return (1.2 * this.physics.scale);
+      return (1.3 * this.physics.scale);
     
    },
   get physics(  ){ 
@@ -12946,13 +12946,15 @@ var CollisionBounds = Component.define("CollisionBounds", {
    },
   get minBounds(  ){ 
     
+      var height = this.scale,
+          width = this.scale;
       var { 
         x,
         y
        } = this.pos;
       return { 
-        x,
-        y
+        x:x,
+        y:y
        };
     
    },
