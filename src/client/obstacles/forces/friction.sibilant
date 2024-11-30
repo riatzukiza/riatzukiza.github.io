@@ -1,5 +1,5 @@
 (require! (lit Physics) "sibilant-game-engine/client/systems/physics"
-          (lit Collision) "sibilant-game-engine/client/systems/collision")
+          (lit Collision) "../collision")
 
 (require! config "../config")
 
@@ -11,8 +11,8 @@
 
              (unless (and (= v.xd 0) (= v.yd 0))
                      (set v
-                          'xd (* v.xd (/ 1 (* physics.scale physics.mass config.friction) ))
-                          'yd (* v.yd (/ 1 (* physics.scale physics.mass config.friction) )))
+                          'xd (* v.xd (/ 1 (+ 1 (* physics.scale physics.mass config.friction)) ))
+                          'yd (* v.yd (/ 1 (+ 1 (* physics.scale physics.mass config.friction)) )))
 
                      null
                      )))

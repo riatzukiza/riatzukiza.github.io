@@ -9,7 +9,7 @@ var {
  } = require("sibilant-game-engine/client/systems/velocity"),
     { 
   Collision
- } = require("sibilant-game-engine/client/systems/collision"),
+ } = require("./collision"),
     { 
   spawnAnt,
   home,
@@ -29,23 +29,23 @@ var isCollision = false;
 var isWin = false;
 var isLoose = false;
 var getVelocity = (function getVelocity$(entity) {
-  /* get-velocity eval.sibilant:21:0 */
+  /* get-velocity eval.sibilant:22:0 */
 
   return game.systems.get(Velocity, entity);
 });
 var applyStatic = (function applyStatic$(c) {
-  /* apply-static eval.sibilant:22:0 */
+  /* apply-static eval.sibilant:23:0 */
 
   return (function() {
     if (!(config.collisionStatic === 0)) {
-      return getVelocity(c.entity).accelerate([ (((Math.random() * (config.collisionStatic - 0)) + 0) * (function() {
-        if (Math.random() < 0.5) {
+      return getVelocity(c.entity).accelerate([ ((Math.random() * config.collisionStatic) * (function() {
+        if (Math.random() <= 0.5) {
           return -1;
         } else {
           return 1;
         }
-      }).call(this)), (((Math.random() * (config.collisionStatic - 0)) + 0) * (function() {
-        if (Math.random() < 0.5) {
+      }).call(this)), ((Math.random() * config.collisionStatic) * (function() {
+        if (Math.random() <= 0.5) {
           return -1;
         } else {
           return 1;
@@ -55,7 +55,7 @@ var applyStatic = (function applyStatic$(c) {
   }).call(this);
 });
 var signalFood = (function signalFood$(v) {
-  /* signal-food eval.sibilant:26:0 */
+  /* signal-food eval.sibilant:27:0 */
 
   updateParticle(c_v, c_v.pos, SignalField.field, SignalField.layer, game.ticker.ticks, true, true, homePos);
   c_v.pos.x = homePos.x;
@@ -88,14 +88,14 @@ game.events.on("tick", (() => {
         return (function() {
           if (physics.mass > config.plantMassLimit) {
             physics.mass = (physics.mass / 2);
-            return spawnPlant([ ((((Math.random() * (physics.mass - 0)) + 0) * (function() {
-              if (Math.random() < 0.5) {
+            return spawnPlant([ (((Math.random() * physics.mass) * (function() {
+              if (Math.random() <= 0.5) {
                 return -1;
               } else {
                 return 1;
               }
-            }).call(this)) + physics.position.x), ((((Math.random() * (physics.mass - 0)) + 0) * (function() {
-              if (Math.random() < 0.5) {
+            }).call(this)) + physics.position.x), (((Math.random() * physics.mass) * (function() {
+              if (Math.random() <= 0.5) {
                 return -1;
               } else {
                 return 1;

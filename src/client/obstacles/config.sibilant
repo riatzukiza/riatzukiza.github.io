@@ -1,0 +1,42 @@
+(namespace vector-ants)
+(const dim      [(* 0.8 window.innerWidth), (* 0.9 window.innerHeight)])
+(const size 8)
+(set module.exports
+     'size size
+     'angle-zoom 15
+     'noise-z 30
+     'field-force 5
+     'dimensions dim
+     'columns (Math.ceil (/ (first dim) size))
+     'rows (Math.ceil (/ (second dim) size))
+     'decay 0.1
+     'maxLength 200
+     'growth-rate 0.001
+     'starting-plants 100
+     'max-velocity 10
+     'plantMassLimit 100
+     'ant-limit 1000
+     'max-in-decay 20
+     'max-trail 2000
+     'min-trail 10
+     'decay-on-collision false
+     'options-amplitude 10
+     'limit-decay false
+     'ant-influence 90
+     'friction  3
+     'collision-static 2
+     'spawn-static 2
+     'spawn-rate 1
+     'home-location [300, 200]
+     'target-location [700, 900]
+     'rocks 300
+     'stationary-resistance-coefficiant 0.1
+     'track-trail true
+     'vary-noise-with-time true
+     'reward-winners true
+     'win-yield 10
+     'loss-factor 10
+     'punish-loosers true
+     'step-wise-update true
+     'game-speed 1
+     )

@@ -97579,9 +97579,9 @@ var Dot = System.define("Dot", {
     },
     _updateComponent(dot) {
 
-        dot.vertex.point.x = dot.pos.x - (dot.pos.x /2);
-        dot.vertex.point.y = dot.pos.y - (dot.pos.y /2);
-        dot.vertex.point.z = dot.pos.z - (dot.pos.z /2);
+        dot.vertex.point.x = dot.pos.x + (dot.scale /2);
+        dot.vertex.point.y = dot.pos.y + (dot.scale /2);
+        dot.vertex.point.z = dot.pos.z ;
         dot.vertex.size = dot.scale;
         dot.vertex.color.r = dot.color.r;
         dot.vertex.color.g = dot.color.g;

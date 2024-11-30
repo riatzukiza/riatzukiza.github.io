@@ -57,7 +57,7 @@ var {
  } = require("./game"),
     { 
   Collision
- } = require("sibilant-game-engine/client/systems/collision"),
+ } = require("./collision"),
     { 
   SignalField
  } = require("./forces/signal-field"),
@@ -130,31 +130,31 @@ game.systems.get(Physics, home).forces = [];
 game.systems.get(Collision, home).name = "home";
 home.name = "home";
 const ants=create(EntityGroup)("Ants", activeGameSystems, game.ent);
-var spawnAnt = (function spawnAnt$(x_y$6, home, startingLife) {
-  /* spawn-ant eval.sibilant:84:0 */
+var spawnAnt = (function spawnAnt$(x_y$1, home, startingLife) {
+  /* spawn-ant eval.sibilant:81:0 */
 
-  var x = x_y$6[0],
-      y = x_y$6[1];
+  var x = x_y$1[0],
+      y = x_y$1[1];
 
   var ant = ants.spawn(activeGameSystems);
   game.systems.get(Dot, ant).color = rgba(255, 0, 0, 255);
   game.systems.get(Position, ant).x = x;
   game.systems.get(Position, ant).y = y;
-  game.systems.get(Position, ant).z = 1;
+  game.systems.get(Position, ant).z = 0;
   game.systems.get(Physics, ant).scale = 1;
   game.systems.get(Physics, ant).mass = 1;
   game.systems.get(Physics, ant).forces = [ SignalField, Friction ];
   var v = game.systems.get(Velocity, ant);
   (function() {
     if (!(config.spawnStatic === 0)) {
-      return v.accelerate([ (((Math.random() * (config.spawnStatic - 0)) + 0) * (function() {
-        if (Math.random() < 0.5) {
+      return v.accelerate([ ((Math.random() * config.spawnStatic) * (function() {
+        if (Math.random() <= 0.5) {
           return -1;
         } else {
           return 1;
         }
-      }).call(this)), (((Math.random() * (config.spawnStatic - 0)) + 0) * (function() {
-        if (Math.random() < 0.5) {
+      }).call(this)), ((Math.random() * config.spawnStatic) * (function() {
+        if (Math.random() <= 0.5) {
           return -1;
         } else {
           return 1;
@@ -165,11 +165,11 @@ var spawnAnt = (function spawnAnt$(x_y$6, home, startingLife) {
   return ant;
 });
 const rocks=create(EntityGroup)("Rocks", [ Dot, Position, Physics, Collision, Velocity ], game.ent);
-var spawnRock = (function spawnRock$(x_y$7, mass, scale) {
-  /* spawn-rock eval.sibilant:115:0 */
+var spawnRock = (function spawnRock$(x_y$2, mass, scale) {
+  /* spawn-rock eval.sibilant:113:0 */
 
-  var x = x_y$7[0],
-      y = x_y$7[1];
+  var x = x_y$2[0],
+      y = x_y$2[1];
 
   var rock = rocks.spawn([ Dot, Position, Physics, Collision, Velocity ]);
   var hardness = Math.min(Math.round((0.01 * (mass / scale))), 255);
@@ -181,11 +181,11 @@ var spawnRock = (function spawnRock$(x_y$7, mass, scale) {
   return game.systems.get(Position, rock).y = y;
 });
 const plants=create(EntityGroup)("Plants", [ Dot, Position, Physics, Collision, Velocity ], game.ent);
-var spawnPlant = (function spawnPlant$(x_y$8, mass) {
-  /* spawn-plant eval.sibilant:140:0 */
+var spawnPlant = (function spawnPlant$(x_y$3, mass) {
+  /* spawn-plant eval.sibilant:138:0 */
 
-  var x = x_y$8[0],
-      y = x_y$8[1];
+  var x = x_y$3[0],
+      y = x_y$3[1];
 
   var plant = plants.spawn([ Dot, Position, Physics, Collision, Velocity ]);
   var hardness = Math.min(Math.round((0.1 * mass)), 255);
@@ -209,7 +209,7 @@ var nextSpawn = (() => {
 });
 exports.nextSpawn = nextSpawn;
 var clearAnts = (function clearAnts$() {
-  /* clear-ants eval.sibilant:162:0 */
+  /* clear-ants eval.sibilant:160:0 */
 
   return ants.clear();
 });

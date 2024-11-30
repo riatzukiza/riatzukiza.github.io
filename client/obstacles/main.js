@@ -181,7 +181,8 @@ var {
   Position
  } = require("sibilant-game-engine/client/systems/position"),
     { 
-  Velocity
+  Velocity,
+  VelocityInterface
  } = require("sibilant-game-engine/client/systems/velocity"),
     { 
   Physics
@@ -194,7 +195,9 @@ var {
   System
  } = require("./ecs"),
     noise = require("@shared/noise.js"),
-    Vector = require("@shared/vector.js"),
+    { 
+  Vector
+ } = require("@shared/vectors.js"),
     { 
   createVectorField,
   createParticleUpdater
@@ -213,7 +216,7 @@ var {
  } = require("./entities"),
     { 
   Collision
- } = require("sibilant-game-engine/client/systems/collision"),
+ } = require("./collision"),
     { 
   SignalField
  } = require("./forces/signal-field"),
@@ -225,6 +228,13 @@ var {
  } = require("./forces/friction"),
     config = require("./config"),
     settings = require("./settings");
+var VelocityInterface = (function VelocityInterface$(v1, v2) {
+  /* Velocity-interface eval.sibilant:58:0 */
+
+  this.xd += v1;
+  this.yd += v2;
+  return this;
+});
 var { 
   game,
   activeGameSystems
@@ -244,7 +254,7 @@ List.rotateUntil = (function List$rotateUntil$(predicate = this.predicate, t = 0
   }).call(this);
 });
 var vector2d = (function vector2d$(x, y) {
-  /* vector2d eval.sibilant:71:0 */
+  /* vector2d eval.sibilant:76:0 */
 
   return [ x, y ];
 });
@@ -253,9 +263,21 @@ game.start();
 global.mixin = mixin;
 global.create = create;
 var randomLocation = (function randomLocation$() {
-  /* random-location eval.sibilant:85:0 */
+  /* random-location eval.sibilant:92:0 */
 
-  return [ ((Math.random() * (config.dimensions[0] - (-1 * config.dimensions[0]))) + (-1 * config.dimensions[0])), ((Math.random() * (config.dimensions[1] - (-1 * config.dimensions[1]))) + (-1 * config.dimensions[1])) ];
+  return [ ((Math.random() * config.dimensions[0]) * (function() {
+    if (Math.random() <= 0.5) {
+      return -1;
+    } else {
+      return 1;
+    }
+  }).call(this)), ((Math.random() * config.dimensions[1]) * (function() {
+    if (Math.random() <= 0.5) {
+      return -1;
+    } else {
+      return 1;
+    }
+  }).call(this)) ];
 });
 (function() {
   /* node_modules/kit/inc/loops.sibilant:26:8 */
@@ -266,7 +288,19 @@ var randomLocation = (function randomLocation$() {
   $for = (function() {
     /* node_modules/kit/inc/loops.sibilant:28:35 */
   
-    return spawnRock(randomLocation(), (10 + ((Math.random() * (10 - (-1 * 10))) + (-1 * 10))), (10 + ((Math.random() * (10 - (-1 * 10))) + (-1 * 10))));
+    return spawnRock(randomLocation(), ((Math.random() * 20) * (function() {
+      if (Math.random() <= 0.5) {
+        return -1;
+      } else {
+        return 1;
+      }
+    }).call(this)), (10 + ((Math.random() * 20) * (function() {
+      if (Math.random() <= 0.5) {
+        return -1;
+      } else {
+        return 1;
+      }
+    }).call(this))));
   }).call(this);
   }
   ;
@@ -281,7 +315,13 @@ var randomLocation = (function randomLocation$() {
   $for = (function() {
     /* node_modules/kit/inc/loops.sibilant:28:35 */
   
-    return spawnPlant(randomLocation(), (10 + ((Math.random() * (10 - (-1 * 10))) + (-1 * 10))));
+    return spawnPlant(randomLocation(), (10 + ((Math.random() * 10) * (function() {
+      if (Math.random() <= 0.5) {
+        return -1;
+      } else {
+        return 1;
+      }
+    }).call(this))));
   }).call(this);
   }
   ;
@@ -291,21 +331,33 @@ var isCollision = false;
 var isWin = false;
 var isLoose = false;
 var getVelocity = (function getVelocity$(entity) {
-  /* get-velocity eval.sibilant:105:0 */
+  /* get-velocity eval.sibilant:110:0 */
 
   return game.systems.get(Velocity, entity);
 });
 var applyStatic = (function applyStatic$(c) {
-  /* apply-static eval.sibilant:107:0 */
+  /* apply-static eval.sibilant:113:0 */
 
   return (function() {
     if (!(config.collisionStatic === 0)) {
-      return getVelocity(c.entity).accelerate([ ((Math.random() * (config.collisionStatic - (-1 * config.collisionStatic))) + (-1 * config.collisionStatic)), ((Math.random() * (config.collisionStatic - (-1 * config.collisionStatic))) + (-1 * config.collisionStatic)) ]);
+      return getVelocity(c.entity).accelerate([ ((Math.random() * config.collisionStatic) * (function() {
+        if (Math.random() <= 0.5) {
+          return -1;
+        } else {
+          return 1;
+        }
+      }).call(this)), ((Math.random() * config.collisionStatic) * (function() {
+        if (Math.random() <= 0.5) {
+          return -1;
+        } else {
+          return 1;
+        }
+      }).call(this)) ]);
     }
   }).call(this);
 });
 var signalFood = (function signalFood$(v) {
-  /* signal-food eval.sibilant:111:0 */
+  /* signal-food eval.sibilant:118:0 */
 
   updateParticle(c_v, c_v.pos, SignalField.field, SignalField.layer, game.ticker.ticks, true, true, homePos);
   c_v.pos.x = homePos.x;
@@ -333,7 +385,20 @@ game.events.on("tick", (() => {
         return (function() {
           if (physics.mass > config.plantMassLimit) {
             physics.mass = (physics.mass / 2);
-            return spawnPlant([ (((Math.random() * (physics.mass - (-1 * physics.mass))) + (-1 * physics.mass)) + physics.position.x), (((Math.random() * (physics.mass - (-1 * physics.mass))) + (-1 * physics.mass)) + physics.position.y) ], physics.mass);
+            physics.scale = (physics.mass / 2);
+            return spawnPlant([ (((Math.random() * physics.mass) * (function() {
+              if (Math.random() <= 0.5) {
+                return -1;
+              } else {
+                return 1;
+              }
+            }).call(this)) + physics.position.x), (((Math.random() * physics.mass) * (function() {
+              if (Math.random() <= 0.5) {
+                return -1;
+              } else {
+                return 1;
+              }
+            }).call(this)) + physics.position.y) ], physics.mass);
           }
         }).call(this);
       }
@@ -358,65 +423,39 @@ game.events.on("loose", (() => {
   return console.log(err);
 
 }));
-game.events.on("collision", (([ c, c_, d ]) => {
+game.events.on("collision", ((c, c_) => {
 	
   var v = game.systems.get(Velocity, c.entity);
   var v_ = game.systems.get(Velocity, c_.entity);
   var p = game.systems.get(Physics, c.entity);
   var p_ = game.systems.get(Physics, c_.entity);
-  (function() {
-    if ((v && v_ && p && p_)) {
-      return game.events.emit("simpleCollision", [ c_, c ]);
-    }
-  }).call(this);
-  (function() {
-    if (config.printCollisionEvent) {
-      return console.log("collision event", c, c_, d, Collision.quads, { 
-        home,
-        homePos
-       });
-    }
-  }).call(this);
-  (function() {
-    if ((c.entity === home && plants.has(c_.entity))) {
-      return game.events.emit("plantCollidingWithSpawn", [ c, c_ ]);
-    }
-  }).call(this);
-  (function() {
-    if ((c_.entity === home && plants.has(c.entity))) {
-      return game.events.emit("plantCollidingWithSpawn", [ c_, c ]);
-    }
-  }).call(this);
-  (function() {
-    if ((c.entity === home && rocks.has(c_.entity))) {
-      return game.events.emit("plantCollidingWithSpawn", [ c, c_ ]);
-    }
-  }).call(this);
-  (function() {
-    if ((c_.entity === home && rocks.has(c.entity))) {
-      return game.events.emit("plantCollidingWithSpawn", [ c_, c ]);
-    }
-  }).call(this);
-  (function() {
-    if ((ants.has(c_.entity) && plants.has(c.entity))) {
-      return game.events.emit("antFoundPlant", [ c_, c ]);
-    }
-  }).call(this);
-  (function() {
-    if ((ants.has(c.entity) && plants.has(c_.entity))) {
-      return game.events.emit("antFoundPlant", [ c, c_ ]);
-    }
-  }).call(this);
-  (function() {
-    if ((ants.has(c.entity) && ants.has(c_.entity))) {
-      return game.events.emit("antCollision", [ c, c_ ]);
-    }
-  }).call(this);
-  (function() {
-    if (((plants.has(c.entity) && plants.has(c_.entity)) || (rocks.has(c.entity) && rocks.has(c_.entity)) || (plants.has(c.entity) && rocks.has(c_.entity)) || (rocks.has(c.entity) && plants.has(c_.entity)))) {
-      return game.events.emit("staticObjectCollision", [ c, c_ ]);
-    }
-  }).call(this);
+  if( (ants.has(c_.entity) && plants.has(c.entity)) ){ 
+    game.events.emit("antFoundPlant", c_, c)
+   };
+  if( (ants.has(c.entity) && plants.has(c_.entity)) ){ 
+    game.events.emit("antFoundPlant", c, c_)
+   };
+  if( (v && v_ && p && p_) ){ 
+    game.events.emit("simpleCollision", c_, c)
+   };
+  if( (ants.has(c.entity) && ants.has(c_.entity)) ){ 
+    game.events.emit("antCollision", c, c_)
+   };
+  if( (c.entity === home && plants.has(c_.entity)) ){ 
+    game.events.emit("plantCollidingWithSpawn", c, c_)
+   };
+  if( (c_.entity === home && plants.has(c.entity)) ){ 
+    game.events.emit("plantCollidingWithSpawn", c_, c)
+   };
+  if( (c.entity === home && rocks.has(c_.entity)) ){ 
+    game.events.emit("plantCollidingWithSpawn", c, c_)
+   };
+  if( (c_.entity === home && rocks.has(c.entity)) ){ 
+    game.events.emit("plantCollidingWithSpawn", c_, c)
+   };
+  if( ((plants.has(c.entity) && plants.has(c_.entity)) || (rocks.has(c.entity) && rocks.has(c_.entity)) || (plants.has(c.entity) && rocks.has(c_.entity)) || (rocks.has(c.entity) && plants.has(c_.entity))) ){ 
+    game.events.emit("staticObjectCollision", c, c_)
+   };
   var m = p.mass;
   var m_ = p_.mass;
   c_.colliding = false;
@@ -424,66 +463,107 @@ game.events.on("collision", (([ c, c_, d ]) => {
 
 })).once("error", ((err) => {
 	
-  console.log("error on", "collision", "of", "game.events", "given", "[ c, c_, d ]()");
+  console.log("error on", "collision", "of", "game.events", "given", "c(c_)");
   return console.log(err);
 
 }));
-game.events.on("plantCollidingWithSpawn", (([ home, plant ]) => {
+game.events.on("plantCollidingWithSpawn", ((home, plant) => {
 	
   return applyStatic(plant);
 
 })).once("error", ((err) => {
 	
-  console.log("error on", "plantCollidingWithSpawn", "of", "game.events", "given", "[ home, plant ]()");
+  console.log("error on", "plantCollidingWithSpawn", "of", "game.events", "given", "home(plant)");
   return console.log(err);
 
 }));
-game.events.on("staticObjectCollision", (([ o1, o2 ]) => {
+game.events.on("staticObjectCollision", ((o1, o2) => {
 	
-  applyStatic(o1);
-  return applyStatic(o2);
+  var v = game.systems.get(Velocity, o1.entity);
+  var v_ = game.systems.get(Velocity, o2.entity);
+  const pos=v.pos;
+  const pos_=v_.pos;
+  var xd = ((Math.random() * (1 * config.collisionStatic)) * (function() {
+    if (Math.random() <= 0.5) {
+      return -1;
+    } else {
+      return 1;
+    }
+  }).call(this));
+  var yd = ((Math.random() * (1 * config.collisionStatic)) * (function() {
+    if (Math.random() <= 0.5) {
+      return -1;
+    } else {
+      return 1;
+    }
+  }).call(this));
+  pos.x = (1 * (pos.x + xd));
+  pos.y = (1 * (pos.y + yd));
+  pos_.x = (1 * (pos_.x - xd));
+  pos_.y = (1 * (pos_.y - yd));
+  v.accelerate([ xd, yd ]);
+  return v_.accelerate([ (xd * -1), (yd * -1) ]);
 
 })).once("error", ((err) => {
 	
-  console.log("error on", "staticObjectCollision", "of", "game.events", "given", "[ o1, o2 ]()");
+  console.log("error on", "staticObjectCollision", "of", "game.events", "given", "o1(o2)");
   return console.log(err);
 
 }));
-game.events.on("antCollision", (([ c, c_ ]) => {
+game.events.on("antCollision", ((c, c_) => {
 	
   var v = game.systems.get(Velocity, c.entity);
   var v_ = game.systems.get(Velocity, c_.entity);
   var p = game.systems.get(Physics, c.entity);
   var p_ = game.systems.get(Physics, c_.entity);
-  applyStatic(c);
-  applyStatic(c_);
-  updateParticle(v, v.pos, SignalField.field, SignalField.layer, game.ticker.ticks, false, false, homePos);
-  return updateParticle(v_, v_.pos, SignalField.field, SignalField.layer, game.ticker.ticks, false, false, homePos);
+  var xd = ((Math.random() * (1 * config.collisionStatic)) * (function() {
+    if (Math.random() <= 0.5) {
+      return -1;
+    } else {
+      return 1;
+    }
+  }).call(this));
+  var yd = ((Math.random() * (1 * config.collisionStatic)) * (function() {
+    if (Math.random() <= 0.5) {
+      return -1;
+    } else {
+      return 1;
+    }
+  }).call(this));
+  const pos=v.pos;
+  const pos_=v_.pos;
+  pos.x = (1 * (pos.x + xd));
+  pos.y = (1 * (pos.y + yd));
+  pos_.x = (1 * (pos_.x - xd));
+  pos_.y = (1 * (pos_.y - yd));
+  v.accelerate([ xd, yd ]);
+  return v_.accelerate([ (xd * -1), (yd * -1) ]);
 
 })).once("error", ((err) => {
 	
-  console.log("error on", "antCollision", "of", "game.events", "given", "[ c, c_ ]()");
+  console.log("error on", "antCollision", "of", "game.events", "given", "c(c_)");
   return console.log(err);
 
 }));
-game.events.on("antFoundPlant", (([ ant, plant ]) => {
+game.events.on("antFoundPlant", ((ant, plant) => {
 	
   var av = game.systems.get(Velocity, ant.entity);
+  var ap = game.systems.get(Physics, ant.entity);
   isWin = true;
   updateParticle(av, av.pos, SignalField.field, SignalField.layer, game.ticker.ticks, true, true, homePos);
   var pp = game.systems.get(Physics, plant.entity);
-  pp.scale = pp.mass = Math.max((pp.mass - 1), 0);
+  pp.scale = pp.mass = Math.max((pp.mass - 0.1), 0);
   av.pos.x = homePos.x;
   av.pos.y = homePos.y;
   return null;
 
 })).once("error", ((err) => {
 	
-  console.log("error on", "antFoundPlant", "of", "game.events", "given", "[ ant, plant ]()");
+  console.log("error on", "antFoundPlant", "of", "game.events", "given", "ant(plant)");
   return console.log(err);
 
 }));
-game.events.on("simpleCollision", (([ c, c_ ]) => {
+game.events.on("simpleCollision", ((c, c_) => {
 	
   var v = game.systems.get(Velocity, c.entity);
   var v_ = game.systems.get(Velocity, c_.entity);
@@ -491,15 +571,26 @@ game.events.on("simpleCollision", (([ c, c_ ]) => {
   var p_ = game.systems.get(Physics, c_.entity);
   var m = p.mass;
   var m_ = p_.mass;
-  v.xd = (((v.xd * (m - m_)) + (2 * m_ * v_.xd)) / (m + m_));
-  v.yd = (((v.yd * (m - m_)) + (2 * m * m_)) / (m + m_));
-  v_.xd = (((v_.xd * (m_ - m)) + (2 * m * v.xd)) / (m_ + m));
-  v_.yd = (((v_.yd * (m_ - m)) + (2 * m * v.yd)) / (m_ + m));
+  const vector1=Vector.spawn(v.x, v.y);
+  const vector2=Vector.spawn(v_.x, v_.y);
+  const theta=Math.atan2((vector1.y - vector2.y), (vector1.x - vector2.x));
+  const v1=vector1.rotateTo((theta));
+  const v2=vector2.rotateTo((theta));
+  const u1=Vector.spawn((((v1.x * (m - m_)) / (m + m_)) + (v2.x * 2 * (m / (m + m_)))), v1.y).rotateTo(theta);
+  const u2=Vector.spawn((((v2.x * (m_ - m)) / (m_ + m)) + (v1.x * 2 * (m_ / (m_ + m)))), v2.y).rotateTo(theta);
+  v.xd = u1.x;
+  v.yd = u1.y;
+  v_.xd = u2.x;
+  v_.yd = u2.y;
+  v1.despawn();
+  v2.despawn();
+  u1.despawn();
+  u2.despawn();
   return null;
 
 })).once("error", ((err) => {
 	
-  console.log("error on", "simpleCollision", "of", "game.events", "given", "[ c, c_ ]()");
+  console.log("error on", "simpleCollision", "of", "game.events", "given", "c(c_)");
   return console.log(err);
 
 }));

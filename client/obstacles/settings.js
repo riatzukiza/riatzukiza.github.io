@@ -26,12 +26,12 @@ settings.addRange("Signal Decay", 0, 20, config.decay, 0.01, ((val) => {
   return config.decay = (val / config.optionsAmplitude);
 
 }));
-settings.addRange("Max P Vector Length", 0, 99, config.maxLength, 0.1, ((val) => {
+settings.addRange("Max P Vector Length", 0, 999, config.maxLength, 0.1, ((val) => {
 	
   return config.maxLength = (val / config.optionsAmplitude);
 
 }));
-settings.addRange("Max Trail", 10, 999, config.maxTrail, 1, ((val) => {
+settings.addRange("Max Trail", 10, 9999, config.maxTrail, 1, ((val) => {
 	
   return config.maxTrail = val;
 

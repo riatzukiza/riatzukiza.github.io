@@ -1,7 +1,7 @@
 (require! (lit Position) "sibilant-game-engine/client/systems/position"
           (lit Physics) "sibilant-game-engine/client/systems/physics"
           (lit create-vector-field create-particle-updater) "@shared/field.js"
-          (lit Collision) "sibilant-game-engine/client/systems/collision")
+          (lit Collision) "../collision")
 
 (require! config "../config"
           (lit game) "../game"
@@ -23,6 +23,8 @@
                                               false,
                                               entities.home-pos)
                              (var win-rate (/ v.win-count (or (+ 1 v.loose-count) 1)))
-                             (assign c.scale (* 1 (if (> win-rate 1) win-rate 1))))))
+                             (assign c.scale (* 1 (if (> win-rate 1) win-rate 1)))
+                             (assign c.mass (* 1 (if (> win-rate 1) win-rate 1)))
+                             )))
 (export SignalField)
 

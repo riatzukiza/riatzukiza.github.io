@@ -27,7 +27,7 @@
           (lit List) "sibilant-game-engine/client/data-structures/list"
 
           (lit game active-game-systems) "./game"
-          (lit Collision) "sibilant-game-engine/client/systems/collision"
+          (lit Collision) "./collision"
           (lit Signal-field) "./forces/signal-field"
           (lit Friction) "./forces/friction"
           (lit Tree-map) "tree-kit"
@@ -69,10 +69,6 @@
 
 
 
-
-
-
-
 (set (.get game.systems Collision home)
      'name 'home)
 (set home 'name 'home)
@@ -81,6 +77,7 @@
              "Ants"
              active-game-systems
              game.ent))
+
 (def spawn-ant ([x, y], home, starting-life)
      (var ant (.spawn ants active-game-systems))
 
@@ -91,7 +88,7 @@
      (set (.get game.systems Position ant )
           'x x
           'y y
-          'z 1)
+          'z 0)
 
 
      (set (.get game.systems Physics ant)
@@ -103,6 +100,7 @@
      (if (not (= config.spawn-static 0))
          (.accelerate v [(random-signed config.spawn-static),
                           (random-signed config.spawn-static)]))
+
 
      ant)
 

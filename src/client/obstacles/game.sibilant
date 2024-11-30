@@ -18,7 +18,7 @@
           (lit Position) "sibilant-game-engine/client/systems/position"
           (lit Velocity) "sibilant-game-engine/client/systems/velocity"
           (lit Physics) "sibilant-game-engine/client/systems/physics"
-          (lit Collision) "sibilant-game-engine/client/systems/collision"
+          (lit Collision) "./collision"
 
           config "./config"
           )
@@ -34,7 +34,8 @@
 
 (include "../../../inc/rand.sibilant")
 (const rendering (.load Rendering
-                        (lit (dimensions config.dimensions)
+                        (lit (dimensions [(* 1 (first config.dimensions))
+                                          (* 1 (second config.dimensions))])
                              (blend true))))
 
 (var stage (dom (.div .id 'stage )))

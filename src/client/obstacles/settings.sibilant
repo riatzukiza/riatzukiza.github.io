@@ -8,8 +8,8 @@
 (.addRange settings "Noise Z" 1 99 config.noise-z 1 (=> (val) (assign config.noise-z (/ val config.options-amplitude ))))
 (.addRange settings "Noise Force" 1 99 config.field-force 0.1 (=> (val) (assign config.field-force (/ val config.options-amplitude ))))
 (.addRange settings "Signal Decay" 0 20 config.decay 0.01 (=> (val) (assign config.decay (/ val config.options-amplitude))))
-(.addRange settings "Max P Vector Length"  0 99 config.max-length 0.1 (=> (val) (assign config.max-length (/ val config.options-amplitude ))))
-(.addRange settings "Max Trail" 10 999 config.max-trail 1(=> (val) (assign config.max-trail val)))
+(.addRange settings "Max P Vector Length"  0 999 config.max-length 0.1 (=> (val) (assign config.max-length (/ val config.options-amplitude ))))
+(.addRange settings "Max Trail" 10 9999 config.max-trail 1(=> (val) (assign config.max-trail val)))
 (.addRange settings "Min Trail" 10 99 config.min-trail 1 (=> (val) (assign config.min-trail val)))
 
 (.add-boolean settings "Decay on collision"  config.decay-on-collision (=> (val) (assign config.decay-on-collision val)))

@@ -1,10 +1,11 @@
 (namespace vector-ants)
 
+
 (include "../../../inc/rand.sibilant")
 (require! (lit game) "./game"
           (lit Physics) "sibilant-game-engine/client/systems/physics"
           (lit Velocity) "sibilant-game-engine/client/systems/velocity"
-          (lit Collision) "sibilant-game-engine/client/systems/collision"
+          (lit Collision) "./collision"
           (lit spawn-ant home home-pos ants plants) "./entities"
           (lit  create-particle-updater) "@shared/field.js"
           (lit Signal-field) "./forces/signal-field"

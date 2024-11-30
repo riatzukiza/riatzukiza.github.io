@@ -10,7 +10,7 @@ var {
  } = require("@shared/field.js"),
     { 
   Collision
- } = require("sibilant-game-engine/client/systems/collision");
+ } = require("../collision");
 var config = require("../config"),
     { 
   game
@@ -28,7 +28,14 @@ var SignalField = Physics.Force.define("SignalField", {
         if (!((collision.colliding || !(entities.ants.has(c.entity))))) {
           updateParticle(v, v.pos, field, layer, game.ticker.ticks, false, false, entities.homePos);
           var winRate = (v.winCount / ((1 + v.looseCount) || 1));
-          return c.scale = (1 * (function() {
+          c.scale = (1 * (function() {
+            if (winRate > 1) {
+              return winRate;
+            } else {
+              return 1;
+            }
+          }).call(this));
+          return c.mass = (1 * (function() {
             if (winRate > 1) {
               return winRate;
             } else {

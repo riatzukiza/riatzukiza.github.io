@@ -169,10 +169,10 @@ var {
  } = require("sibilant-game-engine/client/systems/physics"),
     { 
   Collision
- } = require("sibilant-game-engine/client/systems/collision"),
+ } = require("./collision"),
     config = require("./config");
 const rendering=Rendering.load({ 
-  dimensions:config.dimensions,
+  dimensions:[ (1 * config.dimensions[0]), (1 * config.dimensions[1]) ],
   blend:true
  });
 var stage = createDocumentNode("div", { 'id': "stage" }, []);

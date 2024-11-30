@@ -1,0 +1,87 @@
+(namespace vector)
+(include "kit/header" )
+(import-namespace kit)
+(include "kit-interface/header" )
+
+
+(require! (lit List) "sibilant-game-engine/client/data-structures/list"
+          (lit Dynamic-pool) "sibilant-game-engine/client/pooling/dynamic-pool")
+
+(def-generic List.rotate-until (predicate (t 0))
+             (if (predicate this.head.item)
+                 this.head.item
+                 (> t (- this.size 1))
+                 (pipe this .rotate (.rotate-until predicate (++ t)))
+                 false))
+(define Vector Interface
+  (init ((x 0) (y 0)))
+  (def add (v) (.spawn Vector (+ this.x v.x) (+ this.y v.y)))
+  (def add-to (v)
+    (incr-by this.x v.x)
+    (incr-by this.y v.y))
+  (def sub (v) (.spawn Vector (+ this.x v.x) (+ this.y v.y)))
+  (def sub-from (v)
+    (assign this.x (- this.x v.x))
+    (assign this.y (- this.y v.y)))
+  (def mult (n) (.spawn Vector (* this.x n) (* this.y n)))
+  (def mult-to (n)
+    (assign this.x (* this.x n))
+    (assign this.y (* this.y n)))
+  (def div (n) (.spawn Vector  (/ this.x n) (/ this.y n)))
+  (def div-to (n)
+    (assign this.x (/ this.x n))
+    (assign this.y (/ this.y n)))
+  (def set-angle (angle)
+    (const length (.get-length this))
+    (assign this.x (* (Math.cos angle) length))
+    (assign this.y (* (Math.sin angle) length)))
+  (def set-length (length)
+    (const angle (.get-angle this))
+    (assign this.x (* (Math.cos angle) length))
+    (assign this.y (* (Math.sin angle) length)))
+
+  (def get-angle ()
+    (Math.atan2 this.y this.x))
+
+  (def get-length ()
+    (Math.hypot this.x this.y))
+  (def get-length-sq ())
+  (def distance-to (v))
+  (def distance-to-sq (v))
+  (def manhattan-distance-to ())
+  (def copy ())
+  (def rotate (angle)
+    (.spawn Vector
+            (- (* this.x (Math.cos angle))
+               (* this.y (Math.sin angle)))
+
+            (- (* this.x (Math.sin angle))
+               (* this.y (Math.cos angle)))
+            )
+    )
+  (def rotate-to (angle)
+
+    (const x (- (* this.x (Math.cos angle))
+                (* this.y (Math.sin angle))))
+
+    (const y (- (* this.x (Math.sin angle))
+                (* this.y (Math.cos angle))))
+    (set this 'x x 'y y)
+    this)
+  (def rotate-around (v angle))
+  (def rotate-me-around (v angle))
+  (def equals (v))
+
+
+  (def despawn () (.release vector-pool this))
+  (def spawn (x y) (.init (.aquire vector-pool) x y))
+
+  )
+(export Vector)
+(define Trail-vector Vector
+  (init (x y pheremones))
+  (def spawn (x y pheremones) (.init (.aquire trail-pool) x y pheremones)))
+(export Trail-vector)
+
+(const  vector-pool ((create Dynamic-pool) Vector))
+(const  trail-pool ((create Dynamic-pool) Trail-vector))
