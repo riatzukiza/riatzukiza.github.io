@@ -33,6 +33,7 @@
   (client (.load File-system "./src/client"))
   (shared (.load File-system "./src/shared"))
   (server (.load File-system "./src/server"))
+
   (templates (.load File-system "./src/templates")))
 
 (define js Interface
@@ -55,7 +56,7 @@
 (def-async main ()
   ;; LISP program files
   (await (each src.client (file) (compile-module file js.client)))
-  (await (each src.shared (file) (compile-module file js.share)))
+  (await (each src.shared (file) (compile-module file js.shared)))
   (await (each src.server (file) (compile-module file js.server)))
 
   ;; LISP HTML Templates
@@ -101,7 +102,7 @@
 
   (await (watch js.shared "." "change"
                 (print file.path "changed")
-                (bundle file js.shared-bundles))))
+                (bundle-shared file js.shared-bundles))))
 
 
 (.catch (.then (main) (-> (print "waiting for changes")
