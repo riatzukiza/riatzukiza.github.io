@@ -1,5 +1,5 @@
-(require! config "./config"
-          entities "./entities"
+(require! config "@obstacles/config.js"
+          entities "@obstacles/entities.js"
           )
 (var settings (Quick-settings.create 800 0 "settings 1"))
 

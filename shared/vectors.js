@@ -12,10 +12,10 @@ var {
  } = require("@kit-js/interface");
 var { 
   List
- } = require("sibilant-game-engine/client/data-structures/list"),
+ } = require("@shared/data-structures/list.js"),
     { 
   DynamicPool
- } = require("sibilant-game-engine/client/pooling/dynamic-pool");
+ } = require("@shared/pooling/dynamic-pool.js");
 List.rotateUntil = (function List$rotateUntil$(predicate = this.predicate, t = 0) {
   /* List.rotate-until node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
@@ -91,7 +91,8 @@ var Vector = Interface.define("Vector", {
     
       const angle=this.getAngle();
       this.x = (Math.cos(angle) * length);
-      return this.y = (Math.sin(angle) * length);
+      this.y = (Math.sin(angle) * length);
+      return this;
     
    },
   getAngle(  ){ 
@@ -108,6 +109,8 @@ var Vector = Interface.define("Vector", {
     
    },
   distanceTo( v ){ 
+    
+      return this.sub(v);
     
    },
   distanceToSq( v ){ 

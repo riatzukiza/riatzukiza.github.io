@@ -1,363 +1,38 @@
-(namespace vector-ants)
+(namespace obstacles)
 (include "kit/header" )
-
 (import-namespace kit)
+
 (include "kit-interface/header" )
+(import-namespace interface)
 
 (include "../../../inc/rand.sibilant")
 
-(import-namespace interface)
+(set global 'mixin mixin 'create create)
 
-(require! (lit List) "sibilant-game-engine/client/data-structures/list")
-
-(def-generic List.rotate-until (predicate (t 0))
-  (if (predicate this.head.item)
-      this.head.item
-      (> t (- this.size 1))
-      (pipe this .rotate (.rotate-until predicate (++ t)))
-      false))
-
-(set global
-     'mixin mixin
-     'create create)
+(require! (lit Collision) "@shared/systems/collision.js"
+          config "@obstacles/config.js"
+          settings "@obstacles/settings.js"
+          entities "@obstacles/entities.js"
+          (lit stage container) "@obstacles/dom.js"
+          )
 
 
-(include "kit-html/src/dom")
+(require! (lit game active-game-systems) "@obstacles/game.js"
 
-(require! (lit Tree-map) "tree-kit")
-
-(import-namespace dom)
-
-(def-lit-macro def-curried (name args ...body) `(property @name (R.curry (lambda @args ...@body))))
-
-(def-lit-macro define (name parent ...body)
-  `(property @name
-             (.define @parent (quote @name)
-                      (lit ...@body))))
-(require! (lit Game) "sibilant-game-engine/client/game"
-          (lit Rendering) "sibilant-game-engine/client/systems/rendering/rendering"
-
-          (lit Dot) "sibilant-game-engine/client/systems/rendering/dot"
-          (lit Position) "sibilant-game-engine/client/systems/position"
-          (lit Velocity Velocity-interface) "sibilant-game-engine/client/systems/velocity"
-          (lit Physics) "sibilant-game-engine/client/systems/physics"
-          (lit Scalar) "sibilant-game-engine/client/math/scalar"
-          (lit Component System) "./ecs"
-          noise "@shared/noise.js"
-          (lit Vector) "@shared/vectors.js"
-          (lit create-vector-field create-particle-updater) "@shared/field.js"
-
-          (lit  next-spawn spawn-ant ants home home-pos next-spawn plants rocks spawn-plant spawn-rock) "./entities"
-
-          (lit Collision) "./collision"
-          (lit Signal-field) "./forces/signal-field"
-          (lit Tree-map) "tree-kit"
-          (lit Friction) "./forces/friction"
-          config "./config"
-          settings "./settings")
-(def Velocity-interface (v1,v2)
-  (incr-by this.xd v1)
-  (incr-by this.yd v2)
-  this
-  )
-
-
-(require! (lit game active-game-systems) "./game")
-(const update-particle (create-particle-updater config game))
-
-(def-generic List.rotate-until (predicate (t 0))
-  (if (predicate this.head.item)
-      this.head.item
-      (> t (- this.size 1))
-      (pipe this .rotate (.rotate-until predicate (++ t)))
-      false))
-
-
-(def vector2d (x y) [x y])
-
-
+          )
 
 (.set-bounds Collision (first config.dimensions) (second config.dimensions)
-             20
-             50
-             )
+             10
+             3)
 
 (.start game)
+(require "@obstacles/events/ant-collision.js")
+(require "@obstacles/events/ant-found-plant.js")
+(require "@obstacles/events/collision.js")
+(require "@obstacles/events/plant-colliding-with-spawn.js")
+(require "@obstacles/events/static-object-collision.js")
+(require "@obstacles/events/tick.js")
+(require "@obstacles/events/simple-collision.js")
 
-(set global
-     'mixin mixin
-     'create create)
 
 
-(def random-location ()
-  [(random-signed (first config.dimensions) )
-   (random-signed (second config.dimensions) )])
-
-
-(do-times config.rocks (spawn-rock (random-location)
-                                   (random-signed 20)
-                                   (+ 10 (random-signed 20))))
-
-
-(do-times config.starting-plants (spawn-plant (random-location) 
-                                              (+ 10 (random-signed 10))))
-
-
-(var is-collision false)
-(var is-win false)
-(var is-loose false)
-
-
-(def get-velocity (entity) (.get game.systems Velocity entity))
-
-
-(def apply-static (c)
-     (if (not (= config.collision-static 0))
-         (.accelerate (get-velocity c.entity)
-                      [(random-signed config.collision-static),(random-signed config.collision-static)])))
-
-(def signal-food (v)
-     (update-particle c*v c*v.pos, Signal-field.field,
-                      Signal-field.layer
-                      game.ticker.ticks
-                      true
-                      true
-                      home-pos
-                      )
-
-     (set c*v.pos
-          'x  home-pos.x
-          'y home-pos.y)
-     null
-
-     )
-(on game.events 'tick ()
-
-    (ants.group.each (=> (ant)
-                         (var v (.get game.systems Velocity ant))
-                         (update-particle v v.pos, Signal-field.field,
-                                          Signal-field.layer
-                                          game.ticker.ticks
-                                          true
-                                          false
-                                          home-pos)
-                         null))
-    (plants.group.each (=> (plant)
-                           (var physics (.get game.systems Physics plant))
-                           (if (>= 0 physics.mass)
-                               (do (.despawn plants plant))
-                               (do
-                                (set physics 'mass (+ physics.mass config.growthRate))
-                                (set physics 'scale (+ physics.scale config.growthRate))
-
-                                (when (> physics.mass config.plantMassLimit)
-                                      (set physics 'mass (/ physics.mass 2))
-                                      (set physics 'scale (/ physics.mass 2))
-                                      (spawn-plant [(+ (random-signed physics.mass) physics.position.x)
-                                                    (+ (random-signed physics.mass) physics.position.y)]
-                                                   physics.mass))))
-                           null)))
-
-
-(on game.events 'loose ()
-    (assign is-loose true))
-
-(on game.events 'collision (c c* )
-
-    (var v (.get game.systems Velocity c.entity))
-    (var v* (.get game.systems Velocity c*.entity))
-
-    (var p (.get game.systems Physics c.entity))
-    (var p* (.get game.systems Physics c*.entity))
-
-    (if! (and (ants.has c*.entity) (plants.has c.entity)) (.emit game.events 'ant-found-plant c*, c))
-    (if! (and (ants.has c.entity) (plants.has c*.entity)) (.emit game.events 'ant-found-plant c, c*))
-
-    (if! (and (ants.has c.entity) (ants.has c*.entity)) (.emit game.events 'ant-collision c, c*))
-
-    (if! (and (= c.entity home) (plants.has c*.entity)) (.emit game.events 'plant-colliding-with-spawn c, c*))
-    (if! (and (= c*.entity home) (plants.has c.entity)) (.emit game.events 'plant-colliding-with-spawn c*, c))
-
-    (if! (and (= c.entity home) (rocks.has c*.entity)) (.emit game.events 'plant-colliding-with-spawn c, c*))
-    (if! (and (= c*.entity home) (rocks.has c.entity)) (.emit game.events 'plant-colliding-with-spawn c*, c))
-
-
-
-    (if! (or (and (plants.has c.entity) (plants.has c*.entity))
-         (and (rocks.has c.entity) (rocks.has c*.entity))
-         (and (plants.has c.entity) (rocks.has c*.entity))
-         (and (rocks.has c.entity) (plants.has c*.entity)))
-
-        (.emit game.events 'static-object-collision c, c*))
-
-    (if! (and v v* p p*) (.emit game.events 'simple-collision c* c))
-
-
-
-    (var m p.mass)
-    (var m* p*.mass)
-
-
-    (assign c*.colliding false)
-    (assign c.colliding false))
-;; (on game.events 'home-ant-collision ([home, c])
-;;     (apply-static c))
-
-(on game.events 'plant-colliding-with-spawn (home, plant)
-    (apply-static plant))
-
-
-(on game.events 'static-object-collision (o1, o2)
-    (var v (.get game.systems Velocity o1.entity))
-    (var v* (.get game.systems Velocity o2.entity))
-    (const pos v.pos)
-    (const pos* v*.pos)
-
-
-    (var xd (random-signed (* 1 config.collision-static)))
-    (var yd (random-signed (* 1 config.collision-static)))
-
-
-    (assign pos.x (* 1 (+ pos.x xd) ))
-    (assign pos.y (* 1 (+ pos.y yd)))
-
-
-    (assign pos*.x (* 1 (- pos*.x xd)))
-    (assign pos*.y (* 1 (- pos*.y yd)))
-
-
-    (.accelerate v [xd yd])
-    (.accelerate v* [(* xd -1) (* yd -1)]))
-
-(on game.events 'ant-collision (c c*)
-
-    (var v (.get game.systems Velocity c.entity))
-    (var v* (.get game.systems Velocity c*.entity))
-
-    (var p (.get game.systems Physics c.entity))
-    (var p* (.get game.systems Physics c*.entity))
-
-    (var xd (random-signed (* 1 config.collision-static)))
-    (var yd (random-signed (* 1 config.collision-static)))
-
-    (const pos v.pos)
-    (const pos* v*.pos)
-
-    (assign pos.x (* 1 (+ pos.x xd) ))
-    (assign pos.y (* 1 (+ pos.y yd)))
-
-
-    (assign pos*.x (* 1 (- pos*.x xd)))
-    (assign pos*.y (* 1 (- pos*.y yd)))
-
-    (.accelerate v [xd yd])
-    (.accelerate v* [(* xd -1) (* yd -1)])
-
-    ;; (update-particle v v.pos, Signal-field.field,
-    ;;                  Signal-field.layer
-    ;;                  game.ticker.ticks
-    ;;                  false
-    ;;                  false
-    ;;                  home-pos)
-
-    ;; (update-particle v* v*.pos, Signal-field.field,
-
-    ;;                  Signal-field.layer
-    ;;                  game.ticker.ticks
-    ;;                  false
-    ;;                  false
-    ;;                  home-pos)
-    )
-
-
-(on game.events 'ant-found-plant (ant, plant)
-
-    (var av (.get game.systems Velocity ant.entity))
-
-    (var ap (.get game.systems Physics ant.entity))
-
-
-    (assign is-win true)
-
-    (update-particle av av.pos, Signal-field.field,
-                     Signal-field.layer
-                     game.ticker.ticks
-                     true
-                     true
-                     home-pos)
-
-
-    (var pp (.get game.systems Physics plant.entity))
-
-    (set pp 'scale (set pp 'mass (Math.max (- pp.mass 0.1) 0)))
-    (set av.pos 'x  home-pos.x 'y home-pos.y)
-
-    null)
-
-
-(on game.events 'simple-collision (c, c*)
-
-    (var v (.get game.systems Velocity c.entity))
-    (var v* (.get game.systems Velocity c*.entity))
-
-
-    (var p (.get game.systems Physics c.entity))
-    (var p* (.get game.systems Physics c*.entity))
-
-    (var m p.mass)
-    (var m* p*.mass)
-
-    (var xd (random-signed (* 1 config.collision-static)))
-    (var yd (random-signed (* 1 config.collision-static)))
-
-    ;; (const pos v.pos)
-    ;; (const pos* v*.pos)
-
-    ;; (assign pos.x (- pos.x v.x))
-    ;; (assign pos.y (- pos.y yd))
-
-    ;; (assign pos*.x (- pos*.x xd))
-    ;; (assign pos*.y (- pos*.y yd))
-
-    ;; (.accelerate v [xd yd])
-    ;; (.accelerate v* [(* xd -1) (* yd -1)])
-
-    (const vector1 (.spawn Vector v.xd v.yd))
-    (const vector2 (.spawn Vector v*.xd v*.yd))
-
-    (const theta (Math.atan2 (- vector1.y vector2.y)
-                             (- vector1.x vector2.x)))
-
-    (const v1 (pipe vector1 (.rotate-to (- theta))))
-    (const v2 (pipe vector2 (.rotate-to (- theta))))
-
-
-    (const u1 (pipe (.spawn Vector
-                       (+ (/ (* v1.x (- m m*))
-                             (+ m m*))
-                          (* v2.x 2 (/ m (+ m m*))))
-                       v1.y)
-                    (.rotate-to theta)))
-
-    (const u2 (pipe (.spawn Vector
-                       (+ (/ (* v2.x (- m* m))
-                             (+ m* m))
-                          (* v1.x 2 (/ m* (+ m* m))))
-                       v2.y)
-                    (.rotate-to theta)))
-
-    (set v 'xd u1.x 'yd u1.y)
-
-
-    (set v* 'xd u2.x 'yd u2.y)
-    (.despawn v1)
-    (.despawn v2)
-
-    (.despawn u1)
-    (.despawn u2)
-
-
-    null
-    )
-
-(next-spawn)

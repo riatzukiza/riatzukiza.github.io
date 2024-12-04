@@ -1,0 +1,50 @@
+(require! (lit Velocity) "@shared/systems/velocity.js")
+
+(require! (lit Position) "@shared/systems/position.js"
+          (lit Physics) "@shared/systems/physics/system.js")
+
+(require! (lit game) "@obstacles/game.js"
+          (lit home plants ants rocks) "@obstacles/entities.js")
+
+(on game.events 'collision (c c* )
+    (var v (.get game.systems Velocity c.entity))
+    (var v* (.get game.systems Velocity c*.entity))
+
+    (var p (.get game.systems Physics c.entity))
+    (var p* (.get game.systems Physics c*.entity))
+
+    (if! (and (= c.entity home) (plants.has c*.entity)) (return (.emit game.events 'plant-colliding-with-spawn c, c*)))
+    (if! (and (= c*.entity home) (plants.has c.entity)) (return (.emit game.events 'plant-colliding-with-spawn c*, c)))
+
+    (if! (and (= c.entity home) (rocks.has c*.entity)) (return (.emit game.events 'plant-colliding-with-spawn c, c*)))
+    (if! (and (= c*.entity home) (rocks.has c.entity)) (return (.emit game.events 'plant-colliding-with-spawn c*, c)))
+
+    (if! (and (ants.has c*.entity) (plants.has c.entity)) (return (.emit game.events 'ant-found-plant c*, c)))
+    (if! (and (ants.has c.entity) (plants.has c*.entity)) (return (.emit game.events 'ant-found-plant c, c*)))
+
+
+    
+    (if! (and v v* p p*)
+
+         ;; (assign v.pos.x (or v.prior-x v.pos.x))
+         ;; (assign v.pos.y (or v.prior-y v.pos.y))
+         ;; (assign v*.pos.x (or v*.prior-x v*.pos.x))
+         ;; (assign v*.pos.y (or v*.prior-y v*.pos.y))
+
+         (assign v.pos.x (or v.prior-x v.pos.x))
+         (assign v.pos.y (or v.prior-y v.pos.y))
+         (assign v*.pos.x (or v*.prior-x v*.pos.x))
+         (assign v*.pos.y (or v*.prior-y v*.pos.y))
+
+         (if! (and (ants.has c.entity) (ants.has c*.entity)) (.emit game.events 'ant-collision c, c*))
+
+
+         (if! (or (and (plants.has c.entity) (plants.has c*.entity))
+                  (and (plants.has c.entity) (rocks.has c*.entity))
+                  (and (rocks.has c.entity) (plants.has c*.entity))
+                  (and (rocks.has c.entity) (rocks.has c*.entity)))
+              (.emit game.events 'static-object-collision c, c*))
+         (.emit game.events 'simple-collision c* c))
+    (assign c*.colliding false)
+    (assign c.colliding false)
+    )

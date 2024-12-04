@@ -95,9 +95,7 @@ class Vector {
   }
   
   rotate(angle) {
-    return new Vector(
-        this.x * Math.cos(angle) - this.y * Math.sin(angle),
-        this.x * Math.sin(angle) + this.y * Math.cos(angle));
+    return new Vector(this.x * Math.cos(angle) - this.y * Math.sin(angle), this.x * Math.sin(angle) + this.y * Math.cos(angle));
   }
   
   rotateTo(angle) {

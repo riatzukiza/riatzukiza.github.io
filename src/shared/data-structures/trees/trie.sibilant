@@ -1,0 +1,42 @@
+
+(include "kit-interface/header")
+(import-namespace interface)
+(require! (lit Table) "@shared/data-structures/table.js"
+          (lit Tree) "@shared/data-structures/trees/base.js")
+
+(define Trie Tree
+  (init (value parent (*children (.spawn Table))))
+
+  (def get (key) (get (.find this key) 'value))
+
+  (def-generic set ((key null) (value null) ) (set (.insert this  key) 'value value))
+
+
+  (def-generic clear (value *children (tree this))
+    (assign tree.value null)
+    (assign tree.parent null)
+    (each *children (child)
+          (.clear child)
+          (.delete *children tree.key)))
+
+  (def-generic add (key (tree this) (*children tree.*children))
+    (var node (or (*children.get key) (.spawn Trie undefined tree)))
+    (assign node.key key)
+    node)
+
+  (def-generic delete (seq (tree this) )
+
+    ;; don't need r keys, the nodes should retain their key.
+    (var node (.find tree seq))
+    (.clear node)
+    (.delete node.parent.*children (last seq)))
+
+  (def-generic *find (seq (node (this.*children.get (first seq))))
+
+    (if node (.find node (rest seq))
+        false))
+
+  (def-generic *insert (seq *children (tree this) (node (.add tree (first seq))))
+    (*children.set (first seq) node )
+    node))
+(export Trie)

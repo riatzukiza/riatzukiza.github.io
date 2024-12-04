@@ -1,5 +1,5 @@
-var config = require("./config"),
-    entities = require("./entities");
+var config = require("@obstacles/config.js"),
+    entities = require("@obstacles/entities.js");
 var settings = QuickSettings.create(800, 0, "settings 1");
 settings.addRange("Options amplitude", 1, 100, config.optionsAmplitude, 0.01, ((val) => {
 	

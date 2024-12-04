@@ -1,0 +1,41 @@
+(require! (lit Dot) "@shared/systems/rendering/dot.js"
+          (lit Position) "@shared/systems/position.js"
+          (lit Velocity) "@shared/systems/velocity.js"
+          (lit Physics) "@shared/systems/physics/index.js"
+          (lit Component System Entity-group) "@shared/ecs.js"
+          (lit Group) "@shared/data-structures/group.js"
+          (lit List) "@shared/data-structures/list.js"
+          (lit Vector) "@shared/vectors.js"
+
+          (lit Collision) "@shared/systems/collision.js"
+          (lit Tree-map) "tree-kit"
+          (lit game active-game-systems) "@obstacles/game.js"
+          config "@obstacles/config.js"
+          (lit rgba) "@obstacles/colors.js"
+          (lit Friction Signal-field) "@obstacles/forces.js")
+(def entity (aspects ) (.spawn game.ent aspects ))
+(var home (entity [Dot Position Physics Collision]))
+(var home-pos (.get game.systems Position home))
+
+
+(print (lit game home home-pos))
+(set (.get game.systems Dot home)
+     'color (rgba 0 255 0 255))
+
+(set (.get game.systems Position home )
+     'x (first config.home-location)
+     'y (second config.home-location)
+     'z 1)
+
+
+(set (.get game.systems Physics home)
+     'scale 1
+     'mass 1
+     'forces [])
+
+(set (.get game.systems Collision home)
+     'name 'home)
+(set home 'name 'home)
+
+(export home)
+(export home-pos)

@@ -1,0 +1,148 @@
+
+(include "kit/header")
+(import-namespace kit)
+
+
+(include "kit-interface/header")
+(import-namespace interface)
+
+(def-lit-macro def-curried (name args ...body) `(property @name (R.curry (lambda @args ...@body))))
+
+(require! (lit Component System) "@shared/ecs.js"
+          (lit Physics) "@shared/systems/physics/system.js"
+          (lit Position) "@shared/systems/position.js"
+          (lit Velocity) "@shared/systems/velocity.js"
+          (lit Vector) "@shared/vectors.js"
+          (lit Trie) "@shared/data-structures/trees/trie.js"
+          Quad-tree  "@timohausmann/quadtree-js")
+
+(require! (lit List) "@shared/data-structures/list.js"
+          (lit Dynamic-pool) "@shared/pooling/dynamic-pool.js"
+          (lit Pooled-data-structure) "@shared/data-structures/pooled.js")
+
+;; (define Bounding-box Pooled-data-structure
+;;   (init (x y height width)))
+
+(define Collision-bounds Component
+
+  (gett dimensions this.area)
+  (gett dim this.dimensions)
+
+  (gett scale (* 1.1  this.physics.scale))
+  (gett physics (.get this.system.process.systems Physics this.entity))
+  (gett x this.pos.x)
+  (gett y this.pos.y)
+  (gett height this.scale)
+  (gett width this.scale)
+
+
+  ;; (gett height (*  2 this.scale))
+  ;; (gett width (* 2 this.scale))
+
+  (gett bounding-box (.spawn Bounding-box this.x this.y this.height this.width))
+
+  (gett max-x (+ this.x this.scale))
+  (gett max-y (+ this.y this.scale))
+
+  ;; (gett max-x (+ this.x (/ this.scale 2)))
+  ;; (gett max-y (+ this.y (/ this.scale 2)))
+
+  ;; (gett max-x (- this.x this.scale))
+  ;; (gett max-y (- this.y this.scale))
+
+  ;; (gett max-x this.x)
+  ;; (gett max-y this.y)
+
+  ;; (gett min-x (- this.x this.scale))
+  ;; (gett min-y (- this.y this.scale))
+
+  ;; (gett min-x (- this.x (/ this.scale 2)))
+  ;; (gett min-y (- this.y (/ this.scale 2)))
+
+  ;; (gett min-x (+ this.x this.scale))
+  ;; (gett min-y (+ this.y this.scale))
+
+
+  (gett min-x this.x)
+  (gett min-y this.y)
+
+  (gett position (.get this.system.process.systems Position this.entity ))
+  (gett pos this.position)
+  (gett velocity (.get this.system.process.systems Velocity this.entity))
+
+  (def-generic is-colliding?  (c* (c this))
+
+    ;; shape of bounding box for non rotated rectangles.
+
+    ;; shape of bounding box for non rotated rectangles.
+    (var d [(- c*.min-x c.max-x)
+            (- c*.min-y c.max-y)
+            (- c.min-x c*.max-x)
+            (- c.min-y c*.max-y)])
+
+    (var [d1x d1y d2x d2y] d)
+
+    (set c 'colliding false)
+    (not (or (>= d1x 0) (>= d1y 0) (>= d2x 0) (>= d2y 0)))))
+
+(export Collision-bounds)
+
+(define Collision System
+
+  (interface Collision-bounds)
+
+
+  (def-generic set-bounds ((height 100) (width 100)
+                           (max-objects 10)
+                           (max-levels 10))
+    (if! this.quads (throw (new Error "bounds are already set")))
+
+    (assign this.quads (new Quad-tree
+                            (lit (x 0)
+                                 (y 0)
+                                 width,height)
+                            max-objects
+                            max-levels)))
+  (def-curried *check  (c c*)
+
+
+    (set c 'colliding false)
+    (if! (.is-colliding? c c*)
+         (set c 'colliding true)
+         (set c* 'colliding true)
+         (.emit c.system.game.events "collision"
+               c c*))
+      (return))
+
+  (def-generic *update-all (t components)
+    (.clear this.quads)
+
+    (assign this.bit-field (.spawn Trie))
+
+    (each  components (c)
+           (const pos [ c.pos.x c.pos.y c.entity])
+           (const node? (.find this.bit-field [c.pos.x c.pos.y]))
+           ;; (if! node?
+           ;;      (each node? (node)
+           ;;            (unless (= c node.value)
+           ;;              (c.system.game.events.emit 'collision c node.value)))
+           ;;      (return ))
+
+           (.set this.bit-field pos c)
+           (.insert this.quads c))
+    (each components (c)
+          (const possible-collisions (.retrieve this.quads c))
+          (for-of! pc possible-collisions
+                   (const node (.find this.bit-field [pc.x pc.y]))
+                   (each node (c*)
+                         (if! (not (= c c*.value))
+                              (.*check this c c*.value))
+                         null))
+          (return))
+    (.despawn this.bit-field)
+    (return null)
+
+
+    )
+  )
+(export Collision)

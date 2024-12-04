@@ -1,0 +1,17 @@
+(include "kit-interface/header")
+(import-namespace interface)
+(require! (lit Dynamic-pool) "@shared/pooling/dynamic-pool.js")
+
+(const pools (new Map))
+
+(define Pooled-data-structure Interface
+  (init () (throw (new (Error "Abstract interface missing init function"))))
+  (def clear () (throw (new (Error "Abstract interface missing clear function"))))
+
+  (gett pool (remember pools this ((create Dynamic-pool) this)))
+
+  (def spawn (...args) (.init (.aquire this.pool) ...args))
+
+  (def despawn () (.release this.pool this)))
+
+(export Pooled-data-structure)

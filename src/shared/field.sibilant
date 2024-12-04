@@ -1,8 +1,10 @@
 (namespace vector)
 (include "kit/header" )
 
-(require! (lit Vector Trail-vector) "./vectors")
-(require! noise "./noise")
+(include "../../inc/rand.sibilant")
+
+(require! (lit Vector Trail-vector) "@shared/vectors.js")
+(require! noise "@shared/noise.js")
 
 ;; needs more work to take both quoted and litteral terms.
 ;; rn this is similar to (get x 'y 'z) which becomes x.y.z and currently cannot
@@ -38,12 +40,12 @@
                                                 config.max-trail))))
 
     ;; (if! (or (isNaN p.x) (isNaN p.x))
-    ;;      (print (lit vel p field pheremones tick decay win home-pos loose pH vec
-    ;;                  pos angle length))
+    ;;      (print (lit vel p field pheremones tick decay win home-pos loose 
+    ;;                   ))
     ;;      (throw (new RangeError "position is not a number")))
     ;; (if! (or (isNaN vel.xd) (isNaN vel.yd))
-    ;;      (print (lit vel p field pheremones tick decay win home-pos loose pH vec
-    ;;                  pos angle length))
+    ;;      (print (lit vel p field pheremones tick decay win home-pos loose 
+    ;;                   ))
     ;;      (throw (new RangeError "velocity is not a number")))
     (const pos (.spawn Vector (or (Math.min (Math.max (Math.round (/ p.x config.size)) 0)
                                             (- config.columns 1))
@@ -53,8 +55,8 @@
                            1)))
 
     ;; (if! (or (isNaN pos.x) (isNaN pos.x))
-    ;;      (print (lit vel p field pheremones tick decay win home-pos loose pH vec
-    ;;                  pos angle length))
+    ;;      (print (lit vel p field pheremones tick decay win home-pos loose 
+    ;;                  pos ))
     ;;      (throw (new RangeError "position is not a number")))
     (const angle (* (noise.simplex3 (/ pos.x config.angle-zoom 5)
                                   (/ pos.y config.angle-zoom 5)
@@ -64,8 +66,8 @@
                     2
                     ))
     ;; (if! (isNaN angle)
-    ;;      (print (lit vel p field pheremones tick decay win home-pos loose pH vec
-    ;;                  pos angle length))
+    ;;      (print (lit vel p field pheremones tick decay win home-pos loose 
+    ;;                  pos angle ))
     ;;      (throw (new (RangeError "angle is not a number"))))
     (const length (/ (* (noise.simplex3 (+ (/ pos.x 50)
                                            40000)
@@ -76,13 +78,13 @@
                      20))
 
     ;; (if! (isNaN length)
-    ;;      (print (lit vel p field pheremones tick decay win home-pos loose pH vec
+    ;;      (print (lit vel p field pheremones tick decay win home-pos loose 
     ;;                  pos angle length))
     ;;      (throw (new (RangeError "length is not a number"))))
 
     (const pH (get pheremones pos.x pos.y))
     ;; (if! (or (isNaN pH.x) (isNaN pH.y))
-    ;;      (print (lit vel p field pheremones tick decay win home-pos loose pH vec
+    ;;      (print (lit vel p field pheremones tick decay win home-pos loose pH 
     ;;                  pos angle length))
     ;;      (throw (new (RangeError "length is not a number"))))
 
@@ -127,9 +129,9 @@
       ;; (.emit game.events 'loose)
       (for-of! seg vel.trail
                (.despawn seg))
-      (set vel 'xd 0 'xd 0 'trail [])
-      (set p 'x home-pos.x
-           'y home-pos.y)
+      (set vel 'trail [])
+      (set p 'x (+ (random-signed config.spawn-static) home-pos.x)
+           'y (+ (random-signed config.spawn-static) home-pos.y))
       (incr-by vel.loose-count 1))
 
     (if! (and win config.reward-winners)
@@ -145,8 +147,8 @@
          (for-of! seg vel.trail
                   (.despawn seg))
 
-         (set vel 'xd 0 'yd 0 'trail [])
-         (set p 'x home-pos.x 'y home-pos.y)
+         (set vel 'trail [])
+         (set p 'x (+ (random-signed config.spawn-static) home-pos.x) 'y (+ (random-signed config.spawn-static) home-pos.y))
          (incr-by vel.win-count 1))
     (if! (> (pH.get-length) config.max-length) (pH.set-length config.max-length))
     (.accelerate vel [pH.x pH.y])

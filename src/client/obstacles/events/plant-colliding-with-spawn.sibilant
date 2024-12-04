@@ -1,0 +1,18 @@
+(require! (lit Velocity) "@shared/systems/velocity.js")
+(require! (lit Position) "@shared/systems/position.js")
+(require! (lit game) "@obstacles/game.js"
+
+          config "@obstacles/config.js"
+          (lit plants ants rocks) "@obstacles/entities.js")
+
+(on game.events 'plant-colliding-with-spawn (home, plant)
+
+    (const v (.get game.systems Velocity plant.entity))
+    (const pos plant.pos)
+    (var xd (random-signed config.collision-static))
+    (var yd (random-signed config.collision-static))
+
+    (assign pos.x (+ pos.x xd))
+    (assign pos.y (+ pos.y yd))
+    (.accelerate v [xd yd])
+    )

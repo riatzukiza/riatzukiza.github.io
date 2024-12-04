@@ -4,8 +4,8 @@
 (include "kit-interface/header" )
 
 
-(require! (lit List) "sibilant-game-engine/client/data-structures/list"
-          (lit Dynamic-pool) "sibilant-game-engine/client/pooling/dynamic-pool")
+(require! (lit List) "@shared/data-structures/list.js"
+          (lit Dynamic-pool) "@shared/pooling/dynamic-pool.js")
 
 (def-generic List.rotate-until (predicate (t 0))
              (if (predicate this.head.item)
@@ -38,7 +38,8 @@
   (def set-length (length)
     (const angle (.get-angle this))
     (assign this.x (* (Math.cos angle) length))
-    (assign this.y (* (Math.sin angle) length)))
+    (assign this.y (* (Math.sin angle) length))
+    this)
 
   (def get-angle ()
     (Math.atan2 this.y this.x))
@@ -46,7 +47,8 @@
   (def get-length ()
     (Math.hypot this.x this.y))
   (def get-length-sq ())
-  (def distance-to (v))
+  (def distance-to (v) (.sub this v)
+    )
   (def distance-to-sq (v))
   (def manhattan-distance-to ())
   (def copy ())

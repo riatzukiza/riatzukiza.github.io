@@ -10,8 +10,8 @@ var {
 var { 
   Vector,
   TrailVector
- } = require("./vectors");
-var noise = require("./noise");
+ } = require("@shared/vectors.js");
+var noise = require("@shared/noise.js");
 const waitingDecay=(new Set());
 module.exports.createParticleUpdater = (function module$exports$createParticleUpdater$(config = this.config, game = this.game) {
   /* module.exports.create-particle-updater node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
@@ -72,11 +72,21 @@ module.exports.createParticleUpdater = (function module$exports$createParticleUp
       seg.despawn()
       }
       ;
-      vel.xd = 0;
-      vel.xd = 0;
       vel.trail = [];;
-      p.x = homePos.x;
-      p.y = homePos.y;;
+      p.x = (((Math.random() * config.spawnStatic) * (function() {
+        if (Math.random() < 0.5) {
+          return -1;
+        } else {
+          return 1;
+        }
+      }).call(this)) + homePos.x);
+      p.y = (((Math.random() * config.spawnStatic) * (function() {
+        if (Math.random() < 0.5) {
+          return -1;
+        } else {
+          return 1;
+        }
+      }).call(this)) + homePos.y);;
       vel.looseCount += 1
      };
     if( (win && config.rewardWinners) ){ 
@@ -100,11 +110,21 @@ module.exports.createParticleUpdater = (function module$exports$createParticleUp
       seg.despawn()
       }
       ;
-      vel.xd = 0;
-      vel.yd = 0;
       vel.trail = [];;
-      p.x = homePos.x;
-      p.y = homePos.y;;
+      p.x = (((Math.random() * config.spawnStatic) * (function() {
+        if (Math.random() < 0.5) {
+          return -1;
+        } else {
+          return 1;
+        }
+      }).call(this)) + homePos.x);
+      p.y = (((Math.random() * config.spawnStatic) * (function() {
+        if (Math.random() < 0.5) {
+          return -1;
+        } else {
+          return 1;
+        }
+      }).call(this)) + homePos.y);;
       vel.winCount += 1
      };
     if( pH.getLength() > config.maxLength ){ 
@@ -120,7 +140,7 @@ module.exports.createParticleUpdater = (function module$exports$createParticleUp
   return particleUpdater;
 });
 module.exports.createVectorField = (function module$exports$createVectorField$(columns, rows) {
-  /* module.exports.create-vector-field eval.sibilant:157:0 */
+  /* module.exports.create-vector-field eval.sibilant:159:0 */
 
   const field=(new Array(columns));
   for (var x = 0;x < columns;++(x))

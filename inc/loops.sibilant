@@ -1,0 +1,12 @@
+(macro for-in! (name set ...body)
+       ["for (const " name " in " set ")" "\n{\n"
+                      ...(interleave ";\n" body)
+                      "\n}\n"])
+
+(macre for-in (name set ...body) `(scoped (for-in! @name @set ...@body)))
+
+(macro for-of (var-name iterable ...body)
+       `(scoped
+         (for-of! @var-name @iterable
+                  ...@body)
+         this))

@@ -1,0 +1,38 @@
+
+(require! (lit Velocity) "@shared/systems/velocity.js")
+(require! (lit Position) "@shared/systems/position.js")
+(require! (lit game) "@obstacles/game.js"
+          (lit create-particle-updater) "@shared/field.js"
+          (lit home-pos plants ants rocks) "@obstacles/entities.js"
+          (lit config) "@obstacles/config.js"
+          (lit Physics) "@shared/systems/physics/system.js"
+          config "@obstacles/config.js"
+          (lit Friction Signal-field) "@obstacles/forces.js"
+          )
+
+(const update-particle (create-particle-updater config game))
+(on game.events 'ant-found-plant (ant, plant)
+
+    (var av (.get game.systems Velocity ant.entity))
+
+    (var ap (.get game.systems Physics ant.entity))
+
+
+
+    (assign is-win true)
+
+    (update-particle av av.pos, Signal-field.field,
+                     Signal-field.layer
+                     game.ticker.ticks
+                     true
+                     true
+                     home-pos
+                     )
+
+
+    (var pp (.get game.systems Physics plant.entity))
+
+    (set pp 'scale (set pp 'mass (Math.max (- pp.mass (* ap.mass 0.1)) 0)))
+    ;; (set av.pos 'x  home-pos.x 'y home-pos.y)
+
+    null)

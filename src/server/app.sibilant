@@ -19,8 +19,7 @@
 
 (define js Interface
 
-  (client (.load File-system "./client"))
-  (bundles (.load File-system "./bundles")))
+  (client (.load File-system "./client")))
 
 (define html Interface
   (files (.load File-system "./html")))

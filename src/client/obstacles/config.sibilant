@@ -1,36 +1,40 @@
 (namespace vector-ants)
-(const dim      [(* 0.8 window.innerWidth), (* 0.9 window.innerHeight)])
-(const size 8)
+(const dim      [(* 0.9 window.innerWidth), (* 0.9 window.innerHeight)])
+(const size 4)
 (set module.exports
      'size size
      'angle-zoom 15
      'noise-z 30
-     'field-force 5
+     'field-force 30
      'dimensions dim
      'columns (Math.ceil (/ (first dim) size))
      'rows (Math.ceil (/ (second dim) size))
-     'decay 0.1
-     'maxLength 200
-     'growth-rate 0.001
-     'starting-plants 100
-     'max-velocity 10
-     'plantMassLimit 100
-     'ant-limit 1000
-     'max-in-decay 20
-     'max-trail 2000
+     'decay 0.3
+     'maxLength 90
+     'growth-rate 0.05
+     'starting-plants 5
+     'plantMassLimit 30
+     'ant-limit 500
+     'max-in-decay 100
+     'max-trail 1000
      'min-trail 10
-     'decay-on-collision false
+     'decay-on-collision true
      'options-amplitude 10
-     'limit-decay false
-     'ant-influence 90
-     'friction  3
-     'collision-static 2
-     'spawn-static 2
-     'spawn-rate 1
+     'limit-decay true
+     'ant-influence 50
+     'friction  2
+     'collision-static 5
+     'spawn-static 10
+     'spawn-rate 10
      'home-location [300, 200]
      'target-location [700, 900]
-     'rocks 300
-     'stationary-resistance-coefficiant 0.1
+     'rocks 100
+     'rock-min-size 20
+     'rock-max-size 40
+     'rock-mass-scaling-factor 1 ;; How much does scale effect mass?
+     'rock-min-mass-factor 2 ;; Min bounds to rock mass variation
+     'rock-max-mass-factor  4 ;; max bounds to rock mass variation
+     'stationary-resistance-coefficiant 0.1 ;; not used
      'track-trail true
      'vary-noise-with-time true
      'reward-winners true
