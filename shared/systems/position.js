@@ -13,9 +13,8 @@ var PositionInterface = Component.define("PositionInterface", {
 exports.PositionInterface = PositionInterface;
 var Position = System.define("Position", { 
   interface:PositionInterface,
-  shift( entity,[ xshift, yshift ] ){ 
+  shift( c,[ xshift, yshift ] ){ 
     
-      var c = this.get(entity);
       c.x = (c.x + xshift);
       c.y = (c.y + yshift);
       return this._updateComponent(c);
@@ -26,7 +25,7 @@ var Position = System.define("Position", {
     y
    } ){ 
     
-      var c = this.get(entity);
+      var c = this.components.get(entity);
       c.x = x;
       c.y = y;
       return this._updateComponent(c);

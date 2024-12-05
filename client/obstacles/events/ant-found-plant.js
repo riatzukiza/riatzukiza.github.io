@@ -35,7 +35,7 @@ game.events.on("antFoundPlant", ((ant, plant) => {
   isWin = true;
   updateParticle(av, av.pos, SignalField.field, SignalField.layer, game.ticker.ticks, true, true, homePos);
   var pp = game.systems.get(Physics, plant.entity);
-  pp.scale = pp.mass = Math.max((pp.mass - (ap.mass * 0.1)), 0);
+  pp.scale = pp.mass = Math.max((pp.mass - (ap.mass * 0.5)), 0);
   return null;
 
 })).once("error", ((err) => {

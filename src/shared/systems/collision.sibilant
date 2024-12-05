@@ -20,6 +20,7 @@
           (lit Dynamic-pool) "@shared/pooling/dynamic-pool.js"
           (lit Pooled-data-structure) "@shared/data-structures/pooled.js")
 
+
 ;; (define Bounding-box Pooled-data-structure
 ;;   (init (x y height width)))
 
@@ -30,6 +31,9 @@
 
   (gett scale (* 1.1  this.physics.scale))
   (gett physics (.get this.system.process.systems Physics this.entity))
+  ;; (gett x (Math.round this.pos.x))
+  ;; (gett y (Math.round this.pos.y))
+
   (gett x this.pos.x)
   (gett y this.pos.y)
   (gett height this.scale)
@@ -39,7 +43,7 @@
   ;; (gett height (*  2 this.scale))
   ;; (gett width (* 2 this.scale))
 
-  (gett bounding-box (.spawn Bounding-box this.x this.y this.height this.width))
+  ;; (gett bounding-box (.spawn Bounding-box c))
 
   (gett max-x (+ this.x this.scale))
   (gett max-y (+ this.y this.scale))
@@ -117,32 +121,77 @@
   (def-generic *update-all (t components)
     (.clear this.quads)
 
-    (assign this.bit-field (.spawn Trie))
-
     (each  components (c)
-           (const pos [ c.pos.x c.pos.y c.entity])
-           (const node? (.find this.bit-field [c.pos.x c.pos.y]))
+           ;; (const pos [ c.pos.x c.pos.y c.entity])
+           ;; (const node? (.find this.bit-field [c.pos.x c.pos.y]))
            ;; (if! node?
            ;;      (each node? (node)
            ;;            (unless (= c node.value)
            ;;              (c.system.game.events.emit 'collision c node.value)))
            ;;      (return ))
 
-           (.set this.bit-field pos c)
+           ;; (.set this.bit-field pos c)
            (.insert this.quads c))
     (each components (c)
           (const possible-collisions (.retrieve this.quads c))
-          (for-of! pc possible-collisions
-                   (const node (.find this.bit-field [pc.x pc.y]))
-                   (each node (c*)
-                         (if! (not (= c c*.value))
-                              (.*check this c c*.value))
-                         null))
+          (for-of! c* possible-collisions
+                   (if! (not (= c c*))
+                        (.*check this c c*))
+                   null
+                   )
           (return))
-    (.despawn this.bit-field)
-    (return null)
-
-
-    )
+    (return null))
   )
 (export Collision)
+
+(def-generic place-entity (entity game config)
+  (const placement-tree (new Quad-tree
+                             (lit (x 0)
+                                  (y 0)
+                                  (width (first config.dimensions))
+                                  (height (second config.dimensions)))
+                             10
+                             5))
+  (const c (.get game.systems Collision entity))
+
+  (const placement-vector (.spawn Vector 1 1 ))
+
+
+  (var colliding true)
+
+  (while colliding
+
+    (var no-collisions true)
+    ;; (const placed-entities (.spawn Trie))
+    ;; (const placed-entities (new Map))
+
+    (.clear placement-tree)
+    (each  c.system.components (c*)
+           (unless (= c c*)
+             ;; (const pos [ c*.pos.x c*.pos.y c*.entity])
+             ;; (.set placed-entities pos c*)
+             (.insert placement-tree c*)))
+
+    (const possible-collisions (.retrieve placement-tree c))
+    (for-of! c* possible-collisions
+             ;; (const node (.find placed-entities [pc.x pc.y]))
+             ;; (while (.is-colliding? c c*.value)
+             (while (.is-colliding? c c*)
+               ;; (print "colliding" c c*)
+
+               (assign no-collisions false)
+               (.set-length placement-vector (* 0.5 c*.scale) )
+               ;; (.set-length placement-vector 1 )
+               (.set-angle placement-vector (random-float 360))
+
+               (c.pos.system.shift c.pos [placement-vector.x placement-vector.y])))
+    ;; (print "colliding?" no-collisions)
+    (if no-collisions (assign colliding false))
+
+    ;; (.despawn placed-entities)
+    null)
+
+  (.despawn placement-vector)
+
+  entity)
+(export place-entity)

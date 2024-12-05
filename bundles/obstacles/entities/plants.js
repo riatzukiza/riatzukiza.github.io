@@ -20,7 +20,8 @@ var {
   rgba
  } = require("@obstacles/colors.js"),
     { 
-  Collision
+  Collision,
+  placeEntity
  } = require("@shared/systems/collision.js"),
     { 
   game,
@@ -28,11 +29,11 @@ var {
  } = require("@obstacles/game.js"),
     config = require("@obstacles/config.js");
 const plants=create(EntityGroup)("Plants", [ Dot, Position, Physics, Collision, Velocity ], game.ent);
-var spawnPlant = (function spawnPlant$(x_y$10, mass) {
+var spawnPlant = (function spawnPlant$(x_y$18, mass) {
   /* spawn-plant eval.sibilant:21:0 */
 
-  var x = x_y$10[0],
-      y = x_y$10[1];
+  var x = x_y$18[0],
+      y = x_y$18[1];
 
   var plant = plants.spawn([ Dot, Position, Physics, Collision, Velocity ]);
   game.systems.get(Dot, plant).color = rgba(0, 255, 0, 255);
@@ -42,7 +43,7 @@ var spawnPlant = (function spawnPlant$(x_y$10, mass) {
   game.systems.get(Position, plant).x = x;
   game.systems.get(Position, plant).y = y;
   game.systems.get(Position, plant).z = 0;
-  return plant;
+  return placeEntity(plant, game, config);
 });
 exports.plants = plants;
 exports.spawnPlant = spawnPlant;

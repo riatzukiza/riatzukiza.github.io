@@ -142,6 +142,7 @@
                     (y (* y weight config.ant-influence))))))
     (if! win
          ;; (.emit game.events 'win)
+         (print "win" home-pos p)
 
          (for-of! seg vel.trail
                   (.despawn seg))

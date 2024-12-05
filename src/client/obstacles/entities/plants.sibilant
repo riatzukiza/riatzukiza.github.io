@@ -4,7 +4,7 @@
           (lit Physics) "@shared/systems/physics/index.js"
           (lit Component System Entity-group) "@shared/ecs.js"
           (lit rgba) "@obstacles/colors.js"
-          (lit Collision) "@shared/systems/collision.js"
+          (lit Collision place-entity) "@shared/systems/collision.js"
           (lit game active-game-systems) "@obstacles/game.js"
           config "@obstacles/config.js"
           )
@@ -33,9 +33,7 @@
        'x x
        'y y
        'z 0)
-  plant
-
-  )
+  (place-entity plant game config))
 
 (export plants)
 (export spawn-plant)

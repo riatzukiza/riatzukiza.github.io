@@ -5,11 +5,20 @@
 (include "kit-html/src/dom")
 (import-namespace dom)
 
-(require! (lit rendering ) "@obstacles/rendering.js")
+(require! (lit rendering ) "@obstacles/rendering.js"
+          (lit ants rocks plants) "@obstacles/entities.js"
+          config "@obstacles/config.js"
+          )
+
 
 (var stage (dom (.div .id 'stage )))
 
-(var container (dom (.div .id "container" rendering.context.canvas)))
+(var container (dom (.div .id "container" rendering.context.canvas
+                          (.div .style (+ "height:" (* window.innerHeight 0.1)
+                                          "width:" (* window.innerWidth 0.2)))
+                          )))
 (with-dom Document-root (.div .id 'frame container))
 (export stage)
 (export container)
+
+

@@ -28,7 +28,7 @@ var {
   game,
   activeGameSystems
  } = require("@obstacles/game.js");
-Collision.setBounds(config.dimensions[0], config.dimensions[1], 10, 3);
+Collision.setBounds(config.dimensions[0], config.dimensions[1], 100, 4);
 game.start();
 require("@obstacles/events/ant-collision.js");
 require("@obstacles/events/ant-found-plant.js");

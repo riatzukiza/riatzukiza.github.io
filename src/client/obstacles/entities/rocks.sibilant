@@ -6,8 +6,9 @@
           (lit Group) "@shared/data-structures/group.js"
           (lit List) "@shared/data-structures/list.js"
           (lit Vector) "@shared/vectors.js"
-
-          (lit Collision) "@shared/systems/collision.js"
+          Quad-tree  "@timohausmann/quadtree-js"
+          (lit Trie) "@shared/data-structures/trees/trie.js"
+          (lit Collision place-entity) "@shared/systems/collision.js"
           (lit Friction Signal-field) "@obstacles/forces.js"
           (lit Tree-map) "tree-kit"
           (lit game active-game-systems) "@obstacles/game.js"
@@ -19,18 +20,22 @@
 
 (const rocks ((create Entity-group) "Rocks" [Dot, Position, Physics, Collision, Velocity]
               game.ent))
-(const rock-boundries ((create Entity-group) "Rock boundries" [Dot Position Physics]
-                       game.ent))
+
+(const rock-boundries ((create Entity-group) "Rock boundries" [Dot Position Physics] game.ent))
+
 (const rock-placement-vector (.spawn Vector 0 0 ))
 (const rock-scale-variation (-  config.rock-max-size config.rock-min-size))
 (const rock-mass-variation (-  config.rock-max-mass-factor config.rock-min-mass-factor))
 
 (const max-rock-base-mass (* config.rock-mass-scaling-factor config.rock-max-mass-factor))
-
 (const min-rock-base-mass (* config.rock-mass-scaling-factor config.rock-min-mass-factor))
 
-(const max-rock-density (/ (* config.rock-min-size max-rock-base-mass) (Math.pow config.rock-min-size 3)))
-(const min-rock-density (/ (* config.rock-max-size max-rock-base-mass) (Math.pow config.rock-max-size 3)))
+(const max-rock-density (/ (* config.rock-min-size max-rock-base-mass)
+                           (Math.pow config.rock-min-size 3)))
+
+(const min-rock-density (/ (* config.rock-max-size max-rock-base-mass)
+                           (Math.pow config.rock-max-size 3)))
+
 (def spawn-rock ([x, y], mass, scale)
   (var rock (.spawn rocks [Dot, Position, Physics, Collision, Velocity]))
 
@@ -46,43 +51,27 @@
 
   (var hardness (Math.round (* 200 (/ phys.density max-rock-density))))
 
-  (print "spawning rock" (lit x y
-
-                              mass scale
-
-                              rock
-                              (density phys.density)
-                              (volume phys.volume)
-
-                              hardness
-
-                              min-rock-base-mass
-                              max-rock-base-mass
-                              min-rock-density
-                              max-rock-density))
-
   (set (.get game.systems Dot rock)
        'color (rgba hardness hardness  hardness  255))
 
 
-  rock
-  )
+  (place-entity rock game config))
+
 (def-generic rock-gen-step ((position [(random-signed (first config.dimensions) )
                                        (random-signed (second config.dimensions) )])
-                            (mass (+ config.rock-min-mass-factor (random-float rock-mass-variation)))
-                            (scale (+ config.rock-min-size (random-float rock-scale-variation))))
+                            (mass (+ config.rock-min-mass-factor
+                                     (random-float rock-mass-variation)))
+                            (scale (+ config.rock-min-size
+                                      (random-float rock-scale-variation))))
   (print "Placing rock" (lit position mass scale config rock-mass-variation rock-scale-variation))
 
-  (.set-length rock-placement-vector scale )
-  (.set-angle rock-placement-vector (random-float scale))
 
 
-  (const rock (spawn-rock [(+ (get position 0) rock-placement-vector.x)
-                           (+ (get position 1) rock-placement-vector.y)]
-                          (* config.rock-mass-scaling-factor scale mass)
-                          scale
-                          ))
-  rock)
+  (spawn-rock [(+ (get position 0) rock-placement-vector.x)
+               (+ (get position 1) rock-placement-vector.y)]
+              (* config.rock-mass-scaling-factor scale mass)
+              scale)
+  )
 (export rocks)
 (export spawn-rock)
 (export rock-gen-step)

@@ -119,6 +119,7 @@ module.exports.createParticleUpdater = (function module$exports$createParticleUp
       
      };
     if( win ){ 
+      console.log("win", homePos, p);
       for (var seg of vel.trail)
       {
       seg.despawn()
@@ -154,7 +155,7 @@ module.exports.createParticleUpdater = (function module$exports$createParticleUp
   return particleUpdater;
 });
 module.exports.createVectorField = (function module$exports$createVectorField$(columns, rows) {
-  /* module.exports.create-vector-field eval.sibilant:157:0 */
+  /* module.exports.create-vector-field eval.sibilant:158:0 */
 
   const field=(new Array(columns));
   for (var x = 0;x < columns;++(x))

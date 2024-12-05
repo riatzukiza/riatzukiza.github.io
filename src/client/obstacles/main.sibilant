@@ -22,8 +22,8 @@
           )
 
 (.set-bounds Collision (first config.dimensions) (second config.dimensions)
-             10
-             3)
+            100
+             4)
 
 (.start game)
 (require "@obstacles/events/ant-collision.js")

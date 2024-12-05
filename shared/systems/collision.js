@@ -80,11 +80,6 @@ var CollisionBounds = Component.define("CollisionBounds", {
       return this.scale;
     
    },
-  get boundingBox(  ){ 
-    
-      return BoundingBox.spawn(this.x, this.y, this.height, this.width);
-    
-   },
   get maxX(  ){ 
     
       return (this.x + this.scale);
@@ -162,37 +157,85 @@ var Collision = System.define("Collision", {
   _updateAll( t = this.t,components = this.components ){ 
     
       this.quads.clear();
-      this.bitField = Trie.spawn();
       components.each(((c) => {
       	
-        const pos=[ c.pos.x, c.pos.y, c.entity ];
-        const node__QUERY=this.bitField.find([ c.pos.x, c.pos.y ]);
-        this.bitField.set(pos, c);
         return this.quads.insert(c);
       
       }));
       components.each(((c) => {
       	
         const possibleCollisions=this.quads.retrieve(c);
-        for (var pc of possibleCollisions)
+        for (var c_ of possibleCollisions)
         {
-        const node=this.bitField.find([ pc.x, pc.y ]);;
-        node.each(((c_) => {
-        	
-          if( !(c === c_.value) ){ 
-            this._check(c, c_.value)
-           };
-          return null;
-        
-        }))
+        if( !(c === c_) ){ 
+          this._check(c, c_)
+         };
+        null
         }
         ;
         return ;
       
       }));
-      this.bitField.despawn();
       return null;
     
    }
  });
 exports.Collision = Collision;
+var placeEntity = (function placeEntity$(entity = this.entity, game = this.game, config = this.config) {
+  /* place-entity node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
+
+  const placementTree=(new QuadTree({ 
+    x:0,
+    y:0,
+    width:config.dimensions[0],
+    height:config.dimensions[1]
+   }, 10, 5));
+  const c=game.systems.get(Collision, entity);
+  const placementVector=Vector.spawn(1, 1);
+  var colliding = true;
+  (function() {
+    var while$147 = undefined;
+    while (colliding) {
+      while$147 = (function() {
+        var noCollisions = true;
+        placementTree.clear();
+        c.system.components.each(((c_) => {
+        	
+          return (function() {
+            if (!(c === c_)) {
+              return placementTree.insert(c_);
+            }
+          }).call(this);
+        
+        }));
+        const possibleCollisions=placementTree.retrieve(c);
+        for (var c_ of possibleCollisions)
+        {
+        (function() {
+          var while$148 = undefined;
+          while (c.isColliding__QUERY(c_)) {
+            while$148 = (function() {
+              noCollisions = false;
+              placementVector.setLength((0.5 * c_.scale));
+              placementVector.setAngle(((Math.random() * ( - 360)) + 360));
+              return c.pos.system.shift(c.pos, [ placementVector.x, placementVector.y ]);
+            }).call(this);
+          };
+          return while$148;
+        }).call(this)
+        }
+        ;
+        (function() {
+          if (noCollisions) {
+            return colliding = false;
+          }
+        }).call(this);
+        return null;
+      }).call(this);
+    };
+    return while$147;
+  }).call(this);
+  placementVector.despawn();
+  return entity;
+});
+exports.placeEntity = placeEntity;

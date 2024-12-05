@@ -23,8 +23,10 @@
                      false,
                      entities.home-pos)
     (var win-rate (/ v.win-count (or (+ 1 v.loose-count) 1)))
+
     (assign c.scale (* 1 (if (> win-rate 1) win-rate 1)))
-    (assign c.mass (* 1 (if (> win-rate 1) win-rate 1)))
+    (assign c.mass (* 0.1 (if (> win-rate 1) win-rate 1)))
+
     ))
 (export SignalField)
 

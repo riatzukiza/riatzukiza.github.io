@@ -19,12 +19,19 @@
     (if! (and (= c.entity home) (rocks.has c*.entity)) (return (.emit game.events 'plant-colliding-with-spawn c, c*)))
     (if! (and (= c*.entity home) (rocks.has c.entity)) (return (.emit game.events 'plant-colliding-with-spawn c*, c)))
 
-    (if! (and (ants.has c*.entity) (plants.has c.entity)) (return (.emit game.events 'ant-found-plant c*, c)))
-    (if! (and (ants.has c.entity) (plants.has c*.entity)) (return (.emit game.events 'ant-found-plant c, c*)))
 
 
-    
     (if! (and v v* p p*)
+
+         (if! (and (ants.has c*.entity) (plants.has c.entity))
+              (return (.emit game.events 'ant-found-plant c*, c)))
+
+         (if! (and (ants.has c.entity) (plants.has c*.entity))
+              (return (.emit game.events 'ant-found-plant c, c*)))
+
+         (if! (and (ants.has c.entity) (ants.has c*.entity))
+              (.emit game.events 'simple-collision c* c)
+              (return (.emit game.events 'ant-collision c, c*)))
 
          ;; (assign v.pos.x (or v.prior-x v.pos.x))
          ;; (assign v.pos.y (or v.prior-y v.pos.y))
@@ -36,7 +43,6 @@
          (assign v*.pos.x (or v*.prior-x v*.pos.x))
          (assign v*.pos.y (or v*.prior-y v*.pos.y))
 
-         (if! (and (ants.has c.entity) (ants.has c*.entity)) (.emit game.events 'ant-collision c, c*))
 
 
          (if! (or (and (plants.has c.entity) (plants.has c*.entity))

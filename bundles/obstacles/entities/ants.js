@@ -20,7 +20,8 @@ var {
   rgba
  } = require("@obstacles/colors.js"),
     { 
-  Collision
+  Collision,
+  placeEntity
  } = require("@shared/systems/collision.js"),
     { 
   game,
@@ -29,15 +30,15 @@ var {
     config = require("@obstacles/config.js");
 const ants=create(EntityGroup)("Ants", activeGameSystems, game.ent);
 var clearAnts = (function clearAnts$() {
-  /* clear-ants eval.sibilant:15:0 */
+  /* clear-ants eval.sibilant:14:0 */
 
   return ants.clear();
 });
-var spawnAnt = (function spawnAnt$(x_y$9, home, startingLife) {
-  /* spawn-ant eval.sibilant:16:0 */
+var spawnAnt = (function spawnAnt$(x_y$19, home, startingLife) {
+  /* spawn-ant eval.sibilant:15:0 */
 
-  var x = x_y$9[0],
-      y = x_y$9[1];
+  var x = x_y$19[0],
+      y = x_y$19[1];
 
   var ant = ants.spawn(activeGameSystems);
   game.systems.get(Dot, ant).color = rgba(255, 0, 0, 255);
@@ -65,7 +66,7 @@ var spawnAnt = (function spawnAnt$(x_y$9, home, startingLife) {
       }).call(this))) ]);
     }
   }).call(this);
-  return ant;
+  return placeEntity(ant, game, config);
 });
 exports.spawnAnt = spawnAnt;
 exports.clearAnts = clearAnts;

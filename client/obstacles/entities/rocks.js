@@ -24,8 +24,13 @@ var {
     { 
   Vector
  } = require("@shared/vectors.js"),
+    QuadTree = require("@timohausmann/quadtree-js"),
     { 
-  Collision
+  Trie
+ } = require("@shared/data-structures/trees/trie.js"),
+    { 
+  Collision,
+  placeEntity
  } = require("@shared/systems/collision.js"),
     { 
   Friction,
@@ -51,11 +56,11 @@ const maxRockBaseMass=(config.rockMassScalingFactor * config.rockMaxMassFactor);
 const minRockBaseMass=(config.rockMassScalingFactor * config.rockMinMassFactor);
 const maxRockDensity=((config.rockMinSize * maxRockBaseMass) / Math.pow(config.rockMinSize, 3));
 const minRockDensity=((config.rockMaxSize * maxRockBaseMass) / Math.pow(config.rockMaxSize, 3));
-var spawnRock = (function spawnRock$(x_y$5, mass, scale) {
-  /* spawn-rock eval.sibilant:34:0 */
+var spawnRock = (function spawnRock$(x_y$20, mass, scale) {
+  /* spawn-rock eval.sibilant:39:0 */
 
-  var x = x_y$5[0],
-      y = x_y$5[1];
+  var x = x_y$20[0],
+      y = x_y$20[1];
 
   var rock = rocks.spawn([ Dot, Position, Physics, Collision, Velocity ]);
   const pos=game.systems.get(Position, rock);
@@ -84,22 +89,8 @@ var spawnRock = (function spawnRock$(x_y$5, mass, scale) {
   velocity.xd = xd;
   velocity.yd = yd;
   var hardness = Math.round((200 * (phys.density / maxRockDensity)));
-  console.log("spawning rock", { 
-    x,
-    y,
-    mass,
-    scale,
-    rock,
-    density:phys.density,
-    volume:phys.volume,
-    hardness,
-    minRockBaseMass,
-    maxRockBaseMass,
-    minRockDensity,
-    maxRockDensity
-   });
   game.systems.get(Dot, rock).color = rgba(hardness, hardness, hardness, 255);
-  return rock;
+  return placeEntity(rock, game, config);
 });
 var rockGenStep = (function rockGenStep$(position = [ ((Math.random() * config.dimensions[0]) * (function() {
   if (Math.random() < 0.5) {
@@ -124,10 +115,7 @@ var rockGenStep = (function rockGenStep$(position = [ ((Math.random() * config.d
     rockMassVariation,
     rockScaleVariation
    });
-  rockPlacementVector.setLength(scale);
-  rockPlacementVector.setAngle(((Math.random() * ( - scale)) + scale));
-  const rock=spawnRock([ (position[0] + rockPlacementVector.x), (position[1] + rockPlacementVector.y) ], (config.rockMassScalingFactor * scale * mass), scale);
-  return rock;
+  return spawnRock([ (position[0] + rockPlacementVector.x), (position[1] + rockPlacementVector.y) ], (config.rockMassScalingFactor * scale * mass), scale);
 });
 exports.rocks = rocks;
 exports.spawnRock = spawnRock;
