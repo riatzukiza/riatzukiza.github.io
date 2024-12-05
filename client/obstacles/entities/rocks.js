@@ -49,13 +49,13 @@ const rockScaleVariation=(config.rockMaxSize - config.rockMinSize);
 const rockMassVariation=(config.rockMaxMassFactor - config.rockMinMassFactor);
 const maxRockBaseMass=(config.rockMassScalingFactor * config.rockMaxMassFactor);
 const minRockBaseMass=(config.rockMassScalingFactor * config.rockMinMassFactor);
-const maxRockDensity=((config.rockMinSize * maxRockBaseMass) / Math.pow(config.rockMinSize, 2));
-const minRockDensity=((config.rockMaxSize * maxRockBaseMass) / Math.pow(config.rockMaxSize, 2));
-var spawnRock = (function spawnRock$(x_y$3, mass, scale) {
+const maxRockDensity=((config.rockMinSize * maxRockBaseMass) / Math.pow(config.rockMinSize, 3));
+const minRockDensity=((config.rockMaxSize * maxRockBaseMass) / Math.pow(config.rockMaxSize, 3));
+var spawnRock = (function spawnRock$(x_y$5, mass, scale) {
   /* spawn-rock eval.sibilant:34:0 */
 
-  var x = x_y$3[0],
-      y = x_y$3[1];
+  var x = x_y$5[0],
+      y = x_y$5[1];
 
   var rock = rocks.spawn([ Dot, Position, Physics, Collision, Velocity ]);
   const pos=game.systems.get(Position, rock);
@@ -66,6 +66,23 @@ var spawnRock = (function spawnRock$(x_y$3, mass, scale) {
   phys.mass = mass;
   phys.scale = scale;
   phys.forces = [ Friction ];
+  const velocity=phys.velocity;
+  const xd=((Math.random() * config.spawnStatic) * (function() {
+    if (Math.random() < 0.5) {
+      return -1;
+    } else {
+      return 1;
+    }
+  }).call(this));
+  const yd=((Math.random() * config.spawnStatic) * (function() {
+    if (Math.random() < 0.5) {
+      return -1;
+    } else {
+      return 1;
+    }
+  }).call(this));
+  velocity.xd = xd;
+  velocity.yd = yd;
   var hardness = Math.round((200 * (phys.density / maxRockDensity)));
   console.log("spawning rock", { 
     x,

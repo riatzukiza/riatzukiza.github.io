@@ -3,13 +3,8 @@
           (lit Velocity) "@shared/systems/velocity.js"
           (lit Physics) "@shared/systems/physics/index.js"
           (lit Component System Entity-group) "@shared/ecs.js"
-          (lit Group) "@shared/data-structures/group.js"
-          (lit List) "@shared/data-structures/list.js"
-          (lit Vector) "@shared/vectors.js"
           (lit rgba) "@obstacles/colors.js"
           (lit Collision) "@shared/systems/collision.js"
-          (lit Friction Signal-field) "@obstacles/forces.js"
-          (lit Tree-map) "tree-kit"
           (lit game active-game-systems) "@obstacles/game.js"
           config "@obstacles/config.js"
           )
@@ -46,3 +41,4 @@
 (export spawn-ant)
 (export clear-ants)
 (export ants)
+(require! (lit Friction Signal-field) "@obstacles/forces.js")

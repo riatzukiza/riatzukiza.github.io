@@ -9,11 +9,6 @@ var {
   game
  } = require("@obstacles/game.js"),
     { 
-  home,
-  homePos,
-  ants
- } = require("@obstacles/entities.js"),
-    { 
   createParticleUpdater,
   createVectorField
  } = require("@shared/field.js"),
@@ -28,10 +23,10 @@ var Friction = Friction.define("Friction", {
 var SignalField = SignalField.define("SignalField", { 
   config:config,
   game:game,
-  entities:{ 
-    home,
-    homePos,
-    ants
+  get entities(  ){ 
+    
+      return require("@obstacles/entities.js");
+    
    },
   updateParticle:createParticleUpdater(config, game),
   field:createVectorField(config.columns, config.rows),

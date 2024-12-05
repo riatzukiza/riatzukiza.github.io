@@ -10627,9 +10627,43 @@ var {
   Position
  } = require("@shared/systems/position.js");
 var PhysicalProperties = Component.define("PhysicalProperties", { 
-  scale:1,
-  mass:1,
+  _scale:1,
+  _mass:1,
+  priorMass:0,
+  priorScale:0,
   forces:[],
+  get priorDensity(  ){ 
+    
+      return (this.priorMass / this.priorVolume);
+    
+   },
+  get priorVolume(  ){ 
+    
+      return Math.pow(this.priorScale, 3);
+    
+   },
+  get scale(  ){ 
+    
+      return this._scale;
+    
+   },
+  get mass(  ){ 
+    
+      return this._mass;
+    
+   },
+  set scale( s ){ 
+    
+      this.priorScale = this.scale;
+      return this._scale = s;
+    
+   },
+  set mass( m ){ 
+    
+      this.priorMass = this.mass;
+      return this._mass = m;
+    
+   },
   get density(  ){ 
     
       return (this.mass / this.volume);
@@ -10637,7 +10671,7 @@ var PhysicalProperties = Component.define("PhysicalProperties", {
    },
   get volume(  ){ 
     
-      return Math.pow(this.scale, 2);
+      return Math.pow(this.scale, 3);
     
    },
   get velocity(  ){ 
@@ -10683,7 +10717,7 @@ var Physics = System.define("Physics", {
   _updateComponent( c ){ 
     
       return c.forces.each((function() {
-        /* eval.sibilant:1:1101 */
+        /* eval.sibilant:1:1485 */
       
         return arguments[0].apply(c);
       }));

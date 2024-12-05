@@ -8,6 +8,13 @@ var {
 var { 
   game
  } = require("@obstacles/game.js"),
+    config = require("@obstacles/config.js"),
+    { 
+  Physics
+ } = require("@shared/systems/physics/system.js"),
+    { 
+  createParticleUpdater
+ } = require("@shared/field.js"),
     { 
   randomLocation,
   nextSpawn,
@@ -22,13 +29,6 @@ var {
   spawnRock,
   rockGenStep
  } = require("@obstacles/entities.js"),
-    config = require("@obstacles/config.js"),
-    { 
-  Physics
- } = require("@shared/systems/physics/system.js"),
-    { 
-  createParticleUpdater
- } = require("@shared/field.js"),
     { 
   randomLocation
  } = require("@obstacles/location.js");

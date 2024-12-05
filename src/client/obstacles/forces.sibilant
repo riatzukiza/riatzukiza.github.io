@@ -2,18 +2,18 @@
 (require! (lit Signal-field) "@shared/systems/physics/forces/signal-field.js"
           (lit Friction) "@shared/systems/physics/forces/friction.js"
           (lit game) "@obstacles/game.js"
-          (lit home home-pos ants) "@obstacles/entities.js"
           (lit create-particle-updater create-vector-field) "@shared/field.js"
           config "@obstacles/config.js"
 
           )
 (print "initializing forces" (lit Friction Signal-field))
+
 (define Friction Friction
   (config config))
 (define Signal-field Signal-field
   (config config)
   (game game)
-  (entities (lit home home-pos ants))
+  (gett entities (require "@obstacles/entities.js"))
   (update-particle (create-particle-updater config game))
   (field (create-vector-field config.columns config.rows))
   (layer (create-vector-field config.columns config.rows)))

@@ -16,38 +16,22 @@ var {
   EntityGroup
  } = require("@shared/ecs.js"),
     { 
-  Group
- } = require("@shared/data-structures/group.js"),
-    { 
-  List
- } = require("@shared/data-structures/list.js"),
-    { 
-  Vector
- } = require("@shared/vectors.js"),
-    { 
   rgba
  } = require("@obstacles/colors.js"),
     { 
   Collision
  } = require("@shared/systems/collision.js"),
     { 
-  Friction,
-  SignalField
- } = require("@obstacles/forces.js"),
-    { 
-  TreeMap
- } = require("tree-kit"),
-    { 
   game,
   activeGameSystems
  } = require("@obstacles/game.js"),
     config = require("@obstacles/config.js");
 const plants=create(EntityGroup)("Plants", [ Dot, Position, Physics, Collision, Velocity ], game.ent);
-var spawnPlant = (function spawnPlant$(x_y$5, mass) {
-  /* spawn-plant eval.sibilant:26:0 */
+var spawnPlant = (function spawnPlant$(x_y$10, mass) {
+  /* spawn-plant eval.sibilant:21:0 */
 
-  var x = x_y$5[0],
-      y = x_y$5[1];
+  var x = x_y$10[0],
+      y = x_y$10[1];
 
   var plant = plants.spawn([ Dot, Position, Physics, Collision, Velocity ]);
   game.systems.get(Dot, plant).color = rgba(0, 255, 0, 255);
@@ -61,3 +45,7 @@ var spawnPlant = (function spawnPlant$(x_y$5, mass) {
 });
 exports.plants = plants;
 exports.spawnPlant = spawnPlant;
+var { 
+  Friction,
+  SignalField
+ } = require("@obstacles/forces.js");

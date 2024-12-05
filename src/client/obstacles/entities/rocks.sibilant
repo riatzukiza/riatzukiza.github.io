@@ -29,8 +29,8 @@
 
 (const min-rock-base-mass (* config.rock-mass-scaling-factor config.rock-min-mass-factor))
 
-(const max-rock-density (/ (* config.rock-min-size max-rock-base-mass) (Math.pow config.rock-min-size 2)))
-(const min-rock-density (/ (* config.rock-max-size max-rock-base-mass) (Math.pow config.rock-max-size 2)))
+(const max-rock-density (/ (* config.rock-min-size max-rock-base-mass) (Math.pow config.rock-min-size 3)))
+(const min-rock-density (/ (* config.rock-max-size max-rock-base-mass) (Math.pow config.rock-max-size 3)))
 (def spawn-rock ([x, y], mass, scale)
   (var rock (.spawn rocks [Dot, Position, Physics, Collision, Velocity]))
 
@@ -39,6 +39,10 @@
 
   (const phys (.get game.systems Physics rock))
   (set phys 'mass mass 'scale scale 'forces [Friction])
+  (const velocity phys.velocity)
+  (const xd (random-signed config.spawn-static))
+  (const yd (random-signed config.spawn-static))
+  (set velocity 'xd xd 'yd yd)
 
   (var hardness (Math.round (* 200 (/ phys.density max-rock-density))))
 

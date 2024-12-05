@@ -35,18 +35,17 @@
                                  (decay false),
                                  (win false)
                                  home-pos
-                                 (loose (or (isNaN vel.xd) (isNaN vel.yd)
-                                           (>= (get? vel trail length)
-                                                config.max-trail))))
+                                 (loose (>= (get? vel trail length)
+                                            config.max-trail)))
 
     ;; (if! (or (isNaN p.x) (isNaN p.x))
     ;;      (print (lit vel p field pheremones tick decay win home-pos loose 
     ;;                   ))
     ;;      (throw (new RangeError "position is not a number")))
-    ;; (if! (or (isNaN vel.xd) (isNaN vel.yd))
-    ;;      (print (lit vel p field pheremones tick decay win home-pos loose 
-    ;;                   ))
-    ;;      (throw (new RangeError "velocity is not a number")))
+    (if! (or (isNaN vel.xd) (isNaN vel.yd))
+         (print (lit vel p field pheremones tick decay win home-pos loose 
+                      ))
+         (throw (new RangeError "velocity is not a number")))
     (const pos (.spawn Vector (or (Math.min (Math.max (Math.round (/ p.x config.size)) 0)
                                             (- config.columns 1))
                                   1)

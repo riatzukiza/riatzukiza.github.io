@@ -11,7 +11,7 @@
      'rows (Math.ceil (/ (second dim) size))
      'decay 0.3
      'maxLength 90
-     'growth-rate 0.05
+     'growth-rate 0.001
      'starting-plants 5
      'plantMassLimit 30
      'ant-limit 500
@@ -24,16 +24,16 @@
      'ant-influence 50
      'friction  2
      'collision-static 5
-     'spawn-static 10
+     'spawn-static 5
      'spawn-rate 10
      'home-location [300, 200]
      'target-location [700, 900]
      'rocks 100
      'rock-min-size 20
      'rock-max-size 40
-     'rock-mass-scaling-factor 1 ;; How much does scale effect mass?
+     'rock-mass-scaling-factor 8 ;; How much does scale effect mass?
      'rock-min-mass-factor 2 ;; Min bounds to rock mass variation
-     'rock-max-mass-factor  4 ;; max bounds to rock mass variation
+     'rock-max-mass-factor  8 ;; max bounds to rock mass variation
      'stationary-resistance-coefficiant 0.1 ;; not used
      'track-trail true
      'vary-noise-with-time true

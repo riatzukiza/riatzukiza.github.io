@@ -16,27 +16,11 @@ var {
   EntityGroup
  } = require("@shared/ecs.js"),
     { 
-  Group
- } = require("@shared/data-structures/group.js"),
-    { 
-  List
- } = require("@shared/data-structures/list.js"),
-    { 
-  Vector
- } = require("@shared/vectors.js"),
-    { 
   rgba
  } = require("@obstacles/colors.js"),
     { 
   Collision
  } = require("@shared/systems/collision.js"),
-    { 
-  Friction,
-  SignalField
- } = require("@obstacles/forces.js"),
-    { 
-  TreeMap
- } = require("tree-kit"),
     { 
   game,
   activeGameSystems
@@ -44,15 +28,15 @@ var {
     config = require("@obstacles/config.js");
 const ants=create(EntityGroup)("Ants", activeGameSystems, game.ent);
 var clearAnts = (function clearAnts$() {
-  /* clear-ants eval.sibilant:20:0 */
+  /* clear-ants eval.sibilant:15:0 */
 
   return ants.clear();
 });
-var spawnAnt = (function spawnAnt$(x_y$4, home, startingLife) {
-  /* spawn-ant eval.sibilant:21:0 */
+var spawnAnt = (function spawnAnt$(x_y$9, home, startingLife) {
+  /* spawn-ant eval.sibilant:16:0 */
 
-  var x = x_y$4[0],
-      y = x_y$4[1];
+  var x = x_y$9[0],
+      y = x_y$9[1];
 
   var ant = ants.spawn(activeGameSystems);
   game.systems.get(Dot, ant).color = rgba(255, 0, 0, 255);
@@ -85,3 +69,7 @@ var spawnAnt = (function spawnAnt$(x_y$4, home, startingLife) {
 exports.spawnAnt = spawnAnt;
 exports.clearAnts = clearAnts;
 exports.ants = ants;
+var { 
+  Friction,
+  SignalField
+ } = require("@obstacles/forces.js");
