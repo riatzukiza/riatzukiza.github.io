@@ -17,7 +17,8 @@
 
 
 (define uniforms Interface
-  (res (Gl.uniform 'Vector2 "Resolution" (window.size)))
+  (init (game))
+  (gett res (Gl.uniform 'Vector2 "Resolution" this.game.config.dimensions))
   (scale (Gl.uniform 'Float "Scale" 1.0)))
 
 (define shaders Interface
@@ -28,9 +29,10 @@
 
 
 (def vertex-layer (limit game)
-     (.spawn game.rendering limit Vertex
-             [ uniforms.res uniforms.scale]
-             [shaders.vert shaders.frag]))
+  (.init uniforms game)
+  (.spawn game.rendering limit Vertex
+          [ uniforms.res uniforms.scale]
+          [shaders.vert shaders.frag]))
 
 (define Dot-interface Component
 
@@ -42,7 +44,8 @@
 (export Dot-interface)
 
 (define Dot System
-  (def register () (assign this.verts (vertex-layer 100000 this.game)))
+  (def register ()
+    (assign this.verts (vertex-layer 100000 this.game)))
 
   (interface Dot-interface)
 
@@ -68,15 +71,15 @@
     ;;      'y (+ dot.pos.y dot.scale)
     ;;      'z dot.pos.z )
 
-    (set dot.vertex.point
-         'x (+ dot.pos.x (/ dot.scale 2))
-         'y (+ dot.pos.y (/ dot.scale 2))
-         'z dot.pos.z )
     ;; (set dot.vertex.point
-    ;;      'x dot.pos.x
-    ;;         'y dot.pos.y
+    ;;      'x (+ dot.pos.x (/ dot.scale 2))
+    ;;      'y (+ dot.pos.y (/ dot.scale 2))
+    ;;      'z dot.pos.z )
+    (set dot.vertex.point
+         'x dot.pos.x
+            'y dot.pos.y
 
-    ;;         'z dot.pos.z)
+            'z dot.pos.z)
        (set dot.vertex
             'size dot.scale)
        (set dot.vertex.color

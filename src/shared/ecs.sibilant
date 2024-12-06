@@ -96,6 +96,7 @@
 (define Entity-group Interface
 
   (init (name aspects system (group ((create Group)))))
+  (gett size this.group.size)
 
   (def clear (group) (.each group clear))
 
@@ -130,9 +131,8 @@
   this)
 
 (def-generic Entity-group.clear (group)
-  (.each group (=> (e)
-                   (print "despawning" e)
-                   (.clear e))))
+  (while (< 0 group.length)
+    (.clear (.pop group))))
 
 (def-generic Entity-group.has (entity group) (group.has entity))
 

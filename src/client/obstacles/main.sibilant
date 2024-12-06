@@ -9,17 +9,16 @@
 
 (set global 'mixin mixin 'create create)
 
+(require! (lit game active-game-systems) "@obstacles/game.js")
+
 (require! (lit Collision) "@shared/systems/collision.js"
           config "@obstacles/config.js"
-          settings "@obstacles/settings.js"
+          ;; settings "@obstacles/settings.js"
           entities "@obstacles/entities.js"
-          (lit stage container) "@obstacles/dom.js"
+          (lit start-interface) "@obstacles/dom.js"
           )
 
 
-(require! (lit game active-game-systems) "@obstacles/game.js"
-
-          )
 
 (.set-bounds Collision (first config.dimensions) (second config.dimensions)
             100
@@ -34,5 +33,5 @@
 (require "@obstacles/events/tick.js")
 (require "@obstacles/events/simple-collision.js")
 
-
+(start-interface)
 

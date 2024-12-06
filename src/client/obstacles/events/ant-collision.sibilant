@@ -18,17 +18,17 @@
     (var p (.get game.systems Physics c.entity))
     (var p* (.get game.systems Physics c*.entity))
 
-    (var xd (random-signed config.collision-static))
-    (var yd (random-signed config.collision-static))
+    ;; (var xd (random-signed config.collision-static))
+    ;; (var yd (random-signed config.collision-static))
 
 
-    (.accelerate v [xd yd])
-    (.accelerate v* [(* xd -1) (* yd -1)])
+    ;; (.accelerate v [xd yd])
+    ;; (.accelerate v* [(* xd -1) (* yd -1)])
 
     (update-particle v v.pos, Signal-field.field,
                      Signal-field.layer
                      game.ticker.ticks
-                     false
+                     config.decay-on-collision
                      false
 
                      home-pos)
@@ -37,7 +37,7 @@
 
                      Signal-field.layer
                      game.ticker.ticks
-                     false
+                     config.decay-on-collision
                      false
                      home-pos)
     )

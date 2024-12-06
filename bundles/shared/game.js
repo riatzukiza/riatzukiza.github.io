@@ -11291,13 +11291,13 @@ var {
   OrderedMap
  } = require("@shared/data-structures/maps/ordered.js");
 var Game = Interface.define("Game", { 
-  init( rendering = this.rendering,systemTypes = [],gameSpeed = 1,entities = create(EntitySystem)(this),events = create(EventEmitter)(),ticker = create(Ticker)((gameSpeed * 60), events),systems = create(OrderedMap)() ){ 
+  init( config = this.config,rendering = this.rendering,systemTypes = [],gameSpeed = 1,entities = create(EntitySystem)(this),events = create(EventEmitter)(),ticker = create(Ticker)((gameSpeed * 60), events),systems = create(OrderedMap)() ){ 
     
-      this.rendering = rendering;this.systemTypes = systemTypes;this.gameSpeed = gameSpeed;this.entities = entities;this.events = events;this.ticker = ticker;this.systems = systems;
+      this.config = config;this.rendering = rendering;this.systemTypes = systemTypes;this.gameSpeed = gameSpeed;this.entities = entities;this.events = events;this.ticker = ticker;this.systems = systems;
       var getSystemBySymbol = systems.get,
           setSystemBySymbol = systems.set;
       systems.get = (function systems$get$(interface, ent) {
-        /* systems.get eval.sibilant:1:763 */
+        /* systems.get eval.sibilant:1:770 */
       
         var sys = getSystemBySymbol.call(systems, interface.symbol);
         return (function() {
@@ -11346,7 +11346,7 @@ var Game = Interface.define("Game", {
       return events.on("tick", ((t) => {
       	
         return systems.each((function() {
-          /* eval.sibilant:1:1502 */
+          /* eval.sibilant:1:1509 */
         
           return arguments[0].update();
         }));
@@ -11371,7 +11371,7 @@ var Game = Interface.define("Game", {
       entities.clear();
       events.removeAllListeners();
       return systems.each((function() {
-        /* eval.sibilant:1:1781 */
+        /* eval.sibilant:1:1788 */
       
         return arguments[0].clear();
       }));

@@ -15,6 +15,7 @@
 (var active-game-systems [Dot  Position Physics Velocity  Collision])
 
 (var game ((create Game)
+           config
            rendering
            active-game-systems
            config.game-speed))

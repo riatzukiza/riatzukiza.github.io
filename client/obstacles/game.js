@@ -30,6 +30,6 @@ var {
  } = require("@obstacles/rendering.js"),
     config = require("@obstacles/config.js");
 var activeGameSystems = [ Dot, Position, Physics, Velocity, Collision ];
-var game = create(Game)(rendering, activeGameSystems, config.gameSpeed);
+var game = create(Game)(config, rendering, activeGameSystems, config.gameSpeed);
 exports.game = game;
 exports.activeGameSystems = activeGameSystems;

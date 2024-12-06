@@ -32,24 +32,8 @@ game.events.on("antCollision", ((c, c_) => {
   var v_ = game.systems.get(Velocity, c_.entity);
   var p = game.systems.get(Physics, c.entity);
   var p_ = game.systems.get(Physics, c_.entity);
-  var xd = ((Math.random() * config.collisionStatic) * (function() {
-    if (Math.random() < 0.5) {
-      return -1;
-    } else {
-      return 1;
-    }
-  }).call(this));
-  var yd = ((Math.random() * config.collisionStatic) * (function() {
-    if (Math.random() < 0.5) {
-      return -1;
-    } else {
-      return 1;
-    }
-  }).call(this));
-  v.accelerate([ xd, yd ]);
-  v_.accelerate([ (xd * -1), (yd * -1) ]);
-  updateParticle(v, v.pos, SignalField.field, SignalField.layer, game.ticker.ticks, false, false, homePos);
-  return updateParticle(v_, v_.pos, SignalField.field, SignalField.layer, game.ticker.ticks, false, false, homePos);
+  updateParticle(v, v.pos, SignalField.field, SignalField.layer, game.ticker.ticks, config.decayOnCollision, false, homePos);
+  return updateParticle(v_, v_.pos, SignalField.field, SignalField.layer, game.ticker.ticks, config.decayOnCollision, false, homePos);
 
 })).once("error", ((err) => {
 	

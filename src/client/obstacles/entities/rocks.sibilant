@@ -45,9 +45,9 @@
   (const phys (.get game.systems Physics rock))
   (set phys 'mass mass 'scale scale 'forces [Friction])
   (const velocity phys.velocity)
-  (const xd (random-signed config.spawn-static))
-  (const yd (random-signed config.spawn-static))
-  (set velocity 'xd xd 'yd yd)
+  ;; (const xd (random-signed config.spawn-static))
+  ;; (const yd (random-signed config.spawn-static))
+  ;; (set velocity 'xd xd 'yd yd)
 
   (var hardness (Math.round (* 200 (/ phys.density max-rock-density))))
 
@@ -56,9 +56,10 @@
 
 
   (place-entity rock game config))
+(var last-rock-pos [(random-float (first config.dimensions) )
+                    (random-float (second config.dimensions) )])
 
-(def-generic rock-gen-step ((position [(random-signed (first config.dimensions) )
-                                       (random-signed (second config.dimensions) )])
+(def-generic rock-gen-step ((position last-rock-pos)
                             (mass (+ config.rock-min-mass-factor
                                      (random-float rock-mass-variation)))
                             (scale (+ config.rock-min-size
@@ -67,10 +68,14 @@
 
 
 
-  (spawn-rock [(+ (get position 0) rock-placement-vector.x)
-               (+ (get position 1) rock-placement-vector.y)]
+  (spawn-rock position
               (* config.rock-mass-scaling-factor scale mass)
               scale)
+
+  (.set-angle rock-placement-vector (random-float 10))
+  (.set-length rock-placement-vector (* 2 scale))
+  (assign last-rock-pos [(mod (Math.abs (+ (get position 0) rock-placement-vector.x)) (first config.dimensions))
+                         (mod (Math.abs (+ (get position 1) rock-placement-vector.y )) (second config.dimensions))])
   )
 (export rocks)
 (export spawn-rock)

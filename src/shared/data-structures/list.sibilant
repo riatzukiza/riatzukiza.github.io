@@ -1,223 +1,148 @@
-(meta "
 
-var create = require('kit/js/util').create;
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-var Node = {
-    list: null,
-    next: null,
-    prev: null,
-    item: null,
+;; 
+(include "kit-interface/header")
+(import-namespace interface)
+(require! (lit List) "@shared/data-structures/list.js")
 
-    init(list, item, next, prev) {
-        [this.list, this.item, this.next, this.prev] = [list, item, next, prev];
-    },
-    get isHead() {
-        return this === this.list.head
-    },
-    get isTail() {
-        return this === this.list.tail
-    },
+(const empty-nodes [])
+(define Node Interface
+  (init (list  next prev item))
+  (def spawn (list  next prev item)
+    (if (= empty-nodes.length 0)
+        ((create Node ) list next prev item)
+        (.set (.bind (.pop empty-nodes) list next prev) item)))
+  (def despawn ()
+    (set this 'list null  'next null 'prev null)
+    (.push empty-nodes this))
+  (gett is-head (= this this.list.head))
+  (gett is-tail (= this this.list.tail))
+  (def bind (list next prev) (.init this list next prev) this)
+  (def set (item) (assign this.item item) this))
 
-    bind(list, next, prev) {
-        this.list = list;
-        this.next = next;
-        this.prev = prev;
-        return this;
-    },
-    set(item) {
-        this.item = item;
-        return this;
-    }
+(define List Interface
+  (init () (assign this.length 0))
+  (gett count this.length)
+  (gett size this.length )
+  (gett empty? (= this.length 0))
+  (def-generic from (array-like (f (=> (a) a)))
+    (const list ((create this)))
+    (each array-like (e i)
+          (list.push (f e)))
+    list
+    )
+  (def of ((dots items))
+    (this.from items))
 
-};
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  (def push (item)
+    (get (.push-node this (.spawn Node this  null null item)) 'item ))
+  (def unshift (item) (get  (.unshift-node this (.spawn Node this  null null item)) 'item ))
 
-var item = (node) => (node ? node.item : null);
+  (def pop () (get (.pop-node this) 'item))
+  (def shift () (get (.shift-node this) 'item))
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-var List = {
-    length: 0,
-    head: null,
-    tail: null,
+  (def insert (item predicate))
+  (def remove (item)
+    (var node this.head)
+    (var success false)
+    (while node
+      (if (!= node.item item)
+          (do (assign node node.next)
+              false)
+          (do (assign node false)
+              (get (.remove-node this node) 'item)))))
 
-    init(...items) {
-        [this.length, this.head, this.tail] = [0, null, null];
+  (def node (item) (.spawn Node this  null null item))
 
-        if (items && items.length > 0) {
-            items.forEach((v) => (this.push(v)));
-        }
-    },
+  (def push-node (node)
+    (if (not this.empty?)
+        (assign this.tail (assign this.tail.next (.bind node this  null this.tail)))
+        (assign this.head (assign this.tail (.bind node this  null null))))
+    (incr this.length)
+    node)
+  (def unshift-node (node)
+    (if (not this.empty?)
+        (assign this.head (assign this.head.prev (.bind node this this.head null)))
+        (assign this.head (assign this.tail (.bind node this null null))))
+    (incr this.length)
+    node)
+  (def pop-node ()
+    (return (ternary this.empty? null (.remove-node this this.tail))))
+  (def shift-node ()
+    (return (ternary this.empty? null (.remove-node this this.head))))
 
-    get count() {
-        return this.length;
-    },
-    get size() {
-        return this.length;
-    },
-    get empty() {
-        return this.length === 0;
-    },
-    from (arrayLike,fn = (a) => a) {
+  (def insert-node (n predicate))
+  (def remove-node (node)
+    ;; (print "removing" node.item node node.list node.list.length node.next node.prev)
+    (if (not (= node.list this)) false)
+    (if (= node this.head) (assign this.head node.next))
+    (if (= node this.tail) (assign this.tail node.prev))
 
-        var list = create(this)();
-        arrayLike.each((e,i) => {
-            list.push(fn(e));
-        })
-        return list
-    },
-    of(...items) {
-        return create(this)(...items);
-    },
+    (if node.next (assign node.next.prev node.prev))
+    (if node.prev (assign node.prev.next node.next))
+    (decr this.length)
+    (.despawn node)
+    node)
+  (def splice-node (prev node next))
+  ; (def-generic rotate-node (node (next node.next) (prev node.prev))
+  ;;   (set node 'prev next.prev
+  ;;        'next node.next)
+  ;;   (set next 'prev node.prev
+  ;;        'next node.next)
+  ;;   (if (= node this.head) (assign this.head next))
+  ;;   (if (= next this.tail) (assign this.tail node))
+  ;;   )
+  (def sort (predicat e))
+  (def each (f)
+    (var node this.head)
+    (while node
+      (f node.item node)
 
-    // item based operations //////////////////////////////////////////////////
-    push(item) {
-        return this.pushNode(create(Node)(this, item, null, null)).item;
-    },
-    unshift(item) {
-        return this.unshiftNode(create(Node)(this, item, null, null)).item;
-    },
-    pop() {
-        return this.popNode().item;
-    },
-    shift() {
-        return this.shiftNode().item;
-    },
-    insert(item, predicate) {
-        return this.insertNode(create(Node)(this, item, null, null), predicate).item;
-    },
-    remove(item) {
-        let node = this.head;
-        while (node) {
-            if (node.item !== item) {
-                node = node.next;
-                continue
-            };
-            return this.removeNode(node).item;
-        }
-        return false;
-    },
+      (assign node node.next))
+    this)
+  (def map (f)
+    (var result ((create List)))
+    (var node this.head)
+    (while node
+      (.push result (f node node.next node.prev))))
+  (def to-array ())
 
-    // Node based operations //////////////////////////////////////////////////
-    node(item) {
-        return create(Node)(this, item, null, null);
-    },
-    pushNode(node) {
-        if (!this.empty) this.tail = this.tail.next = node.bind(this, null, this.tail);
-        else this.head = this.tail = node.bind(this, null, null);
-        this.length++;
-        return node;
-    },
-    unshiftNode(node) {
-        if (!this.empty) this.head = this.head.prev = node.bind(this, this.head, null);
-        else this.head = this.tail = node.bind(this, null, null);
-        this.length++;
-        return node;
-    },
-    popNode() {
-        return this.empty ? null : this.removeNode(this.tail);
-    },
-    shiftNode() {
-        return (this.empty) ? null : this.removeNode(this.head);
-    },
-    insertNode(n, predicate) {
-        let node = this.head;
-        while (node) {
-            if (!predicate(item(node), item(node.next), item(node.prev))) {
-                node = node.next;
-                continue
-            };
-            this.spliceNode(node, n, node.next);
-            return n;
-        }
-        return this.pushNode(n);
-    },
-    removeNode(node) {
-        if (node.list !== this) return false;
+  (def reduce (f r) (.each this (=> (e i l) (assign r (f r e i l)))) r)
 
-        if (node === this.head) this.head = node.next;
-        if (node === this.tail) this.tail = node.prev;
-
-        if (node.next) node.next.prev = node.prev;
-        if (node.prev) node.prev.next = node.next;
-
-        this.length--;
-        return node;
-    },
-
-    // helpers ////////////////////////////////////////////////////////////////
-
-    spliceNode(prev, node, next) {
-        node.bind(next, prev);
-        if (prev) prev.bind(this, node, prev.prev);
-        if (next) next.bind(this, next.next, node);
-    },
-    rotateNode(node, next = node.next, prev = node.prev) {
-        [node.prev, node.next, next.prev, next.next] = [next.prev, next.next, node.prev, node.next];
-        if (node === this.head) this.head = next;
-        if (next === this.tail) this.tail = node;
-    },
-
-    // operations on whole collection /////////////////////////////////////////
-    sort(predicate) {
-        if (this.length === 1) return this;
-        let node = this.head;
-        while (node) {
-            if (predicate(item(node), item(node.next), item(node.prev))) this.rotateNode(node);
-        }
-    },
-    each(f) {
-        let node = this.head;
-        while (node) {
-            f(node.item, node.prev, node.next);
-            node = node.next;
-        }
-        return this;
-    },
-    map(f) {
-        let result = create(List)();
-        let node = this.head;
-        while (node) {
-            result.push(f(item(node), item(node.next), item(node.prev)));
-            node = node.next;
-        }
-        return result;
-    },
-    toArray() {
-        let result = new Array(this.length);
-        let node = this.head;
-        let i = 0;
-        while (node) {
-            result[i++] = node.item;
-            node = node.next;
-        }
-        return result;
-    }
-};
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-")
-(def List.reduce (f r) (.each this (=> (e i l) (assign r (f r e i l)))) r)
-
-(def-generic List.find-node (f (node this.head))
-  (if (f node)
-      node
-    (not (= node this.tail))
-    (List.find f node.next)
-    false))
-(def-generic List.find (f (node this.head))
-  (var r (List.find-node f node))
-  (if r r.value false))
-
-(def List.rotate ()
-     (fluently (.push this (.shift this))))
+  (def-generic find-node (f (node this.head))
+    (if (f node)
+        node
+        (not (= node this.tail))
+        (List.find f node.next)
+        false))
+  (def-generic find (f (node this.head))
+    (var r (List.find-node f node))
+    (if r r.value false))
 
 
-(def-generic List.rotate-until (predicate (t 0))
-  (if (predicate this.head.item)
-      this.head.item
-      (> t (- this.size 1))
-      (pipe this .rotate (.rotate-until predicate (++ t)))
-      false))
+  (def-generic rotate ()
+    ;; (const last-node (this.pop-node true))
+    ;; (print "rotating list" last-node this)
+    ;; (this.unshift-node last-node)
+    (.push this (.shift this))
+    this
+    )
+
+  (def-generic rotate-until (predicate (t 0))
+    (const condition (predicate this.head.item))
+    ;; (print "result of predicate" predicate "on" this.head.item "is" condition "try" t "on list of size" this.size )
+    ;; (print "try number" t "is less  than" "length minus 1" (- this.size 1))
+    (if condition
+        (do
+         ;; (print "found and rotated" this.head)
+         this.head.item)
+        (< t this.size)
+        (do
+         ;; (print "did not find, rotating" this)
+         (.rotate this)
+         (const t* (+ t 1))
+          (.rotate-until this predicate t*))
+        (do
+         ;; (print "did not find" this "after" t "tries")
+         false))))
 
 (export List)

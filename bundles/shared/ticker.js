@@ -11310,7 +11310,7 @@ var Ticker = Interface.define("Ticker", {
             if (this.elapsed > rate) {
               ++(this.ticks);
               this.previous = now;
-              return this.events.emit("tick", now, this);
+              return this.events.emit("tick", this.ticks);
             }
           }).call(this);
         }

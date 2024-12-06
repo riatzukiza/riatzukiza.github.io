@@ -29,14 +29,14 @@
   (gett dimensions this.area)
   (gett dim this.dimensions)
 
-  (gett scale (* 1.1  this.physics.scale))
+  (gett scale this.physics.scale)
   (gett physics (.get this.system.process.systems Physics this.entity))
-  ;; (gett x (Math.round this.pos.x))
-  ;; (gett y (Math.round this.pos.y))
+  (gett x (Math.round this.pos.x))
+  (gett y (Math.round this.pos.y))
 
-  (gett x this.pos.x)
-  (gett y this.pos.y)
-  (gett height this.scale)
+  ;; (gett x this.pos.x)
+  ;; (gett y this.pos.y)
+  (gett height this.scale )
   (gett width this.scale)
 
 
@@ -45,8 +45,8 @@
 
   ;; (gett bounding-box (.spawn Bounding-box c))
 
-  (gett max-x (+ this.x this.scale))
-  (gett max-y (+ this.y this.scale))
+  (gett max-x (+ this.x (/ this.scale 2)))
+  (gett max-y (+ this.y (/ this.scale 2)))
 
   ;; (gett max-x (+ this.x (/ this.scale 2)))
   ;; (gett max-y (+ this.y (/ this.scale 2)))
@@ -67,8 +67,8 @@
   ;; (gett min-y (+ this.y this.scale))
 
 
-  (gett min-x this.x)
-  (gett min-y this.y)
+  (gett min-x (- this.x (/ this.scale 2)))
+  (gett min-y (- this.y (/ this.scale 2)))
 
   (gett position (.get this.system.process.systems Position this.entity ))
   (gett pos this.position)
@@ -159,6 +159,7 @@
 
   (var colliding true)
 
+  (print "checking for collisions at" c.x c.y)
   (while colliding
 
     (var no-collisions true)
@@ -166,7 +167,7 @@
     ;; (const placed-entities (new Map))
 
     (.clear placement-tree)
-    (each  c.system.components (c*)
+    (each  c.system.components._members (c*)
            (unless (= c c*)
              ;; (const pos [ c*.pos.x c*.pos.y c*.entity])
              ;; (.set placed-entities pos c*)

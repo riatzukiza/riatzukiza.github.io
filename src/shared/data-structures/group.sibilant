@@ -2,12 +2,13 @@
 (import-namespace interface)
 (require! (lit List) "@shared/data-structures/list.js")
 
-(def-interface Group
-    ((*list ((create List)))
-     (*members (new Map)))
+(define Group Interface
+    (init ((*list ((create List)))
+           (*members (new Map))))
 
   (gett size this.*list.length)
   (gett length this.*list.length)
+  (gett last this.*list.last)
 
   (def create ()
     "create an empty group instance"
@@ -23,11 +24,15 @@ See the native `Array.of` static method."
 
   (def-generic from (items (fn (=> (a) a)))
     "create a new group instance from an array like, or iterable object."
-    ((create this) (List.from (.map (Array.from items) fn))))
+    (const list (List.from (.map (Array.from items) fn)))
+    (const members (new Map))
+    (each list (item node) (.set members item node))
+    ((create this) list members))
 
   (def-generic pop (*list *members)
     "remove and return the element last in the groups ordering."
     (collect item (.pop *list)
+             ;; (print "Popping from group" item *list *members)
 
              (.delete *members item)))
 
@@ -38,6 +43,8 @@ See the native `Array.of` static method."
     "Call the given function on every element of the group, returning the group which is being itterated on"
     (.each *list f)
     this)
+  (def-generic find (f *list)
+    (.find *list f))
 
   (def-generic add (member *list *members)
     "Add an value to the group, unless the group already has that member."
@@ -54,8 +61,10 @@ See the native `Array.of` static method."
   (def-generic remove (member *list *members)
     "Remove a specific member from the group."
     (collect node (.get *members member)
-             (when node
-               (.remove-node *list node)
-               (.delete *members member)))))
+             (if node
+                 (do (.remove-node *list node)
+                  (.delete *members member))
+                 (throw (new Error "Can't remove a member from a group they don't belong to"))
+               ))))
 
 (export Group)

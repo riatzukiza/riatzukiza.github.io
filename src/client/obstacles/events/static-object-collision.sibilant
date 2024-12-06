@@ -44,8 +44,8 @@
 
     (if (> s 0) (.set-angle d (.get-angle r)))
 
-    (const a1 [d.x d.y])
-    (const a2 [(* -1 d.x) (* -1 d.y)])
+    ;; (const a1 [d.x d.y])
+    ;; (const a2 [(* -1 d.x) (* -1 d.y)])
 
     ;; (const a1 [(*   d.x  (/ (+ o2.physics.volume o1.physics.mass)
     ;;                         (+ o1.physics.volume o1.physics.mass))
@@ -81,13 +81,13 @@
     ;; (var xd (random-signed config.collision-static))
     ;; (var yd (random-signed config.collision-static))
 
-    ;; (const a1 [(*   d.x  (/ phys2.density phys1.density) phys1.density)
+    (const a1 [(*   d.x  (/ phys2.density phys1.density) phys1.density)
 
-    ;;            (*   d.y (/ phys2.density phys1.density) phys1.density)])
+               (*   d.y (/ phys2.density phys1.density) phys1.density)])
 
-    ;; (const a2 [(*  -1  d.x (/ phys1.density phys2.density) phys2.density)
+    (const a2 [(*  -1  d.x (/ phys1.density phys2.density) phys2.density)
 
-    ;;            (*  -1  d.y (/ phys1.density phys2.density) phys2.density)])
+               (*  -1  d.y (/ phys1.density phys2.density) phys2.density)])
 
 
     ;; (const a1 [(*   d.x  (/ o2.physics.mass o1.physics.mass) (+ o1.physics.scale o1.physics.mass))

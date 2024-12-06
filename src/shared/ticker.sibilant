@@ -29,7 +29,7 @@
 
         (assign this.previous now)
 
-        (this.events.emit 'tick now this))) this)
+        (this.events.emit 'tick  this.ticks ))) this)
 
   (def start ()
 

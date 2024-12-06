@@ -146,9 +146,102 @@ var createDocumentNode = create(DocumentNode);
 console.log(document.appendChild);
 var { 
   rendering
- } = require("@obstacles/rendering.js");
-var stage = createDocumentNode("div", { 'id': "stage" }, []);
-var container = createDocumentNode("div", { 'id': "container" }, [ rendering.context.canvas ]);
+ } = require("@obstacles/rendering.js"),
+    { 
+  ants,
+  rocks,
+  plants
+ } = require("@obstacles/entities.js"),
+    { 
+  game
+ } = require("@obstacles/game.js"),
+    { 
+  vectorPool,
+  trailPool
+ } = require("@shared/vectors.js"),
+    { 
+  Physics
+ } = require("@shared/systems/physics/index.js"),
+    config = require("@obstacles/config.js");
+console.log("We got this from dom", { 
+  game
+ });
+console.log("tick");
+const gameView=createDocumentNode("div", {
+  'id': "game-view",
+  'className': "panel"
+}, [ rendering.context.canvas ]);
+const debugView=createDocumentNode("div", {
+  'id': "debug-view",
+  'className': "panel",
+  'style': { 
+    height:(config.dimensions[1] + "px"),
+    width:(Math.round(((window.innerWidth * 0.2) - 24)) + "px")
+   }
+}, []);
+DocumentNode.render = (function DocumentNode$render$(_parent = this._parent, attributes = this.attributes, tagName = this.tagName, _node = this._node, children = this.children) {
+  /* Document-node.render node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
+
+  _node.innerHTML = "";
+  this._parent = _parent;
+  _parent._node.appendChild(_node);
+  attributes.each(((a, k) => {
+  	
+    return (function() {
+      if (k === "style") {
+        return a.each(((a_, k_) => {
+        	
+          return this.style[k_] = a_;
+        
+        }));
+      } else {
+        return _node[k] = a;
+      }
+    }).call(this);
+  
+  }));
+  children.each(renderChildren(this));
+  this.emit("render");
+  return this;
+});
+var container = createDocumentNode("div", { 'id': "container" }, [ gameView, debugView ]);
 createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentRoot);
-exports.stage = stage;
-exports.container = container;
+var startInterface = (function startInterface$() {
+  /* start-interface eval.sibilant:56:0 */
+
+  return game.events.on("tick", ((t) => {
+  	
+    return (function() {
+      if ((t % 60) === 0) {
+        var antMass = 0;
+        var antWins = 0;
+        var antLosses = 0;
+        ants.group.each(((ant) => {
+        	
+          return antMass += game.systems.get(Physics, ant).mass;
+        
+        }));
+        ants.group.each(((ant) => {
+        	
+          return antWins += (game.systems.get(Physics, ant).velocity.winCount || 0);
+        
+        }));
+        ants.group.each(((ant) => {
+        	
+          return antLosses += (game.systems.get(Physics, ant).velocity.looseCount || 0);
+        
+        }));
+        const antMassRaw=antMass.toPrecision(12).split(".");
+        debugView.clear();
+        return createDocumentNode("div", {  }, [ createDocumentNode("div", { 'className': "bordered " }, [ createDocumentNode("h3", {  }, [ "Ants" ]), createDocumentNode("div", {  }, [ "count:", ants.size ]), createDocumentNode("div", {  }, [ "total mass:", createDocumentNode("toFixed", {  }, [ (Math.round((1000 * antMass)) / 1000), 4 ]) ]), createDocumentNode("div", {  }, [ "total wins:", antWins ]), createDocumentNode("div", {  }, [ "total losses:", antLosses ]), createDocumentNode("div", {  }, [ "win/loss:", (antWins / antLosses) ]) ]), createDocumentNode("div", { 'className': "bordered" }, [ createDocumentNode("h3", {  }, [ "Pools" ]), createDocumentNode("div", {  }, [ "vector buckets", vectorPool.buckets.length ]), createDocumentNode("div", {  }, [ "trail buckets", trailPool.buckets.length ]) ]), createDocumentNode("div", {  }, [ "plants:", plants.size ]), createDocumentNode("div", {  }, [ "rocks:", rocks.size ]) ]).render(debugView);
+      }
+    }).call(this);
+  
+  })).once("error", ((err) => {
+  	
+    console.log("error on", "tick", "of", "game.events", "given", "t()");
+    return console.log(err);
+  
+  }));
+});
+exports.startInterface = startInterface;

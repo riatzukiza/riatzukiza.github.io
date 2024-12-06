@@ -10982,6 +10982,11 @@ var EntityGroup = Interface.define("EntityGroup", {
       return this;
     
    },
+  get size(  ){ 
+    
+      return this.group.size;
+    
+   },
   clear( group ){ 
     
       return group.each(clear);
@@ -11017,12 +11022,12 @@ Entity.clear = (function Entity$clear$(system = this.system) {
 });
 exports.Entity = Entity;
 EntitySystem.clear = (function EntitySystem$clear$() {
-  /* Entity-system.clear eval.sibilant:117:0 */
+  /* Entity-system.clear eval.sibilant:118:0 */
 
   return this.pool.clear();
 });
 EntitySystem.spawn = (function EntitySystem$spawn$(aspects) {
-  /* Entity-system.spawn eval.sibilant:120:0 */
+  /* Entity-system.spawn eval.sibilant:121:0 */
 
   return this.pool.spawn(this, ((this.currentId)++), aspects);
 });
@@ -11039,12 +11044,15 @@ EntityGroup.init = (function EntityGroup$init$(name = this.name, aspects = this.
 EntityGroup.clear = (function EntityGroup$clear$(group = this.group) {
   /* Entity-group.clear node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
-  return group.each(((e) => {
-  	
-    console.log("despawning", e);
-    return e.clear();
-  
-  }));
+  return (function() {
+    var while$3 = undefined;
+    while (0 < group.length) {
+      while$3 = (function() {
+        return group.pop().clear();
+      }).call(this);
+    };
+    return while$3;
+  }).call(this);
 });
 EntityGroup.has = (function EntityGroup$has$(entity = this.entity, group = this.group) {
   /* Entity-group.has node_modules/kit/inc/core/function-expressions.sibilant:29:8 */

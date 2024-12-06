@@ -10575,7 +10575,7 @@ var {
  } = require("@obstacles/rendering.js"),
     config = require("@obstacles/config.js");
 var activeGameSystems = [ Dot, Position, Physics, Velocity, Collision ];
-var game = create(Game)(rendering, activeGameSystems, config.gameSpeed);
+var game = create(Game)(config, rendering, activeGameSystems, config.gameSpeed);
 exports.game = game;
 exports.activeGameSystems = activeGameSystems;
 },{"@kit-js/core/js/util":2,"@obstacles/config.js":"@obstacles/config.js","@obstacles/rendering.js":"@obstacles/rendering.js","@shared/game.js":"@shared/game.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/rendering/dot.js":"@shared/systems/rendering/dot.js","@shared/systems/velocity.js":"@shared/systems/velocity.js","ramda":3}]},{},[]);

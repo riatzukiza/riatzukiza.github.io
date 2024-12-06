@@ -5,16 +5,13 @@
 
 
 (require! (lit List) "@shared/data-structures/list.js"
-          (lit Dynamic-pool) "@shared/pooling/dynamic-pool.js")
+          (lit Pooled-data-structure) "@shared/data-structures/pooled.js"
+          (lit Dynamic-pool) "@shared/pooling/dynamic-pool.js"
+          )
 
-(def-generic List.rotate-until (predicate (t 0))
-             (if (predicate this.head.item)
-                 this.head.item
-                 (> t (- this.size 1))
-                 (pipe this .rotate (.rotate-until predicate (++ t)))
-                 false))
 (define Vector Interface
-  (init ((x 0) (y 0)))
+  (init ((x 0) (y 0))
+        )
   (def add (v) (.spawn Vector (+ this.x v.x) (+ this.y v.y)))
   (def add-to (v)
     (incr-by this.x v.x)
@@ -75,15 +72,28 @@
   (def equals (v))
 
 
-  (def despawn () (.release vector-pool this))
+  (def despawn ()
+    (.release vector-pool this))
   (def spawn (x y) (.init (.aquire vector-pool) x y))
 
   )
 (export Vector)
-(define Trail-vector Vector
+(define Trail-vector Interface
   (init (x y pheremones))
-  (def spawn (x y pheremones) (.init (.aquire trail-pool) x y pheremones)))
+  (def spawn (x y pheremones) (.init (.aquire trail-pool) x y pheremones))
+
+  (def despawn ()
+    (print "despawning trail vector" this trail-pool)
+
+    (.release trail-pool this)
+
+    (print "trail vector despawned" this trail-pool )
+    )
+  )
+
 (export Trail-vector)
 
 (const  vector-pool ((create Dynamic-pool) Vector))
 (const  trail-pool ((create Dynamic-pool) Trail-vector))
+(export vector-pool)
+(export trail-pool)

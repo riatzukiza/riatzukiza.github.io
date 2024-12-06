@@ -14,7 +14,9 @@
 
 (define Dynamic-pool Interface
   (bucket-size 256)
-  (init (interface bucket-size (buckets  (List.of ((create Object-pool) this.bucket-size interface)))))
+  (init (interface
+         bucket-size
+         (buckets  (List.of ((create Object-pool) this.bucket-size interface)))))
 
   (gett current this.buckets.head.item)
   (gett size (* this.bucket-size this.buckets.length))
@@ -44,7 +46,7 @@ If no existing bucket has free members, the pool is grown and a new bucket is cr
                 (example (var taco-pool (.construct Pools.Dynamic Taco))
                          (var taco (.aquire taco-pool "chiken"))
                          (.init taco val1, val2)))
-    ;; (print "aquiring from pool" (lit (current this.current)
+    ;; (print "aquiring from pool" (lit (current tjhis.current)
     ;;                                  (size this.size )
     ;;                                  (used this.used)
     ;;                                  (buckets this.buckets)
@@ -52,7 +54,7 @@ If no existing bucket has free members, the pool is grown and a new bucket is cr
     ;;                                  (interface this.interface)
     ;;                                  ))
 
-    (collect object (if this.current.free
+    (collect object (if (> this.current.free 0)
                         (.aquire this.current)
                       (pipe this .adjust .aquire ))
              (assign object.bucket this.current)

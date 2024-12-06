@@ -10624,7 +10624,17 @@ var {
   Gl
  } = require("@shared/gl.js");
 var uniforms = Interface.define("uniforms", { 
-  res:Gl.uniform("Vector2", "Resolution", window.size()),
+  init( game = this.game ){ 
+    
+      this.game = game;
+      return this;
+    
+   },
+  get res(  ){ 
+    
+      return Gl.uniform("Vector2", "Resolution", this.game.config.dimensions);
+    
+   },
   scale:Gl.uniform("Float", "Scale", 1)
  });
 var shaders = Interface.define("shaders", { 
@@ -10671,8 +10681,9 @@ var shaders = Interface.define("shaders", {
   `
  });
 var vertexLayer = (function vertexLayer$(limit, game) {
-  /* vertex-layer eval.sibilant:1:872 */
+  /* vertex-layer eval.sibilant:1:908 */
 
+  uniforms.init(game);
   return game.rendering.spawn(limit, Vertex, [ uniforms.res, uniforms.scale ], [ shaders.vert, shaders.frag ]);
 });
 var DotInterface = Component.define("DotInterface", { 
@@ -10710,8 +10721,8 @@ var Dot = System.define("Dot", {
    },
   _updateComponent( dot ){ 
     
-      dot.vertex.point.x = (dot.pos.x + (dot.scale / 2));
-      dot.vertex.point.y = (dot.pos.y + (dot.scale / 2));
+      dot.vertex.point.x = dot.pos.x;
+      dot.vertex.point.y = dot.pos.y;
       dot.vertex.point.z = dot.pos.z;
       dot.vertex.size = dot.scale;
       dot.vertex.color.r = dot.color.r;

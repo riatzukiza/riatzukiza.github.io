@@ -16,8 +16,6 @@
          (*interface null)
          (*array (array-of size (Object.create *interface)))
 
-         (*members (Group.from *array))
-
          (*available (Group.from *array))
 
          (*in-use (.create Group )))
@@ -30,7 +28,7 @@
 
   (gett free this.*available.size)
   (gett used this.*in-use.size)
-  (gett total this.*members.size)
+  (gett total this.size)
 
   (def-generic clear (size *interface *array *in-use)
     (each *in-use (o)

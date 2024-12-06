@@ -10,7 +10,7 @@
 
 (define Game Interface
 
-  (init (rendering
+  (init (config rendering
          (system-types [])
          (game-speed 1)
          (entities ((create Entity-system) this) )

@@ -141,11 +141,12 @@
 
    (await (.insert dest dest-path ))
    (await (.set dest dest-path js))
+   (print "Done compiling project module" file.path)
    (catch!
     (print "An error has occured in compiling a module"
            file.path)
     (print e)))
-  (print "Done compiling project module" file.path)
+  null
   )
 
 
@@ -160,17 +161,18 @@
    (var js (await file.string))
 
    (print "compiling html template" file.path "for" (Path.join dest.root file.rel))
-   ;; (.send evaluator js)
    (var result (eval js))
-   ;; (print (lit result))
+
    (var dest-file (await (.insert dest (+ (Path.join
                                            (Path.dirname file.rel)
                                            (Path.basename file.rel ".js")) ".html"))))
    (await (.render result dest-file.write-stream))
+   (print "Done compiling html" file.path dest)
    (catch!
     (print "An error has occured in compiling an html template"
            file.path)
     (print e))
    )
+  null
 
-  (print "Done compiling html" file.path dest))
+  )

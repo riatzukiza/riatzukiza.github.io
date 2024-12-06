@@ -75,7 +75,7 @@ var DynamicPool = Interface.define("DynamicPool", {
         }).call(this);
         return object;
       }).call(this, (function() {
-        if (this.current.free) {
+        if (this.current.free > 0) {
           return this.current.aquire();
         } else {
           return this.adjust().aquire();
@@ -94,7 +94,7 @@ var DynamicPool = Interface.define("DynamicPool", {
       
       var self = this;
       return self.each((function() {
-        /* eval.sibilant:2:1800 */
+        /* eval.sibilant:2:1807 */
       
         return self.despawn(arguments[0]);
       }));
@@ -105,7 +105,7 @@ var DynamicPool = Interface.define("DynamicPool", {
       
       var self = this;
       return buckets.each((function() {
-        /* eval.sibilant:2:2086 */
+        /* eval.sibilant:2:2093 */
       
         return arguments[0]._inUse.each(f);
       }));

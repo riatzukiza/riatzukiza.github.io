@@ -3,18 +3,17 @@
         .panel {
             float: left;
             border-style: solid;
-            border-width: 1px;
+            border-width: 2px;
         }
         .bordered {
             border-style: solid;
-            border-width: 1px;
+            border-width: 3px;
         }
 
 ")
        (.script .src "https://cdn.jsdelivr.net/quicksettings/3.0/quicksettings.min.js"))
 
 
-      (.body (.div .id "container" (.div .id "stage")))
       (.script .src "/socket.io/socket.io.js")
       (scoped (require! (lit File-system) "kit-file-system"
                         Path 'path)

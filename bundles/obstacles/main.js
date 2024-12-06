@@ -15,19 +15,17 @@ var {
 global.mixin = mixin;
 global.create = create;
 var { 
-  Collision
- } = require("@shared/systems/collision.js"),
-    config = require("@obstacles/config.js"),
-    settings = require("@obstacles/settings.js"),
-    entities = require("@obstacles/entities.js"),
-    { 
-  stage,
-  container
- } = require("@obstacles/dom.js");
-var { 
   game,
   activeGameSystems
  } = require("@obstacles/game.js");
+var { 
+  Collision
+ } = require("@shared/systems/collision.js"),
+    config = require("@obstacles/config.js"),
+    entities = require("@obstacles/entities.js"),
+    { 
+  startInterface
+ } = require("@obstacles/dom.js");
 Collision.setBounds(config.dimensions[0], config.dimensions[1], 100, 4);
 game.start();
 require("@obstacles/events/ant-collision.js");
@@ -37,8 +35,9 @@ require("@obstacles/events/plant-colliding-with-spawn.js");
 require("@obstacles/events/static-object-collision.js");
 require("@obstacles/events/tick.js");
 require("@obstacles/events/simple-collision.js");
+startInterface();
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"@kit-js/core/js/util":3,"@kit-js/interface":4,"@obstacles/config.js":"@obstacles/config.js","@obstacles/dom.js":"@obstacles/dom.js","@obstacles/entities.js":"@obstacles/entities.js","@obstacles/events/ant-collision.js":"@obstacles/events/ant-collision.js","@obstacles/events/ant-found-plant.js":"@obstacles/events/ant-found-plant.js","@obstacles/events/collision.js":"@obstacles/events/collision.js","@obstacles/events/plant-colliding-with-spawn.js":"@obstacles/events/plant-colliding-with-spawn.js","@obstacles/events/simple-collision.js":"@obstacles/events/simple-collision.js","@obstacles/events/static-object-collision.js":"@obstacles/events/static-object-collision.js","@obstacles/events/tick.js":"@obstacles/events/tick.js","@obstacles/game.js":"@obstacles/game.js","@obstacles/settings.js":"@obstacles/settings.js","@shared/systems/collision.js":"@shared/systems/collision.js","ramda":7}],2:[function(require,module,exports){
+},{"@kit-js/core/js/util":3,"@kit-js/interface":4,"@obstacles/config.js":"@obstacles/config.js","@obstacles/dom.js":"@obstacles/dom.js","@obstacles/entities.js":"@obstacles/entities.js","@obstacles/events/ant-collision.js":"@obstacles/events/ant-collision.js","@obstacles/events/ant-found-plant.js":"@obstacles/events/ant-found-plant.js","@obstacles/events/collision.js":"@obstacles/events/collision.js","@obstacles/events/plant-colliding-with-spawn.js":"@obstacles/events/plant-colliding-with-spawn.js","@obstacles/events/simple-collision.js":"@obstacles/events/simple-collision.js","@obstacles/events/static-object-collision.js":"@obstacles/events/static-object-collision.js","@obstacles/events/tick.js":"@obstacles/events/tick.js","@obstacles/game.js":"@obstacles/game.js","@shared/systems/collision.js":"@shared/systems/collision.js","ramda":7}],2:[function(require,module,exports){
 const create = (object, r) => (...args) => ((r = Object.create(object)), r.init(...args), r);
 const defined = (value) => (!(value === undefined));
 

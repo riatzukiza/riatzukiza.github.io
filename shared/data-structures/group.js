@@ -21,6 +21,11 @@ var Group = Interface.define("Group", {
       return this._list.length;
     
    },
+  get last(  ){ 
+    
+      return this._list.last;
+    
+   },
   create(  ){ 
     
       "create an empty group instance";
@@ -41,7 +46,14 @@ var Group = Interface.define("Group", {
   }) ){ 
     
       "create a new group instance from an array like, or iterable object.";
-      return create(this)(List.from(Array.from(items).map(fn)));
+      const list=List.from(Array.from(items).map(fn));
+      const members=(new Map());
+      list.each(((item, node) => {
+      	
+        return members.set(item, node);
+      
+      }));
+      return create(this)(list, members);
     
    },
   pop( _list = this._list,_members = this._members ){ 
@@ -65,6 +77,11 @@ var Group = Interface.define("Group", {
       "Call the given function on every element of the group, returning the group which is being itterated on";
       _list.each(f);
       return this;
+    
+   },
+  find( f = this.f,_list = this._list ){ 
+    
+      return _list.find(f);
     
    },
   add( member = this.member,_list = this._list,_members = this._members ){ 
@@ -99,6 +116,8 @@ var Group = Interface.define("Group", {
           if (node) {
             _list.removeNode(node);
             return _members.delete(member);
+          } else {
+            throw (new Error("Can't remove a member from a group they don't belong to"))
           }
         }).call(this);
         return node;

@@ -1,5 +1,5 @@
-create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(HtmlElement)("style", {  }, [ "\n"+"        .panel {\n"+"            float: left;\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"        .bordered {\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"\n"+"" ]), create(HtmlElement)("script", { 'src': "https://cdn.jsdelivr.net/quicksettings/3.0/quicksettings.min.js" }, []) ]), create(HtmlElement)("body", {  }, [ create(HtmlElement)("div", { 'id': "container" }, [ create(HtmlElement)("div", { 'id': "stage" }, []) ]) ]), create(HtmlElement)("script", { 'src': "/socket.io/socket.io.js" }, []), (function() {
-  /* eval.sibilant:12:210 */
+create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(HtmlElement)("style", {  }, [ "\n"+"        .panel {\n"+"            float: left;\n"+"            border-style: solid;\n"+"            border-width: 2px;\n"+"        }\n"+"        .bordered {\n"+"            border-style: solid;\n"+"            border-width: 3px;\n"+"        }\n"+"\n"+"" ]), create(HtmlElement)("script", { 'src': "https://cdn.jsdelivr.net/quicksettings/3.0/quicksettings.min.js" }, []) ]), create(HtmlElement)("script", { 'src': "/socket.io/socket.io.js" }, []), (function() {
+  /* eval.sibilant:12:153 */
 
   var { 
     FileSystem
@@ -11,7 +11,7 @@ create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(H
   
   }));
 }).call(this), (function() {
-  /* eval.sibilant:12:453 */
+  /* eval.sibilant:12:396 */
 
   var { 
     FileSystem

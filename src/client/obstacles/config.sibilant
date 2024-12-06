@@ -1,18 +1,18 @@
 (namespace vector-ants)
-(const dim      [(* 0.8 window.innerWidth), (* 0.9 window.innerHeight)])
+(const dim      [(* 0.8 window.innerWidth), (- window.innerHeight 3)])
 (const size 2)
 (set module.exports
      'size size
      'angle-zoom 15
      'noise-z 1
-     'field-force 10
+     'field-force 30
      'dimensions dim
      'columns (Math.ceil (/ (first dim) size))
      'rows (Math.ceil (/ (second dim) size))
      'decay 0.01
      'maxLength 50
-     'growth-rate 0.001
-     'starting-plants 10
+     'growth-rate 0.003
+     'starting-plants 5
      'plantMassLimit 20
      'ant-limit 1000
      'max-in-decay 100
@@ -21,17 +21,17 @@
      'decay-on-collision true
      'options-amplitude 10
      'limit-decay true
-     'ant-influence 50
-     'friction 5
+     'ant-influence 10
+     'friction 2
      'collision-static 5
      'spawn-static 10
      'spawn-rate 10
      'home-location [300, 200]
      'target-location [700, 900]
      'rocks 50
-     'rock-min-size 20
-     'rock-max-size 80
-     'rock-mass-scaling-factor 1 ;; How much does scale effect mass?
+     'rock-min-size 32
+     'rock-max-size 128
+     'rock-mass-scaling-factor 0.1 ;; How much does scale effect mass?
      'rock-min-mass-factor 2 ;; Min bounds to rock mass variation
      'rock-max-mass-factor  16 ;; max bounds to rock mass variation
      'stationary-resistance-coefficiant 0.1 ;; not used

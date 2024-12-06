@@ -11100,11 +11100,11 @@ const maxRockBaseMass=(config.rockMassScalingFactor * config.rockMaxMassFactor);
 const minRockBaseMass=(config.rockMassScalingFactor * config.rockMinMassFactor);
 const maxRockDensity=((config.rockMinSize * maxRockBaseMass) / Math.pow(config.rockMinSize, 3));
 const minRockDensity=((config.rockMaxSize * maxRockBaseMass) / Math.pow(config.rockMaxSize, 3));
-var spawnRock = (function spawnRock$(x_y$20, mass, scale) {
+var spawnRock = (function spawnRock$(x_y$3, mass, scale) {
   /* spawn-rock eval.sibilant:39:0 */
 
-  var x = x_y$20[0],
-      y = x_y$20[1];
+  var x = x_y$3[0],
+      y = x_y$3[1];
 
   var rock = rocks.spawn([ Dot, Position, Physics, Collision, Velocity ]);
   const pos=game.systems.get(Position, rock);
@@ -11116,39 +11116,12 @@ var spawnRock = (function spawnRock$(x_y$20, mass, scale) {
   phys.scale = scale;
   phys.forces = [ Friction ];
   const velocity=phys.velocity;
-  const xd=((Math.random() * config.spawnStatic) * (function() {
-    if (Math.random() < 0.5) {
-      return -1;
-    } else {
-      return 1;
-    }
-  }).call(this));
-  const yd=((Math.random() * config.spawnStatic) * (function() {
-    if (Math.random() < 0.5) {
-      return -1;
-    } else {
-      return 1;
-    }
-  }).call(this));
-  velocity.xd = xd;
-  velocity.yd = yd;
   var hardness = Math.round((200 * (phys.density / maxRockDensity)));
   game.systems.get(Dot, rock).color = rgba(hardness, hardness, hardness, 255);
   return placeEntity(rock, game, config);
 });
-var rockGenStep = (function rockGenStep$(position = [ ((Math.random() * config.dimensions[0]) * (function() {
-  if (Math.random() < 0.5) {
-    return -1;
-  } else {
-    return 1;
-  }
-}).call(this)), ((Math.random() * config.dimensions[1]) * (function() {
-  if (Math.random() < 0.5) {
-    return -1;
-  } else {
-    return 1;
-  }
-}).call(this)) ], mass = (config.rockMinMassFactor + ((Math.random() * ( - rockMassVariation)) + rockMassVariation)), scale = (config.rockMinSize + ((Math.random() * ( - rockScaleVariation)) + rockScaleVariation))) {
+var lastRockPos = [ ((Math.random() * ( - config.dimensions[0])) + config.dimensions[0]), ((Math.random() * ( - config.dimensions[1])) + config.dimensions[1]) ];
+var rockGenStep = (function rockGenStep$(position = lastRockPos, mass = (config.rockMinMassFactor + ((Math.random() * ( - rockMassVariation)) + rockMassVariation)), scale = (config.rockMinSize + ((Math.random() * ( - rockScaleVariation)) + rockScaleVariation))) {
   /* rock-gen-step node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
   console.log("Placing rock", { 
@@ -11159,7 +11132,10 @@ var rockGenStep = (function rockGenStep$(position = [ ((Math.random() * config.d
     rockMassVariation,
     rockScaleVariation
    });
-  return spawnRock([ (position[0] + rockPlacementVector.x), (position[1] + rockPlacementVector.y) ], (config.rockMassScalingFactor * scale * mass), scale);
+  spawnRock(position, (config.rockMassScalingFactor * scale * mass), scale);
+  rockPlacementVector.setAngle(((Math.random() * ( - 10)) + 10));
+  rockPlacementVector.setLength((2 * scale));
+  return lastRockPos = [ (Math.abs((position[0] + rockPlacementVector.x)) % config.dimensions[0]), (Math.abs((position[1] + rockPlacementVector.y)) % config.dimensions[1]) ];
 });
 exports.rocks = rocks;
 exports.spawnRock = spawnRock;

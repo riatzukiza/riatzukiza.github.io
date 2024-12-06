@@ -35,9 +35,9 @@ var ObjectPool = Interface.define("ObjectPool", {
       return $for;
     }).call(this);
     return array;
-  }).call(this, []),_members = Group.from(_array),_available = Group.from(_array),_inUse = Group.create() ){ 
+  }).call(this, []),_available = Group.from(_array),_inUse = Group.create() ){ 
     
-      this.size = size;this._interface = _interface;this._array = _array;this._members = _members;this._available = _available;this._inUse = _inUse;
+      this.size = size;this._interface = _interface;this._array = _array;this._available = _available;this._inUse = _inUse;
       _array.each(_assignId);
       return this;
     
@@ -55,7 +55,7 @@ var ObjectPool = Interface.define("ObjectPool", {
    },
   get total(  ){ 
     
-      return this._members.size;
+      return this.size;
     
    },
   clear( size = this.size,_interface = this._interface,_array = this._array,_inUse = this._inUse ){ 

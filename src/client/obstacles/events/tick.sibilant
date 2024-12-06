@@ -15,7 +15,6 @@
 
 (const update-particle (create-particle-updater config game))
 
-(do-times config.rocks (rock-gen-step ))
 
 
 (do-times config.starting-plants (spawn-plant (random-location)
@@ -24,6 +23,8 @@
 
 (on game.events 'tick ()
     (next-spawn game)
+    (if (> config.rocks rocks.size)
+        (rock-gen-step ))
 
     ;; (ants.group.each (=> (ant)
     ;;                      (var v (.get game.systems Velocity ant))

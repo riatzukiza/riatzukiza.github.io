@@ -37,21 +37,6 @@ const updateParticle=createParticleUpdater(config, game);
   /* node_modules/kit/inc/loops.sibilant:26:8 */
 
   var $for = null;
-  for (var i = 0;i < config.rocks;++(i))
-  {
-  $for = (function() {
-    /* node_modules/kit/inc/loops.sibilant:28:35 */
-  
-    return rockGenStep();
-  }).call(this);
-  }
-  ;
-  return $for;
-}).call(this);
-(function() {
-  /* node_modules/kit/inc/loops.sibilant:26:8 */
-
-  var $for = null;
   for (var i = 0;i < config.startingPlants;++(i))
   {
   $for = (function() {
@@ -66,6 +51,11 @@ const updateParticle=createParticleUpdater(config, game);
 game.events.on("tick", (() => {
 	
   nextSpawn(game);
+  (function() {
+    if (config.rocks > rocks.size) {
+      return rockGenStep();
+    }
+  }).call(this);
   return (function() {
     if ((game.ticker.ticks % 10)) {
       return plants.group.each(((plant) => {

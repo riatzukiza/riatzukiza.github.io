@@ -14,21 +14,11 @@ var {
   List
  } = require("@shared/data-structures/list.js"),
     { 
+  PooledDataStructure
+ } = require("@shared/data-structures/pooled.js"),
+    { 
   DynamicPool
  } = require("@shared/pooling/dynamic-pool.js");
-List.rotateUntil = (function List$rotateUntil$(predicate = this.predicate, t = 0) {
-  /* List.rotate-until node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
-
-  return (function() {
-    if (predicate(this.head.item)) {
-      return this.head.item;
-    } else if (t > (this.size - 1)) {
-      return this.rotate().rotateUntil(predicate, ++(t));
-    } else {
-      return false;
-    }
-  }).call(this);
-});
 var Vector = Interface.define("Vector", { 
   init( x = 0,y = 0 ){ 
     
@@ -157,7 +147,7 @@ var Vector = Interface.define("Vector", {
    }
  });
 exports.Vector = Vector;
-var TrailVector = Vector.define("TrailVector", { 
+var TrailVector = Interface.define("TrailVector", { 
   init( x = this.x,y = this.y,pheremones = this.pheremones ){ 
     
       this.x = x;this.y = y;this.pheremones = pheremones;
@@ -168,8 +158,17 @@ var TrailVector = Vector.define("TrailVector", {
     
       return trailPool.aquire().init(x, y, pheremones);
     
+   },
+  despawn(  ){ 
+    
+      console.log("despawning trail vector", this, trailPool);
+      trailPool.release(this);
+      return console.log("trail vector despawned", this, trailPool);
+    
    }
  });
 exports.TrailVector = TrailVector;
 const vectorPool=create(DynamicPool)(Vector);
 const trailPool=create(DynamicPool)(TrailVector);
+exports.vectorPool = vectorPool;
+exports.trailPool = trailPool;

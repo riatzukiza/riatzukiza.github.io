@@ -55,7 +55,7 @@ var SignalField = Physics.Force.define("SignalField", {
           return 1;
         }
       }).call(this));
-      return c.mass = (0.1 * (function() {
+      return c.mass = (2 * (function() {
         if (winRate > 1) {
           return winRate;
         } else {

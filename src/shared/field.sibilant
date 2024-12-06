@@ -1,6 +1,7 @@
 (namespace vector)
 (include "kit/header" )
 
+
 (include "../../inc/rand.sibilant")
 
 (require! (lit Vector Trail-vector) "@shared/vectors.js")
@@ -18,7 +19,7 @@
 
 (macro else! (...body) ["else " `(block ...@(interleave ";\n" body))])
 (macro if-else! (cond if-block else-block)
-       [`(state if @cond  ...@(interleave "\n" if-block.contents))
+       [`(state if @cond  ...@(interleave ";\n" if-block.contents))
          "else " `(block ...@(interleave ";\n" else-block.contents))
          ]
        )
@@ -35,17 +36,16 @@
                                  (decay false),
                                  (win false)
                                  home-pos
-                                 (loose (>= (get? vel trail length)
-                                            config.max-trail)))
+                                 (loose (>= (or (get? vel trail length) 0) config.max-trail)))
 
     ;; (if! (or (isNaN p.x) (isNaN p.x))
     ;;      (print (lit vel p field pheremones tick decay win home-pos loose 
     ;;                   ))
     ;;      (throw (new RangeError "position is not a number")))
-    (if! (or (isNaN vel.xd) (isNaN vel.yd))
-         (print (lit vel p field pheremones tick decay win home-pos loose 
-                      ))
-         (throw (new RangeError "velocity is not a number")))
+    ;; (if! (or (isNaN vel.xd) (isNaN vel.yd))
+    ;;      (print (lit vel p field pheremones tick decay win home-pos loose 
+    ;;                   ))
+    ;;      (throw (new RangeError "velocity is not a number")))
     (const pos (.spawn Vector (or (Math.min (Math.max (Math.round (/ p.x config.size)) 0)
                                             (- config.columns 1))
                                   1)
@@ -113,10 +113,12 @@
 
     (if! config.track-trail
          (if-else! (not vel.trail)
-                   ( (set vel 'win-count 0
+                   ( ;; (print "There was no trail" vel)
+                     (set vel 'win-count 0
                           'loose-count 0
                           'trail [(.spawn Trail-vector vel.xd vel.yd pH)]))
-                   ((.push vel.trail (.spawn Trail-vector vel.xd vel.yd pH)))))
+                   (;; (print "There was a trail")
+                    (.push vel.trail (.spawn Trail-vector vel.xd vel.yd pH)))))
     (if! (and loose config.punish-loosers)
       (const weight (/ vel.loose-count (+ vel.win-count 1)))
       (for-of!  (lit x,y, pheremones) vel.trail
@@ -125,13 +127,17 @@
               (x (* x weight config.ant-influence))
               (y (* y weight config.ant-influence))))))
     (if! loose
-      ;; (.emit game.events 'loose)
-      (for-of! seg vel.trail
-               (.despawn seg))
-      (set vel 'trail [])
-      (set p 'x (+ (random-signed config.spawn-static) home-pos.x)
-           'y (+ (random-signed config.spawn-static) home-pos.y))
-      (incr-by vel.loose-count 1))
+         ;; (.emit game.events 'loose)
+         ;; (print "despawning trail" vel.trail)
+         (for-of! seg vel.trail
+                  (.despawn seg))
+
+         ;; (print "clearing trail" vel.trail)
+         (set vel 'trail [])
+         ;; (print "cleared trail trail" vel.trail)
+         (set p 'x (+ (random-signed config.spawn-static) home-pos.x)
+              'y (+ (random-signed config.spawn-static) home-pos.y))
+         (incr-by vel.loose-count 1))
 
     (if! (and win config.reward-winners)
          (const weight (/ vel.loose-count (+ vel.win-count 1)))
@@ -142,10 +148,16 @@
                     (y (* y weight config.ant-influence))))))
     (if! win
          ;; (.emit game.events 'win)
-         (print "win" home-pos p)
+         ;; (print "win" home-pos p)
 
+         ;; (print "despawning trail" vel.trail)
          (for-of! seg vel.trail
                   (.despawn seg))
+
+         ;; (print "clearing trail" vel.trail)
+         (set vel 'trail [])
+         ;; (print "cleared trail trail" vel.trail)
+
 
          (set vel 'trail [])
          (set p 'x (+ (random-signed config.spawn-static) home-pos.x) 'y (+ (random-signed config.spawn-static) home-pos.y))
