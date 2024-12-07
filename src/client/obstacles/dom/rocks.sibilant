@@ -5,21 +5,16 @@
 (include "kit-html/src/dom")
 (import-namespace dom)
 (const rock-views [])
+(require! (lit Entity-panel) "@obstacles/dom/entity-panel.js")
 
 
+(def-generic display-decimal (d (n 6)) (/ (Math.round (* (Math.pow 10 n) d)) (Math.pow 10 n)))
 (define Rock-panel Entity-panel
   (def Dot  (dot)
 
     (const color-string (+ "rgb(" dot.color.r"," dot.color.g "," dot.color.b ")"))
     (dom (.div .className "bordered"
 
-               .onmouseenter (->  (assign dot.color.b 0)
-                                  (assign dot.color.g 255)
-                                  (print "mouse entered" dot.color))
-
-               .onmouseleave (->  (assign dot.color.b dot.color.r)
-                                  (assign dot.color.g dot.color.r)
-                                  (print "mouse left" dot.color))
 
                (.div .className "panel" "color:")
                (.div .className "panel"
@@ -32,7 +27,7 @@
 
   (def Velocity (vel)
     (dom (.div .className "bordered" "velocity:"
-               (display-decimal phys.vel.xd) ", " (display-decimal vel.yd))))
+               (display-decimal vel.xd) ", " (display-decimal vel.yd))))
   (def Physics  (phys)
     (dom (.div .className "panel" 
            (.div .className "bordered" "scale:" (display-decimal phys.scale))

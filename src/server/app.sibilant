@@ -22,6 +22,6 @@
 ;; (.use app "/js" (serve-static-files js.client))
 
 (print "who????")
-(.use app "." (serve-static-files static-files))
+(.use app "" (serve-static-files static-files))
 
 (assign module.exports app)

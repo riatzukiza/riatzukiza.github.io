@@ -11420,27 +11420,19 @@ var DocumentHead = DocumentNode.define("DocumentHead", {
 var createDocumentNode = create(DocumentNode);
 console.log(document.appendChild);
 const rockViews=[];
+var { 
+  EntityPanel
+ } = require("@obstacles/dom/entity-panel.js");
+var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
+  /* display-decimal node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
+
+  return (Math.round((Math.pow(10, n) * d)) / Math.pow(10, n));
+});
 var RockPanel = EntityPanel.define("RockPanel", { 
   Dot( dot ){ 
     
       const colorString=("rgb(" + dot.color.r + "," + dot.color.g + "," + dot.color.b + ")");
-      return createDocumentNode("div", {
-        'className': "bordered",
-        'onmouseenter': (() => {
-        	
-          dot.color.b = 0;
-          dot.color.g = 255;
-          return console.log("mouse entered", dot.color);
-        
-        }),
-        'onmouseleave': (() => {
-        	
-          dot.color.b = dot.color.r;
-          dot.color.g = dot.color.r;
-          return console.log("mouse left", dot.color);
-        
-        })
-      }, [ createDocumentNode("div", { 'className': "panel" }, [ "color:" ]), createDocumentNode("div", {
+      return createDocumentNode("div", { 'className': "bordered" }, [ createDocumentNode("div", { 'className': "panel" }, [ "color:" ]), createDocumentNode("div", {
         'className': "panel",
         'style': { 
           "background-color":colorString,
@@ -11456,7 +11448,7 @@ var RockPanel = EntityPanel.define("RockPanel", {
    },
   Velocity( vel ){ 
     
-      return createDocumentNode("div", { 'className': "bordered" }, [ "velocity:", displayDecimal(phys.vel.xd), ", ", displayDecimal(vel.yd) ]);
+      return createDocumentNode("div", { 'className': "bordered" }, [ "velocity:", displayDecimal(vel.xd), ", ", displayDecimal(vel.yd) ]);
     
    },
   Physics( phys ){ 
@@ -11466,4 +11458,4 @@ var RockPanel = EntityPanel.define("RockPanel", {
    }
  });
 exports.RockPanel = RockPanel;
-},{"@kit-js/core/js/util":2,"kit-events":4,"ramda":10}]},{},[]);
+},{"@kit-js/core/js/util":2,"@obstacles/dom/entity-panel.js":"@obstacles/dom/entity-panel.js","kit-events":4,"ramda":10}]},{},[]);

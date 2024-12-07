@@ -1,5 +1,9 @@
 
 (namespace obstacles)
+
+(include "kit-interface/header")
+(import-namespace interface)
+
 (include "kit/header" )
 (import-namespace kit)
 
@@ -7,33 +11,50 @@
 (import-namespace dom)
 (require! (lit Component) "@shared/ecs.js"
           (lit game) "@obstacles/game.js"
-          (lit Pooled-data-structure) "@shared/data-structures/pooled.js")
+          (lit Dot) "@shared/systems/rendering/dot.js"
+          (lit Pooled-data-structure) "@shared/data-structures/pooled.js"
+          (lit rgba) "@obstacles/colors.js"
+          )
 
-(define Entity-panel Pooled-data-structure
+(define Entity-panel Interface
   (init (entity ))
   (def clear () (assign this.entity null))
+  (def spawn (entity) ((create this) entity))
   (def-generic render (*parent attributes tag-name *node children)
+    (print "rendering entity" *parent this.entity)
     (const component-panel
            (=> (component)
-               (.reduce (Object.keys system.interface)
+               (.reduce (Object.keys component)
                         (=> (accumulator key)
                             (const property (get component key))
-                            (if (or (function? property)
-                                    (instance-of? property Component))
+                            (if (not (string? property))
                                 accumulator
                                 [(dots accumulator)
                                  (dom (.div .className "panel" key ":" (get component key)))]))
                          []))
            )
-    (each entity.aspects (system)
-          (const component (.get game.systems game entity))
-          (.append-child *parent
-                         (dom (.div .className "panel"
-                                    (.h4 system.name )
-                                    (if (get this system.name)
-                                        ((get this.system.name ) component)
-                                        (dom (.div .className "panel"
-                                                   (dom (.div (components-panels system))))))))))))
+    (with-dom *parent
+      (.div .className "panel"
 
+            .onmouseenter (->
+                           (const dot (.get game.systems Dot this.entity))
+                           (assign this.entity.original-color dot.color)
+                           (assign dot.color (rgba 255 255 0 255))
+                           (print "mouse entered" dot.color)
+                           )
+
+            .onmouseleave (->
+
+                           (const dot (.get game.systems Dot this.entity))
+                           (assign dot.color this.entity.original-color)
+                           (print "mouse left" dot.color))
+            (map this.entity.aspects (system)
+                 (const component (.get game.systems system this.entity))
+                 (dom (.div .className "panel"
+                            (.h4 system.name )
+                            (if (get this system.name)
+                                ((get this system.name ) component)
+                                (dom (.div .className "panel"
+                                           (component-panel component)))))))))))
 
 (export Entity-panel)

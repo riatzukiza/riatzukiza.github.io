@@ -1,3 +1,6 @@
+var { 
+  Interface
+ } = require("@kit-js/interface");
 var R = require("ramda");
 var { 
   create,
@@ -151,9 +154,15 @@ var {
   game
  } = require("@obstacles/game.js"),
     { 
+  Dot
+ } = require("@shared/systems/rendering/dot.js"),
+    { 
   PooledDataStructure
- } = require("@shared/data-structures/pooled.js");
-var EntityPanel = PooledDataStructure.define("EntityPanel", { 
+ } = require("@shared/data-structures/pooled.js"),
+    { 
+  rgba
+ } = require("@obstacles/colors.js");
+var EntityPanel = Interface.define("EntityPanel", { 
   init( entity = this.entity ){ 
     
       this.entity = entity;
@@ -165,15 +174,21 @@ var EntityPanel = PooledDataStructure.define("EntityPanel", {
       return this.entity = null;
     
    },
+  spawn( entity ){ 
+    
+      return create(this)(entity);
+    
+   },
   render( _parent = this._parent,attributes = this.attributes,tagName = this.tagName,_node = this._node,children = this.children ){ 
     
+      console.log("rendering entity", _parent, this.entity);
       const componentPanel=((component) => {
       	
-        return Object.keys(system.interface).reduce(((accumulator, key) => {
+        return Object.keys(component).reduce(((accumulator, key) => {
         	
           const property=component[key];
           return (function() {
-            if ((typeof property === "function" || (Component instanceof property))) {
+            if (!(typeof property === "string")) {
               return accumulator;
             } else {
               return [ ...accumulator, createDocumentNode("div", { 'className': "panel" }, [ key, ":", component[key] ]) ];
@@ -183,18 +198,35 @@ var EntityPanel = PooledDataStructure.define("EntityPanel", {
         }), []);
       
       });
-      return entity.aspects.each(((system) => {
+      return createDocumentNode("div", {
+        'className': "panel",
+        'onmouseenter': (() => {
+        	
+          const dot=game.systems.get(Dot, this.entity);
+          this.entity.originalColor = dot.color;
+          dot.color = rgba(255, 255, 0, 255);
+          return console.log("mouse entered", dot.color);
+        
+        }),
+        'onmouseleave': (() => {
+        	
+          const dot=game.systems.get(Dot, this.entity);
+          dot.color = this.entity.originalColor;
+          return console.log("mouse left", dot.color);
+        
+        })
+      }, [ this.entity.aspects.map(((system) => {
       	
-        const component=game.systems.get(game, entity);
-        return _parent.appendChild(createDocumentNode("div", { 'className': "panel" }, [ createDocumentNode("h4", {  }, [ system.name ]), (function() {
+        const component=game.systems.get(system, this.entity);
+        return createDocumentNode("div", { 'className': "panel" }, [ createDocumentNode("h4", {  }, [ system.name ]), (function() {
           if (this[system.name]) {
-            return this.system.name(component);
+            return this[system.name](component);
           } else {
-            return createDocumentNode("div", { 'className': "panel" }, [ createDocumentNode("div", {  }, [ componentsPanels(system) ]) ]);
+            return createDocumentNode("div", { 'className': "panel" }, [ componentPanel(component) ]);
           }
-        }).call(this) ]));
+        }).call(this) ]);
       
-      }));
+      })) ]).render(_parent);
     
    }
  });

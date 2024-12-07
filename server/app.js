@@ -29,5 +29,5 @@ var {
 var app = create(Http.MiddleWare)();
 const staticFiles=FileSystem.load("./static");
 console.log("who????");
-app.use(".", serveStaticFiles(staticFiles));
+app.use("", serveStaticFiles(staticFiles));
 module.exports = app;

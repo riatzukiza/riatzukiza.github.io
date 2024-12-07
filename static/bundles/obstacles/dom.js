@@ -11494,7 +11494,7 @@ DocumentNode.render = (function DocumentNode$render$(_parent = this._parent, att
 var container = createDocumentNode("div", { 'id': "container" }, [ gameView, debugView ]);
 createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentRoot);
 var startInterface = (function startInterface$() {
-  /* start-interface eval.sibilant:60:0 */
+  /* start-interface eval.sibilant:61:0 */
 
   return game.events.on("tick", ((t) => {
   	

@@ -24,6 +24,7 @@ var serveStaticFiles = (function serveStaticFiles$(sys) {
       return !((k === "." || k === ".."));
     
     })).join("/");
+    console.log("serving static file", key, path);
     return sys.find(path).then(((file) => {
     	
       return (function() {

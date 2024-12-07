@@ -31,6 +31,7 @@
                                          ("overflow-y" "scroll")
                                          )
                              )))
+
 (def-generic Document-node.render (*parent attributes tag-name *node children)
 
   ;;(when *node (.remove this *node *parent))
@@ -83,9 +84,7 @@
             (const phys (.get game.systems Physics rock))
             (const dot (.get game.systems Dot rock))
             (const pos phys.position)
-            (rock-views.push
-             (.spawn Rock-panel rock)
-             ))
+            (rock-views.push (.spawn Rock-panel rock)))
 
       (.clear debug-view)
       (with-dom debug-view
