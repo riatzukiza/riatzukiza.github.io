@@ -162,7 +162,15 @@ var {
     { 
   Physics
  } = require("@shared/systems/physics/index.js"),
+    { 
+  Dot
+ } = require("@shared/systems/rendering/dot.js"),
     config = require("@obstacles/config.js");
+var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
+  /* display-decimal node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
+
+  return (Math.round((Math.pow(10, n) * d)) / Math.pow(10, n));
+});
 console.log("We got this from dom", { 
   game
  });
@@ -176,7 +184,8 @@ const debugView=createDocumentNode("div", {
   'className': "panel",
   'style': { 
     height:(config.dimensions[1] + "px"),
-    width:(Math.round(((window.innerWidth * 0.2) - 24)) + "px")
+    width:(Math.round(((window.innerWidth * 0.2) - 24)) + "px"),
+    "overflow-y":"scroll"
    }
 }, []);
 DocumentNode.render = (function DocumentNode$render$(_parent = this._parent, attributes = this.attributes, tagName = this.tagName, _node = this._node, children = this.children) {
@@ -207,12 +216,12 @@ DocumentNode.render = (function DocumentNode$render$(_parent = this._parent, att
 var container = createDocumentNode("div", { 'id': "container" }, [ gameView, debugView ]);
 createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentRoot);
 var startInterface = (function startInterface$() {
-  /* start-interface eval.sibilant:56:0 */
+  /* start-interface eval.sibilant:59:0 */
 
   return game.events.on("tick", ((t) => {
   	
     return (function() {
-      if ((t % 60) === 0) {
+      if ((t % 300) === 0) {
         var antMass = 0;
         var antWins = 0;
         var antLosses = 0;
@@ -232,8 +241,40 @@ var startInterface = (function startInterface$() {
         
         }));
         const antMassRaw=antMass.toPrecision(12).split(".");
+        const rockViews=[];
+        rocks.group.each(((rock) => {
+        	
+          const phys=game.systems.get(Physics, rock);
+          const dot=game.systems.get(Dot, rock);
+          const pos=phys.position;
+          const colorString=("rgb(" + dot.color.r + "," + dot.color.g + "," + dot.color.b + ")");
+          return rockViews.push(createDocumentNode("div", { 'className': "panel" }, [ createDocumentNode("div", { 'className': "bordered" }, [ "position:", displayDecimal(pos.x), ", ", displayDecimal(pos.y) ]), createDocumentNode("div", { 'className': "bordered" }, [ "scale:", displayDecimal(phys.scale) ]), createDocumentNode("div", { 'className': "bordered" }, [ "mass:", displayDecimal(phys.mass) ]), createDocumentNode("div", { 'className': "bordered" }, [ "volume:", displayDecimal(phys.volume) ]), createDocumentNode("div", { 'className': "bordered" }, [ "density:", displayDecimal(phys.density, 8) ]), createDocumentNode("div", { 'className': "bordered" }, [ "velocity:", displayDecimal(phys.velocity.xd), ", ", displayDecimal(phys.velocity.yd) ]), createDocumentNode("div", {
+            'className': "bordered",
+            'onmouseenter': (() => {
+            	
+              dot.color.b = 0;
+              dot.color.g = 255;
+              return console.log("mouse entered", dot.color);
+            
+            }),
+            'onmouseleave': (() => {
+            	
+              dot.color.b = dot.color.r;
+              dot.color.g = dot.color.r;
+              return console.log("mouse left", dot.color);
+            
+            })
+          }, [ createDocumentNode("div", { 'className': "panel" }, [ "color:" ]), createDocumentNode("div", {
+            'className': "panel",
+            'style': { 
+              "background-color":colorString,
+              "color":"grey"
+             }
+          }, [ colorString ]) ]) ]));
+        
+        }));
         debugView.clear();
-        return createDocumentNode("div", {  }, [ createDocumentNode("div", { 'className': "bordered " }, [ createDocumentNode("h3", {  }, [ "Ants" ]), createDocumentNode("div", {  }, [ "count:", ants.size ]), createDocumentNode("div", {  }, [ "total mass:", createDocumentNode("toFixed", {  }, [ (Math.round((1000 * antMass)) / 1000), 4 ]) ]), createDocumentNode("div", {  }, [ "total wins:", antWins ]), createDocumentNode("div", {  }, [ "total losses:", antLosses ]), createDocumentNode("div", {  }, [ "win/loss:", (antWins / antLosses) ]) ]), createDocumentNode("div", { 'className': "bordered" }, [ createDocumentNode("h3", {  }, [ "Pools" ]), createDocumentNode("div", {  }, [ "vector buckets", vectorPool.buckets.length ]), createDocumentNode("div", {  }, [ "trail buckets", trailPool.buckets.length ]) ]), createDocumentNode("div", {  }, [ "plants:", plants.size ]), createDocumentNode("div", {  }, [ "rocks:", rocks.size ]) ]).render(debugView);
+        return createDocumentNode("div", {  }, [ createDocumentNode("div", { 'className': "panel " }, [ createDocumentNode("h3", {  }, [ "Ants" ]), createDocumentNode("div", {  }, [ "count:", ants.size ]), createDocumentNode("div", {  }, [ "total mass:", createDocumentNode("toFixed", {  }, [ (Math.round((1000 * antMass)) / 1000), 4 ]) ]), createDocumentNode("div", {  }, [ "total wins:", antWins ]), createDocumentNode("div", {  }, [ "total losses:", antLosses ]), createDocumentNode("div", {  }, [ "win/loss:", displayDecimal((antWins / antLosses)) ]) ]), createDocumentNode("div", { 'className': "panel" }, [ createDocumentNode("h3", {  }, [ "Rocks" ]), rockViews ]), createDocumentNode("div", { 'className': "panel" }, [ createDocumentNode("h3", {  }, [ "Pools" ]), createDocumentNode("div", {  }, [ "vector buckets", vectorPool.buckets.length ]), createDocumentNode("div", {  }, [ "trail buckets", trailPool.buckets.length ]) ]), createDocumentNode("div", {  }, [ "plants:", plants.size ]), createDocumentNode("div", {  }, [ "rocks:", rocks.size ]) ]).render(debugView);
       }
     }).call(this);
   

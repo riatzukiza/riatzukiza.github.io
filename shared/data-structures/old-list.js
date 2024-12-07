@@ -1,6 +1,5 @@
 
 
-
 var create = require('kit/js/util').create;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 var Node = {
@@ -169,7 +168,7 @@ var List = {
     each(f) {
         let node = this.head;
         while (node) {
-            f(node.item, node.prev, node.next);
+            f(node.item, node);
             node = node.next;
         }
         return this;
@@ -198,61 +197,4 @@ var List = {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ;
-List.reduce = (function List$reduce$(f, r) {
-  /* List.reduce eval.sibilant:199:5 */
-
-  this.each(((e, i, l) => {
-  	
-    return r = f(r, e, i, l);
-  
-  }));
-  return r;
-});
-List.findNode = (function List$findNode$(f = this.f, node = this.head) {
-  /* List.find-node node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
-
-  return (function() {
-    if (f(node)) {
-      return node;
-    } else if (!(node === this.tail)) {
-      return List.find(f, node.next);
-    } else {
-      return false;
-    }
-  }).call(this);
-});
-List.find = (function List$find$(f = this.f, node = this.head) {
-  /* List.find node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
-
-  var r = List.findNode(f, node);
-  return (function() {
-    if (r) {
-      return r.value;
-    } else {
-      return false;
-    }
-  }).call(this);
-});
-List.rotate = (function List$rotate$() {
-  /* List.rotate eval.sibilant:199:340 */
-
-  return (function() {
-    /* inc/misc.sibilant:1:212 */
-  
-    return this.push(this.shift());
-  }).call(this);
-});
-List.rotateUntil = (function List$rotateUntil$(predicate = this.predicate, t = 0) {
-  /* List.rotate-until node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
-
-  return (function() {
-    if (predicate(this.head.item)) {
-      return this.head.item;
-    } else if (t > (this.size - 1)) {
-      return this.rotate().rotateUntil(predicate, ++(t));
-    } else {
-      return false;
-    }
-  }).call(this);
-});
 exports.List = List;

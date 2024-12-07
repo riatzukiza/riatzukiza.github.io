@@ -18,6 +18,9 @@ var {
   rocks
  } = require("@obstacles/entities.js"),
     { 
+  placeEntity
+ } = require("@shared/systems/collision.js"),
+    { 
   config
  } = require("@obstacles/config.js"),
     { 
@@ -35,8 +38,9 @@ game.events.on("antFoundPlant", ((ant, plant) => {
   var ap = game.systems.get(Physics, ant.entity);
   isWin = true;
   updateParticle(av, av.pos, SignalField.field, SignalField.layer, game.ticker.ticks, true, true, homePos);
+  placeEntity(ant.entity, game, config);
   var pp = game.systems.get(Physics, plant.entity);
-  pp.scale = pp.mass = Math.max((pp.mass - ap.mass), 0);
+  pp.scale = pp.mass = Math.max((pp.mass - (0.05 * ap.mass)), 0);
   return null;
 
 })).once("error", ((err) => {
@@ -45,4 +49,4 @@ game.events.on("antFoundPlant", ((ant, plant) => {
   return console.log(err);
 
 }));
-},{"@obstacles/config.js":"@obstacles/config.js","@obstacles/entities.js":"@obstacles/entities.js","@obstacles/forces.js":"@obstacles/forces.js","@obstacles/game.js":"@obstacles/game.js","@shared/field.js":"@shared/field.js","@shared/systems/physics/system.js":"@shared/systems/physics/system.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js"}]},{},[]);
+},{"@obstacles/config.js":"@obstacles/config.js","@obstacles/entities.js":"@obstacles/entities.js","@obstacles/forces.js":"@obstacles/forces.js","@obstacles/game.js":"@obstacles/game.js","@shared/field.js":"@shared/field.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/system.js":"@shared/systems/physics/system.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js"}]},{},[]);

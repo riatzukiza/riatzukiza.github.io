@@ -12,8 +12,8 @@
 
     (unless (and (= v.xd 0) (= v.yd 0))
       (set v
-           'xd (* v.xd (/ 1 (+ 1 (*  physics.mass config.friction)) ))
-           'yd (* v.yd (/ 1 (+ 1 (*  physics.mass config.friction)) )))
+           'xd (* v.xd (/ 1 (+ config.stationary-resistance-coefficiant (*  physics.mass config.friction)) ))
+           'yd (* v.yd (/ 1 (+ config.stationary-resistance-coefficiant (*  physics.mass config.friction)) )))
 
       null
       )))

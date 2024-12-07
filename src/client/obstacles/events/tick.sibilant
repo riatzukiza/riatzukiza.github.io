@@ -23,8 +23,10 @@
 
 (on game.events 'tick ()
     (next-spawn game)
-    (if (> config.rocks rocks.size)
-        (rock-gen-step ))
+    (if (and (mod game.ticker.ticks 10)
+             (> config.rocks rocks.size))
+        (rock-gen-step )
+        )
 
     ;; (ants.group.each (=> (ant)
     ;;                      (var v (.get game.systems Velocity ant))

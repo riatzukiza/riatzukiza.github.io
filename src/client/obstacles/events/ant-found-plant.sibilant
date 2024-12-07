@@ -4,6 +4,7 @@
 (require! (lit game) "@obstacles/game.js"
           (lit create-particle-updater) "@shared/field.js"
           (lit home-pos plants ants rocks) "@obstacles/entities.js"
+          (lit  place-entity) "@shared/systems/collision.js"
           (lit config) "@obstacles/config.js"
           (lit Physics) "@shared/systems/physics/system.js"
           config "@obstacles/config.js"
@@ -28,11 +29,12 @@
                      true
                      home-pos
                      )
+    (place-entity ant.entity game config)
 
 
     (var pp (.get game.systems Physics plant.entity))
 
-    (set pp 'scale (set pp 'mass (Math.max (- pp.mass ap.mass) 0)))
+    (set pp 'scale (set pp 'mass (Math.max (- pp.mass (* 0.05 ap.mass)) 0)))
     ;; (set av.pos 'x  home-pos.x 'y home-pos.y)
 
     null)

@@ -43,6 +43,7 @@ See the native `Array.of` static method."
     "Call the given function on every element of the group, returning the group which is being itterated on"
     (.each *list f)
     this)
+
   (def-generic find (f *list)
     (.find *list f))
 

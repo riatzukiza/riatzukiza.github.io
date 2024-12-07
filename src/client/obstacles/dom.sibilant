@@ -11,10 +11,12 @@
           (lit vector-pool trail-pool) "@shared/vectors.js"
 
           (lit Physics) "@shared/systems/physics/index.js"
+          (lit Dot) "@shared/systems/rendering/dot.js"
           config "@obstacles/config.js"
           )
 
 
+(def-generic display-decimal (d (n 6)) (/ (Math.round (* (Math.pow 10 n) d)) (Math.pow 10 n)))
 
 
 (print "We got this from dom" (lit game))
@@ -25,6 +27,7 @@
 (const debug-view (dom (.div .id "debug-view" .className "panel"
                              .style (lit (height (+  (second config.dimensions)"px"))
                                          (width (+ (Math.round (- (* window.innerWidth 0.2) 24)) "px"))
+                                         ("overflow-y" "scroll")
                                          )
                              )))
 (def-generic Document-node.render (*parent attributes tag-name *node children)
@@ -56,7 +59,7 @@
 (def start-interface ()
   (on game.events 'tick (t)
 
-      (when (= (mod t 60) 0)
+      (when (= (mod t 300) 0)
 
         (var ant-mass 0)
       (var ant-wins 0)
@@ -74,17 +77,44 @@
       ;; (const ant-mass-int (first ant-mass-raw ))
       ;; (const ant-mass-decimal (.slice (second ant-mass-raw) 0 4))
       ;; (const ant-mass-string (+ ant-mass-int "." ant-mass-decimal))
+      (const rock-views [])
+      (each rocks.group (rock)
+            (const phys (.get game.systems Physics rock))
+            (const dot (.get game.systems Dot rock))
+            (const pos phys.position)
+            (const color-string (+ "rgb(" dot.color.r"," dot.color.g "," dot.color.b ")"))
+            (rock-views.push
+             (dom (.div .className "panel" 
+
+                        (.div .className "bordered" "position:" (display-decimal pos.x) ", "(display-decimal pos.y))
+                        (.div .className "bordered" "scale:" (display-decimal phys.scale))
+                        (.div .className "bordered" "mass:" (display-decimal phys.mass))
+                        (.div .className "bordered" "volume:" (display-decimal phys.volume))
+                        (.div .className "bordered" "density:" (display-decimal phys.density 8))
+                        (.div .className "bordered" "velocity:" (display-decimal phys.velocity.xd) ", " (display-decimal phys.velocity.yd))
+                        (.div .className "bordered"
+                              .onmouseenter (->  (assign dot.color.b 0) (assign dot.color.g 255)(print "mouse entered" dot.color))
+                              .onmouseleave (->  (assign dot.color.b dot.color.r) (assign dot.color.g dot.color.r)(print "mouse left" dot.color))
+                              (.div .className "panel" "color:")
+                              (.div .className "panel"
+                                    .style (lit ("background-color" color-string)
+                                                ("color" "grey")
+                                                )
+                                             color-string
+                                             ))))))
 
       (.clear debug-view)
       (with-dom debug-view
         (.div ;; (.div "ticks:" t)
-              (.div .className "bordered "(.h3 "Ants")
+              (.div .className "panel "(.h3 "Ants")
                     (.div "count:" ants.size)
                     (.div "total mass:" (.to-fixed (/ (Math.round (* 1000 ant-mass)) 1000) 4))
                     (.div "total wins:" ant-wins)
                     (.div "total losses:" ant-losses)
-                    (.div "win/loss:" (/ ant-wins ant-losses)))
-              (.div .className "bordered" (.h3 "Pools")
+                    (.div "win/loss:" (display-decimal (/ ant-wins ant-losses))))
+              (.div .className "panel" (.h3 "Rocks")
+                    rock-views)
+              (.div .className "panel" (.h3 "Pools")
                     (.div "vector buckets"
                           vector-pool.buckets.length)
                     (.div "trail buckets"

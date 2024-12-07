@@ -10771,9 +10771,7 @@ var TrailVector = Interface.define("TrailVector", {
    },
   despawn(  ){ 
     
-      console.log("despawning trail vector", this, trailPool);
-      trailPool.release(this);
-      return console.log("trail vector despawned", this, trailPool);
+      return trailPool.release(this);
     
    }
  });

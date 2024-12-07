@@ -83,11 +83,9 @@
   (def spawn (x y pheremones) (.init (.aquire trail-pool) x y pheremones))
 
   (def despawn ()
-    (print "despawning trail vector" this trail-pool)
 
     (.release trail-pool this)
 
-    (print "trail vector despawned" this trail-pool )
     )
   )
 

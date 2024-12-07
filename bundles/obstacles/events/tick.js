@@ -52,7 +52,7 @@ game.events.on("tick", (() => {
 	
   nextSpawn(game);
   (function() {
-    if (config.rocks > rocks.size) {
+    if (((game.ticker.ticks % 10) && config.rocks > rocks.size)) {
       return rockGenStep();
     }
   }).call(this);

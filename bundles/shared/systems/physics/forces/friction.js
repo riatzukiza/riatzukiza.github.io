@@ -18,8 +18,8 @@ var Friction = Physics.Force.define("Friction", {
       var physics = c.system.process.systems.get(Physics, c.entity);
       return (function() {
         if (!((v.xd === 0 && v.yd === 0))) {
-          v.xd = (v.xd * (1 / (1 + (physics.mass * config.friction))));
-          v.yd = (v.yd * (1 / (1 + (physics.mass * config.friction))));
+          v.xd = (v.xd * (1 / (config.stationaryResistanceCoefficiant + (physics.mass * config.friction))));
+          v.yd = (v.yd * (1 / (config.stationaryResistanceCoefficiant + (physics.mass * config.friction))));
           return null;
         }
       }).call(this);

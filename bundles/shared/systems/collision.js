@@ -10924,22 +10924,22 @@ var CollisionBounds = Component.define("CollisionBounds", {
    },
   get x(  ){ 
     
-      return Math.round(this.pos.x);
+      return this.pos.x;
     
    },
   get y(  ){ 
     
-      return Math.round(this.pos.y);
+      return this.pos.y;
     
    },
   get height(  ){ 
     
-      return this.scale;
+      return (1.1 * this.scale);
     
    },
   get width(  ){ 
     
-      return this.scale;
+      return (1.1 * this.scale);
     
    },
   get maxX(  ){ 
@@ -11055,11 +11055,10 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
   const c=game.systems.get(Collision, entity);
   const placementVector=Vector.spawn(1, 1);
   var colliding = true;
-  console.log("checking for collisions at", c.x, c.y);
   (function() {
-    var while$10 = undefined;
+    var while$58 = undefined;
     while (colliding) {
-      while$10 = (function() {
+      while$58 = (function() {
         var noCollisions = true;
         placementTree.clear();
         c.system.components._members.each(((c_) => {
@@ -11075,16 +11074,16 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         for (var c_ of possibleCollisions)
         {
         (function() {
-          var while$11 = undefined;
+          var while$59 = undefined;
           while (c.isColliding__QUERY(c_)) {
-            while$11 = (function() {
+            while$59 = (function() {
               noCollisions = false;
               placementVector.setLength((0.5 * c_.scale));
               placementVector.setAngle(((Math.random() * ( - 360)) + 360));
               return c.pos.system.shift(c.pos, [ placementVector.x, placementVector.y ]);
             }).call(this);
           };
-          return while$11;
+          return while$59;
         }).call(this)
         }
         ;
@@ -11096,7 +11095,7 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         return null;
       }).call(this);
     };
-    return while$10;
+    return while$58;
   }).call(this);
   placementVector.despawn();
   return entity;
