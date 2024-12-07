@@ -36,17 +36,17 @@
 
 (define js Interface
 
-  (client (.load File-system "./client"))
-  (shared (.load File-system "./shared"))
+  (client (.load File-system "./static/client"))
+  (shared (.load File-system "./static/shared"))
   (server (.load File-system "./server"))
 
   (templates (.load File-system "./templates"))
 
-  (bundles (.load File-system "./bundles"))
-  (shared-bundles (.load File-system "./bundles/shared")))
+  (bundles (.load File-system "./static/bundles"))
+  (shared-bundles (.load File-system "./static/bundles/shared")))
 
 (define html Interface
-  (files (.load File-system "./html")))
+  (files (.load File-system "./static")))
 
 (macro html (...body) `(markup (.html ...@body)))
 
