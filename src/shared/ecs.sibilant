@@ -1,0 +1,177 @@
+(include "kit-interface/header")
+(import-namespace interface)
+(macro accumulate (name ...body) `(assign @name (pipe @name ...@body)))
+
+(require! R "ramda")
+
+(require! (lit Ordered-map) "@shared/data-structures/maps/ordered.js"
+          (lit Dynamic-pool) "@shared/pooling/dynamic-pool.js"
+          (lit Group) "@shared/data-structures/group.js")
+
+
+(def spawn-component  (entity systems) (#-> systems.get (.spawn  entity)))
+
+(def component-list  (entity) (R.map (spawn-component entity)))
+
+(def remove (entity) (#-> (get 'system) (.clear entity)))
+
+(var clear (#->  .clear))
+
+
+(define Component Interface
+
+  (def register ())
+
+  (init (entity system)
+        (set entity (.to-lower-case this.name) this)
+        (.register this)))
+
+
+(define System Interface
+  (interface Component)
+  (def register ())
+  (init (process interface
+                 (components ((create Ordered-map)))
+                 (pool ((create Dynamic-pool)  interface))
+                 (thread (Promise.resolve)))
+        (.register this))
+
+  (gett system this)
+  (template true)
+
+  (gett game this.process)
+
+  (def build ()
+    (unless (or this.template )
+      (.init this)))
+
+  (def-generic clear (pool components entity )
+    (.delete components entity)
+    (.clear pool))
+
+  (def-generic get (entity components)
+    (.get components entity))
+
+  (def-generic spawn (entity pool components)
+    (collect c (.spawn pool entity  this)
+             (.set components entity c)))
+
+
+  (def *update-component (component t)
+    (throw (new Error "need to override *update-component on sub classes of component system")))
+
+  (def-generic *update-all (t components )
+    (.each components (fpipe (this.*update-component t))))
+
+  (def update (t) (accumulate this.thread (then-do (.*update-all this t)))))
+
+
+(define Entity Interface
+
+  (doc "used as a key to retrieve related components from different systems.")
+
+  (init (system id aspects (components (map aspects (aspect i)
+                                            (pipe system.process.systems
+                                                  (.get aspect)
+                                                  (.spawn this))))))
+  (gett entity this)
+
+  (def-generic despawn (entity components )
+    (.each entity.components (remove entity))
+    (assign entity.id null))
+
+  (def spawn (  aspects system) (.spawn system aspects )))
+
+
+(define Entity-system Interface
+  (current-id 0)
+  (init (process (pool ((create Dynamic-pool) Entity 256))))
+  (gett game this.process)
+
+  (def clear () (.clear this.pool))
+
+  (def spawn (aspects ) (.spawn this.pool this (incr this.current-id) aspects )))
+
+
+(define Entity-group Interface
+
+  (init (name aspects system (group ((create Group)))))
+  (gett size this.group.size)
+
+  (def clear (group) (.each group clear))
+
+  (def-generic spawn ( aspects system group)
+    (collect e (.spawn system aspects )
+             (assign e.group this)
+             (.add group e))))
+
+(def-generic Entity.despawn (entity components )
+  (.clear this))
+
+(def-generic Entity.clear (   system)
+  (each this.components (c) (.clear c))
+  (assign this.id null)
+  (.release system.pool this  ))
+
+(export Entity)
+
+(def Entity-system.clear ()
+  (.clear this.pool))
+
+(def Entity-system.spawn (aspects )
+  (.spawn this.pool this (incr this.current-id) aspects ))
+
+(export Entity-system)
+
+(def-generic Entity-group.init (name aspects system (group ((create Group) )))
+  (set this 'name name
+       'aspects aspects
+       'system system
+       'group group)
+  this)
+
+(def-generic Entity-group.clear (group)
+  (while (< 0 group.length)
+    (.clear (.pop group))))
+
+(def-generic Entity-group.has (entity group) (group.has entity))
+
+(def-generic Entity-group.spawn ( aspects system group)
+  (collect e (.spawn system aspects )
+           (.add group e)))
+
+(def-generic Entity-group.despawn (entity group)
+  (.remove group entity)
+  (.clear entity ))
+
+(export Entity-group)
+
+(def-generic Component.clear (system)
+  (.release system.pool this))
+
+(export Component)
+
+(def System.build ()
+  (unless (or this.template )
+    (.init this)))
+
+(def-generic System.clear (pool components entity )
+  (.clear pool))
+
+(def-generic System.get (entity components)
+  (.get components entity))
+
+(def-generic System.spawn (entity pool components)
+  (collect c (.spawn pool entity  this)
+           (.set components entity c)))
+
+
+(def System.*update-component (component t)
+  (throw (new Error "need to override *update-component on sub classes of component system")))
+
+(def-generic System.*update-all (t components )
+  (.each components (fpipe (this.*update-component t))))
+
+(def System.update (t) (accumulate this.thread (then-do (.*update-all this t))))
+
+(export System)

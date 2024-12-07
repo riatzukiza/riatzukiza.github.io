@@ -1,0 +1,20 @@
+(require! (lit Physics) "@shared/systems/physics/system.js"
+          (lit Collision) "@shared/systems/collision.js")
+
+(define Friction Physics.Force
+
+  (gett config (throw (new Error "No config provided to friction force sub system.")))
+
+  (def-generic apply (c config)
+    (var v c.velocity)
+    (var collision (.get c.system.process.systems Collision c.entity))
+    (var physics (.get c.system.process.systems Physics c.entity))
+
+    (unless (and (= v.xd 0) (= v.yd 0))
+      (set v
+           'xd (* v.xd (/ 1 (+ config.stationary-resistance-coefficiant (*  physics.mass config.friction)) ))
+           'yd (* v.yd (/ 1 (+ config.stationary-resistance-coefficiant (*  physics.mass config.friction)) )))
+
+      null
+      )))
+(export Friction)

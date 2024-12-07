@@ -1,0 +1,44 @@
+(require! (lit Dot) "@shared/systems/rendering/dot.js"
+          (lit Position) "@shared/systems/position.js"
+          (lit Velocity) "@shared/systems/velocity.js"
+          (lit Physics) "@shared/systems/physics/index.js"
+          (lit Component System Entity-group) "@shared/ecs.js"
+          (lit rgba) "@obstacles/colors.js"
+          (lit Collision place-entity) "@shared/systems/collision.js"
+          (lit game active-game-systems) "@obstacles/game.js"
+          config "@obstacles/config.js")
+(const ants ((create Entity-group)
+             "Ants"
+             active-game-systems
+             game.ent))
+(def clear-ants () (.clear ants))
+(def spawn-ant ([x, y], home, starting-life)
+  (var ant (.spawn ants active-game-systems))
+
+  (set (.get game.systems Dot ant)
+       'color (rgba 255 0 0 255))
+
+
+  (set (.get game.systems Position ant )
+       'x x
+       'y y
+       'z 0)
+
+  (set (.get game.systems Physics ant)
+       'scale 1
+       'mass 1
+       'forces [SignalField Friction])
+
+  (var v (.get game.systems Velocity ant))
+
+  (if (not (= config.spawn-static 0))
+      (.accelerate v [(+ 1 (random-signed config.spawn-static)),
+                      (+ 1 (random-signed config.spawn-static))]))
+
+
+  (place-entity ant game config))
+
+(export spawn-ant)
+(export clear-ants)
+(export ants)
+(require! (lit Friction Signal-field) "@obstacles/forces.js")

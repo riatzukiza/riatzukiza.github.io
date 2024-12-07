@@ -17,13 +17,11 @@
         "kit-shell": "git+https://github.com/riatzukiza/kit-shell.git"
     },
     "dependencies": {
-        "socket.io": "4.4.0",
         "@kit-js/http": "^1.2.3",
         "@tensorflow/tfjs": "^0.8.0",
-        "@timohausmann/quadtree-js": "^1.2.5",
+        "@timohausmann/quadtree-js": "^1.2.6",
         "deeplearn": "*",
         "jimp": "0.2.27",
-        "webgl": "git+https://bitbucket.org/kettlelogic/andy_webgl.git",
         "kit": "git+https://github.com/riatzukiza/kit.git",
         "kit-async": "git+https://github.com/riatzukiza/kit-async.git",
         "kit-events": "git+https://github.com/riatzukiza/kit-events.git",
@@ -36,6 +34,7 @@
         "mousetrap": "*",
         "react": "^16.3.1",
         "sibilant-game-engine": "git+https://github.com:riatzukiza/sibilant-game-engine.git#",
+        "socket.io": "4.4.0",
         "source-map-support": "^0.4.11",
         "tone": "^14.7.77",
         "tree-kit": "git+https://github.com/riatzukiza/tree-kit.git",

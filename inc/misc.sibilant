@@ -37,10 +37,18 @@
   `(gett @name [...@(.map keys (=> (k) `(get this @k)))]))
 
 (def Array.prototype.each (f)
-     (.for-each this f)
-     this)
+  (.for-each this f)
+  this)
 (def Object.prototype.each (f)
-     (pipe (Object.keys this)
-           (.for-each (=> (k) (f (get this k) k)))
-           )
-     )
+  (pipe (Object.keys this)
+        (.for-each (=> (k) (f (get this k) k)))
+        )
+  )
+
+
+(def-lit-macro def-curried (name args ...body) `(property @name (R.curry (lambda @args ...@body))))
+
+(def-lit-macro define (name parent ...body)
+               `(property @name
+                          (.define @parent (quote @name)
+                                   (lit ...@body))))

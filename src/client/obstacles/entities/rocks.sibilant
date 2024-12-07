@@ -1,0 +1,82 @@
+(require! (lit Dot) "@shared/systems/rendering/dot.js"
+          (lit Position) "@shared/systems/position.js"
+          (lit Velocity) "@shared/systems/velocity.js"
+          (lit Physics) "@shared/systems/physics/index.js"
+          (lit Component System Entity-group) "@shared/ecs.js"
+          (lit Group) "@shared/data-structures/group.js"
+          (lit List) "@shared/data-structures/list.js"
+          (lit Vector) "@shared/vectors.js"
+          Quad-tree  "@timohausmann/quadtree-js"
+          (lit Trie) "@shared/data-structures/trees/trie.js"
+          (lit Collision place-entity) "@shared/systems/collision.js"
+          (lit Friction Signal-field) "@obstacles/forces.js"
+          (lit Tree-map) "tree-kit"
+          (lit game active-game-systems) "@obstacles/game.js"
+          (lit rgba) "@obstacles/colors.js"
+          config "@obstacles/config.js"
+
+          )
+
+
+(const rocks ((create Entity-group) "Rocks" [Dot, Position, Physics, Collision, Velocity]
+              game.ent))
+
+(const rock-boundries ((create Entity-group) "Rock boundries" [Dot Position Physics] game.ent))
+
+(const rock-placement-vector (.spawn Vector 0 0 ))
+(const rock-scale-variation (-  config.rock-max-size config.rock-min-size))
+(const rock-mass-variation (-  config.rock-max-mass-factor config.rock-min-mass-factor))
+
+(const max-rock-base-mass (* config.rock-mass-scaling-factor config.rock-max-mass-factor))
+(const min-rock-base-mass (* config.rock-mass-scaling-factor config.rock-min-mass-factor))
+
+(const max-rock-density (/ (* config.rock-min-size max-rock-base-mass)
+                           (Math.pow config.rock-min-size 3)))
+
+(const min-rock-density (/ (* config.rock-max-size max-rock-base-mass)
+                           (Math.pow config.rock-max-size 3)))
+
+(def spawn-rock ([x, y], mass, scale)
+  (var rock (.spawn rocks [Dot, Position, Physics, Collision, Velocity]))
+
+  (const pos (.get game.systems Position rock))
+  (set pos 'x x 'y y 'z 0)
+
+  (const phys (.get game.systems Physics rock))
+  (set phys 'mass mass 'scale scale 'forces [Friction])
+  (const velocity phys.velocity)
+  ;; (const xd (random-signed config.spawn-static))
+  ;; (const yd (random-signed config.spawn-static))
+  ;; (set velocity 'xd xd 'yd yd)
+
+
+  (var hardness (Math.min 200 (Math.round (/    max-rock-density phys.density))))
+
+  (set (.get game.systems Dot rock)
+       'color (rgba hardness hardness  hardness  255))
+
+
+  (place-entity rock game config))
+(var last-rock-pos [(random-float (first config.dimensions) )
+                    (random-float (second config.dimensions) )])
+
+(def-generic rock-gen-step ((position last-rock-pos)
+                            (mass (+ config.rock-min-mass-factor
+                                     (random-float rock-mass-variation)))
+                            (scale (+ config.rock-min-size
+                                      (random-float rock-scale-variation))))
+
+
+
+  (spawn-rock position
+              (* config.rock-mass-scaling-factor scale mass)
+              scale)
+
+  (.rotate-to rock-placement-vector (* 30 (Math.random)))
+  (.set-length rock-placement-vector (* (random-float 20) scale))
+  (assign last-rock-pos [(mod (Math.abs (+ (get position 0) rock-placement-vector.x)) (first config.dimensions))
+                         (mod (Math.abs (+ (get position 1) rock-placement-vector.y )) (second config.dimensions))])
+  )
+(export rocks)
+(export spawn-rock)
+(export rock-gen-step)

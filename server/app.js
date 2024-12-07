@@ -30,8 +30,7 @@ var staticDir = FileSystem.load("./");
 var app = create(Http.MiddleWare)();
 console.log("yo man");
 var js = Interface.define("js", { 
-  client:FileSystem.load("./client"),
-  bundles:FileSystem.load("./bundles")
+  client:FileSystem.load("./client")
  });
 var html = Interface.define("html", { 
   files:FileSystem.load("./html")

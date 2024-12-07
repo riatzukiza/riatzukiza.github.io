@@ -9,6 +9,7 @@
 (import-namespace interface)
 (import-namespace async)
 (import-namespace markup)
+
 (def-generic File-system.watch (path opts root )
   (var sys this)
   (print "Watcher initiating")
@@ -19,10 +20,8 @@
             (pipe chokidar
                   (.watch  node.path)
                   (on  'all (event-name changed-path stats)
-                       ;; (print "what" (lit event-name changed-path stats))
                        (var rel (Path.relative root changed-path ))
                        (async-let ((changed-node (.find sys rel )))
-                       (print "what" (lit event-name changed-path stats))
                          (var event (lit (event event-name) (node changed-node)))
                          (.emit node "*" event)
                          (.emit node "all" event)
@@ -30,15 +29,21 @@
     node))
 (define src Interface
   (client (.load File-system "./src/client"))
+  (shared (.load File-system "./src/shared"))
   (server (.load File-system "./src/server"))
+
   (templates (.load File-system "./src/templates")))
 
 (define js Interface
 
   (client (.load File-system "./client"))
+  (shared (.load File-system "./shared"))
   (server (.load File-system "./server"))
+
   (templates (.load File-system "./templates"))
-  (bundles (.load File-system "./bundles")))
+
+  (bundles (.load File-system "./bundles"))
+  (shared-bundles (.load File-system "./bundles/shared")))
 
 (define html Interface
   (files (.load File-system "./html")))
@@ -46,42 +51,66 @@
 (macro html (...body) `(markup (.html ...@body)))
 
 (def-async main ()
+  ;; LISP program files
+  (await (each src.shared (file) (compile-module file js.shared)))
   (await (each src.client (file) (compile-module file js.client)))
   (await (each src.server (file) (compile-module file js.server)))
 
+  ;; LISP HTML Templates
   (await (each src.templates (file) (compile-module file js.templates)))
+
+  ;; HTML
   (await (each js.templates (file) (compile-html file html.files)))
 
+  ;; Prebundling
+  (await (each js.shared (file) (bundle-shared file js.shared-bundles)))
   (await (each js.client (file) (bundle file js.bundles)))
+
+  ;; Final bundling
+  (await (each js.shared (file) (bundle-shared file js.shared-bundles true)))
+  (await (each js.client (file) (bundle file js.bundles true)))
 
   (print "beginning watch party")
 
+  ;; LISP program files
   (await (watch src.server "." "change"
                 (print file.path "changed")
                 (compile-module file js.server)))
+
+  (await (watch src.shared "." "change"
+                (print file.path "changed")
+                (compile-module file js.shared)))
 
   (await (watch src.client "." "change"
 
                 (print file "changed")
                 (compile-module file js.client)))
 
+  ;; LISP HTML templates
   (await (watch src.templates "." "change"
                 (print file.path "changed")
                 (compile-module file js.templates)))
 
+  ;; HTML
   (await (watch js.templates "." "change"
                 (print file.path "changed")
                 (compile-html file html.files)))
 
+  ;; Bundles
   (await (watch js.client "." "change"
                 (print file.path "changed")
-                (bundle file js.bundles))))
+                (bundle file js.bundles true)))
+
+  (await (watch js.shared "." "change"
+                (print file.path "changed")
+                (bundle-shared file js.shared-bundles true))))
 
 
 (.catch (.then (main) (-> (print "waiting for changes")
                    (require! server "./server")
                    (print "server time")
                    (.on process 'exit (=> (.stop server)))
+                   null
                    ))
         (=> (error) (print "Error!" error)))
 

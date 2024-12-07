@@ -1,0 +1,198 @@
+
+(include "kit/header")
+(import-namespace kit)
+
+
+(include "kit-interface/header")
+(import-namespace interface)
+
+(def-lit-macro def-curried (name args ...body) `(property @name (R.curry (lambda @args ...@body))))
+
+(require! (lit Component System) "@shared/ecs.js"
+          (lit Physics) "@shared/systems/physics/system.js"
+          (lit Position) "@shared/systems/position.js"
+          (lit Velocity) "@shared/systems/velocity.js"
+          (lit Vector) "@shared/vectors.js"
+          (lit Trie) "@shared/data-structures/trees/trie.js"
+          Quad-tree  "@timohausmann/quadtree-js")
+
+(require! (lit List) "@shared/data-structures/list.js"
+          (lit Dynamic-pool) "@shared/pooling/dynamic-pool.js"
+          (lit Pooled-data-structure) "@shared/data-structures/pooled.js")
+
+
+;; (define Bounding-box Pooled-data-structure
+;;   (init (x y height width)))
+
+(define Collision-bounds Component
+
+  (gett dimensions this.area)
+  (gett dim this.dimensions)
+
+  (gett scale this.physics.scale)
+  (gett physics (.get this.system.process.systems Physics this.entity))
+  (gett x this.pos.x)
+  (gett y this.pos.y)
+
+  ;; (gett x this.pos.x)
+  ;; (gett y this.pos.y)
+  (gett height (* 1.1 this.scale) )
+  (gett width (* 1.1 this.scale))
+
+
+  ;; (gett height (*  2 this.scale))
+  ;; (gett width (* 2 this.scale))
+
+  ;; (gett bounding-box (.spawn Bounding-box c))
+
+  (gett max-x (+ this.x (/ this.scale 2)))
+  (gett max-y (+ this.y (/ this.scale 2)))
+
+  ;; (gett max-x (+ this.x (/ this.scale 2)))
+  ;; (gett max-y (+ this.y (/ this.scale 2)))
+
+  ;; (gett max-x (- this.x this.scale))
+  ;; (gett max-y (- this.y this.scale))
+
+  ;; (gett max-x this.x)
+  ;; (gett max-y this.y)
+
+  ;; (gett min-x (- this.x this.scale))
+  ;; (gett min-y (- this.y this.scale))
+
+  ;; (gett min-x (- this.x (/ this.scale 2)))
+  ;; (gett min-y (- this.y (/ this.scale 2)))
+
+  ;; (gett min-x (+ this.x this.scale))
+  ;; (gett min-y (+ this.y this.scale))
+
+
+  (gett min-x (- this.x (/ this.scale 2)))
+  (gett min-y (- this.y (/ this.scale 2)))
+
+  (gett position (.get this.system.process.systems Position this.entity ))
+  (gett pos this.position)
+  (gett velocity (.get this.system.process.systems Velocity this.entity))
+
+  (def-generic is-colliding?  (c* (c this))
+
+    ;; shape of bounding box for non rotated rectangles.
+
+    ;; shape of bounding box for non rotated rectangles.
+    (var d [(- c*.min-x c.max-x)
+            (- c*.min-y c.max-y)
+            (- c.min-x c*.max-x)
+            (- c.min-y c*.max-y)])
+
+    (var [d1x d1y d2x d2y] d)
+
+    (set c 'colliding false)
+    (not (or (>= d1x 0) (>= d1y 0) (>= d2x 0) (>= d2y 0)))))
+
+(export Collision-bounds)
+
+(define Collision System
+
+  (interface Collision-bounds)
+
+
+  (def-generic set-bounds ((height 100) (width 100)
+                           (max-objects 10)
+                           (max-levels 10))
+    (if! this.quads (throw (new Error "bounds are already set")))
+
+    (assign this.quads (new Quad-tree
+                            (lit (x 0)
+                                 (y 0)
+                                 width,height)
+                            max-objects
+                            max-levels)))
+  (def-curried *check  (c c*)
+
+
+    (set c 'colliding false)
+    (if! (.is-colliding? c c*)
+         (set c 'colliding true)
+         (set c* 'colliding true)
+         (.emit c.system.game.events "collision"
+               c c*))
+      (return))
+
+  (def-generic *update-all (t components)
+    (.clear this.quads)
+
+    (each  components (c)
+           ;; (const pos [ c.pos.x c.pos.y c.entity])
+           ;; (const node? (.find this.bit-field [c.pos.x c.pos.y]))
+           ;; (if! node?
+           ;;      (each node? (node)
+           ;;            (unless (= c node.value)
+           ;;              (c.system.game.events.emit 'collision c node.value)))
+           ;;      (return ))
+
+           ;; (.set this.bit-field pos c)
+           (.insert this.quads c))
+    (each components (c)
+          (const possible-collisions (.retrieve this.quads c))
+          (for-of! c* possible-collisions
+                   (if! (not (= c c*))
+                        (.*check this c c*))
+                   null
+                   )
+          (return))
+    (return null))
+  )
+(export Collision)
+
+(def-generic place-entity (entity game config)
+  (const placement-tree (new Quad-tree
+                             (lit (x 0)
+                                  (y 0)
+                                  (width (first config.dimensions))
+                                  (height (second config.dimensions)))
+                             10
+                             5))
+  (const c (.get game.systems Collision entity))
+
+  (const placement-vector (.spawn Vector 1 1 ))
+
+
+  (var colliding true)
+
+  ;; (print "checking for collisions at" c.x c.y)
+  (while colliding
+
+    (var no-collisions true)
+    ;; (const placed-entities (.spawn Trie))
+    ;; (const placed-entities (new Map))
+
+    (.clear placement-tree)
+    (each  c.system.components._members (c*)
+           (unless (= c c*)
+             ;; (const pos [ c*.pos.x c*.pos.y c*.entity])
+             ;; (.set placed-entities pos c*)
+             (.insert placement-tree c*)))
+
+    (const possible-collisions (.retrieve placement-tree c))
+    (for-of! c* possible-collisions
+             ;; (const node (.find placed-entities [pc.x pc.y]))
+             ;; (while (.is-colliding? c c*.value)
+             (while (.is-colliding? c c*)
+               ;; (print "colliding" c c*)
+
+               (assign no-collisions false)
+               (.set-length placement-vector (* 0.5 c*.scale) )
+               ;; (.set-length placement-vector 1 )
+               (.set-angle placement-vector (random-float 360))
+
+               (c.pos.system.shift c.pos [placement-vector.x placement-vector.y])))
+    ;; (print "colliding?" no-collisions)
+    (if no-collisions (assign colliding false))
+
+    ;; (.despawn placed-entities)
+    null)
+
+  (.despawn placement-vector)
+
+  entity)
+(export place-entity)

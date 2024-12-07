@@ -1,0 +1,165 @@
+(require! (lit Velocity) "@shared/systems/velocity.js")
+(require! (lit Position) "@shared/systems/position.js")
+(require! (lit game) "@obstacles/game.js"
+          (lit plants ants rocks) "@obstacles/entities.js"
+          (lit Vector) "@shared/vectors.js"
+          config "@obstacles/config.js"
+          )
+
+(on game.events 'static-object-collision (o1, o2)
+    (var v (.get game.systems Velocity o1.entity))
+    (var v* (.get game.systems Velocity o2.entity))
+
+    (const phys1 o1.physics)
+    (const phys2 o2.physics)
+
+    (const pos v.pos)
+    (const pos* v*.pos)
+
+    (const p1 (.spawn Vector pos.x pos.y))
+    (const p2 (.spawn Vector pos*.x pos*.y))
+
+    (const v1 (.spawn Vector v.xd v.yd))
+    (const dv1 (- phys1.volume phys1.prior-volume))
+    (const dm1 (- phys1.mass phys1.prior-mass))
+    (const gr1 (* dv1 dm1))
+    (.set-length v1 (+ (.get-length v1) gr1))
+
+    (const v2 (.spawn Vector v*.xd v*.yd))
+
+    (const dv2 (- phys2.volume phys2.prior-volume))
+    (const dm2 (- phys2.mass phys2.prior-mass))
+    (const gr2 (* dv2 dm2))
+
+    (.set-length v2 (+ (.get-length v2) gr2))
+
+    (const r (.distance-to v1 v2))
+    (const s (.get-length r))
+
+
+    (const d (.distance-to p1 p2))
+    (const dl (.get-length d))
+
+    (.set-length  d (/ (Math.max s 0.1 ) dl))
+
+    (if (> s 0) (.set-angle d (.get-angle r)))
+
+    ;; (const a1 [d.x d.y])
+    ;; (const a2 [(* -1 d.x) (* -1 d.y)])
+
+    ;; (const a1 [(*   d.x  (/ (+ o2.physics.volume o1.physics.mass)
+    ;;                         (+ o1.physics.volume o1.physics.mass))
+
+    ;;                 (+ o1.physics.volume o1.physics.mass)
+    ;;                 )
+    ;;            (*   d.y (/ (+ o2.physics.volume o1.physics.mass)
+    ;;                        (+ o1.physics.volume o1.physics.mass))
+    ;;                 (+ o1.physics.volume o1.physics.mass))])
+
+    ;; (const a2 [(*  -1  d.x (/ (+ o1.physics.volume o1.physics.mass)
+    ;;                           (+ o2.physics.volume o1.physics.mass))
+    ;;                (+ o2.physics.volume o2.physics.mass))
+    ;;            (*  -1  d.y (/ (+ o1.physics.volume o1.physics.mass)
+    ;;                           (+ o2.physics.volume o1.physics.mass) )
+    ;;                (+ o2.physics.volume o2.physics.mass))])
+    ;; (const a1 [(*   d.x  (/ (+ o2.physics.scale o1.physics.mass)
+    ;;                         (+ o1.physics.scale o1.physics.mass))
+
+    ;;                 (+ o1.physics.scale o1.physics.mass)
+    ;;                 )
+    ;;            (*   d.y (/ (+ o2.physics.scale o1.physics.mass)
+    ;;                        (+ o1.physics.scale o1.physics.mass))
+    ;;                 (+ o1.physics.scale o1.physics.mass))])
+
+    ;; (const a2 [(*  -1  d.x (/ (+ o1.physics.scale o1.physics.mass)
+    ;;                           (+ o2.physics.scale o1.physics.mass))
+    ;;                (+ o2.physics.scale o2.physics.mass))
+    ;;            (*  -1  d.y (/ (+ o1.physics.scale o1.physics.mass)
+    ;;                           (+ o2.physics.scale o1.physics.mass) )
+    ;;                (+ o2.physics.scale o2.physics.mass))])
+
+    ;; (var xd (random-signed config.collision-static))
+    ;; (var yd (random-signed config.collision-static))
+
+    (const a1 [(*   d.x  (/ phys2.density phys1.density) phys1.density)
+
+               (*   d.y (/ phys2.density phys1.density) phys1.density)])
+
+    (const a2 [(*  -1  d.x (/ phys1.density phys2.density) phys2.density)
+
+               (*  -1  d.y (/ phys1.density phys2.density) phys2.density)])
+
+
+    ;; (const a1 [(*   d.x  (/ o2.physics.mass o1.physics.mass) (+ o1.physics.scale o1.physics.mass))
+    ;;            (*   d.y (/ o2.physics.mass o1.physics.mass) (+ o1.physics.scale o1.physics.mass))])
+
+    ;; (const a2 [(*  -1  d.x (/ o1.physics.mass  o2.physics.mass) (+ o2.physics.scale o2.physics.mass))
+    ;;            (*  -1  d.y (/ o1.physics.mass o2.physics.mass ) (+ o2.physics.scale o2.physics.mass))])
+
+    ;; (const a1 [(*  r.x d.x  (/ o2.physics.mass o1.physics.mass) (+ o1.physics.scale o1.physics.mass))
+    ;;            (*  r.y d.y (/ o2.physics.mass o1.physics.mass) (+ o1.physics.scale o1.physics.mass))])
+
+    ;; (const a2 [(*  -1 r.x d.x (/ o1.physics.mass  o2.physics.mass) (+ o2.physics.scale o2.physics.mass))
+    ;;            (*  -1 r.y d.y (/ o1.physics.mass o2.physics.mass ) (+ o2.physics.scale o2.physics.mass))])
+    ;; (const a1 [(*  r.x  (/ o2.physics.mass o1.physics.mass) (+ o1.physics.scale o1.physics.mass))
+    ;;            (*  r.y (/ o2.physics.mass o1.physics.mass) (+ o1.physics.scale o1.physics.mass))])
+
+    ;; (const a2 [(*  -1 r.x (/ o1.physics.mass  o2.physics.mass) (+ o2.physics.scale o2.physics.mass))
+    ;;            (*  -1 r.y (/ o1.physics.mass o2.physics.mass ) (+ o2.physics.scale o2.physics.mass))])
+
+    ;; (const a1 [(* xd d.x  (/ o2.physics.mass o1.physics.mass) o1.physics.scale)
+    ;;            (* yd d.y (/ o2.physics.mass o1.physics.mass) o1.physics.scale)])
+
+    ;; (const a2 [(* xd -1 d.x (/ o1.physics.mass  o2.physics.mass) o2.physics.scale)
+    ;;            (* yd -1 d.y (/ o1.physics.mass o2.physics.mass ) o2.physics.scale)])
+
+    ;; (const a1 [(* o1.physics.mass d.x) (* o1.physics.mass d.y)])
+    ;; (const a2 [(*  -1 d.x o2.physics.mass ) (* o2.physics.mass -1 d.y)])
+
+
+    ;; (const a1 [ d.x  d.y])
+    ;; (const a2 [(*  -1 d.x ) (*  -1 d.y)])
+    ;; (print "static collision" (lit p1 p2 v1 v2 r s d a1 a2))
+
+
+    ;; (.accelerate v a1)
+    ;; (.accelerate v* a2)
+
+    ;; (.accelerate v [(/ d.x o2.physics.mass) (/  d.y o2.physics.mass)])
+    ;; (.accelerate v* [(* -1 (/  d.x o1.physics.mass)) (* -1 (/ d.y o1.physics.mass ))])
+
+    ;; (.accelerate v [(* d.x (/ o1.physics.mass  o2.physics.mass)) (*  d.y (/ o1.physics.mass o2.physics.mass ))])
+    ;; (.accelerate v* [(* -1  d.x (/ o2.physics.mass o1.physics.mass)) (* -1  d.y (/ o2.physics.mass o1.physics.mass) )])
+
+    (.accelerate v a1)
+    (.accelerate v* a2)
+
+    ;; (while (.is-colliding? o1 o2)
+    ;;   (assign pos.x (+ pos.x d.x))
+    ;;   (assign pos.y (+ pos.y d.y))
+
+    ;;   (assign pos*.x (- pos*.x d.x))
+    ;;   (assign pos*.y (- pos*.y d.y))
+    ;;   )
+
+    (.despawn p1)
+    (.despawn p2)
+
+    (.despawn v1)
+    (.despawn v2)
+
+    (.despawn d)
+    (.despawn r)
+
+    ;; (var xd (random-signed config.collision-static))
+    ;; (var yd (random-signed config.collision-static))
+
+    ;; (assign pos.x (+ pos.x xd))
+    ;; (assign pos.y (+ pos.y xd))
+
+    ;; (assign pos*.x (+ pos*.x xd))
+    ;; (assign pos*.y (+ pos*.y xd))
+
+    ;; (.accelerate v [xd yd])
+    ;; (.accelerate v* [(* xd -1) (* yd -1)])
+    )

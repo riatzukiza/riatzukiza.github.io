@@ -1,0 +1,8 @@
+
+(def-lit-macro def-curried (name args ...body)
+  `(property @name (R.curry (lambda @args ...@body))))
+
+(def-lit-macro define (name parent ...body)
+               `(property @name
+                          (.define @parent (quote @name)
+                                   (lit ...@body))))
