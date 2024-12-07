@@ -1,0 +1,39 @@
+
+(namespace obstacles)
+(include "kit/header" )
+(import-namespace kit)
+
+(include "kit-html/src/dom")
+(import-namespace dom)
+(require! (lit Component) "@shared/ecs.js"
+          (lit game) "@obstacles/game.js"
+          (lit Pooled-data-structure) "@shared/data-structures/pooled.js")
+
+(define Entity-panel Pooled-data-structure
+  (init (entity ))
+  (def clear () (assign this.entity null))
+  (def-generic render (*parent attributes tag-name *node children)
+    (const component-panel
+           (=> (component)
+               (.reduce (Object.keys system.interface)
+                        (=> (accumulator key)
+                            (const property (get component key))
+                            (if (or (function? property)
+                                    (instance-of? property Component))
+                                accumulator
+                                [(dots accumulator)
+                                 (dom (.div .className "panel" key ":" (get component key)))]))
+                         []))
+           )
+    (each entity.aspects (system)
+          (const component (.get game.systems game entity))
+          (.append-child *parent
+                         (dom (.div .className "panel"
+                                    (.h4 system.name )
+                                    (if (get this system.name)
+                                        ((get this.system.name ) component)
+                                        (dom (.div .className "panel"
+                                                   (dom (.div (components-panels system))))))))))))
+
+
+(export Entity-panel)

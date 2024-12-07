@@ -12,6 +12,7 @@
 
           (lit Physics) "@shared/systems/physics/index.js"
           (lit Dot) "@shared/systems/rendering/dot.js"
+          (lit Rock-panel) "@obstacles/dom/rocks.js"
           config "@obstacles/config.js"
           )
 
@@ -82,26 +83,9 @@
             (const phys (.get game.systems Physics rock))
             (const dot (.get game.systems Dot rock))
             (const pos phys.position)
-            (const color-string (+ "rgb(" dot.color.r"," dot.color.g "," dot.color.b ")"))
             (rock-views.push
-             (dom (.div .className "panel" 
-
-                        (.div .className "bordered" "position:" (display-decimal pos.x) ", "(display-decimal pos.y))
-                        (.div .className "bordered" "scale:" (display-decimal phys.scale))
-                        (.div .className "bordered" "mass:" (display-decimal phys.mass))
-                        (.div .className "bordered" "volume:" (display-decimal phys.volume))
-                        (.div .className "bordered" "density:" (display-decimal phys.density 8))
-                        (.div .className "bordered" "velocity:" (display-decimal phys.velocity.xd) ", " (display-decimal phys.velocity.yd))
-                        (.div .className "bordered"
-                              .onmouseenter (->  (assign dot.color.b 0) (assign dot.color.g 255)(print "mouse entered" dot.color))
-                              .onmouseleave (->  (assign dot.color.b dot.color.r) (assign dot.color.g dot.color.r)(print "mouse left" dot.color))
-                              (.div .className "panel" "color:")
-                              (.div .className "panel"
-                                    .style (lit ("background-color" color-string)
-                                                ("color" "grey")
-                                                )
-                                             color-string
-                                             ))))))
+             (.spawn Rock-panel rock)
+             ))
 
       (.clear debug-view)
       (with-dom debug-view
@@ -121,14 +105,7 @@
                           trail-pool.buckets.length)
                     )
               (.div "plants:" plants.size)
-              (.div "rocks:" rocks.size)
-              )
-        
-        )
-        )
-
-
-      ))
+              (.div "rocks:" rocks.size))))))
 
 (export start-interface)
 

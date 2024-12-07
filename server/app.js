@@ -26,17 +26,8 @@ var {
     { 
   serveStaticFiles
  } = require("./static-files");
-var staticDir = FileSystem.load("./");
 var app = create(Http.MiddleWare)();
-console.log("yo man");
-var js = Interface.define("js", { 
-  client:FileSystem.load("./client")
- });
-var html = Interface.define("html", { 
-  files:FileSystem.load("./html")
- });
-app.use("/html", serveStaticFiles(html.files));
-app.use("/js", serveStaticFiles(js.client));
-app.use("/bundles", serveStaticFiles(js.bundles));
-module.exports = app;
+const staticFiles=FileSystem.load("./static");
 console.log("who????");
+app.use(".", serveStaticFiles(staticFiles));
+module.exports = app;

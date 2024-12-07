@@ -165,6 +165,9 @@ var {
     { 
   Dot
  } = require("@shared/systems/rendering/dot.js"),
+    { 
+  RockPanel
+ } = require("@obstacles/dom/rocks.js"),
     config = require("@obstacles/config.js");
 var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
   /* display-decimal node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
@@ -216,7 +219,7 @@ DocumentNode.render = (function DocumentNode$render$(_parent = this._parent, att
 var container = createDocumentNode("div", { 'id': "container" }, [ gameView, debugView ]);
 createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentRoot);
 var startInterface = (function startInterface$() {
-  /* start-interface eval.sibilant:59:0 */
+  /* start-interface eval.sibilant:60:0 */
 
   return game.events.on("tick", ((t) => {
   	
@@ -247,30 +250,7 @@ var startInterface = (function startInterface$() {
           const phys=game.systems.get(Physics, rock);
           const dot=game.systems.get(Dot, rock);
           const pos=phys.position;
-          const colorString=("rgb(" + dot.color.r + "," + dot.color.g + "," + dot.color.b + ")");
-          return rockViews.push(createDocumentNode("div", { 'className': "panel" }, [ createDocumentNode("div", { 'className': "bordered" }, [ "position:", displayDecimal(pos.x), ", ", displayDecimal(pos.y) ]), createDocumentNode("div", { 'className': "bordered" }, [ "scale:", displayDecimal(phys.scale) ]), createDocumentNode("div", { 'className': "bordered" }, [ "mass:", displayDecimal(phys.mass) ]), createDocumentNode("div", { 'className': "bordered" }, [ "volume:", displayDecimal(phys.volume) ]), createDocumentNode("div", { 'className': "bordered" }, [ "density:", displayDecimal(phys.density, 8) ]), createDocumentNode("div", { 'className': "bordered" }, [ "velocity:", displayDecimal(phys.velocity.xd), ", ", displayDecimal(phys.velocity.yd) ]), createDocumentNode("div", {
-            'className': "bordered",
-            'onmouseenter': (() => {
-            	
-              dot.color.b = 0;
-              dot.color.g = 255;
-              return console.log("mouse entered", dot.color);
-            
-            }),
-            'onmouseleave': (() => {
-            	
-              dot.color.b = dot.color.r;
-              dot.color.g = dot.color.r;
-              return console.log("mouse left", dot.color);
-            
-            })
-          }, [ createDocumentNode("div", { 'className': "panel" }, [ "color:" ]), createDocumentNode("div", {
-            'className': "panel",
-            'style': { 
-              "background-color":colorString,
-              "color":"grey"
-             }
-          }, [ colorString ]) ]) ]));
+          return rockViews.push(RockPanel.spawn(rock));
         
         }));
         debugView.clear();

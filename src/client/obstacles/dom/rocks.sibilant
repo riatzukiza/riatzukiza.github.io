@@ -1,0 +1,43 @@
+(namespace obstacles)
+(include "kit/header" )
+(import-namespace kit)
+
+(include "kit-html/src/dom")
+(import-namespace dom)
+(const rock-views [])
+
+
+(define Rock-panel Entity-panel
+  (def Dot  (dot)
+
+    (const color-string (+ "rgb(" dot.color.r"," dot.color.g "," dot.color.b ")"))
+    (dom (.div .className "bordered"
+
+               .onmouseenter (->  (assign dot.color.b 0)
+                                  (assign dot.color.g 255)
+                                  (print "mouse entered" dot.color))
+
+               .onmouseleave (->  (assign dot.color.b dot.color.r)
+                                  (assign dot.color.g dot.color.r)
+                                  (print "mouse left" dot.color))
+
+               (.div .className "panel" "color:")
+               (.div .className "panel"
+                     .style (lit ("background-color" color-string)
+                                 ("color" "grey"))
+                     color-string))))
+
+  (def Position (pos)
+    (dom (.div .className "bordered" "position:" (display-decimal pos.x) ", "(display-decimal pos.y))))
+
+  (def Velocity (vel)
+    (dom (.div .className "bordered" "velocity:"
+               (display-decimal phys.vel.xd) ", " (display-decimal vel.yd))))
+  (def Physics  (phys)
+    (dom (.div .className "panel" 
+           (.div .className "bordered" "scale:" (display-decimal phys.scale))
+           (.div .className "bordered" "mass:" (display-decimal phys.mass))
+           (.div .className "bordered" "volume:" (display-decimal phys.volume))
+           (.div .className "bordered" "density:" (display-decimal phys.density 8))))))
+
+(export Rock-panel)

@@ -36,8 +36,8 @@
 
 (define js Interface
 
-  (client (.load File-system "./static/client"))
-  (shared (.load File-system "./static/shared"))
+  (client (.load File-system "./client"))
+  (shared (.load File-system "./shared"))
   (server (.load File-system "./server"))
 
   (templates (.load File-system "./templates"))
