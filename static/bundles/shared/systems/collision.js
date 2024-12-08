@@ -10924,22 +10924,22 @@ var CollisionBounds = Component.define("CollisionBounds", {
    },
   get x(  ){ 
     
-      return this.pos.x;
+      return Math.round(this.pos.x);
     
    },
   get y(  ){ 
     
-      return this.pos.y;
+      return Math.round(this.pos.y);
     
    },
   get height(  ){ 
     
-      return (1.1 * this.scale);
+      return Math.round((2 * this.scale));
     
    },
   get width(  ){ 
     
-      return (1.1 * this.scale);
+      return Math.round((2 * this.scale));
     
    },
   get maxX(  ){ 
@@ -11056,9 +11056,9 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
   const placementVector=Vector.spawn(1, 1);
   var colliding = true;
   (function() {
-    var while$10 = undefined;
+    var while$62 = undefined;
     while (colliding) {
-      while$10 = (function() {
+      while$62 = (function() {
         var noCollisions = true;
         placementTree.clear();
         c.system.components._members.each(((c_) => {
@@ -11074,16 +11074,16 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         for (var c_ of possibleCollisions)
         {
         (function() {
-          var while$11 = undefined;
+          var while$63 = undefined;
           while (c.isColliding__QUERY(c_)) {
-            while$11 = (function() {
+            while$63 = (function() {
               noCollisions = false;
               placementVector.setLength((0.5 * c_.scale));
               placementVector.setAngle(((Math.random() * ( - 360)) + 360));
               return c.pos.system.shift(c.pos, [ placementVector.x, placementVector.y ]);
             }).call(this);
           };
-          return while$11;
+          return while$63;
         }).call(this)
         }
         ;
@@ -11095,7 +11095,7 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         return null;
       }).call(this);
     };
-    return while$10;
+    return while$62;
   }).call(this);
   placementVector.despawn();
   return entity;

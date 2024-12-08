@@ -252,13 +252,13 @@ EntityGroup.clear = (function EntityGroup$clear$(group = this.group) {
   /* Entity-group.clear node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
   return (function() {
-    var while$3 = undefined;
+    var while$5 = undefined;
     while (0 < group.length) {
-      while$3 = (function() {
+      while$5 = (function() {
         return group.pop().clear();
       }).call(this);
     };
-    return while$3;
+    return while$5;
   }).call(this);
 });
 EntityGroup.has = (function EntityGroup$has$(entity = this.entity, group = this.group) {

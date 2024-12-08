@@ -9,8 +9,8 @@
      'dimensions dim
      'columns (Math.ceil (/ (first dim) size))
      'rows (Math.ceil (/ (second dim) size))
-     'decay 0.3
-     'maxLength 50
+     'decay 0.01
+     'maxLength 30
      'growth-rate 0.001
      'starting-plants 60
      'plantMassLimit 30
@@ -21,7 +21,7 @@
      'decay-on-collision true
      'options-amplitude 10
      'limit-decay true
-     'ant-influence 1
+     'ant-influence 10
      'friction 0.1
      'collision-static 5
      'spawn-static 10

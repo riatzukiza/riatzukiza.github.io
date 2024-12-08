@@ -7,8 +7,9 @@
 (include "kit/header" )
 (import-namespace kit)
 
-(include "kit-html/src/dom")
+(include "../../../../inc/dom.sibilant")
 (import-namespace dom)
+
 (require! (lit Component) "@shared/ecs.js"
           (lit game) "@obstacles/game.js"
           (lit Dot) "@shared/systems/rendering/dot.js"
@@ -21,16 +22,18 @@
   (def clear () (assign this.entity null))
   (def spawn (entity) ((create this) entity))
   (def-generic render (*parent attributes tag-name *node children)
-    (print "rendering entity" *parent this.entity)
     (const component-panel
            (=> (component)
                (.reduce (Object.keys component)
                         (=> (accumulator key)
                             (const property (get component key))
-                            (if (not (string? property))
-                                accumulator
+                            (if (or (string? property)
+                                    property.render
+                                    (number? property)
+                                    )
                                 [(dots accumulator)
-                                 (dom (.div .className "panel" key ":" (get component key)))]))
+                                 (dom (.div .className "panel" key ":" (get component key)))]
+                                ))
                          []))
            )
     (with-dom *parent
@@ -51,7 +54,8 @@
             (map this.entity.aspects (system)
                  (const component (.get game.systems system this.entity))
                  (dom (.div .className "panel"
-                            (.h4 system.name )
+                            (.div .className "panel" (.b system.name ))
+
                             (if (get this system.name)
                                 ((get this system.name ) component)
                                 (dom (.div .className "panel"

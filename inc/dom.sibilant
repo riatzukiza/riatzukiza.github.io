@@ -1,0 +1,12 @@
+(namespace dom)
+(include "kit-html/inc/macros.sibilant")
+(import-namespace markup)
+(macro dom (root) `(xml create-document-node @root))
+
+(macro with-dom (parent root)
+       `(pipe (dom @root)
+              (.render @parent)))
+
+(macro instance-of? (item type)
+       ["("  type " " 'instanceof " "item ")"])
+(require! (lit render-children create-document-node Document-node Document-body Document-head Document-root) "@shared/dom.js")
