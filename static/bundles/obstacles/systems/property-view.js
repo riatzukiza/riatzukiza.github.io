@@ -32,8 +32,13 @@ var PropertyView = Component.define("PropertyView", {
         if (views.has(this.entity)) {
           return views.get(this.entity);
         } else {
-          var r = (function() {
-            /* inc/misc.sibilant:1:673 */
+          return (function(value) {
+            /* node_modules/kit/inc/scope.sibilant:12:9 */
+          
+            views.set(this.entity, value);
+            return value;
+          })((function() {
+            /* node_modules/kit/inc/macros.sibilant:30:25 */
           
             return createDocumentNode("div", {
               'id': ("entity-panel" + this.entity.id),
@@ -42,9 +47,7 @@ var PropertyView = Component.define("PropertyView", {
                 width:"99%"
                }
             }, [ createDocumentNode("div", {  }, [ "entity", this.entity.id ]) ]).render(this.parentView);
-          }).call(this);
-          views.set(this.entity, r);
-          return r;
+          }).call(this));
         }
       }).call(this);
     
@@ -71,8 +74,13 @@ var ViewPanel = System.define("ViewPanel", {
         if (views.has(this)) {
           return views.get(this);
         } else {
-          var r = (function() {
-            /* inc/misc.sibilant:1:673 */
+          return (function(value) {
+            /* node_modules/kit/inc/scope.sibilant:12:9 */
+          
+            views.set(this, value);
+            return value;
+          })((function() {
+            /* node_modules/kit/inc/macros.sibilant:30:25 */
           
             return createDocumentNode("div", {
               'id': "view-panel-top",
@@ -94,9 +102,7 @@ var ViewPanel = System.define("ViewPanel", {
               }).call(this);
             
             }) }, [ "next" ]) ]).render(this.parentView);
-          }).call(this);
-          views.set(this, r);
-          return r;
+          }).call(this));
         }
       }).call(this);
     

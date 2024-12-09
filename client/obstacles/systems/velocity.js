@@ -26,8 +26,13 @@ var VelocityInterface = VelocityInterface.define("VelocityInterface", {
         if (views.has(this.entity)) {
           return views.get(this.entity);
         } else {
-          var r = (function() {
-            /* inc/misc.sibilant:1:673 */
+          return (function(value) {
+            /* node_modules/kit/inc/scope.sibilant:12:9 */
+          
+            views.set(this.entity, value);
+            return value;
+          })((function() {
+            /* node_modules/kit/inc/macros.sibilant:30:25 */
           
             return createDocumentNode("div", {
               'className': "panel",
@@ -44,9 +49,7 @@ var VelocityInterface = VelocityInterface.define("VelocityInterface", {
               return displayDecimal(this.yd, 2);
             
             }) ]) ]).render(this.parentView);
-          }).call(this);
-          views.set(this.entity, r);
-          return r;
+          }).call(this));
         }
       }).call(this);
     
