@@ -11,6 +11,14 @@
   (yd 0)
 
   (gett pos this.entity.position-interface)
+
+  (def *clear ()
+    (assign this.xd null)
+    (assign this.yd null)
+    (assign this.prior-x null)
+    (assign this.prior-y null)
+    )
+
   (def accelerate ([v1,v2])
     (incr-by this.xd v1)
     (incr-by this.yd v2)

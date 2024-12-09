@@ -19,9 +19,14 @@
                        (.render (dom (.div .id (+ "entity-panel" this.entity.id)
                                            .className "panel"
                                            .style (lit (width "99%"))
-                                           (.div "entity" this.entity.id)
-                                           ))
-                                this.parent-view))))
+                                           (.div "entity" this.entity.id)))
+                                this.parent-view)))
+  (def *clear ()
+    (print "clearing property view component" this)
+    (.remove this.view)
+    (.delete views this.entity)
+    )
+  )
 
 (define View-panel System
   (interface Property-view)

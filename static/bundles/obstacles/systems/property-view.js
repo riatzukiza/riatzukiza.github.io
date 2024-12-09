@@ -49,6 +49,13 @@ var PropertyView = Component.define("PropertyView", {
         }
       }).call(this);
     
+   },
+  _clear(  ){ 
+    
+      console.log("clearing property view component", this);
+      this.view.remove();
+      return views.delete(this.entity);
+    
    }
  });
 var ViewPanel = System.define("ViewPanel", { 

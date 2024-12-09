@@ -34,11 +34,14 @@
   (def spawn (  aspects system) (.spawn system aspects )))
 
 (def-generic Entity.despawn (entity components )
-  (.clear this))
+  (.release this.system.pool this  ))
 
-(def-generic Entity.clear (   system)
-  (each this.components (c) (.clear c))
-  (assign this.id null)
-  (.release system.pool this  ))
+(def-generic Entity.clear ()
+  (each this.components (c)
+        (.release c.system c)
+        (assign c.entity null)
+        )
+  (assign this.components [])
+  (assign this.id null))
 
 (export Entity)

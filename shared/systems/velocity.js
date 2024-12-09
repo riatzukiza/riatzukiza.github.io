@@ -16,6 +16,14 @@ var VelocityInterface = Component.define("VelocityInterface", {
       return this.entity.positionInterface;
     
    },
+  _clear(  ){ 
+    
+      this.xd = null;
+      this.yd = null;
+      this.priorX = null;
+      return this.priorY = null;
+    
+   },
   accelerate( [ v1, v2 ] ){ 
     
       this.xd += v1;

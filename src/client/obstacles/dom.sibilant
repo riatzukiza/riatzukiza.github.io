@@ -47,15 +47,20 @@
                   (.div "vector buckets" get-vector-bucket-count)
                   (.div "trail buckets" get-trail-bucket-count))))
 
+
+(const reset-button (dom (.button .onclick (->
+                                            (.clear rocks)
+                                            (.clear ants)
+                                            (.clear plants)) "Reset")))
 (const debug-view
        (dom (.div .id "debug-view" .className "panel"
                   .style (lit (height (+  (second config.dimensions)"px"))
                               (width (+ (Math.round (- (* window.innerWidth 0.2) 24)) "px"))
                               ("overflow-y" "scroll"))
+                  reset-button
                   stats
                   pools-view)))
 
-(const reset-button (dom (.button .onclick (-> )"Reset")))
 
 
 

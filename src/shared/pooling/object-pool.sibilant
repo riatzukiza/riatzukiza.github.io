@@ -52,6 +52,7 @@ and return it to the caller."
 from the collection of in use objects, and adding it to the collection of
 available ones, for later use"
 
+    (.clear obj)
     (.remove *in-use obj)
     (.add *available obj)))
 (export Object-pool)

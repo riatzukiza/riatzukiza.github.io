@@ -99,6 +99,13 @@ const getTrailBucketCount=(() => {
 
 });
 const poolsView=createDocumentNode("div", { 'className': "panel" }, [ createDocumentNode("h3", {  }, [ "Pools" ]), createDocumentNode("div", {  }, [ "vector buckets", getVectorBucketCount ]), createDocumentNode("div", {  }, [ "trail buckets", getTrailBucketCount ]) ]);
+const resetButton=createDocumentNode("button", { 'onclick': (() => {
+	
+  rocks.clear();
+  ants.clear();
+  return plants.clear();
+
+}) }, [ "Reset" ]);
 const debugView=createDocumentNode("div", {
   'id': "debug-view",
   'className': "panel",
@@ -107,19 +114,14 @@ const debugView=createDocumentNode("div", {
     width:(Math.round(((window.innerWidth * 0.2) - 24)) + "px"),
     "overflow-y":"scroll"
    }
-}, [ stats, poolsView ]);
-const resetButton=createDocumentNode("button", { 'onclick': (() => {
-	
-  
-
-}) }, [ "Reset" ]);
+}, [ resetButton, stats, poolsView ]);
 var container = createDocumentNode("div", { 'id': "container" }, [ gameView, debugView ]);
 exports.container = container;
 exports.gameView = gameView;
 exports.debugView = debugView;
 createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentRoot);
 var startInterface = (function startInterface$() {
-  /* start-interface eval.sibilant:70:0 */
+  /* start-interface eval.sibilant:75:0 */
 
   return game.events.on("tick", ((t) => {
   	

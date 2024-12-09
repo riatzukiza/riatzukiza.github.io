@@ -2,6 +2,10 @@
 (import-namespace interface)
 
 (define Renderable Interface
-  (init ( layer structure)))
+  (init ( layer structure))
+  (def clear ()
+    (assign this.layer null))
+
+  )
 
 (export Renderable)

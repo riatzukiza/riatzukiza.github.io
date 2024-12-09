@@ -10639,7 +10639,18 @@ var Vertex = Renderable.define("Vertex", {
     point:Andy.Type.Vector3,
     color:Andy.Color.RGBA,
     size:Andy.Type.float
-   }))
+   })),
+  clear(  ){ 
+    
+      setColor(0, 0, 0, 0, this);
+      return setPoint(0, 0, 0, this);
+    
+   },
+  despawn(  ){ 
+    
+      return this.layer.despawn(this);
+    
+   }
  });
 exports.Vertex = Vertex;
 },{"@kit-js/interface":1,"@shared/gl.js":"@shared/gl.js","@shared/systems/rendering/renderable.js":"@shared/systems/rendering/renderable.js"}]},{},[]);

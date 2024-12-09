@@ -22,8 +22,6 @@
   (init (name aspects system (group ((create Group)))))
   (gett size this.group.size)
 
-  (def clear (group) (.each group clear))
-
   (def-generic spawn ( aspects system group)
     (collect e (.spawn system aspects )
              (assign e.group this)
@@ -38,8 +36,9 @@
   this)
 
 (def-generic Entity-group.clear (group)
-  (while (< 0 group.length)
-    (.clear (.pop group))))
+  (each group (entity) (.despawn entity))
+  (.clear group)
+  )
 
 (def-generic Entity-group.has (entity group) (group.has entity))
 

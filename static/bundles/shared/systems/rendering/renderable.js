@@ -10613,6 +10613,11 @@ var Renderable = Interface.define("Renderable", {
       this.layer = layer;this.structure = structure;
       return this;
     
+   },
+  clear(  ){ 
+    
+      return this.layer = null;
+    
    }
  });
 exports.Renderable = Renderable;

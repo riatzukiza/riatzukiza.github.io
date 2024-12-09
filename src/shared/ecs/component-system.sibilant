@@ -43,6 +43,11 @@
 
   (def-generic get (entity components)
     (.get components entity))
+  (def release (c)
+    (.delete this.components c.entity)
+    (.release this.pool c)
+
+    )
 
   (def-generic spawn (entity pool components)
     (collect c (.spawn pool entity  this)
@@ -70,15 +75,12 @@
   (unless (or this.template )
     (.init this)))
 
-(def-generic System.clear (pool components entity )
+(def-generic System.clear (pool components  )
+  (.clear components)
   (.clear pool))
 
 (def-generic System.get (entity components)
   (.get components entity))
-
-(def-generic System.spawn (entity pool components)
-  (collect c (.spawn pool entity  this)
-           (.set components entity c)))
 
 
 (def System.update (t) (accumulate this.thread (then-do (.*update-all this t))))

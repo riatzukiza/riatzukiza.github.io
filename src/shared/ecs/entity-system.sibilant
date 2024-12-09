@@ -26,13 +26,8 @@
 
   (def clear () (.clear this.pool))
 
-  (def spawn (aspects ) (.spawn this.pool this (incr this.current-id) aspects )))
+  (def spawn (aspects )
+    (.spawn this.pool this (incr this.current-id) aspects )))
 
-
-(def Entity-system.clear ()
-  (.clear this.pool))
-
-(def Entity-system.spawn (aspects )
-  (.spawn this.pool this (incr this.current-id) aspects ))
 
 (export Entity-system)

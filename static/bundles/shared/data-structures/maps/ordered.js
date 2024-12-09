@@ -10624,6 +10624,14 @@ var OrderedMap = Interface.define("OrderedMap", {
       return this._keys.length;
     
    },
+  clear( _members = this._members,_keyPointers = this._keyPointers,_keys = this._keys,_values = this._values ){ 
+    
+      members.clear();
+      _keyPointers.clear();
+      this._keys = [];
+      return this._values = [];
+    
+   },
   has( key = this.key,[ _members ] = [ this._members ] ){ 
     
       return _members.has(key);
@@ -10636,14 +10644,22 @@ var OrderedMap = Interface.define("OrderedMap", {
    },
   each( callback = this.callback,_values = this._values ){ 
     
-      _values.each(callback);
+      _values.each(((v, i) => {
+      	
+        return (function() {
+          if (!(v === null)) {
+            return callback(v, this._keys[i]);
+          }
+        }).call(this);
+      
+      }));
       return this;
     
    },
   map( callback = this.callback,[ _members, _, _keys, _values ] = [ this._members, this._, this._keys, this._values ] ){ 
     
       return (function(r) {
-        /* node_modules/kit/inc/scope.sibilant:12:9 */
+        /* inc/misc.sibilant:1:782 */
       
         _keys.each(((k) => {
         	
@@ -10651,18 +10667,41 @@ var OrderedMap = Interface.define("OrderedMap", {
         
         }));
         return r;
-      })(create(OrderedMap)());
+      }).call(this, create(OrderedMap)());
     
    },
-  delete( key = this.key,[ _members, _keyPointers, _keys, _values ] = [ this._members, this._keyPointers, this._keys, this._values ] ){ 
+  rebuild(  ){ 
     
-      var i = _keyPointers[key];
+      const newKeys=[];
+      const newValues=[];
+      this.each(((v, k) => {
+      	
+        this._keyPointers.set(k, newKeys.length);
+        newKeys.push(k);
+        return newValues.push(v);
+      
+      }));
+      this._values = newValues;
+      return this._keys = newKeys;
+    
+   },
+  _delete( key = this.key,_members = this._members,_keyPointers = this._keyPointers,_keys = this._keys,_values = this._values ){ 
+    
+      var i = _keyPointers.get(key);
       _members.delete(key);
       _keyPointers.delete(key);
-      delete _keys;
-      delete i;
-      delete _values;
-      return delete i;
+      _keys[i] = null;
+      return _values[i] = null;
+    
+   },
+  delete( key = this.key,_members = this._members,_keys = this._keys ){ 
+    
+      this._delete(key);
+      return (function() {
+        if ((_keys.length - _members.size) > 2) {
+          return this.rebuild();
+        }
+      }).call(this);
     
    },
   push( [ key, value ] = [ this.key, this.value ],[ _members, _keyPointers, _keys, _values ] = [ this._members, this._keyPointers, this._keys, this._values ] ){ 
@@ -10671,18 +10710,15 @@ var OrderedMap = Interface.define("OrderedMap", {
         if (_members.has(key)) {
           return _members.get(key);
         } else {
-          return (function(value) {
-            /* node_modules/kit/inc/scope.sibilant:12:9 */
-          
-            _members.set(key, value);
-            return value;
-          })((function() {
-            /* node_modules/kit/inc/macros.sibilant:30:25 */
+          var r = (function() {
+            /* inc/misc.sibilant:1:673 */
           
             _keys.push(key);
-            _keyPointers.set(_values.push(value));
+            _keyPointers.set(key, (_values.push(value) - 1));
             return value;
-          }).call(this));
+          }).call(this);
+          _members.set(key, r);
+          return r;
         }
       }).call(this);
     
@@ -10691,7 +10727,7 @@ var OrderedMap = Interface.define("OrderedMap", {
     
       var key = _keys.pop(),
           value = _values.pop();
-      _keyPointers.pop();
+      _keyPointers.delete(key);
       members.delete(key);
       return value;
     
@@ -10700,7 +10736,7 @@ var OrderedMap = Interface.define("OrderedMap", {
     
       var key = _keys.shift(),
           value = _values.shift();
-      _keyPointers.shift();
+      _keyPointers.delete(key);
       _members.delete(key);
       return value;
     
@@ -10711,18 +10747,15 @@ var OrderedMap = Interface.define("OrderedMap", {
         if (_members.has(key)) {
           return _members.get(key);
         } else {
-          return (function(value) {
-            /* node_modules/kit/inc/scope.sibilant:12:9 */
-          
-            _members.set(key, value);
-            return value;
-          })((function() {
-            /* node_modules/kit/inc/macros.sibilant:30:25 */
+          var r = (function() {
+            /* inc/misc.sibilant:1:673 */
           
             _keys.unshift(key);
-            _keyPointers.set(_values.unshift(value));
+            _keyPointers.set(key, (_values.unshift(value) - 1));
             return value;
-          }).call(this));
+          }).call(this);
+          _members.set(key, r);
+          return r;
         }
       }).call(this);
     
@@ -10739,7 +10772,7 @@ var OrderedMap = Interface.define("OrderedMap", {
           })(_keyPointers[key]);
         } else {
           _keys.push(key);
-          _keyPointers.set(_values.push(value));
+          _keyPointers.set(key, (_values.push(value) - 1));
           _members.set(key, value);
           return value;
         }

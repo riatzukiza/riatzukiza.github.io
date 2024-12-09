@@ -75,16 +75,22 @@
   (def despawn ()
     (.release vector-pool this))
   (def spawn (x y) (.init (.aquire vector-pool) x y))
+  (def clear ()
+    (assign this.x null)
+    (assign this.y null)
+    )
 
   )
 (export Vector)
 (define Trail-vector Interface
   (init (x y pheremones))
+  (def clear ()
+    (assign this.x null)
+    (assign this.y null)
+    (assign this.pheremones null)
+    )
   (def spawn (x y pheremones) (.init (.aquire trail-pool) x y pheremones))
-
-  (def despawn ()
-
-    (.release trail-pool this)
+  (def despawn () (.release trail-pool this)
 
     )
   )

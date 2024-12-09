@@ -32,6 +32,12 @@
 
 
 (def-generic Component.clear (system)
-  (.release system.pool this))
+
+  (if (not this.*clear)
+      (throw (new Error "Clear function must be defined to relase from object pool.")))
+  (this.*clear)
+  (set this.entity (.to-lower-case this.name) null)
+  (set this.entity this.name null)
+  (set this.entity (decapitalize this.name) null))
 
 (export Component)
