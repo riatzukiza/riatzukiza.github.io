@@ -133,14 +133,12 @@ Features that have been refined and are ready to work on after a feature they re
 
 # In Progress (2)
 
-- Simulation reset
-
-
 # In Review (2)
 
-- Entity inspector
+- Simulation reset
 
 # Done
 
+- Entity inspector
 - Github pages static site [high priority]
 

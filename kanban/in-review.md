@@ -1,24 +1,17 @@
-# Entity Inspector
 
-# Description
+# Simulation Reset
 
-In addition to a side pallette to place the entities with, I want an interface to inspect and edit existing entities and their properties.
+This feature will help me make sure that I am clearing the object pools correctly and let me change settings easier with out having to restart if I want to see the simulation from the start with a new set of settings.
 
-# Work so far
+## Requirements
 
-I have a panel that displays all of the rocks and their properties. 
+- A button that resets the simulation without
+  refreshing the page
+- The simulation is not degraded in performance
+  from memory leaks or other artifacts leftover
+  from the previous simulation instance.
 
-# Work remaining
+## Update 12-9-24
 
-- a similar panel for all entities.
-- pagination
-- collapsable
-
-# Progress update 12-7-2024
-
-I started working on a component system encapsulating interfaces for entities.
-
-# Progress 12-7-2024
-
-I have pagination, and the system is set up to work for any entity with "view"able components.
-I have not made it collapsable.
+It seems to be working as it is now, we'll keep an eye on it as other work is introduced to make sure 
+the button continues to work. it is possible that more complex features later on will end up requring more work, as it is possible that there are still despawning paths that have not been taken (Clearing all the entity groups is fine for what the game is now)
