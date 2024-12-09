@@ -43,7 +43,8 @@
 
   (def spawn () (pipe this.*pool (.aquire)))
 
-  (def despawn (o) (pipe this.*pool (.release o)))
+  (def despawn (o)
+    (pipe this.*pool (.release o)))
 
   (def-generic clear (buffer *members context)
 

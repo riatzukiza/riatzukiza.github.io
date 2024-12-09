@@ -36,7 +36,12 @@
   (gett velocity this.entity.velocity-interface)
 
   (gett position this.entity.position-interface)
-  (gett location this.position))
+  (gett location this.position)
+  (def *clear ()
+    (assign this.*mass null)
+    (assign this.*scale null)
+    (assign this.prior-scale null)
+    (assign this.prior-mass null)))
 
 (export Physical-properties)
 

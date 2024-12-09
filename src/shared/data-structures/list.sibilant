@@ -28,8 +28,9 @@
     (const list ((create this)))
     (each array-like (e i)
           (list.push (f e)))
-    list
-    )
+    list)
+  (def clear () (while (> this.length 0) (.pop this)))
+
   (def of ((dots items))
     (this.from items))
 

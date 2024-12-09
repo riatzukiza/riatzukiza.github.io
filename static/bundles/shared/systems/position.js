@@ -10614,7 +10614,14 @@ var {
 var PositionInterface = Component.define("PositionInterface", { 
   x:0,
   y:0,
-  z:0
+  z:0,
+  _clear(  ){ 
+    
+      this.x = null;
+      this.y = null;
+      return this.z = null;
+    
+   }
  });
 exports.PositionInterface = PositionInterface;
 var Position = System.define("Position", { 

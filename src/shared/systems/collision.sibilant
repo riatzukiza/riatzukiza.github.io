@@ -23,6 +23,7 @@
 ;;   (init (x y height width)))
 
 (define Collision-bounds Component
+  (def *clear () )
 
   (gett dimensions this.area)
   (gett dim this.dimensions)

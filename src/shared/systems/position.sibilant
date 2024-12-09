@@ -8,7 +8,11 @@
   (x 0)
   (y 0)
   (z 0)
-  )
+  
+  (def *clear ()
+    (assign this.x null)
+    (assign this.y null)
+    (assign this.z null)))
 
 (export Position-interface)
 
@@ -28,12 +32,12 @@
     (.*update-component this c))
 
   (def *update-component (c)
-       (if (< c.x 0) (assign c.x (+ c.x (first this.process.rendering.dimensions))))
-       (if (< c.y 0) (assign c.y (+ c.y (second this.process.rendering.dimensions))))
+    (if (< c.x 0) (assign c.x (+ c.x (first this.process.rendering.dimensions))))
+    (if (< c.y 0) (assign c.y (+ c.y (second this.process.rendering.dimensions))))
 
-       (set c
-            'x (mod c.x (first this.process.rendering.dimensions))
-            'y (mod c.y (second this.process.rendering.dimensions)))))
+    (set c
+         'x (mod c.x (first this.process.rendering.dimensions))
+         'y (mod c.y (second this.process.rendering.dimensions)))))
 
 
 (export Position)

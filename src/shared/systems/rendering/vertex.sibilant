@@ -28,6 +28,13 @@
   (structure (new Andy.Gl.Type.Composite
                   (lit (point Andy.Type.Vector3)
                        (color Andy.Color.RGBA)
-                       (size Andy.Type.float)))))
+                       (size Andy.Type.float))))
+  (def clear ()
+    (set-color 0 0 0 0 this)
+    (set-point 0 0 0 this))
+
+  (def despawn ()
+    (.despawn this.layer this))
+  )
 
 (export Vertex)

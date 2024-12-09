@@ -51,20 +51,15 @@ var EntityGroup = Interface.define("EntityGroup", {
       return this.group.size;
     
    },
-  clear( group ){ 
-    
-      return group.each(clear);
-    
-   },
   spawn( aspects = this.aspects,system = this.system,group = this.group ){ 
     
       return (function(e) {
-        /* node_modules/kit/inc/scope.sibilant:12:9 */
+        /* inc/misc.sibilant:1:782 */
       
         e.group = this;
         group.add(e);
         return e;
-      })(system.spawn(aspects));
+      }).call(this, system.spawn(aspects));
     
    }
  });
@@ -80,15 +75,12 @@ EntityGroup.init = (function EntityGroup$init$(name = this.name, aspects = this.
 EntityGroup.clear = (function EntityGroup$clear$(group = this.group) {
   /* Entity-group.clear node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
-  return (function() {
-    var while$5 = undefined;
-    while (0 < group.length) {
-      while$5 = (function() {
-        return group.pop().clear();
-      }).call(this);
-    };
-    return while$5;
-  }).call(this);
+  group.each(((entity) => {
+  	
+    return entity.despawn();
+  
+  }));
+  return group.clear();
 });
 EntityGroup.has = (function EntityGroup$has$(entity = this.entity, group = this.group) {
   /* Entity-group.has node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
@@ -99,11 +91,11 @@ EntityGroup.spawn = (function EntityGroup$spawn$(aspects = this.aspects, system 
   /* Entity-group.spawn node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
   return (function(e) {
-    /* node_modules/kit/inc/scope.sibilant:12:9 */
+    /* inc/misc.sibilant:1:782 */
   
     group.add(e);
     return e;
-  })(system.spawn(aspects));
+  }).call(this, system.spawn(aspects));
 });
 EntityGroup.despawn = (function EntityGroup$despawn$(entity = this.entity, group = this.group) {
   /* Entity-group.despawn node_modules/kit/inc/core/function-expressions.sibilant:29:8 */

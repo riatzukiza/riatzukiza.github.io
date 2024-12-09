@@ -67,6 +67,14 @@ var Component = Interface.define("Component", {
 Component.clear = (function Component$clear$(system = this.system) {
   /* Component.clear node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
-  return system.pool.release(this);
+  (function() {
+    if (!(this._clear)) {
+      throw (new Error("Clear function must be defined to relase from object pool."))
+    }
+  }).call(this);
+  this._clear();
+  this.entity[this.name.toLowerCase()] = null;
+  this.entity[this.name] = null;
+  return this.entity[decapitalize(this.name)] = null;
 });
 exports.Component = Component;

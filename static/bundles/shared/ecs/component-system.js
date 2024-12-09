@@ -10878,14 +10878,20 @@ var System = Interface.define("System", {
       return components.get(entity);
     
    },
+  release( c ){ 
+    
+      this.components.delete(c.entity);
+      return this.pool.release(c);
+    
+   },
   spawn( entity = this.entity,pool = this.pool,components = this.components ){ 
     
       return (function(c) {
-        /* node_modules/kit/inc/scope.sibilant:12:9 */
+        /* inc/misc.sibilant:1:782 */
       
         components.set(entity, c);
         return c;
-      })(pool.spawn(entity, this));
+      }).call(this, pool.spawn(entity, this));
     
    },
   _updateComponent( component,t ){ 
@@ -10931,7 +10937,7 @@ var System = Interface.define("System", {
    }
  });
 System.build = (function System$build$() {
-  /* System.build eval.sibilant:69:0 */
+  /* System.build eval.sibilant:74:0 */
 
   return (function() {
     if (!((this.template))) {
@@ -10939,9 +10945,10 @@ System.build = (function System$build$() {
     }
   }).call(this);
 });
-System.clear = (function System$clear$(pool = this.pool, components = this.components, entity = this.entity) {
+System.clear = (function System$clear$(pool = this.pool, components = this.components) {
   /* System.clear node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
+  components.clear();
   return pool.clear();
 });
 System.get = (function System$get$(entity = this.entity, components = this.components) {
@@ -10949,18 +10956,8 @@ System.get = (function System$get$(entity = this.entity, components = this.compo
 
   return components.get(entity);
 });
-System.spawn = (function System$spawn$(entity = this.entity, pool = this.pool, components = this.components) {
-  /* System.spawn node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
-
-  return (function(c) {
-    /* node_modules/kit/inc/scope.sibilant:12:9 */
-  
-    components.set(entity, c);
-    return c;
-  })(pool.spawn(entity, this));
-});
 System.update = (function System$update$(t) {
-  /* System.update eval.sibilant:84:0 */
+  /* System.update eval.sibilant:86:0 */
 
   return this.thread = this.thread.then(((nil) => {
   	

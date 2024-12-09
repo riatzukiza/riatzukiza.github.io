@@ -10754,6 +10754,12 @@ var Vector = Interface.define("Vector", {
     
       return vectorPool.aquire().init(x, y);
     
+   },
+  clear(  ){ 
+    
+      this.x = null;
+      return this.y = null;
+    
    }
  });
 exports.Vector = Vector;
@@ -10762,6 +10768,13 @@ var TrailVector = Interface.define("TrailVector", {
     
       this.x = x;this.y = y;this.pheremones = pheremones;
       return this;
+    
+   },
+  clear(  ){ 
+    
+      this.x = null;
+      this.y = null;
+      return this.pheremones = null;
     
    },
   spawn( x,y,pheremones ){ 

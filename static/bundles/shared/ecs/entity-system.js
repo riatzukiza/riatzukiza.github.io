@@ -10859,16 +10859,6 @@ var EntitySystem = Interface.define("EntitySystem", {
     
    }
  });
-EntitySystem.clear = (function EntitySystem$clear$() {
-  /* Entity-system.clear eval.sibilant:32:0 */
-
-  return this.pool.clear();
-});
-EntitySystem.spawn = (function EntitySystem$spawn$(aspects) {
-  /* Entity-system.spawn eval.sibilant:35:0 */
-
-  return this.pool.spawn(this, ((this.currentId)++), aspects);
-});
 exports.EntitySystem = EntitySystem;
 }).call(this)}).call(this,require('_process'))
 },{"@kit-js/interface":1,"@shared/data-structures/group.js":"@shared/data-structures/group.js","@shared/data-structures/maps/ordered.js":"@shared/data-structures/maps/ordered.js","@shared/ecs/entity.js":"@shared/ecs/entity.js","@shared/pooling/dynamic-pool.js":"@shared/pooling/dynamic-pool.js","_process":4,"ramda":5}]},{},[]);

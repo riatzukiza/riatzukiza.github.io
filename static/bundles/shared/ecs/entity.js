@@ -10677,18 +10677,19 @@ var Entity = Interface.define("Entity", {
 Entity.despawn = (function Entity$despawn$(entity = this.entity, components = this.components) {
   /* Entity.despawn node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
-  return this.clear();
+  return this.system.pool.release(this);
 });
-Entity.clear = (function Entity$clear$(system = this.system) {
+Entity.clear = (function Entity$clear$() {
   /* Entity.clear node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
   this.components.each(((c) => {
   	
-    return c.clear();
+    c.system.release(c);
+    return c.entity = null;
   
   }));
-  this.id = null;
-  return system.pool.release(this);
+  this.components = [];
+  return this.id = null;
 });
 exports.Entity = Entity;
 },{"@kit-js/interface":1,"@shared/data-structures/group.js":"@shared/data-structures/group.js","@shared/data-structures/maps/ordered.js":"@shared/data-structures/maps/ordered.js","@shared/pooling/dynamic-pool.js":"@shared/pooling/dynamic-pool.js","ramda":4}]},{},[]);

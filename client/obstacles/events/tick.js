@@ -32,27 +32,17 @@ var {
   randomLocation
  } = require("@obstacles/location.js");
 const updateParticle=createParticleUpdater(config, game);
-(function() {
-  /* node_modules/kit/inc/loops.sibilant:26:8 */
-
-  var $for = null;
-  for (var i = 0;i < config.startingPlants;++(i))
-  {
-  $for = (function() {
-    /* node_modules/kit/inc/loops.sibilant:28:35 */
-  
-    return spawnPlant(randomLocation(), ((Math.random() * ( - config.plantMassLimit)) + config.plantMassLimit));
-  }).call(this);
-  }
-  ;
-  return $for;
-}).call(this);
 game.events.on("tick", (() => {
 	
   nextSpawn(game);
   (function() {
     if (((game.ticker.ticks % 10) && config.rocks > rocks.size)) {
       return rockGenStep();
+    }
+  }).call(this);
+  (function() {
+    if (((game.ticker.ticks % 10) && config.startingPlants > plants.size)) {
+      return spawnPlant(randomLocation(), ((Math.random() * ( - config.plantMassLimit)) + config.plantMassLimit));
     }
   }).call(this);
   return (function() {

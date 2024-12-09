@@ -66,14 +66,4 @@ var EntitySystem = Interface.define("EntitySystem", {
     
    }
  });
-EntitySystem.clear = (function EntitySystem$clear$() {
-  /* Entity-system.clear eval.sibilant:32:0 */
-
-  return this.pool.clear();
-});
-EntitySystem.spawn = (function EntitySystem$spawn$(aspects) {
-  /* Entity-system.spawn eval.sibilant:35:0 */
-
-  return this.pool.spawn(this, ((this.currentId)++), aspects);
-});
 exports.EntitySystem = EntitySystem;

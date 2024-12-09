@@ -17,26 +17,17 @@
 
 
 
-(do-times config.starting-plants (spawn-plant (random-location)
-                                              (random-float config.plant-mass-limit)))
-
-
 (on game.events 'tick ()
     (next-spawn game)
     (if (and (mod game.ticker.ticks 10)
              (> config.rocks rocks.size))
-        (rock-gen-step )
-        )
+        (rock-gen-step ))
 
-    ;; (ants.group.each (=> (ant)
-    ;;                      (var v (.get game.systems Velocity ant))
-    ;;                      (update-particle v v.pos, Signal-field.field,
-    ;;                                       Signal-field.layer
-    ;;                                       game.ticker.ticks
-    ;;                                       true
-    ;;                                       false
-    ;;                                       home-pos)
-    ;;                      null))
+    (if (and (mod game.ticker.ticks 10)
+             (> config.starting-plants plants.size))
+        (spawn-plant (random-location)
+                     (random-float config.plant-mass-limit)))
+
     (if (mod game.ticker.ticks 10)
         (plants.group.each (=> (plant)
                                (var physics (.get game.systems Physics plant))

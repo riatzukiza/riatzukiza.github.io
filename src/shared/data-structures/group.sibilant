@@ -9,6 +9,10 @@
   (gett size this.*list.length)
   (gett length this.*list.length)
   (gett last this.*list.last)
+  (def-generic clear (*list *members)
+    (.clear *members)
+    (.clear *list)
+    )
 
   (def create ()
     "create an empty group instance"

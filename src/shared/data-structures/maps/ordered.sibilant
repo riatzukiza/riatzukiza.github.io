@@ -12,6 +12,11 @@
          ))
   (gett size this.*keys.length)
   (gett length this.*keys.length)
+  (def-generic clear ( *members *key-pointers *keys *values )
+    (.clear members)
+    (.clear *key-pointers)
+    (assign this.*keys [])
+    (assign this.*values []))
 
   (def-generic has (key [*members])
 
@@ -21,7 +26,8 @@
     (.get *members key))
 
   (def-generic each (callback *values)
-     (.each *values callback)
+    (.each *values (=> (v i) (if (not (= v null))
+                               (callback v (get this.*keys i)))))
      this)
 
 
@@ -30,19 +36,35 @@
              (each *keys (k)
                    (.set r k (f (get *members k) k r)))))
 
-  (def-generic delete (key [*members *key-pointers *keys *values])
-    (var i (get *key-pointers key))
+  (def rebuild ()
+    (const new-keys [])
+    (const new-values [])
+    (each this (v k)
+          (.set this.*key-pointers k new-keys.length)
+          (.push new-keys k)
+          (.push new-values v)
+          )
+    (assign this.*values new-values)
+    (assign this.*keys new-keys))
+
+  (def-generic *delete (key *members *key-pointers *keys *values)
+
+    (var i (.get *key-pointers key))
 
     (.delete *members key )
     (.delete *key-pointers key)
-    (delete *keys i)
-    (delete *values i))
+    (set *keys i null)
+    (set  *values i null))
+  (def-generic delete (key *members *keys)
+    (.*delete this key)
+    (if (> (-  *keys.length *members.size) 2)
+        (.rebuild this)))
 
   (def-generic push ([key value] [*members *key-pointers *keys *values])
     (remember *members key
 
               (.push *keys key)
-              (.set *key-pointers (.push *values value))
+              (.set *key-pointers key (- (.push *values value) 1))
 
 
               value))
@@ -51,7 +73,7 @@
     (var key (.pop *keys)
          value (.pop *values))
 
-    (.pop *key-pointers)
+    (.delete *key-pointers key)
     (.delete  members key)
 
     value)
@@ -60,7 +82,7 @@
     (var key (.shift *keys)
          value (.shift *values))
 
-    (.shift *key-pointers)
+    (.delete *key-pointers key)
     (.delete *members key)
 
     value)
@@ -69,7 +91,7 @@
     (remember *members key
 
               (.unshift *keys key)
-              (.set *key-pointers (.unshift *values value))
+              (.set *key-pointers key (- (.unshift *values value) 1))
 
               value))
 
@@ -81,7 +103,7 @@
           (.set *members key value))
 
         (do (.push *keys key)
-            (.set *key-pointers (.push *values value))
+            (.set *key-pointers key (- (.push *values value) 1))
 
           (.set *members key value)
 

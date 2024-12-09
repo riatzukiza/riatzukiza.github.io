@@ -10698,6 +10698,19 @@ var List = Interface.define("List", {
       return list;
     
    },
+  clear(  ){ 
+    
+      return (function() {
+        var while$102 = undefined;
+        while (this.length > 0) {
+          while$102 = (function() {
+            return this.pop();
+          }).call(this);
+        };
+        return while$102;
+      }).call(this);
+    
+   },
   of( ...items ){ 
     
       return this.from(items);
@@ -10731,9 +10744,9 @@ var List = Interface.define("List", {
       var node = this.head;
       var success = false;
       return (function() {
-        var while$6 = undefined;
+        var while$103 = undefined;
         while (node) {
-          while$6 = (function() {
+          while$103 = (function() {
             return (function() {
               if (node.item !== item) {
                 node = node.next;
@@ -10745,7 +10758,7 @@ var List = Interface.define("List", {
             }).call(this);
           }).call(this);
         };
-        return while$6;
+        return while$103;
       }).call(this);
     
    },
@@ -10835,14 +10848,14 @@ var List = Interface.define("List", {
     
       var node = this.head;
       (function() {
-        var while$7 = undefined;
+        var while$104 = undefined;
         while (node) {
-          while$7 = (function() {
+          while$104 = (function() {
             f(node.item, node);
             return node = node.next;
           }).call(this);
         };
-        return while$7;
+        return while$104;
       }).call(this);
       return this;
     
@@ -10852,13 +10865,13 @@ var List = Interface.define("List", {
       var result = create(List)();
       var node = this.head;
       return (function() {
-        var while$8 = undefined;
+        var while$105 = undefined;
         while (node) {
-          while$8 = (function() {
+          while$105 = (function() {
             return result.push(f(node, node.next, node.prev));
           }).call(this);
         };
-        return while$8;
+        return while$105;
       }).call(this);
     
    },

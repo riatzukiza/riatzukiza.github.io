@@ -73,6 +73,14 @@ var PhysicalProperties = Component.define("PhysicalProperties", {
     
       return this.position;
     
+   },
+  _clear(  ){ 
+    
+      this._mass = null;
+      this._scale = null;
+      this.priorScale = null;
+      return this.priorMass = null;
+    
    }
  });
 exports.PhysicalProperties = PhysicalProperties;
@@ -102,7 +110,7 @@ var Physics = System.define("Physics", {
   _updateComponent( c ){ 
     
       return c.forces.each((function() {
-        /* eval.sibilant:1:1435 */
+        /* eval.sibilant:1:1586 */
       
         return arguments[0].apply(c);
       }));

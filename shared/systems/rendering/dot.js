@@ -96,6 +96,28 @@ var DotInterface = Component.define("DotInterface", {
     
       return this.system.process.systems.get(Physics, this.entity).scale;
     
+   },
+  get point(  ){ 
+    
+      return this.vertex.point;
+    
+   },
+  _clear(  ){ 
+    
+      this.point.x = 0;
+      this.point.y = 0;
+      this.point.z = 0;
+      this.vertex.color.r = 0;
+      this.vertex.color.g = 0;
+      this.vertex.color.b = 0;
+      this.vertex.color.a = 0;
+      return this.color = {
+        r: 0,
+        g: 0,
+        b: 0,
+        a: 0
+      };
+    
    }
  });
 exports.DotInterface = DotInterface;
@@ -109,7 +131,11 @@ var Dot = System.define("Dot", {
   spawn( entity ){ 
     
       var c = System.spawn.call(this, entity);
-      c.vertex = this.verts.spawn();
+      (function() {
+        if (!(c.vertex)) {
+          return c.vertex = this.verts.spawn();
+        }
+      }).call(this);
       return c;
     
    },
