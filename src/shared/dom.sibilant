@@ -48,12 +48,13 @@
   (def-generic render (*parent attributes tag-name *node children)
 
     ;; (print "rendering" (lit *parent attributes tag-name *node children))
-    ;;(when *node (.remove this *node *parent))
+    ;; (when *node (.remove this *node *parent))
     (assign *node.innerHTML "")
     ;; The first time the parent is right, the next time the parent is somthing else.
-    (assign this.*parent *parent)
 
+    (assign this.*parent *parent)
     (.append-child *parent.*node *node)
+
 
     (each attributes (a k)
           (if (= k  "style")
@@ -82,6 +83,7 @@
     "remove this element from the tree."
 
     (.remove *node)
+    (assign this.parent null)
 
     (.filter *parent.children (=> (c) (not (= *node c))))
     (.emit *parent 'remove *node)

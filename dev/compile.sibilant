@@ -95,11 +95,11 @@
                 (unless (= path path*)
 
                   (const bundle-name (+ "@" path*))
-                  (print "adding" bundle-name "to" path "bundle")
+                  ;; (print "adding" bundle-name "to" path "bundle")
                   (.external b bundle-name)))
           (each main-bundles (main-bundle main-path)
                 (const bundle-name (+ "@" path))
-                (print "adding" bundle-name "to" main-path "bundle")
+                ;; (print "adding" bundle-name "to" main-path "bundle")
                 (.external main-bundle bundle-name)))
 
 

@@ -15,7 +15,7 @@ var {
  } = require("@obstacles/entities.js");
 game.events.on("plantCollidingWithSpawn", ((home, plant) => {
 	
-  const v=game.systems.get(Velocity, plant.entity);
+  const v=plant.entity.velocityInterface;
   const pos=plant.pos;
   var xd = ((Math.random() * config.collisionStatic) * (function() {
     if (Math.random() < 0.5) {

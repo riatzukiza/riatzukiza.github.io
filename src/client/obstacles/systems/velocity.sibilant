@@ -1,0 +1,30 @@
+(namespace obstacles)
+(require! (lit display-decimal) "@obstacles/strings.js"
+          (lit Velocity-interface Velocity) "@shared/systems/velocity.js")
+
+(include "../../../../inc/dom.sibilant")
+(import-namespace dom)
+(const views (new Map))
+(macro remember (m k ...body)
+       `(if (.has @m @k)
+            (.get @m @k)
+            (do (var r (scoped ...@body))
+                (.set @m @k r) r)))
+(define Velocity-interface Velocity-interface
+  (gett parent-view this.entity.property-view.view )
+  (gett view
+        (remember views this.entity
+                  (.render (dom (.div .className "panel"
+                              .id (+ "velocity-panel" this.entity.id)
+                              .style (lit (width "48%"))
+                              (.div "velocity:")
+                              (.div (-> (display-decimal this.xd 2)) "," (-> (display-decimal this.yd 2)))))
+                           this.parent-view
+                           )))
+  (gett update-view? this.moved))
+(export Velocity-interface)
+
+(define Velocity Velocity
+  (interface Velocity-interface))
+
+(export Velocity)

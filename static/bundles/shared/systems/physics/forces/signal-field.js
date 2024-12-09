@@ -49,7 +49,7 @@ var SignalField = Physics.Force.define("SignalField", {
       var collision = c.system.process.systems.get(Collision, c.entity);
       updateParticle(v, v.pos, field, layer, game.ticker.ticks, false, false, entities.homePos);
       var winRate = (v.winCount / ((1 + v.looseCount) || 1));
-      c.scale = (0.1 * (function() {
+      c.scale = (0.5 * (function() {
         if (winRate > 1) {
           return winRate;
         } else {

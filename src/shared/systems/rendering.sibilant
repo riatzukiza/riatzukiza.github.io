@@ -1,0 +1,6 @@
+(require! (lit Dot-interface Dot) "@shared/systems/rendering/dot.js"
+          (lit Layer) "@shared/systems/rendering/layer.js"
+          (lit Renderable) "@shared/systems/rendering/renderable.js"
+          (lit Scaling-vertex) "@shared/systems/rendering/scaling-vertex.js"
+          (lit Sprite-interface  Sprite) "@shared/systems/rendering/sprite.js"
+          (lit Vertex) "@shared/systems/rendering/vertex.js")

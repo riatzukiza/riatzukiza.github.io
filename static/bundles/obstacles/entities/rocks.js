@@ -11047,10 +11047,10 @@ var {
  } = require("@shared/systems/rendering/dot.js"),
     { 
   Position
- } = require("@shared/systems/position.js"),
+ } = require("@obstacles/systems/position.js"),
     { 
   Velocity
- } = require("@shared/systems/velocity.js"),
+ } = require("@obstacles/systems/velocity.js"),
     { 
   Physics
  } = require("@shared/systems/physics/index.js"),
@@ -11106,6 +11106,7 @@ var spawnRock = (function spawnRock$(x_y$3, mass, scale) {
   var x = x_y$3[0],
       y = x_y$3[1];
 
+  console.log("spawning rock");
   var rock = rocks.spawn([ Dot, Position, Physics, Collision, Velocity ]);
   const pos=game.systems.get(Position, rock);
   pos.x = x;
@@ -11132,4 +11133,4 @@ var rockGenStep = (function rockGenStep$(position = lastRockPos, mass = (config.
 exports.rocks = rocks;
 exports.spawnRock = spawnRock;
 exports.rockGenStep = rockGenStep;
-},{"@obstacles/colors.js":"@obstacles/colors.js","@obstacles/config.js":"@obstacles/config.js","@obstacles/forces.js":"@obstacles/forces.js","@obstacles/game.js":"@obstacles/game.js","@shared/data-structures/group.js":"@shared/data-structures/group.js","@shared/data-structures/list.js":"@shared/data-structures/list.js","@shared/data-structures/trees/trie.js":"@shared/data-structures/trees/trie.js","@shared/ecs.js":"@shared/ecs.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/rendering/dot.js":"@shared/systems/rendering/dot.js","@shared/systems/velocity.js":"@shared/systems/velocity.js","@shared/vectors.js":"@shared/vectors.js","@timohausmann/quadtree-js":1,"tree-kit":313}]},{},[]);
+},{"@obstacles/colors.js":"@obstacles/colors.js","@obstacles/config.js":"@obstacles/config.js","@obstacles/forces.js":"@obstacles/forces.js","@obstacles/game.js":"@obstacles/game.js","@obstacles/systems/position.js":"@obstacles/systems/position.js","@obstacles/systems/velocity.js":"@obstacles/systems/velocity.js","@shared/data-structures/group.js":"@shared/data-structures/group.js","@shared/data-structures/list.js":"@shared/data-structures/list.js","@shared/data-structures/trees/trie.js":"@shared/data-structures/trees/trie.js","@shared/ecs.js":"@shared/ecs.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/rendering/dot.js":"@shared/systems/rendering/dot.js","@shared/vectors.js":"@shared/vectors.js","@timohausmann/quadtree-js":1,"tree-kit":313}]},{},[]);

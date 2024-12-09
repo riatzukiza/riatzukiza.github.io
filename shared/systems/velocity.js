@@ -13,7 +13,7 @@ var VelocityInterface = Component.define("VelocityInterface", {
   yd:0,
   get pos(  ){ 
     
-      return this.system.process.systems.get(Position, this.entity);
+      return this.entity.positionInterface;
     
    },
   accelerate( [ v1, v2 ] ){ 

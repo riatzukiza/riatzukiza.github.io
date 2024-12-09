@@ -8,6 +8,16 @@ var OrderedMap = Interface.define("OrderedMap", {
       return this;
     
    },
+  get size(  ){ 
+    
+      return this._keys.length;
+    
+   },
+  get length(  ){ 
+    
+      return this._keys.length;
+    
+   },
   has( key = this.key,[ _members ] = [ this._members ] ){ 
     
       return _members.has(key);
@@ -27,7 +37,7 @@ var OrderedMap = Interface.define("OrderedMap", {
   map( callback = this.callback,[ _members, _, _keys, _values ] = [ this._members, this._, this._keys, this._values ] ){ 
     
       return (function(r) {
-        /* node_modules/kit/inc/scope.sibilant:12:9 */
+        /* eval.sibilant:1:381 */
       
         _keys.each(((k) => {
         	
@@ -35,7 +45,7 @@ var OrderedMap = Interface.define("OrderedMap", {
         
         }));
         return r;
-      })(create(OrderedMap)());
+      }).call(this, create(OrderedMap)());
     
    },
   delete( key = this.key,[ _members, _keyPointers, _keys, _values ] = [ this._members, this._keyPointers, this._keys, this._values ] ){ 

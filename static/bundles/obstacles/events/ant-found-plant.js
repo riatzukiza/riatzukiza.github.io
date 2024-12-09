@@ -34,7 +34,7 @@ var {
 const updateParticle=createParticleUpdater(config, game);
 game.events.on("antFoundPlant", ((ant, plant) => {
 	
-  var av = game.systems.get(Velocity, ant.entity);
+  var av = ant.entity.velocityInterface;
   var ap = game.systems.get(Physics, ant.entity);
   isWin = true;
   updateParticle(av, av.pos, SignalField.field, SignalField.layer, game.ticker.ticks, true, true, homePos);

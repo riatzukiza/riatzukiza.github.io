@@ -26,7 +26,6 @@
 (const waiting-decay (new Set))
 
 
-
 (def-generic  module.exports.create-particle-updater (config , game)
   (def-generic particle-updater (vel,
                                  p,
@@ -38,25 +37,12 @@
                                  home-pos
                                  (loose (>= (or (get? vel trail length) 0) config.max-trail)))
 
-    ;; (if! (or (isNaN p.x) (isNaN p.x))
-    ;;      (print (lit vel p field pheremones tick decay win home-pos loose 
-    ;;                   ))
-    ;;      (throw (new RangeError "position is not a number")))
-    ;; (if! (or (isNaN vel.xd) (isNaN vel.yd))
-    ;;      (print (lit vel p field pheremones tick decay win home-pos loose 
-    ;;                   ))
-    ;;      (throw (new RangeError "velocity is not a number")))
     (const pos (.spawn Vector (or (Math.min (Math.max (Math.round (/ p.x config.size)) 0)
                                             (- config.columns 1))
                                   1)
                        (or (Math.min (Math.max (Math.round (/ p.y config.size)) 0)
                                      (- config.rows 1))
                            1)))
-
-    ;; (if! (or (isNaN pos.x) (isNaN pos.x))
-    ;;      (print (lit vel p field pheremones tick decay win home-pos loose 
-    ;;                  pos ))
-    ;;      (throw (new RangeError "position is not a number")))
     (const angle (* (noise.simplex3 (/ pos.x config.angle-zoom 5)
                                   (/ pos.y config.angle-zoom 5)
                                   (* tick (/ config.noise-z 10000)
@@ -64,10 +50,6 @@
                     Math.PI
                     2
                     ))
-    ;; (if! (isNaN angle)
-    ;;      (print (lit vel p field pheremones tick decay win home-pos loose 
-    ;;                  pos angle ))
-    ;;      (throw (new (RangeError "angle is not a number"))))
     (const length (/ (* (noise.simplex3 (+ (/ pos.x 50)
                                            40000)
                                         (+ (/ pos.x 50)
@@ -75,26 +57,12 @@
                                         (* tick (/ config.noise-z 10000)))
                         config.field-force)
                      20))
-
-    ;; (if! (isNaN length)
-    ;;      (print (lit vel p field pheremones tick decay win home-pos loose 
-    ;;                  pos angle length))
-    ;;      (throw (new (RangeError "length is not a number"))))
-
     (const pH (get pheremones pos.x pos.y))
-    ;; (if! (or (isNaN pH.x) (isNaN pH.y))
-    ;;      (print (lit vel p field pheremones tick decay win home-pos loose pH 
-    ;;                  pos angle length))
-    ;;      (throw (new (RangeError "length is not a number"))))
 
     (.set-length (get field pos.x pos.y) length)
     (.set-angle (get field pos.x pos.y) angle)
 
     (const vec (get field pos.x pos.y))
-    ;; (if! (or (isNaN vec.x) (isNaN vec.y))
-    ;;      (print (lit vel p field pheremones tick decay win home-pos loose pH vec
-    ;;                  pos angle length))
-    ;;      (throw (new (RangeError "length is not a number"))))
 
     (if! (not pH.last-check)
       (assign pH.last-check tick)
@@ -147,18 +115,8 @@
                     (x (* x weight config.ant-influence))
                     (y (* y weight config.ant-influence))))))
     (if! win
-         ;; (.emit game.events 'win)
-         ;; (print "win" home-pos p)
-
-         ;; (print "despawning trail" vel.trail)
-         (for-of! seg vel.trail
-                  (.despawn seg))
-
-         ;; (print "clearing trail" vel.trail)
+         (for-of! seg vel.trail (.despawn seg))
          (set vel 'trail [])
-         ;; (print "cleared trail trail" vel.trail)
-
-
          (set vel 'trail [])
          (set p 'x (+ (random-signed config.spawn-static) home-pos.x) 'y (+ (random-signed config.spawn-static) home-pos.y))
          (incr-by vel.win-count 1))

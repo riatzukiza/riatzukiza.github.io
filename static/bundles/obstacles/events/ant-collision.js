@@ -28,10 +28,10 @@ var {
 const updateParticle=createParticleUpdater(config, game);
 game.events.on("antCollision", ((c, c_) => {
 	
-  var v = game.systems.get(Velocity, c.entity);
-  var v_ = game.systems.get(Velocity, c_.entity);
-  var p = game.systems.get(Physics, c.entity);
-  var p_ = game.systems.get(Physics, c_.entity);
+  var v = c.entity.velocityInterface;
+  var v_ = c_.entity.velocityInterface;
+  var p = c.entity.physicalProperties;
+  var p_ = c_.entity.physicalProperties;
   updateParticle(v, v.pos, SignalField.field, SignalField.layer, game.ticker.ticks, config.decayOnCollision, false, homePos);
   return updateParticle(v_, v_.pos, SignalField.field, SignalField.layer, game.ticker.ticks, config.decayOnCollision, false, homePos);
 

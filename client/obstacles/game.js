@@ -15,10 +15,10 @@ var {
  } = require("@shared/systems/rendering/dot.js"),
     { 
   Position
- } = require("@shared/systems/position.js"),
+ } = require("@obstacles/systems/position.js"),
     { 
   Velocity
- } = require("@shared/systems/velocity.js"),
+ } = require("@obstacles/systems/velocity.js"),
     { 
   Physics
  } = require("@shared/systems/physics/index.js"),
@@ -28,8 +28,11 @@ var {
     { 
   rendering
  } = require("@obstacles/rendering.js"),
+    { 
+  ViewPanel
+ } = require("@obstacles/systems/property-view.js"),
     config = require("@obstacles/config.js");
-var activeGameSystems = [ Dot, Position, Physics, Velocity, Collision ];
+var activeGameSystems = [ Dot, Position, Physics, Velocity, Collision, ViewPanel ];
 var game = create(Game)(config, rendering, activeGameSystems, config.gameSpeed);
 exports.game = game;
 exports.activeGameSystems = activeGameSystems;

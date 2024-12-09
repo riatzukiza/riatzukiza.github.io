@@ -10585,12 +10585,8 @@ var RockPanel = EntityPanel.define("RockPanel", {
    },
   Position( pos ){ 
     
-      return createDocumentNode("div", { 'className': "panel" }, [ displayDecimal(pos.x, 2), ", ", displayDecimal(pos.y, 2) ]);
-    
    },
   Velocity( vel ){ 
-    
-      return createDocumentNode("div", { 'className': "panel" }, [ "velocity:", displayDecimal(vel.xd, 2), ",", displayDecimal(vel.yd, 2) ]);
     
    },
   Physics( phys ){ 

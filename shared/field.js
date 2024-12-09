@@ -141,7 +141,7 @@ module.exports.createParticleUpdater = (function module$exports$createParticleUp
   return particleUpdater;
 });
 module.exports.createVectorField = (function module$exports$createVectorField$(columns, rows) {
-  /* module.exports.create-vector-field eval.sibilant:171:0 */
+  /* module.exports.create-vector-field eval.sibilant:129:0 */
 
   const field=(new Array(columns));
   for (var x = 0;x < columns;++(x))

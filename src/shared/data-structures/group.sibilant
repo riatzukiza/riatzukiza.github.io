@@ -54,6 +54,7 @@ See the native `Array.of` static method."
 
                (.set *members member node)
                (.push-node *list node))))
+  (def-generic reduce (f accumulator *list) (.reduce *list f accumulator))
 
   (def-generic has (member *members)
     "Check if the group has the given member, returning true if yes, and false if no."

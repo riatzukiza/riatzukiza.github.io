@@ -15,3 +15,5 @@
                   (lit (point Andy.Type.Vector3)
                        (color Andy.Color.RGBA)
                        (size Andy.Type.float)))))
+
+(export Scaling-vertex)

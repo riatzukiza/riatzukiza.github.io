@@ -24,8 +24,8 @@ var {
  } = require("@shared/vectors.js");
 game.events.on("simpleCollision", ((c, c_) => {
 	
-  var v = game.systems.get(Velocity, c.entity);
-  var v_ = game.systems.get(Velocity, c_.entity);
+  var v = c.entity.velocityInterface;
+  var v_ = c_.entity.velocityInterface;
   var p = game.systems.get(Physics, c.entity);
   var p_ = game.systems.get(Physics, c_.entity);
   var m = p.mass;

@@ -14,7 +14,8 @@
 (const update-particle (create-particle-updater config game))
 (on game.events 'ant-found-plant (ant, plant)
 
-    (var av (.get game.systems Velocity ant.entity))
+
+    (var av ant.entity.velocity-interface)
 
     (var ap (.get game.systems Physics ant.entity))
 

@@ -124,6 +124,7 @@ var DocumentNode = EventEmitter.define("DocumentNode", {
     
       "remove this element from the tree.";
       _node.remove();
+      this.parent = null;
       _parent.children.filter(((c) => {
       	
         return !(_node === c);

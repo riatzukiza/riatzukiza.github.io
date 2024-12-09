@@ -4,10 +4,10 @@ var {
  } = require("@shared/systems/rendering/dot.js"),
     { 
   Position
- } = require("@shared/systems/position.js"),
+ } = require("@obstacles/systems/position.js"),
     { 
   Velocity
- } = require("@shared/systems/velocity.js"),
+ } = require("@obstacles/systems/velocity.js"),
     { 
   Physics
  } = require("@shared/systems/physics/index.js"),
@@ -75,4 +75,4 @@ var {
   Friction,
   SignalField
  } = require("@obstacles/forces.js");
-},{"@obstacles/colors.js":"@obstacles/colors.js","@obstacles/config.js":"@obstacles/config.js","@obstacles/forces.js":"@obstacles/forces.js","@obstacles/game.js":"@obstacles/game.js","@shared/ecs.js":"@shared/ecs.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/rendering/dot.js":"@shared/systems/rendering/dot.js","@shared/systems/velocity.js":"@shared/systems/velocity.js"}]},{},[]);
+},{"@obstacles/colors.js":"@obstacles/colors.js","@obstacles/config.js":"@obstacles/config.js","@obstacles/forces.js":"@obstacles/forces.js","@obstacles/game.js":"@obstacles/game.js","@obstacles/systems/position.js":"@obstacles/systems/position.js","@obstacles/systems/velocity.js":"@obstacles/systems/velocity.js","@shared/ecs.js":"@shared/ecs.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/rendering/dot.js":"@shared/systems/rendering/dot.js"}]},{},[]);

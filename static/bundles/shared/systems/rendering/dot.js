@@ -10695,7 +10695,7 @@ var DotInterface = Component.define("DotInterface", {
   },
   get pos(  ){ 
     
-      return this.system.process.systems.get(Position, this.entity);
+      return this.entity.positionInterface;
     
    },
   get scale(  ){ 

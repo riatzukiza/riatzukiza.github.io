@@ -10880,12 +10880,6 @@ var {
   Physics
  } = require("@shared/systems/physics/system.js"),
     { 
-  Position
- } = require("@shared/systems/position.js"),
-    { 
-  Velocity
- } = require("@shared/systems/velocity.js"),
-    { 
   Vector
  } = require("@shared/vectors.js"),
     { 
@@ -10964,7 +10958,7 @@ var CollisionBounds = Component.define("CollisionBounds", {
    },
   get position(  ){ 
     
-      return this.system.process.systems.get(Position, this.entity);
+      return this.entity.positionInterface;
     
    },
   get pos(  ){ 
@@ -10974,7 +10968,7 @@ var CollisionBounds = Component.define("CollisionBounds", {
    },
   get velocity(  ){ 
     
-      return this.system.process.systems.get(Velocity, this.entity);
+      return this.entity.velocityInterface;
     
    },
   isColliding__QUERY( c_ = this.c_,c = this ){ 
@@ -11056,9 +11050,9 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
   const placementVector=Vector.spawn(1, 1);
   var colliding = true;
   (function() {
-    var while$62 = undefined;
+    var while$12 = undefined;
     while (colliding) {
-      while$62 = (function() {
+      while$12 = (function() {
         var noCollisions = true;
         placementTree.clear();
         c.system.components._members.each(((c_) => {
@@ -11074,16 +11068,16 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         for (var c_ of possibleCollisions)
         {
         (function() {
-          var while$63 = undefined;
+          var while$13 = undefined;
           while (c.isColliding__QUERY(c_)) {
-            while$63 = (function() {
+            while$13 = (function() {
               noCollisions = false;
               placementVector.setLength((0.5 * c_.scale));
               placementVector.setAngle(((Math.random() * ( - 360)) + 360));
               return c.pos.system.shift(c.pos, [ placementVector.x, placementVector.y ]);
             }).call(this);
           };
-          return while$63;
+          return while$13;
         }).call(this)
         }
         ;
@@ -11095,10 +11089,10 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         return null;
       }).call(this);
     };
-    return while$62;
+    return while$12;
   }).call(this);
   placementVector.despawn();
   return entity;
 });
 exports.placeEntity = placeEntity;
-},{"@kit-js/core/js/util":2,"@kit-js/interface":3,"@shared/data-structures/list.js":"@shared/data-structures/list.js","@shared/data-structures/pooled.js":"@shared/data-structures/pooled.js","@shared/data-structures/trees/trie.js":"@shared/data-structures/trees/trie.js","@shared/ecs.js":"@shared/ecs.js","@shared/pooling/dynamic-pool.js":"@shared/pooling/dynamic-pool.js","@shared/systems/physics/system.js":"@shared/systems/physics/system.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js","@shared/vectors.js":"@shared/vectors.js","@timohausmann/quadtree-js":6,"ramda":7}]},{},[]);
+},{"@kit-js/core/js/util":2,"@kit-js/interface":3,"@shared/data-structures/list.js":"@shared/data-structures/list.js","@shared/data-structures/pooled.js":"@shared/data-structures/pooled.js","@shared/data-structures/trees/trie.js":"@shared/data-structures/trees/trie.js","@shared/ecs.js":"@shared/ecs.js","@shared/pooling/dynamic-pool.js":"@shared/pooling/dynamic-pool.js","@shared/systems/physics/system.js":"@shared/systems/physics/system.js","@shared/vectors.js":"@shared/vectors.js","@timohausmann/quadtree-js":6,"ramda":7}]},{},[]);

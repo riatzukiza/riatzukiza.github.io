@@ -7,8 +7,9 @@
           )
 
 (on game.events 'static-object-collision (o1, o2)
-    (var v (.get game.systems Velocity o1.entity))
-    (var v* (.get game.systems Velocity o2.entity))
+
+    (var v o1.entity.velocity-interface)
+    (var v* o2.entity.velocity-interface)
 
     (const phys1 o1.physics)
     (const phys2 o2.physics)

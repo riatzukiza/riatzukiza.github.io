@@ -1,6 +1,6 @@
 (namespace vector-ants)
 (const dim      [(* 0.8 window.innerWidth), (- window.innerHeight 3)])
-(const size 2)
+(const size 4)
 (set module.exports
      'size size
      'angle-zoom 18
@@ -22,7 +22,7 @@
      'options-amplitude 10
      'limit-decay true
      'ant-influence 10
-     'friction 0.1
+     'friction 0.5
      'collision-static 5
      'spawn-static 10
      'spawn-rate 10

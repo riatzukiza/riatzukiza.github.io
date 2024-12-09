@@ -1,0 +1,54 @@
+
+(include "kit-interface/header")
+(import-namespace interface)
+(macro accumulate (name ...body) `(assign @name (pipe @name ...@body)))
+
+(require! R "ramda")
+
+(require! (lit Ordered-map) "@shared/data-structures/maps/ordered.js"
+          (lit Dynamic-pool) "@shared/pooling/dynamic-pool.js"
+          (lit Group) "@shared/data-structures/group.js")
+
+
+(def spawn-component  (entity systems) (#-> systems.get (.spawn  entity)))
+
+(def component-list  (entity) (R.map (spawn-component entity)))
+
+(def remove (entity) (#-> (get 'system) (.clear entity)))
+
+(var clear (#->  .clear))
+(define Entity-group Interface
+
+  (init (name aspects system (group ((create Group)))))
+  (gett size this.group.size)
+
+  (def clear (group) (.each group clear))
+
+  (def-generic spawn ( aspects system group)
+    (collect e (.spawn system aspects )
+             (assign e.group this)
+             (.add group e))))
+
+
+(def-generic Entity-group.init (name aspects system (group ((create Group) )))
+  (set this 'name name
+       'aspects aspects
+       'system system
+       'group group)
+  this)
+
+(def-generic Entity-group.clear (group)
+  (while (< 0 group.length)
+    (.clear (.pop group))))
+
+(def-generic Entity-group.has (entity group) (group.has entity))
+
+(def-generic Entity-group.spawn ( aspects system group)
+  (collect e (.spawn system aspects )
+           (.add group e)))
+
+(def-generic Entity-group.despawn (entity group)
+  (.remove group entity)
+  (.clear entity ))
+
+(export Entity-group)

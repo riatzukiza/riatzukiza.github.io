@@ -10676,12 +10676,12 @@ var PhysicalProperties = Component.define("PhysicalProperties", {
    },
   get velocity(  ){ 
     
-      return this.system.process.systems.get(Velocity, this.entity);
+      return this.entity.velocityInterface;
     
    },
   get position(  ){ 
     
-      return this.system.process.systems.get(Position, this.entity);
+      return this.entity.positionInterface;
     
    },
   get location(  ){ 
@@ -10717,7 +10717,7 @@ var Physics = System.define("Physics", {
   _updateComponent( c ){ 
     
       return c.forces.each((function() {
-        /* eval.sibilant:1:1485 */
+        /* eval.sibilant:1:1435 */
       
         return arguments[0].apply(c);
       }));

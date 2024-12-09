@@ -1,11 +1,8 @@
 require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({"@obstacles/events/collision.js":[function(require,module,exports){
 var { 
   Velocity
- } = require("@shared/systems/velocity.js");
+ } = require("@obstacles/systems/velocity.js");
 var { 
-  Position
- } = require("@shared/systems/position.js"),
-    { 
   Physics
  } = require("@shared/systems/physics/system.js");
 var { 
@@ -19,10 +16,10 @@ var {
  } = require("@obstacles/entities.js");
 game.events.on("collision", ((c, c_) => {
 	
-  var v = game.systems.get(Velocity, c.entity);
-  var v_ = game.systems.get(Velocity, c_.entity);
-  var p = game.systems.get(Physics, c.entity);
-  var p_ = game.systems.get(Physics, c_.entity);
+  var v = c.entity.velocityInterface;
+  var v_ = c_.entity.velocityInterface;
+  var p = c.entity.physicalProperties;
+  var p_ = c_.entity.physicalProperties;
   if( (c.entity === home && plants.has(c_.entity)) ){ 
     return game.events.emit("plantCollidingWithSpawn", c, c_);
    };
@@ -64,4 +61,4 @@ game.events.on("collision", ((c, c_) => {
   return console.log(err);
 
 }));
-},{"@obstacles/entities.js":"@obstacles/entities.js","@obstacles/game.js":"@obstacles/game.js","@shared/systems/physics/system.js":"@shared/systems/physics/system.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js"}]},{},[]);
+},{"@obstacles/entities.js":"@obstacles/entities.js","@obstacles/game.js":"@obstacles/game.js","@obstacles/systems/velocity.js":"@obstacles/systems/velocity.js","@shared/systems/physics/system.js":"@shared/systems/physics/system.js"}]},{},[]);

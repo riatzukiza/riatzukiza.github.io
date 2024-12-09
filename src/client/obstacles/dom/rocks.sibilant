@@ -19,9 +19,9 @@
                color-string)))
 
   (def Position (pos)
-    (dom (.div .className "panel"  (display-decimal pos.x 2) ", "(display-decimal pos.y 2))))
+    )
 
-  (def Velocity (vel) (dom (.div .className "panel" "velocity:" (display-decimal vel.xd 2) "," (display-decimal vel.yd 2))))
+  (def Velocity (vel) )
   (def Physics  (phys)
     (dom (.div .className "panel"
            (.div .className "panel" "scale:" (display-decimal phys.scale 2))
