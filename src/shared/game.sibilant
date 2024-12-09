@@ -21,6 +21,7 @@
         (var get-system-by-symbol systems.get
              set-system-by-symbol systems.set)
 
+        (assign systems.get-by-symbol get-system-by-symbol)
         (def systems.get (interface ent)
              (var sys (get-system-by-symbol.call systems interface.symbol))
 

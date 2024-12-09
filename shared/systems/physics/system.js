@@ -79,7 +79,8 @@ var PhysicalProperties = Component.define("PhysicalProperties", {
       this._mass = null;
       this._scale = null;
       this.priorScale = null;
-      return this.priorMass = null;
+      this.priorMass = null;
+      return this.forces = [];
     
    }
  });
@@ -110,7 +111,7 @@ var Physics = System.define("Physics", {
   _updateComponent( c ){ 
     
       return c.forces.each((function() {
-        /* eval.sibilant:1:1586 */
+        /* eval.sibilant:1:1621 */
       
         return arguments[0].apply(c);
       }));
@@ -122,13 +123,15 @@ Physics.Force = Interface.define("Physics.Force", {
   init( physics = this.physics ){ 
     
       this.physics = physics;
+      this.register();
       return this;
     
    },
+  template:true,
   build(  ){ 
     
       return (function() {
-        if (!(this.name === "Physics.Force")) {
+        if (!((this.template || this.name === "Physics.Force"))) {
           console.log("Physics.Force.build", "adding force to physics", this);
           return Physics.forces.push(this);
         }

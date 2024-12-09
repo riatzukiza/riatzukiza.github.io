@@ -5,6 +5,7 @@ var {
   Collision
  } = require("@shared/systems/collision.js");
 var Friction = Physics.Force.define("Friction", { 
+  template:true,
   get config(  ){ 
     
       throw (new Error("No config provided to friction force sub system."))

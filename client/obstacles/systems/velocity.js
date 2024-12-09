@@ -14,6 +14,7 @@ var {
   DocumentRoot
  } = require("@shared/dom.js");
 const views=(new Map());
+const oldClear=VelocityInterface._clear;
 var VelocityInterface = VelocityInterface.define("VelocityInterface", { 
   get parentView(  ){ 
     
@@ -54,6 +55,23 @@ var VelocityInterface = VelocityInterface.define("VelocityInterface", {
   get updateView__QUERY(  ){ 
     
       return this.moved;
+    
+   },
+  _clear(  ){ 
+    
+      oldClear.call(this);
+      return (function() {
+        if (this.trail) {
+          this.winCount = 0;
+          this.looseCount = 0;
+          this.trail.each(((seq) => {
+          	
+            return seq.despawn();
+          
+          }));
+          return this.trail = [];
+        }
+      }).call(this);
     
    }
  });

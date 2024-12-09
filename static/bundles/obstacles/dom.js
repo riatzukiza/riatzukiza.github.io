@@ -19,6 +19,9 @@ var {
   game
  } = require("@obstacles/game.js"),
     { 
+  SignalField
+ } = require("@obstacles/forces.js"),
+    { 
   vectorPool,
   trailPool
  } = require("@shared/vectors.js"),
@@ -104,7 +107,12 @@ const resetButton=createDocumentNode("button", { 'onclick': (() => {
 	
   rocks.clear();
   ants.clear();
-  return plants.clear();
+  plants.clear();
+  return game.systems.getBySymbol(Physics.symbol).forces.each(((force) => {
+  	
+    return f.reset();
+  
+  }));
 
 }) }, [ "Reset" ]);
 const debugView=createDocumentNode("div", {
@@ -122,7 +130,7 @@ exports.gameView = gameView;
 exports.debugView = debugView;
 createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentRoot);
 var startInterface = (function startInterface$() {
-  /* start-interface eval.sibilant:75:0 */
+  /* start-interface eval.sibilant:79:0 */
 
   return game.events.on("tick", ((t) => {
   	
@@ -141,4 +149,4 @@ var startInterface = (function startInterface$() {
   }));
 });
 exports.startInterface = startInterface;
-},{"@obstacles/config.js":"@obstacles/config.js","@obstacles/entities.js":"@obstacles/entities.js","@obstacles/game.js":"@obstacles/game.js","@obstacles/rendering.js":"@obstacles/rendering.js","@obstacles/systems/property-view.js":"@obstacles/systems/property-view.js","@shared/dom.js":"@shared/dom.js","@shared/math/math.js":"@shared/math/math.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/rendering/dot.js":"@shared/systems/rendering/dot.js","@shared/vectors.js":"@shared/vectors.js"}]},{},[]);
+},{"@obstacles/config.js":"@obstacles/config.js","@obstacles/entities.js":"@obstacles/entities.js","@obstacles/forces.js":"@obstacles/forces.js","@obstacles/game.js":"@obstacles/game.js","@obstacles/rendering.js":"@obstacles/rendering.js","@obstacles/systems/property-view.js":"@obstacles/systems/property-view.js","@shared/dom.js":"@shared/dom.js","@shared/math/math.js":"@shared/math/math.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/rendering/dot.js":"@shared/systems/rendering/dot.js","@shared/vectors.js":"@shared/vectors.js"}]},{},[]);

@@ -18,6 +18,9 @@ var {
   game
  } = require("@obstacles/game.js"),
     { 
+  SignalField
+ } = require("@obstacles/forces.js"),
+    { 
   vectorPool,
   trailPool
  } = require("@shared/vectors.js"),
@@ -103,7 +106,12 @@ const resetButton=createDocumentNode("button", { 'onclick': (() => {
 	
   rocks.clear();
   ants.clear();
-  return plants.clear();
+  plants.clear();
+  return game.systems.getBySymbol(Physics.symbol).forces.each(((force) => {
+  	
+    return f.reset();
+  
+  }));
 
 }) }, [ "Reset" ]);
 const debugView=createDocumentNode("div", {
@@ -121,7 +129,7 @@ exports.gameView = gameView;
 exports.debugView = debugView;
 createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentRoot);
 var startInterface = (function startInterface$() {
-  /* start-interface eval.sibilant:75:0 */
+  /* start-interface eval.sibilant:79:0 */
 
   return game.events.on("tick", ((t) => {
   	

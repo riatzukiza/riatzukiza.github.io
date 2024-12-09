@@ -54,12 +54,12 @@ var EntityGroup = Interface.define("EntityGroup", {
   spawn( aspects = this.aspects,system = this.system,group = this.group ){ 
     
       return (function(e) {
-        /* inc/misc.sibilant:1:782 */
+        /* node_modules/kit/inc/scope.sibilant:12:9 */
       
         e.group = this;
         group.add(e);
         return e;
-      }).call(this, system.spawn(aspects));
+      })(system.spawn(aspects));
     
    }
  });
@@ -91,11 +91,11 @@ EntityGroup.spawn = (function EntityGroup$spawn$(aspects = this.aspects, system 
   /* Entity-group.spawn node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
   return (function(e) {
-    /* inc/misc.sibilant:1:782 */
+    /* node_modules/kit/inc/scope.sibilant:12:9 */
   
     group.add(e);
     return e;
-  }).call(this, system.spawn(aspects));
+  })(system.spawn(aspects));
 });
 EntityGroup.despawn = (function EntityGroup$despawn$(entity = this.entity, group = this.group) {
   /* Entity-group.despawn node_modules/kit/inc/core/function-expressions.sibilant:29:8 */

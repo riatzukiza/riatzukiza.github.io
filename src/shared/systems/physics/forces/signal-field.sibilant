@@ -6,14 +6,15 @@
 
 
 (define SignalField Physics.Force
+
+  (template true)
+
   (gett config (throw (Error "No config provided for signal-field force sub system")))
   (gett game (throw (Error "No game object provided for signal-field force sub system")))
   (gett entities (throw (Error "No entities object provided for signal-field force sub system")))
   (gett update-particle (throw (Error "No update particle function provided for signal-field force sub system")))
   (gett field (throw (Error "No noise field layer (this.field)  provided for signal-field force sub system")))
   (gett layer (throw (Error "No signal field layer (this.layer)   provided for signal-field force sub system")))
-
-
 
   (def-generic apply (c, field, layer config game entities update-particle)
     (var v c.velocity)

@@ -41,7 +41,9 @@
     (assign this.*mass null)
     (assign this.*scale null)
     (assign this.prior-scale null)
-    (assign this.prior-mass null)))
+    (assign this.prior-mass null)
+    (assign this.forces [])
+    ))
 
 (export Physical-properties)
 
@@ -64,9 +66,11 @@
 (export Physics)
 
 (define Physics.Force Interface
-  (init (physics))
+  (init (physics)
+        (.register this))
+  (template true)
   (def build ()
-       (unless (= this.name 'Physics.Force)
+    (unless (or this.template (= this.name 'Physics.Force))
          (print "Physics.Force.build" "adding force to physics" this)
          (.push Physics.forces this)))
 

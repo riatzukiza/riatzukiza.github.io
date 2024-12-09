@@ -10,6 +10,7 @@
             (.get @m @k)
             (do (var r (scoped ...@body))
                 (.set @m @k r) r)))
+(const old-clear Velocity-interface.*clear)
 (define Velocity-interface Velocity-interface
   (gett parent-view this.entity.property-view.view )
   (gett view
@@ -21,7 +22,18 @@
                               (.div (-> (display-decimal this.xd 2)) "," (-> (display-decimal this.yd 2)))))
                            this.parent-view
                            )))
-  (gett update-view? this.moved))
+  (gett update-view? this.moved)
+  (def *clear ()
+    (.call old-clear this)
+    (when this.trail
+      (assign this.win-count 0)
+      (assign this.loose-count 0)
+      (each this.trail (seq)
+            (.despawn seq) )
+      (assign this.trail [])
+      )
+    )
+  )
 (export Velocity-interface)
 
 (define Velocity Velocity

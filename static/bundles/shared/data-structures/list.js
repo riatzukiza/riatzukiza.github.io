@@ -10701,13 +10701,13 @@ var List = Interface.define("List", {
   clear(  ){ 
     
       return (function() {
-        var while$102 = undefined;
+        var while$8 = undefined;
         while (this.length > 0) {
-          while$102 = (function() {
+          while$8 = (function() {
             return this.pop();
           }).call(this);
         };
-        return while$102;
+        return while$8;
       }).call(this);
     
    },
@@ -10744,9 +10744,9 @@ var List = Interface.define("List", {
       var node = this.head;
       var success = false;
       return (function() {
-        var while$103 = undefined;
+        var while$9 = undefined;
         while (node) {
-          while$103 = (function() {
+          while$9 = (function() {
             return (function() {
               if (node.item !== item) {
                 node = node.next;
@@ -10758,7 +10758,7 @@ var List = Interface.define("List", {
             }).call(this);
           }).call(this);
         };
-        return while$103;
+        return while$9;
       }).call(this);
     
    },
@@ -10848,14 +10848,14 @@ var List = Interface.define("List", {
     
       var node = this.head;
       (function() {
-        var while$104 = undefined;
+        var while$10 = undefined;
         while (node) {
-          while$104 = (function() {
+          while$10 = (function() {
             f(node.item, node);
             return node = node.next;
           }).call(this);
         };
-        return while$104;
+        return while$10;
       }).call(this);
       return this;
     
@@ -10865,13 +10865,13 @@ var List = Interface.define("List", {
       var result = create(List)();
       var node = this.head;
       return (function() {
-        var while$105 = undefined;
+        var while$11 = undefined;
         while (node) {
-          while$105 = (function() {
+          while$11 = (function() {
             return result.push(f(node, node.next, node.prev));
           }).call(this);
         };
-        return while$105;
+        return while$11;
       }).call(this);
     
    },
