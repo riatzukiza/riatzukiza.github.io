@@ -1,12 +1,3 @@
-var R = require("ramda");
-var { 
-  create,
-  extend,
-  mixin,
-  conditional,
-  cond,
-  partiallyApplyAfter
- } = require("@kit-js/core/js/util");
 var { 
   renderChildren,
   createDocumentNode,
@@ -57,54 +48,57 @@ const gameView=createDocumentNode("div", {
   'id': "game-view",
   'className': "panel"
 }, [ rendering.context.canvas ]);
-const stats=createDocumentNode("div", { 'className': "panel" }, [ (() => {
+const getTotalAntMass=(() => {
 	
-  const wins=ants.group.reduce(((sum, el) => {
+  return displayDecimal(ants.group.reduce(((sum, el) => {
+  	
+    return (sum + (el.physicalProperties.mass || 0));
+  
+  }), 0));
+
+});
+const getAntCount=(() => {
+	
+  return ants.size;
+
+});
+const getWins=(() => {
+	
+  return ants.group.reduce(((sum, el) => {
   	
     return (sum + (el.velocityInterface.winCount || 0));
   
   }), 0);
-  const losses=ants.group.reduce(((sum, el) => {
+
+});
+const getLosses=(() => {
+	
+  return ants.group.reduce(((sum, el) => {
   	
     return (sum + (el.velocityInterface.looseCount || 0));
   
   }), 0);
-  return [ createDocumentNode("div", {  }, [ "Ants" ]), createDocumentNode("div", {  }, [ "count:", (() => {
-  	
-    return ants.size;
-  
-  }) ]), createDocumentNode("div", {  }, [ "elapsed:", game.ticker.elapsed ]), createDocumentNode("div", {  }, [ "total mass:", (() => {
-  	
-    return displayDecimal(ants.group.reduce(((sum, el) => {
-    	
-      return (sum + (el.physicalProperties.mass || 0));
-    
-    }), 0));
-  
-  }) ]), createDocumentNode("div", {  }, [ "wins:", (() => {
-  	
-    return displayDecimal(wins);
-  
-  }) ]), createDocumentNode("div", {  }, [ "losses:", (() => {
-  	
-    return displayDecimal(losses);
-  
-  }) ]), createDocumentNode("div", {  }, [ "win/loss:", (() => {
-  	
-    return displayDecimal((wins / losses));
-  
-  }) ]) ];
 
-}) ]);
-const poolsView=createDocumentNode("div", { 'className': "panel" }, [ createDocumentNode("h3", {  }, [ "Pools" ]), createDocumentNode("div", {  }, [ "vector buckets", (() => {
+});
+const getStats=(() => {
+	
+  const wins=getWins();
+  const losses=getLosses();
+  return [ createDocumentNode("div", {  }, [ "Ants" ]), createDocumentNode("div", {  }, [ "count:", getAntCount ]), createDocumentNode("div", {  }, [ "elapsed:", game.ticker.elapsed ]), createDocumentNode("div", {  }, [ "total mass:", getTotalAntMass ]), createDocumentNode("div", {  }, [ "wins:", displayDecimal(wins) ]), createDocumentNode("div", {  }, [ "losses:", displayDecimal(losses) ]), createDocumentNode("div", {  }, [ "win/loss:", displayDecimal((wins / losses)) ]) ];
+
+});
+const stats=createDocumentNode("div", { 'className': "panel" }, [ getStats ]);
+const getVectorBucketCount=(() => {
 	
   return vectorPool.buckets.length;
 
-}) ]), createDocumentNode("div", {  }, [ "trail buckets", (() => {
+});
+const getTrailBucketCount=(() => {
 	
   return trailPool.buckets.length;
 
-}) ]) ]);
+});
+const poolsView=createDocumentNode("div", { 'className': "panel" }, [ createDocumentNode("h3", {  }, [ "Pools" ]), createDocumentNode("div", {  }, [ "vector buckets", getVectorBucketCount ]), createDocumentNode("div", {  }, [ "trail buckets", getTrailBucketCount ]) ]);
 const debugView=createDocumentNode("div", {
   'id': "debug-view",
   'className': "panel",
@@ -114,18 +108,23 @@ const debugView=createDocumentNode("div", {
     "overflow-y":"scroll"
    }
 }, [ stats, poolsView ]);
+const resetButton=createDocumentNode("button", { 'onclick': (() => {
+	
+  
+
+}) }, [ "Reset" ]);
 var container = createDocumentNode("div", { 'id': "container" }, [ gameView, debugView ]);
 exports.container = container;
 exports.gameView = gameView;
 exports.debugView = debugView;
 createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentRoot);
 var startInterface = (function startInterface$() {
-  /* start-interface eval.sibilant:68:0 */
+  /* start-interface eval.sibilant:70:0 */
 
   return game.events.on("tick", ((t) => {
   	
     return (function() {
-      if ((t % 10) === 0) {
+      if ((t % config.uiPollingRate) === 0) {
         stats.render();
         return poolsView.render();
       }

@@ -3,6 +3,7 @@
 (const size 4)
 (set module.exports
      'size size
+     'ui-polling-rate 60
      'angle-zoom 18
      'noise-z 10
      'field-force 0.5

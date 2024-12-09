@@ -2,6 +2,7 @@ require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c=
 const dim=[ (0.8 * window.innerWidth), (window.innerHeight - 3) ];
 const size=4;
 module.exports.size = size;
+module.exports.uiPollingRate = 60;
 module.exports.angleZoom = 18;
 module.exports.noiseZ = 10;
 module.exports.fieldForce = 0.5;

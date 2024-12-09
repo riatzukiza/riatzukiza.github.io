@@ -1,5 +1,6 @@
 (namespace obstacles)
-(require! (lit Component System) "@shared/ecs.js")
+(require! (lit Component System) "@shared/ecs.js"
+          config "@obstacles/config.js")
 
 (include "../../../../inc/dom.sibilant")
 (import-namespace dom)
@@ -27,34 +28,48 @@
   (page-size 10)
   (page 0)
   (cursor 0)
-  (gett pages (/  this.components.length this.page-size))
+
+  (def register ()
+    (assign this.updated? true)
+    (assign this.page-number-view (dom (.span (-> (+ (+ 1 this.page)  "/" this.pages))))))
+
+  (gett pages (Math.ceil (/  this.components.length this.page-size)))
   (gett parent-view (get (require "@obstacles/dom.js") 'debug-view))
+
   (gett view (remember views this
                        (.render (dom (.div .id "view-panel-top" .className "panel"
-                                   (.h4 "Entities")
-                                   (.button "prev" .onclick (-> (if (> this.page 0)
+                                   (.h4 "Entities" )
+                                   (.button "prev" .onclick (-> (when (> this.page 0)
                                                                     (decr this.page)
-                                                                    )))
-                                   (.button "next" .onclick (-> (if (< this.page this.pages)
+                                                                    (assign this.updated? true)
+                                                                    (.render this.page-number-view))))
+                                   (.button "next" .onclick (-> (when (< this.page this.pages)
                                                                     (incr this.page)
-                                                                    )))
+                                                                    (assign this.updated? true)
+                                                                    (.render this.page-number-view))))
+                                   this.page-number-view
                                    ))
                                 this.parent-view)))
   (def *prepare () (assign this.cursor 0))
 
   (def *update-component (c t)
-    (when (= (mod this.game.ticker.ticks 10) 0)
-      (.remove c.view)
+    (when (or this.updated? (= (mod this.game.ticker.ticks config.ui-polling-rate) 0))
+      (.render this.page-number-view this.view)
+      (if c.displayed? (.remove c.view))
+      (assign c.displayed? false)
+
       (when (= (Math.floor (/  this.cursor this.page-size)) this.page)
+
+        (assign c.displayed? true)
         (each c.entity.aspects (a)
               (const c* (get c.entity a.interface.name))
               (when c*.update-view?
                 (.append c.view c*.view)))
         (.render c.view this.view))
       (incr this.cursor)))
-  ;; (def *cleanup ()
-  ;;   (.render this.view this.parent-view)
-  ;;   )
+  (def *cleanup ()
+    (assign this.updated? false)
+    )
   )
 (export View-panel)
 (export Property-view)

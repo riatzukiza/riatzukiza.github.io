@@ -1,6 +1,4 @@
 (namespace obstacles)
-(include "kit/header" )
-(import-namespace kit)
 
 (include "../../../inc/dom.sibilant")
 (import-namespace dom)
@@ -26,34 +24,38 @@
 (macro sum-of (reducable ...keys) `(.reduce @reducable  (=> ( sum el) (+ sum (or (get el ...@keys) 0))) 0))
 
 (const game-view (dom (.div .id "game-view" .className "panel" rendering.context.canvas)))
-(const stats (dom (.div .className "panel"
-                        (->
-                         (const wins (sum-of ants.group 'velocity-interface 'win-count))
-                         (const losses (sum-of ants.group 'velocity-interface 'loose-count))
+(const get-total-ant-mass (-> (display-decimal (sum-of ants.group 'physical-properties 'mass))))
+(const get-ant-count (-> ants.size))
+(const get-wins (-> (sum-of ants.group 'velocity-interface 'win-count)))
+(const get-losses (-> (sum-of ants.group 'velocity-interface 'loose-count)))
+(const get-stats (->
+                  (const wins (get-wins))
+                  (const losses (get-losses))
 
-                         [
+                  [(dom (.div "Ants"))
+                   (dom (.div "count:" get-ant-count))
+                   (dom (.div "elapsed:" game.ticker.elapsed))
+                   (dom (.div "total mass:" get-total-ant-mass))
+                   (dom (.div "wins:" (display-decimal wins)))
+                   (dom (.div "losses:" (display-decimal losses)))
+                   (dom (.div "win/loss:" (display-decimal (/ wins losses))))]))
+(const stats (dom (.div .className "panel" get-stats)))
+(const get-vector-bucket-count (-> vector-pool.buckets.length))
+(const get-trail-bucket-count (-> trail-pool.buckets.length))
+(const pools-view
+       (dom (.div .className "panel" (.h3 "Pools")
+                  (.div "vector buckets" get-vector-bucket-count)
+                  (.div "trail buckets" get-trail-bucket-count))))
 
-                          (dom (.div "Ants"))
-                          (dom (.div "count:" (-> ants.size)))
-                          (dom (.div "elapsed:" game.ticker.elapsed))
-                          (dom (.div "total mass:" (-> (display-decimal (sum-of ants.group 'physical-properties 'mass)))))
-                          (dom (.div "wins:" (-> (display-decimal wins))))
-                          (dom (.div "losses:" (-> (display-decimal losses))))
-                          (dom (.div "win/loss:" (-> (display-decimal (/ wins losses)))))]))))
-(const pools-view (dom (.div .className "panel" (.h3 "Pools")
-                             (.div "vector buckets"
-                                   (-> vector-pool.buckets.length))
-                             (.div "trail buckets"
-                                   (-> trail-pool.buckets.length)))))
+(const debug-view
+       (dom (.div .id "debug-view" .className "panel"
+                  .style (lit (height (+  (second config.dimensions)"px"))
+                              (width (+ (Math.round (- (* window.innerWidth 0.2) 24)) "px"))
+                              ("overflow-y" "scroll"))
+                  stats
+                  pools-view)))
 
-(const debug-view (dom (.div .id "debug-view" .className "panel"
-                             .style (lit (height (+  (second config.dimensions)"px"))
-                                         (width (+ (Math.round (- (* window.innerWidth 0.2) 24)) "px"))
-                                         ("overflow-y" "scroll"))
-                             stats
-                             pools-view
-                             )))
-
+(const reset-button (dom (.button .onclick (-> )"Reset")))
 
 
 
@@ -68,7 +70,7 @@
 (def start-interface ()
   (on game.events 'tick (t)
 
-      (when (= (mod t 10) 0)
+      (when (= (mod t config.ui-polling-rate) 0)
         (.render stats)
         (.render pools-view)
         )

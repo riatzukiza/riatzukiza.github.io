@@ -2,7 +2,8 @@ require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c=
 var { 
   Component,
   System
- } = require("@shared/ecs.js");
+ } = require("@shared/ecs.js"),
+    config = require("@obstacles/config.js");
 var { 
   renderChildren,
   createDocumentNode,
@@ -55,9 +56,19 @@ var ViewPanel = System.define("ViewPanel", {
   pageSize:10,
   page:0,
   cursor:0,
+  register(  ){ 
+    
+      this.updated__QUERY = true;
+      return this.pageNumberView = createDocumentNode("span", {  }, [ (() => {
+      	
+        return ((1 + this.page) + "/" + this.pages);
+      
+      }) ]);
+    
+   },
   get pages(  ){ 
     
-      return (this.components.length / this.pageSize);
+      return Math.ceil((this.components.length / this.pageSize));
     
    },
   get parentView(  ){ 
@@ -81,7 +92,9 @@ var ViewPanel = System.define("ViewPanel", {
             	
               return (function() {
                 if (this.page > 0) {
-                  return ((this.page)--);
+                  ((this.page)--);
+                  this.updated__QUERY = true;
+                  return this.pageNumberView.render();
                 }
               }).call(this);
             
@@ -89,11 +102,13 @@ var ViewPanel = System.define("ViewPanel", {
             	
               return (function() {
                 if (this.page < this.pages) {
-                  return ((this.page)++);
+                  ((this.page)++);
+                  this.updated__QUERY = true;
+                  return this.pageNumberView.render();
                 }
               }).call(this);
             
-            }) }, [ "next" ]) ]).render(this.parentView);
+            }) }, [ "next" ]), this.pageNumberView ]).render(this.parentView);
           }).call(this);
           views.set(this, r);
           return r;
@@ -109,10 +124,17 @@ var ViewPanel = System.define("ViewPanel", {
   _updateComponent( c,t ){ 
     
       return (function() {
-        if ((this.game.ticker.ticks % 10) === 0) {
-          c.view.remove();
+        if ((this.updated__QUERY || (this.game.ticker.ticks % config.uiPollingRate) === 0)) {
+          this.pageNumberView.render(this.view);
+          (function() {
+            if (c.displayed__QUERY) {
+              return c.view.remove();
+            }
+          }).call(this);
+          c.displayed__QUERY = false;
           (function() {
             if (Math.floor((this.cursor / this.pageSize)) === this.page) {
+              c.displayed__QUERY = true;
               c.entity.aspects.each(((a) => {
               	
                 const c_=c.entity[a.interface.name];
@@ -130,8 +152,13 @@ var ViewPanel = System.define("ViewPanel", {
         }
       }).call(this);
     
+   },
+  _cleanup(  ){ 
+    
+      return this.updated__QUERY = false;
+    
    }
  });
 exports.ViewPanel = ViewPanel;
 exports.PropertyView = PropertyView;
-},{"@obstacles/dom.js":"@obstacles/dom.js","@shared/dom.js":"@shared/dom.js","@shared/ecs.js":"@shared/ecs.js"}]},{},[]);
+},{"@obstacles/config.js":"@obstacles/config.js","@obstacles/dom.js":"@obstacles/dom.js","@shared/dom.js":"@shared/dom.js","@shared/ecs.js":"@shared/ecs.js"}]},{},[]);
