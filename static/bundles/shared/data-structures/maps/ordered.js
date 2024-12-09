@@ -10643,7 +10643,7 @@ var OrderedMap = Interface.define("OrderedMap", {
   map( callback = this.callback,[ _members, _, _keys, _values ] = [ this._members, this._, this._keys, this._values ] ){ 
     
       return (function(r) {
-        /* eval.sibilant:1:381 */
+        /* node_modules/kit/inc/scope.sibilant:12:9 */
       
         _keys.each(((k) => {
         	
@@ -10651,7 +10651,7 @@ var OrderedMap = Interface.define("OrderedMap", {
         
         }));
         return r;
-      }).call(this, create(OrderedMap)());
+      })(create(OrderedMap)());
     
    },
   delete( key = this.key,[ _members, _keyPointers, _keys, _values ] = [ this._members, this._keyPointers, this._keys, this._values ] ){ 

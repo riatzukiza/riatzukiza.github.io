@@ -31,7 +31,6 @@
 (const lib-bundles (new Map))
 (const bundles (new Map))
 (def-async bundle-shared (file dest compile?)
-  (print "bundling shared module" file.path "for" (Path.join dest.root file.rel))
 
   (var bundle (remember lib-bundles file.rel
                         (var b (browserify (lit (basedir (Path.dirname file.rel)))))
@@ -66,7 +65,6 @@
                       ) ))))
 
 (def-async bundle (file dest compile?)
-  (print "bundling project module" file.path "for" (Path.join dest.root file.rel))
 
   (var bundle (remember (if (= (Path.basename file.path) "main.js") main-bundles
                             bundles) file.rel
@@ -128,8 +126,6 @@
 
 (def-async compile-module (file dest)
 
-  (print "compiling module" file.path "for" (Path.join dest.root file.rel))
-
   (try!
 
    (var lisp (await file.string))
@@ -160,7 +156,6 @@
 
    (var js (await file.string))
 
-   (print "compiling html template" file.path "for" (Path.join dest.root file.rel))
    (var result (eval js))
 
    (var dest-file (await (.insert dest (+ (Path.join
