@@ -6,6 +6,7 @@
 (require! (lit rendering ) "@obstacles/rendering.js"
           (lit ants rocks plants) "@obstacles/entities.js"
           (lit game) "@obstacles/game.js"
+          (lit Signal-field) "@obstacles/forces.js"
           (lit vector-pool trail-pool) "@shared/vectors.js"
           (lit Physics) "@shared/systems/physics/index.js"
           (lit Dot) "@shared/systems/rendering/dot.js"
@@ -51,7 +52,10 @@
 (const reset-button (dom (.button .onclick (->
                                             (.clear rocks)
                                             (.clear ants)
-                                            (.clear plants)) "Reset")))
+                                            (.clear plants)
+                                            (each (get (.get-by-symbol game.systems Physics.symbol) 'forces) (force)
+                                                  (.reset f))
+                                            ) "Reset")))
 (const debug-view
        (dom (.div .id "debug-view" .className "panel"
                   .style (lit (height (+  (second config.dimensions)"px"))

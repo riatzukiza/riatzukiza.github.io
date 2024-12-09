@@ -3,6 +3,7 @@
 
 (define Friction Physics.Force
 
+  (template true)
   (gett config (throw (new Error "No config provided to friction force sub system.")))
 
   (def-generic apply (c config)

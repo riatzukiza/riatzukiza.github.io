@@ -13,6 +13,7 @@ var {
   Collision
  } = require("@shared/systems/collision.js");
 var SignalField = Physics.Force.define("SignalField", { 
+  template:true,
   get config(  ){ 
     
       throw Error("No config provided for signal-field force sub system")

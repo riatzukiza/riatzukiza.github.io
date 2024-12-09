@@ -53,7 +53,7 @@ var OrderedMap = Interface.define("OrderedMap", {
   map( callback = this.callback,[ _members, _, _keys, _values ] = [ this._members, this._, this._keys, this._values ] ){ 
     
       return (function(r) {
-        /* inc/misc.sibilant:1:782 */
+        /* node_modules/kit/inc/scope.sibilant:12:9 */
       
         _keys.each(((k) => {
         	
@@ -61,7 +61,7 @@ var OrderedMap = Interface.define("OrderedMap", {
         
         }));
         return r;
-      }).call(this, create(OrderedMap)());
+      })(create(OrderedMap)());
     
    },
   rebuild(  ){ 
@@ -104,15 +104,18 @@ var OrderedMap = Interface.define("OrderedMap", {
         if (_members.has(key)) {
           return _members.get(key);
         } else {
-          var r = (function() {
-            /* inc/misc.sibilant:1:673 */
+          return (function(value) {
+            /* node_modules/kit/inc/scope.sibilant:12:9 */
+          
+            _members.set(key, value);
+            return value;
+          })((function() {
+            /* node_modules/kit/inc/macros.sibilant:30:25 */
           
             _keys.push(key);
             _keyPointers.set(key, (_values.push(value) - 1));
             return value;
-          }).call(this);
-          _members.set(key, r);
-          return r;
+          }).call(this));
         }
       }).call(this);
     
@@ -141,15 +144,18 @@ var OrderedMap = Interface.define("OrderedMap", {
         if (_members.has(key)) {
           return _members.get(key);
         } else {
-          var r = (function() {
-            /* inc/misc.sibilant:1:673 */
+          return (function(value) {
+            /* node_modules/kit/inc/scope.sibilant:12:9 */
+          
+            _members.set(key, value);
+            return value;
+          })((function() {
+            /* node_modules/kit/inc/macros.sibilant:30:25 */
           
             _keys.unshift(key);
             _keyPointers.set(key, (_values.unshift(value) - 1));
             return value;
-          }).call(this);
-          _members.set(key, r);
-          return r;
+          }).call(this));
         }
       }).call(this);
     

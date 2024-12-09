@@ -10688,6 +10688,16 @@ var PhysicalProperties = Component.define("PhysicalProperties", {
     
       return this.position;
     
+   },
+  _clear(  ){ 
+    
+      this._mass = null;
+      this._scale = null;
+      this.priorScale = null;
+      this.priorMass = null;
+      i;
+      return this.forces = [];
+    
    }
  });
 exports.PhysicalProperties = PhysicalProperties;
@@ -10717,7 +10727,7 @@ var Physics = System.define("Physics", {
   _updateComponent( c ){ 
     
       return c.forces.each((function() {
-        /* eval.sibilant:1:1435 */
+        /* eval.sibilant:1:1622 */
       
         return arguments[0].apply(c);
       }));
@@ -10729,13 +10739,15 @@ Physics.Force = Interface.define("Physics.Force", {
   init( physics = this.physics ){ 
     
       this.physics = physics;
+      this.register();
       return this;
     
    },
+  template:true,
   build(  ){ 
     
       return (function() {
-        if (!(this.name === "Physics.Force")) {
+        if (!((this.template || this.name === "Physics.Force"))) {
           console.log("Physics.Force.build", "adding force to physics", this);
           return Physics.forces.push(this);
         }

@@ -18,18 +18,56 @@ console.log("initializing forces", {
  });
 var Friction = Friction.define("Friction", { 
   config:config,
+  template:false,
   register(  ){ 
     
       return this.config = config;
     
+   },
+  reset(  ){ 
+    
    }
  });
 var SignalField = SignalField.define("SignalField", { 
+  template:false,
+  field:createVectorField(config.columns, config.rows),
+  layer:createVectorField(config.columns, config.rows),
   register(  ){ 
     
       this.config = config;
       this.field = createVectorField(config.columns, config.rows);
-      return this.layer = createVectorField(config.columns, config.rows);
+      this.layer = createVectorField(config.columns, config.rows);
+      return console.log("registering", this);
+    
+   },
+  reset(  ){ 
+    
+      this.clear();
+      return this.init();
+    
+   },
+  clear(  ){ 
+    
+      this.field.each(((column) => {
+      	
+        return column.each(((cell) => {
+        	
+          return cell.release();
+        
+        }));
+      
+      }));
+      this.layer.each(((column) => {
+      	
+        return column.each(((cell) => {
+        	
+          return cell.release();
+        
+        }));
+      
+      }));
+      this.field = null;
+      return this.layer = null;
     
    },
   config:config,
