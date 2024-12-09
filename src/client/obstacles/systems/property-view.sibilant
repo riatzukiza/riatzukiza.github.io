@@ -1,0 +1,60 @@
+(namespace obstacles)
+(require! (lit Component System) "@shared/ecs.js")
+
+(include "../../../../inc/dom.sibilant")
+(import-namespace dom)
+
+(def-generic display-decimal (d (n 6)) (/ (Math.round (* (Math.pow 10 n) d)) (Math.pow 10 n)))
+(macro remember (m k ...body)
+       `(if (.has @m @k)
+            (.get @m @k)
+            (do (var r (scoped ...@body))
+                (.set @m @k r) r)))
+(const views (new Map))
+(define Property-view Component
+  (def register ())
+  (gett parent-view this.system.view)
+  (gett view (remember views this.entity
+                       (.render (dom (.div .id (+ "entity-panel" this.entity.id)
+                                           .className "panel"
+                                           .style (lit (width "99%"))
+                                           (.div "entity" this.entity.id)
+                                           ))
+                                this.parent-view))))
+
+(define View-panel System
+  (interface Property-view)
+  (page-size 10)
+  (page 0)
+  (cursor 0)
+  (gett pages (/  this.components.length this.page-size))
+  (gett parent-view (get (require "@obstacles/dom.js") 'debug-view))
+  (gett view (remember views this
+                       (.render (dom (.div .id "view-panel-top" .className "panel"
+                                   (.h4 "Entities")
+                                   (.button "prev" .onclick (-> (if (> this.page 0)
+                                                                    (decr this.page)
+                                                                    )))
+                                   (.button "next" .onclick (-> (if (< this.page this.pages)
+                                                                    (incr this.page)
+                                                                    )))
+                                   ))
+                                this.parent-view)))
+  (def *prepare () (assign this.cursor 0))
+
+  (def *update-component (c t)
+    (when (= (mod this.game.ticker.ticks 10) 0)
+      (.remove c.view)
+      (when (= (Math.floor (/  this.cursor this.page-size)) this.page)
+        (each c.entity.aspects (a)
+              (const c* (get c.entity a.interface.name))
+              (when c*.update-view?
+                (.append c.view c*.view)))
+        (.render c.view this.view))
+      (incr this.cursor)))
+  ;; (def *cleanup ()
+  ;;   (.render this.view this.parent-view)
+  ;;   )
+  )
+(export View-panel)
+(export Property-view)

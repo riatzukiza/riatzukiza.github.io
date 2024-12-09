@@ -1,17 +1,16 @@
-(require! (lit Velocity) "@shared/systems/velocity.js")
+(require! (lit Velocity) "@obstacles/systems/velocity.js")
 
-(require! (lit Position) "@shared/systems/position.js"
-          (lit Physics) "@shared/systems/physics/system.js")
+(require! (lit Physics) "@shared/systems/physics/system.js")
 
 (require! (lit game) "@obstacles/game.js"
           (lit home plants ants rocks) "@obstacles/entities.js")
 
 (on game.events 'collision (c c* )
-    (var v (.get game.systems Velocity c.entity))
-    (var v* (.get game.systems Velocity c*.entity))
+    (var v c.entity.velocity-interface)
+    (var v* c*.entity.velocity-interface)
 
-    (var p (.get game.systems Physics c.entity))
-    (var p* (.get game.systems Physics c*.entity))
+    (var p c.entity.physical-properties)
+    (var p* c*.entity.physical-properties)
 
     (if! (and (= c.entity home) (plants.has c*.entity)) (return (.emit game.events 'plant-colliding-with-spawn c, c*)))
     (if! (and (= c*.entity home) (plants.has c.entity)) (return (.emit game.events 'plant-colliding-with-spawn c*, c)))

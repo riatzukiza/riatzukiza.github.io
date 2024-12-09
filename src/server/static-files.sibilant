@@ -9,25 +9,39 @@
 
 (def serve-static-files (sys)
 
-     (def-async serve ((lit request response route key))
+  (def-async serve ((lit request response route key))
 
-       (var path (pipe (.filter key (=> (k) (not (or (= k ".") (= k "..")))))
-                       (.join "/")))
-       (pipe (.find sys path)
-             (.then (=> (file)
-                        (if (file.is-dir?) (.end response "directory")
-                            (do (var ext (Path.extname file.path)
-                                     mime (.lookup mime-types ext))
+    (var path (if (= (first key) "")
+                  "./"
+                  (pipe (.filter key (=> (k) (not (or (= k ".") (= k "..")))))
+                     (.join "/"))))
+    (print "serving path" path)
+    (def serve-file (file)
+      (var ext (Path.extname file.path)
+           mime (.lookup mime-types ext))
+      (print "serving static file" file.path)
 
-                                (.set-header response "Content-Type" mime)
-                              (.pipe file.read-stream response)))))
-             (.catch (=> (err)
-                         (assign response.statusCode 404)
-                         (response.end)
-                         
+      (.set-header response "Content-Type" mime)
+      (.pipe file.read-stream response))
 
-                         )))
+    (def serve-directory (index)
+      (print "serving directory")
+      (.end response "directory"))
 
-       ))
+    (def handle-directory (file)
+      (pipe file
+            (.get "index.html")
+            (.then serve-file)
+            (.catch (-> (serve-directory file)))))
+
+    (pipe (.find sys path)
+          (.then (=> (file)
+                     (if (file.is-dir?)
+                         (handle-directory file)
+                         (serve-file file))))
+          (.catch (=> (err)
+                      (print "file not found" route key)
+                      (assign response.statusCode 404)
+                      (response.end))))))
 
 (export serve-static-files)

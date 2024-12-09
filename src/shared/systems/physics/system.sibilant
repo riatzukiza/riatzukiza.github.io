@@ -33,9 +33,9 @@
   (gett density (/ this.mass this.volume))
   (gett volume (Math.pow this.scale 3))
 
-  (gett velocity (.get this.system.process.systems Velocity this.entity))
+  (gett velocity this.entity.velocity-interface)
 
-  (gett position (.get this.system.process.systems Position this.entity))
+  (gett position this.entity.position-interface)
   (gett location this.position))
 
 (export Physical-properties)

@@ -4,10 +4,10 @@ var {
  } = require("@shared/systems/rendering/dot.js"),
     { 
   Position
- } = require("@shared/systems/position.js"),
+ } = require("@obstacles/systems/position.js"),
     { 
   Velocity
- } = require("@shared/systems/velocity.js"),
+ } = require("@obstacles/systems/velocity.js"),
     { 
   Physics
  } = require("@shared/systems/physics/index.js"),
@@ -29,11 +29,11 @@ var {
  } = require("@obstacles/game.js"),
     config = require("@obstacles/config.js");
 const plants=create(EntityGroup)("Plants", [ Dot, Position, Physics, Collision, Velocity ], game.ent);
-var spawnPlant = (function spawnPlant$(x_y$3, mass) {
+var spawnPlant = (function spawnPlant$(x_y$2, mass) {
   /* spawn-plant eval.sibilant:21:0 */
 
-  var x = x_y$3[0],
-      y = x_y$3[1];
+  var x = x_y$2[0],
+      y = x_y$2[1];
 
   var plant = plants.spawn([ Dot, Position, Physics, Collision, Velocity ]);
   game.systems.get(Dot, plant).color = rgba(0, 255, 0, 255);
@@ -51,4 +51,4 @@ var {
   Friction,
   SignalField
  } = require("@obstacles/forces.js");
-},{"@obstacles/colors.js":"@obstacles/colors.js","@obstacles/config.js":"@obstacles/config.js","@obstacles/forces.js":"@obstacles/forces.js","@obstacles/game.js":"@obstacles/game.js","@shared/ecs.js":"@shared/ecs.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/rendering/dot.js":"@shared/systems/rendering/dot.js","@shared/systems/velocity.js":"@shared/systems/velocity.js"}]},{},[]);
+},{"@obstacles/colors.js":"@obstacles/colors.js","@obstacles/config.js":"@obstacles/config.js","@obstacles/forces.js":"@obstacles/forces.js","@obstacles/game.js":"@obstacles/game.js","@obstacles/systems/position.js":"@obstacles/systems/position.js","@obstacles/systems/velocity.js":"@obstacles/systems/velocity.js","@shared/ecs.js":"@shared/ecs.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/rendering/dot.js":"@shared/systems/rendering/dot.js"}]},{},[]);

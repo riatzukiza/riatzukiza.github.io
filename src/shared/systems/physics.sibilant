@@ -1,0 +1,6 @@
+
+(require! (lit Physics) "@shared/systems/physics/system.js"
+          forces "@shared/systems/physics/forces/index.js")
+
+(export Physics)
+(export forces)

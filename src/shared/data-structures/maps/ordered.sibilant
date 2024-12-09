@@ -10,6 +10,8 @@
          (*keys [])   ;; [ 'a 'b 'c ]
          (*values []) ;; [ 5 6 10 ]
          ))
+  (gett size this.*keys.length)
+  (gett length this.*keys.length)
 
   (def-generic has (key [*members])
 

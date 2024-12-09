@@ -12,11 +12,11 @@
 (const update-particle (create-particle-updater config game))
 (on game.events 'ant-collision (c c*)
 
-    (var v (.get game.systems Velocity c.entity))
-    (var v* (.get game.systems Velocity c*.entity))
+    (var v c.entity.velocity-interface)
+    (var v* c*.entity.velocity-interface)
 
-    (var p (.get game.systems Physics c.entity))
-    (var p* (.get game.systems Physics c*.entity))
+    (var p c.entity.physical-properties)
+    (var p* c*.entity.physical-properties)
 
     ;; (var xd (random-signed config.collision-static))
     ;; (var yd (random-signed config.collision-static))

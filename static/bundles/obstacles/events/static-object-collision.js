@@ -19,8 +19,8 @@ var {
     config = require("@obstacles/config.js");
 game.events.on("staticObjectCollision", ((o1, o2) => {
 	
-  var v = game.systems.get(Velocity, o1.entity);
-  var v_ = game.systems.get(Velocity, o2.entity);
+  var v = o1.entity.velocityInterface;
+  var v_ = o2.entity.velocityInterface;
   const phys1=o1.physics;
   const phys2=o2.physics;
   const pos=v.pos;

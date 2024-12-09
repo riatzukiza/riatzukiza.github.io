@@ -1,0 +1,37 @@
+
+(include "kit-interface/header")
+(import-namespace interface)
+(macro accumulate (name ...body) `(assign @name (pipe @name ...@body)))
+
+(require! R "ramda")
+
+(require! (lit Ordered-map) "@shared/data-structures/maps/ordered.js"
+          (lit Dynamic-pool) "@shared/pooling/dynamic-pool.js"
+          (lit Group) "@shared/data-structures/group.js")
+
+
+(def spawn-component  (entity systems) (#-> systems.get (.spawn  entity)))
+
+(def component-list  (entity) (R.map (spawn-component entity)))
+
+(def remove (entity) (#-> (get 'system) (.clear entity)))
+
+(var clear (#->  .clear))
+(def capitalize (string) (+ (.to-upper-case (.char-at string 0)) (.slice string 1)))
+(def decapitalize (string) (+ (.to-lower-case (.char-at string 0)) (.slice string 1)))
+
+(define Component Interface
+
+  (def register ())
+
+  (init (entity system)
+        (set entity (.to-lower-case this.name) this)
+        (set entity this.name this)
+        (set entity (decapitalize this.name) this)
+        (.register this)))
+
+
+(def-generic Component.clear (system)
+  (.release system.pool this))
+
+(export Component)

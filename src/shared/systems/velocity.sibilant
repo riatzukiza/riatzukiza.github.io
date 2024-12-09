@@ -10,7 +10,7 @@
   (xd 0)
   (yd 0)
 
-  (gett pos (.get this.system.process.systems Position this.entity))
+  (gett pos this.entity.position-interface)
   (def accelerate ([v1,v2])
     (incr-by this.xd v1)
     (incr-by this.yd v2)

@@ -10560,10 +10560,10 @@ var {
  } = require("@shared/systems/rendering/dot.js"),
     { 
   Position
- } = require("@shared/systems/position.js"),
+ } = require("@obstacles/systems/position.js"),
     { 
   Velocity
- } = require("@shared/systems/velocity.js"),
+ } = require("@obstacles/systems/velocity.js"),
     { 
   Physics
  } = require("@shared/systems/physics/index.js"),
@@ -10573,9 +10573,12 @@ var {
     { 
   rendering
  } = require("@obstacles/rendering.js"),
+    { 
+  ViewPanel
+ } = require("@obstacles/systems/property-view.js"),
     config = require("@obstacles/config.js");
-var activeGameSystems = [ Dot, Position, Physics, Velocity, Collision ];
+var activeGameSystems = [ Dot, Position, Physics, Velocity, Collision, ViewPanel ];
 var game = create(Game)(config, rendering, activeGameSystems, config.gameSpeed);
 exports.game = game;
 exports.activeGameSystems = activeGameSystems;
-},{"@kit-js/core/js/util":2,"@obstacles/config.js":"@obstacles/config.js","@obstacles/rendering.js":"@obstacles/rendering.js","@shared/game.js":"@shared/game.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/rendering/dot.js":"@shared/systems/rendering/dot.js","@shared/systems/velocity.js":"@shared/systems/velocity.js","ramda":3}]},{},[]);
+},{"@kit-js/core/js/util":2,"@obstacles/config.js":"@obstacles/config.js","@obstacles/rendering.js":"@obstacles/rendering.js","@obstacles/systems/position.js":"@obstacles/systems/position.js","@obstacles/systems/property-view.js":"@obstacles/systems/property-view.js","@obstacles/systems/velocity.js":"@obstacles/systems/velocity.js","@shared/game.js":"@shared/game.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/rendering/dot.js":"@shared/systems/rendering/dot.js","ramda":3}]},{},[]);

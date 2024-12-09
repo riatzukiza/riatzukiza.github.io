@@ -100,6 +100,11 @@ var Group = Interface.define("Group", {
       }).call(this);
     
    },
+  reduce( f = this.f,accumulator = this.accumulator,_list = this._list ){ 
+    
+      return _list.reduce(f, accumulator);
+    
+   },
   has( member = this.member,_members = this._members ){ 
     
       "Check if the group has the given member, returning true if yes, and false if no.";

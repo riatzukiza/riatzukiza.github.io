@@ -10629,4 +10629,5 @@ var ScalingVertex = Renderable.define("ScalingVertex", {
     size:Andy.Type.float
    }))
  });
+exports.ScalingVertex = ScalingVertex;
 },{"@kit-js/interface":1,"@shared/gl.js":"@shared/gl.js","@shared/systems/rendering/renderable.js":"@shared/systems/rendering/renderable.js"}]},{},[]);

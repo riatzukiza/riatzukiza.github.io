@@ -7,7 +7,7 @@
 
 (on game.events 'plant-colliding-with-spawn (home, plant)
 
-    (const v (.get game.systems Velocity plant.entity))
+    (const v plant.entity.velocity-interface)
     (const pos plant.pos)
     (var xd (random-signed config.collision-static))
     (var yd (random-signed config.collision-static))

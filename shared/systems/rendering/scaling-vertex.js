@@ -23,3 +23,4 @@ var ScalingVertex = Renderable.define("ScalingVertex", {
     size:Andy.Type.float
    }))
  });
+exports.ScalingVertex = ScalingVertex;

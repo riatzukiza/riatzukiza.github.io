@@ -4,15 +4,16 @@
 
 (require! (lit Game) "@shared/game.js"
           (lit Dot) "@shared/systems/rendering/dot.js"
-          (lit Position) "@shared/systems/position.js"
-          (lit Velocity) "@shared/systems/velocity.js"
+          (lit Position) "@obstacles/systems/position.js"
+          (lit Velocity) "@obstacles/systems/velocity.js"
           (lit Physics) "@shared/systems/physics/index.js"
           (lit Collision) "@shared/systems/collision.js"
           (lit rendering) "@obstacles/rendering.js"
+          (lit View-panel) "@obstacles/systems/property-view.js"
           config "@obstacles/config.js"
           )
 
-(var active-game-systems [Dot  Position Physics Velocity  Collision])
+(var active-game-systems [Dot  Position Physics Velocity  Collision View-panel])
 
 (var game ((create Game)
            config

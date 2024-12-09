@@ -1,6 +1,6 @@
 (require! (lit Dot) "@shared/systems/rendering/dot.js"
-          (lit Position) "@shared/systems/position.js"
-          (lit Velocity) "@shared/systems/velocity.js"
+          (lit Position) "@obstacles/systems/position.js"
+          (lit Velocity) "@obstacles/systems/velocity.js"
           (lit Physics) "@shared/systems/physics/index.js"
           (lit Component System Entity-group) "@shared/ecs.js"
           (lit rgba) "@obstacles/colors.js"

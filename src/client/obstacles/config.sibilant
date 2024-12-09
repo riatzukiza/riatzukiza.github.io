@@ -1,6 +1,6 @@
 (namespace vector-ants)
 (const dim      [(* 0.8 window.innerWidth), (- window.innerHeight 3)])
-(const size 2)
+(const size 4)
 (set module.exports
      'size size
      'angle-zoom 18
@@ -9,8 +9,8 @@
      'dimensions dim
      'columns (Math.ceil (/ (first dim) size))
      'rows (Math.ceil (/ (second dim) size))
-     'decay 0.3
-     'maxLength 50
+     'decay 0.01
+     'maxLength 30
      'growth-rate 0.001
      'starting-plants 60
      'plantMassLimit 30
@@ -21,8 +21,8 @@
      'decay-on-collision true
      'options-amplitude 10
      'limit-decay true
-     'ant-influence 1
-     'friction 0.1
+     'ant-influence 10
+     'friction 0.5
      'collision-static 5
      'spawn-static 10
      'spawn-rate 10

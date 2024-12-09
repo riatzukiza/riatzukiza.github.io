@@ -6,6 +6,7 @@
 (import-namespace interface)
 
 (include "../../../inc/rand.sibilant")
+(include "../../../inc/misc.sibilant")
 
 (set global 'mixin mixin 'create create)
 
