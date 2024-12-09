@@ -9,14 +9,22 @@
 (print "initializing forces" (lit Friction Signal-field))
 
 (define Friction Friction
-  (config config))
+  (config config)
+  (def register ()
+    (assign this.config config)
+    )
+  )
 (define Signal-field Signal-field
+  (def-generic register ()
+    (assign this.config config)
+    (assign this.field (create-vector-field config.columns config.rows))
+    (assign this.layer (create-vector-field config.columns config.rows)))
+
   (config config)
   (game game)
   (gett entities (require "@obstacles/entities.js"))
   (update-particle (create-particle-updater config game))
-  (field (create-vector-field config.columns config.rows))
-  (layer (create-vector-field config.columns config.rows)))
+  )
 
 (export Friction)
 (export Signal-field)

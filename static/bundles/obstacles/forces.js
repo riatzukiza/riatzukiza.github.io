@@ -18,9 +18,21 @@ console.log("initializing forces", {
   SignalField
  });
 var Friction = Friction.define("Friction", { 
-  config:config
+  config:config,
+  register(  ){ 
+    
+      return this.config = config;
+    
+   }
  });
 var SignalField = SignalField.define("SignalField", { 
+  register(  ){ 
+    
+      this.config = config;
+      this.field = createVectorField(config.columns, config.rows);
+      return this.layer = createVectorField(config.columns, config.rows);
+    
+   },
   config:config,
   game:game,
   get entities(  ){ 
@@ -28,9 +40,7 @@ var SignalField = SignalField.define("SignalField", {
       return require("@obstacles/entities.js");
     
    },
-  updateParticle:createParticleUpdater(config, game),
-  field:createVectorField(config.columns, config.rows),
-  layer:createVectorField(config.columns, config.rows)
+  updateParticle:createParticleUpdater(config, game)
  });
 exports.Friction = Friction;
 exports.SignalField = SignalField;

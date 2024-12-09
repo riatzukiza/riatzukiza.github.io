@@ -10728,6 +10728,7 @@ Physics.Force = Interface.define("Physics.Force", {
   init( physics = this.physics ){ 
     
       this.physics = physics;
+      this.register();
       return this;
     
    },

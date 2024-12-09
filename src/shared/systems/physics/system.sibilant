@@ -64,7 +64,7 @@
 (export Physics)
 
 (define Physics.Force Interface
-  (init (physics))
+  (init (physics) (.register this))
   (def build ()
        (unless (= this.name 'Physics.Force)
          (print "Physics.Force.build" "adding force to physics" this)
