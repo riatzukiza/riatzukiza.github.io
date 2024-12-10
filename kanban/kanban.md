@@ -125,10 +125,10 @@ Features that have been refined and are ready to work on after a feature they re
 - settings interface
 - attack system
 - multiple factions
-- trail entities
 
 # Todo (2)
 
+- trail entities
 - documentation
 
 # In Progress (2)

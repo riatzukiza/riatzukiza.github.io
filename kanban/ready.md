@@ -122,17 +122,6 @@ There are several entity groups with different properties and their own signal f
 - each faction has its own signal/noise fields
 
 
-# Trail Entities
-
-The signal field code has the most tech debt of all the systems. I want to be able to visualize the  trails agents leave behind. The agents should be able to live longer than their trail. When a trail has reached its max size, the oldest trail segment should despawn and contribute nothing to the win/loose field update.
-
-## Requirements
-
-- Trails can be seen
-- Agents life is not dependent on the length of the trail
-- Agents do not loose when the trail max length is met
-- the oldest trail segment despawns when a trail reaches its max length.
-
 
 
 # Sprites
