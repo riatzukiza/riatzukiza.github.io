@@ -10695,7 +10695,6 @@ var PhysicalProperties = Component.define("PhysicalProperties", {
       this._scale = null;
       this.priorScale = null;
       this.priorMass = null;
-      i;
       return this.forces = [];
     
    }
@@ -10727,7 +10726,7 @@ var Physics = System.define("Physics", {
   _updateComponent( c ){ 
     
       return c.forces.each((function() {
-        /* eval.sibilant:1:1622 */
+        /* eval.sibilant:1:1621 */
       
         return arguments[0].apply(c);
       }));
