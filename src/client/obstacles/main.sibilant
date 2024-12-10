@@ -1,4 +1,5 @@
 (namespace obstacles)
+
 (include "kit/header" )
 (import-namespace kit)
 
@@ -7,6 +8,8 @@
 
 (include "../../../inc/rand.sibilant")
 (include "../../../inc/misc.sibilant")
+(include "../../../inc/docs.sibilant")
+(import-namespace docs)
 
 (set global 'mixin mixin 'create create)
 

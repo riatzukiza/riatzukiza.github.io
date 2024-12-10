@@ -15,36 +15,86 @@ var {
   Group
  } = require("@shared/data-structures/group.js");
 var spawnComponent = (function spawnComponent$(entity, systems) {
-  /* spawn-component eval.sibilant:15:0 */
+  /* spawn-component eval.sibilant:18:0 */
 
   return (function() {
-    /* eval.sibilant:15:39 */
+    /* eval.sibilant:18:39 */
   
     return systems.get(arguments[0]).spawn(entity);
   });
 });
 var componentList = (function componentList$(entity) {
-  /* component-list eval.sibilant:17:0 */
+  /* component-list eval.sibilant:20:0 */
 
   return R.map(spawnComponent(entity));
 });
 var remove = (function remove$(entity) {
-  /* remove eval.sibilant:19:0 */
+  /* remove eval.sibilant:22:0 */
 
   return (function() {
-    /* eval.sibilant:19:21 */
+    /* eval.sibilant:22:21 */
   
     return arguments[0].system.clear(entity);
   });
 });
 var clear = (function() {
-  /* eval.sibilant:21:11 */
+  /* eval.sibilant:24:11 */
 
   return arguments[0].clear();
 });
 var System = Interface.define("System", { 
+  docString:"Shared.ecs.ComponentSystem",
   interface:Component,
   register(  ){ 
+    
+      return ```
+      Shared/ecs/ComponentSystem/register.md
+
+      # Shared.ecs.ComponentSystem.register
+
+      ## arguments
+
+      no args
+
+      ## description
+
+      Called by
+      \`ComponentSystem\`
+      sub classes by initializer function.
+      ## Example Usage
+
+      \`\`\`javascript
+      var NewComponent = Component.define("NewComponent", { 
+        INeedSomthingFromMySystem( x ){ 
+
+            return this.dependentProperty = (x + this.system.neededThing);
+
+         }
+       });
+      var NewSystem = ComponentSystem.define("NewSystem", { 
+        register(  ){ 
+
+            this.neededThing = [];
+            return (function() {
+              /* node_modules/kit/inc/loops.sibilant:26:8 */
+
+              var $for = null;
+              for (var i = 0;i < 10;++(i))
+              {
+              $for = (function() {
+                /* node_modules/kit/inc/loops.sibilant:28:35 */
+
+                return this.neededThing.push(Math.random());
+              }).call(this);
+              }
+              ;
+              return $for;
+            }).call(this);
+
+         }
+       });
+
+      \`\`\````;
     
    },
   init( process = this.process,interface = this.interface,components = create(OrderedMap)(),pool = create(DynamicPool)(interface),thread = Promise.resolve() ){ 
@@ -144,7 +194,7 @@ var System = Interface.define("System", {
    }
  });
 System.build = (function System$build$() {
-  /* System.build eval.sibilant:74:0 */
+  /* System.build eval.sibilant:108:0 */
 
   return (function() {
     if (!((this.template))) {
@@ -164,7 +214,7 @@ System.get = (function System$get$(entity = this.entity, components = this.compo
   return components.get(entity);
 });
 System.update = (function System$update$(t) {
-  /* System.update eval.sibilant:86:0 */
+  /* System.update eval.sibilant:120:0 */
 
   return this.thread = this.thread.then(((nil) => {
   	
