@@ -8,12 +8,22 @@
               "Inherits shared.ecs.Component arguments"
               "Sets somthing to happen at a given time."
               "Requires a " (pre duration) "and" (pre callback))
-  (def register () (assign this.created-at (Date.now)))
+
+  (def register ()
+    (assign this.created-at (Date.now))
+    (assign this.triggered false))
+
   (gett duration (throw (new Error "no duration was given to time limit component")))
   (gett callback (throw (new Error "No callback was given to time limit component")))
+
   (gett elapsed (- (Date.now) this.created-at))
   (gett remaining-time (- this.duration this.elapsed))
-  (gett expired (> 0 this.time-remaining )))
+  (gett expired (> 0 this.time-remaining ))
+
+  (def reset ()
+    (assign this.created-at (Date.now))
+    (assign this.triggered false)))
+
 (define Timer System
   (doc-string "Obstacles.systems.Timer"
               "Inherits from shared.ecs.ComponentSystem"
@@ -21,8 +31,5 @@
 
   (def *update-component (c)
     (when (and c.expired (not c.triggered))
-      (c.callback c.entity)
-      (assign c.triggered true))
-    (when c.refresh
-      (assign c.created-at (Date.now))
-      (assign c.triggered false)))
+      (c.callback c.entity c)
+      (assign c.triggered true)))

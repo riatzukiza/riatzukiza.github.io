@@ -1,0 +1,15 @@
+(require! (lit Component System) "@shared/ecs.js"
+          (lit Timer Time-limit) "@obstacles/systems/timer.js"
+          config "@obstacles/config.js"
+          )
+
+
+
+(define Ant-trail Component
+  (def register ()
+    (assign this.segments (new Set))))
+
+(define Ant-trails System
+  (interface Ant-trail)
+  (def *update-component (c)
+    (.add c.segments (spawn-ant-trail-segment c.entity))))

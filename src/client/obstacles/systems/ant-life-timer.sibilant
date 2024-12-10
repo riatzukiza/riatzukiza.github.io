@@ -1,0 +1,25 @@
+(require! (lit Timer Time-limit) "@obstacles/systems/timer.js"
+          config "@obstacles/config.js"
+          )
+
+(define Ant-life Time-limit
+  (gett duration config.ant-life)
+
+  (def register ()
+    (.call Time-limit.register this)
+    (assign this.win-count 0)
+    (assign this.loose-count 0))
+
+  (def callback (e c)
+    ;; timer callback is called when the ant looses.
+    ;; the timer is reset when the ant wins, so this callback is not called.
+    (assign e.position-interface.x home-pos.x)
+    (assign e.position-interface.y home-pos.y)
+    (incr c.loose-count)
+    (.reset c)))
+
+(export Ant-life)
+
+(define Ant-life-timer Timer)
+
+(export Ant-life-timer)
