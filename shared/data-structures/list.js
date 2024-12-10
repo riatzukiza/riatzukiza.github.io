@@ -95,13 +95,13 @@ var List = Interface.define("List", {
   clear(  ){ 
     
       return (function() {
-        var while$8 = undefined;
+        var while$10 = undefined;
         while (this.length > 0) {
-          while$8 = (function() {
+          while$10 = (function() {
             return this.pop();
           }).call(this);
         };
-        return while$8;
+        return while$10;
       }).call(this);
     
    },
@@ -138,9 +138,9 @@ var List = Interface.define("List", {
       var node = this.head;
       var success = false;
       return (function() {
-        var while$9 = undefined;
+        var while$11 = undefined;
         while (node) {
-          while$9 = (function() {
+          while$11 = (function() {
             return (function() {
               if (node.item !== item) {
                 node = node.next;
@@ -152,7 +152,7 @@ var List = Interface.define("List", {
             }).call(this);
           }).call(this);
         };
-        return while$9;
+        return while$11;
       }).call(this);
     
    },
@@ -242,14 +242,14 @@ var List = Interface.define("List", {
     
       var node = this.head;
       (function() {
-        var while$10 = undefined;
+        var while$12 = undefined;
         while (node) {
-          while$10 = (function() {
+          while$12 = (function() {
             f(node.item, node);
             return node = node.next;
           }).call(this);
         };
-        return while$10;
+        return while$12;
       }).call(this);
       return this;
     
@@ -259,13 +259,13 @@ var List = Interface.define("List", {
       var result = create(List)();
       var node = this.head;
       return (function() {
-        var while$11 = undefined;
+        var while$13 = undefined;
         while (node) {
-          while$11 = (function() {
+          while$13 = (function() {
             return result.push(f(node, node.next, node.prev));
           }).call(this);
         };
-        return while$11;
+        return while$13;
       }).call(this);
     
    },

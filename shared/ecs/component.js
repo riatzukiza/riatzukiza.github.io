@@ -52,6 +52,19 @@ var decapitalize = (function decapitalize$(string) {
 var Component = Interface.define("Component", { 
   register(  ){ 
     
+      return ```
+      shared/ecs/Component/register.md
+
+      # shared.ecs.Component.register
+
+      ## arguments
+
+      no arguements
+
+      ## description
+
+      An abstract function for subclassed components to optionally perform an action on creation.```;
+    
    },
   init( entity = this.entity,system = this.system ){ 
     

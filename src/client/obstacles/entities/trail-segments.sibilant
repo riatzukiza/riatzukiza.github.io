@@ -1,0 +1,46 @@
+
+(require! (lit Dot) "@shared/systems/rendering/dot.js"
+          (lit Position) "@obstacles/systems/position.js"
+          (lit Velocity) "@obstacles/systems/velocity.js"
+          (lit Physics) "@shared/systems/physics/index.js"
+          (lit Component System Entity-group) "@shared/ecs.js"
+          (lit rgba) "@obstacles/colors.js"
+          (lit Collision place-entity) "@shared/systems/collision.js"
+          (lit game active-game-systems) "@obstacles/game.js"
+          config "@obstacles/config.js")
+
+(const systems [Trail-dots Position Decaying-trails])
+(const trail-segments ((create Entity-group)
+             "Ants"
+             systems
+             game.ent))
+
+(def spawn-ant-trail-segment (ant )
+  (const trail-segment (.spawn trail-segments systems))
+  (assign trail-segment.ant ant)
+
+  (const tpos trail-segment.position-interface)
+  (const apos ant.position-interface)
+
+  (const avel ant.velocity-interface)
+
+  (assign tpos.x apos.x)
+  (assign tpos.y apos.y)
+
+  (assign trail-segment.trail-segment.vector.x avel.xd)
+  (assign trail-segment.trail-segment.vector.y avel.yd)
+
+  (assign trail-segment.trail-segment.vector.pheremones
+          (get Signal-field.field
+               (or (Math.min (Math.max (Math.round (/ apos.x config.size)) 0)
+                             (- config.columns 1))
+                   ;; I think this can be 0
+                   1)
+               (or (Math.min (Math.max (Math.round (/ apos.y config.size)) 0)
+                             (- config.rows 1))
+                   ;; I think this can be 0
+                   1)))
+  trail-segment)
+
+
+(require! (lit Friction Signal-field) "@obstacles/forces.js")

@@ -22,7 +22,10 @@
 
 (define Component Interface
 
-  (def register ())
+  (def register ()
+    (doc-string "shared.ecs.Component.register"
+                "no arguements"
+                "An abstract function for subclassed components to optionally perform an action on creation."))
 
   (init (entity system)
         (set entity (.to-lower-case this.name) this)

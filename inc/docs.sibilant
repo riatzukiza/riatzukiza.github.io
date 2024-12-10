@@ -6,22 +6,44 @@
       (namespace docs)
 
       (def macros.example (...body)
-           `(+ "```js\n"
-               ...@(.map body (=> (el) `(+ (quote @el) "\n")))
-               "\n```"))
+        (if (> body.length 1)
+            `(+ "\n\n```javascript\n"
+                ...@(.map body (=> (el) `(+ (quote @el) "\n")))
+                "\n\n```")
+            `(+ "`"
+               (quote @el)
+               "`")
+            ))
+      (def macros.pre (el)
+        `(+ "`" (quote @el) "`"))
 
       (var eval-ast-node (#-> transpile (get 'contents) (output-formatter) eval ))
+      (macro template-string (s)
+             ["```\n"
+              s
+              "```\n"])
 
       (def macros.doc-string (title args ...doc-nodes)
            (var title-string (eval-ast-node title)
                 arg-string (eval-ast-node args)
-                doc-string (.join (.map doc-nodes eval-ast-node) "\n"))
+                doc-string (.join (.map doc-nodes eval-ast-node) "\n")
+                file-path (+ (.replace title-string (regex "\\." "g") "/" ) ".md")
+                )
            (print "doc string" doc-string)
 
-           (.set docs (+ (.replace title-string (regex "\\." "g") "/" ) ".md")
+           (.set docs file-path
                  (.join [ ("# " title-string)
                           "## arguments"
                           arg-string
                           "## description"
                           doc-string] "\n\n"))
-           null))
+           ["```\n"
+            (+ (.replace title-string (regex "\\." "g") "/" ) ".md")
+            "\n\n"
+            (.join [ ("# " title-string)
+                     "## arguments"
+                     arg-string
+                     "## description"
+                     (.replace doc-string (regex "`" "g") "\\`")] "\n\n")
+            "```"
+            ]))

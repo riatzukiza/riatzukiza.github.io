@@ -19,11 +19,11 @@
      'max-in-decay 100
      'max-trail 1000
      'min-trail 10
-     'decay-on-collision true
+     'decay-on-collision false
      'options-amplitude 10
      'limit-decay true
      'ant-influence 10
-     'friction 0.5
+     'friction 0.3
      'collision-static 5
      'spawn-static 10
      'spawn-rate 10

@@ -1,0 +1,11 @@
+(namespace obstacles)
+(require! (lit Dot-interface Dot) "@shared/systems/rendering/dot.js"
+          (lit rgba) "@obstacles/colors.js")
+
+
+(define Trail-dot Dot-interface (color (rgba 0 0 255 255)))
+(export Trail-dot)
+
+(define Trail-dots Dot
+  (interface Trail-dot))
+(export Trail-dots)

@@ -1,0 +1,42 @@
+(define Trail-segment Time-limit
+  (doc-string "obstacles.systems.ant-trails.Trail-vector"
+              "inherits from shared.ecs.Component"
+              "A time limited vector component that modifies the signal field when the ant has either succeeded or failed"
+              "If the time limit expires, it disapears.")
+
+  (gett duration config.trail-limit)
+
+  (def callback (entity c)
+    (.delete c.ant entity)
+    (.despawn entity))
+
+  (def apply ()
+    (doc-string "obstacles.systems.ant-trails.Trail-segment.apply"
+                ""
+                "Apply the trail segment forward"
+                )
+    (if! (and win config.reward-winners)
+         (const weight (/ vel.loose-count (+ vel.win-count 1)))
+         (pheremones.add-to
+          (lit
+           (x (* this.vector.x weight config.ant-influence))
+           (y (* this.vector.y weight config.ant-influence)))))
+    )
+  (def apply-inverse ()
+    (doc-string "obstacles.systems.ant-trails.Trail-segment.apply"
+                ""
+                "Apply the trail segment backward"
+                )
+    (if! (and loose config.punish-loosers)
+         (const weight (/ vel.loose-count (+ vel.win-count 1)))
+         (this.vector.pheremones.sub-from
+          (lit
+           (x (* this.vector.x weight config.ant-influence))
+           (y (* this.vector.y weight config.ant-influence)))))
+    )
+  (def register ()
+    (.call Time-limit.register this)
+    (this.vector (.spawn Trail-vector))))
+
+(define Decaying-trails Timer
+  (interface Trail-vector))

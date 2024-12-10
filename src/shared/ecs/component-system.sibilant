@@ -1,6 +1,9 @@
 
 (include "kit-interface/header")
 (import-namespace interface)
+(include "../../../inc/docs.sibilant")
+
+(import-namespace docs)
 (macro accumulate (name ...body) `(assign @name (pipe @name ...@body)))
 
 (require! R "ramda")
@@ -20,8 +23,39 @@
 
 (var clear (#->  .clear))
 (define System Interface
+  (doc-string "Shared.ecs.ComponentSystem"
+              "(process interface
+                 (components ((create Ordered-map)))
+                 (pool ((create Dynamic-pool)  interface))
+                 (thread (Promise.resolve)))"
+              "An Abstract interface for defining game systems."
+              "By default updates its components every tick."
+              "This behavior can be overriden."
+              "Requires an" (pre *update-component) "implementation"
+              "Optionally accepts" (pre *prepare) "and" (pre *cleanup) "methods"
+              )
   (interface Component)
-  (def register ())
+  (def register ()
+    (doc-string "Shared.ecs.ComponentSystem.register"
+                "no args"
+                "Called by" (pre Component-system) "sub classes by initializer function."
+                "## Example Usage"
+                (example
+                 (define New-component Component
+                   (def I-need-somthing-from-my-system (x)
+                     (assign this.dependent-property
+                             (+ x this.system.needed-thing))
+                     )
+                   )
+                 (define New-system Component-system
+                   (def register ()
+
+                     (assign this.needed-thing [])
+                     (do-times 10 (.push this.needed-thing (Math.random)))
+                     )
+                   ))
+                )
+    )
   (init (process interface
                  (components ((create Ordered-map)))
                  (pool ((create Dynamic-pool)  interface))
