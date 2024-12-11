@@ -6,10 +6,23 @@
 
 
 (define Ant-trail Component
+  (def *clear ()
+    (each this.segments (s)
+          (.despawn s)
+          (.delete this.segments s))
+    )
   (def register ()
-    (assign this.segments (new Set))))
+    (unless this.segments
+      (assign this.segments (new Set)))))
+(export Ant-trail)
 
 (define Ant-trails System
   (interface Ant-trail)
+
+  (gett spawn-ant-trail-segment (get (require "@obstacles/entities/trail-segments.js") 'spawn-ant-trail-segment))
+
   (def *update-component (c)
-    (.add c.segments (spawn-ant-trail-segment c.entity))))
+    (when (= (mod c.system.process.ticker.ticks 5) 0)
+        (.add c.segments (this.spawn-ant-trail-segment c.entity)))))
+
+(export Ant-trails)

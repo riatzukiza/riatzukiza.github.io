@@ -2,10 +2,34 @@
 (require! (lit Dot-interface Dot) "@shared/systems/rendering/dot.js"
           (lit rgba) "@obstacles/colors.js")
 
+(const base-color (rgba 0 0 255 255))
 
-(define Trail-dot Dot-interface (color (rgba 0 0 255 255)))
+(define Trail-dot Dot-interface
+  (color (rgba 0 0 255 255))
+  (def *clear ()
+    (assign this.color base-color)
+    )
+  )
 (export Trail-dot)
 
 (define Trail-dots Dot
-  (interface Trail-dot))
+  (interface Trail-dot)
+  (def *update-component (dot)
+
+    (set dot.vertex.point
+         'x dot.pos.x
+         'y dot.pos.y
+
+         'z dot.pos.z)
+    (set dot.vertex
+         'size 1)
+    (set dot.vertex.color
+         'r dot.color.r
+         'g dot.color.g
+         'b dot.color.b
+         'a (Math.round
+             (Math.max 0 (* 255 (/ dot.entity.trail-segment.remaining-time dot.entity.trail-segment.duration))))
+         ))
+
+  )
 (export Trail-dots)

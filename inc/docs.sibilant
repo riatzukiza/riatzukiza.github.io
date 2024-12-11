@@ -9,7 +9,7 @@
         (if (> body.length 1)
             `(+ "\n\n```javascript\n"
                 ...@(.map body (=> (el) `(+ (quote @el) "\n")))
-                "\n\n```")
+                "\n\n```\n")
             `(+ "`"
                (quote @el)
                "`")
@@ -19,9 +19,9 @@
 
       (var eval-ast-node (#-> transpile (get 'contents) (output-formatter) eval ))
       (macro template-string (s)
-             ["```\n"
+             ["`\n"
               s
-              "```\n"])
+              "`\n"])
 
       (def macros.doc-string (title args ...doc-nodes)
            (var title-string (eval-ast-node title)
@@ -37,7 +37,7 @@
                           arg-string
                           "## description"
                           doc-string] "\n\n"))
-           ["```\n"
+           ["`\n"
             (+ (.replace title-string (regex "\\." "g") "/" ) ".md")
             "\n\n"
             (.join [ ("# " title-string)
@@ -45,5 +45,5 @@
                      arg-string
                      "## description"
                      (.replace doc-string (regex "`" "g") "\\`")] "\n\n")
-            "```"
+            "`\n\n"
             ]))

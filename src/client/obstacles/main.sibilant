@@ -17,10 +17,8 @@
 
 (require! (lit Collision) "@shared/systems/collision.js"
           config "@obstacles/config.js"
-          ;; settings "@obstacles/settings.js"
           entities "@obstacles/entities.js"
-          (lit start-interface) "@obstacles/dom.js"
-          )
+          (lit start-interface) "@obstacles/dom.js")
 
 
 

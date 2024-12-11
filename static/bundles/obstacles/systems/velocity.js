@@ -29,7 +29,7 @@ var VelocityInterface = VelocityInterface.define("VelocityInterface", {
           return views.get(this.entity);
         } else {
           var r = (function() {
-            /* inc/misc.sibilant:1:673 */
+            /* eval.sibilant:11:23 */
           
             return createDocumentNode("div", {
               'className': "panel",

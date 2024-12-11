@@ -54,3 +54,69 @@ If the agent succeeds, all non expired signal vectors are applied to the signal 
 If the agent fails, all non expired signal vectors are applied inversely to the signal field.
 All trail segments associated with an agent that has succeeded or failed despawn 
 after they are applied.
+
+## Update 12-11-24
+
+The modules are started, but they are all over the place.
+This has to be done, the field file is a mess that limits how far I can take this,
+as it exists largely outside of the entity component framework.
+
+
+### New component system interfaces
+
+The new interfaces have been created, most of them at least. There may be more, but we are starting here.
+
+- Timer
+- Ant-dot
+- Ant-life-timer
+- Ant-trails
+- Trail Dots
+- Trail segments
+
+#### Timer
+
+The timer type is initialize with a duration and a callback.
+When the duration has been reached, the callback is called and the timer is flagged as deactivated.
+The call back can reset or despawn the timer.
+
+The ant life and trail life components are durived from this.
+
+#### Ant life
+The ant life timer sets the entity back to spawn, increases the loose count, and resets the timer.
+
+#### Trail segment
+The trail life component encapsulates a vector, and its call back despawns the vector.
+
+#### Ant dots
+
+A simple sub class of the dot interface with a fixed color.
+Using more than one instance of the dot interface will give us more layers of vertices, and a higher limit on the number of entities we can have.
+
+#### Trail dot
+
+Similar to the ant dot, it is also an instance of the dot interface with a fixed color.
+It's alpha will vary with the remaining duration on the trail segment.
+
+
+#### Trail segments
+
+A new component for ants to associate it with the trail entities it spawns as it moves.
+
+### New entity
+
+A new entity is also being added for the trail segments.
+It has a position, a rendering component, and an expiring vector.
+Every tick the ant moves, a new trail segment is spawned.
+When an ant either wins or looses, it will itterate through it's trail segments component,
+applying the associated vectors to the signal field.
+
+## Notes
+
+While this is how I am choosing to implement this now, it is possible this could be done with out creating a new entity
+by creating a new renderable interface containing a collection of vertices instead of just one vertex like the dot interface.
+
+I've already started it this way, and what is most important right now is to move behavior out of the shared/field file, and into our
+entity framework. Once the behaviors of the field are captured in ecs, it wil be easier to change how we interact with the fields.
+
+I will comment further at the end of the day, trying not to leave the update for the morning after.
+

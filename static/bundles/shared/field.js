@@ -10587,92 +10587,6 @@ module.exports.createParticleUpdater = (function module$exports$createParticleUp
     if( config.stepWiseUpdate ){ 
       pH.addTo(vec)
      };
-    if( config.trackTrail ){ 
-      if( !(vel.trail) ){ 
-        vel.winCount = 0;
-        vel.looseCount = 0;
-        vel.trail = [ TrailVector.spawn(vel.xd, vel.yd, pH) ];
-       }else { 
-        vel.trail.push(TrailVector.spawn(vel.xd, vel.yd, pH))
-       }
-     };
-    if( (loose && config.punishLoosers) ){ 
-      const weight=(vel.looseCount / (vel.winCount + 1));;
-      for (var { 
-        x,
-        y,
-        pheremones
-       } of vel.trail)
-      {
-      pheremones.subFrom({ 
-        x:(x * weight * config.antInfluence),
-        y:(y * weight * config.antInfluence)
-       })
-      }
-      
-     };
-    if( loose ){ 
-      for (var seg of vel.trail)
-      {
-      seg.despawn()
-      }
-      ;
-      vel.trail = [];;
-      p.x = (((Math.random() * config.spawnStatic) * (function() {
-        if (Math.random() < 0.5) {
-          return -1;
-        } else {
-          return 1;
-        }
-      }).call(this)) + homePos.x);
-      p.y = (((Math.random() * config.spawnStatic) * (function() {
-        if (Math.random() < 0.5) {
-          return -1;
-        } else {
-          return 1;
-        }
-      }).call(this)) + homePos.y);;
-      vel.looseCount += 1
-     };
-    if( (win && config.rewardWinners) ){ 
-      const weight=(vel.looseCount / (vel.winCount + 1));;
-      for (var { 
-        x,
-        y,
-        pheremones
-       } of vel.trail)
-      {
-      pheremones.addTo({ 
-        x:(x * weight * config.antInfluence),
-        y:(y * weight * config.antInfluence)
-       })
-      }
-      
-     };
-    if( win ){ 
-      for (var seg of vel.trail)
-      {
-      seg.despawn()
-      }
-      ;
-      vel.trail = [];;
-      vel.trail = [];;
-      p.x = (((Math.random() * config.spawnStatic) * (function() {
-        if (Math.random() < 0.5) {
-          return -1;
-        } else {
-          return 1;
-        }
-      }).call(this)) + homePos.x);
-      p.y = (((Math.random() * config.spawnStatic) * (function() {
-        if (Math.random() < 0.5) {
-          return -1;
-        } else {
-          return 1;
-        }
-      }).call(this)) + homePos.y);;
-      vel.winCount += 1
-     };
     if( pH.getLength() > config.maxLength ){ 
       pH.setLength(config.maxLength)
      };
@@ -10686,7 +10600,7 @@ module.exports.createParticleUpdater = (function module$exports$createParticleUp
   return particleUpdater;
 });
 module.exports.createVectorField = (function module$exports$createVectorField$(columns, rows) {
-  /* module.exports.create-vector-field eval.sibilant:129:0 */
+  /* module.exports.create-vector-field eval.sibilant:90:0 */
 
   const field=(new Array(columns));
   for (var x = 0;x < columns;++(x))

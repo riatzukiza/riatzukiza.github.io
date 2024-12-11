@@ -33,7 +33,7 @@ var PropertyView = Component.define("PropertyView", {
           return views.get(this.entity);
         } else {
           var r = (function() {
-            /* inc/misc.sibilant:1:673 */
+            /* eval.sibilant:12:23 */
           
             return createDocumentNode("div", {
               'id': ("entity-panel" + this.entity.id),
@@ -89,7 +89,7 @@ var ViewPanel = System.define("ViewPanel", {
           return views.get(this);
         } else {
           var r = (function() {
-            /* inc/misc.sibilant:1:673 */
+            /* eval.sibilant:12:23 */
           
             return createDocumentNode("div", {
               'id': "view-panel-top",

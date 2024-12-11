@@ -45,12 +45,12 @@
     (assign this.point.x 0)
     (assign this.point.y 0)
     (assign this.point.z 0)
+    (assign this.vertex.size 0)
 
     (assign this.vertex.color.r 0)
     (assign this.vertex.color.g 0)
     (assign this.vertex.color.b 0)
     (assign this.vertex.color.a 0)
-    (assign this.color {r 0 g 0 b 0 a 0})
     )
   )
 
@@ -91,7 +91,6 @@
     (set dot.vertex.point
          'x dot.pos.x
             'y dot.pos.y
-
             'z dot.pos.z)
        (set dot.vertex
             'size dot.scale)

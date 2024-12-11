@@ -10576,9 +10576,24 @@ var {
     { 
   ViewPanel
  } = require("@obstacles/systems/property-view.js"),
+    { 
+  AntDots
+ } = require("@obstacles/systems/ants/ant-dot.js"),
+    { 
+  AntTrails
+ } = require("@obstacles/systems/ants/ant-trails.js"),
+    { 
+  AntLifeTimer
+ } = require("@obstacles/systems/ants/ant-life-timer.js"),
+    { 
+  TrailDots
+ } = require("@obstacles/systems/ants/trail-dots.js"),
+    { 
+  DecayingTrails
+ } = require("@obstacles/systems/ants/trail-segments.js"),
     config = require("@obstacles/config.js");
-var activeGameSystems = [ Dot, Position, Physics, Velocity, Collision, ViewPanel ];
+var activeGameSystems = [ AntTrails, DecayingTrails, AntLifeTimer, Physics, Velocity, Collision, Position, Dot, TrailDots, AntDots, ViewPanel ];
 var game = create(Game)(config, rendering, activeGameSystems, config.gameSpeed);
 exports.game = game;
 exports.activeGameSystems = activeGameSystems;
-},{"@kit-js/core/js/util":2,"@obstacles/config.js":"@obstacles/config.js","@obstacles/rendering.js":"@obstacles/rendering.js","@obstacles/systems/position.js":"@obstacles/systems/position.js","@obstacles/systems/property-view.js":"@obstacles/systems/property-view.js","@obstacles/systems/velocity.js":"@obstacles/systems/velocity.js","@shared/game.js":"@shared/game.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/rendering/dot.js":"@shared/systems/rendering/dot.js","ramda":3}]},{},[]);
+},{"@kit-js/core/js/util":2,"@obstacles/config.js":"@obstacles/config.js","@obstacles/rendering.js":"@obstacles/rendering.js","@obstacles/systems/ants/ant-dot.js":"@obstacles/systems/ants/ant-dot.js","@obstacles/systems/ants/ant-life-timer.js":"@obstacles/systems/ants/ant-life-timer.js","@obstacles/systems/ants/ant-trails.js":"@obstacles/systems/ants/ant-trails.js","@obstacles/systems/ants/trail-dots.js":"@obstacles/systems/ants/trail-dots.js","@obstacles/systems/ants/trail-segments.js":"@obstacles/systems/ants/trail-segments.js","@obstacles/systems/position.js":"@obstacles/systems/position.js","@obstacles/systems/property-view.js":"@obstacles/systems/property-view.js","@obstacles/systems/velocity.js":"@obstacles/systems/velocity.js","@shared/game.js":"@shared/game.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/rendering/dot.js":"@shared/systems/rendering/dot.js","ramda":3}]},{},[]);

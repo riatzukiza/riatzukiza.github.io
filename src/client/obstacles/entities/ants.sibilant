@@ -1,20 +1,30 @@
-(require! (lit Ant-dots) "@obstacles/systems/rendering/ant-dot.js"
+(require! (lit Ant-dots) "@obstacles/systems/ants/ant-dot.js"
+          (lit Ant-trails) "@obstacles/systems/ants/ant-trails.js"
+          (lit Ant-life-timer) "@obstacles/systems/ants/ant-life-timer.js"
           (lit Position) "@obstacles/systems/position.js"
           (lit Velocity) "@obstacles/systems/velocity.js"
           (lit Physics) "@shared/systems/physics/index.js"
-          (lit Component System Entity-group) "@shared/ecs.js"
-          (lit rgba) "@obstacles/colors.js"
+          (lit  Entity-group) "@shared/ecs.js"
           (lit Collision place-entity) "@shared/systems/collision.js"
           (lit game active-game-systems) "@obstacles/game.js"
+          (lit View-panel) "@obstacles/systems/property-view.js"
           config "@obstacles/config.js")
 
 (const ants ((create Entity-group)
              "Ants"
-             [Collision Ant-dots Physics Velocity Position Ant-trail Ant-life-timer]
+             [Collision
+              Ant-dots
+              View-panel
+              Physics
+              Velocity
+              Position
+              Ant-trails
+              Ant-life-timer
+              ]
              game.ent))
 (def clear-ants () (.clear ants))
 (def spawn-ant ([x, y], home, starting-life)
-  (var ant (.spawn ants active-game-systems))
+  (var ant (.spawn ants))
 
 
   (set (.get game.systems Position ant )

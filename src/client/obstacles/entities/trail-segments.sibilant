@@ -1,5 +1,6 @@
 
-(require! (lit Dot) "@shared/systems/rendering/dot.js"
+(require! (lit Trail-dots) "@obstacles/systems/ants/trail-dots.js"
+          (lit Decaying-trails) "@obstacles/systems/ants/trail-segments.js"
           (lit Position) "@obstacles/systems/position.js"
           (lit Velocity) "@obstacles/systems/velocity.js"
           (lit Physics) "@shared/systems/physics/index.js"
@@ -9,14 +10,19 @@
           (lit game active-game-systems) "@obstacles/game.js"
           config "@obstacles/config.js")
 
+
 (const systems [Trail-dots Position Decaying-trails])
 (const trail-segments ((create Entity-group)
              "Ants"
              systems
              game.ent))
+(export trail-segments)
 
 (def spawn-ant-trail-segment (ant )
-  (const trail-segment (.spawn trail-segments systems))
+  (doc-string "obstacles.entities.trail-segment.spawn-trail-segment"
+              "ant: An entity from the obstacles.entities.ant entity group"
+              "Spawns a new trail vector entity from the ants current location and velocity.")
+  (const trail-segment (.spawn trail-segments))
   (assign trail-segment.ant ant)
 
   (const tpos trail-segment.position-interface)
@@ -31,7 +37,7 @@
   (assign trail-segment.trail-segment.vector.y avel.yd)
 
   (assign trail-segment.trail-segment.vector.pheremones
-          (get Signal-field.field
+          (get Signal-field.layer
                (or (Math.min (Math.max (Math.round (/ apos.x config.size)) 0)
                              (- config.columns 1))
                    ;; I think this can be 0
@@ -41,6 +47,8 @@
                    ;; I think this can be 0
                    1)))
   trail-segment)
+
+(export spawn-ant-trail-segment)
 
 
 (require! (lit Friction Signal-field) "@obstacles/forces.js")

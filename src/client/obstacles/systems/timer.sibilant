@@ -18,18 +18,22 @@
 
   (gett elapsed (- (Date.now) this.created-at))
   (gett remaining-time (- this.duration this.elapsed))
-  (gett expired (> 0 this.time-remaining ))
+  (gett expired (> this.elapsed this.duration))
 
   (def reset ()
     (assign this.created-at (Date.now))
-    (assign this.triggered false)))
+    (assign this.triggered false)
+
+    ))
+(export Time-limit)
 
 (define Timer System
   (doc-string "Obstacles.systems.Timer"
               "Inherits from shared.ecs.ComponentSystem"
               "Allows timed events to occur for entities with time limit components")
-
   (def *update-component (c)
     (when (and c.expired (not c.triggered))
-      (c.callback c.entity c)
-      (assign c.triggered true)))
+      (assign c.triggered true)
+      (c.callback c.entity c))))
+
+(export Timer)

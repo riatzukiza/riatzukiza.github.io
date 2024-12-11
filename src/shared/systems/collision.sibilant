@@ -35,8 +35,8 @@
 
   ;; (gett x this.pos.x)
   ;; (gett y this.pos.y)
-  (gett height (Math.round (* 2 this.scale)) )
-  (gett width (Math.round (* 2 this.scale)))
+  (gett height (* 2 this.scale) )
+  (gett width (* 2 this.scale))
 
 
   ;; (gett height (*  2 this.scale))

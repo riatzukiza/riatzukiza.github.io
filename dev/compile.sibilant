@@ -126,6 +126,8 @@
 
 (def-async compile-module (file dest)
 
+  (print "compiling module" file.path "for" (Path.join dest.root file.rel))
+
   (try!
 
    (var lisp (await file.string))
@@ -156,6 +158,7 @@
 
    (var js (await file.string))
 
+   (print "compiling html template" file.path "for" (Path.join dest.root file.rel))
    (var result (eval js))
 
    (var dest-file (await (.insert dest (+ (Path.join

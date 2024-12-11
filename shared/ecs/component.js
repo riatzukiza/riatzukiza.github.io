@@ -52,7 +52,7 @@ var decapitalize = (function decapitalize$(string) {
 var Component = Interface.define("Component", { 
   register(  ){ 
     
-      return ```
+      return `
       shared/ecs/Component/register.md
 
       # shared.ecs.Component.register
@@ -63,7 +63,9 @@ var Component = Interface.define("Component", {
 
       ## description
 
-      An abstract function for subclassed components to optionally perform an action on creation.```;
+      An abstract function for subclassed components to optionally perform an action on creation.`
+
+      ;
     
    },
   init( entity = this.entity,system = this.system ){ 

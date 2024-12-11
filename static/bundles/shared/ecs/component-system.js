@@ -10840,7 +10840,7 @@ var System = Interface.define("System", {
   interface:Component,
   register(  ){ 
     
-      return ```
+      return `
       Shared/ecs/ComponentSystem/register.md
 
       # Shared.ecs.ComponentSystem.register
@@ -10887,7 +10887,10 @@ var System = Interface.define("System", {
          }
        });
 
-      \`\`\````;
+      \`\`\`
+      `
+
+      ;
     
    },
   init( process = this.process,interface = this.interface,components = create(OrderedMap)(),pool = create(DynamicPool)(interface),thread = Promise.resolve() ){ 

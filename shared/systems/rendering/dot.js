@@ -107,16 +107,11 @@ var DotInterface = Component.define("DotInterface", {
       this.point.x = 0;
       this.point.y = 0;
       this.point.z = 0;
+      this.vertex.size = 0;
       this.vertex.color.r = 0;
       this.vertex.color.g = 0;
       this.vertex.color.b = 0;
-      this.vertex.color.a = 0;
-      return this.color = {
-        r: 0,
-        g: 0,
-        b: 0,
-        a: 0
-      };
+      return this.vertex.color.a = 0;
     
    }
  });
