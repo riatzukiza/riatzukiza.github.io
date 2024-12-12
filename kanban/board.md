@@ -31,6 +31,7 @@ New-> Accepted
 ## Tasks
 
 - BUG: Collision doesn't work correctly in some circumstances.
+- BUG: Rendering background color setter never seems to work.
 - Mirror board to github
 - Make old symbiants work
 - Make old algage work
