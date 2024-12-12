@@ -40,7 +40,8 @@ New-> Accepted
 - Find unknown content warnings
 - Update physics engine to increase accuracy and performance
 - Consolodate position and velocity into physics
-- When performing updates, do not mutate the state of the last tick. Use two data structures, and swap them out each tick.
+- When performing updates, do not mutate the state of the
+  last tick. Use two data structures, and swap them out each tick.
 
 
 ## Rejected
@@ -91,24 +92,23 @@ Accepted -> Breakdown
 - SPIKE: can we simplify object pools? (2 hrs)
 - Implemment tests for existing shared components.
 - Electron client
-- vector field visualization
 - neural network for signal field hyerparameter adjustments
 - Individual ant neural networks
 - paralell processing for each system
 - a gpu implementation for signal fields and vector math.
 - Add beautifier to pipeline
 - Add minifier to pipeline
-- Create a seperate pipeline for development and production
 - minimap
 - Mineral Resource
 - Water resource
 - movement commands
-- simulation backend
 - deletable entites
 - elevation
 - flying units
 - shadows
 - night/day cycle
+- Brain storm new projects
+- ground tiles
 
 # Breakdown (5)
 
@@ -137,11 +137,15 @@ Breakdown->Ready
 
 ## Tasks
 
-- Hot reload server
-- hot reload client
-- Brain storm new projects
+- Hot reload system
+  - Create a seperate pipeline for development and production
 - unit system
-- ground tiles
+  - A unit is an abstraction over an entity.
+  - Entities can be anything in the game
+  - A unit is a dynamic collection of entities
+    - Like say a weapon, a shield
+- simulation backend
+- vector field visualization
 
 
 # Blocked

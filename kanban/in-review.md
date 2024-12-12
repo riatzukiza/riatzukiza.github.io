@@ -16,6 +16,13 @@ This feature will help me make sure that I am clearing the object pools correctl
 It seems to be working as it is now, we'll keep an eye on it as other work is introduced to make sure 
 the button continues to work. it is possible that more complex features later on will end up requring more work, as it is possible that there are still despawning paths that have not been taken (Clearing all the entity groups is fine for what the game is now)
 
+## Update 12 12 24
+
+I have added signal trail entities, I have to add them to the reset button and test.
+The signal trails already have to despawn a lot so I am figuring this will go smoothly.
+I should keep the entity groups in a list so I can write a function to despawn all of them every time I add a new one
+so I don't always have to remember to add them to the reset button.
+
 # Trail Entities
 
 The signal field code has the most tech debt of all the systems.
@@ -129,3 +136,13 @@ TUrning them off in the config file will be pretty easy.
 Having a button to turn them on and off may be harder.
 
 Setting this to ready for review
+
+## 12 12 24
+
+I will be reading the pr diff today.
+They look big, but they also contain the bundles.
+I don't want to ignore the bundles, but they do create a lot of noise.
+I was thinking I could add a sha-sum tracker so new bundles aren't compiled if their source code didn't change.
+Sometimes sibilant will make minor changes to the ways functions and what have you are generated.
+The compiler could use some work, a source map for one.
+debugging when the issue is a macro can be tricky right now.
