@@ -25,6 +25,7 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
   duration:config.trailLimit,
   _clear(  ){ 
     
+      console.log("clearing this fella", this);
       this.entity.ant = null;
       this.duration = config.trailLimit;
       this.triggered = null;
@@ -47,7 +48,7 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
         return this.views.get(this.entity);
       } else {
         var r = (function() {
-          /* eval.sibilant:13:23 */
+          /* eval.sibilant:12:23 */
         
           return createDocumentNode("div", { 'className': "panel" }, [ "trail segment", createDocumentNode("div", {  }, [ "pos:", (() => {
           	
@@ -99,6 +100,7 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
 
       ;
       this.entity.trailDot.color = rgba(20, 200, 20, 255);
+      console.log("reward the strong");
       return (function() {
         if (config.rewardWinners) {
           const weight=(this.entity.ant.antLife.looseCount / (this.entity.ant.antLife.winCount + 1));
@@ -106,8 +108,7 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
             x:(this.x * weight * config.antInfluence),
             y:(this.y * weight * config.antInfluence)
            });
-          this.duration = (this.remainingTime + config.trailResultDuration);
-          return this.reset();
+          return this.duration = (this.remainingTime + config.trailResultDuration);
         }
       }).call(this);
     
@@ -126,6 +127,7 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
       Apply the trail segment backward`
 
       ;
+      console.log("punish the weak", this);
       this.entity.trailDot.color = rgba(255, 20, 20, 255);
       (function() {
         if (config.punishLoosers) {
@@ -136,8 +138,7 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
            });
         }
       }).call(this);
-      this.duration = (this.remaining + config.trailResultDuration);
-      return this.reset();
+      return this.duration = (this.remaining + config.trailResultDuration);
     
    }
  });

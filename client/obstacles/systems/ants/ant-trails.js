@@ -20,7 +20,6 @@ var AntTrail = Component.define("AntTrail", {
     
       return this.segments.each(((s) => {
       	
-        s.group.despawn(s);
         return this.segments.delete(s);
       
       }));

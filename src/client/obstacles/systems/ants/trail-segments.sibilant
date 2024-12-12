@@ -18,6 +18,7 @@
   (duration config.trail-limit)
 
   (def *clear ()
+    (print "clearing this fella" this)
     (assign this.entity.ant null)
     (assign this.duration config.trail-limit)
     (assign this.triggered null)
@@ -43,6 +44,7 @@
                 "Apply the trail segment forward")
 
     (assign this.entity.trail-dot.color (rgba 20 200 20 255))
+    (print "reward the strong")
 
     (when config.reward-winners
       (const weight (/ this.entity.ant.ant-life.loose-count (+ this.entity.ant.ant-life.win-count 1)))
@@ -53,12 +55,13 @@
 
       (assign this.duration (+ this.remaining-time config.trail-result-duration))
 
-      (.reset this)))
+      ))
 
   (def apply-inverse ()
     (doc-string "obstacles.systems.ant-trails.Trail-segment.apply"
                 ""
                 "Apply the trail segment backward")
+    (print "punish the weak" this)
     (assign this.entity.trail-dot.color (rgba 255 20 20 255))
     (when config.punish-loosers
       (const weight (/ this.entity.ant.ant-life.loose-count (+ this.entity.ant.ant-life.win-count 1)))
@@ -67,7 +70,7 @@
         (x (* this.x weight config.ant-influence))
         (y (* this.y weight config.ant-influence)))))
     (assign this.duration (+ this.remaining config.trail-result-duration))
-    (.reset this)))
+    ))
 
 (export Trail-segment)
 

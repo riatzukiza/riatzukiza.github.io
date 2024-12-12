@@ -36,7 +36,7 @@
 
   (def-generic despawn (entity group)
     (.remove group entity)
-    (.clear entity )))
+    (.despawn entity )))
 
 
 

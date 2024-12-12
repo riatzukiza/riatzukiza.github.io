@@ -54,12 +54,12 @@ var EntityGroup = Interface.define("EntityGroup", {
   spawn( aspects = this.aspects,system = this.system,group = this.group ){ 
     
       return (function(e) {
-        /* node_modules/kit/inc/scope.sibilant:12:9 */
+        /* inc/misc.sibilant:1:782 */
       
         e.group = this;
         group.add(e);
         return e;
-      })(system.spawn(aspects));
+      }).call(this, system.spawn(aspects));
     
    },
   clear( group = this.group ){ 
@@ -80,7 +80,7 @@ var EntityGroup = Interface.define("EntityGroup", {
   despawn( entity = this.entity,group = this.group ){ 
     
       group.remove(entity);
-      return entity.clear();
+      return entity.despawn();
     
    }
  });
