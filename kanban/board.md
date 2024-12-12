@@ -32,6 +32,7 @@ New-> Accepted
 
 - BUG: Collision doesn't work correctly in some circumstances.
 - BUG: Rendering background color setter never seems to work.
+- DevOps: Sibilant transpiler should create less noise in pull requests when acting on unchanged files.
 - Mirror board to github
 - Make old symbiants work
 - Make old algage work

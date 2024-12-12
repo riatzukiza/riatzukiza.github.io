@@ -10617,7 +10617,7 @@ var SpriteInterface = Component.define("SpriteInterface", {
   register( dim = this.dim,system = this.system ){ 
     
       return this.verts = create(MatrixMap)(dim, (function(array) {
-        /* node_modules/kit/inc/scope.sibilant:12:9 */
+        /* eval.sibilant:1:412 */
       
         (function() {
           /* node_modules/kit/inc/loops.sibilant:26:8 */
@@ -10640,7 +10640,7 @@ var SpriteInterface = Component.define("SpriteInterface", {
           return $for;
         }).call(this);
         return array;
-      })([]));
+      }).call(this, []));
     
    },
   frameId:0,
