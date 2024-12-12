@@ -4,13 +4,24 @@
           config "@obstacles/config.js"
           )
 
+(include "../../../../../inc/dom.sibilant")
+(import-namespace dom)
+(const views (new Map))
+
 (define Ant-life Time-limit
   (gett duration config.ant-life)
-  (def *clear ()
-    (.call Time-limit.*clear this)
-    (assign this.win-count null)
-    (assign this.loose-count null))
+  (update-view? true)
+  (view (.div .className "panel"
+              .style (lit (width "48%"))
+              (.div "life" (-> this.remaining-time))
+              (.div "wins" (-> this.win-count))
+              (.div "losses" (-> this.loose-count))))
 
+
+  (def *clear ()
+    (assign this.win-count null)
+    (assign this.loose-count null)
+    (assign this.triggered false))
   (def register ()
     (.call Time-limit.register this)
     (assign this.win-count 0)

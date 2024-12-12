@@ -85,9 +85,7 @@
 
       (when (= (mod t config.ui-polling-rate) 0)
         (.render stats)
-        (.render pools-view)
-        )
-      ))
+        (.render pools-view))))
 
 (export start-interface)
 

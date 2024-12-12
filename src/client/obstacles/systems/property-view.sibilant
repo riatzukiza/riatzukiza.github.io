@@ -39,22 +39,38 @@
     (assign this.page-number-view (dom (.span (-> (+ (+ 1 this.page)  "/" this.pages))))))
 
   (gett pages (Math.ceil (/  this.components.length this.page-size)))
-  (gett parent-view (get (require "@obstacles/dom.js") 'debug-view))
+  (gett parent-view
+        (cache views (+ this.title "parent")
+
+               (pipe (dom (.div .id "view-panel-top" .className "panel"
+                                (.h4 this.title .onclick (-> (if this.view.hidden
+                                                                 (do
+                                                                  (assign this.hidden false)
+                                                                  (assign this.style.display "none"))
+                                                                 (do
+                                                                  (assign this.hidden true)
+                                                                  (assign content.style.display ""))
+                                                                 )))
+                                (.button "prev" .onclick (-> (when (> this.page 0)
+                                                               (decr this.page)
+                                                               (assign this.updated? true)
+                                                               (.render this.page-number-view))))
+                                (.button "next" .onclick (-> (when (< this.page this.pages)
+                                                               (incr this.page)
+                                                               (assign this.updated? true)
+                                                               (.render this.page-number-view))))
+                                this.page-number-view
+                                content
+                                ))
+                     (.render debug-view)))
+        )
+  (title "Entities")
+  (hidden false)
 
   (gett view (cache views this
-                       (.render (dom (.div .id "view-panel-top" .className "panel"
-                                   (.h4 "Entities" )
-                                   (.button "prev" .onclick (-> (when (> this.page 0)
-                                                                    (decr this.page)
-                                                                    (assign this.updated? true)
-                                                                    (.render this.page-number-view))))
-                                   (.button "next" .onclick (-> (when (< this.page this.pages)
-                                                                    (incr this.page)
-                                                                    (assign this.updated? true)
-                                                                    (.render this.page-number-view))))
-                                   this.page-number-view
-                                   ))
-                                this.parent-view)))
+
+                    
+                    (.render (dom (.div .id (+ this.title "-container"))) this.parent-view)))
   (def *prepare () (assign this.cursor 0))
 
   (def *update-component (c t)

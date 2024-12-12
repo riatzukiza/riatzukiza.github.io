@@ -8,6 +8,14 @@ var {
   TimeLimit
  } = require("@obstacles/systems/timer.js"),
     config = require("@obstacles/config.js");
+var { 
+  renderChildren,
+  createDocumentNode,
+  DocumentNode,
+  DocumentBody,
+  DocumentHead,
+  DocumentRoot
+ } = require("@shared/dom.js");
 var AntTrail = Component.define("AntTrail", { 
   _clear(  ){ 
     
@@ -48,4 +56,4 @@ var AntTrails = System.define("AntTrails", {
    }
  });
 exports.AntTrails = AntTrails;
-},{"@obstacles/config.js":"@obstacles/config.js","@obstacles/entities/trail-segments.js":"@obstacles/entities/trail-segments.js","@obstacles/systems/timer.js":"@obstacles/systems/timer.js","@shared/ecs.js":"@shared/ecs.js"}]},{},[]);
+},{"@obstacles/config.js":"@obstacles/config.js","@obstacles/entities/trail-segments.js":"@obstacles/entities/trail-segments.js","@obstacles/systems/timer.js":"@obstacles/systems/timer.js","@shared/dom.js":"@shared/dom.js","@shared/ecs.js":"@shared/ecs.js"}]},{},[]);

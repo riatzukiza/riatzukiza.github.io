@@ -7,17 +7,67 @@ var {
   placeEntity
  } = require("@shared/systems/collision.js"),
     config = require("@obstacles/config.js");
+var { 
+  renderChildren,
+  createDocumentNode,
+  DocumentNode,
+  DocumentBody,
+  DocumentHead,
+  DocumentRoot
+ } = require("@shared/dom.js");
+const views=(new Map());
 var AntLife = TimeLimit.define("AntLife", { 
   get duration(  ){ 
     
       return config.antLife;
     
    },
+  updateView__QUERY:true,
+  views:(new Map()),
+  get parentView(  ){ 
+
+      return this.entity.propertyView.view;
+
+   },
+  get view(  ){ 
+  
+    return (function() {
+      if (this.views.has(this.entity)) {
+        return this.views.get(this.entity);
+      } else {
+        var r = (function() {
+          /* eval.sibilant:11:23 */
+        
+          return createDocumentNode("div", {
+            'className': "panel",
+            'style': { 
+              width:"48%"
+             }
+          }, [ createDocumentNode("div", {  }, [ "life", (() => {
+          	
+            return this.remainingTime;
+          
+          }) ]), createDocumentNode("div", {  }, [ "wins", (() => {
+          	
+            return this.winCount;
+          
+          }) ]), createDocumentNode("div", {  }, [ "losses", (() => {
+          	
+            return this.looseCount;
+          
+          }) ]) ]).render(this.parentView);
+        }).call(this);
+        this.views.set(this.entity, r);
+        return r;
+      }
+    }).call(this);
+  
+ },
   _clear(  ){ 
     
-      TimeLimit._clear.call(this);
       this.winCount = null;
-      return this.looseCount = null;
+      this.looseCount = null;
+      return this.triggered = false;
     
    },
   register(  ){ 
@@ -58,4 +108,4 @@ var AntLifeTimer = Timer.define("AntLifeTimer", {
   interface:AntLife
  });
 exports.AntLifeTimer = AntLifeTimer;
-},{"@obstacles/config.js":"@obstacles/config.js","@obstacles/entities.js":"@obstacles/entities.js","@obstacles/entities/trail-segments.js":"@obstacles/entities/trail-segments.js","@obstacles/systems/timer.js":"@obstacles/systems/timer.js","@shared/systems/collision.js":"@shared/systems/collision.js"}]},{},[]);
+},{"@obstacles/config.js":"@obstacles/config.js","@obstacles/entities.js":"@obstacles/entities.js","@obstacles/entities/trail-segments.js":"@obstacles/entities/trail-segments.js","@obstacles/systems/timer.js":"@obstacles/systems/timer.js","@shared/dom.js":"@shared/dom.js","@shared/systems/collision.js":"@shared/systems/collision.js"}]},{},[]);

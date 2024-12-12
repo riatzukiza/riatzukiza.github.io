@@ -3,13 +3,23 @@
           config "@obstacles/config.js"
           )
 
+(include "../../../../../inc/dom.sibilant")
+(import-namespace dom)
 
 
 (define Ant-trail Component
+  ;; (update-view? true)
+  ;; (view (.div .className "panel"
+  ;;                  .style (lit (width "48%"))
+  ;;                  (-> (const segments [])
+  ;;                      (each this.segments (s)
+  ;;                            (segments.push s.trail-segment.view))
+  ;;                      segments)))
   (def *clear ()
     (each this.segments (s)
           (.despawn  s.group s)
           (.delete this.segments s)))
+
 
   (def register ()
     (unless this.segments

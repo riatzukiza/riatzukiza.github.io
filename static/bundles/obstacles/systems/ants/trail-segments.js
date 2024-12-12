@@ -7,6 +7,19 @@ var {
   rgba
  } = require("@obstacles/colors.js"),
     config = require("@obstacles/config.js");
+var { 
+  renderChildren,
+  createDocumentNode,
+  DocumentNode,
+  DocumentBody,
+  DocumentHead,
+  DocumentRoot
+ } = require("@shared/dom.js");
+var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
+  /* display-decimal node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
+
+  return (Math.round((Math.pow(10, n) * d)) / Math.pow(10, n));
+});
 var TrailSegment = TimeLimit.define("TrailSegment", { 
   docString:`
   obstacles/systems/ant-trails/Trail-vector.md
@@ -26,6 +39,7 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
   duration:config.trailLimit,
   _clear(  ){ 
     
+      this.entity.ant = null;
       this.duration = config.trailLimit;
       this.triggered = null;
       this.x = null;
@@ -33,6 +47,46 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
       return this.pheremones = null;
     
    },
+  updateView__QUERY:true,
+  views:(new Map()),
+  get parentView(  ){ 
+
+      return this.entity.propertyView.view;
+
+   },
+  get view(  ){ 
+  
+    return (function() {
+      if (this.views.has(this.entity)) {
+        return this.views.get(this.entity);
+      } else {
+        var r = (function() {
+          /* eval.sibilant:11:23 */
+        
+          return createDocumentNode("div", { 'className': "panel" }, [ "trail segment", createDocumentNode("div", {  }, [ "pos:", (() => {
+          	
+            return displayDecimal(this.x, 2);
+          
+          }), ",", (() => {
+          	
+            return displayDecimal(this.y, 2);
+          
+          }) ]), createDocumentNode("div", {  }, [ "remaining", (() => {
+          	
+            return this.remainingTime;
+          
+          }) ]), createDocumentNode("div", {  }, [ "remaining", (() => {
+          	
+            return this.duration;
+          
+          }) ]) ]).render(this.parentView);
+        }).call(this);
+        this.views.set(this.entity, r);
+        return r;
+      }
+    }).call(this);
+  
+ },
   get segGroup(  ){ 
     
       return require("@obstacles/entities/trail-segments.js").trailSegments;
@@ -106,4 +160,4 @@ var DecayingTrails = Timer.define("DecayingTrails", {
   interface:TrailSegment
  });
 exports.DecayingTrails = DecayingTrails;
-},{"@obstacles/colors.js":"@obstacles/colors.js","@obstacles/config.js":"@obstacles/config.js","@obstacles/entities/trail-segments.js":"@obstacles/entities/trail-segments.js","@obstacles/systems/timer.js":"@obstacles/systems/timer.js"}]},{},[]);
+},{"@obstacles/colors.js":"@obstacles/colors.js","@obstacles/config.js":"@obstacles/config.js","@obstacles/entities/trail-segments.js":"@obstacles/entities/trail-segments.js","@obstacles/systems/timer.js":"@obstacles/systems/timer.js","@shared/dom.js":"@shared/dom.js"}]},{},[]);

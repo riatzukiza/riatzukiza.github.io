@@ -11,7 +11,7 @@
   (sett color c
         (assign this.changed? true)
         (assign this.*color c))
-  (def *clear () (assign this.color base-color))
+  (def *clear () (.call Dot-interface.*clear this)(assign this.color base-color))
   (def register ()
     (.call Dot-interface.register this)
 

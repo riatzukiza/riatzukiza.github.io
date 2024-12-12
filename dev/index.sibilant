@@ -28,6 +28,7 @@
                          (.emit node event-name event)))))
     node))
 (define src Interface
+  (inc (.load File-system "./inc"))
   (client (.load File-system "./src/client"))
   (shared (.load File-system "./src/shared"))
   (server (.load File-system "./src/server"))

@@ -79,14 +79,9 @@ var ViewPanel = System.define("ViewPanel", {
    },
   get parentView(  ){ 
     
-      return require("@obstacles/dom.js").debugView;
-    
-   },
-  get view(  ){ 
-    
       return (function() {
-        if (views.has(this)) {
-          return views.get(this);
+        if (views.has((this.title + "parent"))) {
+          return views.get((this.title + "parent"));
         } else {
           var r = (function() {
             /* eval.sibilant:12:23 */
@@ -94,7 +89,19 @@ var ViewPanel = System.define("ViewPanel", {
             return createDocumentNode("div", {
               'id': "view-panel-top",
               'className': "panel"
-            }, [ createDocumentNode("h4", {  }, [ "Entities" ]), createDocumentNode("button", { 'onclick': (() => {
+            }, [ createDocumentNode("h4", { 'onclick': (() => {
+            	
+              return (function() {
+                if (this.view.hidden) {
+                  this.hidden = false;
+                  return this.style.display = "none";
+                } else {
+                  this.hidden = true;
+                  return content.style.display = "";
+                }
+              }).call(this);
+            
+            }) }, [ this.title ]), createDocumentNode("button", { 'onclick': (() => {
             	
               return (function() {
                 if (this.page > 0) {
@@ -114,7 +121,26 @@ var ViewPanel = System.define("ViewPanel", {
                 }
               }).call(this);
             
-            }) }, [ "next" ]), this.pageNumberView ]).render(this.parentView);
+            }) }, [ "next" ]), this.pageNumberView, content ]).render(debugView);
+          }).call(this);
+          views.set((this.title + "parent"), r);
+          return r;
+        }
+      }).call(this);
+    
+   },
+  title:"Entities",
+  hidden:false,
+  get view(  ){ 
+    
+      return (function() {
+        if (views.has(this)) {
+          return views.get(this);
+        } else {
+          var r = (function() {
+            /* eval.sibilant:12:23 */
+          
+            return createDocumentNode("div", { 'id': (this.title + "-container") }, []).render(this.parentView);
           }).call(this);
           views.set(this, r);
           return r;

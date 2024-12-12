@@ -26,6 +26,7 @@
   (def *clear ()
     (assign this.created-at null)
     (assign this.triggered null)))
+
 (export Time-limit)
 
 (define Timer System

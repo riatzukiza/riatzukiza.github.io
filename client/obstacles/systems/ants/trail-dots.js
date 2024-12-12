@@ -22,6 +22,7 @@ var TrailDot = DotInterface.define("TrailDot", {
    },
   _clear(  ){ 
     
+      DotInterface._clear.call(this);
       return this.color = baseColor;
     
    },

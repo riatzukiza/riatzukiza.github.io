@@ -30,12 +30,15 @@ var {
   game,
   activeGameSystems
  } = require("@obstacles/game.js"),
+    { 
+  ViewPanel
+ } = require("@obstacles/systems/property-view.js"),
     config = require("@obstacles/config.js");
-const systems=[ Position, TrailDots, DecayingTrails ];
-const trailSegments=create(EntityGroup)("Ants", systems, game.ent);
+const systems=[ Position, TrailDots, DecayingTrails, ViewPanel ];
+const trailSegments=create(EntityGroup)("Trail segments", systems, game.ent);
 exports.trailSegments = trailSegments;
 var spawnAntTrailSegment = (function spawnAntTrailSegment$(ant) {
-  /* spawn-ant-trail-segment eval.sibilant:21:0 */
+  /* spawn-ant-trail-segment eval.sibilant:22:0 */
 
   `
   obstacles/entities/trail-segment/spawn-trail-segment.md
@@ -69,4 +72,4 @@ var {
   Friction,
   SignalField
  } = require("@obstacles/forces.js");
-},{"@obstacles/colors.js":"@obstacles/colors.js","@obstacles/config.js":"@obstacles/config.js","@obstacles/forces.js":"@obstacles/forces.js","@obstacles/game.js":"@obstacles/game.js","@obstacles/systems/ants/trail-dots.js":"@obstacles/systems/ants/trail-dots.js","@obstacles/systems/ants/trail-segments.js":"@obstacles/systems/ants/trail-segments.js","@obstacles/systems/position.js":"@obstacles/systems/position.js","@obstacles/systems/velocity.js":"@obstacles/systems/velocity.js","@shared/ecs.js":"@shared/ecs.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js"}]},{},[]);
+},{"@obstacles/colors.js":"@obstacles/colors.js","@obstacles/config.js":"@obstacles/config.js","@obstacles/forces.js":"@obstacles/forces.js","@obstacles/game.js":"@obstacles/game.js","@obstacles/systems/ants/trail-dots.js":"@obstacles/systems/ants/trail-dots.js","@obstacles/systems/ants/trail-segments.js":"@obstacles/systems/ants/trail-segments.js","@obstacles/systems/position.js":"@obstacles/systems/position.js","@obstacles/systems/property-view.js":"@obstacles/systems/property-view.js","@obstacles/systems/velocity.js":"@obstacles/systems/velocity.js","@shared/ecs.js":"@shared/ecs.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js"}]},{},[]);

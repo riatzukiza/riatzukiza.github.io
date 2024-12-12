@@ -20,7 +20,7 @@ exports.productOf = productOf;
 var randomUbyte = (function randomUbyte$() {
   /* random-ubyte eval.sibilant:1:1036 */
 
-  return (Math.floor((Math.random() * (255 - 0))) + 0);
+  return randomInt(0, 255);
 });
 exports.randomUbyte = randomUbyte;
 var square = (function square$(dim, f) {

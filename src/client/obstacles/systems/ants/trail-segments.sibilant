@@ -3,6 +3,12 @@
           (lit rgba) "@obstacles/colors.js"
           config "@obstacles/config.js"
           )
+
+(include "../../../../../inc/dom.sibilant")
+(import-namespace dom)
+
+(def-generic display-decimal (d (n 6)) (/ (Math.round (* (Math.pow 10 n) d)) (Math.pow 10 n)))
+
 (define Trail-segment Time-limit
   (doc-string "obstacles.systems.ant-trails.Trail-vector"
               "inherits from shared.ecs.Component"
@@ -12,11 +18,19 @@
   (duration config.trail-limit)
 
   (def *clear ()
+    (assign this.entity.ant null)
     (assign this.duration config.trail-limit)
     (assign this.triggered null)
     (assign this.x null)
     (assign this.y null)
     (assign this.pheremones null))
+
+  (update-view? true)
+  (view (.div .className "panel"
+              "trail segment"
+              (.div "pos:" (-> (display-decimal this.x 2)) "," (-> (display-decimal this.y 2)))
+              (.div "remaining" (-> this.remaining-time))
+              (.div "remaining" (-> this.duration))))
 
   (gett seg-group (get (require "@obstacles/entities/trail-segments.js") 'trail-segments))
   (def callback (entity c)

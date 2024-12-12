@@ -1,0 +1,9 @@
+
+(define Trail-property-view Property-view)
+
+(define Trail-view-panel View-panel
+
+  (page-size 5)
+  (page 0)
+  (cursor 0)
+  (title "Ants"))
