@@ -10630,7 +10630,7 @@ var Scalar = Interface.define("Scalar", {
   mul( array = this.array,value = this.value ){ 
     
       return array.map((function() {
-        /* eval.sibilant:1:276 */
+        /* eval.sibilant:1:307 */
       
         return (arguments[0] * value);
       }));
@@ -10639,7 +10639,7 @@ var Scalar = Interface.define("Scalar", {
   div( array = this.array,value = this.value ){ 
     
       return array.map((function() {
-        /* eval.sibilant:1:345 */
+        /* eval.sibilant:1:376 */
       
         return (arguments[0] / value);
       }));
@@ -10648,7 +10648,7 @@ var Scalar = Interface.define("Scalar", {
   sub( array = this.array,value = this.value ){ 
     
       return array.map((function() {
-        /* eval.sibilant:1:414 */
+        /* eval.sibilant:1:445 */
       
         return (arguments[0] - value);
       }));

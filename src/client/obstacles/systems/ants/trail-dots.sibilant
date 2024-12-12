@@ -1,0 +1,49 @@
+(namespace obstacles)
+(require! (lit Dot-interface Dot) "@shared/systems/rendering/dot.js"
+          (lit rgba) "@obstacles/colors.js")
+
+(const base-color (rgba 20 20 125 255))
+
+(define Trail-dot Dot-interface
+  (*color base-color)
+  (changed? true)
+  (gett color this.*color)
+  (sett color c
+        (assign this.changed? true)
+        (assign this.*color c))
+  (def *clear () (.call Dot-interface.*clear this)(assign this.color base-color))
+  (def register ()
+    (.call Dot-interface.register this)
+
+    (set this.vertex.color
+          'r base-color.r
+          'g base-color.g
+          'b base-color.b
+          'a base-color.a)
+
+    (set this.vertex
+         'size 1)
+    )
+  )
+(export Trail-dot)
+
+(define Trail-dots Dot
+  (max-verts 100000)
+  (interface Trail-dot)
+
+  (def *update-component (dot)
+    (set dot.vertex.color
+         'a (Math.round
+             (Math.max 0 (* 255 (/ dot.entity.trail-segment.remaining-time dot.entity.trail-segment.duration)))))
+    (if! dot.changed?
+        (set dot.vertex.color
+             'r dot.color.r
+             'g dot.color.g
+             'b dot.color.b)
+        (assign this.changed? false)
+        )
+    null
+    )
+
+  )
+(export Trail-dots)

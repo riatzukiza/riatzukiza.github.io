@@ -1,0 +1,17 @@
+(namespace obstacles)
+(require! (lit Property-view View-panel) "@obstacles/systems/property-view.js")
+
+(include "../../../../../inc/dom.sibilant")
+(import-namespace dom)
+
+(define Trails-property-view Property-view)
+
+(define Trails-panel View-panel
+
+  (page-size 20)
+  (page 0)
+  (cursor 0)
+  (title "Trails"))
+
+(export Trails-property-view)
+(export Trails-panel)

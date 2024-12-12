@@ -28,6 +28,7 @@
                          (.emit node event-name event)))))
     node))
 (define src Interface
+  (inc (.load File-system "./inc"))
   (client (.load File-system "./src/client"))
   (shared (.load File-system "./src/shared"))
   (server (.load File-system "./src/server"))
@@ -57,7 +58,8 @@
   (require! server "./server")
   (.on process 'exit (=> (.stop server)))
 
-  (await (each src.shared (file) (compile-module file js.shared)))
+  (await (each src.shared (file) (print "compiling lisp" file.rel)
+               (compile-module file js.shared)))
   (await (each src.client (file) (compile-module file js.client)))
 
   ;; LISP HTML Templates
@@ -110,8 +112,7 @@
                 (bundle-shared file js.shared-bundles true))))
 
 
-(.catch (.then (main) (-> (print "waiting for changes")
-                   null
-                   ))
-        (=> (error) (print "Error!" error)))
+(.then (main) (-> (print "waiting for changes")
+                  null
+                  ))
 

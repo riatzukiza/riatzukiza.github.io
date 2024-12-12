@@ -11117,7 +11117,7 @@ var spawnRock = (function spawnRock$(x_y$3, mass, scale) {
   phys.scale = scale;
   phys.forces = [ Friction ];
   const velocity=phys.velocity;
-  var hardness = Math.min(200, Math.round((maxRockDensity / phys.density)));
+  var hardness = Math.max(60, Math.min(225, Math.round((maxRockDensity / phys.density))));
   game.systems.get(Dot, rock).color = rgba(hardness, hardness, hardness, 255);
   return placeEntity(rock, game, config);
 });

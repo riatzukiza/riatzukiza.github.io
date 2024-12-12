@@ -1,5 +1,5 @@
 Array.transform = (function Array$transform$(f, a, r = a) {
-  /* Array.transform eval.sibilant:1:308 */
+  /* Array.transform eval.sibilant:1:339 */
 
   return (function(r) {
     /* node_modules/kit/inc/scope.sibilant:12:9 */
@@ -13,7 +13,7 @@ Array.transform = (function Array$transform$(f, a, r = a) {
   })(r);
 });
 Array.prototype.bind = Array.bind = (function Array$bind$(a, f) {
-  /* Array.bind eval.sibilant:1:444 */
+  /* Array.bind eval.sibilant:1:475 */
 
   return a.reduce(((r, e, i) => {
   	
@@ -27,13 +27,13 @@ Array.prototype.bind = Array.bind = (function Array$bind$(a, f) {
   }), []);
 });
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each eval.sibilant:1:614 */
+  /* Array.prototype.each eval.sibilant:1:645 */
 
   this.forEach(f);
   return this;
 });
 Array.prototype.bind = (function Array$prototype$bind$(f) {
-  /* Array.prototype.bind eval.sibilant:1:684 */
+  /* Array.prototype.bind eval.sibilant:1:715 */
 
   return (function(r) {
     /* node_modules/kit/inc/scope.sibilant:12:9 */
@@ -47,7 +47,7 @@ Array.prototype.bind = (function Array$prototype$bind$(f) {
   })([]);
 });
 Map.prototype.each = (function Map$prototype$each$(f) {
-  /* Map.prototype.each eval.sibilant:1:778 */
+  /* Map.prototype.each eval.sibilant:1:809 */
 
   this.forEach(f);
   return this;

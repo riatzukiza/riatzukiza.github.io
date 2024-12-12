@@ -23,7 +23,7 @@ var SpriteInterface = Component.define("SpriteInterface", {
             /* node_modules/kit/inc/loops.sibilant:28:35 */
           
             array.push((function() {
-              /* eval.sibilant:1:369 */
+              /* eval.sibilant:1:400 */
             
               return system.verts.spawn();
             }).call(this));

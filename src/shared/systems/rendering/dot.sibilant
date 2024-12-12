@@ -41,30 +41,32 @@
   (gett pos this.entity.position-interface)
   (gett scale (get (.get this.system.process.systems Physics this.entity) 'scale))
   (gett point this.vertex.point)
+  (def register ()
+    (unless this.vertex (assign this.vertex (.spawn this.system.verts))))
   (def *clear ()
     (assign this.point.x 0)
     (assign this.point.y 0)
     (assign this.point.z 0)
+    (assign this.vertex.size 0)
 
     (assign this.vertex.color.r 0)
     (assign this.vertex.color.g 0)
     (assign this.vertex.color.b 0)
     (assign this.vertex.color.a 0)
-    (assign this.color {r 0 g 0 b 0 a 0})
     )
   )
 
 (export Dot-interface)
 
 (define Dot System
+  (max-verts 100000)
   (def register ()
-    (assign this.verts (vertex-layer 100000 this.game)))
+    (assign this.verts (vertex-layer this.max-verts this.game)))
 
   (interface Dot-interface)
 
   (def spawn (entity )
-       (var c (.call System.spawn this entity ))
-       (unless c.vertex (assign c.vertex (.spawn this.verts)))
+    (var c (.call System.spawn this entity ))
        c)
 
   (def *update-component (dot)
@@ -91,7 +93,6 @@
     (set dot.vertex.point
          'x dot.pos.x
             'y dot.pos.y
-
             'z dot.pos.z)
        (set dot.vertex
             'size dot.scale)

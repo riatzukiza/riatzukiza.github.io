@@ -10681,7 +10681,7 @@ var shaders = Interface.define("shaders", {
   `
  });
 var vertexLayer = (function vertexLayer$(limit, game) {
-  /* vertex-layer eval.sibilant:1:908 */
+  /* vertex-layer eval.sibilant:1:939 */
 
   uniforms.init(game);
   return game.rendering.spawn(limit, Vertex, [ uniforms.res, uniforms.scale ], [ shaders.vert, shaders.frag ]);
@@ -10708,40 +10708,40 @@ var DotInterface = Component.define("DotInterface", {
       return this.vertex.point;
     
    },
+  register(  ){ 
+    
+      return (function() {
+        if (!(this.vertex)) {
+          return this.vertex = this.system.verts.spawn();
+        }
+      }).call(this);
+    
+   },
   _clear(  ){ 
     
       this.point.x = 0;
       this.point.y = 0;
       this.point.z = 0;
+      this.vertex.size = 0;
       this.vertex.color.r = 0;
       this.vertex.color.g = 0;
       this.vertex.color.b = 0;
-      this.vertex.color.a = 0;
-      return this.color = {
-        r: 0,
-        g: 0,
-        b: 0,
-        a: 0
-      };
+      return this.vertex.color.a = 0;
     
    }
  });
 exports.DotInterface = DotInterface;
 var Dot = System.define("Dot", { 
+  maxVerts:100000,
   register(  ){ 
     
-      return this.verts = vertexLayer(100000, this.game);
+      return this.verts = vertexLayer(this.maxVerts, this.game);
     
    },
   interface:DotInterface,
   spawn( entity ){ 
     
       var c = System.spawn.call(this, entity);
-      (function() {
-        if (!(c.vertex)) {
-          return c.vertex = this.verts.spawn();
-        }
-      }).call(this);
       return c;
     
    },

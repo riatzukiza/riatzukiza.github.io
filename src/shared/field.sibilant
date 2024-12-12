@@ -26,6 +26,7 @@
 (const waiting-decay (new Set))
 
 
+
 (def-generic  module.exports.create-particle-updater (config , game)
   (def-generic particle-updater (vel,
                                  p,
@@ -79,47 +80,6 @@
     (if! config.step-wise-update
         (.add-to pH vec))
 
-    (if! config.track-trail
-         (if-else! (not vel.trail)
-                   ( ;; (print "There was no trail" vel)
-                     (set vel 'win-count 0
-                          'loose-count 0
-                          'trail [(.spawn Trail-vector vel.xd vel.yd pH)]))
-                   (;; (print "There was a trail")
-                    (.push vel.trail (.spawn Trail-vector vel.xd vel.yd pH)))))
-    (if! (and loose config.punish-loosers)
-      (const weight (/ vel.loose-count (+ vel.win-count 1)))
-      (for-of!  (lit x,y, pheremones) vel.trail
-            (pheremones.sub-from
-             (lit
-              (x (* x weight config.ant-influence))
-              (y (* y weight config.ant-influence))))))
-    (if! loose
-         ;; (.emit game.events 'loose)
-         ;; (print "despawning trail" vel.trail)
-         (for-of! seg vel.trail
-                  (.despawn seg))
-
-         ;; (print "clearing trail" vel.trail)
-         (set vel 'trail [])
-         ;; (print "cleared trail trail" vel.trail)
-         (set p 'x (+ (random-signed config.spawn-static) home-pos.x)
-              'y (+ (random-signed config.spawn-static) home-pos.y))
-         (incr-by vel.loose-count 1))
-
-    (if! (and win config.reward-winners)
-         (const weight (/ vel.loose-count (+ vel.win-count 1)))
-         (for-of! (lit x,y, pheremones) vel.trail 
-                  (pheremones.add-to
-                   (lit
-                    (x (* x weight config.ant-influence))
-                    (y (* y weight config.ant-influence))))))
-    (if! win
-         (for-of! seg vel.trail (.despawn seg))
-         (set vel 'trail [])
-         (set vel 'trail [])
-         (set p 'x (+ (random-signed config.spawn-static) home-pos.x) 'y (+ (random-signed config.spawn-static) home-pos.y))
-         (incr-by vel.win-count 1))
     (if! (> (pH.get-length) config.max-length) (pH.set-length config.max-length))
     (.accelerate vel [pH.x pH.y])
     (.add-to pH (lit (x (* vel.xd config.ant-influence))

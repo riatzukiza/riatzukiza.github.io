@@ -96326,12 +96326,12 @@ var m = require("mathjs"),
  } = require("kit-events"),
     events = require("events");
 EventEmitter.removeAllListeners = (function EventEmitter$removeAllListeners$(...args) {
-  /* Event-emitter.remove-all-listeners eval.sibilant:1:304 */
+  /* Event-emitter.remove-all-listeners eval.sibilant:1:335 */
 
   return events.EventEmitter.prototype.removeAllListeners.call(this, ...args);
 });
 var rgb = (function rgb$(r, g, b) {
-  /* rgb eval.sibilant:1:473 */
+  /* rgb eval.sibilant:1:504 */
 
   return { 
     r,
@@ -96341,7 +96341,7 @@ var rgb = (function rgb$(r, g, b) {
 });
 exports.rgb = rgb;
 var memoize = (function memoize$(f) {
-  /* memoize eval.sibilant:1:523 */
+  /* memoize eval.sibilant:1:554 */
 
   "create a memoized version of any function. A memoized function will return\n"+"previously calculated results from a cache if the arguments given to it are the same";
   var m = {  };

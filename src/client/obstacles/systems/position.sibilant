@@ -7,7 +7,7 @@
 (import-namespace dom)
 
 (const views (new Map))
-(macro remember (m k ...body)
+(macro cache (m k ...body)
        `(if (.has @m @k)
             (.get @m @k)
             (do (var r (scoped ...@body))
@@ -16,7 +16,7 @@
 
   (gett parent-view this.entity.property-view.view )
   (gett update-view? (if this.entity.velocity-interface this.entity.velocity-interface.update-view?))
-  (gett view (remember views this.entity
+  (gett view (cache views this.entity
                        (.render (dom (.div .className "panel"
                                            .style (lit (width "48%"))
                                            (.div "position")

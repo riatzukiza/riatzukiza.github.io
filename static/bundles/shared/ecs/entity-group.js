@@ -10659,55 +10659,37 @@ var EntityGroup = Interface.define("EntityGroup", {
    },
   spawn( aspects = this.aspects,system = this.system,group = this.group ){ 
     
+      const self=this;
       return (function(e) {
         /* node_modules/kit/inc/scope.sibilant:12:9 */
       
-        e.group = this;
+        e.group = self;
         group.add(e);
         return e;
       })(system.spawn(aspects));
     
+   },
+  clear( group = this.group ){ 
+    
+      group.each(((entity) => {
+      	
+        return entity.despawn();
+      
+      }));
+      return group.clear();
+    
+   },
+  has( entity = this.entity,group = this.group ){ 
+    
+      return group.has(entity);
+    
+   },
+  despawn( entity = this.entity,group = this.group ){ 
+    
+      group.remove(entity);
+      return entity.despawn();
+    
    }
  });
-EntityGroup.init = (function EntityGroup$init$(name = this.name, aspects = this.aspects, system = this.system, group = create(Group)()) {
-  /* Entity-group.init node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
-
-  this.name = name;
-  this.aspects = aspects;
-  this.system = system;
-  this.group = group;
-  return this;
-});
-EntityGroup.clear = (function EntityGroup$clear$(group = this.group) {
-  /* Entity-group.clear node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
-
-  group.each(((entity) => {
-  	
-    return entity.despawn();
-  
-  }));
-  return group.clear();
-});
-EntityGroup.has = (function EntityGroup$has$(entity = this.entity, group = this.group) {
-  /* Entity-group.has node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
-
-  return group.has(entity);
-});
-EntityGroup.spawn = (function EntityGroup$spawn$(aspects = this.aspects, system = this.system, group = this.group) {
-  /* Entity-group.spawn node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
-
-  return (function(e) {
-    /* node_modules/kit/inc/scope.sibilant:12:9 */
-  
-    group.add(e);
-    return e;
-  })(system.spawn(aspects));
-});
-EntityGroup.despawn = (function EntityGroup$despawn$(entity = this.entity, group = this.group) {
-  /* Entity-group.despawn node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
-
-  group.remove(entity);
-  return entity.clear();
-});
 exports.EntityGroup = EntityGroup;
 },{"@kit-js/interface":1,"@shared/data-structures/group.js":"@shared/data-structures/group.js","@shared/data-structures/maps/ordered.js":"@shared/data-structures/maps/ordered.js","@shared/pooling/dynamic-pool.js":"@shared/pooling/dynamic-pool.js","ramda":4}]},{},[]);

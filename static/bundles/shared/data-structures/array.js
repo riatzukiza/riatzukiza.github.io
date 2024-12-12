@@ -1,6 +1,6 @@
 require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({"@shared/data-structures/array.js":[function(require,module,exports){
 Array.transform = (function Array$transform$(f, a, r = a) {
-  /* Array.transform eval.sibilant:1:308 */
+  /* Array.transform eval.sibilant:1:339 */
 
   return (function(r) {
     /* node_modules/kit/inc/scope.sibilant:12:9 */
@@ -14,7 +14,7 @@ Array.transform = (function Array$transform$(f, a, r = a) {
   })(r);
 });
 Array.prototype.bind = Array.bind = (function Array$bind$(a, f) {
-  /* Array.bind eval.sibilant:1:444 */
+  /* Array.bind eval.sibilant:1:475 */
 
   return a.reduce(((r, e, i) => {
   	
@@ -28,13 +28,13 @@ Array.prototype.bind = Array.bind = (function Array$bind$(a, f) {
   }), []);
 });
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each eval.sibilant:1:614 */
+  /* Array.prototype.each eval.sibilant:1:645 */
 
   this.forEach(f);
   return this;
 });
 Array.prototype.bind = (function Array$prototype$bind$(f) {
-  /* Array.prototype.bind eval.sibilant:1:684 */
+  /* Array.prototype.bind eval.sibilant:1:715 */
 
   return (function(r) {
     /* node_modules/kit/inc/scope.sibilant:12:9 */
@@ -48,7 +48,7 @@ Array.prototype.bind = (function Array$prototype$bind$(f) {
   })([]);
 });
 Map.prototype.each = (function Map$prototype$each$(f) {
-  /* Map.prototype.each eval.sibilant:1:778 */
+  /* Map.prototype.each eval.sibilant:1:809 */
 
   this.forEach(f);
   return this;

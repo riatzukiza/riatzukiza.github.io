@@ -1,6 +1,12 @@
 var { 
-  Dot
- } = require("@shared/systems/rendering/dot.js"),
+  AntDots
+ } = require("@obstacles/systems/ants/ant-dot.js"),
+    { 
+  AntTrails
+ } = require("@obstacles/systems/ants/ant-trails.js"),
+    { 
+  AntLifeTimer
+ } = require("@obstacles/systems/ants/ant-life-timer.js"),
     { 
   Position
  } = require("@obstacles/systems/position.js"),
@@ -11,13 +17,8 @@ var {
   Physics
  } = require("@shared/systems/physics/index.js"),
     { 
-  Component,
-  System,
   EntityGroup
  } = require("@shared/ecs.js"),
-    { 
-  rgba
- } = require("@obstacles/colors.js"),
     { 
   Collision,
   placeEntity
@@ -26,21 +27,23 @@ var {
   game,
   activeGameSystems
  } = require("@obstacles/game.js"),
+    { 
+  AntPanel
+ } = require("@obstacles/systems/ants/ant-panel.js"),
     config = require("@obstacles/config.js");
-const ants=create(EntityGroup)("Ants", activeGameSystems, game.ent);
+const ants=create(EntityGroup)("Ants", [ Collision, AntDots, AntPanel, Physics, Velocity, Position, AntTrails, AntLifeTimer ], game.ent);
 var clearAnts = (function clearAnts$() {
-  /* clear-ants eval.sibilant:14:0 */
+  /* clear-ants eval.sibilant:25:0 */
 
   return ants.clear();
 });
 var spawnAnt = (function spawnAnt$(x_y$1, home, startingLife) {
-  /* spawn-ant eval.sibilant:15:0 */
+  /* spawn-ant eval.sibilant:26:0 */
 
   var x = x_y$1[0],
       y = x_y$1[1];
 
-  var ant = ants.spawn(activeGameSystems);
-  game.systems.get(Dot, ant).color = rgba(255, 0, 0, 255);
+  var ant = ants.spawn();
   game.systems.get(Position, ant).x = x;
   game.systems.get(Position, ant).y = y;
   game.systems.get(Position, ant).z = 0;

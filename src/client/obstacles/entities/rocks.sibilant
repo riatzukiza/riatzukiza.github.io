@@ -51,7 +51,7 @@
   ;; (set velocity 'xd xd 'yd yd)
 
 
-  (var hardness (Math.min 200 (Math.round (/    max-rock-density phys.density))))
+  (var hardness (Math.max 60 (Math.min 225 (Math.round (/    max-rock-density phys.density)))))
 
   (set (.get game.systems Dot rock)
        'color (rgba hardness hardness  hardness  255))

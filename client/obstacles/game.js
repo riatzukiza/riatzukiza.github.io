@@ -31,8 +31,29 @@ var {
     { 
   ViewPanel
  } = require("@obstacles/systems/property-view.js"),
+    { 
+  AntDots
+ } = require("@obstacles/systems/ants/ant-dot.js"),
+    { 
+  AntTrails
+ } = require("@obstacles/systems/ants/ant-trails.js"),
+    { 
+  AntLifeTimer
+ } = require("@obstacles/systems/ants/ant-life-timer.js"),
+    { 
+  TrailDots
+ } = require("@obstacles/systems/ants/trail-dots.js"),
+    { 
+  AntPanel
+ } = require("@obstacles/systems/ants/ant-panel.js"),
+    { 
+  TrailsPanel
+ } = require("@obstacles/systems/ants/trail-panel.js"),
+    { 
+  DecayingTrails
+ } = require("@obstacles/systems/ants/trail-segments.js"),
     config = require("@obstacles/config.js");
-var activeGameSystems = [ Dot, Position, Physics, Velocity, Collision, ViewPanel ];
+var activeGameSystems = [ AntTrails, DecayingTrails, AntLifeTimer, Physics, Velocity, Position, Collision, Dot, TrailDots, AntDots, AntPanel, TrailsPanel ];
 var game = create(Game)(config, rendering, activeGameSystems, config.gameSpeed);
 exports.game = game;
 exports.activeGameSystems = activeGameSystems;

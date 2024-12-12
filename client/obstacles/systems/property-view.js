@@ -33,7 +33,7 @@ var PropertyView = Component.define("PropertyView", {
           return views.get(this.entity);
         } else {
           var r = (function() {
-            /* inc/misc.sibilant:1:673 */
+            /* eval.sibilant:12:23 */
           
             return createDocumentNode("div", {
               'id': ("entity-panel" + this.entity.id),
@@ -51,7 +51,6 @@ var PropertyView = Component.define("PropertyView", {
    },
   _clear(  ){ 
     
-      console.log("clearing property view component", this);
       this.view.remove();
       return views.delete(this.entity);
     
@@ -79,22 +78,33 @@ var ViewPanel = System.define("ViewPanel", {
    },
   get parentView(  ){ 
     
-      return require("@obstacles/dom.js").debugView;
-    
-   },
-  get view(  ){ 
-    
       return (function() {
-        if (views.has(this)) {
-          return views.get(this);
+        if (views.has((this.title + "parent"))) {
+          return views.get((this.title + "parent"));
         } else {
           var r = (function() {
-            /* inc/misc.sibilant:1:673 */
+            /* eval.sibilant:12:23 */
           
+            const { 
+              debugView
+             }=require("@obstacles/dom.js");
             return createDocumentNode("div", {
               'id': "view-panel-top",
-              'className': "panel"
-            }, [ createDocumentNode("h4", {  }, [ "Entities" ]), createDocumentNode("button", { 'onclick': (() => {
+              'className': "panel",
+              'style': { 
+                width:"99%"
+               }
+            }, [ createDocumentNode("h4", { 'onclick': (() => {
+            	
+              return (function() {
+                if (this.hidden) {
+                  return this.view.style.display = "";
+                } else {
+                  return this.view.style.display = "none";
+                }
+              }).call(this);
+            
+            }) }, [ this.title ]), createDocumentNode("button", { 'onclick': (() => {
             	
               return (function() {
                 if (this.page > 0) {
@@ -114,7 +124,31 @@ var ViewPanel = System.define("ViewPanel", {
                 }
               }).call(this);
             
-            }) }, [ "next" ]), this.pageNumberView ]).render(this.parentView);
+            }) }, [ "next" ]), this.pageNumberView ]).render(debugView);
+          }).call(this);
+          views.set((this.title + "parent"), r);
+          return r;
+        }
+      }).call(this);
+    
+   },
+  title:"Entities",
+  get hidden(  ){ 
+    
+      console.log("hidden?", this.view.style);
+      return this.view.style.display === "none";
+    
+   },
+  get view(  ){ 
+    
+      return (function() {
+        if (views.has(this)) {
+          return views.get(this);
+        } else {
+          var r = (function() {
+            /* eval.sibilant:12:23 */
+          
+            return createDocumentNode("div", { 'id': (this.title + "-container") }, []).render(this.parentView);
           }).call(this);
           views.set(this, r);
           return r;
@@ -130,7 +164,7 @@ var ViewPanel = System.define("ViewPanel", {
   _updateComponent( c,t ){ 
     
       return (function() {
-        if ((this.updated__QUERY || (this.game.ticker.ticks % config.uiPollingRate) === 0)) {
+        if ((!(this.hidden) && (this.updated__QUERY || (this.game.ticker.ticks % config.uiPollingRate) === 0))) {
           this.pageNumberView.render(this.view);
           (function() {
             if (c.displayed__QUERY) {

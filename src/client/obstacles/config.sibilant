@@ -12,12 +12,14 @@
      'rows (Math.ceil (/ (second dim) size))
      'decay 0.01
      'maxLength 30
+     'trail-result-duration 15000
      'growth-rate 0.001
-     'starting-plants 60
+     'starting-plants 6
      'plantMassLimit 30
      'ant-limit 1000
      'max-in-decay 100
-     'max-trail 1000
+     'trail-limit 3000
+     'ant-life 6000
      'min-trail 10
      'decay-on-collision true
      'options-amplitude 10
@@ -29,13 +31,13 @@
      'spawn-rate 10
      'home-location [300, 200]
      'target-location [700, 900]
-     'rocks 50
+     'rocks 5
      'rock-min-size 16
      'rock-max-size 64
      'rock-mass-scaling-factor 0.0005 ;; How much does scale effect mass?
      'rock-min-mass-factor 1 ;; Min bounds to rock mass variation
      'rock-max-mass-factor 100  ;; max bounds to rock mass variation
-     'stationary-resistance-coefficiant 2 ;; not used
+     'stationary-resistance-coefficiant 2
      'track-trail true
      'vary-noise-with-time true
      'reward-winners true

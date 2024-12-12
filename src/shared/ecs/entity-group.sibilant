@@ -23,31 +23,22 @@
   (gett size this.group.size)
 
   (def-generic spawn ( aspects system group)
+    (const self this)
     (collect e (.spawn system aspects )
-             (assign e.group this)
-             (.add group e))))
+             (assign e.group self)
+             (.add group e)))
+
+  (def-generic clear (group)
+    (each group (entity) (.despawn entity))
+    (.clear group))
+
+  (def-generic has (entity group) (group.has entity))
 
 
-(def-generic Entity-group.init (name aspects system (group ((create Group) )))
-  (set this 'name name
-       'aspects aspects
-       'system system
-       'group group)
-  this)
+  (def-generic despawn (entity group)
+    (.remove group entity)
+    (.despawn entity )))
 
-(def-generic Entity-group.clear (group)
-  (each group (entity) (.despawn entity))
-  (.clear group)
-  )
 
-(def-generic Entity-group.has (entity group) (group.has entity))
-
-(def-generic Entity-group.spawn ( aspects system group)
-  (collect e (.spawn system aspects )
-           (.add group e)))
-
-(def-generic Entity-group.despawn (entity group)
-  (.remove group entity)
-  (.clear entity ))
 
 (export Entity-group)

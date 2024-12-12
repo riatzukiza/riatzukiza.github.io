@@ -1,0 +1,43 @@
+
+(require! (lit Component System) "@shared/ecs.js"
+          config "@obstacles/config.js"
+          )
+
+(define Time-limit Component
+  (doc-string "Obstacles.systems.Time-limit"
+              "Inherits shared.ecs.Component arguments"
+              "Sets somthing to happen at a given time."
+              "Requires a " (pre duration) "and" (pre callback))
+
+  (def register ()
+    (assign this.created-at (Date.now))
+    (assign this.triggered false))
+
+  (gett duration (throw (new Error "no duration was given to time limit component")))
+  (gett callback (throw (new Error "No callback was given to time limit component")))
+
+  (gett elapsed (- (Date.now) this.created-at))
+  (gett remaining-time (- this.duration this.elapsed))
+  (gett expired (> this.elapsed this.duration))
+
+  (def reset ()
+    (assign this.created-at (Date.now))
+    (assign this.triggered false))
+  (def *clear ()
+    (assign this.created-at 0)
+    (assign this.triggered false)
+    )
+  )
+
+(export Time-limit)
+
+(define Timer System
+  (doc-string "Obstacles.systems.Timer"
+              "Inherits from shared.ecs.ComponentSystem"
+              "Allows timed events to occur for entities with time limit components")
+  (def *update-component (c)
+    (when (and c.expired (not c.triggered))
+      (assign c.triggered true)
+      (c.callback c.entity c))))
+
+(export Timer)

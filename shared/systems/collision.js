@@ -69,12 +69,12 @@ var CollisionBounds = Component.define("CollisionBounds", {
    },
   get height(  ){ 
     
-      return Math.round((2 * this.scale));
+      return (2 * this.scale);
     
    },
   get width(  ){ 
     
-      return Math.round((2 * this.scale));
+      return (2 * this.scale);
     
    },
   get maxX(  ){ 

@@ -1,7 +1,13 @@
 require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({"@obstacles/entities/ants.js":[function(require,module,exports){
 var { 
-  Dot
- } = require("@shared/systems/rendering/dot.js"),
+  AntDots
+ } = require("@obstacles/systems/ants/ant-dot.js"),
+    { 
+  AntTrails
+ } = require("@obstacles/systems/ants/ant-trails.js"),
+    { 
+  AntLifeTimer
+ } = require("@obstacles/systems/ants/ant-life-timer.js"),
     { 
   Position
  } = require("@obstacles/systems/position.js"),
@@ -12,13 +18,8 @@ var {
   Physics
  } = require("@shared/systems/physics/index.js"),
     { 
-  Component,
-  System,
   EntityGroup
  } = require("@shared/ecs.js"),
-    { 
-  rgba
- } = require("@obstacles/colors.js"),
     { 
   Collision,
   placeEntity
@@ -27,21 +28,23 @@ var {
   game,
   activeGameSystems
  } = require("@obstacles/game.js"),
+    { 
+  AntPanel
+ } = require("@obstacles/systems/ants/ant-panel.js"),
     config = require("@obstacles/config.js");
-const ants=create(EntityGroup)("Ants", activeGameSystems, game.ent);
+const ants=create(EntityGroup)("Ants", [ Collision, AntDots, AntPanel, Physics, Velocity, Position, AntTrails, AntLifeTimer ], game.ent);
 var clearAnts = (function clearAnts$() {
-  /* clear-ants eval.sibilant:14:0 */
+  /* clear-ants eval.sibilant:25:0 */
 
   return ants.clear();
 });
 var spawnAnt = (function spawnAnt$(x_y$1, home, startingLife) {
-  /* spawn-ant eval.sibilant:15:0 */
+  /* spawn-ant eval.sibilant:26:0 */
 
   var x = x_y$1[0],
       y = x_y$1[1];
 
-  var ant = ants.spawn(activeGameSystems);
-  game.systems.get(Dot, ant).color = rgba(255, 0, 0, 255);
+  var ant = ants.spawn();
   game.systems.get(Position, ant).x = x;
   game.systems.get(Position, ant).y = y;
   game.systems.get(Position, ant).z = 0;
@@ -75,4 +78,4 @@ var {
   Friction,
   SignalField
  } = require("@obstacles/forces.js");
-},{"@obstacles/colors.js":"@obstacles/colors.js","@obstacles/config.js":"@obstacles/config.js","@obstacles/forces.js":"@obstacles/forces.js","@obstacles/game.js":"@obstacles/game.js","@obstacles/systems/position.js":"@obstacles/systems/position.js","@obstacles/systems/velocity.js":"@obstacles/systems/velocity.js","@shared/ecs.js":"@shared/ecs.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/rendering/dot.js":"@shared/systems/rendering/dot.js"}]},{},[]);
+},{"@obstacles/config.js":"@obstacles/config.js","@obstacles/forces.js":"@obstacles/forces.js","@obstacles/game.js":"@obstacles/game.js","@obstacles/systems/ants/ant-dot.js":"@obstacles/systems/ants/ant-dot.js","@obstacles/systems/ants/ant-life-timer.js":"@obstacles/systems/ants/ant-life-timer.js","@obstacles/systems/ants/ant-panel.js":"@obstacles/systems/ants/ant-panel.js","@obstacles/systems/ants/ant-trails.js":"@obstacles/systems/ants/ant-trails.js","@obstacles/systems/position.js":"@obstacles/systems/position.js","@obstacles/systems/velocity.js":"@obstacles/systems/velocity.js","@shared/ecs.js":"@shared/ecs.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js"}]},{},[]);

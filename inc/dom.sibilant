@@ -9,4 +9,14 @@
 
 (macro instance-of? (item type)
        ["("  type " " 'instanceof " "item ")"])
+
+(def-lit-macro view (node)
+  (interleave [`(property views (new Map))
+                 `(gett parent-view this.entity.property-view.view)
+                 `(gett view (cache this.views this.entity
+                                    (.render (dom @node) this.parent-view)))] ",\n"))
+;; Dare to dream
+(def-lit-macro view-panel (...nodes)
+  `(view (.div .className "panel"
+               ...@nodes)))
 (require! (lit render-children create-document-node Document-node Document-body Document-head Document-root) "@shared/dom.js")

@@ -10717,7 +10717,7 @@ var Physics = System.define("Physics", {
   _updateComponent( c ){ 
     
       return c.forces.each((function() {
-        /* eval.sibilant:1:1621 */
+        /* eval.sibilant:1:1652 */
       
         return arguments[0].apply(c);
       }));
