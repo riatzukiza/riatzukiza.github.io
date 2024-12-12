@@ -25,8 +25,7 @@
 
     (incr c.loose-count)
     (for-of! seg e.ant-trail.segments
-             (.apply-inverse seg.trail-segment)
-             )
+             (.apply-inverse seg.trail-segment))
     (.clear e.ant-trail.segments)
 
     (.reset c)))

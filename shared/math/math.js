@@ -1,13 +1,13 @@
 var tau = (Math.PI * 2);
 exports.tau = tau;
 var euclidianDistance = (function euclidianDistance$(x, y, a, b) {
-  /* euclidian-distance eval.sibilant:1:786 */
+  /* euclidian-distance eval.sibilant:1:817 */
 
   return Math.sqrt((Math.pow((x - a), 2) + Math.pow((y - b), 2)));
 });
 exports.euclidianDistance = euclidianDistance;
 var productOf = (function productOf$(a) {
-  /* product-of eval.sibilant:1:919 */
+  /* product-of eval.sibilant:1:950 */
 
   return a.reduce(((value, e) => {
   	
@@ -17,13 +17,13 @@ var productOf = (function productOf$(a) {
 });
 exports.productOf = productOf;
 var randomUbyte = (function randomUbyte$() {
-  /* random-ubyte eval.sibilant:1:1005 */
+  /* random-ubyte eval.sibilant:1:1036 */
 
   return (Math.floor((Math.random() * (255 - 0))) + 0);
 });
 exports.randomUbyte = randomUbyte;
 var square = (function square$(dim, f) {
-  /* square eval.sibilant:1:1072 */
+  /* square eval.sibilant:1:1103 */
 
   var lim = Math.round((dim / 2));
   (function() {
@@ -62,19 +62,19 @@ var inverseSquare = (function inverseSquare$(rate, c, pos, {
   x,
   y
  }) {
-  /* inverse-square eval.sibilant:1:1280 */
+  /* inverse-square eval.sibilant:1:1311 */
 
   return (rate / (c + Math.pow(euclidianDistance(x, y, pos.x, pos.y), 2)));
 });
 exports.inverseSquare = inverseSquare;
 var add = (function add$(a, b) {
-  /* add eval.sibilant:1:1424 */
+  /* add eval.sibilant:1:1455 */
 
   return (a + b);
 });
 exports.add = add;
 var summate = (function summate$(a) {
-  /* summate eval.sibilant:1:1465 */
+  /* summate eval.sibilant:1:1496 */
 
   return a.reduce(add, 0);
 });

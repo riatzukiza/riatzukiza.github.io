@@ -10614,7 +10614,7 @@ var {
   List
  } = require("@shared/data-structures/list.js");
 var sumOf = (function sumOf$(list, p) {
-  /* sum-of eval.sibilant:1:430 */
+  /* sum-of eval.sibilant:1:461 */
 
   return list.reduce(((total, e) => {
   	
@@ -10662,7 +10662,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(newPool) {
-        /* eval.sibilant:1:381 */
+        /* eval.sibilant:1:412 */
       
         buckets.unshift(newPool);
         return newPool;
@@ -10719,7 +10719,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(object) {
-        /* eval.sibilant:1:381 */
+        /* eval.sibilant:1:412 */
       
         object.bucket = this.current;
         (function() {
@@ -10822,7 +10822,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(r) {
-        /* eval.sibilant:1:381 */
+        /* eval.sibilant:1:412 */
       
         r.init(...args);
         return r;

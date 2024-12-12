@@ -1,6 +1,5 @@
 (namespace obstacles)
 (require! (lit Time-limit Timer) "@obstacles/systems/timer.js"
-          (lit Trail-vector) "@shared/vectors.js"
           (lit rgba) "@obstacles/colors.js"
           config "@obstacles/config.js"
           )
@@ -12,9 +11,7 @@
 
   (duration config.trail-limit)
 
-  (def *clear ()
-    (assign this.duration config.trail-limit)
-    (.despawn this.vector))
+  (def *clear () (assign this.duration config.trail-limit))
 
   (gett seg-group (get (require "@obstacles/entities/trail-segments.js") 'trail-segments))
   (def callback (entity c)
@@ -26,37 +23,32 @@
                 ""
                 "Apply the trail segment forward")
 
-    (assign this.entity.trail-dot.color (rgba 0 255 0 255))
+    (assign this.entity.trail-dot.color (rgba 20 200 20 255))
 
     (when config.reward-winners
       (const weight (/ this.entity.ant.ant-life.loose-count (+ this.entity.ant.ant-life.win-count 1)))
-      (this.vector.pheremones.add-to
+      (this.pheremones.add-to
        (lit
-        (x (* this.vector.x weight config.ant-influence))
-        (y (* this.vector.y weight config.ant-influence))))
+        (x (* this.x weight config.ant-influence))
+        (y (* this.y weight config.ant-influence))))
 
-      (assign this.duration config.trail-result-duration)
+      (assign this.duration (+ this.remaining-time config.trail-result-duration))
 
-      (.reset this)
-      ))
+      (.reset this)))
+
   (def apply-inverse ()
     (doc-string "obstacles.systems.ant-trails.Trail-segment.apply"
                 ""
                 "Apply the trail segment backward")
-    (assign this.entity.trail-dot.color (rgba 255 0 0 255))
+    (assign this.entity.trail-dot.color (rgba 255 20 20 255))
     (when config.punish-loosers
       (const weight (/ this.entity.ant.ant-life.loose-count (+ this.entity.ant.ant-life.win-count 1)))
-      (this.vector.pheremones.sub-from
+      (this.pheremones.sub-from
        (lit
-        (x (* this.vector.x weight config.ant-influence))
-        (y (* this.vector.y weight config.ant-influence)))))
-    (assign this.duration config.trail-result-duration)
-    (.reset this)
-    )
-
-  (def register ()
-    (.call Time-limit.register this)
-    (assign this.vector (.spawn Trail-vector))))
+        (x (* this.x weight config.ant-influence))
+        (y (* this.y weight config.ant-influence)))))
+    (assign this.duration (+ this.remaining config.trail-result-duration))
+    (.reset this)))
 
 (export Trail-segment)
 

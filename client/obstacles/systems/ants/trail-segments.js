@@ -3,9 +3,6 @@ var {
   Timer
  } = require("@obstacles/systems/timer.js"),
     { 
-  TrailVector
- } = require("@shared/vectors.js"),
-    { 
   rgba
  } = require("@obstacles/colors.js"),
     config = require("@obstacles/config.js");
@@ -28,8 +25,7 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
   duration:config.trailLimit,
   _clear(  ){ 
     
-      this.duration = config.trailLimit;
-      return this.vector.despawn();
+      return this.duration = config.trailLimit;
     
    },
   get segGroup(  ){ 
@@ -57,15 +53,15 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
       Apply the trail segment forward`
 
       ;
-      this.entity.trailDot.color = rgba(0, 255, 0, 255);
+      this.entity.trailDot.color = rgba(20, 200, 20, 255);
       return (function() {
         if (config.rewardWinners) {
           const weight=(this.entity.ant.antLife.looseCount / (this.entity.ant.antLife.winCount + 1));
-          this.vector.pheremones.addTo({ 
-            x:(this.vector.x * weight * config.antInfluence),
-            y:(this.vector.y * weight * config.antInfluence)
+          this.pheremones.addTo({ 
+            x:(this.x * weight * config.antInfluence),
+            y:(this.y * weight * config.antInfluence)
            });
-          this.duration = config.trailResultDuration;
+          this.duration = (this.remainingTime + config.trailResultDuration);
           return this.reset();
         }
       }).call(this);
@@ -85,24 +81,18 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
       Apply the trail segment backward`
 
       ;
-      this.entity.trailDot.color = rgba(255, 0, 0, 255);
+      this.entity.trailDot.color = rgba(255, 20, 20, 255);
       (function() {
         if (config.punishLoosers) {
           const weight=(this.entity.ant.antLife.looseCount / (this.entity.ant.antLife.winCount + 1));
-          return this.vector.pheremones.subFrom({ 
-            x:(this.vector.x * weight * config.antInfluence),
-            y:(this.vector.y * weight * config.antInfluence)
+          return this.pheremones.subFrom({ 
+            x:(this.x * weight * config.antInfluence),
+            y:(this.y * weight * config.antInfluence)
            });
         }
       }).call(this);
-      this.duration = config.trailResultDuration;
+      this.duration = (this.remaining + config.trailResultDuration);
       return this.reset();
-    
-   },
-  register(  ){ 
-    
-      TimeLimit.register.call(this);
-      return this.vector = TrailVector.spawn();
     
    }
  });

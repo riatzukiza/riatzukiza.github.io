@@ -24,11 +24,13 @@
 (print "tick")
 (macro sum-of (reducable ...keys) `(.reduce @reducable  (=> ( sum el) (+ sum (or (get el ...@keys) 0))) 0))
 
-(const game-view (dom (.div .id "game-view" .className "panel" rendering.context.canvas)))
+(const game-view (dom (.div .id "game-view" .className "panel"
+                            .style (lit ("background-color" "sandyBrown"))
+                            rendering.context.canvas)))
 (const get-total-ant-mass (-> (display-decimal (sum-of ants.group 'physical-properties 'mass))))
 (const get-ant-count (-> ants.size))
-(const get-wins (-> (sum-of ants.group 'velocity-interface 'win-count)))
-(const get-losses (-> (sum-of ants.group 'velocity-interface 'loose-count)))
+(const get-wins (-> (sum-of ants.group 'ant-life 'win-count)))
+(const get-losses (-> (sum-of ants.group 'ant-life 'loose-count)))
 (const get-stats (->
                   (const wins (get-wins))
                   (const losses (get-losses))

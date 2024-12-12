@@ -23,7 +23,7 @@
                      false,
                      false,
                      entities.home-pos)
-    (var win-rate (/ v.win-count (or (+ 1 v.loose-count) 1)))
+    (var win-rate (/ v.entity.ant-life.win-count (or (+ 1 v.entity.ant-life.loose-count) 1)))
 
     (assign c.scale (* 0.5 (if (> win-rate 1) win-rate 1)))
     (assign c.mass (* 2 (if (> win-rate 1) win-rate 1)))

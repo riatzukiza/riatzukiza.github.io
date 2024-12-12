@@ -187,7 +187,6 @@ in progress tasks have been completed.
 Tasks that are currently being worked on.
 
 ## Tasks
-- trail entities
 - documentation
 
 # In Review (2)
@@ -196,6 +195,7 @@ Work that has been completed but needs to be reviewed to be sure.
 
 ## Tasks
 
+- trail entities
 - Simulation reset
 
 # Done

@@ -49,7 +49,10 @@ console.log("We got this from dom", {
 console.log("tick");
 const gameView=createDocumentNode("div", {
   'id': "game-view",
-  'className': "panel"
+  'className': "panel",
+  'style': { 
+    "background-color":"sandyBrown"
+   }
 }, [ rendering.context.canvas ]);
 const getTotalAntMass=(() => {
 	
@@ -69,7 +72,7 @@ const getWins=(() => {
 	
   return ants.group.reduce(((sum, el) => {
   	
-    return (sum + (el.velocityInterface.winCount || 0));
+    return (sum + (el.antLife.winCount || 0));
   
   }), 0);
 
@@ -78,7 +81,7 @@ const getLosses=(() => {
 	
   return ants.group.reduce(((sum, el) => {
   	
-    return (sum + (el.velocityInterface.looseCount || 0));
+    return (sum + (el.antLife.looseCount || 0));
   
   }), 0);
 
@@ -129,7 +132,7 @@ exports.gameView = gameView;
 exports.debugView = debugView;
 createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentRoot);
 var startInterface = (function startInterface$() {
-  /* start-interface eval.sibilant:79:0 */
+  /* start-interface eval.sibilant:81:0 */
 
   return game.events.on("tick", ((t) => {
   	

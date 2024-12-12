@@ -42,18 +42,18 @@ game.events.on("antFoundPlant", ((ant, plant) => {
   var av = ant.entity.velocityInterface;
   var ap = game.systems.get(Physics, ant.entity);
   updateParticle(av, av.pos, SignalField.field, SignalField.layer, game.ticker.ticks, true, true, homePos);
-  console.log("found plant", ant.entity.antTrail.segments, plant);
-  ant.entity.antTrail.segments.each(((seg) => {
-  	
-    console.log("applying segment", seg);
-    return seg.trailSegment.apply();
-  
-  }));
+  for (var seg of ant.entity.antTrail.segments)
+  {
+  seg.trailSegment.apply()
+  }
+  ;
+  ant.entity.antLife.reset();
+  ((ant.entity.antLife.winCount)++);
   ant.entity.antTrail.segments.clear();
   av.pos.x = homePos.x;
   av.pos.y = homePos.y;
   placeEntity(ant.entity, game, config);
   var pp = game.systems.get(Physics, plant.entity);
-  return pp.scale = pp.mass = Math.max((pp.mass - (0.05 * ap.mass)), 0);
+  return pp.scale = pp.mass = Math.max((pp.mass - (0.005 * ap.mass)), 0);
 
 }));

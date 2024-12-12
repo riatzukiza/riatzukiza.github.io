@@ -29,11 +29,10 @@
                           true
                           true
                           home-pos)
-         (print "found plant" ant.entity.ant-trail.segments plant)
-         (each  ant.entity.ant-trail.segments (seg)
-                (print "applying segment" seg)
-               (.apply seg.trail-segment )
-               )
+         (for-of! seg  ant.entity.ant-trail.segments
+               (.apply seg.trail-segment ))
+         (.reset ant.entity.ant-life)
+         (incr ant.entity.ant-life.win-count)
          (.clear ant.entity.ant-trail.segments)
 
 
@@ -45,5 +44,5 @@
 
          (var pp (.get game.systems Physics plant.entity))
 
-         (set pp 'scale (set pp 'mass (Math.max (- pp.mass (* 0.05 ap.mass)) 0))))
+         (set pp 'scale (set pp 'mass (Math.max (- pp.mass (* 0.005 ap.mass)) 0))))
     )

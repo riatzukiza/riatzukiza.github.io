@@ -17,37 +17,37 @@ var {
   Scalar
  } = require("@shared/math/scalar.js");
 var bound = (function() {
-  /* eval.sibilant:1:431 */
+  /* eval.sibilant:1:462 */
 
   return arguments[0].bind();
 }),
     clear = (function() {
-  /* eval.sibilant:1:456 */
+  /* eval.sibilant:1:487 */
 
   return arguments[0].clear();
 }),
     rendered = (function() {
-  /* eval.sibilant:1:485 */
+  /* eval.sibilant:1:516 */
 
   return arguments[0].render();
 }),
     unbound = (function() {
-  /* eval.sibilant:1:515 */
+  /* eval.sibilant:1:546 */
 
   return arguments[0].unbind();
 }),
     disabled = (function() {
-  /* eval.sibilant:1:544 */
+  /* eval.sibilant:1:575 */
 
   return arguments[0].disable();
 }),
     enabled = (function() {
-  /* eval.sibilant:1:575 */
+  /* eval.sibilant:1:606 */
 
   return arguments[0].enable();
 });
 var allowAlphaBlending = (function allowAlphaBlending$(context) {
-  /* allow-alpha-blending eval.sibilant:1:593 */
+  /* allow-alpha-blending eval.sibilant:1:624 */
 
   context.gl.enable(context.gl.BLEND);
   context.gl.blendEquation(context.gl.FUNC_ADD);

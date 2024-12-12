@@ -47,7 +47,7 @@ var {
   DecayingTrails
  } = require("@obstacles/systems/ants/trail-segments.js"),
     config = require("@obstacles/config.js");
-var activeGameSystems = [ AntTrails, DecayingTrails, AntLifeTimer, Physics, Velocity, Collision, Position, Dot, TrailDots, AntDots, ViewPanel ];
+var activeGameSystems = [ AntTrails, DecayingTrails, AntLifeTimer, Physics, Velocity, Position, Collision, Dot, TrailDots, AntDots, ViewPanel ];
 var game = create(Game)(config, rendering, activeGameSystems, config.gameSpeed);
 exports.game = game;
 exports.activeGameSystems = activeGameSystems;

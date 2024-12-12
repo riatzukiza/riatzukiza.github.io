@@ -22,7 +22,7 @@
   (gett spawn-ant-trail-segment (get (require "@obstacles/entities/trail-segments.js") 'spawn-ant-trail-segment))
 
   (def *update-component (c)
-    (when (= (mod c.system.process.ticker.ticks 5) 0)
+    (when (= (mod c.system.process.ticker.ticks 10) 0)
         (.add c.segments (this.spawn-ant-trail-segment c.entity)))))
 
 (export Ant-trails)

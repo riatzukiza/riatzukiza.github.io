@@ -31,7 +31,7 @@ var {
   activeGameSystems
  } = require("@obstacles/game.js"),
     config = require("@obstacles/config.js");
-const systems=[ TrailDots, Position, DecayingTrails ];
+const systems=[ Position, TrailDots, DecayingTrails ];
 const trailSegments=create(EntityGroup)("Ants", systems, game.ent);
 exports.trailSegments = trailSegments;
 var spawnAntTrailSegment = (function spawnAntTrailSegment$(ant) {
@@ -56,11 +56,12 @@ var spawnAntTrailSegment = (function spawnAntTrailSegment$(ant) {
   const tpos=trailSegment.positionInterface;
   const apos=ant.positionInterface;
   const avel=ant.velocityInterface;
-  tpos.x = apos.x;
-  tpos.y = apos.y;
-  trailSegment.trailSegment.vector.x = avel.xd;
-  trailSegment.trailSegment.vector.y = avel.yd;
-  trailSegment.trailSegment.vector.pheremones = SignalField.layer[(Math.min(Math.max(Math.round((apos.x / config.size)), 0), (config.columns - 1)) || 1)][(Math.min(Math.max(Math.round((apos.y / config.size)), 0), (config.rows - 1)) || 1)];
+  trailSegment.trailDot.vertex.point.x = tpos.x = apos.x;
+  trailSegment.trailDot.vertex.point.y = tpos.y = apos.y;
+  trailSegment.trailDot.vertex.point.z = apos.z;
+  trailSegment.trailSegment.x = avel.xd;
+  trailSegment.trailSegment.y = avel.yd;
+  trailSegment.trailSegment.pheremones = SignalField.layer[(Math.min(Math.max(Math.round((apos.x / config.size)), 0), (config.columns - 1)) || 1)][(Math.min(Math.max(Math.round((apos.y / config.size)), 0), (config.rows - 1)) || 1)];
   return trailSegment;
 });
 exports.spawnAntTrailSegment = spawnAntTrailSegment;

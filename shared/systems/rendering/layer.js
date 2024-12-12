@@ -14,32 +14,32 @@ var {
   Gl
  } = require("@shared/gl.js");
 var bound = (function() {
-  /* eval.sibilant:1:407 */
+  /* eval.sibilant:1:438 */
 
   return arguments[0].bind();
 }),
     clear = (function() {
-  /* eval.sibilant:1:432 */
+  /* eval.sibilant:1:463 */
 
   return arguments[0].clear();
 }),
     rendered = (function() {
-  /* eval.sibilant:1:461 */
+  /* eval.sibilant:1:492 */
 
   return arguments[0].render();
 }),
     unbound = (function() {
-  /* eval.sibilant:1:491 */
+  /* eval.sibilant:1:522 */
 
   return arguments[0].unbind();
 }),
     disabled = (function() {
-  /* eval.sibilant:1:520 */
+  /* eval.sibilant:1:551 */
 
   return arguments[0].disable();
 }),
     enabled = (function() {
-  /* eval.sibilant:1:551 */
+  /* eval.sibilant:1:582 */
 
   return arguments[0].enable();
 });

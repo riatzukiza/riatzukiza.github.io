@@ -131,7 +131,8 @@
   (try!
 
    (var lisp (await file.string))
-   (var js (await (.send compiler (+ "(meta (assign sibilant.dir \"" (Path.dirname file.path) "\" ) null)"
+   (var js (await (.send compiler (+ "(include \"./inc/docs.sibilant\")"
+                                     "(meta (assign sibilant.dir \"" (Path.dirname file.path) "\" ) null)"
                                      lisp))))
    (await (.send compiler "(meta (assign sibilant.dir \".\") null)"))
 

@@ -11,7 +11,7 @@
           config "@obstacles/config.js")
 
 
-(const systems [Trail-dots Position Decaying-trails])
+(const systems [Position Trail-dots  Decaying-trails])
 (const trail-segments ((create Entity-group)
              "Ants"
              systems
@@ -30,13 +30,15 @@
 
   (const avel ant.velocity-interface)
 
-  (assign tpos.x apos.x)
-  (assign tpos.y apos.y)
+  (set trail-segment.trail-dot.vertex.point
+       'x (assign tpos.x apos.x)
+       'y (assign tpos.y apos.y)
+       'z apos.z)
 
-  (assign trail-segment.trail-segment.vector.x avel.xd)
-  (assign trail-segment.trail-segment.vector.y avel.yd)
+  (assign trail-segment.trail-segment.x avel.xd)
+  (assign trail-segment.trail-segment.y avel.yd)
 
-  (assign trail-segment.trail-segment.vector.pheremones
+  (assign trail-segment.trail-segment.pheremones
           (get Signal-field.layer
                (or (Math.min (Math.max (Math.round (/ apos.x config.size)) 0)
                              (- config.columns 1))

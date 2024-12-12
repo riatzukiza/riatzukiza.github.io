@@ -40,7 +40,7 @@ var AntTrails = System.define("AntTrails", {
   _updateComponent( c ){ 
     
       return (function() {
-        if ((c.system.process.ticker.ticks % 5) === 0) {
+        if ((c.system.process.ticker.ticks % 10) === 0) {
           return c.segments.add(this.spawnAntTrailSegment(c.entity));
         }
       }).call(this);
