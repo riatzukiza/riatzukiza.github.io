@@ -25,7 +25,11 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
   duration:config.trailLimit,
   _clear(  ){ 
     
-      return this.duration = config.trailLimit;
+      this.duration = config.trailLimit;
+      this.triggered = null;
+      this.x = null;
+      this.y = null;
+      return this.pheremones = null;
     
    },
   get segGroup(  ){ 

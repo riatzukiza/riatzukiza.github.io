@@ -6,6 +6,10 @@
 
 (define Ant-life Time-limit
   (gett duration config.ant-life)
+  (def *clear ()
+    (.call Time-limit.*clear this)
+    (assign this.win-count null)
+    (assign this.loose-count null))
 
   (def register ()
     (.call Time-limit.register this)

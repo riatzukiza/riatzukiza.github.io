@@ -11,7 +11,12 @@
 
   (duration config.trail-limit)
 
-  (def *clear () (assign this.duration config.trail-limit))
+  (def *clear ()
+    (assign this.duration config.trail-limit)
+    (assign this.triggered null)
+    (assign this.x null)
+    (assign this.y null)
+    (assign this.pheremones null))
 
   (gett seg-group (get (require "@obstacles/entities/trail-segments.js") 'trail-segments))
   (def callback (entity c)

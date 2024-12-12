@@ -12,6 +12,7 @@
 (require! (lit rocks spawn-rock rock-gen-step) "@obstacles/entities/rocks.js"
           (lit ants spawn-ant clear-ants) "@obstacles/entities/ants.js"
           (lit plants spawn-plant) "@obstacles/entities/plants.js"
+          (lit trail-segments spawn-ant-trail-segment) "@obstacles/entities/trail-segments.js"
           (lit home home-pos) "@obstacles/entities/home.js"
           config "@obstacles/config.js")
 
@@ -43,4 +44,6 @@
 (export home)
 (export home-pos)
 (export clear-ants)
+(export trail-segments)
+(export spawn-ant-trail-segment)
 

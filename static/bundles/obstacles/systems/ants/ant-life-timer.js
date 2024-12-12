@@ -13,6 +13,13 @@ var AntLife = TimeLimit.define("AntLife", {
       return config.antLife;
     
    },
+  _clear(  ){ 
+    
+      TimeLimit._clear.call(this);
+      this.winCount = null;
+      return this.looseCount = null;
+    
+   },
   register(  ){ 
     
       TimeLimit.register.call(this);

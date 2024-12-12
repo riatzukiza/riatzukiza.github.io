@@ -22,9 +22,10 @@
 
   (def reset ()
     (assign this.created-at (Date.now))
-    (assign this.triggered false)
-
-    ))
+    (assign this.triggered false))
+  (def *clear ()
+    (assign this.created-at null)
+    (assign this.triggered null)))
 (export Time-limit)
 
 (define Timer System

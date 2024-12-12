@@ -13,7 +13,8 @@ var {
     { 
   ants,
   rocks,
-  plants
+  plants,
+  trailSegments
  } = require("@obstacles/entities.js"),
     { 
   game
@@ -133,7 +134,7 @@ exports.gameView = gameView;
 exports.debugView = debugView;
 createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentRoot);
 var startInterface = (function startInterface$() {
-  /* start-interface eval.sibilant:81:0 */
+  /* start-interface eval.sibilant:83:0 */
 
   return game.events.on("tick", ((t) => {
   	

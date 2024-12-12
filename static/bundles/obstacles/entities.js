@@ -10638,12 +10638,16 @@ var {
   spawnPlant
  } = require("@obstacles/entities/plants.js"),
     { 
+  trailSegments,
+  spawnAntTrailSegment
+ } = require("@obstacles/entities/trail-segments.js"),
+    { 
   home,
   homePos
  } = require("@obstacles/entities/home.js"),
     config = require("@obstacles/config.js");
 var clear = (function() {
-  /* eval.sibilant:18:11 */
+  /* eval.sibilant:19:11 */
 
   return arguments[0].clear();
 });
@@ -10670,5 +10674,7 @@ exports.rocks = rocks;
 exports.home = home;
 exports.homePos = homePos;
 exports.clearAnts = clearAnts;
+exports.trailSegments = trailSegments;
+exports.spawnAntTrailSegment = spawnAntTrailSegment;
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"@kit-js/core/js/util":2,"@kit-js/interface":3,"@obstacles/config.js":"@obstacles/config.js","@obstacles/entities/ants.js":"@obstacles/entities/ants.js","@obstacles/entities/home.js":"@obstacles/entities/home.js","@obstacles/entities/plants.js":"@obstacles/entities/plants.js","@obstacles/entities/rocks.js":"@obstacles/entities/rocks.js","ramda":6}]},{},[]);
+},{"@kit-js/core/js/util":2,"@kit-js/interface":3,"@obstacles/config.js":"@obstacles/config.js","@obstacles/entities/ants.js":"@obstacles/entities/ants.js","@obstacles/entities/home.js":"@obstacles/entities/home.js","@obstacles/entities/plants.js":"@obstacles/entities/plants.js","@obstacles/entities/rocks.js":"@obstacles/entities/rocks.js","@obstacles/entities/trail-segments.js":"@obstacles/entities/trail-segments.js","ramda":6}]},{},[]);

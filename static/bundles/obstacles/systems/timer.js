@@ -42,6 +42,12 @@ var TimeLimit = Component.define("TimeLimit", {
       this.createdAt = Date.now();
       return this.triggered = false;
     
+   },
+  _clear(  ){ 
+    
+      this.createdAt = null;
+      return this.triggered = null;
+    
    }
  });
 exports.TimeLimit = TimeLimit;

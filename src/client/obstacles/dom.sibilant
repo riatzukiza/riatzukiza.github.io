@@ -4,7 +4,7 @@
 (import-namespace dom)
 
 (require! (lit rendering ) "@obstacles/rendering.js"
-          (lit ants rocks plants) "@obstacles/entities.js"
+          (lit ants rocks plants trail-segments) "@obstacles/entities.js"
           (lit game) "@obstacles/game.js"
           (lit Signal-field) "@obstacles/forces.js"
           (lit vector-pool trail-pool) "@shared/vectors.js"
@@ -55,6 +55,8 @@
                                             (.clear rocks)
                                             (.clear ants)
                                             (.clear plants)
+                                            ;; These get cleared when the ant clears it's ant trail component.
+                                            ;; (.clear trail-segments)
                                             (each (get (.get-by-symbol game.systems Physics.symbol) 'forces) (force)
                                                   (.reset f))
                                             ) "Reset")))

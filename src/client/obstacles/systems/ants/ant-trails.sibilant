@@ -8,9 +8,9 @@
 (define Ant-trail Component
   (def *clear ()
     (each this.segments (s)
-          (.despawn s)
-          (.delete this.segments s))
-    )
+          (.despawn  s.group s)
+          (.delete this.segments s)))
+
   (def register ()
     (unless this.segments
       (assign this.segments (new Set)))))
@@ -19,7 +19,9 @@
 (define Ant-trails System
   (interface Ant-trail)
 
-  (gett spawn-ant-trail-segment (get (require "@obstacles/entities/trail-segments.js") 'spawn-ant-trail-segment))
+  (gett spawn-ant-trail-segment
+        (get (require "@obstacles/entities/trail-segments.js")
+             'spawn-ant-trail-segment))
 
   (def *update-component (c)
     (when (= (mod c.system.process.ticker.ticks 10) 0)
