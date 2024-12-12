@@ -23,8 +23,9 @@
   (gett size this.group.size)
 
   (def-generic spawn ( aspects system group)
+    (const self this)
     (collect e (.spawn system aspects )
-             (assign e.group this)
+             (assign e.group self)
              (.add group e)))
 
   (def-generic clear (group)

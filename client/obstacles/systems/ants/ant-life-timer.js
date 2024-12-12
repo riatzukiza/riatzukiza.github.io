@@ -35,7 +35,7 @@ var AntLife = TimeLimit.define("AntLife", {
         return this.views.get(this.entity);
       } else {
         var r = (function() {
-          /* eval.sibilant:12:23 */
+          /* eval.sibilant:11:23 */
         
           return createDocumentNode("div", {
             'className': "panel",
@@ -64,9 +64,8 @@ var AntLife = TimeLimit.define("AntLife", {
  },
   _clear(  ){ 
     
-      this.createdAt = null;
-      this.winCount = null;
-      this.looseCount = null;
+      this.winCount = 0;
+      this.looseCount = 0;
       return this.triggered = false;
     
    },
@@ -92,12 +91,12 @@ var AntLife = TimeLimit.define("AntLife", {
       e.positionInterface.x = this.homePos.x;
       e.positionInterface.y = this.homePos.y;
       placeEntity(e, c.system.process, config);
-      ((c.looseCount)++);
       for (var seg of e.antTrail.segments)
       {
       seg.trailSegment.applyInverse()
       }
       ;
+      ((c.looseCount)++);
       e.antTrail.segments.clear();
       return c.reset();
     

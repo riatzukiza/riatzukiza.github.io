@@ -65,7 +65,7 @@
   (def *prepare () (assign this.cursor 0))
 
   (def *update-component (c t)
-    (when (or this.updated? (= (mod this.game.ticker.ticks config.ui-polling-rate) 0))
+    (when (and (not this.hidden) (or this.updated? (= (mod this.game.ticker.ticks config.ui-polling-rate) 0)))
       (.render this.page-number-view this.view)
       (if c.displayed? (.remove c.view))
       (assign c.displayed? false)

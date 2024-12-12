@@ -17,7 +17,6 @@
   ;;                      segments)))
   (def *clear ()
     (each this.segments (s)
-          ;; (.despawn  s.group s)
           (.delete this.segments s)))
 
 

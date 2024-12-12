@@ -21,17 +21,26 @@ var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
   return (Math.round((Math.pow(10, n) * d)) / Math.pow(10, n));
 });
 var TrailSegment = TimeLimit.define("TrailSegment", { 
-  docString:"obstacles.systems.ant-trails.Trail-vector",
+  docString:`
+  obstacles/systems/ant-trails/Trail-vector.md
+
+  # obstacles.systems.ant-trails.Trail-vector
+
+  ## arguments
+
+  inherits from shared.ecs.Component
+
+  ## description
+
+  A time limited vector component that modifies the signal field when the ant has either succeeded or failed
+  If the time limit expires, it disapears.`
+
+  ,
   duration:config.trailLimit,
   _clear(  ){ 
     
-      console.log("clearing this fella", this);
-      this.entity.ant = null;
       this.duration = config.trailLimit;
-      this.triggered = null;
-      this.x = null;
-      this.y = null;
-      return this.pheremones = null;
+      return this.startedAt = 0;
     
    },
   updateView__QUERY:true,
@@ -48,7 +57,7 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
         return this.views.get(this.entity);
       } else {
         var r = (function() {
-          /* eval.sibilant:12:23 */
+          /* eval.sibilant:11:23 */
         
           return createDocumentNode("div", { 'className': "panel" }, [ "trail segment", createDocumentNode("div", {  }, [ "pos:", (() => {
           	
@@ -62,9 +71,17 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
           	
             return this.remainingTime;
           
-          }) ]), createDocumentNode("div", {  }, [ "remaining", (() => {
+          }) ]), createDocumentNode("div", {  }, [ "duration", (() => {
           	
-            return this.duration;
+            return ("" + this.duration);
+          
+          }) ]), createDocumentNode("div", {  }, [ "triggered?", (() => {
+          	
+            return ("" + this.triggered);
+          
+          }) ]), createDocumentNode("div", {  }, [ "started at", (() => {
+          	
+            return this.createdAt;
           
           }) ]) ]).render(this.parentView);
         }).call(this);
@@ -82,7 +99,7 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
   callback( entity,c ){ 
     
       entity.ant.antTrail.segments.delete(entity);
-      return this.segGroup.despawn(entity);
+      return entity.group.despawn(entity);
     
    },
   apply(  ){ 
@@ -108,7 +125,8 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
             x:(this.x * weight * config.antInfluence),
             y:(this.y * weight * config.antInfluence)
            });
-          return this.duration = (this.remainingTime + config.trailResultDuration);
+          this.duration = (this.remainingTime + config.trailResultDuration);
+          return this.reset();
         }
       }).call(this);
     
@@ -138,7 +156,8 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
            });
         }
       }).call(this);
-      return this.duration = (this.remaining + config.trailResultDuration);
+      this.duration = (this.remainingTime + config.trailResultDuration);
+      return this.reset();
     
    }
  });

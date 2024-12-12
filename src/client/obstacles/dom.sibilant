@@ -56,7 +56,7 @@
                                             (.clear ants)
                                             (.clear plants)
                                             ;; These get cleared when the ant clears it's ant trail component.
-                                            ;; (.clear trail-segments)
+                                            (.clear trail-segments)
                                             (each (get (.get-by-symbol game.systems Physics.symbol) 'forces) (force)
                                                   (.reset f))
                                             ) "Reset")))

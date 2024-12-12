@@ -7,6 +7,7 @@
 (include "../../../../../inc/dom.sibilant")
 (import-namespace dom)
 
+
 (def-generic display-decimal (d (n 6)) (/ (Math.round (* (Math.pow 10 n) d)) (Math.pow 10 n)))
 
 (define Trail-segment Time-limit
@@ -18,25 +19,22 @@
   (duration config.trail-limit)
 
   (def *clear ()
-    (print "clearing this fella" this)
-    (assign this.entity.ant null)
     (assign this.duration config.trail-limit)
-    (assign this.triggered null)
-    (assign this.x null)
-    (assign this.y null)
-    (assign this.pheremones null))
+    (assign this.started-at 0))
 
   (update-view? true)
   (view (.div .className "panel"
               "trail segment"
               (.div "pos:" (-> (display-decimal this.x 2)) "," (-> (display-decimal this.y 2)))
               (.div "remaining" (-> this.remaining-time))
-              (.div "remaining" (-> this.duration))))
+              (.div "duration" (-> (+ "" this.duration)))
+              (.div "triggered?" (-> (+ "" this.triggered)))
+              (.div "started at" (-> this.created-at))))
 
   (gett seg-group (get (require "@obstacles/entities/trail-segments.js") 'trail-segments))
   (def callback (entity c)
     (.delete entity.ant.ant-trail.segments entity)
-    (.despawn this.seg-group entity))
+    (.despawn entity.group entity))
 
   (def apply ()
     (doc-string "obstacles.systems.ant-trails.Trail-segment.apply"
@@ -55,6 +53,8 @@
 
       (assign this.duration (+ this.remaining-time config.trail-result-duration))
 
+      (.reset this)
+
       ))
 
   (def apply-inverse ()
@@ -69,7 +69,8 @@
        (lit
         (x (* this.x weight config.ant-influence))
         (y (* this.y weight config.ant-influence)))))
-    (assign this.duration (+ this.remaining config.trail-result-duration))
+    (assign this.duration (+ this.remaining-time config.trail-result-duration))
+    (.reset this)
     ))
 
 (export Trail-segment)

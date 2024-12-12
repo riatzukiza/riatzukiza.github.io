@@ -164,7 +164,7 @@ var ViewPanel = System.define("ViewPanel", {
   _updateComponent( c,t ){ 
     
       return (function() {
-        if ((this.updated__QUERY || (this.game.ticker.ticks % config.uiPollingRate) === 0)) {
+        if ((!(this.hidden) && (this.updated__QUERY || (this.game.ticker.ticks % config.uiPollingRate) === 0))) {
           this.pageNumberView.render(this.view);
           (function() {
             if (c.displayed__QUERY) {

@@ -24,8 +24,10 @@
     (assign this.created-at (Date.now))
     (assign this.triggered false))
   (def *clear ()
-    (assign this.created-at null)
-    (assign this.triggered null)))
+    (assign this.created-at 0)
+    (assign this.triggered false)
+    )
+  )
 
 (export Time-limit)
 

@@ -112,6 +112,7 @@ const resetButton=createDocumentNode("button", { 'onclick': (() => {
   rocks.clear();
   ants.clear();
   plants.clear();
+  trailSegments.clear();
   return game.systems.getBySymbol(Physics.symbol).forces.each(((force) => {
   	
     return f.reset();

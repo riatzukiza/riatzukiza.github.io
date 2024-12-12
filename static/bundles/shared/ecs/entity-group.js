@@ -10659,13 +10659,14 @@ var EntityGroup = Interface.define("EntityGroup", {
    },
   spawn( aspects = this.aspects,system = this.system,group = this.group ){ 
     
+      const self=this;
       return (function(e) {
-        /* inc/misc.sibilant:1:782 */
+        /* node_modules/kit/inc/scope.sibilant:12:9 */
       
-        e.group = this;
+        e.group = self;
         group.add(e);
         return e;
-      }).call(this, system.spawn(aspects));
+      })(system.spawn(aspects));
     
    },
   clear( group = this.group ){ 

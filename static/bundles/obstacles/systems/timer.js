@@ -45,8 +45,8 @@ var TimeLimit = Component.define("TimeLimit", {
    },
   _clear(  ){ 
     
-      this.createdAt = null;
-      return this.triggered = null;
+      this.createdAt = 0;
+      return this.triggered = false;
     
    }
  });
