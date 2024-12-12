@@ -10,14 +10,14 @@ var {
   DocumentHead,
   DocumentRoot
  } = require("@shared/dom.js");
-var AntsPropertyView = PropertyView.define("AntsPropertyView", { 
+var TrailsPropertyView = PropertyView.define("TrailsPropertyView", { 
   
  });
-var AntPanel = ViewPanel.define("AntPanel", { 
-  pageSize:5,
+var TrailsPanel = ViewPanel.define("TrailsPanel", { 
+  pageSize:20,
   page:0,
   cursor:0,
-  title:"Ants"
+  title:"Trails"
  });
-exports.AntsPropertyView = AntsPropertyView;
-exports.AntPanel = AntPanel;
+exports.TrailsPropertyView = TrailsPropertyView;
+exports.TrailsPanel = TrailsPanel;

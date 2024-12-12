@@ -29,20 +29,20 @@ var {
   activeGameSystems
  } = require("@obstacles/game.js"),
     { 
-  ViewPanel
- } = require("@obstacles/systems/property-view.js"),
+  AntPanel
+ } = require("@obstacles/systems/ants/ant-panel.js"),
     config = require("@obstacles/config.js");
-const ants=create(EntityGroup)("Ants", [ Collision, AntDots, ViewPanel, Physics, Velocity, Position, AntTrails, AntLifeTimer ], game.ent);
+const ants=create(EntityGroup)("Ants", [ Collision, AntDots, AntPanel, Physics, Velocity, Position, AntTrails, AntLifeTimer ], game.ent);
 var clearAnts = (function clearAnts$() {
   /* clear-ants eval.sibilant:25:0 */
 
   return ants.clear();
 });
-var spawnAnt = (function spawnAnt$(x_y$1, home, startingLife) {
+var spawnAnt = (function spawnAnt$(x_y$5, home, startingLife) {
   /* spawn-ant eval.sibilant:26:0 */
 
-  var x = x_y$1[0],
-      y = x_y$1[1];
+  var x = x_y$5[0],
+      y = x_y$5[1];
 
   var ant = ants.spawn();
   game.systems.get(Position, ant).x = x;
@@ -78,4 +78,4 @@ var {
   Friction,
   SignalField
  } = require("@obstacles/forces.js");
-},{"@obstacles/config.js":"@obstacles/config.js","@obstacles/forces.js":"@obstacles/forces.js","@obstacles/game.js":"@obstacles/game.js","@obstacles/systems/ants/ant-dot.js":"@obstacles/systems/ants/ant-dot.js","@obstacles/systems/ants/ant-life-timer.js":"@obstacles/systems/ants/ant-life-timer.js","@obstacles/systems/ants/ant-trails.js":"@obstacles/systems/ants/ant-trails.js","@obstacles/systems/position.js":"@obstacles/systems/position.js","@obstacles/systems/property-view.js":"@obstacles/systems/property-view.js","@obstacles/systems/velocity.js":"@obstacles/systems/velocity.js","@shared/ecs.js":"@shared/ecs.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js"}]},{},[]);
+},{"@obstacles/config.js":"@obstacles/config.js","@obstacles/forces.js":"@obstacles/forces.js","@obstacles/game.js":"@obstacles/game.js","@obstacles/systems/ants/ant-dot.js":"@obstacles/systems/ants/ant-dot.js","@obstacles/systems/ants/ant-life-timer.js":"@obstacles/systems/ants/ant-life-timer.js","@obstacles/systems/ants/ant-panel.js":"@obstacles/systems/ants/ant-panel.js","@obstacles/systems/ants/ant-trails.js":"@obstacles/systems/ants/ant-trails.js","@obstacles/systems/position.js":"@obstacles/systems/position.js","@obstacles/systems/velocity.js":"@obstacles/systems/velocity.js","@shared/ecs.js":"@shared/ecs.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js"}]},{},[]);

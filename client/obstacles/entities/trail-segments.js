@@ -30,10 +30,10 @@ var {
   activeGameSystems
  } = require("@obstacles/game.js"),
     { 
-  ViewPanel
- } = require("@obstacles/systems/property-view.js"),
+  TrailsPanel
+ } = require("@obstacles/systems/ants/trail-panel.js"),
     config = require("@obstacles/config.js");
-const systems=[ Position, TrailDots, DecayingTrails, ViewPanel ];
+const systems=[ Position, TrailDots, DecayingTrails, TrailsPanel ];
 const trailSegments=create(EntityGroup)("Trail segments", systems, game.ent);
 exports.trailSegments = trailSegments;
 var spawnAntTrailSegment = (function spawnAntTrailSegment$(ant) {

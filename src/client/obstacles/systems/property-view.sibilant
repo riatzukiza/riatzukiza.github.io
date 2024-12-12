@@ -22,7 +22,6 @@
                                            (.div "entity" this.entity.id)))
                                 this.parent-view)))
   (def *clear ()
-    (print "clearing property view component" this)
     (.remove this.view)
     (.delete views this.entity)
     )
@@ -41,15 +40,12 @@
   (gett pages (Math.ceil (/  this.components.length this.page-size)))
   (gett parent-view
         (cache views (+ this.title "parent")
-
+               (const (lit debug-view) (require "@obstacles/dom.js"))
                (pipe (dom (.div .id "view-panel-top" .className "panel"
-                                (.h4 this.title .onclick (-> (if this.view.hidden
-                                                                 (do
-                                                                  (assign this.hidden false)
-                                                                  (assign this.style.display "none"))
-                                                                 (do
-                                                                  (assign this.hidden true)
-                                                                  (assign content.style.display ""))
+                                .style (lit (width "99%"))
+                                (.h4 this.title .onclick (-> (if this.hidden
+                                                                 (assign this.view.style.display "")
+                                                                 (assign this.view.style.display "none")
                                                                  )))
                                 (.button "prev" .onclick (-> (when (> this.page 0)
                                                                (decr this.page)
@@ -59,18 +55,13 @@
                                                                (incr this.page)
                                                                (assign this.updated? true)
                                                                (.render this.page-number-view))))
-                                this.page-number-view
-                                content
-                                ))
+                                this.page-number-view))
                      (.render debug-view)))
         )
   (title "Entities")
-  (hidden false)
+  (gett hidden (print "hidden?" this.view.style)(= this.view.style.display "none"))
 
-  (gett view (cache views this
-
-                    
-                    (.render (dom (.div .id (+ this.title "-container"))) this.parent-view)))
+  (gett view (cache views this (.render (dom (.div .id (+ this.title "-container"))) this.parent-view)))
   (def *prepare () (assign this.cursor 0))
 
   (def *update-component (c t)

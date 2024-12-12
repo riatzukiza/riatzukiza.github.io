@@ -4,14 +4,14 @@
 (include "../../../../../inc/dom.sibilant")
 (import-namespace dom)
 
-(define Ants-property-view Property-view)
+(define Trails-property-view Property-view)
 
-(define Ant-panel View-panel
+(define Trails-panel View-panel
 
-  (page-size 5)
+  (page-size 20)
   (page 0)
   (cursor 0)
-  (title "Ants"))
+  (title "Trails"))
 
-(export Ants-property-view)
-(export Ant-panel)
+(export Trails-property-view)
+(export Trails-panel)

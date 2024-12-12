@@ -18,8 +18,8 @@
      'plantMassLimit 30
      'ant-limit 1000
      'max-in-decay 100
-     'trail-limit 3000
-     'ant-life 12000
+     'trail-limit 30000
+     'ant-life 60000
      'min-trail 10
      'decay-on-collision true
      'options-amplitude 10

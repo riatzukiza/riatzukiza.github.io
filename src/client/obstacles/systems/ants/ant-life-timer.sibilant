@@ -19,6 +19,7 @@
 
 
   (def *clear ()
+    (assign this.created-at null)
     (assign this.win-count null)
     (assign this.loose-count null)
     (assign this.triggered false))

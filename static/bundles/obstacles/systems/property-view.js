@@ -52,7 +52,6 @@ var PropertyView = Component.define("PropertyView", {
    },
   _clear(  ){ 
     
-      console.log("clearing property view component", this);
       this.view.remove();
       return views.delete(this.entity);
     
@@ -87,18 +86,22 @@ var ViewPanel = System.define("ViewPanel", {
           var r = (function() {
             /* eval.sibilant:12:23 */
           
+            const { 
+              debugView
+             }=require("@obstacles/dom.js");
             return createDocumentNode("div", {
               'id': "view-panel-top",
-              'className': "panel"
+              'className': "panel",
+              'style': { 
+                width:"99%"
+               }
             }, [ createDocumentNode("h4", { 'onclick': (() => {
             	
               return (function() {
-                if (this.view.hidden) {
-                  this.hidden = false;
-                  return this.style.display = "none";
+                if (this.hidden) {
+                  return this.view.style.display = "";
                 } else {
-                  this.hidden = true;
-                  return content.style.display = "";
+                  return this.view.style.display = "none";
                 }
               }).call(this);
             
@@ -122,7 +125,7 @@ var ViewPanel = System.define("ViewPanel", {
                 }
               }).call(this);
             
-            }) }, [ "next" ]), this.pageNumberView, content ]).render(debugView);
+            }) }, [ "next" ]), this.pageNumberView ]).render(debugView);
           }).call(this);
           views.set((this.title + "parent"), r);
           return r;
@@ -131,7 +134,12 @@ var ViewPanel = System.define("ViewPanel", {
     
    },
   title:"Entities",
-  hidden:false,
+  get hidden(  ){ 
+    
+      console.log("hidden?", this.view.style);
+      return this.view.style.display === "none";
+    
+   },
   get view(  ){ 
     
       return (function() {
@@ -194,4 +202,4 @@ var ViewPanel = System.define("ViewPanel", {
  });
 exports.ViewPanel = ViewPanel;
 exports.PropertyView = PropertyView;
-},{"@obstacles/config.js":"@obstacles/config.js","@shared/dom.js":"@shared/dom.js","@shared/ecs.js":"@shared/ecs.js"}]},{},[]);
+},{"@obstacles/config.js":"@obstacles/config.js","@obstacles/dom.js":"@obstacles/dom.js","@shared/dom.js":"@shared/dom.js","@shared/ecs.js":"@shared/ecs.js"}]},{},[]);

@@ -14,6 +14,8 @@
           (lit Ant-trails) "@obstacles/systems/ants/ant-trails.js"
           (lit Ant-life-timer) "@obstacles/systems/ants/ant-life-timer.js"
           (lit Trail-dots) "@obstacles/systems/ants/trail-dots.js"
+          (lit Ant-panel) "@obstacles/systems/ants/ant-panel.js"
+          (lit Trails-panel) "@obstacles/systems/ants/trail-panel.js"
           (lit Decaying-trails) "@obstacles/systems/ants/trail-segments.js"
           config "@obstacles/config.js"
           )
@@ -25,14 +27,14 @@
       Decaying-trails
       Ant-life-timer
       Physics
-
       Velocity
       Position
       Collision
       Dot
       Trail-dots
       Ant-dots
-      View-panel
+      Ant-panel
+      Trails-panel
       ])
 
 (var game ((create Game)

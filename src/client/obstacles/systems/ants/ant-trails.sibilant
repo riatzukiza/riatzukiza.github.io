@@ -24,8 +24,8 @@
   (def register ()
     (unless this.segments
       (assign this.segments (new Set)))))
-(export Ant-trail)
 
+(export Ant-trail)
 (define Ant-trails System
   (interface Ant-trail)
 

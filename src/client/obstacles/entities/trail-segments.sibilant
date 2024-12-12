@@ -8,11 +8,11 @@
           (lit rgba) "@obstacles/colors.js"
           (lit Collision place-entity) "@shared/systems/collision.js"
           (lit game active-game-systems) "@obstacles/game.js"
-          (lit View-panel) "@obstacles/systems/property-view.js"
+          (lit Trails-panel) "@obstacles/systems/ants/trail-panel.js"
           config "@obstacles/config.js")
 
 
-(const systems [Position Trail-dots  Decaying-trails View-panel])
+(const systems [Position Trail-dots  Decaying-trails Trails-panel])
 (const trail-segments ((create Entity-group)
              "Trail segments"
              systems
