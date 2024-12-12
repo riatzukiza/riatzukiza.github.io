@@ -28,7 +28,7 @@
   (gett dimensions this.area)
   (gett dim this.dimensions)
 
-  (gett scale this.physics.scale)
+  (gett scale (* 1.1 this.physics.scale))
   (gett physics (.get this.system.process.systems Physics this.entity))
   (gett x (Math.round this.pos.x))
   (gett y (Math.round this.pos.y))
