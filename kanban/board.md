@@ -30,6 +30,7 @@ New-> Accepted
 
 ## Tasks
 
+- BUG: Collision doesn't work correctly in some circumstances.
 - Mirror board to github
 - Make old symbiants work
 - Make old algage work
