@@ -111,3 +111,21 @@ We want the agents to mimic this behavior. Agents should be able to use multiple
   - These two tickets may need to be worked on at the same time or merged into one.
   - Start by working on reverse navigation home using only the inverse of the existing field.
   - If agents cannot make it home, the ticket is blocked and we start work on this one.
+
+
+# ground tiles
+
+The ground needs to have different characteristics at different points, and different colorings. 
+Some spots need to be easier to walk on, others need to be very hard to walk on.
+
+## Requirements
+
+- There is a matrix of tiles that are rendered to the screen
+- Tiles have variable characteristics
+- Tiles correspond to more than one coordinate point (They are larger than 1x1)
+
+
+## Blockers
+
+- camera
+  - While not really a blocker, I would prefer to have a camera ready before this.

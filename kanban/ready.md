@@ -176,3 +176,97 @@ We need more than one project to call this a portfolio. I've already added a few
 ## Requirements
 
 - At least 100 possible new projects are added to the board.
+
+
+# Hot reload system
+
+I don't want to have to refresh the page every time I make a change, and I don't want to have to restart the server every time I want to change the server.
+Initially this was added as two seperate tasks, but I've decided to merge therm 
+into one that includes both the frontend and the backend.
+
+This task will also encapsulate seperating the compiler(s) and the bundler(s)
+into seperate processes.
+
+## Requirements
+
+- When in dev mode:
+  - The frontend reloads when a change is made
+  - The backend reloads when a change is made
+  - each compiler runs in it's own process. Those compilers are:
+    - templates
+    - frontend
+    - backend
+      - This will become more than one part as we work on the simulation backend,
+        so this feature should be set up to handle that.
+    - Each bundler runs in it's own process.
+- There should be seperate scripts for npm to run for each piece.
+  - bundle x
+  - compile x
+  - start x
+  - test x
+
+# unit system
+
+We need an abstraction that allows us to describe and talk about agents abstractly with out manually creating them every time. We have "Entity Groups" right now, but that requires us to create a new entity group every time we have a new set of entities, and the way it is written there cannot be overlap between the groups.
+
+If we wanted to say create multiple factions that each have the same set of units, just using entity groups as they are would be combersome.
+
+## Requirements
+
+- An abstraction is implemented for describing, creating, and managing complex multi 
+  entity systems that compose a larger unit
+- Units are easily clearable
+- Units are selectable
+- Units are all movable
+
+
+# Simulation backend
+
+The more I add to the game the more the browser is going to chug along.
+If I move the simulation to the backend, and have the frontend just render a stream of objects from the backend..
+
+The browser can afford to miss a few frames or packets,
+as it will not actually affect the simulation. It will only
+affect the rendering process.
+This could be a neat chance to play around with webrtc udp like sockets.
+It may be a bit more than we should fit into a single task though.
+The first pass on this will be straightforward using a technology we are very familar with, socket.io
+
+## Requirements
+
+- The rendering system can run in the browser being fed data from the backend.
+- The backend can run continuously, allowing users to leave,
+  then comeback, and the simulation has progressed from where it was.
+- The simulation can persist with server restarts.
+- The simulation can still be run in the browser.
+- The simulation state also persists if being run in the browser through local storage.
+
+
+# Vector field visualizations
+
+We have implemented an abstraction for trails segments that decoupled them
+from the ants life cycle. This simplified our field file,
+the primary source of our tech debt.
+The way I was thinking of doing this was to have ghost entities that only
+follow one field, and do not influence , or interact with other entities it by moving.
+
+## Notes
+
+Ghost entities are a good example of an entityt that is not a unit.
+It represents a visual effect in the game, but it is not a part of the simulation.
+
+Other examples of non unit entities would be like:
+- tile
+  - Not selectable, simple, static
+- shadows
+  - May be a part of a unit, but would be a simple entity.
+  - it has a location, and a rendering component,
+    but is not meaningful to the simulation.
+
+## Requirements
+
+- the @shared/field.sibilant file is factored out
+- each field gets it's own system
+- There are non interacting ghost entities that follow the fields
+- The number of ghosts is configurable.
+- The length of their trails is configurable.

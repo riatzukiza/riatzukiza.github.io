@@ -30,18 +30,15 @@ New-> Accepted
 
 ## Tasks
 
+- Mirror board to github
 - Make old symbiants work
 - Make old algage work
 - Add a project page to the website
 - Side scroller
 - add game of life to portfolio
 - file explorer
-- chat
+- chat app
 - Find unknown content warnings
-- Update physics engine to increase accuracy and performance
-- Consolodate position and velocity into physics
-- When performing updates, do not mutate the state of the
-  last tick. Use two data structures, and swap them out each tick.
 
 
 ## Rejected
@@ -84,41 +81,37 @@ Accepted -> Breakdown
 
 ## Tasks
 
+
+- Update physics engine to increase accuracy and performance
+  - Consolodate position and velocity into physics
+  - When performing updates, do not mutate the state of the
+    last tick. Use two data structures, and swap them out each tick.
 - Move all kit libraries into shared
 - Cull duplicate macros
 - Remove duplicate code included in headers.
 - Design theme for website.
-- Rewrite "andy" lib in lisp
 - SPIKE: can we simplify object pools? (2 hrs)
 - Implemment tests for existing shared components.
 - Electron client
 - neural network for signal field hyerparameter adjustments
 - Individual ant neural networks
-- paralell processing for each system
-- a gpu implementation for signal fields and vector math.
-- Add beautifier to pipeline
-- Add minifier to pipeline
 - minimap
 - Mineral Resource
 - Water resource
 - movement commands
-- deletable entites
 - elevation
 - flying units
 - shadows
 - night/day cycle
 - Brain storm new projects
-- ground tiles
 
 # Breakdown (5)
 
 Features we are actively thinking about and preparing for work.
-The result of a breakdown is either a task that is ready for work, or a task that is rejected
-upon further examination.
-
-Tasks may become blocked if once the work was started it became clear 
+The result of a breakdown is either a task that is ready for work,
+or a task that is rejected upon further examination.
+Tasks may become blocked if once the work was started it became clear
 the task was not defined clearly enough.
-
 
 ```
 
@@ -134,19 +127,17 @@ Breakdown->Ready
 - explaination of value
 - a general approach to the problem
 
-
 ## Tasks
 
-- Hot reload system
-  - Create a seperate pipeline for development and production
-- unit system
-  - A unit is an abstraction over an entity.
-  - Entities can be anything in the game
-  - A unit is a dynamic collection of entities
-    - Like say a weapon, a shield
-- simulation backend
-- vector field visualization
-
+- deletable entites
+  - Entities can be deleted from a panel
+- Add beautifier and beautifier to pipeline to pipeline
+  - Maybe this should be done at the same time as hot reloading? it is at least blocked by that task.
+- Rewrite "andy" lib in lisp
+- a gpu implementation for signal fields and vector math.
+  - Use tensorflow.js
+- paralell processing for each system
+  - blocked by backend task
 
 # Blocked
 
@@ -154,6 +145,7 @@ Features that have been refined and are ready to work on after a feature they re
 
 ## tasks
 
+- ground tiles
 - metabolism system
 - multiple signal fields
 - predator agents
@@ -166,11 +158,20 @@ Features that have been refined and are ready to work on after a feature they re
 Tasks that are ready to be worked that we have not decided to start.
 Tasks that are ready for work have not been prioritized and there is no estimate on complexity.
 
+## Tasks
+
+- vector field visualization
+- unit system
+  - A unit is an abstraction over an entity.
+  - Entities can be anything in the game
+  - A unit is a dynamic collection of entities
+    - Like say a weapon, a shield
+- Hot reload system
+  - Create a seperate pipeline for development and production
 - selection box
 - sprites
 - camera system
 - placeable entities (rocks, plants, bases)
-- github readme
 - Enhance document macros
 - Home page
 - config system
@@ -185,13 +186,18 @@ in progress tasks have been completed.
 
 ## Tasks
 
+- github readme
+  - The readme can be generated from this kanban through simple concatonation.
+- simulation backend
 
 # In Progress (2)
 
 Tasks that are currently being worked on.
 
 ## Tasks
+
 - documentation
+  - Documenting a little bit at a time, especially when we find outselves having to look at older code to use or change it for use with new features.
 
 # In Review (2)
 
