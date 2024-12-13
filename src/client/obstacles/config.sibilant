@@ -4,28 +4,28 @@
 (set module.exports
      'size size
      'ui-polling-rate 60
-     'angle-zoom 18
-     'noise-z 10
-     'field-force 0.5
+     'angle-zoom 28
+     'noise-z 15
+     'field-force 15
      'dimensions dim
      'columns (Math.ceil (/ (first dim) size))
      'rows (Math.ceil (/ (second dim) size))
-     'decay 0.01
+     'decay 0.1
      'maxLength 30
      'trail-result-duration 15000
      'growth-rate 0.001
-     'starting-plants 60
+     'starting-plants 20
      'plantMassLimit 30
-     'ant-limit 1000
-     'max-in-decay 100
+     'ant-limit 500
+     'max-in-decay 1000
      'trail-limit 30000
-     'ant-life 60000
+     'ant-life 120000
      'min-trail 10
      'decay-on-collision true
      'options-amplitude 10
      'limit-decay true
-     'ant-influence 10
-     'friction 0.5
+     'ant-influence 1
+     'friction 0.3
      'collision-static 5
      'spawn-static 10
      'spawn-rate 10

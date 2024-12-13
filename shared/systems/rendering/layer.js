@@ -44,6 +44,7 @@ var bound = (function() {
   return arguments[0].enable();
 });
 var Layer = PooledSystem.define("Layer", { 
+  render__QUERY:true,
   init( limit = this.limit,interface = Renderable,uniform = [],shaders = [],context = this.context,program = Gl.program(shaders[0], shaders[1], context),_members = interface.structure.Array(limit),buffer = Gl.buffer(_members, context) ){ 
     
       this.limit = limit;this.interface = interface;this.uniform = uniform;this.shaders = shaders;this.context = context;this.program = program;this._members = _members;this.buffer = buffer;
@@ -93,10 +94,14 @@ var Layer = PooledSystem.define("Layer", {
    },
   render(  ){ 
     
-      this.clear();
-      this.enable();
-      this.draw();
-      return this.disable();
+      return (function() {
+        if (this.render__QUERY) {
+          this.clear();
+          this.enable();
+          this.draw();
+          return this.disable();
+        }
+      }).call(this);
     
    }
  });

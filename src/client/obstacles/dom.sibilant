@@ -4,9 +4,6 @@
 (import-namespace dom)
 
 (require! (lit rendering ) "@obstacles/rendering.js"
-          (lit ants rocks plants trail-segments) "@obstacles/entities.js"
-          (lit game) "@obstacles/game.js"
-          (lit Signal-field) "@obstacles/forces.js"
           (lit vector-pool trail-pool) "@shared/vectors.js"
           (lit Physics) "@shared/systems/physics/index.js"
           (lit Dot) "@shared/systems/rendering/dot.js"
@@ -19,32 +16,40 @@
 (def-generic display-decimal (d (n 6)) (/ (Math.round (* (Math.pow 10 n) d)) (Math.pow 10 n)))
 
 
-(print "We got this from dom" (lit game))
 
-(print "tick")
-(macro sum-of (reducable ...keys) `(.reduce @reducable  (=> ( sum el) (+ sum (or (get el ...@keys) 0))) 0))
+(macro sum-of (reducable ...keys)
+       `(.reduce @reducable  (=> ( sum el) (+ sum (or (get el ...@keys) 0))) 0))
 
 (const game-view (dom (.div .id "game-view" .className "panel"
                             .style (lit ("background-color" "sandyBrown"))
                             rendering.context.canvas)))
-(const get-total-ant-mass (-> (display-decimal (sum-of ants.group 'physical-properties 'mass))))
-(const get-ant-count (-> ants.size))
-(const get-wins (-> (sum-of ants.group 'ant-life 'win-count)))
-(const get-losses (-> (sum-of ants.group 'ant-life 'loose-count)))
 (const get-stats (->
+
+                  (require! (lit game) "@obstacles/game.js"
+                            (lit ants rocks plants trail-segments) "@obstacles/entities.js"
+                            )
+
+                  (const get-total-ant-mass (-> (display-decimal (sum-of ants.group 'physical-properties 'mass) 2)))
+                  (const get-ant-count (-> ants.size))
+                  (const get-wins (-> (sum-of ants.group 'ant-life 'win-count)))
+                  (const get-losses (-> (sum-of ants.group 'ant-life 'loose-count)))
                   (const wins (get-wins))
                   (const losses (get-losses))
 
                   [(dom (.div "Ants"))
                    (dom (.div "count:" get-ant-count))
-                   (dom (.div "elapsed:" game.ticker.elapsed))
+                   (dom (.div "latency:" game.ticker.average-latency))
+                   (dom (.div "fps:" game.ticker.average-fps))
                    (dom (.div "total mass:" get-total-ant-mass))
                    (dom (.div "wins:" (display-decimal wins)))
                    (dom (.div "losses:" (display-decimal losses)))
                    (dom (.div "win/loss:" (display-decimal (/ wins losses))))]))
+
 (const stats (dom (.div .className "panel" get-stats)))
+
 (const get-vector-bucket-count (-> vector-pool.buckets.length))
 (const get-trail-bucket-count (-> trail-pool.buckets.length))
+
 (const pools-view
        (dom (.div .className "panel" (.h3 "Pools")
                   (.div "vector buckets" get-vector-bucket-count)
@@ -52,6 +57,11 @@
 
 
 (const reset-button (dom (.button .onclick (->
+
+                                            (require! (lit game) "@obstacles/game.js"
+
+                            (lit ants rocks plants trail-segments) "@obstacles/entities.js"
+                                                      )
                                             (.clear rocks)
                                             (.clear ants)
                                             (.clear plants)
@@ -65,9 +75,10 @@
                   .style (lit (height (+  (second config.dimensions)"px"))
                               (width (+ (Math.round (- (* window.innerWidth 0.2) 24)) "px"))
                               ("overflow-y" "scroll"))
-                  reset-button
-                  stats
-                  pools-view)))
+                  (.div (.b "stats")
+                        reset-button
+                        stats
+                        pools-view))))
 
 
 
@@ -79,8 +90,9 @@
 (export container)
 (export game-view)
 (export debug-view)
-(with-dom Document-root (.div .id 'frame container))
 (def start-interface ()
+  (require! (lit game) "@obstacles/game.js")
+  (with-dom Document-root (.div .id 'frame container))
   (on game.events 'tick (t)
 
       (when (= (mod t config.ui-polling-rate) 0)

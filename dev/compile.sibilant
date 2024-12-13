@@ -76,11 +76,11 @@
                                   (.external b  shared-path ))
 
                             (if (= (Path.basename file.path) "main.js")
-                                (do (print "main bundle" file.path  )
+                                (do ;; (print "main bundle" file.path  )
                                     (.add b file.path))
                                 (do
                                  (const exposed-name (+ "@" file.rel))
-                                 (print "application dependency" file.path "as" exposed-name)
+                                 ;; (print "application dependency" file.path "as" exposed-name)
                                   (.require b file.path (lit (expose exposed-name))))) b))
 
 
@@ -126,7 +126,7 @@
 
 (def-async compile-module (file dest)
 
-  (print "compiling module" file.path "for" (Path.join dest.root file.rel))
+  ;; (print "compiling module" file.path "for" (Path.join dest.root file.rel))
 
   (try!
 
@@ -140,7 +140,7 @@
 
    (await (.insert dest dest-path ))
    (await (.set dest dest-path js))
-   (print "Done compiling project module" file.path)
+   (print "compiled project module" file.path)
    (catch!
     (print "An error has occured in compiling a module"
            file.path)
@@ -159,14 +159,14 @@
 
    (var js (await file.string))
 
-   (print "compiling html template" file.path "for" (Path.join dest.root file.rel))
+   ;; (print "compiling html template" file.path "for" (Path.join dest.root file.rel))
    (var result (eval js))
 
    (var dest-file (await (.insert dest (+ (Path.join
                                            (Path.dirname file.rel)
                                            (Path.basename file.rel ".js")) ".html"))))
    (await (.render result dest-file.write-stream))
-   (print "Done compiling html" file.path dest)
+   (print "compiled html" file.path dest)
    (catch!
     (print "An error has occured in compiling an html template"
            file.path)

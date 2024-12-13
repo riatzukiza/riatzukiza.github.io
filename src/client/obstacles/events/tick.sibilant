@@ -19,11 +19,11 @@
 
 (on game.events 'tick ()
     (next-spawn game)
-    (if (and (mod game.ticker.ticks 10)
+    (if (and (= (mod game.ticker.ticks 5) 0)
              (> config.rocks rocks.size))
         (rock-gen-step ))
 
-    (if (and (mod game.ticker.ticks 10)
+    (if (and (= (mod game.ticker.ticks 5) 2)
              (> config.starting-plants plants.size))
         (spawn-plant (random-location)
                      (random-float config.plant-mass-limit)))

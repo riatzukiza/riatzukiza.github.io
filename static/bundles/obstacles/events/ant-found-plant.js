@@ -55,7 +55,7 @@ game.events.on("antFoundPlant", ((ant, plant) => {
   av.pos.y = homePos.y;
   placeEntity(ant.entity, game, config);
   var pp = game.systems.get(Physics, plant.entity);
-  return pp.scale = pp.mass = Math.max((pp.mass - (0.005 * ap.mass)), 0);
+  return pp.scale = pp.mass = Math.max((pp.mass - (0.05 * ap.mass)), 0);
 
 }));
 },{"@obstacles/config.js":"@obstacles/config.js","@obstacles/entities.js":"@obstacles/entities.js","@obstacles/forces.js":"@obstacles/forces.js","@obstacles/game.js":"@obstacles/game.js","@shared/field.js":"@shared/field.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/system.js":"@shared/systems/physics/system.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js"}]},{},[]);

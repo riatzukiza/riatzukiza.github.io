@@ -55,12 +55,12 @@ var EntityGroup = Interface.define("EntityGroup", {
     
       const self=this;
       return (function(e) {
-        /* node_modules/kit/inc/scope.sibilant:12:9 */
+        /* inc/misc.sibilant:1:782 */
       
         e.group = self;
         group.add(e);
         return e;
-      })(system.spawn(aspects));
+      }).call(this, system.spawn(aspects));
     
    },
   clear( group = this.group ){ 

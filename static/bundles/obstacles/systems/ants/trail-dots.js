@@ -33,7 +33,7 @@ var TrailDot = DotInterface.define("TrailDot", {
       this.vertex.color.r = baseColor.r;
       this.vertex.color.g = baseColor.g;
       this.vertex.color.b = baseColor.b;
-      this.vertex.color.a = baseColor.a;
+      this.vertex.color.a = 0;
       return this.vertex.size = 1;
     
    }
@@ -42,6 +42,39 @@ exports.TrailDot = TrailDot;
 var TrailDots = Dot.define("TrailDots", { 
   maxVerts:100000,
   interface:TrailDot,
+  register(  ){ 
+    
+      this.proto.register.call(this);
+      return this.visible__QUERY = true;
+    
+   },
+  toggleVisibility(  ){ 
+    
+      return (function() {
+        if (this.visible__QUERY) {
+          this.verts.render__QUERY = false;
+          this.components.each(((c) => {
+          	
+            return c.vertex.color.a = 0;
+          
+          }));
+          return this.visible__QUERY = false;
+        } else {
+          this.verts.render__QUERY = true;
+          return this.visible__QUERY = true;
+        }
+      }).call(this);
+    
+   },
+  _updateAll( args ){ 
+    
+      return (function() {
+        if (this.visible__QUERY) {
+          return this.proto._updateAll.call(this, args);
+        }
+      }).call(this);
+    
+   },
   _updateComponent( dot ){ 
     
       dot.vertex.color.a = Math.round(Math.max(0, (255 * (dot.entity.trailSegment.remainingTime / dot.entity.trailSegment.duration))));

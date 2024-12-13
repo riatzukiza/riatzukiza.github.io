@@ -11,18 +11,6 @@ var {
   rendering
  } = require("@obstacles/rendering.js"),
     { 
-  ants,
-  rocks,
-  plants,
-  trailSegments
- } = require("@obstacles/entities.js"),
-    { 
-  game
- } = require("@obstacles/game.js"),
-    { 
-  SignalField
- } = require("@obstacles/forces.js"),
-    { 
   vectorPool,
   trailPool
  } = require("@shared/vectors.js"),
@@ -45,10 +33,6 @@ var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
 
   return (Math.round((Math.pow(10, n) * d)) / Math.pow(10, n));
 });
-console.log("We got this from dom", { 
-  game
- });
-console.log("tick");
 const gameView=createDocumentNode("div", {
   'id': "game-view",
   'className': "panel",
@@ -56,43 +40,52 @@ const gameView=createDocumentNode("div", {
     "background-color":"sandyBrown"
    }
 }, [ rendering.context.canvas ]);
-const getTotalAntMass=(() => {
-	
-  return displayDecimal(ants.group.reduce(((sum, el) => {
-  	
-    return (sum + (el.physicalProperties.mass || 0));
-  
-  }), 0));
-
-});
-const getAntCount=(() => {
-	
-  return ants.size;
-
-});
-const getWins=(() => {
-	
-  return ants.group.reduce(((sum, el) => {
-  	
-    return (sum + (el.antLife.winCount || 0));
-  
-  }), 0);
-
-});
-const getLosses=(() => {
-	
-  return ants.group.reduce(((sum, el) => {
-  	
-    return (sum + (el.antLife.looseCount || 0));
-  
-  }), 0);
-
-});
 const getStats=(() => {
 	
+  var { 
+    game
+   } = require("@obstacles/game.js"),
+      { 
+    ants,
+    rocks,
+    plants,
+    trailSegments
+   } = require("@obstacles/entities.js");
+  const getTotalAntMass=(() => {
+  	
+    return displayDecimal(ants.group.reduce(((sum, el) => {
+    	
+      return (sum + (el.physicalProperties.mass || 0));
+    
+    }), 0), 2);
+  
+  });
+  const getAntCount=(() => {
+  	
+    return ants.size;
+  
+  });
+  const getWins=(() => {
+  	
+    return ants.group.reduce(((sum, el) => {
+    	
+      return (sum + (el.antLife.winCount || 0));
+    
+    }), 0);
+  
+  });
+  const getLosses=(() => {
+  	
+    return ants.group.reduce(((sum, el) => {
+    	
+      return (sum + (el.antLife.looseCount || 0));
+    
+    }), 0);
+  
+  });
   const wins=getWins();
   const losses=getLosses();
-  return [ createDocumentNode("div", {  }, [ "Ants" ]), createDocumentNode("div", {  }, [ "count:", getAntCount ]), createDocumentNode("div", {  }, [ "elapsed:", game.ticker.elapsed ]), createDocumentNode("div", {  }, [ "total mass:", getTotalAntMass ]), createDocumentNode("div", {  }, [ "wins:", displayDecimal(wins) ]), createDocumentNode("div", {  }, [ "losses:", displayDecimal(losses) ]), createDocumentNode("div", {  }, [ "win/loss:", displayDecimal((wins / losses)) ]) ];
+  return [ createDocumentNode("div", {  }, [ "Ants" ]), createDocumentNode("div", {  }, [ "count:", getAntCount ]), createDocumentNode("div", {  }, [ "latency:", game.ticker.averageLatency ]), createDocumentNode("div", {  }, [ "fps:", game.ticker.averageFps ]), createDocumentNode("div", {  }, [ "total mass:", getTotalAntMass ]), createDocumentNode("div", {  }, [ "wins:", displayDecimal(wins) ]), createDocumentNode("div", {  }, [ "losses:", displayDecimal(losses) ]), createDocumentNode("div", {  }, [ "win/loss:", displayDecimal((wins / losses)) ]) ];
 
 });
 const stats=createDocumentNode("div", { 'className': "panel" }, [ getStats ]);
@@ -109,6 +102,15 @@ const getTrailBucketCount=(() => {
 const poolsView=createDocumentNode("div", { 'className': "panel" }, [ createDocumentNode("h3", {  }, [ "Pools" ]), createDocumentNode("div", {  }, [ "vector buckets", getVectorBucketCount ]), createDocumentNode("div", {  }, [ "trail buckets", getTrailBucketCount ]) ]);
 const resetButton=createDocumentNode("button", { 'onclick': (() => {
 	
+  var { 
+    game
+   } = require("@obstacles/game.js"),
+      { 
+    ants,
+    rocks,
+    plants,
+    trailSegments
+   } = require("@obstacles/entities.js");
   rocks.clear();
   ants.clear();
   plants.clear();
@@ -128,15 +130,18 @@ const debugView=createDocumentNode("div", {
     width:(Math.round(((window.innerWidth * 0.2) - 24)) + "px"),
     "overflow-y":"scroll"
    }
-}, [ resetButton, stats, poolsView ]);
+}, [ createDocumentNode("div", {  }, [ createDocumentNode("b", {  }, [ "stats" ]), resetButton, stats, poolsView ]) ]);
 var container = createDocumentNode("div", { 'id': "container" }, [ gameView, debugView ]);
 exports.container = container;
 exports.gameView = gameView;
 exports.debugView = debugView;
-createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentRoot);
 var startInterface = (function startInterface$() {
-  /* start-interface eval.sibilant:83:0 */
+  /* start-interface eval.sibilant:93:0 */
 
+  var { 
+    game
+   } = require("@obstacles/game.js");
+  createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentRoot);
   return game.events.on("tick", ((t) => {
   	
     return (function() {
@@ -154,4 +159,4 @@ var startInterface = (function startInterface$() {
   }));
 });
 exports.startInterface = startInterface;
-},{"@obstacles/config.js":"@obstacles/config.js","@obstacles/entities.js":"@obstacles/entities.js","@obstacles/forces.js":"@obstacles/forces.js","@obstacles/game.js":"@obstacles/game.js","@obstacles/rendering.js":"@obstacles/rendering.js","@obstacles/systems/property-view.js":"@obstacles/systems/property-view.js","@shared/dom.js":"@shared/dom.js","@shared/math/math.js":"@shared/math/math.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/rendering/dot.js":"@shared/systems/rendering/dot.js","@shared/vectors.js":"@shared/vectors.js"}]},{},[]);
+},{"@obstacles/config.js":"@obstacles/config.js","@obstacles/entities.js":"@obstacles/entities.js","@obstacles/game.js":"@obstacles/game.js","@obstacles/rendering.js":"@obstacles/rendering.js","@obstacles/systems/property-view.js":"@obstacles/systems/property-view.js","@shared/dom.js":"@shared/dom.js","@shared/math/math.js":"@shared/math/math.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/rendering/dot.js":"@shared/systems/rendering/dot.js","@shared/vectors.js":"@shared/vectors.js"}]},{},[]);

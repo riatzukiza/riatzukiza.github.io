@@ -1,5 +1,7 @@
 (namespace obstacles)
-(require! (lit Property-view View-panel) "@obstacles/systems/property-view.js")
+(require! (lit Property-view View-panel) "@obstacles/systems/property-view.js"
+          (lit Trail-dots) "@obstacles/systems/trail-dots.js"
+          )
 
 (include "../../../../../inc/dom.sibilant")
 (import-namespace dom)
@@ -7,7 +9,16 @@
 (define Trails-property-view Property-view)
 
 (define Trails-panel View-panel
-
+  (gett trail-dots (this.game.systems.get-by-symbol
+                    Trail-dots.symbol))
+  (gett visible? this.trail-dots.visible?)
+  (def-view settings-panel this.settings-panel
+    (.div .className "panel"
+          (.button .onclick (-> (.toggle-visibility this.trail-dots) )
+                   (-> (if this.visible?
+                           "visible"
+                           "hidden"
+                           )))))
   (page-size 20)
   (page 0)
   (cursor 0)

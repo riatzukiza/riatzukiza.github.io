@@ -3,7 +3,10 @@ var {
  } = require("@kit-js/interface");
 var { 
   EventEmitter
- } = require("kit-events");
+ } = require("kit-events"),
+    { 
+  List
+ } = require("@shared/data-structures/list.js");
 var Ticker = Interface.define("Ticker", { 
   state:false,
   ticks:0,
@@ -12,9 +15,23 @@ var Ticker = Interface.define("Ticker", {
       return (1000 / this.fps);
     
    },
-  init( fps = this.fps,events = create(EventEmitter)() ){ 
+  get averageLatency(  ){ 
     
-      this.fps = fps;this.events = events;
+      return (this.latencyAccumulator.reduce(((sum, n) => {
+      	
+        return (sum + n);
+      
+      }), 0) / this.latencyAccumulator.length);
+    
+   },
+  get averageFps(  ){ 
+    
+      return Math.round((1000 / this.averageLatency));
+    
+   },
+  init( fps = this.fps,events = create(EventEmitter)(),latencyAccumulator = create(List)() ){ 
+    
+      this.fps = fps;this.events = events;this.latencyAccumulator = latencyAccumulator;
       return this;
     
    },
@@ -31,6 +48,12 @@ var Ticker = Interface.define("Ticker", {
           }));
           return (function() {
             if (this.elapsed > rate) {
+              this.latencyAccumulator.push(this.elapsed);
+              (function() {
+                if (20 < this.latencyAccumulator.length) {
+                  return this.latencyAccumulator.shift();
+                }
+              }).call(this);
               ++(this.ticks);
               this.previous = now;
               return this.events.emit("tick", this.ticks);

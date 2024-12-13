@@ -44,5 +44,5 @@
 
          (var pp (.get game.systems Physics plant.entity))
 
-         (set pp 'scale (set pp 'mass (Math.max (- pp.mass (* 0.005 ap.mass)) 0))))
+         (set pp 'scale (set pp 'mass (Math.max (- pp.mass (* 0.05 ap.mass)) 0))))
     )
