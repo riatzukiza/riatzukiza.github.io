@@ -42,11 +42,17 @@ exports.TrailDot = TrailDot;
 var TrailDots = Dot.define("TrailDots", { 
   maxVerts:100000,
   interface:TrailDot,
-  visible__QUERY:true,
+  register(  ){ 
+    
+      this.proto.register.call(this);
+      return this.visible__QUERY = true;
+    
+   },
   toggleVisibility(  ){ 
     
       return (function() {
         if (this.visible__QUERY) {
+          this.verts.render__QUERY = false;
           this.components.each(((c) => {
           	
             return c.vertex.color.a = 0;
@@ -54,6 +60,7 @@ var TrailDots = Dot.define("TrailDots", {
           }));
           return this.visible__QUERY = false;
         } else {
+          this.verts.render__QUERY = true;
           return this.visible__QUERY = true;
         }
       }).call(this);

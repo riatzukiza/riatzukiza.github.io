@@ -23,13 +23,14 @@
     (assign this.started-at 0))
 
   (update-view? true)
-  (view (.div .className "panel"
-              "trail segment"
-              (.div "pos:" (-> (display-decimal this.x 2)) "," (-> (display-decimal this.y 2)))
-              (.div "remaining" (-> this.remaining-time))
-              (.div "duration" (-> (+ "" this.duration)))
-              (.div "triggered?" (-> (+ "" this.triggered)))
-              (.div "started at" (-> this.created-at))))
+  (def-view view ()
+    (.div .className "panel"
+          "trail segment"
+          (.div "pos:" (-> (display-decimal this.x 2)) "," (-> (display-decimal this.y 2)))
+          (.div "remaining" (-> this.remaining-time))
+          (.div "duration" (-> (+ "" this.duration)))
+          (.div "triggered?" (-> (+ "" this.triggered)))
+          (.div "started at" (-> this.created-at))))
 
   (gett seg-group (get (require "@obstacles/entities/trail-segments.js") 'trail-segments))
   (def callback (entity c)
@@ -42,7 +43,6 @@
                 "Apply the trail segment forward")
 
     (assign this.entity.trail-dot.color (rgba 20 200 20 255))
-    (print "reward the strong")
 
     (when config.reward-winners
       (const weight (/ this.entity.ant.ant-life.loose-count (+ this.entity.ant.ant-life.win-count 1)))
@@ -61,7 +61,6 @@
     (doc-string "obstacles.systems.ant-trails.Trail-segment.apply"
                 ""
                 "Apply the trail segment backward")
-    (print "punish the weak" this)
     (assign this.entity.trail-dot.color (rgba 255 20 20 255))
     (when config.punish-loosers
       (const weight (/ this.entity.ant.ant-life.loose-count (+ this.entity.ant.ant-life.win-count 1)))
@@ -70,8 +69,7 @@
         (x (* this.x weight config.ant-influence))
         (y (* this.y weight config.ant-influence)))))
     (assign this.duration (+ this.remaining-time config.trail-result-duration))
-    (.reset this)
-    ))
+    (.reset this)))
 
 (export Trail-segment)
 

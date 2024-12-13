@@ -29,11 +29,24 @@ var PositionInterface = PositionInterface.define("PositionInterface", {
       }).call(this);
     
    },
-  get view(  ){ 
-    
+  get views(  ){ 
+
       return (function() {
-        if (views.has(this.entity)) {
-          return views.get(this.entity);
+        if (this._views) {
+          return this._views;
+        } else {
+          return this._views = (new Map());
+        }
+      }).call(this);
+
+   },
+  get view(  ){ 
+  
+    return (() => {
+    	
+      return (function() {
+        if (this.views.has("view")) {
+          return this.views.get("view");
         } else {
           var r = (function() {
             /* eval.sibilant:13:23 */
@@ -51,14 +64,16 @@ var PositionInterface = PositionInterface.define("PositionInterface", {
             	
               return displayDecimal(this.y, 2);
             
-            }) ]) ]).render(this.parentView);
+            }) ]) ]);
           }).call(this);
-          views.set(this.entity, r);
+          this.views.set("view", r);
           return r;
         }
       }).call(this);
     
-   }
+    });
+  
+ }
  });
 var Position = Position.define("Position", { 
   interface:PositionInterface

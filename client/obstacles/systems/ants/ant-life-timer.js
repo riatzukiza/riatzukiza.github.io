@@ -22,44 +22,53 @@ var AntLife = TimeLimit.define("AntLife", {
     
    },
   updateView__QUERY:true,
-  views:(new Map()),
-  get parentView(  ){ 
+  get views(  ){ 
 
-      return this.entity.propertyView.view;
+      return (function() {
+        if (this._views) {
+          return this._views;
+        } else {
+          return this._views = (new Map());
+        }
+      }).call(this);
 
    },
   get view(  ){ 
   
-    return (function() {
-      if (this.views.has(this.entity)) {
-        return this.views.get(this.entity);
-      } else {
-        var r = (function() {
-          /* eval.sibilant:11:23 */
-        
-          return createDocumentNode("div", {
-            'className': "panel",
-            'style': { 
-              width:"48%"
-             }
-          }, [ createDocumentNode("div", {  }, [ "life", (() => {
-          	
-            return this.remainingTime;
+    return (() => {
+    	
+      return (function() {
+        if (this.views.has("view")) {
+          return this.views.get("view");
+        } else {
+          var r = (function() {
+            /* eval.sibilant:11:23 */
           
-          }) ]), createDocumentNode("div", {  }, [ "wins", (() => {
-          	
-            return this.winCount;
-          
-          }) ]), createDocumentNode("div", {  }, [ "losses", (() => {
-          	
-            return this.looseCount;
-          
-          }) ]) ]).render(this.parentView);
-        }).call(this);
-        this.views.set(this.entity, r);
-        return r;
-      }
-    }).call(this);
+            return createDocumentNode("div", {
+              'className': "panel",
+              'style': { 
+                width:"48%"
+               }
+            }, [ createDocumentNode("div", {  }, [ "life", (() => {
+            	
+              return this.remainingTime;
+            
+            }) ]), createDocumentNode("div", {  }, [ "wins", (() => {
+            	
+              return this.winCount;
+            
+            }) ]), createDocumentNode("div", {  }, [ "losses", (() => {
+            	
+              return this.looseCount;
+            
+            }) ]) ]);
+          }).call(this);
+          this.views.set("view", r);
+          return r;
+        }
+      }).call(this);
+    
+    });
   
  },
   _clear(  ){ 

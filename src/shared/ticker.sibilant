@@ -2,7 +2,9 @@
 (include "kit-interface/header")
  
 (import-namespace interface)
-(require! (lit Event-emitter) "kit-events")
+(require! (lit Event-emitter) "kit-events"
+          (lit List) "@shared/data-structures/list.js"
+          )
 
 (define Ticker Interface
 
@@ -10,8 +12,15 @@
   (ticks 0)
 
   (gett rate (/ 1000 this.fps))
+  (gett average-latency (/ (.reduce this.latency-accumulator
+                                  (=> (sum n) (+ sum n))
+                                  0)
+                           this.latency-accumulator.length))
 
-  (init (fps (events ((create Event-emitter)))))
+  (gett average-fps (Math.round (/ 1000 this.average-latency )))
+
+  (init (fps (events ((create Event-emitter)))
+             (latency-accumulator ((create List)))))
 
   (def-generic update (previous rate)
 
@@ -24,6 +33,10 @@
       (window.request-animation-frame (-> (this.update  )))
 
       (when (> this.elapsed rate)
+
+        (.push this.latency-accumulator this.elapsed)
+        (if (< 20 this.latency-accumulator.length)
+            (.shift this.latency-accumulator))
 
         (++ this.ticks)
 

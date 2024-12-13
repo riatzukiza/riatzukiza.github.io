@@ -11360,8 +11360,12 @@ var DocumentNode = EventEmitter.define("DocumentNode", {
   render( _parent = this._parent,attributes = this.attributes,tagName = this.tagName,_node = this._node,children = this.children ){ 
     
       _node.innerHTML = "";
-      this._parent = _parent;
-      _parent._node.appendChild(_node);
+      (function() {
+        if (_parent) {
+          this._parent = _parent;
+          return _parent._node.appendChild(_node);
+        }
+      }).call(this);
       attributes.each(((a, k) => {
       	
         return (function() {
@@ -11405,13 +11409,17 @@ var DocumentNode = EventEmitter.define("DocumentNode", {
     
       "remove this element from the tree.";
       _node.remove();
-      this.parent = null;
-      _parent.children.filter(((c) => {
-      	
-        return !(_node === c);
-      
-      }));
-      _parent.emit("remove", _node);
+      this._parent = null;
+      (function() {
+        if (_parent) {
+          _parent.children.filter(((c) => {
+          	
+            return !(_node === c);
+          
+          }));
+          return _parent.emit("remove", _node);
+        }
+      }).call(this);
       return this;
     
    }

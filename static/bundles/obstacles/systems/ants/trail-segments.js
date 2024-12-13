@@ -21,21 +21,7 @@ var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
   return (Math.round((Math.pow(10, n) * d)) / Math.pow(10, n));
 });
 var TrailSegment = TimeLimit.define("TrailSegment", { 
-  docString:`
-  obstacles/systems/ant-trails/Trail-vector.md
-
-  # obstacles.systems.ant-trails.Trail-vector
-
-  ## arguments
-
-  inherits from shared.ecs.Component
-
-  ## description
-
-  A time limited vector component that modifies the signal field when the ant has either succeeded or failed
-  If the time limit expires, it disapears.`
-
-  ,
+  docString:"obstacles.systems.ant-trails.Trail-vector",
   duration:config.trailLimit,
   _clear(  ){ 
     
@@ -44,51 +30,60 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
     
    },
   updateView__QUERY:true,
-  views:(new Map()),
-  get parentView(  ){ 
+  get views(  ){ 
 
-      return this.entity.propertyView.view;
+      return (function() {
+        if (this._views) {
+          return this._views;
+        } else {
+          return this._views = (new Map());
+        }
+      }).call(this);
 
    },
   get view(  ){ 
   
-    return (function() {
-      if (this.views.has(this.entity)) {
-        return this.views.get(this.entity);
-      } else {
-        var r = (function() {
-          /* eval.sibilant:11:23 */
-        
-          return createDocumentNode("div", { 'className': "panel" }, [ "trail segment", createDocumentNode("div", {  }, [ "pos:", (() => {
-          	
-            return displayDecimal(this.x, 2);
+    return (() => {
+    	
+      return (function() {
+        if (this.views.has("view")) {
+          return this.views.get("view");
+        } else {
+          var r = (function() {
+            /* eval.sibilant:13:23 */
           
-          }), ",", (() => {
-          	
-            return displayDecimal(this.y, 2);
-          
-          }) ]), createDocumentNode("div", {  }, [ "remaining", (() => {
-          	
-            return this.remainingTime;
-          
-          }) ]), createDocumentNode("div", {  }, [ "duration", (() => {
-          	
-            return ("" + this.duration);
-          
-          }) ]), createDocumentNode("div", {  }, [ "triggered?", (() => {
-          	
-            return ("" + this.triggered);
-          
-          }) ]), createDocumentNode("div", {  }, [ "started at", (() => {
-          	
-            return this.createdAt;
-          
-          }) ]) ]).render(this.parentView);
-        }).call(this);
-        this.views.set(this.entity, r);
-        return r;
-      }
-    }).call(this);
+            return createDocumentNode("div", { 'className': "panel" }, [ "trail segment", createDocumentNode("div", {  }, [ "pos:", (() => {
+            	
+              return displayDecimal(this.x, 2);
+            
+            }), ",", (() => {
+            	
+              return displayDecimal(this.y, 2);
+            
+            }) ]), createDocumentNode("div", {  }, [ "remaining", (() => {
+            	
+              return this.remainingTime;
+            
+            }) ]), createDocumentNode("div", {  }, [ "duration", (() => {
+            	
+              return ("" + this.duration);
+            
+            }) ]), createDocumentNode("div", {  }, [ "triggered?", (() => {
+            	
+              return ("" + this.triggered);
+            
+            }) ]), createDocumentNode("div", {  }, [ "started at", (() => {
+            	
+              return this.createdAt;
+            
+            }) ]) ]);
+          }).call(this);
+          this.views.set("view", r);
+          return r;
+        }
+      }).call(this);
+    
+    });
   
  },
   get segGroup(  ){ 
@@ -117,7 +112,6 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
 
       ;
       this.entity.trailDot.color = rgba(20, 200, 20, 255);
-      console.log("reward the strong");
       return (function() {
         if (config.rewardWinners) {
           const weight=(this.entity.ant.antLife.looseCount / (this.entity.ant.antLife.winCount + 1));
@@ -145,7 +139,6 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
       Apply the trail segment backward`
 
       ;
-      console.log("punish the weak", this);
       this.entity.trailDot.color = rgba(255, 20, 20, 255);
       (function() {
         if (config.punishLoosers) {

@@ -13,27 +13,25 @@
 (const old-clear Velocity-interface.*clear)
 (define Velocity-interface Velocity-interface
   (gett parent-view this.entity.property-view.view )
-  (gett view
-        (cache views this.entity
-                  (.render (dom (.div .className "panel"
-                              .id (+ "velocity-panel" this.entity.id)
-                              .style (lit (width "48%"))
-                              (.div "velocity:")
-                              (.div (-> (display-decimal this.xd 2)) "," (-> (display-decimal this.yd 2)))))
-                           this.parent-view
-                           )))
+
   (gett update-view? this.moved)
   (def *clear ()
     (.call old-clear this)
     (when this.trail
       (assign this.win-count 0)
       (assign this.loose-count 0)
-      (each this.trail (seq)
-            (.despawn seq) )
-      (assign this.trail [])
-      )
-    )
+      (each this.trail (seq) (.despawn seq) )
+      (assign this.trail [])))
+
+  (def-view view ()
+    (.div .className "panel"
+          .id (+ "velocity-panel" this.entity.id)
+          .style (lit (width "48%"))
+          (.div "velocity:")
+          (.div (-> (display-decimal this.xd 2)) "," (-> (display-decimal this.yd 2)))))
+
   )
+
 (export Velocity-interface)
 
 (define Velocity Velocity

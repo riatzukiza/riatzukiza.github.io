@@ -66,11 +66,11 @@ var Group = Interface.define("Group", {
     
       "remove and return the element last in the groups ordering.";
       return (function(item) {
-        /* node_modules/kit/inc/scope.sibilant:12:9 */
+        /* inc/misc.sibilant:1:782 */
       
         _members.delete(item);
         return item;
-      })(_list.pop());
+      }).call(this, _list.pop());
     
    },
   push( value = this.value ){ 
@@ -96,12 +96,12 @@ var Group = Interface.define("Group", {
       return (function() {
         if (!(_members.has(member))) {
           return (function(node) {
-            /* node_modules/kit/inc/scope.sibilant:12:9 */
+            /* inc/misc.sibilant:1:782 */
           
             _members.set(member, node);
             _list.pushNode(node);
             return node;
-          })(_list.node(member));
+          }).call(this, _list.node(member));
         }
       }).call(this);
     
@@ -121,7 +121,7 @@ var Group = Interface.define("Group", {
     
       "Remove a specific member from the group.";
       return (function(node) {
-        /* node_modules/kit/inc/scope.sibilant:12:9 */
+        /* inc/misc.sibilant:1:782 */
       
         (function() {
           if (node) {
@@ -132,7 +132,7 @@ var Group = Interface.define("Group", {
           }
         }).call(this);
         return node;
-      })(_members.get(member));
+      }).call(this, _members.get(member));
     
    }
  });

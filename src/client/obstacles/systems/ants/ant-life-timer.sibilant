@@ -11,11 +11,12 @@
 (define Ant-life Time-limit
   (gett duration config.ant-life)
   (update-view? true)
-  (view (.div .className "panel"
-              .style (lit (width "48%"))
-              (.div "life" (-> this.remaining-time))
-              (.div "wins" (-> this.win-count))
-              (.div "losses" (-> this.loose-count))))
+  (def-view view ()
+    (.div .className "panel"
+          .style (lit (width "48%"))
+          (.div "life" (-> this.remaining-time))
+          (.div "wins" (-> this.win-count))
+          (.div "losses" (-> this.loose-count))))
 
 
   (def *clear ()

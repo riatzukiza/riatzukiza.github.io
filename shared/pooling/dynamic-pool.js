@@ -36,7 +36,11 @@ var DynamicPool = Interface.define("DynamicPool", {
    },
   get used(  ){ 
     
-      return sumOf(this.buckets, "used");
+      return this.buckets.reduce(((sum, el) => {
+      	
+        return (sum + (el.used || 0));
+      
+      }), 0);
     
    },
   grow( buckets = this.buckets,bucketSize = this.bucketSize,self = this ){ 

@@ -30,14 +30,21 @@
 (define Trail-dots Dot
   (max-verts 100000)
   (interface Trail-dot)
-  (visible? true)
 
+  (def register ()
+    (.call this.proto.register this)
+    (assign this.visible? true)
+    )
   (def toggle-visibility ()
     (if this.visible?
-        (do (each this.components (c)
+        (do
+         (assign this.verts.render? false)
+         (each this.components (c)
                   (assign c.vertex.color.a 0))
             (assign this.visible? false))
-        (assign this.visible? true)))
+        (do
+         (assign this.verts.render? true)
+         (assign this.visible? true))))
 
   (def *update-all (...args)
     (if this.visible? (.call this.proto.*update-all this ...args)))

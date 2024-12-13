@@ -17,6 +17,7 @@
 
 
 (define Layer  Pooled-system
+  (render? true)
 
   (init (limit
          (interface Renderable)
@@ -72,10 +73,11 @@
 
   (def-generic render ()
 
-    (.clear this)
-    (.enable this)
+    (when this.render?
+      (.clear this)
+      (.enable this)
 
-    (.draw this )
+      (.draw this )
 
-    (.disable this)))
+      (.disable this))))
 (export Layer)

@@ -17,6 +17,22 @@
                                     (.render (dom @node) this.parent-view)))] ",\n"))
 ;; Dare to dream
 (def-lit-macro view-panel (...nodes)
-  `(view (.div .className "panel"
-               ...@nodes)))
+  [`(view (.div .className "panel"
+                ...@nodes))])
+(def-lit-macro def-view (name args node)
+
+  (var parent-name (.join ["parent" (first (get (transpile name) 'contents))] ""))
+
+  (interleave [`(gett views (if this.*views this.*views
+                                (assign this.*views (new Map))))
+                 ;; `(gett @name (cache this.views (quote @name)
+                 ;;                    (const node (dom @node))
+                 ;;                    (.render   node (.append (get this (quote @parent-name))
+                 ;;                                             node))
+                 ;;                    ))
+                `(gett @name (=> @args
+                                 (cache this.views (quote @name)
+                                        (dom @node))))
+                ] ",\n")
+  )
 (require! (lit render-children create-document-node Document-node Document-body Document-head Document-root) "@shared/dom.js")

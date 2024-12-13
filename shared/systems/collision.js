@@ -49,7 +49,7 @@ var CollisionBounds = Component.define("CollisionBounds", {
    },
   get scale(  ){ 
     
-      return (1.1 * this.physics.scale);
+      return this.physics.scale;
     
    },
   get physics(  ){ 
@@ -191,9 +191,9 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
   const placementVector=Vector.spawn(1, 1);
   var colliding = true;
   (function() {
-    var while$12 = undefined;
+    var while$181 = undefined;
     while (colliding) {
-      while$12 = (function() {
+      while$181 = (function() {
         var noCollisions = true;
         placementTree.clear();
         c.system.components._members.each(((c_) => {
@@ -209,16 +209,16 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         for (var c_ of possibleCollisions)
         {
         (function() {
-          var while$13 = undefined;
+          var while$182 = undefined;
           while (c.isColliding__QUERY(c_)) {
-            while$13 = (function() {
+            while$182 = (function() {
               noCollisions = false;
               placementVector.setLength((0.5 * c_.scale));
               placementVector.setAngle(((Math.random() * ( - 360)) + 360));
               return c.pos.system.shift(c.pos, [ placementVector.x, placementVector.y ]);
             }).call(this);
           };
-          return while$13;
+          return while$182;
         }).call(this)
         }
         ;
@@ -230,7 +230,7 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         return null;
       }).call(this);
     };
-    return while$12;
+    return while$181;
   }).call(this);
   placementVector.despawn();
   return entity;

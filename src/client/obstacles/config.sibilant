@@ -14,12 +14,12 @@
      'maxLength 30
      'trail-result-duration 15000
      'growth-rate 0.001
-     'starting-plants 6
+     'starting-plants 20
      'plantMassLimit 30
-     'ant-limit 200
-     'max-in-decay 100
+     'ant-limit 500
+     'max-in-decay 1000
      'trail-limit 30000
-     'ant-life 1200000
+     'ant-life 120000
      'min-trail 10
      'decay-on-collision true
      'options-amplitude 10

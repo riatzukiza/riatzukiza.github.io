@@ -52,8 +52,9 @@
     (assign *node.innerHTML "")
     ;; The first time the parent is right, the next time the parent is somthing else.
 
-    (assign this.*parent *parent)
-    (.append-child *parent.*node *node)
+    (when *parent
+      (assign this.*parent *parent)
+      (.append-child *parent.*node *node))
 
 
     (each attributes (a k)
@@ -83,10 +84,11 @@
     "remove this element from the tree."
 
     (.remove *node)
-    (assign this.parent null)
+    (assign this.*parent null)
 
-    (.filter *parent.children (=> (c) (not (= *node c))))
-    (.emit *parent 'remove *node)
+    (when *parent
+      (.filter *parent.children (=> (c) (not (= *node c))))
+      (.emit *parent 'remove *node))
     this))
 (export Document-node)
 

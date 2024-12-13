@@ -22,37 +22,6 @@ var VelocityInterface = VelocityInterface.define("VelocityInterface", {
       return this.entity.propertyView.view;
     
    },
-  get view(  ){ 
-    
-      return (function() {
-        if (views.has(this.entity)) {
-          return views.get(this.entity);
-        } else {
-          var r = (function() {
-            /* eval.sibilant:11:23 */
-          
-            return createDocumentNode("div", {
-              'className': "panel",
-              'id': ("velocity-panel" + this.entity.id),
-              'style': { 
-                width:"48%"
-               }
-            }, [ createDocumentNode("div", {  }, [ "velocity:" ]), createDocumentNode("div", {  }, [ (() => {
-            	
-              return displayDecimal(this.xd, 2);
-            
-            }), ",", (() => {
-            	
-              return displayDecimal(this.yd, 2);
-            
-            }) ]) ]).render(this.parentView);
-          }).call(this);
-          views.set(this.entity, r);
-          return r;
-        }
-      }).call(this);
-    
-   },
   get updateView__QUERY(  ){ 
     
       return this.moved;
@@ -74,7 +43,53 @@ var VelocityInterface = VelocityInterface.define("VelocityInterface", {
         }
       }).call(this);
     
-   }
+   },
+  get views(  ){ 
+
+      return (function() {
+        if (this._views) {
+          return this._views;
+        } else {
+          return this._views = (new Map());
+        }
+      }).call(this);
+
+   },
+  get view(  ){ 
+  
+    return (() => {
+    	
+      return (function() {
+        if (this.views.has("view")) {
+          return this.views.get("view");
+        } else {
+          var r = (function() {
+            /* eval.sibilant:11:23 */
+          
+            return createDocumentNode("div", {
+              'className': "panel",
+              'id': ("velocity-panel" + this.entity.id),
+              'style': { 
+                width:"48%"
+               }
+            }, [ createDocumentNode("div", {  }, [ "velocity:" ]), createDocumentNode("div", {  }, [ (() => {
+            	
+              return displayDecimal(this.xd, 2);
+            
+            }), ",", (() => {
+            	
+              return displayDecimal(this.yd, 2);
+            
+            }) ]) ]);
+          }).call(this);
+          this.views.set("view", r);
+          return r;
+        }
+      }).call(this);
+    
+    });
+  
+ }
  });
 exports.VelocityInterface = VelocityInterface;
 var Velocity = Velocity.define("Velocity", { 
