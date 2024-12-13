@@ -19,6 +19,9 @@
 
 
   (def *clear ()
+    (.remove this.view)
+    (.delete this.views this.entity)
+
     (assign this.win-count 0)
     (assign this.loose-count 0)
     (assign this.triggered false))

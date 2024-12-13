@@ -136,7 +136,6 @@ var ViewPanel = System.define("ViewPanel", {
   title:"Entities",
   get hidden(  ){ 
     
-      console.log("hidden?", this.view.style);
       return this.view.style.display === "none";
     
    },

@@ -22,7 +22,7 @@
 
 
 (set (.get game.systems Physics home)
-     'scale 1
+     'scale 5
      'mass 1
      'forces [])
 

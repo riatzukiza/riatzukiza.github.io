@@ -59,7 +59,7 @@
                      (.render debug-view)))
         )
   (title "Entities")
-  (gett hidden (print "hidden?" this.view.style)(= this.view.style.display "none"))
+  (gett hidden (= this.view.style.display "none"))
 
   (gett view (cache views this (.render (dom (.div .id (+ this.title "-container"))) this.parent-view)))
   (def *prepare () (assign this.cursor 0))

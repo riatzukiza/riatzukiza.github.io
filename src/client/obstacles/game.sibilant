@@ -22,14 +22,13 @@
 
 (var active-game-systems
      [
-
+      Position
+      Physics
+      Velocity
+      Collision
       Ant-trails
       Decaying-trails
       Ant-life-timer
-      Physics
-      Position
-      Collision
-      Velocity
       Dot
       Trail-dots
       Ant-dots

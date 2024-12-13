@@ -48,9 +48,7 @@ game.events.on("staticObjectCollision", ((o1, o2) => {
     }
   }).call(this);
   const a1=[ (d.x * (phys2.density / phys1.density) * phys1.density), (d.y * (phys2.density / phys1.density) * phys1.density) ];
-  const a2=[ (-1 * d.x * (phys1.density / phys2.density) * phys2.density), (-1 * d.y * (phys1.density / phys2.density) * phys2.density) ];
   v.accelerate(a1);
-  v_.accelerate(a2);
   p1.despawn();
   p2.despawn();
   v1.despawn();

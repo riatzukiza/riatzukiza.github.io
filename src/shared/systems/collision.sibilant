@@ -30,13 +30,13 @@
 
   (gett scale (* 1.1 this.physics.scale))
   (gett physics (.get this.system.process.systems Physics this.entity))
-  (gett x (Math.round this.pos.x))
-  (gett y (Math.round this.pos.y))
+  (gett x this.pos.x)
+  (gett y this.pos.y)
 
   ;; (gett x this.pos.x)
   ;; (gett y this.pos.y)
-  (gett height (* 2 this.scale) )
-  (gett width (* 2 this.scale))
+  (gett height this.scale )
+  (gett width this.scale)
 
 
   ;; (gett height (*  2 this.scale))

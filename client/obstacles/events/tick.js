@@ -36,12 +36,12 @@ game.events.on("tick", (() => {
 	
   nextSpawn(game);
   (function() {
-    if (((game.ticker.ticks % 10) && config.rocks > rocks.size)) {
+    if (((game.ticker.ticks % 5) === 0 && config.rocks > rocks.size)) {
       return rockGenStep();
     }
   }).call(this);
   (function() {
-    if (((game.ticker.ticks % 10) && config.startingPlants > plants.size)) {
+    if (((game.ticker.ticks % 5) === 2 && config.startingPlants > plants.size)) {
       return spawnPlant(randomLocation(), ((Math.random() * ( - config.plantMassLimit)) + config.plantMassLimit));
     }
   }).call(this);
