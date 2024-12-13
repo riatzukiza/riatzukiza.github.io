@@ -23,7 +23,7 @@
 
 
 (.set-bounds Collision (first config.dimensions) (second config.dimensions)
-            100
+            2000
              4)
 
 (.start game)

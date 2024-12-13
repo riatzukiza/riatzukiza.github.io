@@ -19,7 +19,7 @@
 
 
   (def *clear ()
-    (.remove this.view)
+    ;; (.remove this.view)
     (.delete this.views this.entity)
 
     (assign this.win-count 0)

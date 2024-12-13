@@ -19,7 +19,7 @@
           'r base-color.r
           'g base-color.g
           'b base-color.b
-          'a base-color.a)
+          'a 0)
 
     (set this.vertex
          'size 1)
@@ -30,6 +30,17 @@
 (define Trail-dots Dot
   (max-verts 100000)
   (interface Trail-dot)
+  (visible? true)
+
+  (def toggle-visibility ()
+    (if this.visible?
+        (do (each this.components (c)
+                  (assign c.vertex.color.a 0))
+            (assign this.visible? false))
+        (assign this.visible? true)))
+
+  (def *update-all (...args)
+    (if this.visible? (.call this.proto.*update-all this ...args)))
 
   (def *update-component (dot)
     (set dot.vertex.color

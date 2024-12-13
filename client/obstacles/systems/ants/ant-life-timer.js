@@ -35,7 +35,7 @@ var AntLife = TimeLimit.define("AntLife", {
         return this.views.get(this.entity);
       } else {
         var r = (function() {
-          /* eval.sibilant:12:23 */
+          /* eval.sibilant:11:23 */
         
           return createDocumentNode("div", {
             'className': "panel",
@@ -64,7 +64,6 @@ var AntLife = TimeLimit.define("AntLife", {
  },
   _clear(  ){ 
     
-      this.view.remove();
       this.views.delete(this.entity);
       this.winCount = 0;
       this.looseCount = 0;

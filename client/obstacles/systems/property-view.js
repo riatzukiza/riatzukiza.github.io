@@ -94,7 +94,7 @@ var ViewPanel = System.define("ViewPanel", {
               'style': { 
                 width:"99%"
                }
-            }, [ createDocumentNode("h4", { 'onclick': (() => {
+            }, [ createDocumentNode("div", { 'className': "panel" }, [ createDocumentNode("b", { 'onclick': (() => {
             	
               return (function() {
                 if (this.hidden) {
@@ -124,7 +124,7 @@ var ViewPanel = System.define("ViewPanel", {
                 }
               }).call(this);
             
-            }) }, [ "next" ]), this.pageNumberView ]).render(debugView);
+            }) }, [ "next" ]), this.pageNumberView ]), createDocumentNode("div", { 'className': "panel" }, [ this.settingsView ]) ]).render(debugView);
           }).call(this);
           views.set((this.title + "parent"), r);
           return r;

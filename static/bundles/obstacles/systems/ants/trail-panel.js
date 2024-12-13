@@ -2,7 +2,10 @@ require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c=
 var { 
   PropertyView,
   ViewPanel
- } = require("@obstacles/systems/property-view.js");
+ } = require("@obstacles/systems/property-view.js"),
+    { 
+  TrailDots
+ } = require("@obstacles/systems/trail-dots.js");
 var { 
   renderChildren,
   createDocumentNode,
@@ -15,6 +18,21 @@ var TrailsPropertyView = PropertyView.define("TrailsPropertyView", {
   
  });
 var TrailsPanel = ViewPanel.define("TrailsPanel", { 
+  get settingsView(  ){ 
+    
+      return createDocumentNode("div", {  }, [ createDocumentNode("button", { 'onclick': (() => {
+      	
+        return this.game.systems.getBySymbol(TrailDots.symbol).toggleVisibility();
+      
+      }) }, [ (function() {
+        if (TrailDots.visible__QUERY) {
+          return "toggle visibility off";
+        } else {
+          return "toggle visiblity on";
+        }
+      }).call(this) ]) ]);
+    
+   },
   pageSize:20,
   page:0,
   cursor:0,
@@ -22,4 +40,4 @@ var TrailsPanel = ViewPanel.define("TrailsPanel", {
  });
 exports.TrailsPropertyView = TrailsPropertyView;
 exports.TrailsPanel = TrailsPanel;
-},{"@obstacles/systems/property-view.js":"@obstacles/systems/property-view.js","@shared/dom.js":"@shared/dom.js"}]},{},[]);
+},{"@obstacles/systems/property-view.js":"@obstacles/systems/property-view.js","@obstacles/systems/trail-dots.js":"@obstacles/systems/trail-dots.js","@shared/dom.js":"@shared/dom.js"}]},{},[]);
