@@ -128,22 +128,16 @@
     this
     )
 
-  (def-generic rotate-until (predicate (t 0))
-    (const condition (predicate this.head.item))
-    ;; (print "result of predicate" predicate "on" this.head.item "is" condition "try" t "on list of size" this.size )
-    ;; (print "try number" t "is less  than" "length minus 1" (- this.size 1))
-    (if condition
-        (do
-         ;; (print "found and rotated" this.head)
-         this.head.item)
-        (< t this.size)
-        (do
-         ;; (print "did not find, rotating" this)
-         (.rotate this)
-         (const t* (+ t 1))
-          (.rotate-until this predicate t*))
-        (do
-         ;; (print "did not find" this "after" t "tries")
-         false))))
+  (def-generic rotate-until (predicate)
+    (var r false)
+
+    (var t 0)
+    (while (and (not r) (< t this.size))
+      (if (predicate this.head.item)
+          (assign r this.head.item)
+          (do
+           (.rotate this)
+           (incr t))))
+    (return r)))
 
 (export List)

@@ -46,7 +46,7 @@ game.events.on("tick", (() => {
     }
   }).call(this);
   return (function() {
-    if ((game.ticker.ticks % 10)) {
+    if ((game.ticker.ticks % 50)) {
       return plants.group.each(((plant) => {
       	
         var physics = game.systems.get(Physics, plant);

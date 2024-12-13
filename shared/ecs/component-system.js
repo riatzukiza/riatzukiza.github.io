@@ -147,11 +147,11 @@ var System = Interface.define("System", {
   spawn( entity = this.entity,pool = this.pool,components = this.components ){ 
     
       return (function(c) {
-        /* eval.sibilant:1:412 */
+        /* node_modules/kit/inc/scope.sibilant:12:9 */
       
         components.set(entity, c);
         return c;
-      }).call(this, pool.spawn(entity, this));
+      })(pool.spawn(entity, this));
     
    },
   _updateComponent( component,t ){ 

@@ -12,7 +12,7 @@ var _assignId = ((m, k) => {
 });
 var ObjectPool = Interface.define("ObjectPool", { 
   init( size = this.size,_interface = null,_array = (function(array) {
-    /* inc/misc.sibilant:1:782 */
+    /* node_modules/kit/inc/scope.sibilant:12:9 */
   
     (function() {
       /* node_modules/kit/inc/loops.sibilant:26:8 */
@@ -35,7 +35,7 @@ var ObjectPool = Interface.define("ObjectPool", {
       return $for;
     }).call(this);
     return array;
-  }).call(this, []),_available = Group.from(_array),_inUse = Group.create() ){ 
+  })([]),_available = Group.from(_array),_inUse = Group.create() ){ 
     
       this.size = size;this._interface = _interface;this._array = _array;this._available = _available;this._inUse = _inUse;
       _array.each(_assignId);
@@ -72,11 +72,11 @@ var ObjectPool = Interface.define("ObjectPool", {
     
       "remove an object from the collection of available ones,\n"+"adding it to the collection of objects currently in use,\n"+"and return it to the caller.";
       return (function(member) {
-        /* inc/misc.sibilant:1:782 */
+        /* node_modules/kit/inc/scope.sibilant:12:9 */
       
         _inUse.add(member);
         return member;
-      }).call(this, _available.pop());
+      })(_available.pop());
     
    },
   release( obj = this.obj,_available = this._available,_members = this._members,_inUse = this._inUse ){ 

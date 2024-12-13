@@ -33,7 +33,7 @@
              'spawn-ant-trail-segment))
 
   (def *update-component (c)
-    (when (= (mod (+ c.entity.id c.system.process.ticker.ticks) 15) 0)
+    (when (= (mod (+ c.entity.id c.system.process.ticker.ticks) config.trail-resolution) 0)
         (.add c.segments (this.spawn-ant-trail-segment c.entity)))))
 
 (export Ant-trails)

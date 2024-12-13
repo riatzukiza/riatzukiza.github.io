@@ -26,14 +26,17 @@ var PooledDataStructure = Interface.define("PooledDataStructure", {
         if (pools.has(symbol)) {
           return pools.get(symbol);
         } else {
-          var r = (function() {
-            /* inc/misc.sibilant:1:673 */
+          return (function(value) {
+            /* node_modules/kit/inc/scope.sibilant:12:9 */
+          
+            pools.set(symbol, value);
+            return value;
+          })((function() {
+            /* node_modules/kit/inc/macros.sibilant:30:25 */
           
             console.log("pool cache miss");
             return create(DynamicPool)(this);
-          }).call(this);
-          pools.set(symbol, r);
-          return r;
+          }).call(this));
         }
       }).call(this);
     

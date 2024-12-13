@@ -121,6 +121,35 @@ const resetButton=createDocumentNode("button", { 'onclick': (() => {
   }));
 
 }) }, [ "Reset" ]);
+const inputField=((label, initialInput, type, f) => {
+	
+  return createDocumentNode("div", {
+    'className': "panel",
+    'style': { 
+      width:"49%"
+     }
+  }, [ label, createDocumentNode("input", {
+    'value': initialInput,
+    'type': (type || "number"),
+    'onchange': f
+  }, []) ]);
+
+});
+const numberInput=((label, initialInput, f) => {
+	
+  return inputField(label, initialInput, "number", f);
+
+});
+const configNumberInput=((label) => {
+	
+  return numberInput(label, config[label], ((event) => {
+  	
+    return config[label] = event.target.value;
+  
+  }));
+
+});
+const settingsPanel=createDocumentNode("div", { 'className': "panel" }, [ configNumberInput("angleZoom"), configNumberInput("noiseZ"), configNumberInput("fieldForce"), configNumberInput("decay"), configNumberInput("maxLength"), configNumberInput("trailResultDuration"), configNumberInput("growthRate"), configNumberInput("plantMassLimit"), configNumberInput("maxInDecay"), configNumberInput("trailLimit"), configNumberInput("antLife"), configNumberInput("antInfluence"), configNumberInput("trailResolution"), configNumberInput("stationaryResistanceCoefficiant") ]);
 const debugView=createDocumentNode("div", {
   'id': "debug-view",
   'className': "panel",
@@ -129,13 +158,13 @@ const debugView=createDocumentNode("div", {
     width:(Math.round(((window.innerWidth * 0.2) - 24)) + "px"),
     "overflow-y":"scroll"
    }
-}, [ createDocumentNode("div", {  }, [ createDocumentNode("b", {  }, [ "stats" ]), resetButton, stats, poolsView ]) ]);
+}, [ createDocumentNode("div", {  }, [ createDocumentNode("b", {  }, [ "stats" ]), resetButton, stats, poolsView ]), createDocumentNode("div", {  }, [ settingsPanel ]) ]);
 var container = createDocumentNode("div", { 'id': "container" }, [ gameView, debugView ]);
 exports.container = container;
 exports.gameView = gameView;
 exports.debugView = debugView;
 var startInterface = (function startInterface$() {
-  /* start-interface eval.sibilant:93:0 */
+  /* start-interface eval.sibilant:124:0 */
 
   var { 
     game

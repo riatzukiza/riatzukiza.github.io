@@ -20,7 +20,21 @@ var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
   return (Math.round((Math.pow(10, n) * d)) / Math.pow(10, n));
 });
 var TrailSegment = TimeLimit.define("TrailSegment", { 
-  docString:"obstacles.systems.ant-trails.Trail-vector",
+  docString:`
+  obstacles/systems/ant-trails/Trail-vector.md
+
+  # obstacles.systems.ant-trails.Trail-vector
+
+  ## arguments
+
+  inherits from shared.ecs.Component
+
+  ## description
+
+  A time limited vector component that modifies the signal field when the ant has either succeeded or failed
+  If the time limit expires, it disapears.`
+
+  ,
   duration:config.trailLimit,
   _clear(  ){ 
     
@@ -49,7 +63,7 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
           return this.views.get("view");
         } else {
           var r = (function() {
-            /* eval.sibilant:13:23 */
+            /* eval.sibilant:11:23 */
           
             return createDocumentNode("div", { 'className': "panel" }, [ "trail segment", createDocumentNode("div", {  }, [ "pos:", (() => {
             	

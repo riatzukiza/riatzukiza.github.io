@@ -10701,13 +10701,13 @@ var List = Interface.define("List", {
   clear(  ){ 
     
       return (function() {
-        var while$177 = undefined;
+        var while$120 = undefined;
         while (this.length > 0) {
-          while$177 = (function() {
+          while$120 = (function() {
             return this.pop();
           }).call(this);
         };
-        return while$177;
+        return while$120;
       }).call(this);
     
    },
@@ -10744,9 +10744,9 @@ var List = Interface.define("List", {
       var node = this.head;
       var success = false;
       return (function() {
-        var while$178 = undefined;
+        var while$121 = undefined;
         while (node) {
-          while$178 = (function() {
+          while$121 = (function() {
             return (function() {
               if (node.item !== item) {
                 node = node.next;
@@ -10758,7 +10758,7 @@ var List = Interface.define("List", {
             }).call(this);
           }).call(this);
         };
-        return while$178;
+        return while$121;
       }).call(this);
     
    },
@@ -10848,14 +10848,14 @@ var List = Interface.define("List", {
     
       var node = this.head;
       (function() {
-        var while$179 = undefined;
+        var while$122 = undefined;
         while (node) {
-          while$179 = (function() {
+          while$122 = (function() {
             f(node.item, node);
             return node = node.next;
           }).call(this);
         };
-        return while$179;
+        return while$122;
       }).call(this);
       return this;
     
@@ -10865,13 +10865,13 @@ var List = Interface.define("List", {
       var result = create(List)();
       var node = this.head;
       return (function() {
-        var while$180 = undefined;
+        var while$123 = undefined;
         while (node) {
-          while$180 = (function() {
+          while$123 = (function() {
             return result.push(f(node, node.next, node.prev));
           }).call(this);
         };
-        return while$180;
+        return while$123;
       }).call(this);
     
    },
@@ -10919,20 +10919,27 @@ var List = Interface.define("List", {
       return this;
     
    },
-  rotateUntil( predicate = this.predicate,t = 0 ){ 
+  rotateUntil( predicate = this.predicate ){ 
     
-      const condition=predicate(this.head.item);
-      return (function() {
-        if (condition) {
-          return this.head.item;
-        } else if (t < this.size) {
-          this.rotate();
-          const t_=(t + 1);
-          return this.rotateUntil(predicate, t_);
-        } else {
-          return false;
-        }
+      var r = false;
+      var t = 0;
+      (function() {
+        var while$124 = undefined;
+        while ((!(r) && t < this.size)) {
+          while$124 = (function() {
+            return (function() {
+              if (predicate(this.head.item)) {
+                return r = this.head.item;
+              } else {
+                this.rotate();
+                return ((t)++);
+              }
+            }).call(this);
+          }).call(this);
+        };
+        return while$124;
       }).call(this);
+      return r;
     
    }
  });

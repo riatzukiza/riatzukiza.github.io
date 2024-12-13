@@ -46,7 +46,7 @@ var AntTrails = System.define("AntTrails", {
   _updateComponent( c ){ 
     
       return (function() {
-        if (((c.entity.id + c.system.process.ticker.ticks) % 15) === 0) {
+        if (((c.entity.id + c.system.process.ticker.ticks) % config.trailResolution) === 0) {
           return c.segments.add(this.spawnAntTrailSegment(c.entity));
         }
       }).call(this);

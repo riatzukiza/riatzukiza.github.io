@@ -28,7 +28,7 @@
         (spawn-plant (random-location)
                      (random-float config.plant-mass-limit)))
 
-    (if (mod game.ticker.ticks 10)
+    (if (mod game.ticker.ticks 50)
         (plants.group.each (=> (plant)
                                (var physics (.get game.systems Physics plant))
                                (if (>= 0 physics.mass)

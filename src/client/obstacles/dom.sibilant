@@ -70,6 +70,35 @@
                                             (each (get (.get-by-symbol game.systems Physics.symbol) 'forces) (force)
                                                   (.reset f))
                                             ) "Reset")))
+
+(const input-field (=> (label initial-input type f)
+                       (dom (.div .className "panel"
+                                  .style (lit (width "49%"))
+                                  label (.input .value initial-input
+                                                .type (or type "number")
+                                                .onchange f)))))
+(const number-input (=> (label initial-input f) (input-field label initial-input "number" f)))
+(const config-number-input
+       (=> (label )
+           (number-input label (get config label)
+                         (=> (event)
+                             (set config label event.target.value)))))
+
+(const settings-panel (dom (.div .className "panel"
+                                 (config-number-input 'angle-zoom )
+                                 (config-number-input 'noise-z )
+                                 (config-number-input 'field-force )
+                                 (config-number-input 'decay )
+                                 (config-number-input 'max-length )
+                                 (config-number-input 'trail-result-duration )
+                                 (config-number-input 'growth-rate )
+                                 (config-number-input 'plant-mass-limit )
+                                 (config-number-input 'max-in-decay )
+                                 (config-number-input 'trail-limit )
+                                 (config-number-input 'ant-life )
+                                 (config-number-input 'ant-influence )
+                                 (config-number-input 'trail-resolution )
+                                 (config-number-input 'stationary-resistance-coefficiant ))))
 (const debug-view
        (dom (.div .id "debug-view" .className "panel"
                   .style (lit (height (+  (second config.dimensions)"px"))
@@ -78,7 +107,9 @@
                   (.div (.b "stats")
                         reset-button
                         stats
-                        pools-view))))
+                        pools-view)
+                  (.div settings-panel))))
+
 
 
 

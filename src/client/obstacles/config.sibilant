@@ -1,27 +1,27 @@
 (namespace vector-ants)
 (const dim      [(* 0.8 window.innerWidth), (- window.innerHeight 3)])
-(const size 4)
+(const size 1)
 (set module.exports
      'size size
      'ui-polling-rate 60
-     'angle-zoom 28
-     'noise-z 15
+     'trail-resolution 5
+     'angle-zoom 58
+     'noise-z 55
      'field-force 15
      'dimensions dim
      'columns (Math.ceil (/ (first dim) size))
      'rows (Math.ceil (/ (second dim) size))
-     'decay 0.1
+     'decay 1
      'maxLength 30
-     'trail-result-duration 15000
+     'trail-result-duration 5000
      'growth-rate 0.001
      'starting-plants 20
      'plantMassLimit 30
      'ant-limit 500
      'max-in-decay 1000
-     'trail-limit 30000
+     'trail-limit 15000
      'ant-life 120000
-     'min-trail 10
-     'decay-on-collision true
+     'decay-on-collision false
      'options-amplitude 10
      'limit-decay true
      'ant-influence 1

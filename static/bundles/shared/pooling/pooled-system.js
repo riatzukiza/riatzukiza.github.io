@@ -10629,11 +10629,11 @@ var PooledSystem = Interface.define("PooledSystem", {
     
       "aquire an object from the systems pool, and initialize it.";
       return (function(r) {
-        /* inc/misc.sibilant:1:782 */
+        /* node_modules/kit/inc/scope.sibilant:12:9 */
       
         r.init(...args);
         return r;
-      }).call(this, this._pool.aquire());
+      })(this._pool.aquire());
     
    },
   despawn( obj ){ 
