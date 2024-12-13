@@ -18,14 +18,24 @@ var TrailsPropertyView = PropertyView.define("TrailsPropertyView", {
   
  });
 var TrailsPanel = ViewPanel.define("TrailsPanel", { 
+  get trailDots(  ){ 
+    
+      return this.game.systems.getBySymbol(TrailDots.symbol);
+    
+   },
+  get visible__QUERY(  ){ 
+    
+      return this.trailDots.visible__QUERY;
+    
+   },
   get settingsView(  ){ 
     
       return createDocumentNode("div", {  }, [ createDocumentNode("button", { 'onclick': (() => {
       	
-        return this.game.systems.getBySymbol(TrailDots.symbol).toggleVisibility();
+        return this.trailDots.toggleVisibility();
       
       }) }, [ (function() {
-        if (TrailDots.visible__QUERY) {
+        if (this.visible__QUERY) {
           return "toggle visibility off";
         } else {
           return "toggle visiblity on";

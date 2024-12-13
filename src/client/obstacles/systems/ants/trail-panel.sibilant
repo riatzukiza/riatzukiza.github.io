@@ -9,11 +9,13 @@
 (define Trails-property-view Property-view)
 
 (define Trails-panel View-panel
-  (gett settings-view (dom (.div (.button .onclick (-> (.toggle-visibility (this.game.systems.get-by-symbol
-                                                                            Trail-dots.symbol)) )
-                                          (if Trail-dots.visible? "toggle visibility off"
-                                              "toggle visiblity on"
-                                              )))))
+  (gett trail-dots (this.game.systems.get-by-symbol
+                    Trail-dots.symbol))
+  (gett visible? this.trail-dots.visible?)
+  (gett settings-view (dom (.div (.button .onclick (-> (.toggle-visibility this.trail-dots) )
+                                          (-> (if this.visible? "toggle visibility off"
+                                               "toggle visiblity on"
+                                               ))))))
   (page-size 20)
   (page 0)
   (cursor 0)
