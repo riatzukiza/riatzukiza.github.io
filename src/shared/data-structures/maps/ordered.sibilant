@@ -1,112 +1,85 @@
 
 (include "kit-interface/header")
 (import-namespace interface)
+(require! (lit List) "@shared/data-structures/list.js")
 
 (define Ordered-map Interface
-  (init ((*members (new Map)) ;; {a:5,b:6,c:10}
+  (init ((*members (new Map))
+         (*values ((create List)))))
 
-         (*key-pointers (new Map)) ;; {a:0,b:1,c:2}
+  (gett values this.*values)
+  (gett members this.*members)
 
-         (*keys [])   ;; [ 'a 'b 'c ]
-         (*values []) ;; [ 5 6 10 ]
-         ))
-  (gett size this.*keys.length)
-  (gett length this.*keys.length)
-  (def-generic clear ( *members *key-pointers *keys *values )
+  (gett size this.*values.length)
+  (gett length this.*values.length)
+
+  (def-generic clear ( *members *values )
     (.clear members)
-    (.clear *key-pointers)
-    (assign this.*keys [])
-    (assign this.*values []))
+    (.clear *values))
 
-  (def-generic has (key [*members])
-
+  (def-generic has (key *members)
     (.has *members key))
 
-  (def-generic get (key [*members _ *keys])
-    (.get *members key))
+  (def-generic get (key *members *keys)
+    (get (.get *members key) 'item))
 
   (def-generic each (callback *values)
-    (.each *values (=> (v i) (if (not (= v null))
-                               (callback v (get this.*keys i)))))
-     this)
+    (each *values  (item node)
+          (callback item node.key))
+    this)
 
-
-  (def-generic map (callback [*members _ *keys *values])
+  (def-generic map (callback *members *values )
+    ;; this could be optimized with node based operations.
     (collect r ((create Ordered-map))
-             (each *keys (k)
-                   (.set r k (f (get *members k) k r)))))
-
-  (def rebuild ()
-    (const new-keys [])
-    (const new-values [])
-    (each this (v k)
-          (.set this.*key-pointers k new-keys.length)
-          (.push new-keys k)
-          (.push new-values v)
-          )
-    (assign this.*values new-values)
-    (assign this.*keys new-keys))
-
-  (def-generic *delete (key *members *key-pointers *keys *values)
-
-    (var i (.get *key-pointers key))
-
-    (.delete *members key )
-    (.delete *key-pointers key)
-    (set *keys i null)
-    (set  *values i null))
-  (def-generic delete (key *members *keys)
-    (.*delete this key)
-    (if (> (-  *keys.length *members.size) 2)
-        (.rebuild this)))
-
-  (def-generic push ([key value] [*members *key-pointers *keys *values])
-    (remember *members key
-
-              (.push *keys key)
-              (.set *key-pointers key (- (.push *values value) 1))
+             (each *values (item node)
+                   (.set r node.key (f item node.key r)))))
 
 
-              value))
+  (def-generic *delete (key *members  *values )
+    (const node (.get *members key))
+    (.remove-node *values node)
+    (.delete *members key ))
 
-  (def-generic pop ([*members *key-pointers *keys *values])
-    (var key (.pop *keys)
-         value (.pop *values))
+  (def-generic delete (key *members )
+    (.*delete this key))
 
-    (.delete *key-pointers key)
-    (.delete  members key)
+  ;; When we are pushing values, do we care if there is a duplicate?
+  ;; if we do care about the order of duplicate entries, a map is not an apropriate interface.
+  ;; We don't care, because this is a map.
+  ;; A map doesn't have push ops...
+  ;; but it is ordered.
+  ;; We don't use these, I'm writing them just cause.
+  ;; I have a feeling this will be the cause of a headache in the future.
+  (def-generic push ([key value] *members  *values )
+    (unless (.has *members key)
+      (.push *values value)
+      (assign *values.tail.key key)
+      (.set *members key *values.tail)
+      (return *values.length)))
 
-    value)
+  (def-generic unshift ([ key value] *members  *values )
+    (unless (.has *members key)
+      (.unshift *values key)
+      (assign *values.head.key key)
+      (.set  *members key *values.head)
+      (return *values.length)))
 
-  (def-generic shift ([*members *key-pointers *keys *values])
-    (var key (.shift *keys)
-         value (.shift *values))
+  (def-generic pop (*members  *values)
+    (.delete  *members key)
+    (.pop *values))
 
-    (.delete *key-pointers key)
-    (.delete *members key)
+  ;; TODO : Write node based list operations for order based operations
+  ;; that may depend on the key associated, as the key is not part of the arguements
+  ;; and with only the value being returned, if the consumer requires knowing the key that was
+  ;; associated with this element, it will not be available.
+  (def-generic shift (*members  *values )
+    (.delete *members *values.head.key)
+    (.shift *values))
 
-    value)
-
-  (def-generic unshift ([ key value] [*members *key-pointers *keys *values])
-    (remember *members key
-
-              (.unshift *keys key)
-              (.set *key-pointers key (- (.unshift *values value) 1))
-
-              value))
-
-  (def-generic set (key value [*members *key-pointers *keys *values])
-    (if (.has *members key)
-
-        (let ((i (get *key-pointers key)))
-          (set *values i value)
-          (.set *members key value))
-
-        (do (.push *keys key)
-            (.set *key-pointers key (- (.push *values value) 1))
-
-          (.set *members key value)
-
-          value))))
+  (def-generic set (key value *members *values)
+    (unless (.has *members key)
+      (.push *values value)
+      (assign *values.tail.key key)
+      (.set *members key *values.tail))))
 
 (export Ordered-map)

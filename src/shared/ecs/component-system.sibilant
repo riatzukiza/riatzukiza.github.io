@@ -71,8 +71,8 @@
     (unless (or this.template )
       (.init this)))
 
-  (def-generic clear (pool components entity )
-    (.delete components entity)
+  (def-generic clear (pool components  )
+    (.clear components)
     (.clear pool))
 
   (def-generic get (entity components)
@@ -109,9 +109,7 @@
   (unless (or this.template )
     (.init this)))
 
-(def-generic System.clear (pool components  )
-  (.clear components)
-  (.clear pool))
+
 
 (def-generic System.get (entity components)
   (.get components entity))

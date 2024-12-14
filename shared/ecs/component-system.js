@@ -43,7 +43,33 @@ var clear = (function() {
   return arguments[0].clear();
 });
 var System = Interface.define("System", { 
-  docString:"Shared.ecs.ComponentSystem",
+  docString:`
+  Shared/ecs/ComponentSystem.md
+
+  # Shared.ecs.ComponentSystem
+
+  ## arguments
+
+  (process interface
+                   (components ((create Ordered-map)))
+                   (pool ((create Dynamic-pool)  interface))
+                   (thread (Promise.resolve)))
+
+  ## description
+
+  An Abstract interface for defining game systems.
+  By default updates its components every tick.
+  This behavior can be overriden.
+  Requires an
+  \`_updateComponent\`
+  implementation
+  Optionally accepts
+  \`_prepare\`
+  and
+  \`_cleanup\`
+  methods`
+
+  ,
   interface:Component,
   register(  ){ 
     
@@ -127,9 +153,9 @@ var System = Interface.define("System", {
       }).call(this);
     
    },
-  clear( pool = this.pool,components = this.components,entity = this.entity ){ 
+  clear( pool = this.pool,components = this.components ){ 
     
-      components.delete(entity);
+      components.clear();
       return pool.clear();
     
    },
@@ -147,11 +173,11 @@ var System = Interface.define("System", {
   spawn( entity = this.entity,pool = this.pool,components = this.components ){ 
     
       return (function(c) {
-        /* node_modules/kit/inc/scope.sibilant:12:9 */
+        /* eval.sibilant:1:412 */
       
         components.set(entity, c);
         return c;
-      })(pool.spawn(entity, this));
+      }).call(this, pool.spawn(entity, this));
     
    },
   _updateComponent( component,t ){ 
@@ -205,19 +231,13 @@ System.build = (function System$build$() {
     }
   }).call(this);
 });
-System.clear = (function System$clear$(pool = this.pool, components = this.components) {
-  /* System.clear node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
-
-  components.clear();
-  return pool.clear();
-});
 System.get = (function System$get$(entity = this.entity, components = this.components) {
   /* System.get node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
   return components.get(entity);
 });
 System.update = (function System$update$(t) {
-  /* System.update eval.sibilant:120:0 */
+  /* System.update eval.sibilant:118:0 */
 
   return this.thread = this.thread.then(((nil) => {
   	
