@@ -191,12 +191,12 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
   const placementVector=Vector.spawn(1, 1);
   var colliding = true;
   (function() {
-    var while$12 = undefined;
+    var while$47 = undefined;
     while (colliding) {
-      while$12 = (function() {
+      while$47 = (function() {
         var noCollisions = true;
         placementTree.clear();
-        c.system.components._members.each(((c_) => {
+        c.system.components.each(((c_) => {
         	
           return (function() {
             if (!(c === c_)) {
@@ -209,16 +209,16 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         for (var c_ of possibleCollisions)
         {
         (function() {
-          var while$13 = undefined;
+          var while$48 = undefined;
           while (c.isColliding__QUERY(c_)) {
-            while$13 = (function() {
+            while$48 = (function() {
               noCollisions = false;
               placementVector.setLength((0.5 * c_.scale));
               placementVector.setAngle(((Math.random() * ( - 360)) + 360));
               return c.pos.system.shift(c.pos, [ placementVector.x, placementVector.y ]);
             }).call(this);
           };
-          return while$13;
+          return while$48;
         }).call(this)
         }
         ;
@@ -230,7 +230,7 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         return null;
       }).call(this);
     };
-    return while$12;
+    return while$47;
   }).call(this);
   placementVector.despawn();
   return entity;
