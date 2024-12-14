@@ -18,8 +18,6 @@
 
 
 (on game.events 'tick ()
-    (print "latency" game.ticker.average-latency)
-    (print "fps" game.ticker.average-fps)
     (next-spawn game)
     (if (and (= (mod game.ticker.ticks 5) 0)
              (> config.rocks rocks.size))

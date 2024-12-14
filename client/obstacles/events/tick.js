@@ -34,8 +34,6 @@ var {
 const updateParticle=createParticleUpdater(config, game);
 game.events.on("tick", (() => {
 	
-  console.log("latency", game.ticker.averageLatency);
-  console.log("fps", game.ticker.averageFps);
   nextSpawn(game);
   (function() {
     if (((game.ticker.ticks % 5) === 0 && config.rocks > rocks.size)) {
