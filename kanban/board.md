@@ -1,34 +1,5 @@
-# Board flow
-
-```
-
-New-> Accepted -> Breakdown -----> Ready -> Todo -> In Progress -> In Review -> Done
-|                 |  |  ^          ^                |    ^            |
-|                 |  |  |          |                |    |            |
-----> Rejected<----  -> Blocked ---|    |<-----------    |-------------
-                           ^            |<----------------
-                           |-------------
-```
 
 # New
-
-Feature ideas we may or may not do. A place for brainstorming.
-
-
-## Acceptance Criteria
-
-New ideas can move to either an accepted or rejected state.
-
-```
-New-> Accepted
-|
-----> Rejected
-```
-- We've started writing about it
-- it seems feasable.
-- It is not a duplicate.
-
-## Tasks
 
 - BUG: Collision doesn't work correctly in some circumstances.
 - BUG: Rendering background color setter never seems to work.
@@ -44,18 +15,7 @@ New-> Accepted
 - Find unknown content warnings
 
 
-## Rejected
-
-Tasks we opened up that we later realized were not useful, or a duplicate of an existing task.
-
-Rejected tasks do not have state transitions at the moment.
-
-```
-New  Breakdown
-|    |
---------> Rejected
-```
-## Tasks
+# Rejected
 
 - a backend implementation of the simulation
   - Duplicate
@@ -64,26 +24,6 @@ New  Breakdown
 
 
 # Accepted
-
-Features we have decided to look into.
-If we think they will add value we will move on to break down.
-The task must be described to continue
-
-Accepted tasks cannot be rejected with out first going through breakdown
-
-
-```
-Accepted -> Breakdown
-```
-
-## Acceptance Criteria
-
-- A brief description of the task is created. 
-- We have decided the feature has value
-- The task must not be a duplicate or redundent.
-
-## Tasks
-
 
 - Update physics engine to increase accuracy and performance
   - Consolodate position and velocity into physics
@@ -110,28 +50,6 @@ Accepted -> Breakdown
 
 # Breakdown (5)
 
-Features we are actively thinking about and preparing for work.
-The result of a breakdown is either a task that is ready for work,
-or a task that is rejected upon further examination.
-Tasks may become blocked if once the work was started it became clear
-the task was not defined clearly enough.
-
-```
-
-Breakdown->Ready
-|
-->Blocked
-
-```
-
-## Definition of done
-
-- requirements
-- explaination of value
-- a general approach to the problem
-
-## Tasks
-
 - deletable entites
   - Entities can be deleted from a panel
 - Add beautifier and beautifier to pipeline to pipeline
@@ -144,10 +62,6 @@ Breakdown->Ready
 
 # Blocked
 
-Features that have been refined and are ready to work on after a feature they rely on has been implemented
-
-## tasks
-
 - ground tiles
 - metabolism system
 - multiple signal fields
@@ -157,11 +71,6 @@ Features that have been refined and are ready to work on after a feature they re
 - Building system
 
 # Ready
-
-Tasks that are ready to be worked that we have not decided to start.
-Tasks that are ready for work have not been prioritized and there is no estimate on complexity.
-
-## Tasks
 
 - vector field visualization
 - unit system
@@ -177,47 +86,31 @@ Tasks that are ready for work have not been prioritized and there is no estimate
 - placeable entities (rocks, plants, bases)
 - Enhance document macros
 - Home page
-- config system
 - settings interface
 - attack system
 - multiple factions
+- simulation backend
+  - Realizing after adding a toggle for the trail dots that rendering was not what was slowing the sim down
+    We have decided to move this out of the todo backlog, as it will not be as much of a value add as we'd 
+    have liked. The simulation needs more optimizations, and we don't currently have a place to host such an intensive backend.
+- github readme
+  - The readme can be generated from this kanban through simple concatonation.
+
 
 # Todo (2)
 
-Tasks that have been prioritized and estimated. These are what are to be done after 
-in progress tasks have been completed.
-
-## Tasks
-
-- github readme
-  - The readme can be generated from this kanban through simple concatonation.
-- simulation backend
-
 # In Progress (2)
-
-Tasks that are currently being worked on.
-
-## Tasks
 
 - documentation
   - Documenting a little bit at a time, especially when we find outselves having to look at older code to use or change it for use with new features.
 
 # In Review (2)
-
-Work that has been completed but needs to be reviewed to be sure.
-
-## Tasks
-
-- trail entities
-- Simulation reset
+- config system
+  - we just kinda did this one before moving it through the board :shrug:
 
 # Done
-
-The work has been reviewed and we are sure that it is done.
-:confetti:
-
-## Tasks
-
 - Entity inspector
 - Github pages static site [high priority]
+- trail entities
+- Simulation reset
 
