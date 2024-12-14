@@ -21,21 +21,7 @@ var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
   return (Math.round((Math.pow(10, n) * d)) / Math.pow(10, n));
 });
 var TrailSegment = TimeLimit.define("TrailSegment", { 
-  docString:`
-  obstacles/systems/ant-trails/Trail-vector.md
-
-  # obstacles.systems.ant-trails.Trail-vector
-
-  ## arguments
-
-  inherits from shared.ecs.Component
-
-  ## description
-
-  A time limited vector component that modifies the signal field when the ant has either succeeded or failed
-  If the time limit expires, it disapears.`
-
-  ,
+  docString:"obstacles.systems.ant-trails.Trail-vector",
   duration:config.trailLimit,
   _clear(  ){ 
     
@@ -130,8 +116,8 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
         if (config.rewardWinners) {
           const weight=(this.entity.ant.antLife.looseCount / (this.entity.ant.antLife.winCount + 1));
           this.pheremones.addTo({ 
-            x:(this.x * weight * config.antInfluence),
-            y:(this.y * weight * config.antInfluence)
+            x:(this.x * weight * config.antInfluence * config.winYield),
+            y:(this.y * weight * config.antInfluence * config.winYield)
            });
           this.duration = (this.remainingTime + config.trailResultDuration);
           return this.reset();
@@ -158,8 +144,8 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
         if (config.punishLoosers) {
           const weight=(this.entity.ant.antLife.looseCount / (this.entity.ant.antLife.winCount + 1));
           return this.pheremones.subFrom({ 
-            x:(this.x * weight * config.antInfluence),
-            y:(this.y * weight * config.antInfluence)
+            x:(this.x * weight * config.antInfluence * config.lossFactor),
+            y:(this.y * weight * config.antInfluence * config.lossFactor)
            });
         }
       }).call(this);

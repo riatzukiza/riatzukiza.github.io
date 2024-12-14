@@ -159,7 +159,7 @@ const debugView=createDocumentNode("div", {
     "overflow-y":"scroll"
    }
 }, [ createDocumentNode("div", {  }, [ createDocumentNode("b", {  }, [ "stats" ]), resetButton, stats, poolsView ]), createDocumentNode("div", {  }, [ settingsPanel ]) ]);
-var container = createDocumentNode("div", { 'id': "container" }, [ gameView, debugView ]);
+var container = createDocumentNode("div", { 'id': "container" }, [ gameView ]);
 exports.container = container;
 exports.gameView = gameView;
 exports.debugView = debugView;

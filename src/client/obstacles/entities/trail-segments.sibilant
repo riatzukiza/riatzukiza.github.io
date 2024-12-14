@@ -12,7 +12,8 @@
           config "@obstacles/config.js")
 
 
-(const systems [Position Trail-dots  Decaying-trails Trails-panel])
+(const systems [Position Trail-dots  Decaying-trails ;; Trails-panel
+                         ])
 (const trail-segments ((create Entity-group)
              "Trail segments"
              systems
@@ -44,11 +45,11 @@
                (or (Math.min (Math.max (Math.round (/ apos.x config.size)) 0)
                              (- config.columns 1))
                    ;; I think this can be 0
-                   1)
+                   0)
                (or (Math.min (Math.max (Math.round (/ apos.y config.size)) 0)
                              (- config.rows 1))
                    ;; I think this can be 0
-                   1)))
+                   0)))
   trail-segment)
 
 (export spawn-ant-trail-segment)

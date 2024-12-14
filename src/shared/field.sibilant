@@ -40,10 +40,10 @@
 
     (const pos (.spawn Vector (or (Math.min (Math.max (Math.round (/ p.x config.size)) 0)
                                             (- config.columns 1))
-                                  1)
+                                  0)
                        (or (Math.min (Math.max (Math.round (/ p.y config.size)) 0)
                                      (- config.rows 1))
-                           1)))
+                           0)))
     (const angle (* (noise.simplex3 (/ pos.x config.angle-zoom 5)
                                   (/ pos.y config.angle-zoom 5)
                                   (* tick (/ config.noise-z 10000)

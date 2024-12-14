@@ -48,8 +48,8 @@
       (const weight (/ this.entity.ant.ant-life.loose-count (+ this.entity.ant.ant-life.win-count 1)))
       (this.pheremones.add-to
        (lit
-        (x (* this.x weight config.ant-influence))
-        (y (* this.y weight config.ant-influence))))
+        (x (* this.x weight config.ant-influence config.win-yield))
+        (y (* this.y weight config.ant-influence config.win-yield))))
 
       (assign this.duration (+ this.remaining-time config.trail-result-duration))
 
@@ -66,8 +66,8 @@
       (const weight (/ this.entity.ant.ant-life.loose-count (+ this.entity.ant.ant-life.win-count 1)))
       (this.pheremones.sub-from
        (lit
-        (x (* this.x weight config.ant-influence))
-        (y (* this.y weight config.ant-influence)))))
+        (x (* this.x weight config.ant-influence config.loss-factor))
+        (y (* this.y weight config.ant-influence config.loss-factor)))))
     (assign this.duration (+ this.remaining-time config.trail-result-duration))
     (.reset this)))
 

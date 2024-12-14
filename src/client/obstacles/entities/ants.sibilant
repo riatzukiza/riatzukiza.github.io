@@ -14,7 +14,7 @@
              "Ants"
              [Collision
               Ant-dots
-              Ant-panel
+              ;; Ant-panel
               Physics
               Velocity
               Position

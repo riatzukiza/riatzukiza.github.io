@@ -34,11 +34,11 @@ var {
   TrailsPanel
  } = require("@obstacles/systems/ants/trail-panel.js"),
     config = require("@obstacles/config.js");
-const systems=[ Position, TrailDots, DecayingTrails, TrailsPanel ];
+const systems=[ Position, TrailDots, DecayingTrails ];
 const trailSegments=create(EntityGroup)("Trail segments", systems, game.ent);
 exports.trailSegments = trailSegments;
 var spawnAntTrailSegment = (function spawnAntTrailSegment$(ant) {
-  /* spawn-ant-trail-segment eval.sibilant:22:0 */
+  /* spawn-ant-trail-segment eval.sibilant:23:0 */
 
   `
   obstacles/entities/trail-segment/spawn-trail-segment.md
@@ -64,7 +64,7 @@ var spawnAntTrailSegment = (function spawnAntTrailSegment$(ant) {
   trailSegment.trailDot.vertex.point.z = apos.z;
   trailSegment.trailSegment.x = avel.xd;
   trailSegment.trailSegment.y = avel.yd;
-  trailSegment.trailSegment.pheremones = SignalField.layer[(Math.min(Math.max(Math.round((apos.x / config.size)), 0), (config.columns - 1)) || 1)][(Math.min(Math.max(Math.round((apos.y / config.size)), 0), (config.rows - 1)) || 1)];
+  trailSegment.trailSegment.pheremones = SignalField.layer[(Math.min(Math.max(Math.round((apos.x / config.size)), 0), (config.columns - 1)) || 0)][(Math.min(Math.max(Math.round((apos.y / config.size)), 0), (config.rows - 1)) || 0)];
   return trailSegment;
 });
 exports.spawnAntTrailSegment = spawnAntTrailSegment;

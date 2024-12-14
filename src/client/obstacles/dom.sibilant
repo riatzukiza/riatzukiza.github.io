@@ -116,7 +116,7 @@
 
 (var container (dom (.div .id "container"
                           game-view
-                          debug-view
+                          ;; debug-view
                           )))
 (export container)
 (export game-view)
