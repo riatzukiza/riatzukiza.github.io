@@ -79,9 +79,7 @@
     (.get components entity))
   (def release (c)
     (.delete this.components c.entity)
-    (.release this.pool c)
-
-    )
+    (.release this.pool c))
 
   (def-generic spawn (entity pool components)
     (collect c (.spawn pool entity  this)
