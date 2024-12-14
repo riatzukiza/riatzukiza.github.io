@@ -10666,7 +10666,7 @@ var OrderedMap = Interface.define("OrderedMap", {
   map( callback = this.callback,_members = this._members,_values = this._values ){ 
     
       return (function(r) {
-        /* inc/misc.sibilant:1:782 */
+        /* node_modules/kit/inc/scope.sibilant:12:9 */
       
         _values.each(((item, node) => {
         	
@@ -10674,7 +10674,7 @@ var OrderedMap = Interface.define("OrderedMap", {
         
         }));
         return r;
-      }).call(this, create(OrderedMap)());
+      })(create(OrderedMap)());
     
    },
   _delete( key = this.key,_members = this._members,_values = this._values ){ 

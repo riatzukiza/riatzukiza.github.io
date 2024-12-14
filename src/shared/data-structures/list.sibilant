@@ -1,25 +1,19 @@
-
-;; 
-(include "kit-interface/header")
-(import-namespace interface)
-(require! (lit List) "@shared/data-structures/list.js")
+(namespace shared)
+(require! (lit Spawnable) "@shared/data-structures/spawnable.js")
 
 (const empty-nodes [])
-(define Node Interface
+(define Node Spawnable
   (init (list  next prev item))
-  (def spawn (list  next prev item)
-    (if (= empty-nodes.length 0)
-        ((create Node ) list next prev item)
-        (.set (.bind (.pop empty-nodes) list next prev) item)))
-  (def despawn ()
-    (set this 'list null  'next null 'prev null)
-    (.push empty-nodes this))
+  (def clear ()
+    (set this 'list null
+         'next null
+         'prev null))
   (gett is-head (= this this.list.head))
   (gett is-tail (= this this.list.tail))
   (def bind (list next prev) (.init this list next prev) this)
   (def set (item) (assign this.item item) this))
 
-(define List Interface
+(define List Spawnable
   (init () (assign this.length 0))
   (gett count this.length)
   (gett size this.length )
@@ -44,7 +38,6 @@
   (def insert (item predicate))
   (def remove (item)
     (var node this.head)
-    (var success false)
     (while node
       (if (!= node.item item)
           (do (assign node node.next)

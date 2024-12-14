@@ -4,7 +4,24 @@ var {
  } = require("@shared/ecs.js"),
     config = require("@obstacles/config.js");
 var TimeLimit = Component.define("TimeLimit", { 
-  docString:"Obstacles.systems.Time-limit",
+  docString:`
+  Obstacles/systems/Time-limit.md
+
+  # Obstacles.systems.Time-limit
+
+  ## arguments
+
+  Inherits shared.ecs.Component arguments
+
+  ## description
+
+  Sets somthing to happen at a given time.
+  Requires a 
+  \`duration\`
+  and
+  \`callback\``
+
+  ,
   register(  ){ 
     
       this.createdAt = Date.now();
@@ -19,6 +36,11 @@ var TimeLimit = Component.define("TimeLimit", {
   get callback(  ){ 
     
       throw (new Error("No callback was given to time limit component"))
+    
+   },
+  get triggerTime(  ){ 
+    
+      return (this.createdAt + this.duration);
     
    },
   get elapsed(  ){ 
@@ -51,7 +73,28 @@ var TimeLimit = Component.define("TimeLimit", {
  });
 exports.TimeLimit = TimeLimit;
 var Timer = System.define("Timer", { 
-  docString:"Obstacles.systems.Timer",
+  docString:`
+  Obstacles/systems/Timer.md
+
+  # Obstacles.systems.Timer
+
+  ## arguments
+
+  Inherits from shared.ecs.ComponentSystem
+
+  ## description
+
+  Allows timed events to occur for entities with time limit components`
+
+  ,
+  tree:create(BinarySearchTree)(),
+  _updateAll(  ){ 
+    
+      var node = this.components.values.head;
+      var i = 0;
+      return this.tree.findLessThan(Date.now());
+    
+   },
   _updateComponent( c ){ 
     
       return (function() {

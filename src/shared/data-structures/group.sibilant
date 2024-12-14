@@ -1,9 +1,10 @@
 (include "kit-interface/header")
 (import-namespace interface)
-(require! (lit List) "@shared/data-structures/list.js")
+(require! (lit List) "@shared/data-structures/list.js"
+          (lit Spawnable "@shared/data-structures/spawnable.js"))
 
-(define Group Interface
-    (init ((*list ((create List)))
+(define Group Spawnable
+    (init ((*list ((.spawn List)))
            (*members (new Map))))
 
   (gett size this.*list.length)
@@ -11,8 +12,7 @@
   (gett last this.*list.last)
   (def-generic clear (*list *members)
     (.clear *members)
-    (.clear *list)
-    )
+    (.clear *list))
 
   (def create ()
     "create an empty group instance"

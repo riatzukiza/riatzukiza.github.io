@@ -1,0 +1,50 @@
+(define Binary-search-tree  Spawnable
+  (init ((key null)
+         (depth 5)
+         (values (.spawn List))
+         (left (if depth (.spawn Binary-search-tree null (- depth 1))) )
+         (right (if depth (.spawn Binary-search-tree null (- depth 1))))))
+
+  (def-generic set ((key null) value depth)
+    (if (or (not key) (= key this.key))
+        (do (set this 'key key )
+            (.push this.values value))
+        (> key this.key)
+        (.set this.left key value)
+
+        (< key this.key)
+        (.set this.right key value)))
+
+  (def map (f)
+    (const r (.spawn this.proto))
+    (each this (node k) (.set r k (f node k) )))
+
+  (def each (f)
+    (.each this.values (=> (v) (f v this.key)))
+    (.each this.left f)
+    (.each this.right f))
+
+  (def remove (key value)
+    (doc-string "shared.datastructures.trees.binary-search-tree.remove"
+                "key: A numeric key, value: A value to be removed."
+                "Search the tree as deep as needed to find and remove a value")
+    (const branch (.search this key this.depth))
+    (if (.remove branch.values value)
+        (if (= branch.values.length 0)
+            (assign this.key null))))
+
+  (def prune (key depth)
+    (doc-string "shared.datastructures.trees.binary-search-tree.prune"
+                "key: A numeric key, depth: How far to  traverse the tree before cutting off"
+                "Search the tree to a given depth for a key, removing the branch at the depth."))
+  (def search (key depth)
+    (doc-string "shared.datastructures.trees.binary-searchtree.search"
+                "key: A numeric key, depth: How far down the tree to search."
+                "Search the tree to a given depth for a key, returning the branch at the requested depth."
+                )
+    (if (or (= depth 0) (= key this.key))
+        this
+        (> key this.key)
+        (.search this.left key (- depth 1))
+        (< key this.key)
+        (.search this.right key (- depth 1)))))

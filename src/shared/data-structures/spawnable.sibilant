@@ -1,0 +1,16 @@
+(define Spawnable Interface
+  (def build () (assign this.pool []))
+  (def spawn (...args)
+    (if this.pool.length
+        (.init (.pop this.pool)
+               ...args)
+        ((create this)
+         ...args)))
+
+  (def clear () (throw (new Error "No clear function defined for spawnable datatype")))
+
+  (def despawn ()
+    (.clear this)
+    (.push this.pool this)))
+
+(export Spawnable)

@@ -38,11 +38,11 @@ var clearAnts = (function clearAnts$() {
 
   return ants.clear();
 });
-var spawnAnt = (function spawnAnt$(x_y$4, home, startingLife) {
+var spawnAnt = (function spawnAnt$(x_y$1, home, startingLife) {
   /* spawn-ant eval.sibilant:26:0 */
 
-  var x = x_y$4[0],
-      y = x_y$4[1];
+  var x = x_y$1[0],
+      y = x_y$1[1];
 
   var ant = ants.spawn();
   game.systems.get(Position, ant).x = x;
@@ -54,19 +54,17 @@ var spawnAnt = (function spawnAnt$(x_y$4, home, startingLife) {
   var v = game.systems.get(Velocity, ant);
   (function() {
     if (!(config.spawnStatic === 0)) {
-      return v.accelerate([ (1 + ((Math.random() * config.spawnStatic) * (function() {
-        if (Math.random() < 0.5) {
-          return -1;
-        } else {
-          return 1;
-        }
-      }).call(this))), (1 + ((Math.random() * config.spawnStatic) * (function() {
-        if (Math.random() < 0.5) {
-          return -1;
-        } else {
-          return 1;
-        }
-      }).call(this))) ]);
+      return v.accelerate([ (1 + (function() {
+        /* eval.sibilant:1:434 */
+      
+        var rand = ((Math.random() * (config.spawnStatic - 0)) + 0);
+        return (config.spawnStatic - (rand / 2));
+      }).call(this)), (1 + (function() {
+        /* eval.sibilant:1:434 */
+      
+        var rand = ((Math.random() * (config.spawnStatic - 0)) + 0);
+        return (config.spawnStatic - (rand / 2));
+      }).call(this)) ]);
     }
   }).call(this);
   return placeEntity(ant, game, config);

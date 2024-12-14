@@ -15,6 +15,7 @@
 
   (gett duration (throw (new Error "no duration was given to time limit component")))
   (gett callback (throw (new Error "No callback was given to time limit component")))
+  (gett trigger-time (+ this.created-at this.duration))
 
   (gett elapsed (- (Date.now) this.created-at))
   (gett remaining-time (- this.duration this.elapsed))
@@ -25,9 +26,7 @@
     (assign this.triggered false))
   (def *clear ()
     (assign this.created-at 0)
-    (assign this.triggered false)
-    )
-  )
+    (assign this.triggered false)))
 
 (export Time-limit)
 
@@ -35,6 +34,11 @@
   (doc-string "Obstacles.systems.Timer"
               "Inherits from shared.ecs.ComponentSystem"
               "Allows timed events to occur for entities with time limit components")
+  (tree ((create Binary-search-tree)))
+  (def *update-all ()
+    (var node this.components.values.head)
+    (var i 0)
+    (.find-less-than this.tree (Date.now)))
   (def *update-component (c)
     (when (and c.expired (not c.triggered))
       (assign c.triggered true)

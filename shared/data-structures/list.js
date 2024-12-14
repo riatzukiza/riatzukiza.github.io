@@ -1,34 +1,19 @@
 var { 
-  Interface
- } = require("@kit-js/interface");
-var { 
-  List
- } = require("@shared/data-structures/list.js");
+  Spawnable
+ } = require("@shared/data-structures/spawnable.js");
 const emptyNodes=[];
-var Node = Interface.define("Node", { 
+var Node = Spawnable.define("Node", { 
   init( list = this.list,next = this.next,prev = this.prev,item = this.item ){ 
     
       this.list = list;this.next = next;this.prev = prev;this.item = item;
       return this;
     
    },
-  spawn( list,next,prev,item ){ 
-    
-      return (function() {
-        if (emptyNodes.length === 0) {
-          return create(Node)(list, next, prev, item);
-        } else {
-          return emptyNodes.pop().bind(list, next, prev).set(item);
-        }
-      }).call(this);
-    
-   },
-  despawn(  ){ 
+  clear(  ){ 
     
       this.list = null;
       this.next = null;
-      this.prev = null;
-      return emptyNodes.push(this);
+      return this.prev = null;
     
    },
   get isHead(  ){ 
@@ -54,7 +39,7 @@ var Node = Interface.define("Node", {
     
    }
  });
-var List = Interface.define("List", { 
+var List = Spawnable.define("List", { 
   init(  ){ 
     
       
@@ -95,13 +80,13 @@ var List = Interface.define("List", {
   clear(  ){ 
     
       return (function() {
-        var while$120 = undefined;
+        var while$82 = undefined;
         while (this.length > 0) {
-          while$120 = (function() {
+          while$82 = (function() {
             return this.pop();
           }).call(this);
         };
-        return while$120;
+        return while$82;
       }).call(this);
     
    },
@@ -136,11 +121,10 @@ var List = Interface.define("List", {
   remove( item ){ 
     
       var node = this.head;
-      var success = false;
       return (function() {
-        var while$121 = undefined;
+        var while$83 = undefined;
         while (node) {
-          while$121 = (function() {
+          while$83 = (function() {
             return (function() {
               if (node.item !== item) {
                 node = node.next;
@@ -152,7 +136,7 @@ var List = Interface.define("List", {
             }).call(this);
           }).call(this);
         };
-        return while$121;
+        return while$83;
       }).call(this);
     
    },
@@ -242,14 +226,14 @@ var List = Interface.define("List", {
     
       var node = this.head;
       (function() {
-        var while$122 = undefined;
+        var while$84 = undefined;
         while (node) {
-          while$122 = (function() {
+          while$84 = (function() {
             f(node.item, node);
             return node = node.next;
           }).call(this);
         };
-        return while$122;
+        return while$84;
       }).call(this);
       return this;
     
@@ -259,13 +243,13 @@ var List = Interface.define("List", {
       var result = create(List)();
       var node = this.head;
       return (function() {
-        var while$123 = undefined;
+        var while$85 = undefined;
         while (node) {
-          while$123 = (function() {
+          while$85 = (function() {
             return result.push(f(node, node.next, node.prev));
           }).call(this);
         };
-        return while$123;
+        return while$85;
       }).call(this);
     
    },
@@ -318,9 +302,9 @@ var List = Interface.define("List", {
       var r = false;
       var t = 0;
       (function() {
-        var while$124 = undefined;
+        var while$86 = undefined;
         while ((!(r) && t < this.size)) {
-          while$124 = (function() {
+          while$86 = (function() {
             return (function() {
               if (predicate(this.head.item)) {
                 return r = this.head.item;
@@ -331,7 +315,7 @@ var List = Interface.define("List", {
             }).call(this);
           }).call(this);
         };
-        return while$124;
+        return while$86;
       }).call(this);
       return r;
     
