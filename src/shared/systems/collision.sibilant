@@ -166,7 +166,7 @@
     ;; (const placed-entities (new Map))
 
     (.clear placement-tree)
-    (each  c.system.components._members (c*)
+    (each  c.system.components (c*)
            (unless (= c c*)
              ;; (const pos [ c*.pos.x c*.pos.y c*.entity])
              ;; (.set placed-entities pos c*)

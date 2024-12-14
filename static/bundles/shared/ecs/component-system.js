@@ -10940,11 +10940,11 @@ var System = Interface.define("System", {
   spawn( entity = this.entity,pool = this.pool,components = this.components ){ 
     
       return (function(c) {
-        /* node_modules/kit/inc/scope.sibilant:12:9 */
+        /* eval.sibilant:1:412 */
       
         components.set(entity, c);
         return c;
-      })(pool.spawn(entity, this));
+      }).call(this, pool.spawn(entity, this));
     
    },
   _updateComponent( component,t ){ 
@@ -10990,7 +10990,7 @@ var System = Interface.define("System", {
    }
  });
 System.build = (function System$build$() {
-  /* System.build eval.sibilant:108:0 */
+  /* System.build eval.sibilant:106:0 */
 
   return (function() {
     if (!((this.template))) {
@@ -11010,7 +11010,7 @@ System.get = (function System$get$(entity = this.entity, components = this.compo
   return components.get(entity);
 });
 System.update = (function System$update$(t) {
-  /* System.update eval.sibilant:120:0 */
+  /* System.update eval.sibilant:118:0 */
 
   return this.thread = this.thread.then(((nil) => {
   	
