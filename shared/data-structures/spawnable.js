@@ -1,16 +1,19 @@
+var { 
+  Interface
+ } = require("@kit-js/interface");
 var Spawnable = Interface.define("Spawnable", { 
   build(  ){ 
     
       return this.pool = [];
     
    },
-  spawn( args ){ 
+  spawn( ...args ){ 
     
       return (function() {
         if (this.pool.length) {
-          return this.pool.pop().init(args);
+          return this.pool.pop().init(...args);
         } else {
-          return create(this).apply(this, args);
+          return create(this)(...args);
         }
       }).call(this);
     

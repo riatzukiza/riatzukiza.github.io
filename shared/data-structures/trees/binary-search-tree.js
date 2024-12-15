@@ -1,40 +1,181 @@
+var { 
+  Spawnable
+ } = require("@shared/data-structures/spawnable.js"),
+    { 
+  List
+ } = require("@shared/data-structures/list.js");
 var BinarySearchTree = Spawnable.define("BinarySearchTree", { 
-  init( key = null,depth = 5,values = List.spawn(),left = (function() {
-    if (depth) {
-      return BinarySearchTree.spawn(null, (depth - 1));
-    }
-  }).call(this),right = (function() {
-    if (depth) {
-      return BinarySearchTree.spawn(null, (depth - 1));
-    }
-  }).call(this) ){ 
-    
-      this.key = key;this.depth = depth;this.values = values;this.left = left;this.right = right;
+  init( key = null,depth = 50,parent = null,root = (function() {
+    if (!(parent)) {
       return this;
+    } else {
+      return parent.root;
+    }
+  }).call(this),values = List.spawn() ){ 
+    
+      this.key = key;this.depth = depth;this.parent = parent;this.root = root;this.values = values;
+      return this;
+    
+   },
+  get successor(  ){ 
+    
+      var temp = this;
+      return (function() {
+        var while$123 = undefined;
+        while (temp.left) {
+          while$123 = (function() {
+            return temp = temp.left;
+          }).call(this);
+        };
+        return while$123;
+      }).call(this);
+    
+   },
+  get isRoot__QUERY(  ){ 
+    
+      return !(this.parent);
+    
+   },
+  get uncle(  ){ 
+    
+      return (function() {
+        if ((this.isRoot__QUERY || this.parent.isRoot__QUERY)) {
+          return null;
+        } else if (this.parent.isOnLeft__QUERY) {
+          return this.parent.parent.right;
+        } else {
+          return this.parent.parent.left;
+        }
+      }).call(this);
+    
+   },
+  get isOnLeft__QUERY(  ){ 
+    
+      return this === this.parent.left;
+    
+   },
+  get sibling(  ){ 
+    
+      return (function() {
+        if (this.isRoot__QUERY) {
+          return null;
+        } else if (this.isOnLeft__QUERY) {
+          return this.parent.right;
+        } else {
+          return this.parent.left;
+        }
+      }).call(this);
+    
+   },
+  moveDown( nParent ){ 
+    
+      (function() {
+        if (this.parent) {
+          return (function() {
+            if (this.isOnLeft__QUERY) {
+              return this.parent.left = nParent;
+            } else {
+              return this.parent.right = nParent;
+            }
+          }).call(this);
+        }
+      }).call(this);
+      nParent.parent = this.parent;
+      return this.parent = nParent;
+    
+   },
+  swapValues( node ){ 
+    
+      const temp=node.values;
+      this.values = node.values;
+      return node.values = temp;
+    
+   },
+  rotateLeft(  ){ 
+    
+      var x = this;
+      var y = x.right;
+      x.right = y.left;
+      (function() {
+        if (y.left) {
+          return y.left.parent = x;
+        }
+      }).call(this);
+      y.left = x.parent;
+      (function() {
+        if (!(x.parent)) {
+          return y.parent = null;
+        } else if (x === x.parent.left) {
+          return x.parent.left = y;
+        } else {
+          return x.parent.right = y;
+        }
+      }).call(this);
+      y.left = x;
+      x.parent = y;
+      ((y.depth)++);
+      return ((x.depth)--);
+    
+   },
+  rotateRight(  ){ 
+    
+      var x = this;
+      var y = x.left;
+      x.left = y.right;
+      (function() {
+        if (y.right) {
+          return y.right.parent = x;
+        }
+      }).call(this);
+      (function() {
+        if (!(x.parent)) {
+          return y.right = null;
+        } else if (x === x.parent.right) {
+          return x.parent.right = y;
+        } else {
+          return x.parent.left = y;
+        }
+      }).call(this);
+      y.right = x;
+      return x.parenty = undefined;
     
    },
   set( key = null,value = this.value,depth = this.depth ){ 
     
-      return (function() {
-        if ((!(key) || key === this.key)) {
+      (function() {
+        if ((!(this.key) || key === this.key || depth === 0)) {
           this.key = key;
           return this.values.push(value);
         } else if (key > this.key) {
-          return this.left.set(key, value);
+          return (function() {
+            if (this.left) {
+              return this.left.set(key, value);
+            } else {
+              return this.left = BinarySearchTree.spawn(null, (depth - 1), this).set(key, value);
+            }
+          }).call(this);
         } else if (key < this.key) {
-          return this.right.set(key, value);
+          return (function() {
+            if (this.right) {
+              return this.right.set(key, value);
+            } else {
+              return this.right = BinarySearchTree.spawn(null, (depth - 1), this).set(key, value);
+            }
+          }).call(this);
         }
       }).call(this);
+      return this;
     
    },
   map( f ){ 
     
       const r=this.proto.spawn();
-      return this.each(((node, k) => {
+      this.each(((node, k) => {
       	
         return r.set(k, f(node, k));
       
       }));
+      return r;
     
    },
   each( f ){ 
@@ -94,7 +235,7 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
       ;
     
    },
-  search( key,depth ){ 
+  search( key = this.key,depth = this.depth ){ 
     
       `
       shared/datastructures/trees/binary-searchtree/search.md
@@ -113,12 +254,15 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
       return (function() {
         if ((depth === 0 || key === this.key)) {
           return this;
-        } else if (key > this.key) {
+        } else if ((key > this.key && this.left)) {
           return this.left.search(key, (depth - 1));
-        } else if (key < this.key) {
+        } else if ((key < this.key && this.right)) {
           return this.right.search(key, (depth - 1));
+        } else {
+          return this;
         }
       }).call(this);
     
    }
  });
+exports.BinarySearchTree = BinarySearchTree;

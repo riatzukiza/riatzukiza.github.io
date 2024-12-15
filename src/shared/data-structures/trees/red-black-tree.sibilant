@@ -1,0 +1,101 @@
+(define Red-black-tree Binary-search-tree
+  (init ((key null)
+         (depth 10)
+         (parent null)
+         (color "black")
+         (root (if (not parent)
+                   this
+                   parent.root))
+         (values (.spawn List))
+         ;; (left (if (> depth 0)
+         ;;           (.spawn this.proto
+         ;;                   null
+         ;;                   (- depth 1)
+         ;;                   this
+         ;;                   (if (= color "black")
+         ;;                       "red"
+         ;;                       "black"))
+         ;;           null) )
+         ;; (right (if (> depth 0)
+         ;;            (.spawn this.proto
+         ;;                    null
+         ;;                    (- depth 1)
+         ;;                    this
+         ;;                    (if (= color "black")
+         ;;                        "red"
+         ;;                        "black"))
+         ;;            null))
+         ))
+  
+  (gett has-red-child? (or (and this.left (= this.left.color "red") )
+                           (and this.right (= this.right.color "red"))))
+  
+  
+  (def swap-colors (node)
+    (const temp this.color)
+    (assign this.color node.color)
+    (assign node.color temp))
+
+  (def fix-red-red ()
+    (if! this.is-root?
+         (assign this.color "black"))
+    (var parent this.parent
+         grandparent this.parent.parent
+         uncle this.uncle)
+    (if (not (= this.parent.color "black"))
+        (if (and uncle (= uncle.color "red"))
+            (do (assign this.parent.color "black")
+                (assign uncle.color "black")
+              (assign grandparent.color "red")
+              (.fix-red-red grandparent))
+            (do (if parent.is-on-left?
+                    (do (if this.is-on-left?
+                            (.swap-colors parent grandparent)
+                            (do (.roate-left parent)
+                                (.swap-colors this grandparent))
+                            )
+                        (.rotate-right grandparent))
+                    (do (if this.is-on-left?
+                            (do (.rotate-right parent)
+                                (.swap-colors this grandparent))
+                            (.swap-colors parent grandparent))
+                        (.rotate-left grandparent))
+                    ))
+            )
+        )
+    )
+  (def fix-double-black ())
+  (def-generic fix-insert ()
+    (var k this)
+    (while (and k.parent (= k.parent.color "red") )
+      (if (= k.parent k.parent.parent.left)
+          (do
+
+           (var u k.parent.parent.right)
+           (if (= u.color "red")
+               (do (assign k.parent.color "black")
+                   (assign u.color "black")
+                 (assign k.parent.parent.color "red")
+                 (assign k k.parent.parent))
+               (do (when (= k k.parent.right)
+                     (assign k k.parent)
+                     (.rotate-left k))
+                   (assign k.parent.color "black")
+                 (assign k.parent.parent.color "red")
+                 (.rotate-right k.parent.parent))))
+          (do (var u k.parent.parent.left)
+              (if (= u.color "red")
+                  (do (assign k.parent.color "black")
+                      (assign u.color "black")
+                    (assign k.parent.parent.color "red")
+                    (assign k k.parent.parent))
+                  (do (when (= k k.parent.right)
+                        (assign k k.parent)
+                        (.rotate-right k))
+                      (assign k.parent.color "black")
+                    (assign k.parent.parent.color "red")
+                    (.rotate-left k.parent.parent))))))
+    (assign this.root.color "black"))
+  (def delete-node (key))
+  (def delete-by-value (value))
+  )

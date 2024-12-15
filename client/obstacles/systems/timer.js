@@ -2,6 +2,9 @@ var {
   Component,
   System
  } = require("@shared/ecs.js"),
+    { 
+  BinarySearchTree
+ } = require("@shared/data-structures/trees/binary-search-tree.js"),
     config = require("@obstacles/config.js");
 var TimeLimit = Component.define("TimeLimit", { 
   docString:`
@@ -25,7 +28,8 @@ var TimeLimit = Component.define("TimeLimit", {
   register(  ){ 
     
       this.createdAt = Date.now();
-      return this.triggered = false;
+      this.triggered = false;
+      return this.system.tree.set(this.triggerTime, this);
     
    },
   get duration(  ){ 
@@ -60,14 +64,17 @@ var TimeLimit = Component.define("TimeLimit", {
    },
   reset(  ){ 
     
+      this.system.tree.remove(this.triggerTime, this);
       this.createdAt = Date.now();
-      return this.triggered = false;
+      this.triggered = false;
+      return this.system.tree.set(this.triggerTime, this);
     
    },
   _clear(  ){ 
     
       this.createdAt = 0;
-      return this.triggered = false;
+      this.triggered = false;
+      return this.system.tree.remove(this.triggerTime, this);
     
    }
  });
@@ -87,12 +94,20 @@ var Timer = System.define("Timer", {
   Allows timed events to occur for entities with time limit components`
 
   ,
-  tree:create(BinarySearchTree)(),
+  register(  ){ 
+    
+      return this.tree = BinarySearchTree.spawn();
+    
+   },
   _updateAll(  ){ 
     
-      var node = this.components.values.head;
-      var i = 0;
-      return this.tree.findLessThan(Date.now());
+      const branch=this.tree.search(Date.now());
+      const list=branch.values;
+      return list.each(((c) => {
+      	
+        return this._updateComponent(c);
+      
+      }));
     
    },
   _updateComponent( c ){ 

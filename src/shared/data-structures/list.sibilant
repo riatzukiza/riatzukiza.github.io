@@ -74,7 +74,7 @@
     (if node.next (assign node.next.prev node.prev))
     (if node.prev (assign node.prev.next node.next))
     (decr this.length)
-    (.despawn node)
+    (if node (.despawn node))
     node)
   (def splice-node (prev node next))
   ; (def-generic rotate-node (node (next node.next) (prev node.prev))

@@ -1,11 +1,13 @@
+(include "kit-interface/header")
+(import-namespace interface)
 (define Spawnable Interface
   (def build () (assign this.pool []))
-  (def spawn (...args)
+  (def spawn ((dots args))
     (if this.pool.length
         (.init (.pop this.pool)
-               ...args)
+               (dots args))
         ((create this)
-         ...args)))
+         (dots args))))
 
   (def clear () (throw (new Error "No clear function defined for spawnable datatype")))
 

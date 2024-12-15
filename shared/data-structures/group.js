@@ -5,11 +5,10 @@ var {
   List
  } = require("@shared/data-structures/list.js"),
     { 
-  Spawnable,
-  "@shared/data-structures/spawnable.js"
- } = undefined;
+  Spawnable
+ } = require("@shared/data-structures/spawnable.js");
 var Group = Spawnable.define("Group", { 
-  init( _list = List.spawn()(),_members = (new Map()) ){ 
+  init( _list = List.spawn(),_members = (new Map()) ){ 
     
       this._list = _list;this._members = _members;
       return this;

@@ -1,5 +1,6 @@
 
 (require! (lit Component System) "@shared/ecs.js"
+          (lit Binary-search-tree) "@shared/data-structures/trees/binary-search-tree.js"
           config "@obstacles/config.js"
           )
 
@@ -11,7 +12,9 @@
 
   (def register ()
     (assign this.created-at (Date.now))
-    (assign this.triggered false))
+    (assign this.triggered false)
+    (.set this.system.tree this.trigger-time this)
+    )
 
   (gett duration (throw (new Error "no duration was given to time limit component")))
   (gett callback (throw (new Error "No callback was given to time limit component")))
@@ -22,11 +25,14 @@
   (gett expired (> this.elapsed this.duration))
 
   (def reset ()
+    (.remove this.system.tree this.trigger-time this)
     (assign this.created-at (Date.now))
-    (assign this.triggered false))
+    (assign this.triggered false)
+    (.set this.system.tree this.trigger-time this))
   (def *clear ()
     (assign this.created-at 0)
-    (assign this.triggered false)))
+    (assign this.triggered false)
+    (.remove this.system.tree this.trigger-time this)))
 
 (export Time-limit)
 
@@ -34,11 +40,14 @@
   (doc-string "Obstacles.systems.Timer"
               "Inherits from shared.ecs.ComponentSystem"
               "Allows timed events to occur for entities with time limit components")
-  (tree ((create Binary-search-tree)))
+  (def register ()
+    (assign this.tree (.spawn Binary-search-tree)))
   (def *update-all ()
-    (var node this.components.values.head)
-    (var i 0)
-    (.find-less-than this.tree (Date.now)))
+    (const branch  (.search this.tree (Date.now)))
+    (const list branch.values)
+    ;; (print this.tree branch list)
+    (each list (c)
+          (.*update-component this c)))
   (def *update-component (c)
     (when (and c.expired (not c.triggered))
       (assign c.triggered true)

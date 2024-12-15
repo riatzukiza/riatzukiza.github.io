@@ -1,11 +1,11 @@
 (include "kit-interface/header")
 (import-namespace interface)
 (require! (lit List) "@shared/data-structures/list.js"
-          (lit Spawnable "@shared/data-structures/spawnable.js"))
+          (lit Spawnable) "@shared/data-structures/spawnable.js")
 
 (define Group Spawnable
-    (init ((*list ((.spawn List)))
-           (*members (new Map))))
+  (init ((*list (.spawn List))
+         (*members (new Map))))
 
   (gett size this.*list.length)
   (gett length this.*list.length)
