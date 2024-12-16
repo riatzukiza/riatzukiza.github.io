@@ -38,12 +38,15 @@
   (def insert (item predicate))
   (def remove (item)
     (var node this.head)
-    (while node
+    (var r false)
+    (while (and node (not r))
       (if (!= node.item item)
-          (do (assign node node.next)
-              false)
-          (do (assign node false)
-              (get (.remove-node this node) 'item)))))
+          (assign node node.next)
+          (do 
+              (assign node (.remove-node this node))
+              (assign r node.item))))
+    (return item)
+    )
 
   (def node (item) (.spawn Node this  null null item))
 
@@ -67,7 +70,8 @@
   (def insert-node (n predicate))
   (def remove-node (node)
     ;; (print "removing" node.item node node.list node.list.length node.next node.prev)
-    (if (not (= node.list this)) false)
+    (if! (not (= node.list this))
+         (throw (new Error "node cannot be removed from a list it is not a part of")))
     (if (= node this.head) (assign this.head node.next))
     (if (= node this.tail) (assign this.tail node.prev))
 

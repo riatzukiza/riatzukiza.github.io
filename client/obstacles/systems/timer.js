@@ -5,6 +5,9 @@ var {
     { 
   BinarySearchTree
  } = require("@shared/data-structures/trees/binary-search-tree.js"),
+    { 
+  RedBlackTree
+ } = require("@shared/data-structures/trees/red-black-tree.js"),
     config = require("@obstacles/config.js");
 var TimeLimit = Component.define("TimeLimit", { 
   docString:`
@@ -72,9 +75,9 @@ var TimeLimit = Component.define("TimeLimit", {
    },
   _clear(  ){ 
     
-      this.createdAt = 0;
       this.triggered = false;
-      return this.system.tree.remove(this.triggerTime, this);
+      this.system.tree.remove(this.triggerTime, this);
+      return this.createdAt = 0;
     
    }
  });
@@ -96,14 +99,13 @@ var Timer = System.define("Timer", {
   ,
   register(  ){ 
     
-      return this.tree = BinarySearchTree.spawn();
+      return this.tree = RedBlackTree.spawn();
     
    },
   _updateAll(  ){ 
     
-      const branch=this.tree.search(Date.now());
-      const list=branch.values;
-      return list.each(((c) => {
+      const branch=this.tree.search(Date.now(), 8);
+      return branch.each(((c) => {
       	
         return this._updateComponent(c);
       

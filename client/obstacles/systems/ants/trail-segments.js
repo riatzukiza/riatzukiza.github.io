@@ -3,6 +3,9 @@ var {
   Timer
  } = require("@obstacles/systems/timer.js"),
     { 
+  RedBlackTree
+ } = require("@shared/data-structures/trees/red-black-tree.js"),
+    { 
   rgba
  } = require("@obstacles/colors.js"),
     config = require("@obstacles/config.js");
@@ -132,7 +135,6 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
             x:(this.x * weight * config.antInfluence),
             y:(this.y * weight * config.antInfluence)
            });
-          this.duration = (this.remainingTime + config.trailResultDuration);
           return this.reset();
         }
       }).call(this);
@@ -153,17 +155,16 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
 
       ;
       this.entity.trailDot.color = rgba(255, 20, 20, 255);
-      (function() {
+      return (function() {
         if (config.punishLoosers) {
           const weight=(this.entity.ant.antLife.looseCount / (this.entity.ant.antLife.winCount + 1));
-          return this.pheremones.subFrom({ 
+          this.pheremones.subFrom({ 
             x:(this.x * weight * config.antInfluence),
             y:(this.y * weight * config.antInfluence)
            });
+          return this.reset();
         }
       }).call(this);
-      this.duration = (this.remainingTime + config.trailResultDuration);
-      return this.reset();
     
    }
  });

@@ -1,5 +1,13 @@
 require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({"@obstacles/systems/ants/ant-life-timer.js":[function(require,module,exports){
 var { 
+  Component,
+  System
+ } = require("@shared/ecs.js"),
+    { 
+  RedBlackTree
+ } = require("@shared/data-structures/trees/red-black-tree.js"),
+    config = require("@obstacles/config.js");
+var { 
   Timer,
   TimeLimit
  } = require("@obstacles/systems/timer.js"),
@@ -118,4 +126,4 @@ var AntLifeTimer = Timer.define("AntLifeTimer", {
   interface:AntLife
  });
 exports.AntLifeTimer = AntLifeTimer;
-},{"@obstacles/config.js":"@obstacles/config.js","@obstacles/entities.js":"@obstacles/entities.js","@obstacles/entities/trail-segments.js":"@obstacles/entities/trail-segments.js","@obstacles/systems/timer.js":"@obstacles/systems/timer.js","@shared/dom.js":"@shared/dom.js","@shared/systems/collision.js":"@shared/systems/collision.js"}]},{},[]);
+},{"@obstacles/config.js":"@obstacles/config.js","@obstacles/entities.js":"@obstacles/entities.js","@obstacles/entities/trail-segments.js":"@obstacles/entities/trail-segments.js","@obstacles/systems/timer.js":"@obstacles/systems/timer.js","@shared/data-structures/trees/red-black-tree.js":"@shared/data-structures/trees/red-black-tree.js","@shared/dom.js":"@shared/dom.js","@shared/ecs.js":"@shared/ecs.js","@shared/systems/collision.js":"@shared/systems/collision.js"}]},{},[]);

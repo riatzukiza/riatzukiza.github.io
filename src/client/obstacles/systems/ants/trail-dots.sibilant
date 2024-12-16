@@ -51,8 +51,10 @@
 
   (def *update-component (dot)
     (set dot.vertex.color
-         'a (Math.round
-             (Math.max 0 (* 255 (/ dot.entity.trail-segment.remaining-time dot.entity.trail-segment.duration)))))
+         ;; 'a (Math.round
+         ;;     (Math.max 0 (* 255 (/ dot.entity.trail-segment.remaining-time dot.entity.trail-segment.duration))))
+         'a 255
+         )
     (if! dot.changed?
         (set dot.vertex.color
              'r dot.color.r

@@ -1,53 +1,37 @@
 (require! (lit Spawnable) "@shared/data-structures/spawnable.js"
           (lit List) "@shared/data-structures/list.js"
           )
+(macro get? (...args)
+       (const terminal (.pop args))
+       [...(.map args (=> (arg) [@arg "?."])) terminal])
 (define Binary-search-tree  Spawnable
   (init ((key null)
-         (depth 50)
-
          (parent null)
-         (root (if (not parent)
-                   this
-                   parent.root))
-         ;; (left (if (> depth 0)
-         ;;           (.spawn Binary-search-tree
-         ;;                   null
-         ;;                   (- depth 1)
-         ;;                   this)
-         ;;           null) )
-         ;; (right (if (> depth 0)
-         ;;            (.spawn Binary-search-tree
-         ;;                    null
-         ;;                    (- depth 1)
-         ;;                    this)
-         ;;            null))
          (values (.spawn List))
          ))
-  ;; (gett left (if
 
-  ;;             this.*left this.*left
-  ;;             (= this.depth 0) null
-  ;;             (assign this.*left (if (> this.depth 0)
-  ;;                                    (.spawn Binary-search-tree
-  ;;                                            null
-  ;;                                            (- this.depth 1)
-  ;;                                            this)
-  ;;                                    null))
-  ;;             ))
-  ;; (gett right (if this.*right this.*right
-  ;;              (= this.depth 0) null
-  ;;                (assign this.*right (if (> this.depth 0)
-  ;;                                       (.spawn Binary-search-tree
-  ;;                                               null
-  ;;                                               (- this.depth 1)
-  ;;                                               this)
-  ;;                                       null))))
+  (gett has-two-children? (and this.left this.right))
+  (gett root
+        (var node this)
+        (while node.parent
+          (assign node node.parent))
 
+
+        (return node)
+        )
+
+  (gett grandparent
+        ;; (get? this parent parent)
+        this.parent.parent
+        )
+  (gett is-leaf? (and (not this.left) (not this.right)) )
   (gett successor (var temp this)
         (while temp.left
-          (assign temp temp.left)))
-  (gett is-root? (not this.parent))
-  (gett uncle (if (or this.is-root? this.parent.is-root?)
+          (assign temp temp.left))
+        (return temp)
+        )
+  (gett is-root? (= this this.root))
+  (gett uncle (if (or (not this.parent) (not this.parent.parent))
                   null
 
                   this.parent.is-on-left?
@@ -55,9 +39,8 @@
 
                   this.parent.parent.left))
   (gett is-on-left? (= this this.parent.left))
-  (gett sibling (if this.is-root?
+  (gett sibling (if (not this.parent)
                     null
-
                     this.is-on-left?
                     this.parent.right
 
@@ -70,79 +53,56 @@
     (assign n-parent.parent this.parent)
     (assign this.parent n-parent))
 
-  (def swap-values (node)
-    (const temp node.values)
-    (assign this.values node.values)
-    (assign node.values temp))
+  (def swap-keys (node)
+    (const temp this.key)
+    (assign this.key node.key)
+    (assign node.key temp))
 
   (def-generic rotate-left ()
-    (var x this)
-    (var y x.right)
-    (assign x.right y.left)
+    (const n-parent this.right)
 
-    (if y.left (assign y.left.parent x))
+    (.move-down this n-parent)
 
-    (assign y.left x.parent)
-    (if (not x.parent)
-        (assign y.parent null)
-        (= x x.parent.left)
-        (assign x.parent.left y)
-        (assign x.parent.right y))
-    (assign y.left x)
-    (assign x.parent y)
-    (incr y.depth)
-    (decr x.depth))
+    (assign this.right n-parent.left)
+
+    (if n-parent.left (assign n-parent.left.parent this))
+
+    (assign n-parent.left this))
+
   (def-generic rotate-right ()
-    (var x this)
-    (var y x.left)
-    (assign x.left y.right)
-    (if y.right (assign y.right.parent x))
-    (if (not x.parent)
-        (assign y.right null)
-        (= x x.parent.right)
-        (assign x.parent.right y)
-        (assign x.parent.left y))
-    (assign y.right x)
-    (assign x.parenty)
-    )
-  (def-generic set ((key null) value depth)
-    (if (or (not this.key) (= key this.key) (= depth 0))
+    (const n-parent this.left)
+
+    (.move-down this n-parent)
+
+    (assign this.left n-parent.right)
+
+    (if n-parent.right
+        (assign n-parent.right.parent this))
+    (assign n-parent.right this))
+
+  (def-generic set (key value )
+    (if (or (not this.key) (= key this.key) )
         (do (set this 'key key )
             (.push this.values value))
-        (> key this.key)
+        (< key this.key)
         (if this.left
             (.set this.left key value)
-            (assign this.left (.set (.spawn Binary-search-tree
-                                            null
-                                            (- depth 1)
-                                            this)
-                                    key value
-                                    ))
+            (assign this.left
+                    (.set
+                     (.spawn Binary-search-tree
+                             null
+                            this) key value))
 
             )
 
-        (< key this.key)
+        (> key this.key)
         (if this.right
             (.set this.right key value)
             (assign this.right (.set (.spawn Binary-search-tree
                                              null
-                                             (- depth 1)
                                              this)
-                                     key value
-                                     ))
-            ))
-
-    this
-    )
-  ;; (def-generic set ((key null) value depth)
-  ;;   (if (or (not this.key) (= key this.key) (= depth 0))
-  ;;       (do (set this 'key key )
-  ;;           (.push this.values value))
-  ;;       (> key this.key)
-  ;;       (.set this.left key value)
-
-  ;;       (< key this.key)
-  ;;       (.set this.right key value)))
+                                     key value))))
+    this)
 
   (def map (f)
     (const r (.spawn this.proto))
@@ -152,34 +112,33 @@
 
   (def each (f)
     (.each this.values (=> (v) (f v this.key)))
-    (.each this.left f)
-    (.each this.right f))
+    (if this.left (.each this.left f))
+    (if this.right (.each this.right f)))
 
   (def remove (key value)
     (doc-string "shared.datastructures.trees.binary-search-tree.remove"
                 "key: A numeric key, value: A value to be removed."
                 "Search the tree as deep as needed to find and remove a value")
-    (const branch (.search this key this.depth))
+    (const branch (.search this key ))
     (if (.remove branch.values value)
         (if (= branch.values.length 0)
             (assign this.key null))))
 
-  (def prune (key depth)
+  (def prune (key)
     (doc-string "shared.datastructures.trees.binary-search-tree.prune"
-                "key: A numeric key, depth: How far to  traverse the tree before cutting off"
-                "Search the tree to a given depth for a key, removing the branch at the depth."))
-  (def-generic search (key depth)
+                "key: A numeric key"
+                "Search the tree for a key, removing the branch"))
+  (def-generic search (key )
     (doc-string "shared.datastructures.trees.binary-searchtree.search"
-                "key: A numeric key, depth: How far down the tree to search."
-                "Search the tree to a given depth for a key, returning the branch at the requested depth."
+                "key: A numeric key."
+                "Search the tree for a key, returning the branch."
                 )
-    (if (or (= depth 0) (= key this.key))
+    (if (= key this.key)
         this
-        (and (> key this.key) this.left)
-        (.search this.left key (- depth 1))
-        (and (< key this.key) this.right)
-        (.search this.right key (- depth 1))
-        this
-        )))
+        (and (< key this.key) this.left)
+        (.search this.left key )
+        (and (> key this.key) this.right)
+        (.search this.right key )
+        this)))
 
 (export Binary-search-tree)

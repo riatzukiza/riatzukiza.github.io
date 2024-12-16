@@ -1,101 +1,188 @@
+(require! (lit Binary-search-tree) "@shared/data-structures/trees/binary-search-tree.js")
+(require! (lit List) "@shared/data-structures/list.js")
 (define Red-black-tree Binary-search-tree
   (init ((key null)
-         (depth 10)
          (parent null)
-         (color "black")
-         (root (if (not parent)
-                   this
-                   parent.root))
-         (values (.spawn List))
-         ;; (left (if (> depth 0)
-         ;;           (.spawn this.proto
-         ;;                   null
-         ;;                   (- depth 1)
-         ;;                   this
-         ;;                   (if (= color "black")
-         ;;                       "red"
-         ;;                       "black"))
-         ;;           null) )
-         ;; (right (if (> depth 0)
-         ;;            (.spawn this.proto
-         ;;                    null
-         ;;                    (- depth 1)
-         ;;                    this
-         ;;                    (if (= color "black")
-         ;;                        "red"
-         ;;                        "black"))
-         ;;            null))
-         ))
-  
-  (gett has-red-child? (or (and this.left (= this.left.color "red") )
-                           (and this.right (= this.right.color "red"))))
-  
-  
+         (color (if parent (if parent.is-black? "red" "black") "black"))
+         (values (.spawn List))))
+  (gett is-time-traveler? (= this.parent this))
+
+  (gett has-red-child? (or (and this.left this.left.is-red? )
+                           (and this.right this.right.is-red?)))
+
+  (gett is-left-red? (and this.left this.left.is-red? ))
+  (gett is-red? (= this.color "red"))
+  (gett is-black? (= this.color "black"))
+
   (def swap-colors (node)
     (const temp this.color)
     (assign this.color node.color)
     (assign node.color temp))
 
-  (def fix-red-red ()
+  (def-generic fix-red-red ()
     (if! this.is-root?
-         (assign this.color "black"))
+         (assign this.color "black")
+         (return))
     (var parent this.parent
-         grandparent this.parent.parent
+         grandparent parent.parent
          uncle this.uncle)
-    (if (not (= this.parent.color "black"))
-        (if (and uncle (= uncle.color "red"))
-            (do (assign this.parent.color "black")
-                (assign uncle.color "black")
-              (assign grandparent.color "red")
-              (.fix-red-red grandparent))
-            (do (if parent.is-on-left?
-                    (do (if this.is-on-left?
-                            (.swap-colors parent grandparent)
-                            (do (.roate-left parent)
-                                (.swap-colors this grandparent))
-                            )
-                        (.rotate-right grandparent))
-                    (do (if this.is-on-left?
-                            (do (.rotate-right parent)
-                                (.swap-colors this grandparent))
-                            (.swap-colors parent grandparent))
-                        (.rotate-left grandparent))
-                    ))
-            )
-        )
-    )
-  (def fix-double-black ())
-  (def-generic fix-insert ()
-    (var k this)
-    (while (and k.parent (= k.parent.color "red") )
-      (if (= k.parent k.parent.parent.left)
-          (do
 
-           (var u k.parent.parent.right)
-           (if (= u.color "red")
-               (do (assign k.parent.color "black")
-                   (assign u.color "black")
-                 (assign k.parent.parent.color "red")
-                 (assign k k.parent.parent))
-               (do (when (= k k.parent.right)
-                     (assign k k.parent)
-                     (.rotate-left k))
-                   (assign k.parent.color "black")
-                 (assign k.parent.parent.color "red")
-                 (.rotate-right k.parent.parent))))
-          (do (var u k.parent.parent.left)
-              (if (= u.color "red")
-                  (do (assign k.parent.color "black")
-                      (assign u.color "black")
-                    (assign k.parent.parent.color "red")
-                    (assign k k.parent.parent))
-                  (do (when (= k k.parent.right)
-                        (assign k k.parent)
-                        (.rotate-right k))
-                      (assign k.parent.color "black")
-                    (assign k.parent.parent.color "red")
-                    (.rotate-left k.parent.parent))))))
-    (assign this.root.color "black"))
-  (def delete-node (key))
-  (def delete-by-value (value))
-  )
+    (if (not parent.is-black?)
+        (if (and uncle uncle.is-red?)
+            (do (assign parent.color "black"
+                        uncle.color "black"
+                        grandparent.color "red")
+              (.fix-red-red grandparent))
+            (if parent.is-on-left?
+
+                (do (if this.is-on-left?
+                        (.swap-colors parent grandparent)
+
+                        (do (.rotate-left parent)
+                            (.swap-colors this grandparent)))
+
+                    (.rotate-right grandparent))
+
+                (do (if this.is-on-left?
+                        (do (.rotate-right parent)
+                            (.swap-colors this grandparent))
+
+                        (.swap-colors this.parent grandparent))
+
+                    (.rotate-left grandparent))))))
+
+  (def-generic fix-double-black (sibling parent)
+    (if! this.is-root?
+         (return))
+    (if (not this.sibling)
+        (.fix-double-black this.parent)
+        (do (if this.sibling.is-red?
+                (do (assign parent.color "red"
+                            sibling.color "black")
+                    (if this.sibling.is-on-left?
+                        (.rotate-right this.parent)
+                        (.rotate-left this.parent))
+                  (.fix-double-black this))
+                (if this.sibling.has-red-child?
+                    (do (if this.sibling.is-left-red?
+                            (if this.sibling.is-on-left?
+
+                                (do (assign sibling.left.color sibling.color
+                                            sibling.color parent.color)
+                                    (.rotate-right parent))
+
+                                (do (assign sibling.left.color parent.color)
+                                    (.rotate-right sibling)
+                                  (.rotate-left parent)))
+                            (if sibling.is-on-left?
+                                (do (assign sibling.right.color parent.color)
+                                    (.rotate-left sibling)
+                                  (.rotate-right parent))
+                                (do (assign sibling.right.color sibling.color
+                                            sibling.color parent.color)
+                                    (.rotate-left parent))))
+                        (assign parent.color "black"))
+                    (do (assign sibling.color "red")
+                        (if parent.is-black?
+                            (.fix-double-black parent)
+                            (assign parent.color "black"))))))))
+  
+
+  (def get-replacement-node ()
+    (if  this.has-two-children? this.right.successor
+         this.is-leaf? null
+
+         (or this.left this.right)))
+
+  (def-generic delete-node (parent)
+    (var u (.get-replacement-node this))
+    (var uv-black (and (or (not u) u.is-black?)
+                      this.is-black?))
+    (if! (not u)
+
+         (if (not this.is-root?)
+             (do (if uv-black (.fix-double-black this)
+                     this.has-sibling? (assign this.sibling.color "red"))
+                 (if this.is-on-left?
+                     (assign parent.left null)
+                     (assign parent.right null))))
+         (return))
+    (if! (or (not this.left) (not this.right)) 
+         (if this.is-root?
+             (assign this.key u.key
+                     this.left (assign this.right null))
+             (do (if this.is-on-left?
+                     (assign parent.left u)
+                     (assign parent.right u))
+                 (assign u.parent parent)
+               (if uv-black
+                   (.fix-double-black u)
+                   (assign u.color "black"))))
+         (return))
+
+    (.swap-keys u this)
+    (.delete-node u))
+
+  (def delete-by-key (key)
+    (if! (not this.root)
+         (return))
+    (const node (.search this key))
+    (.delete-node node))
+
+  (def-generic remove (key value (depth null))
+    (print "removing" key this)
+    (const node (.search this key depth))
+    (const item (.remove  node.values value))
+    (if (not item)
+        (throw (new Error "Trying to remove a value not on this node.")))
+    (if (= node.values.length 0) (.delete-node node)))
+
+  (def-generic insert (key (depth null))
+    (if! (and this.is-root?
+              (not this.key))
+         (assign this.key key)
+         (assign this.color "black")
+        (return this))
+
+    (const temp (.search this key depth))
+
+    (if! (= temp.key key) (return temp))
+
+    (const new-node (.spawn Red-black-tree key temp))
+
+    (if (< key temp.key) (assign temp.left new-node)
+        (assign temp.right new-node))
+
+    (.fix-red-red new-node)
+    (return new-node))
+
+  (def-generic search (key (depth null))
+    (var temp this
+         break? false)
+    (while (and temp (not break?)
+                (if (number? depth)
+                    (> depth 0)
+                    true)
+                )
+
+      (if (number? depth)
+          (decr depth))
+
+      (if (< key temp.key)
+          (if (not temp.left)
+              (assign break? true)
+              (assign temp temp.left))
+          (= key temp.key)
+          (assign break? true)
+          (if (not temp.right)
+              (assign break? true)
+              (assign temp temp.right ))))
+    (return temp))
+
+  (def-generic set (key value (depth null))
+    (const node (.insert this key depth ))
+    (.push (get (.search this key) 'values) value)
+    this))
+
+
+(export Red-black-tree)

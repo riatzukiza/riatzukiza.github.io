@@ -1,3 +1,9 @@
+
+(require! (lit Component System) "@shared/ecs.js"
+          ;; (lit Binary-search-tree) "@shared/data-structures/trees/binary-search-tree.js"
+          (lit Red-black-tree) "@shared/data-structures/trees/red-black-tree.js"
+          config "@obstacles/config.js"
+          )
 (require! (lit Timer Time-limit) "@obstacles/systems/timer.js"
           (lit place-entity) "@shared/systems/collision.js"
 
@@ -53,6 +59,8 @@
 (export Ant-life)
 
 (define Ant-life-timer Timer
+  ;; (def register ()
+  ;;   (assign this.tree (.spawn Red-black-tree)))
   (interface Ant-life))
 
 (export Ant-life-timer)

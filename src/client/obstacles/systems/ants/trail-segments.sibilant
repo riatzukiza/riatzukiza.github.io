@@ -1,5 +1,7 @@
 (namespace obstacles)
 (require! (lit Time-limit Timer) "@obstacles/systems/timer.js"
+
+          (lit Red-black-tree) "@shared/data-structures/trees/red-black-tree.js"
           (lit rgba) "@obstacles/colors.js"
           config "@obstacles/config.js"
           )
@@ -51,11 +53,9 @@
         (x (* this.x weight config.ant-influence))
         (y (* this.y weight config.ant-influence))))
 
-      (assign this.duration (+ this.remaining-time config.trail-result-duration))
+      ;; (assign this.duration (+ this.remaining-time config.trail-result-duration))
 
-      (.reset this)
-
-      ))
+      (.reset this)))
 
   (def apply-inverse ()
     (doc-string "obstacles.systems.ant-trails.Trail-segment.apply"
@@ -67,13 +67,16 @@
       (this.pheremones.sub-from
        (lit
         (x (* this.x weight config.ant-influence))
-        (y (* this.y weight config.ant-influence)))))
-    (assign this.duration (+ this.remaining-time config.trail-result-duration))
-    (.reset this)))
+        (y (* this.y weight config.ant-influence))))
+      (.reset this))
+    ;; (assign this.duration (+ this.remaining-time config.trail-result-duration))
+    ))
 
 (export Trail-segment)
 
 (define Decaying-trails Timer
+  ;; (def register ()
+  ;;   (assign this.tree (.spawn Red-black-tree)))
   (interface Trail-segment))
 
 (export Decaying-trails)

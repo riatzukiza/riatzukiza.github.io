@@ -77,7 +77,7 @@ var TrailDots = Dot.define("TrailDots", {
    },
   _updateComponent( dot ){ 
     
-      dot.vertex.color.a = Math.round(Math.max(0, (255 * (dot.entity.trailSegment.remainingTime / dot.entity.trailSegment.duration))));
+      dot.vertex.color.a = 255;
       if( dot.changed__QUERY ){ 
         dot.vertex.color.r = dot.color.r;
         dot.vertex.color.g = dot.color.g;

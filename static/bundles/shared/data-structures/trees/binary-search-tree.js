@@ -6,41 +6,66 @@ var {
   List
  } = require("@shared/data-structures/list.js");
 var BinarySearchTree = Spawnable.define("BinarySearchTree", { 
-  init( key = null,depth = 50,parent = null,root = (function() {
-    if (!(parent)) {
-      return this;
-    } else {
-      return parent.root;
-    }
-  }).call(this),values = List.spawn() ){ 
+  init( key = null,parent = null,values = List.spawn() ){ 
     
-      this.key = key;this.depth = depth;this.parent = parent;this.root = root;this.values = values;
+      this.key = key;this.parent = parent;this.values = values;
       return this;
+    
+   },
+  get hasTwoChildren__QUERY(  ){ 
+    
+      return (this.left && this.right);
+    
+   },
+  get root(  ){ 
+    
+      var node = this;
+      (function() {
+        var while$323 = undefined;
+        while (node.parent) {
+          while$323 = (function() {
+            return node = node.parent;
+          }).call(this);
+        };
+        return while$323;
+      }).call(this);
+      return node;
+    
+   },
+  get grandparent(  ){ 
+    
+      return this.parent.parent;
+    
+   },
+  get isLeaf__QUERY(  ){ 
+    
+      return (!(this.left) && !(this.right));
     
    },
   get successor(  ){ 
     
       var temp = this;
-      return (function() {
-        var while$123 = undefined;
+      (function() {
+        var while$324 = undefined;
         while (temp.left) {
-          while$123 = (function() {
+          while$324 = (function() {
             return temp = temp.left;
           }).call(this);
         };
-        return while$123;
+        return while$324;
       }).call(this);
+      return temp;
     
    },
   get isRoot__QUERY(  ){ 
     
-      return !(this.parent);
+      return this === this.root;
     
    },
   get uncle(  ){ 
     
       return (function() {
-        if ((this.isRoot__QUERY || this.parent.isRoot__QUERY)) {
+        if ((!(this.parent) || !(this.parent.parent))) {
           return null;
         } else if (this.parent.isOnLeft__QUERY) {
           return this.parent.parent.right;
@@ -58,7 +83,7 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
   get sibling(  ){ 
     
       return (function() {
-        if (this.isRoot__QUERY) {
+        if (!(this.parent)) {
           return null;
         } else if (this.isOnLeft__QUERY) {
           return this.parent.right;
@@ -85,82 +110,59 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
       return this.parent = nParent;
     
    },
-  swapValues( node ){ 
+  swapKeys( node ){ 
     
-      const temp=node.values;
-      this.values = node.values;
-      return node.values = temp;
+      const temp=this.key;
+      this.key = node.key;
+      return node.key = temp;
     
    },
   rotateLeft(  ){ 
     
-      var x = this;
-      var y = x.right;
-      x.right = y.left;
+      const nParent=this.right;
+      this.moveDown(nParent);
+      this.right = nParent.left;
       (function() {
-        if (y.left) {
-          return y.left.parent = x;
+        if (nParent.left) {
+          return nParent.left.parent = this;
         }
       }).call(this);
-      y.left = x.parent;
-      (function() {
-        if (!(x.parent)) {
-          return y.parent = null;
-        } else if (x === x.parent.left) {
-          return x.parent.left = y;
-        } else {
-          return x.parent.right = y;
-        }
-      }).call(this);
-      y.left = x;
-      x.parent = y;
-      ((y.depth)++);
-      return ((x.depth)--);
+      return nParent.left = this;
     
    },
   rotateRight(  ){ 
     
-      var x = this;
-      var y = x.left;
-      x.left = y.right;
+      const nParent=this.left;
+      this.moveDown(nParent);
+      this.left = nParent.right;
       (function() {
-        if (y.right) {
-          return y.right.parent = x;
+        if (nParent.right) {
+          return nParent.right.parent = this;
         }
       }).call(this);
-      (function() {
-        if (!(x.parent)) {
-          return y.right = null;
-        } else if (x === x.parent.right) {
-          return x.parent.right = y;
-        } else {
-          return x.parent.left = y;
-        }
-      }).call(this);
-      y.right = x;
-      return x.parenty = undefined;
+      return nParent.right = this;
     
    },
-  set( key = null,value = this.value,depth = this.depth ){ 
+  set( key = this.key,value = this.value ){ 
     
       (function() {
-        if ((!(this.key) || key === this.key || depth === 0)) {
+        if ((!(this.key) || key === this.key)) {
           this.key = key;
           return this.values.push(value);
-        } else if (key > this.key) {
+        } else if (key < this.key) {
           return (function() {
             if (this.left) {
               return this.left.set(key, value);
             } else {
-              return this.left = BinarySearchTree.spawn(null, (depth - 1), this).set(key, value);
+              return this.left = BinarySearchTree.spawn(null, this).set(key, value);
             }
           }).call(this);
-        } else if (key < this.key) {
+        } else if (key > this.key) {
           return (function() {
             if (this.right) {
               return this.right.set(key, value);
             } else {
-              return this.right = BinarySearchTree.spawn(null, (depth - 1), this).set(key, value);
+              return this.right = BinarySearchTree.spawn(null, this).set(key, value);
             }
           }).call(this);
         }
@@ -186,8 +188,16 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
         return f(v, this.key);
       
       }));
-      this.left.each(f);
-      return this.right.each(f);
+      (function() {
+        if (this.left) {
+          return this.left.each(f);
+        }
+      }).call(this);
+      return (function() {
+        if (this.right) {
+          return this.right.each(f);
+        }
+      }).call(this);
     
    },
   remove( key,value ){ 
@@ -206,7 +216,7 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
       Search the tree as deep as needed to find and remove a value`
 
       ;
-      const branch=this.search(key, this.depth);
+      const branch=this.search(key);
       return (function() {
         if (branch.values.remove(value)) {
           return (function() {
@@ -218,7 +228,7 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
       }).call(this);
     
    },
-  prune( key,depth ){ 
+  prune( key ){ 
     
       return `
       shared/datastructures/trees/binary-search-tree/prune.md
@@ -227,16 +237,16 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
 
       ## arguments
 
-      key: A numeric key, depth: How far to  traverse the tree before cutting off
+      key: A numeric key
 
       ## description
 
-      Search the tree to a given depth for a key, removing the branch at the depth.`
+      Search the tree for a key, removing the branch`
 
       ;
     
    },
-  search( key = this.key,depth = this.depth ){ 
+  search( key = this.key ){ 
     
       `
       shared/datastructures/trees/binary-searchtree/search.md
@@ -245,20 +255,20 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
 
       ## arguments
 
-      key: A numeric key, depth: How far down the tree to search.
+      key: A numeric key.
 
       ## description
 
-      Search the tree to a given depth for a key, returning the branch at the requested depth.`
+      Search the tree for a key, returning the branch.`
 
       ;
       return (function() {
-        if ((depth === 0 || key === this.key)) {
+        if (key === this.key) {
           return this;
-        } else if ((key > this.key && this.left)) {
-          return this.left.search(key, (depth - 1));
-        } else if ((key < this.key && this.right)) {
-          return this.right.search(key, (depth - 1));
+        } else if ((key < this.key && this.left)) {
+          return this.left.search(key);
+        } else if ((key > this.key && this.right)) {
+          return this.right.search(key);
         } else {
           return this;
         }

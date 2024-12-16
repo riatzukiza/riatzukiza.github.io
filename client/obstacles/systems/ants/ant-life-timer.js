@@ -1,4 +1,12 @@
 var { 
+  Component,
+  System
+ } = require("@shared/ecs.js"),
+    { 
+  RedBlackTree
+ } = require("@shared/data-structures/trees/red-black-tree.js"),
+    config = require("@obstacles/config.js");
+var { 
   Timer,
   TimeLimit
  } = require("@obstacles/systems/timer.js"),

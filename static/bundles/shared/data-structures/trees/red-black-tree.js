@@ -1,20 +1,52 @@
 require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({"@shared/data-structures/trees/red-black-tree.js":[function(require,module,exports){
+var { 
+  BinarySearchTree
+ } = require("@shared/data-structures/trees/binary-search-tree.js");
+var { 
+  List
+ } = require("@shared/data-structures/list.js");
 var RedBlackTree = BinarySearchTree.define("RedBlackTree", { 
-  init( key = null,depth = 10,parent = null,color = "black",root = (function() {
-    if (!(parent)) {
-      return this;
+  init( key = null,parent = null,color = (function() {
+    if (parent) {
+      return (function() {
+        if (parent.isBlack__QUERY) {
+          return "red";
+        } else {
+          return "black";
+        }
+      }).call(this);
     } else {
-      return parent.root;
+      return "black";
     }
   }).call(this),values = List.spawn() ){ 
     
-      this.key = key;this.depth = depth;this.parent = parent;this.color = color;this.root = root;this.values = values;
+      this.key = key;this.parent = parent;this.color = color;this.values = values;
       return this;
+    
+   },
+  get isTimeTraveler__QUERY(  ){ 
+    
+      return this.parent === this;
     
    },
   get hasRedChild__QUERY(  ){ 
     
-      return ((this.left && this.left.color === "red") || (this.right && this.right.color === "red"));
+      return ((this.left && this.left.isRed__QUERY) || (this.right && this.right.isRed__QUERY));
+    
+   },
+  get isLeftRed__QUERY(  ){ 
+    
+      return (this.left && this.left.isRed__QUERY);
+    
+   },
+  get isRed__QUERY(  ){ 
+    
+      return this.color === "red";
+    
+   },
+  get isBlack__QUERY(  ){ 
+    
+      return this.color === "black";
     
    },
   swapColors( node ){ 
@@ -27,16 +59,17 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
   fixRedRed(  ){ 
     
       if( this.isRoot__QUERY ){ 
-        this.color = "black";
+        this.color = "black";;
+        return ;
        };
       var parent = this.parent,
-          grandparent = this.parent.parent,
+          grandparent = parent.parent,
           uncle = this.uncle;
       return (function() {
-        if (!(this.parent.color === "black")) {
+        if (!(parent.isBlack__QUERY)) {
           return (function() {
-            if ((uncle && uncle.color === "red")) {
-              this.parent.color = "black";
+            if ((uncle && uncle.isRed__QUERY)) {
+              parent.color = "black";
               uncle.color = "black";
               grandparent.color = "red";
               return grandparent.fixRedRed();
@@ -47,7 +80,7 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
                     if (this.isOnLeft__QUERY) {
                       return parent.swapColors(grandparent);
                     } else {
-                      parent.roateLeft();
+                      parent.rotateLeft();
                       return this.swapColors(grandparent);
                     }
                   }).call(this);
@@ -58,7 +91,7 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
                       parent.rotateRight();
                       return this.swapColors(grandparent);
                     } else {
-                      return parent.swapColors(grandparent);
+                      return this.parent.swapColors(grandparent);
                     }
                   }).call(this);
                   return grandparent.rotateLeft();
@@ -70,71 +103,245 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
       }).call(this);
     
    },
-  fixDoubleBlack(  ){ 
+  fixDoubleBlack( sibling = this.sibling,parent = this.parent ){ 
+    
+      if( this.isRoot__QUERY ){ 
+        return ;
+       };
+      return (function() {
+        if (!(this.sibling)) {
+          return this.parent.fixDoubleBlack();
+        } else {
+          return (function() {
+            if (this.sibling.isRed__QUERY) {
+              parent.color = "red";
+              sibling.color = "black";
+              (function() {
+                if (this.sibling.isOnLeft__QUERY) {
+                  return this.parent.rotateRight();
+                } else {
+                  return this.parent.rotateLeft();
+                }
+              }).call(this);
+              return this.fixDoubleBlack();
+            } else {
+              return (function() {
+                if (this.sibling.hasRedChild__QUERY) {
+                  (function() {
+                    if (this.sibling.isLeftRed__QUERY) {
+                      return (function() {
+                        if (this.sibling.isOnLeft__QUERY) {
+                          sibling.left.color = sibling.color;
+                          sibling.color = parent.color;
+                          return parent.rotateRight();
+                        } else {
+                          sibling.left.color = parent.color;
+                          sibling.rotateRight();
+                          return parent.rotateLeft();
+                        }
+                      }).call(this);
+                    } else {
+                      return (function() {
+                        if (sibling.isOnLeft__QUERY) {
+                          sibling.right.color = parent.color;
+                          sibling.rotateLeft();
+                          return parent.rotateRight();
+                        } else {
+                          sibling.right.color = sibling.color;
+                          sibling.color = parent.color;
+                          return parent.rotateLeft();
+                        }
+                      }).call(this);
+                    }
+                  }).call(this);
+                  return parent.color = "black";
+                } else {
+                  sibling.color = "red";
+                  return (function() {
+                    if (parent.isBlack__QUERY) {
+                      return parent.fixDoubleBlack();
+                    } else {
+                      return parent.color = "black";
+                    }
+                  }).call(this);
+                }
+              }).call(this);
+            }
+          }).call(this);
+        }
+      }).call(this);
     
    },
-  fixInsert(  ){ 
+  getReplacementNode(  ){ 
     
-      var k = this;
-      (function() {
-        var while$124 = undefined;
-        while ((k.parent && k.parent.color === "red")) {
-          while$124 = (function() {
+      return (function() {
+        if (this.hasTwoChildren__QUERY) {
+          return this.right.successor;
+        } else if (this.isLeaf__QUERY) {
+          return null;
+        } else {
+          return (this.left || this.right);
+        }
+      }).call(this);
+    
+   },
+  deleteNode( parent = this.parent ){ 
+    
+      var u = this.getReplacementNode();
+      var uvBlack = ((!(u) || u.isBlack__QUERY) && this.isBlack__QUERY);
+      if( !(u) ){ 
+        (function() {
+          if (!(this.isRoot__QUERY)) {
+            (function() {
+              if (uvBlack) {
+                return this.fixDoubleBlack();
+              } else if (this.hasSibling__QUERY) {
+                return this.sibling.color = "red";
+              }
+            }).call(this);
             return (function() {
-              if (k.parent === k.parent.parent.left) {
-                var u = k.parent.parent.right;
+              if (this.isOnLeft__QUERY) {
+                return parent.left = null;
+              } else {
+                return parent.right = null;
+              }
+            }).call(this);
+          }
+        }).call(this);
+        return ;
+       };
+      if( (!(this.left) || !(this.right)) ){ 
+        (function() {
+          if (this.isRoot__QUERY) {
+            this.key = u.key;return 
+            this.left = this.right = null;
+          } else {
+            (function() {
+              if (this.isOnLeft__QUERY) {
+                return parent.left = u;
+              } else {
+                return parent.right = u;
+              }
+            }).call(this);
+            u.parent = parent;
+            return (function() {
+              if (uvBlack) {
+                return u.fixDoubleBlack();
+              } else {
+                return u.color = "black";
+              }
+            }).call(this);
+          }
+        }).call(this);
+        return ;
+       };
+      u.swapKeys(this);
+      return u.deleteNode();
+    
+   },
+  deleteByKey( key ){ 
+    
+      if( !(this.root) ){ 
+        return ;
+       };
+      const node=this.search(key);
+      return node.deleteNode();
+    
+   },
+  remove( key = this.key,value = this.value,depth = null ){ 
+    
+      console.log("removing", key, this);
+      const node=this.search(key, depth);
+      const item=node.values.remove(value);
+      (function() {
+        if (!(item)) {
+          throw (new Error("Trying to remove a value not on this node."))
+        }
+      }).call(this);
+      return (function() {
+        if (node.values.length === 0) {
+          return node.deleteNode();
+        }
+      }).call(this);
+    
+   },
+  insert( key = this.key,depth = null ){ 
+    
+      if( (this.isRoot__QUERY && !(this.key)) ){ 
+        this.key = key;;
+        this.color = "black";;
+        return this;
+       };
+      const temp=this.search(key, depth);
+      if( temp.key === key ){ 
+        return temp;
+       };
+      const newNode=RedBlackTree.spawn(key, temp);
+      (function() {
+        if (key < temp.key) {
+          return temp.left = newNode;
+        } else {
+          return temp.right = newNode;
+        }
+      }).call(this);
+      newNode.fixRedRed();
+      return newNode;
+    
+   },
+  search( key = this.key,depth = null ){ 
+    
+      var temp = this,
+          break__QUERY = false;
+      (function() {
+        var while$461 = undefined;
+        while ((temp && !(break__QUERY) && (function() {
+          if (typeof depth === "number") {
+            return depth > 0;
+          } else {
+            return true;
+          }
+        }).call(this))) {
+          while$461 = (function() {
+            (function() {
+              if (typeof depth === "number") {
+                return ((depth)--);
+              }
+            }).call(this);
+            return (function() {
+              if (key < temp.key) {
                 return (function() {
-                  if (u.color === "red") {
-                    k.parent.color = "black";
-                    u.color = "black";
-                    k.parent.parent.color = "red";
-                    return k = k.parent.parent;
+                  if (!(temp.left)) {
+                    return break__QUERY = true;
                   } else {
-                    (function() {
-                      if (k === k.parent.right) {
-                        k = k.parent;
-                        return k.rotateLeft();
-                      }
-                    }).call(this);
-                    k.parent.color = "black";
-                    k.parent.parent.color = "red";
-                    return k.parent.parent.rotateRight();
+                    return temp = temp.left;
                   }
                 }).call(this);
+              } else if (key === temp.key) {
+                return break__QUERY = true;
               } else {
-                var u = k.parent.parent.left;
                 return (function() {
-                  if (u.color === "red") {
-                    k.parent.color = "black";
-                    u.color = "black";
-                    k.parent.parent.color = "red";
-                    return k = k.parent.parent;
+                  if (!(temp.right)) {
+                    return break__QUERY = true;
                   } else {
-                    (function() {
-                      if (k === k.parent.right) {
-                        k = k.parent;
-                        return k.rotateRight();
-                      }
-                    }).call(this);
-                    k.parent.color = "black";
-                    k.parent.parent.color = "red";
-                    return k.parent.parent.rotateLeft();
+                    return temp = temp.right;
                   }
                 }).call(this);
               }
             }).call(this);
           }).call(this);
         };
-        return while$124;
+        return while$461;
       }).call(this);
-      return this.root.color = "black";
+      return temp;
     
    },
-  deleteNode( key ){ 
+  set( key = this.key,value = this.value,depth = null ){ 
     
-   },
-  deleteByValue( value ){ 
+      const node=this.insert(key, depth);
+      this.search(key).values.push(value);
+      return this;
     
    }
  });
-},{}]},{},[]);
+exports.RedBlackTree = RedBlackTree;
+},{"@shared/data-structures/list.js":"@shared/data-structures/list.js","@shared/data-structures/trees/binary-search-tree.js":"@shared/data-structures/trees/binary-search-tree.js"}]},{},[]);
