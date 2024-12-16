@@ -15,9 +15,9 @@
      'maxLength 30
      'trail-result-duration 5000
      'growth-rate 0.001
-     'starting-plants 2
+     'starting-plants 20
      'plantMassLimit 30
-     'ant-limit 500
+     'ant-limit 100
      'max-in-decay 1000
      'trail-limit 15000
      'ant-life 120000
@@ -31,7 +31,7 @@
      'spawn-rate 10
      'home-location [300, 200]
      'target-location [700, 900]
-     'rocks 5
+     'rocks 50
      'rock-min-size 16
      'rock-max-size 64
      'rock-mass-scaling-factor 0.05 ;; How much does scale effect mass?

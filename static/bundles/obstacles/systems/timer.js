@@ -66,11 +66,12 @@ var TimeLimit = Component.define("TimeLimit", {
       return this.elapsed > this.duration;
     
    },
-  reset(  ){ 
+  reset( duration = this.duration ){ 
     
       this.system.tree.remove(this.triggerTime, this);
       this.createdAt = Date.now();
       this.triggered = false;
+      this.duration = duration;
       return this.system.tree.set(this.triggerTime, this);
     
    },
@@ -101,16 +102,6 @@ var Timer = System.define("Timer", {
   register(  ){ 
     
       return this.tree = RedBlackTree.spawn();
-    
-   },
-  _updateAll(  ){ 
-    
-      const branch=this.tree.search(Date.now(), 8);
-      return branch.each(((c) => {
-      	
-        return this._updateComponent(c);
-      
-      }));
     
    },
   _updateComponent( c ){ 

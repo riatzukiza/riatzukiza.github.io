@@ -53,9 +53,10 @@
         (x (* this.x weight config.ant-influence))
         (y (* this.y weight config.ant-influence))))
 
-      ;; (assign this.duration (+ this.remaining-time config.trail-result-duration))
 
-      (.reset this)))
+      (.reset this (+ this.remaining-time config.trail-result-duration))
+
+      ))
 
   (def apply-inverse ()
     (doc-string "obstacles.systems.ant-trails.Trail-segment.apply"
@@ -68,8 +69,8 @@
        (lit
         (x (* this.x weight config.ant-influence))
         (y (* this.y weight config.ant-influence))))
-      (.reset this))
-    ;; (assign this.duration (+ this.remaining-time config.trail-result-duration))
+      (.reset this (+ this.remaining-time config.trail-result-duration))
+      )
     ))
 
 (export Trail-segment)

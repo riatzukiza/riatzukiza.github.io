@@ -249,7 +249,6 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
    },
   remove( key = this.key,value = this.value,depth = null ){ 
     
-      console.log("removing", key, this);
       const node=this.search(key, depth);
       const item=node.values.remove(value);
       (function() {
@@ -292,7 +291,7 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
       var temp = this,
           break__QUERY = false;
       (function() {
-        var while$461 = undefined;
+        var while$493 = undefined;
         while ((temp && !(break__QUERY) && (function() {
           if (typeof depth === "number") {
             return depth > 0;
@@ -300,7 +299,7 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
             return true;
           }
         }).call(this))) {
-          while$461 = (function() {
+          while$493 = (function() {
             (function() {
               if (typeof depth === "number") {
                 return ((depth)--);
@@ -329,7 +328,7 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
             }).call(this);
           }).call(this);
         };
-        return while$461;
+        return while$493;
       }).call(this);
       return temp;
     

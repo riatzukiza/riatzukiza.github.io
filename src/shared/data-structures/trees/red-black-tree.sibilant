@@ -130,7 +130,7 @@
     (.delete-node node))
 
   (def-generic remove (key value (depth null))
-    (print "removing" key this)
+    ;; (print "removing" key this)
     (const node (.search this key depth))
     (const item (.remove  node.values value))
     (if (not item)

@@ -135,7 +135,7 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
             x:(this.x * weight * config.antInfluence),
             y:(this.y * weight * config.antInfluence)
            });
-          return this.reset();
+          return this.reset((this.remainingTime + config.trailResultDuration));
         }
       }).call(this);
     
@@ -162,7 +162,7 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
             x:(this.x * weight * config.antInfluence),
             y:(this.y * weight * config.antInfluence)
            });
-          return this.reset();
+          return this.reset((this.remainingTime + config.trailResultDuration));
         }
       }).call(this);
     
