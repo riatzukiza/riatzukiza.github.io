@@ -11318,7 +11318,7 @@ var Ticker = Interface.define("Ticker", {
         if (this.state) {
           var now = Date.now();
           this.elapsed = (now - previous);
-          window.requestAnimationFrame((() => {
+          setTimeout((() => {
           	
             return this.update();
           

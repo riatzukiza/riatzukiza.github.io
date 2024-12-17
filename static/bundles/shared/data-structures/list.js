@@ -81,13 +81,13 @@ var List = Spawnable.define("List", {
   clear(  ){ 
     
       return (function() {
-        var while$482 = undefined;
+        var while$568 = undefined;
         while (this.length > 0) {
-          while$482 = (function() {
+          while$568 = (function() {
             return this.pop();
           }).call(this);
         };
-        return while$482;
+        return while$568;
       }).call(this);
     
    },
@@ -124,9 +124,9 @@ var List = Spawnable.define("List", {
       var node = this.head;
       var r = false;
       (function() {
-        var while$483 = undefined;
+        var while$569 = undefined;
         while ((node && !(r))) {
-          while$483 = (function() {
+          while$569 = (function() {
             return (function() {
               if (node.item !== item) {
                 return node = node.next;
@@ -137,7 +137,7 @@ var List = Spawnable.define("List", {
             }).call(this);
           }).call(this);
         };
-        return while$483;
+        return while$569;
       }).call(this);
       return item;
     
@@ -213,6 +213,11 @@ var List = Spawnable.define("List", {
       }).call(this);
       ((this.length)--);
       (function() {
+        if (0 > this.length) {
+          throw (new Error("negative length"))
+        }
+      }).call(this);
+      (function() {
         if (node) {
           return node.despawn();
         }
@@ -230,14 +235,14 @@ var List = Spawnable.define("List", {
     
       var node = this.head;
       (function() {
-        var while$484 = undefined;
+        var while$570 = undefined;
         while (node) {
-          while$484 = (function() {
+          while$570 = (function() {
             f(node.item, node);
             return node = node.next;
           }).call(this);
         };
-        return while$484;
+        return while$570;
       }).call(this);
       return this;
     
@@ -247,13 +252,13 @@ var List = Spawnable.define("List", {
       var result = create(List)();
       var node = this.head;
       return (function() {
-        var while$485 = undefined;
+        var while$571 = undefined;
         while (node) {
-          while$485 = (function() {
+          while$571 = (function() {
             return result.push(f(node, node.next, node.prev));
           }).call(this);
         };
-        return while$485;
+        return while$571;
       }).call(this);
     
    },
@@ -306,9 +311,9 @@ var List = Spawnable.define("List", {
       var r = false;
       var t = 0;
       (function() {
-        var while$486 = undefined;
+        var while$572 = undefined;
         while ((!(r) && t < this.size)) {
-          while$486 = (function() {
+          while$572 = (function() {
             return (function() {
               if (predicate(this.head.item)) {
                 return r = this.head.item;
@@ -319,7 +324,7 @@ var List = Spawnable.define("List", {
             }).call(this);
           }).call(this);
         };
-        return while$486;
+        return while$572;
       }).call(this);
       return r;
     

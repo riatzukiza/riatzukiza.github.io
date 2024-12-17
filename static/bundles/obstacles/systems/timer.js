@@ -29,11 +29,30 @@ var TimeLimit = Component.define("TimeLimit", {
   \`callback\``
 
   ,
+  addToTree(  ){ 
+    
+      return (function() {
+        if (this.system.tree) {
+          return this.system.tree.set(this.triggerTime, this);
+        }
+      }).call(this);
+    
+   },
+  removeFromTree(  ){ 
+    
+      return (function() {
+        if (this.system.tree) {
+          return this.system.tree.remove(this.triggerTime, this);
+        }
+      }).call(this);
+    
+   },
   register(  ){ 
     
+      ((this.system.started)++);
       this.createdAt = Date.now();
       this.triggered = false;
-      return this.system.tree.set(this.triggerTime, this);
+      return this.addToTree();
     
    },
   get duration(  ){ 
@@ -48,7 +67,14 @@ var TimeLimit = Component.define("TimeLimit", {
    },
   get triggerTime(  ){ 
     
-      return (this.createdAt + this.duration);
+      const r=(this.createdAt + this.duration);
+      return (function() {
+        if (isNaN(r)) {
+          throw (new Error("Non number trigger time"))
+        } else {
+          return r;
+        }
+      }).call(this);
     
    },
   get elapsed(  ){ 
@@ -68,18 +94,18 @@ var TimeLimit = Component.define("TimeLimit", {
    },
   reset( duration = this.duration ){ 
     
-      this.system.tree.remove(this.triggerTime, this);
+      ((this.system.started)++);
+      this.removeFromTree();
       this.createdAt = Date.now();
       this.triggered = false;
       this.duration = duration;
-      return this.system.tree.set(this.triggerTime, this);
+      return this.addToTree();
     
    },
   _clear(  ){ 
     
-      this.triggered = false;
-      this.system.tree.remove(this.triggerTime, this);
-      return this.createdAt = 0;
+      this.removeFromTree();
+      return this.triggered = true;
     
    }
  });
@@ -99,9 +125,32 @@ var Timer = System.define("Timer", {
   Allows timed events to occur for entities with time limit components`
 
   ,
+  get defaultDuration(  ){ 
+    
+      return 5000;
+    
+   },
   register(  ){ 
     
+      this.started = 0;
+      this.lastTickAt = Date.now();
       return this.tree = RedBlackTree.spawn();
+    
+   },
+  _updateAll(  ){ 
+    
+      this.tree = this.tree.root;
+      const now=Date.now();
+      const branch=this.tree.search((this.lastTickAt - this.defaultDuration), 3);
+      this.lastTickAt = now;
+      var i = 0;
+      branch.each(((c) => {
+      	
+        ((i)++);
+        return this._updateComponent(c);
+      
+      }));
+      return console.log("timers checked", i, this.components.size);
     
    },
   _updateComponent( c ){ 

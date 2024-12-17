@@ -30,7 +30,7 @@
 
       (assign this.elapsed (- now previous))
 
-      (window.request-animation-frame (-> (this.update  )))
+      (set-timeout (-> (this.update  )))
 
       (when (> this.elapsed rate)
 

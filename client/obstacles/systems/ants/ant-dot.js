@@ -22,7 +22,7 @@ var AntDot = DotInterface.define("AntDot", {
   Inhereits from Dot-interface (@shared/systems/rendering/dot.js)`
 
   ,
-  color:rgba(255, 220, 220, 255)
+  color:rgba(255, 255, 255, 255)
  });
 exports.AntDot = AntDot;
 var AntDots = Dot.define("AntDots", { 

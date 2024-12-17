@@ -222,7 +222,6 @@ class RBTree {
 		this.deleteNode(u);
 	}
 
-	// Fixes double black at the given node
 	fixDoubleBlack(x) {
 		if (x === this.root)
 			return;

@@ -10,34 +10,33 @@
          (values (.spawn List))
          ))
 
+  (gett has-one-child? (or (not this.left) (not this.right)))
   (gett has-two-children? (and this.left this.right))
   (gett root
         (var node this)
         (while node.parent
           (assign node node.parent))
-
-
         (return node)
         )
 
-  (gett grandparent
-        ;; (get? this parent parent)
-        this.parent.parent
-        )
+  (gett grandparent this.parent.parent)
   (gett is-leaf? (and (not this.left) (not this.right)) )
-  (gett successor (var temp this)
+
+  (gett successor
+        (var temp this)
         (while temp.left
           (assign temp temp.left))
-        (return temp)
-        )
+        (return temp))
+
   (gett is-root? (= this this.root))
-  (gett uncle (if (or (not this.parent) (not this.parent.parent))
+  (gett uncle (if (or (not this.parent) (not this.grandparent))
                   null
 
                   this.parent.is-on-left?
-                  this.parent.parent.right
+                  this.grandparent.right
 
-                  this.parent.parent.left))
+                  this.grandparent.left))
+
   (gett is-on-left? (= this this.parent.left))
   (gett sibling (if (not this.parent)
                     null
@@ -46,6 +45,7 @@
 
                     this.parent.left))
   (def move-down (n-parent)
+    ;; (.check-colors this)
     (if this.parent
         (if this.is-on-left?
             (assign this.parent.left n-parent)
@@ -55,8 +55,13 @@
 
   (def swap-keys (node)
     (const temp this.key)
+    (const temp2 this.values)
+
     (assign this.key node.key)
-    (assign node.key temp))
+    (assign this.values node.values)
+    (assign node.key temp)
+    (assign node.values temp2)
+    )
 
   (def-generic rotate-left ()
     (const n-parent this.right)
@@ -76,8 +81,8 @@
 
     (assign this.left n-parent.right)
 
-    (if n-parent.right
-        (assign n-parent.right.parent this))
+    (if n-parent.right (assign n-parent.right.parent this))
+
     (assign n-parent.right this))
 
   (def-generic set (key value )
@@ -91,9 +96,7 @@
                     (.set
                      (.spawn Binary-search-tree
                              null
-                            this) key value))
-
-            )
+                            this) key value)))
 
         (> key this.key)
         (if this.right
@@ -110,10 +113,16 @@
           (.set r k (f node k) ))
     (return  r))
 
+  (def each-node (f)
+
+    (if this.left (.each-node this.left f))
+    (if this.right (.each-node this.right f))
+    (f this))
+
   (def each (f)
-    (.each this.values (=> (v) (f v this.key)))
     (if this.left (.each this.left f))
-    (if this.right (.each this.right f)))
+    (if this.right (.each this.right f))
+    (.each this.values (=> (v) (f v this this.key))))
 
   (def remove (key value)
     (doc-string "shared.datastructures.trees.binary-search-tree.remove"

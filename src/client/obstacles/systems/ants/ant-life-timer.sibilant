@@ -15,7 +15,7 @@
 (const views (new Map))
 
 (define Ant-life Time-limit
-  (gett duration config.ant-life)
+  (duration config.ant-life)
   (update-view? true)
   (def-view view ()
     (.div .className "panel"
@@ -26,12 +26,11 @@
 
 
   (def *clear ()
-    ;; (.remove this.view)
+    (.call Time-limit.*clear this)
     (.delete this.views this.entity)
 
     (assign this.win-count 0)
-    (assign this.loose-count 0)
-    (assign this.triggered false))
+    (assign this.loose-count 0))
 
   (def register ()
     (.call Time-limit.register this)
@@ -55,12 +54,11 @@
     (incr c.loose-count)
     (.clear e.ant-trail.segments)
 
-    (.reset c)))
+    (.reset c config.ant-life-duration)))
 (export Ant-life)
 
 (define Ant-life-timer Timer
-  ;; (def register ()
-  ;;   (assign this.tree (.spawn Red-black-tree)))
+  (gett default-duration config.ant-life)
   (interface Ant-life))
 
 (export Ant-life-timer)

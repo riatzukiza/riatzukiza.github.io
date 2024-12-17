@@ -11,32 +11,41 @@
               "Sets somthing to happen at a given time."
               "Requires a " (pre duration) "and" (pre callback))
 
+  (def add-to-tree ()
+    (when this.system.tree
+      (.set this.system.tree this.trigger-time this)))
+
+  (def remove-from-tree ()
+    (when this.system.tree
+        (.remove this.system.tree this.trigger-time this)))
+
   (def register ()
+    (incr this.system.started)
     (assign this.created-at (Date.now))
     (assign this.triggered false)
-    (.set this.system.tree this.trigger-time this)
-    )
+    (.add-to-tree this))
 
   (gett duration (throw (new Error "no duration was given to time limit component")))
   (gett callback (throw (new Error "No callback was given to time limit component")))
-  (gett trigger-time (+ this.created-at this.duration))
+  (gett trigger-time (const r (+ this.created-at this.duration))
+        (if (isNaN r) (throw (new Error "Non number trigger time"))
+            r))
 
   (gett elapsed (- (Date.now) this.created-at))
   (gett remaining-time (- this.duration this.elapsed))
   (gett expired (> this.elapsed this.duration))
 
   (def-generic reset (duration)
-    (.remove this.system.tree this.trigger-time this)
+    (incr this.system.started)
+    (.remove-from-tree this)
     (assign this.created-at (Date.now))
     (assign this.triggered false)
     (assign this.duration duration)
-    (.set this.system.tree this.trigger-time this))
-  (def *clear ()
-    (assign this.triggered false)
-    (.remove this.system.tree this.trigger-time this)
+    (.add-to-tree this))
 
-    (assign this.created-at 0)
-    ))
+  (def *clear ()
+    (.remove-from-tree this)
+    (assign this.triggered true)))
 
 (export Time-limit)
 
@@ -45,30 +54,35 @@
               "Inherits from shared.ecs.ComponentSystem"
               "Allows timed events to occur for entities with time limit components")
 
-  ;; (def register ()
-  ;;   (assign this.tree (.spawn Red-black-tree)))
-
-
-  ;; (def register ()
-  ;;   (assign this.tree (.spawn Binary-search-tree)))
-  ;; (def *update-all ()
-  ;;   (const branch  (.search this.tree (Date.now)))
-  ;;   (const list branch.values)
-  ;;   ;; (print this.tree branch list)
-  ;;   (each list (c)
-  ;;         (.*update-component this c)))
+  (gett default-duration 5000)
   (def register ()
+    (assign this.started 0)
+    (assign this.last-tick-at (Date.now))
     (assign this.tree (.spawn Red-black-tree)))
-  
-  ;; (def *update-all ()
-  ;;   (const branch  (.search this.tree (Date.now) 3))
-  ;;   ;; (print this.tree branch list)
-  ;;   ;; (each this.tree (c)
-  ;;   ;;       (.*update-component this c))
-  ;;   (each branch (c)
-  ;;         ;; (print "updating component" c)
-  ;;         (.*update-component this c))
-  ;;   )
+  (def *update-all ()
+
+    (assign this.tree this.tree.root)
+    (const now (Date.now))
+    ;; (const search-term this.last-tick-at)
+    ;; (if (isNaN search-term) (throw (new Range-error "Search term is not a number")))
+    (const branch (.search this.tree  (- this.last-tick-at this.default-duration)
+                           3))
+    ;; (var branch this.tree)
+    ;; (while (and branch.
+    ;;             (>= (- this.last-tick this.default-duration) branch.right.key)
+    ;;             (<=  this.last-tick branch.right.key))
+    ;;   (assign branch branch.right))
+
+    (assign this.last-tick-at now)
+
+    ;; (print "updating branch" branch)
+    (var i 0)
+    (each branch (c)
+          (incr i)
+          (.*update-component this c))
+    (print "timers checked" i this.components.size)
+
+    )
   (def *update-component (c)
     (when (and c.expired (not c.triggered))
       (assign c.triggered true)

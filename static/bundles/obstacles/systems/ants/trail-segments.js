@@ -40,12 +40,6 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
 
   ,
   duration:config.trailLimit,
-  _clear(  ){ 
-    
-      this.duration = config.trailLimit;
-      return this.startedAt = 0;
-    
-   },
   updateView__QUERY:true,
   get views(  ){ 
 
@@ -171,6 +165,11 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
  });
 exports.TrailSegment = TrailSegment;
 var DecayingTrails = Timer.define("DecayingTrails", { 
+  get defaultDuration(  ){ 
+    
+      return config.trailLimit;
+    
+   },
   interface:TrailSegment
  });
 exports.DecayingTrails = DecayingTrails;

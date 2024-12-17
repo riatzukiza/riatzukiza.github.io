@@ -5,27 +5,32 @@ var {
   List
  } = require("@shared/data-structures/list.js");
 var RedBlackTree = BinarySearchTree.define("RedBlackTree", { 
-  init( key = null,parent = null,color = (function() {
-    if (parent) {
-      return (function() {
-        if (parent.isBlack__QUERY) {
-          return "red";
-        } else {
-          return "black";
-        }
-      }).call(this);
-    } else {
-      return "black";
-    }
-  }).call(this),values = List.spawn() ){ 
+  init( key = null,parent = null,color = "red",values = List.spawn() ){ 
     
       this.key = key;this.parent = parent;this.color = color;this.values = values;
       return this;
     
    },
+  get depth(  ){ 
+    
+      var count = 1;
+      var node = this;
+      (function() {
+        var while$1121 = undefined;
+        while (node) {
+          while$1121 = (function() {
+            node = node.left;
+            return ((count)++);
+          }).call(this);
+        };
+        return while$1121;
+      }).call(this);
+      return count;
+    
+   },
   get isTimeTraveler__QUERY(  ){ 
     
-      return this.parent === this;
+      return this._parent === this;
     
    },
   get hasRedChild__QUERY(  ){ 
@@ -90,7 +95,7 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
                       parent.rotateRight();
                       return this.swapColors(grandparent);
                     } else {
-                      return this.parent.swapColors(grandparent);
+                      return parent.swapColors(grandparent);
                     }
                   }).call(this);
                   return grandparent.rotateLeft();
@@ -108,28 +113,28 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
         return ;
        };
       return (function() {
-        if (!(this.sibling)) {
-          return this.parent.fixDoubleBlack();
+        if (!(sibling)) {
+          return parent.fixDoubleBlack();
         } else {
           return (function() {
-            if (this.sibling.isRed__QUERY) {
+            if (sibling.isRed__QUERY) {
               parent.color = "red";
               sibling.color = "black";
               (function() {
-                if (this.sibling.isOnLeft__QUERY) {
-                  return this.parent.rotateRight();
+                if (sibling.isOnLeft__QUERY) {
+                  return parent.rotateRight();
                 } else {
-                  return this.parent.rotateLeft();
+                  return parent.rotateLeft();
                 }
               }).call(this);
               return this.fixDoubleBlack();
             } else {
               return (function() {
-                if (this.sibling.hasRedChild__QUERY) {
+                if (sibling.hasRedChild__QUERY) {
                   (function() {
-                    if (this.sibling.isLeftRed__QUERY) {
+                    if (sibling.isLeftRed__QUERY) {
                       return (function() {
-                        if (this.sibling.isOnLeft__QUERY) {
+                        if (sibling.isOnLeft__QUERY) {
                           sibling.left.color = sibling.color;
                           sibling.color = parent.color;
                           return parent.rotateRight();
@@ -190,7 +195,9 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
       var uvBlack = ((!(u) || u.isBlack__QUERY) && this.isBlack__QUERY);
       if( !(u) ){ 
         (function() {
-          if (!(this.isRoot__QUERY)) {
+          if (this.isRoot__QUERY) {
+            return this.values.clear();
+          } else {
             (function() {
               if (uvBlack) {
                 return this.fixDoubleBlack();
@@ -198,13 +205,14 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
                 return this.sibling.color = "red";
               }
             }).call(this);
-            return (function() {
+            (function() {
               if (this.isOnLeft__QUERY) {
                 return parent.left = null;
               } else {
                 return parent.right = null;
               }
             }).call(this);
+            return this.despawn();
           }
         }).call(this);
         return ;
@@ -212,8 +220,9 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
       if( (!(this.left) || !(this.right)) ){ 
         (function() {
           if (this.isRoot__QUERY) {
-            this.key = u.key;return 
+            this.swapKeys(u);
             this.left = this.right = null;
+            return u.despawn();
           } else {
             (function() {
               if (this.isOnLeft__QUERY) {
@@ -222,6 +231,7 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
                 return parent.right = u;
               }
             }).call(this);
+            this.despawn();
             u.parent = parent;
             return (function() {
               if (uvBlack) {
@@ -236,6 +246,29 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
        };
       u.swapKeys(this);
       return u.deleteNode();
+    
+   },
+  clear(  ){ 
+    
+      (function() {
+        if (this.values.length > 0) {
+          throw (new Error("Cannot clear node with empty bucket"))
+        }
+      }).call(this);
+      const root=this.root;
+      this.values.despawn();
+      this.parent = null;
+      this.left = null;
+      this.right = null;
+      this.color = null;
+      const key=this.key;
+      this.key = null;
+      const node=root.search(key);
+      return (function() {
+        if (node === this) {
+          throw (new Error("Clearing node that is still in the tree"))
+        }
+      }).call(this);
     
    },
   deleteByKey( key ){ 
@@ -265,10 +298,18 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
    },
   insert( key = this.key,depth = null ){ 
     
-      if( (this.isRoot__QUERY && !(this.key)) ){ 
-        this.key = key;;
-        this.color = "black";;
-        return this;
+      if( this.isRoot__QUERY ){ 
+        if( !(this.key) ){ 
+          if( (this.left || this.right) ){ 
+            throw (new Error("A root with out a key has children"))
+           };
+          this.key = key;;
+          this.color = "black";;
+          return this;
+         };
+        if( this.key === key ){ 
+          return this;
+         }
        };
       const temp=this.search(key, depth);
       if( temp.key === key ){ 
@@ -290,54 +331,35 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
     
       var temp = this,
           break__QUERY = false;
-      (function() {
-        var while$493 = undefined;
-        while ((temp && !(break__QUERY) && (function() {
-          if (typeof depth === "number") {
-            return depth > 0;
-          } else {
-            return true;
-          }
-        }).call(this))) {
-          while$493 = (function() {
-            (function() {
-              if (typeof depth === "number") {
-                return ((depth)--);
-              }
-            }).call(this);
-            return (function() {
-              if (key < temp.key) {
-                return (function() {
-                  if (!(temp.left)) {
-                    return break__QUERY = true;
-                  } else {
-                    return temp = temp.left;
-                  }
-                }).call(this);
-              } else if (key === temp.key) {
-                return break__QUERY = true;
-              } else {
-                return (function() {
-                  if (!(temp.right)) {
-                    return break__QUERY = true;
-                  } else {
-                    return temp = temp.right;
-                  }
-                }).call(this);
-              }
-            }).call(this);
-          }).call(this);
-        };
-        return while$493;
-      }).call(this);
+      while( (temp && !(break__QUERY) && (typeof depth === "number") ? depth > 0 : true) ){ 
+        if( typeof depth === "number" ){ 
+          ((depth)--)
+         };
+        if( key < temp.key ){ 
+          if( !(temp.left) ){ 
+            break
+           }else { 
+            temp = temp.left;;
+            continue
+           }
+         }else if(key === temp.key){ 
+          break
+         }else { 
+          if( !(temp.right) ){ 
+            break
+           }else { 
+            temp = temp.right;
+           }
+         }
+       };
       return temp;
     
    },
   set( key = this.key,value = this.value,depth = null ){ 
     
       const node=this.insert(key, depth);
-      this.search(key).values.push(value);
-      return this;
+      node.values.push(value);
+      return node;
     
    }
  });

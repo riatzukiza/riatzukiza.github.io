@@ -20,9 +20,10 @@
 
   (duration config.trail-limit)
 
-  (def *clear ()
-    (assign this.duration config.trail-limit)
-    (assign this.started-at 0))
+  ;; (def *clear ()
+  ;;   (.call Time-limit.*clear this)
+  ;;   ;; (assign this.duration config.trail-limit)
+  ;;   )
 
   (update-view? true)
   (def-view view ()
@@ -54,7 +55,7 @@
         (y (* this.y weight config.ant-influence))))
 
 
-      (.reset this (+ this.remaining-time config.trail-result-duration))
+      (.reset this  (+ this.remaining-time config.trail-result-duration))
 
       ))
 
@@ -69,7 +70,7 @@
        (lit
         (x (* this.x weight config.ant-influence))
         (y (* this.y weight config.ant-influence))))
-      (.reset this (+ this.remaining-time config.trail-result-duration))
+      (.reset this  (+ this.remaining-time config.trail-result-duration))
       )
     ))
 
@@ -78,6 +79,8 @@
 (define Decaying-trails Timer
   ;; (def register ()
   ;;   (assign this.tree (.spawn Red-black-tree)))
+
+  (gett default-duration config.trail-limit)
   (interface Trail-segment))
 
 (export Decaying-trails)

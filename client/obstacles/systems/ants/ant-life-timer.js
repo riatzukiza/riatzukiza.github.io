@@ -24,11 +24,7 @@ var {
  } = require("@shared/dom.js");
 const views=(new Map());
 var AntLife = TimeLimit.define("AntLife", { 
-  get duration(  ){ 
-    
-      return config.antLife;
-    
-   },
+  duration:config.antLife,
   updateView__QUERY:true,
   get views(  ){ 
 
@@ -81,10 +77,10 @@ var AntLife = TimeLimit.define("AntLife", {
  },
   _clear(  ){ 
     
+      TimeLimit._clear.call(this);
       this.views.delete(this.entity);
       this.winCount = 0;
-      this.looseCount = 0;
-      return this.triggered = false;
+      return this.looseCount = 0;
     
    },
   register(  ){ 
@@ -116,12 +112,17 @@ var AntLife = TimeLimit.define("AntLife", {
       ;
       ((c.looseCount)++);
       e.antTrail.segments.clear();
-      return c.reset();
+      return c.reset(config.antLifeDuration);
     
    }
  });
 exports.AntLife = AntLife;
 var AntLifeTimer = Timer.define("AntLifeTimer", { 
+  get defaultDuration(  ){ 
+    
+      return config.antLife;
+    
+   },
   interface:AntLife
  });
 exports.AntLifeTimer = AntLifeTimer;

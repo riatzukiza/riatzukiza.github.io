@@ -11,6 +11,11 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
       return this;
     
    },
+  get hasOneChild__QUERY(  ){ 
+    
+      return (!(this.left) || !(this.right));
+    
+   },
   get hasTwoChildren__QUERY(  ){ 
     
       return (this.left && this.right);
@@ -20,13 +25,13 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
     
       var node = this;
       (function() {
-        var while$323 = undefined;
+        var while$982 = undefined;
         while (node.parent) {
-          while$323 = (function() {
+          while$982 = (function() {
             return node = node.parent;
           }).call(this);
         };
-        return while$323;
+        return while$982;
       }).call(this);
       return node;
     
@@ -45,13 +50,13 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
     
       var temp = this;
       (function() {
-        var while$324 = undefined;
+        var while$983 = undefined;
         while (temp.left) {
-          while$324 = (function() {
+          while$983 = (function() {
             return temp = temp.left;
           }).call(this);
         };
-        return while$324;
+        return while$983;
       }).call(this);
       return temp;
     
@@ -64,12 +69,12 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
   get uncle(  ){ 
     
       return (function() {
-        if ((!(this.parent) || !(this.parent.parent))) {
+        if ((!(this.parent) || !(this.grandparent))) {
           return null;
         } else if (this.parent.isOnLeft__QUERY) {
-          return this.parent.parent.right;
+          return this.grandparent.right;
         } else {
-          return this.parent.parent.left;
+          return this.grandparent.left;
         }
       }).call(this);
     
@@ -112,8 +117,11 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
   swapKeys( node ){ 
     
       const temp=this.key;
+      const temp2=this.values;
       this.key = node.key;
-      return node.key = temp;
+      this.values = node.values;
+      node.key = temp;
+      return node.values = temp2;
     
    },
   rotateLeft(  ){ 
@@ -180,23 +188,38 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
       return r;
     
    },
+  eachNode( f ){ 
+    
+      (function() {
+        if (this.left) {
+          return this.left.eachNode(f);
+        }
+      }).call(this);
+      (function() {
+        if (this.right) {
+          return this.right.eachNode(f);
+        }
+      }).call(this);
+      return f(this);
+    
+   },
   each( f ){ 
     
-      this.values.each(((v) => {
-      	
-        return f(v, this.key);
-      
-      }));
       (function() {
         if (this.left) {
           return this.left.each(f);
         }
       }).call(this);
-      return (function() {
+      (function() {
         if (this.right) {
           return this.right.each(f);
         }
       }).call(this);
+      return this.values.each(((v) => {
+      	
+        return f(v, this, this.key);
+      
+      }));
     
    },
   remove( key,value ){ 

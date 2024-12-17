@@ -10,7 +10,7 @@ var Spawnable = Interface.define("Spawnable", {
   spawn( ...args ){ 
     
       return (function() {
-        if (this.pool.length) {
+        if (this.pool.length > 0) {
           return this.pool.pop().init(...args);
         } else {
           return create(this)(...args);
