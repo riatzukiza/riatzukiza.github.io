@@ -94,7 +94,7 @@ var DotInterface = Component.define("DotInterface", {
    },
   get scale(  ){ 
     
-      return this.system.process.systems.get(Physics, this.entity).scale;
+      return this.entity.physicalProperties.scale;
     
    },
   get point(  ){ 

@@ -25,13 +25,13 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
     
       var node = this;
       (function() {
-        var while$60 = undefined;
+        var while$1341 = undefined;
         while (node.parent) {
-          while$60 = (function() {
+          while$1341 = (function() {
             return node = node.parent;
           }).call(this);
         };
-        return while$60;
+        return while$1341;
       }).call(this);
       return node;
     
@@ -50,13 +50,13 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
     
       var temp = this;
       (function() {
-        var while$61 = undefined;
+        var while$1342 = undefined;
         while (temp.left) {
-          while$61 = (function() {
+          while$1342 = (function() {
             return temp = temp.left;
           }).call(this);
         };
-        return while$61;
+        return while$1342;
       }).call(this);
       return temp;
     
@@ -299,9 +299,51 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
    },
   findRange( low = this.low,high = this.high,answer = [] ){ 
     
+      (function() {
+        if ((this.key >= low && this.key <= high)) {
+          (function() {
+            if (this.left) {
+              return this.left.findRange(low, high, answer);
+            }
+          }).call(this);
+          answer.push(this);
+          return (function() {
+            if (this.right) {
+              return this.right.findRange(low, high, answer);
+            }
+          }).call(this);
+        } else if ((this.key < low && this.right)) {
+          return this.right.findRange(low, high, answer);
+        } else if (this.left) {
+          return this.left.findRange(low, high, answer);
+        }
+      }).call(this);
+      return answer;
+    
+   },
+  forEachInRange( low = this.low,high = this.high,f = (() => {
+  	
+    return null;
+  
+  }) ){ 
+    
       return (function() {
-        {
-          return this.key >= low;
+        if ((this.key >= low && this.key <= high)) {
+          (function() {
+            if (this.left) {
+              return this.left.forEachInRange(low, high, f);
+            }
+          }).call(this);
+          this.values.each(f);
+          return (function() {
+            if (this.right) {
+              return this.right.forEachInRange(low, high, f);
+            }
+          }).call(this);
+        } else if ((this.key < low && this.right)) {
+          return this.right.forEachInRange(low, high, f);
+        } else if (this.left) {
+          return this.left.forEachInRange(low, high, f);
         }
       }).call(this);
     

@@ -10940,11 +10940,11 @@ var System = Interface.define("System", {
   spawn( entity = this.entity,pool = this.pool,components = this.components ){ 
     
       return (function(c) {
-        /* node_modules/kit/inc/scope.sibilant:12:9 */
+        /* eval.sibilant:1:412 */
       
         components.set(entity, c);
         return c;
-      })(pool.spawn(entity, this));
+      }).call(this, pool.spawn(entity, this));
     
    },
   _updateComponent( component,t ){ 

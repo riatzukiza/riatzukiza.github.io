@@ -57,30 +57,18 @@
   (gett default-duration 5000)
   (def register ()
     (assign this.started 0)
-    (assign this.last-tick-at (Date.now))
+    (assign this.first-tick (assign this.last-tick-at (Date.now)))
     (assign this.tree (.spawn Red-black-tree)))
   (def *update-all ()
 
     (assign this.tree this.tree.root)
     (const now (Date.now))
-    ;; (const search-term this.last-tick-at)
-    ;; (if (isNaN search-term) (throw (new Range-error "Search term is not a number")))
-    (const branch (.search this.tree  (- this.last-tick-at this.default-duration)
-                           3))
-    ;; (var branch this.tree)
-    ;; (while (and branch.
-    ;;             (>= (- this.last-tick this.default-duration) branch.right.key)
-    ;;             (<=  this.last-tick branch.right.key))
-    ;;   (assign branch branch.right))
+    (.for-each-in-range this.tree
+                        this.first-tick now
+                        (=> (c) (.*update-component this c)))
 
     (assign this.last-tick-at now)
 
-    ;; (print "updating branch" branch)
-    (var i 0)
-    (each branch (c)
-          (incr i)
-          (.*update-component this c))
-    (print "timers checked" i this.components.size)
 
     )
   (def *update-component (c)

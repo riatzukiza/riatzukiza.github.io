@@ -10916,7 +10916,7 @@ var CollisionBounds = Component.define("CollisionBounds", {
    },
   get physics(  ){ 
     
-      return this.system.process.systems.get(Physics, this.entity);
+      return this.entity.physicalProperties;
     
    },
   get x(  ){ 
@@ -11002,17 +11002,17 @@ var Collision = System.define("Collision", {
        }, maxObjects, maxLevels));
     
    },
-  _check:R.curry((function(c, c_) {
-    /* eval.sibilant:9:73 */
-  
-    c.colliding = false;
-    if( c.isColliding__QUERY(c_) ){ 
-      c.colliding = true;;
-      c_.colliding = true;;
-      c.system.game.events.emit("collision", c, c_)
-     };
-    return ;
-  })),
+  _check( c,c_ ){ 
+    
+      c.colliding = false;
+      if( c.isColliding__QUERY(c_) ){ 
+        c.colliding = true;;
+        c_.colliding = true;;
+        c.system.game.events.emit("collision", c, c_)
+       };
+      return ;
+    
+   },
   _updateAll( t = this.t,components = this.components ){ 
     
       this.quads.clear();
@@ -11053,9 +11053,9 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
   const placementVector=Vector.spawn(1, 1);
   var colliding = true;
   (function() {
-    var while$13 = undefined;
+    var while$1349 = undefined;
     while (colliding) {
-      while$13 = (function() {
+      while$1349 = (function() {
         var noCollisions = true;
         placementTree.clear();
         c.system.components.each(((c_) => {
@@ -11071,16 +11071,16 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         for (var c_ of possibleCollisions)
         {
         (function() {
-          var while$14 = undefined;
+          var while$1350 = undefined;
           while (c.isColliding__QUERY(c_)) {
-            while$14 = (function() {
+            while$1350 = (function() {
               noCollisions = false;
               placementVector.setLength((0.5 * c_.scale));
               placementVector.setAngle(((Math.random() * ( - 360)) + 360));
               return c.pos.system.shift(c.pos, [ placementVector.x, placementVector.y ]);
             }).call(this);
           };
-          return while$14;
+          return while$1350;
         }).call(this)
         }
         ;
@@ -11092,7 +11092,7 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         return null;
       }).call(this);
     };
-    return while$13;
+    return while$1349;
   }).call(this);
   placementVector.despawn();
   return entity;

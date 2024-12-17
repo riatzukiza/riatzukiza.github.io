@@ -162,7 +162,11 @@ var DocumentBody = DocumentNode.define("DocumentBody", {
     
    },
   tagName:"body",
-  _node:document.body,
+  get _node(  ){ 
+    
+      return document.body;
+    
+   },
   _children:[]
  });
 var DocumentHead = DocumentNode.define("DocumentHead", { 

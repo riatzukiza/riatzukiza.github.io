@@ -24,8 +24,13 @@
     (get (.get *members key) 'item))
 
   (def-generic each (callback *members)
-    (for-of! [key node] *members
-             (callback node.item key))
+    ;; (for-of! [key node] *members
+    ;;          (callback node.item key))
+    (var node this.*values.head)
+    (while! node
+      (callback node.item node.key)
+      (assign node node.next)
+      )
     this)
 
   (def-generic map (callback *members *values )

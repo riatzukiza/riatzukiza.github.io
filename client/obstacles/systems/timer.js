@@ -102,7 +102,7 @@ var Timer = System.define("Timer", {
   register(  ){ 
     
       this.started = 0;
-      this.lastTickAt = Date.now();
+      this.firstTick = this.lastTickAt = Date.now();
       return this.tree = RedBlackTree.spawn();
     
    },
@@ -110,16 +110,12 @@ var Timer = System.define("Timer", {
     
       this.tree = this.tree.root;
       const now=Date.now();
-      const branch=this.tree.search((this.lastTickAt - this.defaultDuration), 3);
-      this.lastTickAt = now;
-      var i = 0;
-      branch.each(((c) => {
+      this.tree.forEachInRange(this.firstTick, now, ((c) => {
       	
-        ((i)++);
         return this._updateComponent(c);
       
       }));
-      return console.log("timers checked", i, this.components.size);
+      return this.lastTickAt = now;
     
    },
   _updateComponent( c ){ 

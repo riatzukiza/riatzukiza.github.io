@@ -32,7 +32,10 @@ var {
  } = require("@shared/data-structures/trees/binary-search-tree.js"),
     { 
   RedBlackTree
- } = require("@shared/data-structures/trees/red-black-tree.js");
+ } = require("@shared/data-structures/trees/red-black-tree.js"),
+    { 
+  Ticker
+ } = require("@shared/ticker.js");
 var { 
   renderChildren,
   createDocumentNode,
@@ -42,26 +45,15 @@ var {
   DocumentRoot
  } = require("@shared/dom.js");
 const rbTree=RedBlackTree.spawn();
-(function() {
-  /* node_modules/kit/inc/loops.sibilant:26:8 */
-
-  var $for = null;
-  for (var i = 0;i < 10;++(i))
-  {
-  $for = (function() {
-    /* node_modules/kit/inc/loops.sibilant:28:35 */
-  
-    return rbTree.root.insert((Math.floor((Math.random() * ( - 10000))) + 10000));
-  }).call(this);
-  }
-  ;
-  return $for;
-}).call(this);
+const low=(Math.floor((Math.random() * ( - 9000))) + 9000);
+const high=(low + (Math.floor((Math.random() * ( - 10000))) + 10000));
 var renderNode = (function renderNode$(node) {
-  /* render-node eval.sibilant:26:0 */
+  /* render-node eval.sibilant:28:0 */
 
   const foregroundColor=(function() {
-    if (node.color === "black") {
+    if (node.inRange__QUERY) {
+      return "yellow";
+    } else if (node.color === "black") {
       return "white";
     } else {
       return "black";
@@ -73,23 +65,15 @@ var renderNode = (function renderNode$(node) {
     "float":"left",
     "width":(function() {
       if (node.sibling) {
-        return "50%-2px";
+        return "calc(50% - 4px)";
       } else {
-        return "100%-2px";
+        return "calc(100% - 4px)";
       }
     }).call(this),
     "border-color":foregroundColor,
-    "border-width":"1px",
+    "border-width":"2px",
     "border-style":"solid"
-   } }, [ (function() {
-    if (node.isRoot__QUERY) {
-      return createDocumentNode("h1", {  }, [ "Root" ]);
-    } else if (node.isOnLeft__QUERY) {
-      return createDocumentNode("h2", {  }, [ "left" ]);
-    } else {
-      return createDocumentNode("h2", {  }, [ "right" ]);
-    }
-  }).call(this), createDocumentNode("div", {  }, [ node.key ]), (function() {
+   } }, [ createDocumentNode("div", {  }, [ (node.key || "nil") ]), (function() {
     if (node.left) {
       return renderNode(node.left);
     } else {
@@ -103,9 +87,33 @@ var renderNode = (function renderNode$(node) {
     }
   }).call(this) ]);
 });
-createDocumentNode("div", {
+const ticker=create(Ticker)(1);
+ticker.start();
+const container=createDocumentNode("div", {
   'id': "container",
   'style': { 
-    "width":window.innerWidth
+    "width":(window.innerWidth + "px")
    }
-}, [ renderNode(rbTree.root) ]).render(DocumentRoot);
+}, [ createDocumentNode("h1", {  }, [ "find nodes between", low, "and", high ]), (() => {
+	
+  return renderNode(rbTree.root);
+
+}) ]);
+const frame=createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentBody);
+ticker.events.on("tick", (() => {
+	
+  rbTree.root.insert((Math.floor((Math.random() * ( - (low + high)))) + (low + high)));
+  const nodesInRange=rbTree.root.findRange(low, high);
+  for (var _node of nodesInRange)
+  {
+  _node.inRange__QUERY = true;
+  }
+  ;
+  return container.render();
+
+})).once("error", ((err) => {
+	
+  console.log("error on", "tick", "of", "ticker.events", "given", "null");
+  return console.log(err);
+
+}));

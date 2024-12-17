@@ -11,7 +11,7 @@ create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(H
   
   }));
 }).call(this), (function() {
-  /* eval.sibilant:20:7 */
+  /* eval.sibilant:20:15 */
 
   var { 
     FileSystem
@@ -26,4 +26,4 @@ create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(H
     }).call(this);
   
   }));
-}).call(this) ]), create(HtmlElement)("script", { 'src': "/bundles/tests/main.js" }, []) ]);
+}).call(this) ]), create(HtmlElement)("body", {  }, [ "" ]), create(HtmlElement)("script", { 'src': "/bundles/tests/main.js" }, []) ]);

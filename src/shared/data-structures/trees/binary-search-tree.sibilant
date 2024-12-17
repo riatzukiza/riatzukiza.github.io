@@ -152,9 +152,24 @@
         this))
 
   (def-generic find-range (low high (answer []))
-    (if (and (>= this.key low)))
-
-    )
+    (if (and (>= this.key low) (<= this.key high))
+        (do (if this.left (.find-range this.left low high answer))
+            (.push answer this)
+          (if this.right (.find-range this.right low high answer)))
+        (and (< this.key low) this.right)
+        (.find-range this.right low high answer)
+        this.left
+        (.find-range this.left low high answer))
+    (return answer))
+  (def-generic for-each-in-range (low high (f (-> null) ))
+    (if (and (>= this.key low) (<= this.key high))
+        (do (if this.left (.for-each-in-range this.left low high f))
+            (.each this.values f)
+          (if this.right (.for-each-in-range this.right low high f)))
+        (and (< this.key low) this.right)
+        (.for-each-in-range this.right low high f)
+        this.left
+        (.for-each-in-range this.left low high f)))
   )
 
 (export Binary-search-tree)

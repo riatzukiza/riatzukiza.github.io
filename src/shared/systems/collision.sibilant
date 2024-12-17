@@ -29,7 +29,7 @@
   (gett dim this.dimensions)
 
   (gett scale this.physics.scale)
-  (gett physics (.get this.system.process.systems Physics this.entity))
+  (gett physics this.entity.physical-properties)
   (gett x this.pos.x)
   (gett y this.pos.y)
 
@@ -106,7 +106,7 @@
                                  width,height)
                             max-objects
                             max-levels)))
-  (def-curried *check  (c c*)
+  (def *check  (c c*)
 
 
     (set c 'colliding false)
@@ -121,15 +121,6 @@
     (.clear this.quads)
 
     (each  components (c)
-           ;; (const pos [ c.pos.x c.pos.y c.entity])
-           ;; (const node? (.find this.bit-field [c.pos.x c.pos.y]))
-           ;; (if! node?
-           ;;      (each node? (node)
-           ;;            (unless (= c node.value)
-           ;;              (c.system.game.events.emit 'collision c node.value)))
-           ;;      (return ))
-
-           ;; (.set this.bit-field pos c)
            (.insert this.quads c))
     (each components (c)
           (const possible-collisions (.retrieve this.quads c))
