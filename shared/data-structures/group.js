@@ -69,11 +69,11 @@ var Group = Spawnable.define("Group", {
     
       "remove and return the element last in the groups ordering.";
       return (function(item) {
-        /* inc/misc.sibilant:1:782 */
+        /* node_modules/kit/inc/scope.sibilant:12:9 */
       
         _members.delete(item);
         return item;
-      }).call(this, _list.pop());
+      })(_list.pop());
     
    },
   push( value = this.value ){ 
@@ -99,12 +99,12 @@ var Group = Spawnable.define("Group", {
       return (function() {
         if (!(_members.has(member))) {
           return (function(node) {
-            /* inc/misc.sibilant:1:782 */
+            /* node_modules/kit/inc/scope.sibilant:12:9 */
           
             _members.set(member, node);
             _list.pushNode(node);
             return node;
-          }).call(this, _list.node(member));
+          })(_list.node(member));
         }
       }).call(this);
     
@@ -124,7 +124,7 @@ var Group = Spawnable.define("Group", {
     
       "Remove a specific member from the group.";
       return (function(node) {
-        /* inc/misc.sibilant:1:782 */
+        /* node_modules/kit/inc/scope.sibilant:12:9 */
       
         (function() {
           if (node) {
@@ -135,7 +135,7 @@ var Group = Spawnable.define("Group", {
           }
         }).call(this);
         return node;
-      }).call(this, _members.get(member));
+      })(_members.get(member));
     
    }
  });

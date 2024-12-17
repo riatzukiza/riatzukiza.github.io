@@ -1,0 +1,51 @@
+(namespace tests)
+
+(include "kit/header" )
+(import-namespace kit)
+
+(include "kit-interface/header" )
+(import-namespace interface)
+
+(include "../../../inc/rand.sibilant")
+(include "../../../inc/misc.sibilant")
+(include "../../../inc/docs.sibilant")
+(import-namespace docs)
+
+(set global 'mixin mixin 'create create)
+(require! (lit Binary-search-tree) "@shared/data-structures/trees/binary-search-tree.js"
+          (lit Red-black-tree) "@shared/data-structures/trees/red-black-tree.js"
+          )
+
+(include "../../../inc/dom.sibilant")
+(import-namespace dom)
+
+(const rb-tree (.spawn Red-black-tree))
+(do-times 10
+  (.insert rb-tree.root (random-int 10000)))
+
+(def render-node (node)
+  (const foreground-color (if (= node.color "black")
+                              "white"
+                              "black"))
+  (dom (.div  .style (lit ("background-color" node.color)
+                                  ("color" foreground-color)
+                                  ("float" "left")
+                                  ("width" (if node.sibling
+                                               "50%-2px"
+                                               "100%-2px"))
+                                  ("border-color" foreground-color)
+                                  ("border-width" "1px")
+                                  ("border-style" "solid"))
+             (if node.is-root? (dom (.h1 "Root"))
+                 node.is-on-left? (dom (.h2 "left"))
+                 (dom (.h2 "right"))
+                 )
+             (.div node.key)
+             (if node.left (render-node node.left) "")
+             (if node.right (render-node node.right) "")))
+  )
+
+(with-dom Document-root
+  (.div .id "container" .style (lit ("width" window.innerWidth))
+        (render-node rb-tree.root ))
+  )

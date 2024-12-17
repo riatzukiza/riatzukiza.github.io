@@ -36,8 +36,10 @@
         "sibilant-game-engine": "git+https://github.com:riatzukiza/sibilant-game-engine.git#",
         "socket.io": "4.4.0",
         "source-map-support": "^0.4.11",
+        "tern": "^0.24.3",
         "tone": "^14.7.77",
         "tree-kit": "git+https://github.com/riatzukiza/tree-kit.git",
+        "typescript": "^5.7.2",
         "webgl": "git+https://bitbucket.org/kettlelogic/andy_webgl.git"
     }
 }

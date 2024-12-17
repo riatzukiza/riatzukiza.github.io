@@ -28,7 +28,8 @@
           (assign temp temp.left))
         (return temp))
 
-  (gett is-root? (= this this.root))
+  ;; (gett is-root? (= this this.root))
+  (gett is-root? (not this.parent))
   (gett uncle (if (or (not this.parent) (not this.grandparent))
                   null
 
@@ -148,6 +149,12 @@
         (.search this.left key )
         (and (> key this.key) this.right)
         (.search this.right key )
-        this)))
+        this))
+
+  (def-generic find-range (low high (answer []))
+    (if (and (>= this.key low)))
+
+    )
+  )
 
 (export Binary-search-tree)

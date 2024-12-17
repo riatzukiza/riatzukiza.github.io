@@ -25,13 +25,13 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
     
       var node = this;
       (function() {
-        var while$982 = undefined;
+        var while$60 = undefined;
         while (node.parent) {
-          while$982 = (function() {
+          while$60 = (function() {
             return node = node.parent;
           }).call(this);
         };
-        return while$982;
+        return while$60;
       }).call(this);
       return node;
     
@@ -50,20 +50,20 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
     
       var temp = this;
       (function() {
-        var while$983 = undefined;
+        var while$61 = undefined;
         while (temp.left) {
-          while$983 = (function() {
+          while$61 = (function() {
             return temp = temp.left;
           }).call(this);
         };
-        return while$983;
+        return while$61;
       }).call(this);
       return temp;
     
    },
   get isRoot__QUERY(  ){ 
     
-      return this === this.root;
+      return !(this.parent);
     
    },
   get uncle(  ){ 
@@ -293,6 +293,15 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
           return this.right.search(key);
         } else {
           return this;
+        }
+      }).call(this);
+    
+   },
+  findRange( low = this.low,high = this.high,answer = [] ){ 
+    
+      return (function() {
+        {
+          return this.key >= low;
         }
       }).call(this);
     
