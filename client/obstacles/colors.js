@@ -1,3 +1,18 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   TreeMap
  } = require("tree-kit");
@@ -16,16 +31,13 @@ var memoize = (function memoize$(f) {
       if (cache.has(args)) {
         return cache.get(args);
       } else {
-        return (function(value) {
-          /* node_modules/kit/inc/scope.sibilant:12:9 */
-        
-          cache.set(args, value);
-          return value;
-        })((function() {
-          /* node_modules/kit/inc/macros.sibilant:30:25 */
+        var r = (function() {
+          /* inc/misc.sibilant:1:689 */
         
           return f(...args);
-        }).call(this));
+        }).call(this);
+        cache.set(args, r);
+        return r;
       }
     }).call(this);
   

@@ -1,9 +1,6 @@
 (require! (lit Spawnable) "@shared/data-structures/spawnable.js"
           (lit List) "@shared/data-structures/list.js"
           )
-(macro get? (...args)
-       (const terminal (.pop args))
-       [...(.map args (=> (arg) [@arg "?."])) terminal])
 (define Binary-search-tree  Spawnable
   (init ((key null)
          (parent null)

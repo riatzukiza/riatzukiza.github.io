@@ -1,3 +1,18 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   BinarySearchTree
  } = require("@shared/data-structures/trees/binary-search-tree.js");
@@ -16,14 +31,14 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
       var count = 1;
       var node = this;
       (function() {
-        var while$1344 = undefined;
+        var while$68 = undefined;
         while (node) {
-          while$1344 = (function() {
+          while$68 = (function() {
             node = node.left;
             return ((count)++);
           }).call(this);
         };
-        return while$1344;
+        return while$68;
       }).call(this);
       return count;
     

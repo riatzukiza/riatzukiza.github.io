@@ -1,3 +1,18 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Interface
  } = require("@kit-js/interface");
@@ -14,32 +29,32 @@ var {
   Gl
  } = require("@shared/gl.js");
 var bound = (function() {
-  /* eval.sibilant:1:438 */
+  /* eval.sibilant:1:469 */
 
   return arguments[0].bind();
 }),
     clear = (function() {
-  /* eval.sibilant:1:463 */
+  /* eval.sibilant:1:494 */
 
   return arguments[0].clear();
 }),
     rendered = (function() {
-  /* eval.sibilant:1:492 */
+  /* eval.sibilant:1:523 */
 
   return arguments[0].render();
 }),
     unbound = (function() {
-  /* eval.sibilant:1:522 */
+  /* eval.sibilant:1:553 */
 
   return arguments[0].unbind();
 }),
     disabled = (function() {
-  /* eval.sibilant:1:551 */
+  /* eval.sibilant:1:582 */
 
   return arguments[0].disable();
 }),
     enabled = (function() {
-  /* eval.sibilant:1:582 */
+  /* eval.sibilant:1:613 */
 
   return arguments[0].enable();
 });

@@ -1,3 +1,18 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Interface
  } = require("@kit-js/interface");
@@ -23,11 +38,11 @@ var PooledSystem = Interface.define("PooledSystem", {
     
       "aquire an object from the systems pool, and initialize it.";
       return (function(r) {
-        /* node_modules/kit/inc/scope.sibilant:12:9 */
+        /* eval.sibilant:1:443 */
       
         r.init(...args);
         return r;
-      })(this._pool.aquire());
+      }).call(this, this._pool.aquire());
     
    },
   despawn( obj ){ 

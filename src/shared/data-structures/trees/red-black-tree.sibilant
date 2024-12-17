@@ -1,43 +1,8 @@
 (namespace shared)
+(import-namespace misc)
 (require! (lit Binary-search-tree) "@shared/data-structures/trees/binary-search-tree.js")
 (require! (lit List) "@shared/data-structures/list.js")
 
-(macro get? (...args)
-       (const terminal (.pop args))
-       [...(.map args (=> (arg) [@arg "?."])) terminal] 
-       )
-(macro if! (cond ...body) `(state if @cond  ...@(interleave ";\n" body)))
-;; (macro else-if! (cond ...body)
-;;        `(state "else if" @cond  ...@(interleave ";\n" body)))
-
-(macro else! (...body) ["else " `(block ...@(interleave ";\n" body))])
-
-(macro cond! (...body)
-
-       (var if-condition (.shift body)
-            if-block (.shift body))
-       (var arr
-              [
-               `(state if @if-condition  ...@(interleave ";\n" if-block.contents))
-               ]
-              )
-       (while (or (and (even? body.length) (> body.length 0))
-                  (and (odd? body.length) (> body.length 1)))
-         (var else-if-condition (.shift body)
-              else-if-block (.shift body))
-         (assign arr [...arr "else if(" else-if-condition ")"
-                             `(block ...@(interleave ";\n" else-if-block.contents))]))
-       (if (odd? body.length)
-           (assign arr [...arr "else " `(block ...@(interleave ";\n" (get (last body) 'contents)))]))
-       arr)
-
-(macro if-else! (cond if-block else-block)
-       [`(state if @cond  ...@(interleave ";\n" if-block.contents))
-         "else " `(block ...@(interleave ";\n" else-block.contents))
-         ])
-(macro while! (cond ...body)
-        `(state while @cond  ...@(interleave ";\n" body))
-        )
 (define Red-black-tree Binary-search-tree
   (init ((key null)
          (parent null)

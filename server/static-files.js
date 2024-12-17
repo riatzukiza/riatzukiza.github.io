@@ -1,3 +1,18 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var R = require("ramda");
 var { 
   create,
@@ -10,7 +25,7 @@ var {
 var mimeTypes = require("mime-types"),
     Path = require("path");
 var serveStaticFiles = (function serveStaticFiles$(sys) {
-  /* serve-static-files eval.sibilant:1:264 */
+  /* serve-static-files eval.sibilant:1:295 */
 
   return async function serve({ 
     request,
@@ -32,7 +47,7 @@ var serveStaticFiles = (function serveStaticFiles$(sys) {
     }).call(this);
     console.log("serving path", path);
     var serveFile = (function serveFile$(file) {
-      /* serve-file eval.sibilant:1:570 */
+      /* serve-file eval.sibilant:1:601 */
     
       var ext = Path.extname(file.path),
           mime = mimeTypes.lookup(ext);
@@ -41,13 +56,13 @@ var serveStaticFiles = (function serveStaticFiles$(sys) {
       return file.readStream.pipe(response);
     });
     var serveDirectory = (function serveDirectory$(index) {
-      /* serve-directory eval.sibilant:1:825 */
+      /* serve-directory eval.sibilant:1:856 */
     
       console.log("serving directory");
       return response.end("directory");
     });
     var handleDirectory = (function handleDirectory$(file) {
-      /* handle-directory eval.sibilant:1:932 */
+      /* handle-directory eval.sibilant:1:963 */
     
       return file.get("index.html").then(serveFile).catch((() => {
       	

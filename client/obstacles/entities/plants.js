@@ -1,3 +1,18 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Dot
  } = require("@shared/systems/rendering/dot.js"),
@@ -28,11 +43,11 @@ var {
  } = require("@obstacles/game.js"),
     config = require("@obstacles/config.js");
 const plants=create(EntityGroup)("Plants", [ Dot, Position, Physics, Collision, Velocity ], game.ent);
-var spawnPlant = (function spawnPlant$(x_y$1, mass) {
+var spawnPlant = (function spawnPlant$(x_y$3, mass) {
   /* spawn-plant eval.sibilant:21:0 */
 
-  var x = x_y$1[0],
-      y = x_y$1[1];
+  var x = x_y$3[0],
+      y = x_y$3[1];
 
   var plant = plants.spawn([ Dot, Position, Physics, Collision, Velocity ]);
   game.systems.get(Dot, plant).color = rgba(0, 255, 0, 255);

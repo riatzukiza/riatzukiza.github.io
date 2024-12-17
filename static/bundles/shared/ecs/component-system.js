@@ -10791,6 +10791,21 @@ module.exports = _curry3(function zipWith(fn, a, b) {
 
 },{"./internal/_curry3":108}],"@shared/ecs/component-system.js":[function(require,module,exports){
 (function (process){(function (){
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Interface
  } = require("@kit-js/interface");
@@ -10940,11 +10955,11 @@ var System = Interface.define("System", {
   spawn( entity = this.entity,pool = this.pool,components = this.components ){ 
     
       return (function(c) {
-        /* eval.sibilant:1:412 */
+        /* node_modules/kit/inc/scope.sibilant:12:9 */
       
         components.set(entity, c);
         return c;
-      }).call(this, pool.spawn(entity, this));
+      })(pool.spawn(entity, this));
     
    },
   _updateComponent( component,t ){ 

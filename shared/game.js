@@ -1,3 +1,18 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Interface
  } = require("@kit-js/interface");
@@ -21,7 +36,7 @@ var Game = Interface.define("Game", {
           setSystemBySymbol = systems.set;
       systems.getBySymbol = getSystemBySymbol;
       systems.get = (function systems$get$(interface, ent) {
-        /* systems.get eval.sibilant:1:862 */
+        /* systems.get eval.sibilant:1:893 */
       
         var sys = getSystemBySymbol.call(systems, interface.symbol);
         return (function() {
@@ -70,7 +85,7 @@ var Game = Interface.define("Game", {
       return events.on("tick", ((t) => {
       	
         return systems.each((function() {
-          /* eval.sibilant:1:1601 */
+          /* eval.sibilant:1:1632 */
         
           return arguments[0].update();
         }));
@@ -95,7 +110,7 @@ var Game = Interface.define("Game", {
       entities.clear();
       events.removeAllListeners();
       return systems.each((function() {
-        /* eval.sibilant:1:1880 */
+        /* eval.sibilant:1:1911 */
       
         return arguments[0].clear();
       }));

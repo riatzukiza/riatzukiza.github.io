@@ -1,4 +1,19 @@
 require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({"@obstacles/events/static-object-collision.js":[function(require,module,exports){
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Velocity
  } = require("@shared/systems/velocity.js");
@@ -48,7 +63,9 @@ game.events.on("staticObjectCollision", ((o1, o2) => {
     }
   }).call(this);
   const a1=[ (d.x * (phys2.density / phys1.density) * phys1.density), (d.y * (phys2.density / phys1.density) * phys1.density) ];
+  const a2=[ (-1 * d.x * (phys1.density / phys2.density) * phys2.density), (-1 * d.y * (phys1.density / phys2.density) * phys2.density) ];
   v.accelerate(a1);
+  v_.accelerate(a2);
   p1.despawn();
   p2.despawn();
   v1.despawn();

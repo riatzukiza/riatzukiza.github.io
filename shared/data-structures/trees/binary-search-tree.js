@@ -1,3 +1,18 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Spawnable
  } = require("@shared/data-structures/spawnable.js"),
@@ -25,13 +40,13 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
     
       var node = this;
       (function() {
-        var while$1341 = undefined;
+        var while$60 = undefined;
         while (node.parent) {
-          while$1341 = (function() {
+          while$60 = (function() {
             return node = node.parent;
           }).call(this);
         };
-        return while$1341;
+        return while$60;
       }).call(this);
       return node;
     
@@ -50,13 +65,13 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
     
       var temp = this;
       (function() {
-        var while$1342 = undefined;
+        var while$61 = undefined;
         while (temp.left) {
-          while$1342 = (function() {
+          while$61 = (function() {
             return temp = temp.left;
           }).call(this);
         };
-        return while$1342;
+        return while$61;
       }).call(this);
       return temp;
     

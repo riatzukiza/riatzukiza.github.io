@@ -1,3 +1,18 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var R = require("ramda");
 var { 
   create,
@@ -20,7 +35,7 @@ var Scalar = Interface.define("Scalar", {
   mul( array = this.array,value = this.value ){ 
     
       return array.map((function() {
-        /* eval.sibilant:1:307 */
+        /* eval.sibilant:1:338 */
       
         return (arguments[0] * value);
       }));
@@ -29,7 +44,7 @@ var Scalar = Interface.define("Scalar", {
   div( array = this.array,value = this.value ){ 
     
       return array.map((function() {
-        /* eval.sibilant:1:376 */
+        /* eval.sibilant:1:407 */
       
         return (arguments[0] / value);
       }));
@@ -38,7 +53,7 @@ var Scalar = Interface.define("Scalar", {
   sub( array = this.array,value = this.value ){ 
     
       return array.map((function() {
-        /* eval.sibilant:1:445 */
+        /* eval.sibilant:1:476 */
       
         return (arguments[0] - value);
       }));
