@@ -110,6 +110,14 @@
         "KeyW",
         "KeyM"
       ]
+    },
+    {
+      "command": "workspace:toggle-stacked-tabs",
+      "chords": [
+        "C-Space",
+        "KeyW",
+        "KeyM"
+      ]
     }
   ]
 }

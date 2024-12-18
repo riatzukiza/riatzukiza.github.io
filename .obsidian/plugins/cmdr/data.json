@@ -9,23 +9,7 @@
   "titleBar": [],
   "statusBar": [],
   "pageHeader": [],
-  "macros": [
-    {
-      "macro": [
-        {
-          "action": 0,
-          "commandId": "bookmarks:bookmark-all-tabs"
-        },
-        {
-          "action": 0,
-          "commandId": "workspace:close-others"
-        }
-      ],
-      "name": "maximize window",
-      "icon": "star",
-      "startup": false
-    }
-  ],
+  "macros": [],
   "explorer": [],
   "hide": {
     "statusbar": [],

@@ -4,48 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "bf0e0bf28cefa07d",
+        "id": "23ad9a29c7fdb4b6",
         "type": "tabs",
         "children": [
           {
-            "id": "1099e1150cf5ec01",
-            "type": "leaf",
-            "state": {
-              "type": "kanban",
-              "state": {
-                "file": "kanban/board.md",
-                "kanbanViewState": {
-                  "kanban-plugin": "board",
-                  "list-collapse": [
-                    true,
-                    true,
-                    false,
-                    true,
-                    false,
-                    null
-                  ]
-                }
-              },
-              "icon": "lucide-trello",
-              "title": "board"
-            }
-          },
-          {
-            "id": "f2c0e10fc9c42160",
+            "id": "66a1b4556740b316",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "kanban/tasks/Move all outside work into the portfolio git.md",
+                "file": "docs/obstacles/systems/ant-trails/Trail-segment/_Index_of_Trail-segment.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Move all outside work into the portfolio git"
+              "title": "_Index_of_Trail-segment"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -117,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "kanban/tasks/Move all outside work into the portfolio git.md",
+                "file": "docs/obstacles/systems/ant-trails/Trail-segment/_Index_of_Trail-segment.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -127,7 +103,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Move all outside work into the portfolio git"
+              "title": "Backlinks for _Index_of_Trail-segment"
             }
           },
           {
@@ -136,12 +112,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "kanban/tasks/Move all outside work into the portfolio git.md",
+                "file": "docs/obstacles/systems/ant-trails/Trail-segment/_Index_of_Trail-segment.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Move all outside work into the portfolio git"
+              "title": "Outgoing links from _Index_of_Trail-segment"
             }
           },
           {
@@ -163,10 +139,10 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "kanban/tasks/Move all outside work into the portfolio git.md"
+                "file": "docs/obstacles/systems/ant-trails/Trail-segment/_Index_of_Trail-segment.md"
               },
               "icon": "lucide-list",
-              "title": "Outline of Move all outside work into the portfolio git"
+              "title": "Outline of _Index_of_Trail-segment"
             }
           },
           {
@@ -190,12 +166,11 @@
             }
           }
         ],
-        "currentTab": 4
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -251,34 +226,34 @@
       }
     ]
   },
-  "active": "f2c0e10fc9c42160",
+  "active": "66a1b4556740b316",
   "lastOpenFiles": [
-    "kanban/board.md",
-    "kanban/tasks/Move all outside work into the portfolio git.md",
-    "Move all outside work into the portfolio git.md",
-    "kanban/tasks/a gpu implementation for signal fields and vector math..md",
-    "kanban/tasks/Remove duplicate code included in headers..md",
-    "kanban/tasks/Cull duplicate macros.md",
-    "kanban/tasks/sprites.md",
-    "kanban/tasks/Add beautifier and beautifier to pipeline to pipeline.md",
-    "kanban/tasks/Rewrite andy lib in lisp.md",
-    "kanban/tasks/Brain storm new projects.md",
-    "kanban/tasks/deletable entites.md",
-    "Tasks Plugin - Review and check your Statuses 2024-12-18 14-28-29.md",
-    "_Index_of_portfolio.md",
-    "kanban/tasks/Hot reload system.md",
-    "kanban/ready.md",
-    "kanban/tasks/selection box.md",
-    "kanban/tasks/multiple factions.md",
-    "kanban/tasks/attack system.md",
-    "kanban/tasks/camera system.md",
-    "kanban/tasks/github readme.md",
-    "kanban/tasks/placeable entities (rocks, plants, bases).md",
-    "kanban/tasks/Enhance document macros.md",
-    "kanban/tasks/Home page.md",
-    "kanban/tasks/settings interface.md",
-    "kanban/tasks/config system.md",
-    "kanban/tasks/unit system.md",
+    "docs/obstacles/systems/ant-trails/_Index_of_ant-trails.md",
+    "docs/obstacles/systems/_Index_of_systems.md",
+    "docs/Obstacles/_Index_of_Obstacles.md",
+    "docs/_Index_of_docs.md",
+    "docs/readme.md",
+    "docs/obstacles/entities/trail-segment/spawn-trail-segment.md",
+    "docs/Obstacles/systems/_Index_of_systems.md",
+    "docs/Pools/_Index_of_Pools.md",
+    "docs/Pools/Dynamic/_Index_of_Dynamic.md",
+    "docs/Shared/ecs/ComponentSystem/_Index_of_ComponentSystem.md",
+    "docs/Shared/_Index_of_Shared.md",
+    "docs/Shared/ecs/_Index_of_ecs.md",
+    "docs/obstacles/entities/_Index_of_entities.md",
+    "docs/obstacles/entities/trail-segment/_Index_of_trail-segment.md",
+    "docs/obstacles/systems/ant-trails/Trail-segment/_Index_of_Trail-segment.md",
+    "docs/shared/datastructures/trees/binary-search-tree/_Index_of_binary-search-tree.md",
+    "docs/shared/datastructures/trees/_Index_of_trees.md",
+    "docs/shared/datastructures/trees/binary-searchtree/_Index_of_binary-searchtree.md",
+    "docs/shared/ecs/_Index_of_ecs.md",
+    "docs/shared/ecs/Component/_Index_of_Component.md",
+    "node_modules/@babel/_Index_of_@babel.md",
+    "node_modules/@babel/runtime/_Index_of_runtime.md",
+    "node_modules/@isaacs/_Index_of_@isaacs.md",
+    "node_modules/@isaacs/cliui/_Index_of_cliui.md",
+    "node_modules/@one-ini/_Index_of_@one-ini.md",
+    "node_modules/@one-ini/wasm/_Index_of_wasm.md",
     "shared/andy.js",
     "kanban/tasks",
     "Untitled.canvas"

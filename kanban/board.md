@@ -72,11 +72,11 @@ kanban-plugin: board
 - [ ] [[a gpu implementation for signal fields and vector math.]]
 	  - Use tensorflow.js
 - [ ] [[Remove duplicate code included in headers.]]
-- [ ] [[Move all outside work into the portfolio git]]
 
 
 ## Epics
 
+- [ ] [[Move all outside work into the portfolio git]]
 
 
 ## Ready
