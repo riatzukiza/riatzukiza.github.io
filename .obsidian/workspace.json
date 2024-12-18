@@ -77,7 +77,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "cb509b7f274d7b5e",
@@ -170,7 +171,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -218,18 +220,18 @@
         ],
         "direction": "vertical",
         "x": 2,
-        "y": 22,
+        "y": 200,
         "width": 1532,
-        "height": 864,
+        "height": 686,
         "maximize": false,
         "zoom": 0
       }
     ]
   },
-  "active": "66a1b4556740b316",
+  "active": "e3a75711866de0a9",
   "lastOpenFiles": [
-    "kanban/tasks/Move all outside work into the portfolio git.md",
     "kanban/tasks/Cull duplicate macros.md",
+    "kanban/tasks/Move all outside work into the portfolio git.md",
     "kanban/board.md",
     "docs/obstacles/systems/ant-trails/Trail-segment/_Index_of_Trail-segment.md",
     "docs/obstacles/systems/ant-trails/_Index_of_ant-trails.md",

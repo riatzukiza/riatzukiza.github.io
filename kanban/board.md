@@ -30,6 +30,7 @@ kanban-plugin: board
 
 ## Accepted
 
+- [ ] Electron client
 - [ ] Update physics engine to increase accuracy and performance
 	  - Consolodate position and velocity into physics
 	  - When performing updates, do not mutate the state of the
@@ -38,7 +39,6 @@ kanban-plugin: board
 - [ ] Design theme for website.
 - [ ] SPIKE: can we simplify object pools? (2 hrs)
 - [ ] Implemment tests for existing shared components.
-- [ ] Electron client
 - [ ] neural network for signal field hyerparameter adjustments
 - [ ] Individual ant neural networks
 - [ ] minimap
