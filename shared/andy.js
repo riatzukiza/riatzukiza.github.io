@@ -12,7 +12,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
     return f(this[k], k);
   
   }));
-});
+})
 var Andy = require("webgl");
 var Gl = Andy.gl,
     Color = Andy.Color;

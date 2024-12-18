@@ -1,0 +1,1 @@
+There were some useful things in here but all done with classes and that doesn't work with the properly prototypal interface pattern I am using.

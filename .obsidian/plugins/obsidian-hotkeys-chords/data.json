@@ -1,0 +1,68 @@
+{
+  "hotkeys": [
+    {
+      "sequence": [
+        {
+          "meta": false,
+          "shift": false,
+          "ctrl": true,
+          "alt": false,
+          "key": "x"
+        },
+        {
+          "meta": false,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "key": "3"
+        }
+      ],
+      "command": "workspace:split-vertical"
+    },
+    {
+      "sequence": [
+        {
+          "meta": false,
+          "shift": false,
+          "ctrl": true,
+          "alt": false,
+          "key": "x"
+        },
+        {
+          "meta": false,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "key": "2"
+        }
+      ],
+      "command": "workspace:split-horizontal"
+    },
+    {
+      "sequence": [
+        {
+          "meta": false,
+          "shift": false,
+          "ctrl": true,
+          "alt": false,
+          "key": " "
+        },
+        {
+          "meta": false,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "key": "w"
+        },
+        {
+          "meta": false,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "key": "v"
+        }
+      ],
+      "command": "workspace:split-vertical"
+    }
+  ]
+}

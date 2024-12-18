@@ -1,0 +1,1 @@
+The generated files have a lot of extra whitespace, and are not properly indented all the time.

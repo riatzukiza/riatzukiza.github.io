@@ -1,0 +1,207 @@
+{
+  "main": {
+    "id": "8c939ebedf4f0359",
+    "type": "split",
+    "children": [
+      {
+        "id": "981b8afd0d6cbfcc",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c97c6ee5b04211e1",
+            "type": "leaf",
+            "state": {
+              "type": "code-editor",
+              "state": {
+                "file": "shared/andy.js"
+              },
+              "icon": "lucide-file",
+              "title": "andy.js"
+            }
+          },
+          {
+            "id": "bf73c0e4846c2f75",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "84f4a106e1eb714f",
+    "type": "split",
+    "children": [
+      {
+        "id": "426523ac780be632",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9fbed87703fc0ffa",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "5eede38067e5c374",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "e19d246c1decd9f1",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "cb509b7f274d7b5e",
+    "type": "split",
+    "children": [
+      {
+        "id": "c120c2bb854a582e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a0801797e85f3cd1",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "kanban/tasks/a gpu implementation for signal fields and vector math..md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for a gpu implementation for signal fields and vector math."
+            }
+          },
+          {
+            "id": "485155227f903cc1",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "kanban/tasks/a gpu implementation for signal fields and vector math..md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from a gpu implementation for signal fields and vector math."
+            }
+          },
+          {
+            "id": "40a1ca6bff8639aa",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "5510a2484e4f1d10",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "kanban/tasks/a gpu implementation for signal fields and vector math..md"
+              },
+              "icon": "lucide-list",
+              "title": "Outline of a gpu implementation for signal fields and vector math."
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "obsidian-git:Open Git source control": false,
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "obsidian-kanban:Create new board": false,
+      "code-files:Create Code File": false
+    }
+  },
+  "active": "c97c6ee5b04211e1",
+  "lastOpenFiles": [
+    "kanban/tasks/deletable entites.md",
+    "kanban/board.md",
+    "kanban/tasks/a gpu implementation for signal fields and vector math..md",
+    "kanban/tasks/paralell processing for each system.md",
+    "kanban/tasks/Add beautifier and beautifier to pipeline to pipeline.md",
+    "kanban/tasks/Rewrite andy lib in lisp.md",
+    "kanban/in-progress.md",
+    "kanban/breakdown.md",
+    "kanban/tasks/BUG Collision doesn't work correctly in some circumstances..md",
+    "kanban/tasks",
+    "kanban/ready.md",
+    "kanban/to-do.md",
+    "kanban/done.md",
+    "kanban/BUG Collision doesn't work correctly in some circumstances..md",
+    "Untitled Kanban.md",
+    "docs/Pools/Dynamic/spawn.md",
+    "docs/Shared/ecs/ComponentSystem/register.md",
+    "docs/Pools/Dynamic/release.md",
+    "docs/Pools/Dynamic/register.md",
+    "docs/Pools/Dynamic/grow.md",
+    "docs/Pools/Dynamic/each.md",
+    "docs/Pools/Dynamic/despawn.md",
+    "docs/Pools/Dynamic/clear.md",
+    "docs/Pools/Dynamic/aquire.md",
+    "docs/Pools/Dynamic/adjust.md",
+    "docs/obstacles/systems/ant-trails/Trail-vector.md",
+    "docs/obstacles/systems/ant-trails/Trail-segment/apply.md",
+    "Untitled.canvas"
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "hotkeys": [
+    {
+      "command": "workspace:split-vertical",
+      "chords": [
+        "C-Space",
+        "KeyW",
+        "KeyV"
+      ]
+    },
+    {
+      "command": "workspace:split-horizontal",
+      "chords": [
+        "C-Space",
+        "KeyW",
+        "KeyS"
+      ]
+    },
+    {
+      "command": "switcher:open",
+      "chords": [
+        "C-Space",
+        "KeyP",
+        "KeyF"
+      ]
+    },
+    {
+      "command": "global-search:open",
+      "chords": [
+        "C-Space",
+        "Slash"
+      ]
+    },
+    {
+      "command": "obsidian-open-in-other-editor:open-in-other-editor-vscode",
+      "chords": [
+        "C-Space",
+        "KeyO",
+        "KeyV"
+      ]
+    },
+    {
+      "command": "obsidian-kanban:toggle-kanban-view",
+      "chords": [
+        "C-Space",
+        "KeyK",
+        "KeyT"
+      ]
+    },
+    {
+      "command": "obsidian-kanban:view-board",
+      "chords": [
+        "C-Space",
+        "KeyK",
+        "KeyB"
+      ]
+    },
+    {
+      "command": "obsidian-kanban:view-list",
+      "chords": [
+        "C-Space",
+        "KeyK",
+        "KeyL"
+      ]
+    },
+    {
+      "command": "open-with-default-app:open",
+      "chords": [
+        "C-Space",
+        "KeyO",
+        "KeyD"
+      ]
+    },
+    {
+      "command": "workspace:close-tab-group",
+      "chords": [
+        "C-Space",
+        "KeyW",
+        "KeyD"
+      ]
+    },
+    {
+      "command": "workspace:close",
+      "chords": [
+        "C-Space",
+        "KeyB",
+        "KeyD"
+      ]
+    }
+  ]
+}
