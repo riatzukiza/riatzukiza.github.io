@@ -86,6 +86,22 @@
         "KeyB",
         "KeyD"
       ]
+    },
+    {
+      "command": "app:go-back",
+      "chords": [
+        "C-Space",
+        "KeyW",
+        "KeyU"
+      ]
+    },
+    {
+      "command": "app:go-forward",
+      "chords": [
+        "C-Space",
+        "KeyW",
+        "KeyR"
+      ]
     }
   ]
 }

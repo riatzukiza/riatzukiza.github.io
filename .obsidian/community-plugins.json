@@ -6,5 +6,6 @@
   "local-gpt",
   "execute-code",
   "obsidian-checklist-plugin",
-  "zoottelkeeper-obsidian-plugin"
+  "zoottelkeeper-obsidian-plugin",
+  "obsidian-relative-line-numbers"
 ]

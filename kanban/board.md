@@ -51,7 +51,6 @@ kanban-plugin: board
 - [ ] flying units
 - [ ] shadows
 - [ ] night/day cycle
-- [ ] Brain storm new projects
 
 
 ## Breakdown (5)
@@ -63,12 +62,12 @@ kanban-plugin: board
 - [ ] [[Rewrite andy lib in lisp]]
 - [ ] [[a gpu implementation for signal fields and vector math.]]
 	  - Use tensorflow.js
-- [ ] [[paralell processing for each system]]
-	  - blocked by backend task
 
 
 ## Blocked
 
+- [ ] [[paralell processing for each system]]
+	  - blocked by backend task
 - [ ] ground tiles
 - [ ] metabolism system
 - [ ] multiple signal fields
@@ -80,28 +79,29 @@ kanban-plugin: board
 
 ## Ready
 
-- [ ] vector field visualization
-- [ ] unit system
+- [ ] [[Brain storm new projects]]
+- [ ] [[vector field visualization]]
+- [ ] [[unit system]]
 	  - A unit is an abstraction over an entity.
 	  - Entities can be anything in the game
 	  - A unit is a dynamic collection of entities
 	- Like say a weapon, a shield
-- [ ] Hot reload system
+- [ ] [[Hot reload system]]
 	  - Create a seperate pipeline for development and production
-- [ ] selection box
-- [ ] sprites
-- [ ] camera system
-- [ ] placeable entities (rocks, plants, bases)
-- [ ] Enhance document macros
-- [ ] Home page
-- [ ] settings interface
-- [ ] attack system
-- [ ] multiple factions
-- [ ] simulation backend
+- [ ] [[selection box]]
+- [ ] [[sprites]]
+- [ ] [[camera system]]
+- [ ] [[placeable entities (rocks, plants, bases)]]
+- [ ] [[Enhance document macros]]
+- [ ] [[Home page]]
+- [ ] [[settings interface]]
+- [ ] [[attack system]]
+- [ ] [[multiple factions]]
+- [ ] [[simulation backend]]
 	  - Realizing after adding a toggle for the trail dots that rendering was not what was slowing the sim down
 	We have decided to move this out of the todo backlog, as it will not be as much of a value add as we'd 
 	have liked. The simulation needs more optimizations, and we don't currently have a place to host such an intensive backend.
-- [ ] github readme
+- [ ] [[github readme]]
 	  - The readme can be generated from this kanban through simple concatonation.
 
 
@@ -111,13 +111,13 @@ kanban-plugin: board
 
 ## In Progress (2)
 
-- [ ] documentation
+- [ ] [[documentation]]
 	  - Documenting a little bit at a time, especially when we find outselves having to look at older code to use or change it for use with new features.
 
 
 ## In Review (2)
 
-- [ ] config system
+- [ ] [[config system]]
 	  - we just kinda did this one before moving it through the board :shrug:
 
 
@@ -133,6 +133,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,false]}
 ```
 %%
