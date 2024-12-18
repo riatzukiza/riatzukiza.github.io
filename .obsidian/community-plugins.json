@@ -4,5 +4,7 @@
   "obsidian-git",
   "obsidian-tasks-plugin",
   "local-gpt",
-  "code-files"
+  "execute-code",
+  "obsidian-checklist-plugin",
+  "zoottelkeeper-obsidian-plugin"
 ]

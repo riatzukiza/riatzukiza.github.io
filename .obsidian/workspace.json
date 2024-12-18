@@ -11,12 +11,14 @@
             "id": "c97c6ee5b04211e1",
             "type": "leaf",
             "state": {
-              "type": "code-editor",
+              "type": "markdown",
               "state": {
-                "file": "shared/andy.js"
+                "file": "kanban/done.md",
+                "mode": "source",
+                "source": false
               },
               "icon": "lucide-file",
-              "title": "andy.js"
+              "title": "done"
             }
           },
           {
@@ -152,8 +154,19 @@
               "icon": "lucide-list",
               "title": "Outline of a gpu implementation for signal fields and vector math."
             }
+          },
+          {
+            "id": "e2a001b4aa056449",
+            "type": "leaf",
+            "state": {
+              "type": "todo",
+              "state": {},
+              "icon": "checkmark",
+              "title": "Todo List"
+            }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
@@ -175,13 +188,17 @@
   },
   "active": "c97c6ee5b04211e1",
   "lastOpenFiles": [
-    "kanban/tasks/deletable entites.md",
     "kanban/board.md",
+    "kanban/process.md",
+    "kanban/in-review.md",
+    "kanban/in-progress.md",
+    "Untitled Kanban.md",
+    "shared/andy.js",
+    "kanban/tasks/deletable entites.md",
     "kanban/tasks/a gpu implementation for signal fields and vector math..md",
     "kanban/tasks/paralell processing for each system.md",
     "kanban/tasks/Add beautifier and beautifier to pipeline to pipeline.md",
     "kanban/tasks/Rewrite andy lib in lisp.md",
-    "kanban/in-progress.md",
     "kanban/breakdown.md",
     "kanban/tasks/BUG Collision doesn't work correctly in some circumstances..md",
     "kanban/tasks",
@@ -189,7 +206,6 @@
     "kanban/to-do.md",
     "kanban/done.md",
     "kanban/BUG Collision doesn't work correctly in some circumstances..md",
-    "Untitled Kanban.md",
     "docs/Pools/Dynamic/spawn.md",
     "docs/Shared/ecs/ComponentSystem/register.md",
     "docs/Pools/Dynamic/release.md",
@@ -200,8 +216,6 @@
     "docs/Pools/Dynamic/clear.md",
     "docs/Pools/Dynamic/aquire.md",
     "docs/Pools/Dynamic/adjust.md",
-    "docs/obstacles/systems/ant-trails/Trail-vector.md",
-    "docs/obstacles/systems/ant-trails/Trail-segment/apply.md",
     "Untitled.canvas"
   ]
 }
