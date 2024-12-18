@@ -32,6 +32,12 @@
   },
   "actions": [
     {
+      "name": "🏷️ Propose 5 tags",
+      "system": "You are an AI assistant that follows instructions extremely well. Help as much as you can.",
+      "prompt": "Create 5 relevant single word tags for the bellow content. Use # before each of the tasgs.  Answer only the tags, do not add introductory words of explanations.",
+      "model": "mistral:instruct"
+    },
+    {
       "name": "Tag document",
       "prompt": "Generate tags for the selected text in the format #hashtag",
       "model": "",
