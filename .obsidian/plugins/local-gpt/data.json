@@ -1,7 +1,7 @@
 {
   "providers": {
     "ollama": {
-      "url": "http://172.26.128.1:11434",
+      "url": "",
       "defaultModel": "gemma2",
       "embeddingModel": "",
       "type": "ollama"
