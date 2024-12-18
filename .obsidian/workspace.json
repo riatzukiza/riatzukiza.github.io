@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "kanban/tasks/Hot reload system.md",
+                "file": "kanban/board.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Hot reload system"
+              "title": "board"
             }
           }
         ]
@@ -73,8 +73,7 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -176,10 +175,12 @@
       "obsidian-kanban:Create new board": false
     }
   },
-  "active": "c55f3574250dfed5",
+  "active": "9fbed87703fc0ffa",
   "lastOpenFiles": [
-    "kanban/ready.md",
+    "kanban/tasks/Add beautifier and beautifier to pipeline to pipeline.md",
+    "kanban/board.md",
     "kanban/tasks/Hot reload system.md",
+    "kanban/ready.md",
     "kanban/tasks/selection box.md",
     "kanban/tasks/sprites.md",
     "kanban/tasks/multiple factions.md",
@@ -190,8 +191,6 @@
     "kanban/tasks/Enhance document macros.md",
     "kanban/tasks/Home page.md",
     "kanban/tasks/settings interface.md",
-    "kanban/board.md",
-    "kanban/tasks/Add beautifier and beautifier to pipeline to pipeline.md",
     "kanban/tasks/config system.md",
     "kanban/tasks/a gpu implementation for signal fields and vector math..md",
     "kanban/tasks/Brain storm new projects.md",

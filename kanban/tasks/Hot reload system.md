@@ -25,3 +25,19 @@ into seperate processes.
   - compile x
   - start x
   - test x
+
+
+Here are the generated tags:
+
+#hotreloadsystem
+#devmode
+#frontendreload
+#backendreload
+#compilerprocesses
+#bundlerprocesses
+#separatescripts
+#npmscripts
+#bundlex
+#compilex
+#startx
+#testx

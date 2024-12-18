@@ -1,9 +1,9 @@
 {
   "providers": {
     "ollama": {
-      "url": "",
-      "defaultModel": "gemma2",
-      "embeddingModel": "",
+      "url": "http://localhost:11434",
+      "defaultModel": "llama3.2",
+      "embeddingModel": "llama3.2",
       "type": "ollama"
     },
     "ollama_fallback": {
@@ -35,7 +35,7 @@
       "name": "Tag document",
       "prompt": "Generate tags for the selected text in the format #hashtag",
       "model": "",
-      "system": "",
+      "system": "You are an AI assistant that follows instruction extremely well. Help as much as you can.",
       "replace": false
     },
     {

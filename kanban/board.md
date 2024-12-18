@@ -117,12 +117,13 @@ kanban-plugin: board
 
 ## In Review (2)
 
-- [ ] [[config system]]
-	  - we just kinda did this one before moving it through the board :shrug:
 
 
 ## Done
 
+**Complete**
+- [ ] [[config system]]
+	  - we just kinda did this one before moving it through the board :shrug:
 - [ ] Entity inspector
 - [ ] Github pages static site [high priority]
 - [ ] trail entities
