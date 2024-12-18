@@ -2,5 +2,8 @@
   "vimMode": true,
   "showUnsupportedFiles": true,
   "showLineNumber": true,
-  "alwaysUpdateLinks": true
+  "alwaysUpdateLinks": true,
+  "userIgnoreFilters": [
+    "node_modules/"
+  ]
 }
