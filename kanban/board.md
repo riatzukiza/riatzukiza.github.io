@@ -34,9 +34,7 @@ kanban-plugin: board
 	  - Consolodate position and velocity into physics
 	  - When performing updates, do not mutate the state of the
 	last tick. Use two data structures, and swap them out each tick.
-- [ ] Move all kit libraries into shared
-- [ ] Cull duplicate macros
-- [ ] Remove duplicate code included in headers.
+- [ ] [[Cull duplicate macros]]
 - [ ] Design theme for website.
 - [ ] SPIKE: can we simplify object pools? (2 hrs)
 - [ ] Implemment tests for existing shared components.
@@ -53,17 +51,6 @@ kanban-plugin: board
 - [ ] night/day cycle
 
 
-## Breakdown (5)
-
-- [ ] [[deletable entites]]
-	  - Entities can be deleted from a panel
-- [ ] [[Add beautifier and beautifier to pipeline to pipeline]]
-	  - Maybe this should be done at the same time as hot reloading? it is at least blocked by that task.
-- [ ] [[Rewrite andy lib in lisp]]
-- [ ] [[a gpu implementation for signal fields and vector math.]]
-	  - Use tensorflow.js
-
-
 ## Blocked
 
 - [ ] [[paralell processing for each system]]
@@ -77,8 +64,25 @@ kanban-plugin: board
 - [ ] Building system
 
 
+## Breakdown (5)
+
+- [ ] [[Add beautifier and beautifier to pipeline to pipeline]]
+	  - Maybe this should be done at the same time as hot reloading? it is at least blocked by that task.
+- [ ] [[Rewrite andy lib in lisp]]
+- [ ] [[a gpu implementation for signal fields and vector math.]]
+	  - Use tensorflow.js
+- [ ] [[Remove duplicate code included in headers.]]
+- [ ] [[Move all outside work into the portfolio git]]
+
+
+## Epics
+
+
+
 ## Ready
 
+- [ ] [[deletable entites]]
+	  - Entities can be deleted from a panel
 - [ ] [[Brain storm new projects]]
 - [ ] [[vector field visualization]]
 - [ ] [[unit system]]
@@ -134,6 +138,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,false]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,false,true,false,null],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}]}
 ```
 %%

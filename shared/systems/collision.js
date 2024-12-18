@@ -165,27 +165,16 @@ var Collision = System.define("Collision", {
     
       this.quads.clear();
       var node = this.components.values.head;
-      while( node ){ 
-        var c = node.item;;
-        c.checked = false;;
-        this.quads.insert(c);
-        node = node.next;
-       };
+      while__BANG(node, var c = node.item;, c.checked = false;, this.quads.insert(c), node = node.next;);
       node = this.components.values.head;
-      while( node ){ 
-        var c = node.item;;
-        const possibleCollisions=this.quads.retrieve(c);;
-        for (var c_ of possibleCollisions)
-        {
-        if( (!(c === c_) && !(c_.checked)) ){ 
-          this._check(c, c_)
-         };
-        null
-        }
-        ;
-        c.checked = true;;
-        node = node.next;
+      while__BANG(node, var c = node.item;, const possibleCollisions=this.quads.retrieve(c);, for (var c_ of possibleCollisions)
+      {
+      if( (!(c === c_) && !(c_.checked)) ){ 
+        this._check(c, c_)
        };
+      null
+      }
+      , c.checked = true;, node = node.next;);
       return null;
     
    }
@@ -204,9 +193,9 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
   const placementVector=Vector.spawn(1, 1);
   var colliding = true;
   (function() {
-    var while$238 = undefined;
+    var while$48 = undefined;
     while (colliding) {
-      while$238 = (function() {
+      while$48 = (function() {
         var noCollisions = true;
         placementTree.clear();
         c.system.components.each(((c_) => {
@@ -222,16 +211,16 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         for (var c_ of possibleCollisions)
         {
         (function() {
-          var while$239 = undefined;
+          var while$49 = undefined;
           while (c.isColliding__QUERY(c_)) {
-            while$239 = (function() {
+            while$49 = (function() {
               noCollisions = false;
               placementVector.setLength((0.5 * c_.scale));
               placementVector.setAngle(((Math.random() * ( - 360)) + 360));
               return c.pos.system.shift(c.pos, [ placementVector.x, placementVector.y ]);
             }).call(this);
           };
-          return while$239;
+          return while$49;
         }).call(this)
         }
         ;
@@ -243,7 +232,7 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         return null;
       }).call(this);
     };
-    return while$238;
+    return while$48;
   }).call(this);
   placementVector.despawn();
   return entity;
