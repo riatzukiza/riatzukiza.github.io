@@ -4,18 +4,9 @@
   "obsidian-git",
   "obsidian-tasks-plugin",
   "local-gpt",
-  "execute-code",
   "obsidian-checklist-plugin",
   "zoottelkeeper-obsidian-plugin",
   "obsidian-relative-line-numbers",
-  "vimium",
-  "obsidian-vimrc-support",
-  "pomodoro-timer",
-  "calendar",
-  "dataview",
   "obsidian-html-plugin",
-  "omnisearch",
-  "obsidian-projects",
-  "obsidian-tagfolder",
-  "cmdr"
+  "obsidian-tagfolder"
 ]

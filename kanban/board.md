@@ -35,7 +35,6 @@ kanban-plugin: board
 	  - Consolodate position and velocity into physics
 	  - When performing updates, do not mutate the state of the
 	last tick. Use two data structures, and swap them out each tick.
-- [ ] [[Cull duplicate macros]]
 - [ ] Design theme for website.
 - [ ] SPIKE: can we simplify object pools? (2 hrs)
 - [ ] Implemment tests for existing shared components.
@@ -71,6 +70,7 @@ kanban-plugin: board
 - [ ] [[Rewrite andy lib in lisp]]
 - [ ] [[a gpu implementation for signal fields and vector math.]]
 	  - Use tensorflow.js
+- [ ] [[Cull duplicate macros]]
 - [ ] [[Remove duplicate code included in headers.]]
 
 

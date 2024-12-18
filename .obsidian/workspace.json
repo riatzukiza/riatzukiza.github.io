@@ -155,16 +155,6 @@
               "icon": "checkmark",
               "title": "Todo List"
             }
-          },
-          {
-            "id": "ae609123810a321c",
-            "type": "leaf",
-            "state": {
-              "type": "calendar",
-              "state": {},
-              "icon": "calendar-with-checkmark",
-              "title": "Calendar"
-            }
           }
         ],
         "currentTab": 2
@@ -183,10 +173,7 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "obsidian-kanban:Create new board": false,
-      "pomodoro-timer:Toggle timer panel": false,
-      "omnisearch:Omnisearch": false,
-      "obsidian-projects:Open projects": false
+      "obsidian-kanban:Create new board": false
     }
   },
   "floating": {
@@ -228,11 +215,11 @@
       }
     ]
   },
-  "active": "e3a75711866de0a9",
+  "active": "66a1b4556740b316",
   "lastOpenFiles": [
+    "kanban/board.md",
     "kanban/tasks/Cull duplicate macros.md",
     "kanban/tasks/Move all outside work into the portfolio git.md",
-    "kanban/board.md",
     "docs/obstacles/systems/ant-trails/Trail-segment/_Index_of_Trail-segment.md",
     "docs/obstacles/systems/ant-trails/_Index_of_ant-trails.md",
     "docs/obstacles/systems/_Index_of_systems.md",
