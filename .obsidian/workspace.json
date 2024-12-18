@@ -93,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "docs/obstacles/systems/ant-trails/Trail-segment/_Index_of_Trail-segment.md",
+                "file": "kanban/tasks/Move all outside work into the portfolio git.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +103,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for _Index_of_Trail-segment"
+              "title": "Backlinks for Move all outside work into the portfolio git"
             }
           },
           {
@@ -112,12 +112,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "docs/obstacles/systems/ant-trails/Trail-segment/_Index_of_Trail-segment.md",
+                "file": "kanban/tasks/Move all outside work into the portfolio git.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from _Index_of_Trail-segment"
+              "title": "Outgoing links from Move all outside work into the portfolio git"
             }
           },
           {
@@ -139,10 +139,10 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "docs/obstacles/systems/ant-trails/Trail-segment/_Index_of_Trail-segment.md"
+                "file": "kanban/tasks/Move all outside work into the portfolio git.md"
               },
               "icon": "lucide-list",
-              "title": "Outline of _Index_of_Trail-segment"
+              "title": "Outline of Move all outside work into the portfolio git"
             }
           },
           {
@@ -226,8 +226,11 @@
       }
     ]
   },
-  "active": "66a1b4556740b316",
+  "active": "e3a75711866de0a9",
   "lastOpenFiles": [
+    "docs/obstacles/systems/ant-trails/Trail-segment/_Index_of_Trail-segment.md",
+    "kanban/tasks/Move all outside work into the portfolio git.md",
+    "kanban/board.md",
     "docs/obstacles/systems/ant-trails/_Index_of_ant-trails.md",
     "docs/obstacles/systems/_Index_of_systems.md",
     "docs/Obstacles/_Index_of_Obstacles.md",
@@ -242,7 +245,6 @@
     "docs/Shared/ecs/_Index_of_ecs.md",
     "docs/obstacles/entities/_Index_of_entities.md",
     "docs/obstacles/entities/trail-segment/_Index_of_trail-segment.md",
-    "docs/obstacles/systems/ant-trails/Trail-segment/_Index_of_Trail-segment.md",
     "docs/shared/datastructures/trees/binary-search-tree/_Index_of_binary-search-tree.md",
     "docs/shared/datastructures/trees/_Index_of_trees.md",
     "docs/shared/datastructures/trees/binary-searchtree/_Index_of_binary-searchtree.md",
@@ -252,8 +254,6 @@
     "node_modules/@babel/runtime/_Index_of_runtime.md",
     "node_modules/@isaacs/_Index_of_@isaacs.md",
     "node_modules/@isaacs/cliui/_Index_of_cliui.md",
-    "node_modules/@one-ini/_Index_of_@one-ini.md",
-    "node_modules/@one-ini/wasm/_Index_of_wasm.md",
     "shared/andy.js",
     "kanban/tasks",
     "Untitled.canvas"

@@ -2,8 +2,8 @@
   "providers": {
     "ollama": {
       "url": "http://localhost:11434",
-      "defaultModel": "llama3.2",
-      "embeddingModel": "llama3.2",
+      "defaultModel": "llama3.2:1b",
+      "embeddingModel": "llama3.2:1b",
       "type": "ollama"
     },
     "ollama_fallback": {
