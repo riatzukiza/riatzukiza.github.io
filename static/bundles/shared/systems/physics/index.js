@@ -10603,7 +10603,31 @@ module.exports = _curry3(function zipWith(fn, a, b) {
   return rv;
 });
 
-},{"./internal/_curry3":107}],"@shared/pooling/pooled-system.js":[function(require,module,exports){
+},{"./internal/_curry3":107}],313:[function(require,module,exports){
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
+var { 
+  Friction
+ } = require("@shared/systems/physics/forces/friction.js"),
+    { 
+  SignalField
+ } = require("@shared/systems/physics/forces/signal-field.js");
+exports.Friction = Friction;
+exports.SignalField = SignalField;
+},{"@shared/systems/physics/forces/friction.js":"@shared/systems/physics/forces/friction.js","@shared/systems/physics/forces/signal-field.js":"@shared/systems/physics/forces/signal-field.js"}],314:[function(require,module,exports){
 Array.prototype.each = (function Array$prototype$each$(f) {
   /* Array.prototype.each inc/misc.sibilant:1:1121 */
 
@@ -10623,58 +10647,168 @@ var {
   Interface
  } = require("@kit-js/interface");
 var { 
-  DynamicPool
- } = require("@shared/pooling/dynamic-pool.js");
-var PooledSystem = Interface.define("PooledSystem", { 
-  init( interface = this.interface,_pool = create(DynamicPool)(interface) ){ 
+  Component,
+  System
+ } = require("@shared/ecs.js"),
+    { 
+  Velocity
+ } = require("@shared/systems/velocity.js"),
+    { 
+  Position
+ } = require("@shared/systems/position.js");
+var PhysicalProperties = Component.define("PhysicalProperties", { 
+  _scale:1,
+  _mass:1,
+  priorMass:0,
+  priorScale:0,
+  forces:[],
+  get priorDensity(  ){ 
     
-      this.interface = interface;this._pool = _pool;
-      this.register(interface);
-      return this;
-    
-   },
-  systems:(new Map()),
-  clear( _pooled = this._pooled ){ 
-    
-      _pooled.each(feach(despawned));
-      return _pooled.clear();
-    
-   },
-  spawn( ...args ){ 
-    
-      "aquire an object from the systems pool, and initialize it.";
-      return (function(r) {
-        /* eval.sibilant:1:489 */
-      
-        r.init(...args);
-        return r;
-      }).call(this, this._pool.aquire());
+      return (this.priorMass / this.priorVolume);
     
    },
-  despawn( obj ){ 
+  get priorVolume(  ){ 
     
-      "remove an object from the system, and release it back into the pool.";
-      obj.clear();
-      return this._pool.release(obj);
+      return Math.pow(this.priorScale, 3);
     
    },
-  register( interface ){ 
+  get scale(  ){ 
     
-      "Associate an interface with a system,and add the system to the collection of all active systems.";
-      interface.system = this;
-      return this.systems.set(this, this);
+      return this._scale;
     
    },
-  update(  ){ 
+  get mass(  ){ 
     
-      "update every active member of the system";
-      return this._pool._inUse.each(((member) => {
+      return this._mass;
+    
+   },
+  set scale( s ){ 
+    
+      this.priorScale = this.scale;
+      return this._scale = s;
+    
+   },
+  set mass( m ){ 
+    
+      this.priorMass = this.mass;
+      return this._mass = m;
+    
+   },
+  get density(  ){ 
+    
+      return (this.mass / this.volume);
+    
+   },
+  get volume(  ){ 
+    
+      return Math.pow(this.scale, 3);
+    
+   },
+  get velocity(  ){ 
+    
+      return this.entity.velocityInterface;
+    
+   },
+  get position(  ){ 
+    
+      return this.entity.positionInterface;
+    
+   },
+  get location(  ){ 
+    
+      return this.position;
+    
+   },
+  _clear(  ){ 
+    
+      this._mass = null;
+      this._scale = null;
+      this.priorScale = null;
+      this.priorMass = null;
+      return this.forces = [];
+    
+   }
+ });
+exports.PhysicalProperties = PhysicalProperties;
+var Physics = System.define("Physics", { 
+  interface:PhysicalProperties,
+  _forces:[],
+  registerForce( F = this.F,_forces = this._forces ){ 
+    
+      console.log("registering force", F);
+      return create(F)(this);
+    
+   },
+  register( forces = this.forces ){ 
+    
+      return this._forces = forces.map(((F) => {
       	
-        return member.update();
+        return this.registerForce(F, forces);
       
+      }));
+    
+   },
+  get forces(  ){ 
+    
+      return this._forces;
+    
+   },
+  _updateComponent( c ){ 
+    
+      return c.forces.each((function() {
+        /* eval.sibilant:1:1729 */
+      
+        return arguments[0].apply(c);
       }));
     
    }
  });
-exports.PooledSystem = PooledSystem;
-},{"@kit-js/interface":1,"@shared/pooling/dynamic-pool.js":"@shared/pooling/dynamic-pool.js"}]},{},[]);
+exports.Physics = Physics;
+Physics.Force = Interface.define("Physics.Force", { 
+  init( physics = this.physics ){ 
+    
+      this.physics = physics;
+      this.register();
+      return this;
+    
+   },
+  template:true,
+  build(  ){ 
+    
+      return (function() {
+        if (!((this.template || this.name === "Physics.Force"))) {
+          console.log("Physics.Force.build", "adding force to physics", this);
+          return Physics.forces.push(this);
+        }
+      }).call(this);
+    
+   },
+  apply( physicalProperties = this.physicalProperties ){ 
+    
+      throw (new Error("force does not have an applicator.")())
+    
+   }
+ });
+},{"@kit-js/interface":1,"@shared/ecs.js":"@shared/ecs.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js"}],"@shared/systems/physics/index.js":[function(require,module,exports){
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
+var { 
+  Physics
+ } = require("./system.js"),
+    forces = require("./forces/index.js");
+exports.Physics = Physics;
+exports.forces = forces;
+},{"./forces/index.js":313,"./system.js":314}]},{},[]);

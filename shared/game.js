@@ -36,7 +36,7 @@ var Game = Interface.define("Game", {
           setSystemBySymbol = systems.set;
       systems.getBySymbol = getSystemBySymbol;
       systems.get = (function systems$get$(interface, ent) {
-        /* systems.get eval.sibilant:1:893 */
+        /* systems.get eval.sibilant:1:939 */
       
         var sys = getSystemBySymbol.call(systems, interface.symbol);
         return (function() {
@@ -85,7 +85,7 @@ var Game = Interface.define("Game", {
       return events.on("tick", ((t) => {
       	
         return systems.each((function() {
-          /* eval.sibilant:1:1632 */
+          /* eval.sibilant:1:1678 */
         
           return arguments[0].update();
         }));
@@ -110,7 +110,7 @@ var Game = Interface.define("Game", {
       entities.clear();
       events.removeAllListeners();
       return systems.each((function() {
-        /* eval.sibilant:1:1911 */
+        /* eval.sibilant:1:1957 */
       
         return arguments[0].clear();
       }));

@@ -90,7 +90,7 @@ var shaders = Interface.define("shaders", {
   `
  });
 var vertexLayer = (function vertexLayer$(limit, game) {
-  /* vertex-layer eval.sibilant:1:970 */
+  /* vertex-layer eval.sibilant:1:1016 */
 
   uniforms.init(game);
   return game.rendering.spawn(limit, Vertex, [ uniforms.res, uniforms.scale ], [ shaders.vert, shaders.frag ]);

@@ -29,32 +29,32 @@ var {
   Gl
  } = require("@shared/gl.js");
 var bound = (function() {
-  /* eval.sibilant:1:469 */
+  /* eval.sibilant:1:515 */
 
   return arguments[0].bind();
 }),
     clear = (function() {
-  /* eval.sibilant:1:494 */
+  /* eval.sibilant:1:540 */
 
   return arguments[0].clear();
 }),
     rendered = (function() {
-  /* eval.sibilant:1:523 */
+  /* eval.sibilant:1:569 */
 
   return arguments[0].render();
 }),
     unbound = (function() {
-  /* eval.sibilant:1:553 */
+  /* eval.sibilant:1:599 */
 
   return arguments[0].unbind();
 }),
     disabled = (function() {
-  /* eval.sibilant:1:582 */
+  /* eval.sibilant:1:628 */
 
   return arguments[0].disable();
 }),
     enabled = (function() {
-  /* eval.sibilant:1:613 */
+  /* eval.sibilant:1:659 */
 
   return arguments[0].enable();
 });

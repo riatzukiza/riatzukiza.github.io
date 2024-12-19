@@ -32,37 +32,37 @@ var {
   Scalar
  } = require("@shared/math/scalar.js");
 var bound = (function() {
-  /* eval.sibilant:1:493 */
+  /* eval.sibilant:1:539 */
 
   return arguments[0].bind();
 }),
     clear = (function() {
-  /* eval.sibilant:1:518 */
+  /* eval.sibilant:1:564 */
 
   return arguments[0].clear();
 }),
     rendered = (function() {
-  /* eval.sibilant:1:547 */
+  /* eval.sibilant:1:593 */
 
   return arguments[0].render();
 }),
     unbound = (function() {
-  /* eval.sibilant:1:577 */
+  /* eval.sibilant:1:623 */
 
   return arguments[0].unbind();
 }),
     disabled = (function() {
-  /* eval.sibilant:1:606 */
+  /* eval.sibilant:1:652 */
 
   return arguments[0].disable();
 }),
     enabled = (function() {
-  /* eval.sibilant:1:637 */
+  /* eval.sibilant:1:683 */
 
   return arguments[0].enable();
 });
 var allowAlphaBlending = (function allowAlphaBlending$(context) {
-  /* allow-alpha-blending eval.sibilant:1:655 */
+  /* allow-alpha-blending eval.sibilant:1:701 */
 
   context.gl.enable(context.gl.BLEND);
   context.gl.blendEquation(context.gl.FUNC_ADD);

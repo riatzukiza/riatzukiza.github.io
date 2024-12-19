@@ -6,6 +6,6 @@ key: A numeric key
 
 ## description
 
-[search](../binary-searchtree/search.md) the tree for a key, removing the branchscription
+Search the tree for a key, removing the branchscription
 
-[search](../binary-searchtree/search.md) the tree to a given depth for a key, removing the branch at the depth.
+Search the tree to a given depth for a key, removing the branch at the depth.

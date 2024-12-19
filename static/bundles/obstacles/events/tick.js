@@ -78,34 +78,30 @@ game.events.on("tick", (() => {
                 const x=(physics.mass / 2);
                 physics.mass = x;
                 physics.scale = x;
-                const plant_=spawnPlant([ (((Math.random() * physics.scale) * (function() {
-                  if (Math.random() < 0.5) {
-                    return -1;
-                  } else {
-                    return 1;
-                  }
-                }).call(this)) + physics.position.x), (((Math.random() * physics.scale) * (function() {
-                  if (Math.random() < 0.5) {
-                    return -1;
-                  } else {
-                    return 1;
-                  }
-                }).call(this)) + physics.position.y) ], physics.mass);
+                const plant_=spawnPlant([ ((function() {
+                  /* eval.sibilant:1:511 */
+                
+                  var rand = ((Math.random() * (physics.scale - 0)) + 0);
+                  return (physics.scale - (rand / 2));
+                }).call(this) + physics.position.x), ((function() {
+                  /* eval.sibilant:1:511 */
+                
+                  var rand = ((Math.random() * (physics.scale - 0)) + 0);
+                  return (physics.scale - (rand / 2));
+                }).call(this) + physics.position.y) ], physics.mass);
                 const physics_=game.systems.get(Physics, plant_);
-                const vx=((Math.random() * config.spawnStatic) * (function() {
-                  if (Math.random() < 0.5) {
-                    return -1;
-                  } else {
-                    return 1;
-                  }
-                }).call(this));
-                const vy=((Math.random() * config.spawnStatic) * (function() {
-                  if (Math.random() < 0.5) {
-                    return -1;
-                  } else {
-                    return 1;
-                  }
-                }).call(this));
+                const vx=(function() {
+                  /* eval.sibilant:1:511 */
+                
+                  var rand = ((Math.random() * (config.spawnStatic - 0)) + 0);
+                  return (config.spawnStatic - (rand / 2));
+                }).call(this);
+                const vy=(function() {
+                  /* eval.sibilant:1:511 */
+                
+                  var rand = ((Math.random() * (config.spawnStatic - 0)) + 0);
+                  return (config.spawnStatic - (rand / 2));
+                }).call(this);
                 physics.velocity.accelerate([ vx, vy ]);
                 return physics_.velocity.accelerate([ (-1 * vx), (-1 * vy) ]);
               }

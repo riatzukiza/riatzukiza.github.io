@@ -14,10 +14,10 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   }));
 });
 Array.transform = (function Array$transform$(f, a, r = a) {
-  /* Array.transform eval.sibilant:1:361 */
+  /* Array.transform eval.sibilant:1:407 */
 
   return (function(r) {
-    /* node_modules/kit/inc/scope.sibilant:12:9 */
+    /* inc/misc.sibilant:1:798 */
   
     a.each(((e, i) => {
     	
@@ -25,10 +25,10 @@ Array.transform = (function Array$transform$(f, a, r = a) {
     
     }));
     return r;
-  })(r);
+  }).call(this, r);
 });
 Array.prototype.bind = Array.bind = (function Array$bind$(a, f) {
-  /* Array.bind eval.sibilant:1:494 */
+  /* Array.bind eval.sibilant:1:540 */
 
   return a.reduce(((r, e, i) => {
   	
@@ -42,16 +42,16 @@ Array.prototype.bind = Array.bind = (function Array$bind$(a, f) {
   }), []);
 });
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each eval.sibilant:1:655 */
+  /* Array.prototype.each eval.sibilant:1:701 */
 
   this.forEach(f);
   return this;
 });
 Array.prototype.bind = (function Array$prototype$bind$(f) {
-  /* Array.prototype.bind eval.sibilant:1:719 */
+  /* Array.prototype.bind eval.sibilant:1:765 */
 
   return (function(r) {
-    /* node_modules/kit/inc/scope.sibilant:12:9 */
+    /* inc/misc.sibilant:1:798 */
   
     this.each(((a) => {
     	
@@ -59,10 +59,10 @@ Array.prototype.bind = (function Array$prototype$bind$(f) {
     
     }));
     return r;
-  })([]);
+  }).call(this, []);
 });
 Map.prototype.each = (function Map$prototype$each$(f) {
-  /* Map.prototype.each eval.sibilant:1:810 */
+  /* Map.prototype.each eval.sibilant:1:856 */
 
   this.forEach(f);
   return this;

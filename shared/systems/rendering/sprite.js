@@ -26,7 +26,7 @@ var SpriteInterface = Component.define("SpriteInterface", {
   register( dim = this.dim,system = this.system ){ 
     
       return this.verts = create(MatrixMap)(dim, (function(array) {
-        /* inc/misc.sibilant:1:798 */
+        /* eval.sibilant:1:489 */
       
         (function() {
           /* node_modules/kit/inc/loops.sibilant:26:8 */
@@ -38,7 +38,7 @@ var SpriteInterface = Component.define("SpriteInterface", {
             /* node_modules/kit/inc/loops.sibilant:28:35 */
           
             array.push((function() {
-              /* eval.sibilant:1:431 */
+              /* eval.sibilant:1:477 */
             
               return system.verts.spawn();
             }).call(this));
