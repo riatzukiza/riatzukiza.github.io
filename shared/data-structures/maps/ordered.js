@@ -1,3 +1,18 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Interface
  } = require("@kit-js/interface");
@@ -49,18 +64,18 @@ var OrderedMap = Interface.define("OrderedMap", {
    },
   each( callback = this.callback,_members = this._members ){ 
     
-      for (var [ key, node ] of _members)
-      {
-      callback(node.item, key)
-      }
-      ;
+      var node = this._values.head;
+      while( node ){ 
+        callback(node.item, node.key);
+        node = node.next;
+       };
       return this;
     
    },
   map( callback = this.callback,_members = this._members,_values = this._values ){ 
     
       return (function(r) {
-        /* inc/misc.sibilant:1:782 */
+        /* inc/misc.sibilant:1:798 */
       
         _values.each(((item, node) => {
         	

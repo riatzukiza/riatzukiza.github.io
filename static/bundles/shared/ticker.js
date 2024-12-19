@@ -11275,6 +11275,21 @@ module.exports = _curry3(function zipWith(fn, a, b) {
 });
 
 },{"./internal/_curry3":114}],"@shared/ticker.js":[function(require,module,exports){
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Interface
  } = require("@kit-js/interface");
@@ -11318,7 +11333,7 @@ var Ticker = Interface.define("Ticker", {
         if (this.state) {
           var now = Date.now();
           this.elapsed = (now - previous);
-          window.requestAnimationFrame((() => {
+          setTimeout((() => {
           	
             return this.update();
           

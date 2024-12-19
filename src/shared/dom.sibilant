@@ -103,7 +103,7 @@
 (define Document-body  Document-node
   (gett *parent this)
   (tag-name "body")
-  (*node document.body)
+  (gett *node document.body)
   (*children []))
 
 

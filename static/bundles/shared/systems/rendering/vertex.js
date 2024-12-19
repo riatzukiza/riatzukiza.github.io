@@ -10604,6 +10604,21 @@ module.exports = _curry3(function zipWith(fn, a, b) {
 });
 
 },{"./internal/_curry3":107}],"@shared/systems/rendering/vertex.js":[function(require,module,exports){
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Interface
  } = require("@kit-js/interface");
@@ -10614,7 +10629,7 @@ var {
   Renderable
  } = require("@shared/systems/rendering/renderable.js");
 var setColor = (function setColor$(r, g, b, a, vert) {
-  /* set-color eval.sibilant:1:310 */
+  /* set-color eval.sibilant:1:341 */
 
   vert.color.r = r;
   vert.color.g = g;
@@ -10622,7 +10637,7 @@ var setColor = (function setColor$(r, g, b, a, vert) {
   return vert.color.a = a;
 });
 var setPoint = (function setPoint$(x, y, z, vert) {
-  /* set-point eval.sibilant:1:416 */
+  /* set-point eval.sibilant:1:447 */
 
   vert.point.x = x;
   vert.point.y = y;

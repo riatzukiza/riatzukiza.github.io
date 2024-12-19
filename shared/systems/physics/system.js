@@ -1,3 +1,18 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Interface
  } = require("@kit-js/interface");
@@ -111,7 +126,7 @@ var Physics = System.define("Physics", {
   _updateComponent( c ){ 
     
       return c.forces.each((function() {
-        /* eval.sibilant:1:1652 */
+        /* eval.sibilant:1:1683 */
       
         return arguments[0].apply(c);
       }));

@@ -1,3 +1,18 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Interface
  } = require("@kit-js/interface");
@@ -8,7 +23,7 @@ var {
   List
  } = require("@shared/data-structures/list.js");
 var sumOf = (function sumOf$(list, p) {
-  /* sum-of eval.sibilant:1:461 */
+  /* sum-of eval.sibilant:1:492 */
 
   return list.reduce(((total, e) => {
   	
@@ -56,7 +71,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(newPool) {
-        /* eval.sibilant:1:412 */
+        /* eval.sibilant:1:443 */
       
         buckets.unshift(newPool);
         return newPool;
@@ -113,7 +128,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(object) {
-        /* eval.sibilant:1:412 */
+        /* eval.sibilant:1:443 */
       
         object.bucket = this.current;
         (function() {
@@ -216,7 +231,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(r) {
-        /* eval.sibilant:1:412 */
+        /* eval.sibilant:1:443 */
       
         r.init(...args);
         return r;

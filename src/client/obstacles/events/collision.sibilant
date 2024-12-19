@@ -37,8 +37,8 @@
 
          (assign v.pos.x (or v.prior-x v.pos.x))
          (assign v.pos.y (or v.prior-y v.pos.y))
-         ;; (assign v*.pos.x (or v*.prior-x v*.pos.x))
-         ;; (assign v*.pos.y (or v*.prior-y v*.pos.y))
+         (assign v*.pos.x (or v*.prior-x v*.pos.x))
+         (assign v*.pos.y (or v*.prior-y v*.pos.y))
 
          (if! (and (ants.has c.entity) (ants.has c*.entity))
               (.emit game.events 'ant-collision c, c*)

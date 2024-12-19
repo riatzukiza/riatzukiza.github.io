@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[portfolio]]></title><description><![CDATA[Obsidian digital garden]]></description><link>https://riatzukiza.github.io/</link><image><url>https://riatzukiza.github.io/lib/media/favicon.png</url><title>portfolio</title><link>https://riatzukiza.github.io/</link></image><generator>Webpage HTML Export plugin for Obsidian</generator><lastBuildDate>Thu, 19 Dec 2024 00:26:35 GMT</lastBuildDate><atom:link href="https://riatzukiza.github.io/lib/rss.xml" rel="self" type="application/rss+xml"/><pubDate>Thu, 19 Dec 2024 00:26:24 GMT</pubDate><copyright><![CDATA[Aaron Beavers]]></copyright><ttl>60</ttl><dc:creator>Aaron Beavers</dc:creator><item><title><![CDATA[_Index_of_trail-segment]]></title><description><![CDATA[ 
+ <br><br>
+<a data-tooltip-position="top" aria-label="docs/obstacles/entities/trail-segment/spawn-trail-segment" data-href="docs/obstacles/entities/trail-segment/spawn-trail-segment" href="https://riatzukiza.github.io/docs/obstacles/entities/trail-segment/spawn-trail-segment.html" class="internal-link" target="_self" rel="noopener nofollow">spawn-trail-segment</a><br>
+]]></description><link>https://riatzukiza.github.io/docs/obstacles/entities/trail-segment/_index_of_trail-segment.html</link><guid isPermaLink="false">docs/obstacles/entities/trail-segment/_Index_of_trail-segment.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 21:34:58 GMT</pubDate></item><item><title><![CDATA[obstacles.entities.trail-segment.spawn-trail-segment]]></title><description><![CDATA[ 
+ <br><br><br>ant: An entity from the obstacles.entities.ant entity group<br><br>Spawns a new trail vector entity from the ants current location and velocity.]]></description><link>https://riatzukiza.github.io/docs/obstacles/entities/trail-segment/spawn-trail-segment.html</link><guid isPermaLink="false">docs/obstacles/entities/trail-segment/spawn-trail-segment.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:44:16 GMT</pubDate></item><item><title><![CDATA[_Index_of_entities]]></title><description><![CDATA[ 
+ <br><br>
+<a data-tooltip-position="top" aria-label="docs/obstacles/entities/trail-segment/_Index_of_trail-segment" data-href="docs/obstacles/entities/trail-segment/_Index_of_trail-segment" href="https://riatzukiza.github.io/docs/obstacles/entities/trail-segment/_index_of_trail-segment.html" class="internal-link" target="_self" rel="noopener nofollow">_Index_of_trail-segment</a><br>
+]]></description><link>https://riatzukiza.github.io/docs/obstacles/entities/_index_of_entities.html</link><guid isPermaLink="false">docs/obstacles/entities/_Index_of_entities.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 21:34:58 GMT</pubDate></item><item><title><![CDATA[_Index_of_Trail-segment]]></title><description><![CDATA[ 
+ <br><br>
+<a data-tooltip-position="top" aria-label="docs/obstacles/systems/ant-trails/Trail-segment/apply" data-href="docs/obstacles/systems/ant-trails/Trail-segment/apply" href="https://riatzukiza.github.io/docs/obstacles/systems/ant-trails/trail-segment/apply.html" class="internal-link" target="_self" rel="noopener nofollow">apply</a><br>
+]]></description><link>https://riatzukiza.github.io/docs/obstacles/systems/ant-trails/trail-segment/_index_of_trail-segment.html</link><guid isPermaLink="false">docs/obstacles/systems/ant-trails/Trail-segment/_Index_of_Trail-segment.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 21:34:58 GMT</pubDate></item><item><title><![CDATA[obstacles.systems.ant-trails.Trail-segment.apply]]></title><description><![CDATA[ 
+ <br><br><br><br>Apply the trail segment backward]]></description><link>https://riatzukiza.github.io/docs/obstacles/systems/ant-trails/trail-segment/apply.html</link><guid isPermaLink="false">docs/obstacles/systems/ant-trails/Trail-segment/apply.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:44:17 GMT</pubDate></item><item><title><![CDATA[_Index_of_ant-trails]]></title><description><![CDATA[ 
+ <br><br>
+<a data-tooltip-position="top" aria-label="docs/obstacles/systems/ant-trails/Trail-segment/_Index_of_Trail-segment" data-href="docs/obstacles/systems/ant-trails/Trail-segment/_Index_of_Trail-segment" href="https://riatzukiza.github.io/docs/obstacles/systems/ant-trails/trail-segment/_index_of_trail-segment.html" class="internal-link" target="_self" rel="noopener nofollow">_Index_of_Trail-segment</a><br>
+<a data-tooltip-position="top" aria-label="docs/obstacles/systems/ant-trails/Trail-vector" data-href="docs/obstacles/systems/ant-trails/Trail-vector" href="https://riatzukiza.github.io/docs/obstacles/systems/ant-trails/trail-vector.html" class="internal-link" target="_self" rel="noopener nofollow">Trail-vector</a><br>
+]]></description><link>https://riatzukiza.github.io/docs/obstacles/systems/ant-trails/_index_of_ant-trails.html</link><guid isPermaLink="false">docs/obstacles/systems/ant-trails/_Index_of_ant-trails.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 21:34:58 GMT</pubDate></item><item><title><![CDATA[obstacles.systems.ant-trails.Trail-vector]]></title><description><![CDATA[ 
+ <br><br><br>inherits from shared.ecs.Component<br><br>A time limited vector component that modifies the signal field when the ant has either succeeded or failed<br>
+If the time limit expires, it disapears.]]></description><link>https://riatzukiza.github.io/docs/obstacles/systems/ant-trails/trail-vector.html</link><guid isPermaLink="false">docs/obstacles/systems/ant-trails/Trail-vector.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:44:17 GMT</pubDate></item><item><title><![CDATA[_Index_of_systems]]></title><description><![CDATA[ 
+ <br><br>
+<a data-tooltip-position="top" aria-label="docs/obstacles/systems/ant-trails/_Index_of_ant-trails" data-href="docs/obstacles/systems/ant-trails/_Index_of_ant-trails" href="https://riatzukiza.github.io/docs/obstacles/systems/ant-trails/_index_of_ant-trails.html" class="internal-link" target="_self" rel="noopener nofollow">_Index_of_ant-trails</a><br>
+]]></description><link>https://riatzukiza.github.io/docs/obstacles/systems/_index_of_systems.html</link><guid isPermaLink="false">docs/obstacles/systems/_Index_of_systems.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 21:34:58 GMT</pubDate></item><item><title><![CDATA[_Index_of_systems]]></title><description><![CDATA[ 
+ <br><br>
+<a data-tooltip-position="top" aria-label="docs/Obstacles/systems/Ant-dot" data-href="docs/Obstacles/systems/Ant-dot" href="https://riatzukiza.github.io/docs/obstacles/systems/ant-dot.html" class="internal-link" target="_self" rel="noopener nofollow">Ant-dot</a><br>
+<a data-tooltip-position="top" aria-label="docs/Obstacles/systems/Ant-dots" data-href="docs/Obstacles/systems/Ant-dots" href="https://riatzukiza.github.io/docs/obstacles/systems/ant-dots.html" class="internal-link" target="_self" rel="noopener nofollow">Ant-dots</a><br>
+<a data-tooltip-position="top" aria-label="docs/Obstacles/systems/Time-limit" data-href="docs/Obstacles/systems/Time-limit" href="https://riatzukiza.github.io/docs/obstacles/systems/time-limit.html" class="internal-link" target="_self" rel="noopener nofollow">Time-limit</a><br>
+<a data-tooltip-position="top" aria-label="docs/Obstacles/systems/Timer" data-href="docs/Obstacles/systems/Timer" href="https://riatzukiza.github.io/docs/obstacles/systems/timer.html" class="internal-link" target="_self" rel="noopener nofollow">Timer</a><br>
+]]></description><link>https://riatzukiza.github.io/docs/obstacles/systems/_index_of_systems.html</link><guid isPermaLink="false">docs/Obstacles/systems/_Index_of_systems.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 21:34:58 GMT</pubDate></item><item><title><![CDATA[Obstacles.systems.Ant-dot]]></title><description><![CDATA[ 
+ <br><br><br>entity system<br><br>A component for rendering ants as red dots.<br>
+Inhereits from Dot-interface (@shared/systems/rendering/dot.js)]]></description><link>https://riatzukiza.github.io/docs/obstacles/systems/ant-dot.html</link><guid isPermaLink="false">docs/Obstacles/systems/Ant-dot.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:44:17 GMT</pubDate></item><item><title><![CDATA[Obstacles.systems.Ant-dots]]></title><description><![CDATA[ 
+ <br><br><br>entity system<br><br>A component for rendering ants as red dots]]></description><link>https://riatzukiza.github.io/docs/obstacles/systems/ant-dots.html</link><guid isPermaLink="false">docs/Obstacles/systems/Ant-dots.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:44:17 GMT</pubDate></item><item><title><![CDATA[Obstacles.systems.Time-limit]]></title><description><![CDATA[ 
+ <br><br><br>Inherits shared.ecs.Component arguments<br><br>Sets somthing to happen at a given time.<br>
+Requires a<br>
+duration<br>
+and<br>
+callback]]></description><link>https://riatzukiza.github.io/docs/obstacles/systems/time-limit.html</link><guid isPermaLink="false">docs/Obstacles/systems/Time-limit.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Thu, 12 Dec 2024 23:00:19 GMT</pubDate></item><item><title><![CDATA[Obstacles.systems.Timer]]></title><description><![CDATA[ 
+ <br><br><br>Inherits from shared.ecs.ComponentSystem<br><br>Allows timed events to occur for entities with time limit components]]></description><link>https://riatzukiza.github.io/docs/obstacles/systems/timer.html</link><guid isPermaLink="false">docs/Obstacles/systems/Timer.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Thu, 12 Dec 2024 23:00:19 GMT</pubDate></item><item><title><![CDATA[_Index_of_Obstacles]]></title><description><![CDATA[ 
+ <br><br>
+<a data-tooltip-position="top" aria-label="docs/Obstacles/systems/_Index_of_systems" data-href="docs/Obstacles/systems/_Index_of_systems" href="https://riatzukiza.github.io/docs/obstacles/systems/_index_of_systems.html" class="internal-link" target="_self" rel="noopener nofollow">_Index_of_systems</a><br>
+]]></description><link>https://riatzukiza.github.io/docs/obstacles/_index_of_obstacles.html</link><guid isPermaLink="false">docs/Obstacles/_Index_of_Obstacles.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 21:34:58 GMT</pubDate></item><item><title><![CDATA[_Index_of_Dynamic]]></title><description><![CDATA[ 
+ <br><br>
+<a data-tooltip-position="top" aria-label="docs/Pools/Dynamic/adjust" data-href="docs/Pools/Dynamic/adjust" href="https://riatzukiza.github.io/docs/pools/dynamic/adjust.html" class="internal-link" target="_self" rel="noopener nofollow">adjust</a><br>
+<a data-tooltip-position="top" aria-label="docs/Pools/Dynamic/aquire" data-href="docs/Pools/Dynamic/aquire" href="https://riatzukiza.github.io/docs/pools/dynamic/aquire.html" class="internal-link" target="_self" rel="noopener nofollow">aquire</a><br>
+<a data-tooltip-position="top" aria-label="docs/Pools/Dynamic/clear" data-href="docs/Pools/Dynamic/clear" href="https://riatzukiza.github.io/docs/pools/dynamic/clear.html" class="internal-link" target="_self" rel="noopener nofollow">clear</a><br>
+<a data-tooltip-position="top" aria-label="docs/Pools/Dynamic/despawn" data-href="docs/Pools/Dynamic/despawn" href="https://riatzukiza.github.io/docs/pools/dynamic/despawn.html" class="internal-link" target="_self" rel="noopener nofollow">despawn</a><br>
+<a data-tooltip-position="top" aria-label="docs/Pools/Dynamic/each" data-href="docs/Pools/Dynamic/each" href="https://riatzukiza.github.io/docs/pools/dynamic/each.html" class="internal-link" target="_self" rel="noopener nofollow">each</a><br>
+<a data-tooltip-position="top" aria-label="docs/Pools/Dynamic/grow" data-href="docs/Pools/Dynamic/grow" href="https://riatzukiza.github.io/docs/pools/dynamic/grow.html" class="internal-link" target="_self" rel="noopener nofollow">grow</a><br>
+<a data-tooltip-position="top" aria-label="docs/Pools/Dynamic/register" data-href="docs/Pools/Dynamic/register" href="https://riatzukiza.github.io/docs/pools/dynamic/register.html" class="internal-link" target="_self" rel="noopener nofollow">register</a><br>
+<a data-tooltip-position="top" aria-label="docs/Pools/Dynamic/release" data-href="docs/Pools/Dynamic/release" href="https://riatzukiza.github.io/docs/pools/dynamic/release.html" class="internal-link" target="_self" rel="noopener nofollow">release</a><br>
+<a data-tooltip-position="top" aria-label="docs/Pools/Dynamic/spawn" data-href="docs/Pools/Dynamic/spawn" href="https://riatzukiza.github.io/docs/pools/dynamic/spawn.html" class="internal-link" target="_self" rel="noopener nofollow">spawn</a><br>
+]]></description><link>https://riatzukiza.github.io/docs/pools/dynamic/_index_of_dynamic.html</link><guid isPermaLink="false">docs/Pools/Dynamic/_Index_of_Dynamic.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 21:34:58 GMT</pubDate></item><item><title><![CDATA[Pools.Dynamic.adjust]]></title><description><![CDATA[ 
+ <br><br><br>buckets<br><br>reorder the buckets of the object pool so a bucket with available members is the next to be chosen.<br>
+If no existing bucket has free members, the pool is grown and a new bucket is created.]]></description><link>https://riatzukiza.github.io/docs/pools/dynamic/adjust.html</link><guid isPermaLink="false">docs/Pools/Dynamic/adjust.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:44:08 GMT</pubDate></item><item><title><![CDATA[Pools.Dynamic.aquire]]></title><description><![CDATA[ 
+ <br><br><br>buckets<br><br>returns an object from the pool for use.<br>var tacoPool = Pools.Dynamic.construct(Taco);
+var taco = tacoPool.aquire("chiken");
+taco.init(val1, val2)
+
+
+]]></description><link>https://riatzukiza.github.io/docs/pools/dynamic/aquire.html</link><guid isPermaLink="false">docs/Pools/Dynamic/aquire.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:44:08 GMT</pubDate></item><item><title><![CDATA[Pools.Dynamic.clear]]></title><description><![CDATA[ 
+ <br><br><br>buckets<br><br>clears all objects currently in the pool of data and releases them.]]></description><link>https://riatzukiza.github.io/docs/pools/dynamic/clear.html</link><guid isPermaLink="false">docs/Pools/Dynamic/clear.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:44:08 GMT</pubDate></item><item><title><![CDATA[Pools.Dynamic.despawn]]></title><description><![CDATA[ 
+ <br><br><br>obj,foobar<br><br>remove an object from the system, and release it back into the pool.]]></description><link>https://riatzukiza.github.io/docs/pools/dynamic/despawn.html</link><guid isPermaLink="false">docs/Pools/Dynamic/despawn.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:44:08 GMT</pubDate></item><item><title><![CDATA[Pools.Dynamic.each]]></title><description><![CDATA[ 
+ <br><br><br>
+<br>callback
+<br>buckets
+<br><br>execute the given callback for each in use object in the pool.]]></description><link>https://riatzukiza.github.io/docs/pools/dynamic/each.html</link><guid isPermaLink="false">docs/Pools/Dynamic/each.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:44:08 GMT</pubDate></item><item><title><![CDATA[Pools.Dynamic.grow]]></title><description><![CDATA[ 
+ <br><br><br>buckets bucket-size (self this)<br><br>add a new pool bucket, increasing the number of pre constructed objects in the pool.]]></description><link>https://riatzukiza.github.io/docs/pools/dynamic/grow.html</link><guid isPermaLink="false">docs/Pools/Dynamic/grow.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:44:08 GMT</pubDate></item><item><title><![CDATA[Pools.Dynamic.register]]></title><description><![CDATA[ 
+ <br><br><br>interface<br><br>Associate an interface with a system,and add the system to the collection of all active systems.]]></description><link>https://riatzukiza.github.io/docs/pools/dynamic/register.html</link><guid isPermaLink="false">docs/Pools/Dynamic/register.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:44:08 GMT</pubDate></item><item><title><![CDATA[Pools.Dynamic.release]]></title><description><![CDATA[ 
+ <br><br><br>object buckets<br><br>clears the object given to it of all data (deinitializes it), and frees it up for future use.]]></description><link>https://riatzukiza.github.io/docs/pools/dynamic/release.html</link><guid isPermaLink="false">docs/Pools/Dynamic/release.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:44:08 GMT</pubDate></item><item><title><![CDATA[Pools.Dynamic.spawn]]></title><description><![CDATA[ 
+ <br><br><br>[...init-args]<br><br>aquire an object from the systems pool, and initialize it.]]></description><link>https://riatzukiza.github.io/docs/pools/dynamic/spawn.html</link><guid isPermaLink="false">docs/Pools/Dynamic/spawn.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:44:08 GMT</pubDate></item><item><title><![CDATA[_Index_of_Pools]]></title><description><![CDATA[ 
+ <br><br>
+<a data-tooltip-position="top" aria-label="docs/Pools/Dynamic/_Index_of_Dynamic" data-href="docs/Pools/Dynamic/_Index_of_Dynamic" href="https://riatzukiza.github.io/docs/pools/dynamic/_index_of_dynamic.html" class="internal-link" target="_self" rel="noopener nofollow">_Index_of_Dynamic</a><br>
+]]></description><link>https://riatzukiza.github.io/docs/pools/_index_of_pools.html</link><guid isPermaLink="false">docs/Pools/_Index_of_Pools.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 21:34:58 GMT</pubDate></item><item><title><![CDATA[_Index_of_binary-search-tree]]></title><description><![CDATA[ 
+ <br><br>
+<a data-tooltip-position="top" aria-label="docs/shared/datastructures/trees/binary-search-tree/prune" data-href="docs/shared/datastructures/trees/binary-search-tree/prune" href="https://riatzukiza.github.io/docs/shared/datastructures/trees/binary-search-tree/prune.html" class="internal-link" target="_self" rel="noopener nofollow">prune</a><br>
+<a data-tooltip-position="top" aria-label="docs/shared/datastructures/trees/binary-search-tree/remove" data-href="docs/shared/datastructures/trees/binary-search-tree/remove" href="https://riatzukiza.github.io/docs/shared/datastructures/trees/binary-search-tree/remove.html" class="internal-link" target="_self" rel="noopener nofollow">remove</a><br>
+]]></description><link>https://riatzukiza.github.io/docs/shared/datastructures/trees/binary-search-tree/_index_of_binary-search-tree.html</link><guid isPermaLink="false">docs/shared/datastructures/trees/binary-search-tree/_Index_of_binary-search-tree.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 21:34:58 GMT</pubDate></item><item><title><![CDATA[shared.datastructures.trees.binary-search-tree.prune]]></title><description><![CDATA[ 
+ <br><br><br>key: A numeric key<br><br>Search the tree for a key, removing the branchscription<br>Search the tree to a given depth for a key, removing the branch at the depth.]]></description><link>https://riatzukiza.github.io/docs/shared/datastructures/trees/binary-search-tree/prune.html</link><guid isPermaLink="false">docs/shared/datastructures/trees/binary-search-tree/prune.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:44:09 GMT</pubDate></item><item><title><![CDATA[shared.datastructures.trees.binary-search-tree.remove]]></title><description><![CDATA[ 
+ <br><br><br>key: A numeric key, value: A value to be removed.<br><br>Search the tree as deep as needed to find and remove a value]]></description><link>https://riatzukiza.github.io/docs/shared/datastructures/trees/binary-search-tree/remove.html</link><guid isPermaLink="false">docs/shared/datastructures/trees/binary-search-tree/remove.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:44:09 GMT</pubDate></item><item><title><![CDATA[_Index_of_binary-searchtree]]></title><description><![CDATA[ 
+ <br><br>
+<a data-tooltip-position="top" aria-label="docs/shared/datastructures/trees/binary-searchtree/search" data-href="docs/shared/datastructures/trees/binary-searchtree/search" href="https://riatzukiza.github.io/docs/shared/datastructures/trees/binary-searchtree/search.html" class="internal-link" target="_self" rel="noopener nofollow">search</a><br>
+]]></description><link>https://riatzukiza.github.io/docs/shared/datastructures/trees/binary-searchtree/_index_of_binary-searchtree.html</link><guid isPermaLink="false">docs/shared/datastructures/trees/binary-searchtree/_Index_of_binary-searchtree.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 21:34:58 GMT</pubDate></item><item><title><![CDATA[shared.datastructures.trees.binary-searchtree.search]]></title><description><![CDATA[ 
+ <br><br><br>key: A numeric key.<br><br>Search the tree for a key, returning the branch.he tree to a given depth for a key, returning the branch at the requested depth.]]></description><link>https://riatzukiza.github.io/docs/shared/datastructures/trees/binary-searchtree/search.html</link><guid isPermaLink="false">docs/shared/datastructures/trees/binary-searchtree/search.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:44:09 GMT</pubDate></item><item><title><![CDATA[_Index_of_trees]]></title><description><![CDATA[ 
+ <br><br>
+<a data-tooltip-position="top" aria-label="docs/shared/datastructures/trees/binary-search-tree/_Index_of_binary-search-tree" data-href="docs/shared/datastructures/trees/binary-search-tree/_Index_of_binary-search-tree" href="https://riatzukiza.github.io/docs/shared/datastructures/trees/binary-search-tree/_index_of_binary-search-tree.html" class="internal-link" target="_self" rel="noopener nofollow">_Index_of_binary-search-tree</a><br>
+<a data-tooltip-position="top" aria-label="docs/shared/datastructures/trees/binary-searchtree/_Index_of_binary-searchtree" data-href="docs/shared/datastructures/trees/binary-searchtree/_Index_of_binary-searchtree" href="https://riatzukiza.github.io/docs/shared/datastructures/trees/binary-searchtree/_index_of_binary-searchtree.html" class="internal-link" target="_self" rel="noopener nofollow">_Index_of_binary-searchtree</a><br>
+]]></description><link>https://riatzukiza.github.io/docs/shared/datastructures/trees/_index_of_trees.html</link><guid isPermaLink="false">docs/shared/datastructures/trees/_Index_of_trees.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 21:34:58 GMT</pubDate></item><item><title><![CDATA[_Index_of_Component]]></title><description><![CDATA[ 
+ <br><br>
+<a data-tooltip-position="top" aria-label="docs/shared/ecs/Component/register" data-href="docs/shared/ecs/Component/register" href="https://riatzukiza.github.io/docs/shared/ecs/component/register.html" class="internal-link" target="_self" rel="noopener nofollow">register</a><br>
+]]></description><link>https://riatzukiza.github.io/docs/shared/ecs/component/_index_of_component.html</link><guid isPermaLink="false">docs/shared/ecs/Component/_Index_of_Component.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 21:34:58 GMT</pubDate></item><item><title><![CDATA[shared.ecs.Component.register]]></title><description><![CDATA[ 
+ <br><br><br>no arguements<br><br>An abstract function for subclassed components to optionally perform an action on creation.]]></description><link>https://riatzukiza.github.io/docs/shared/ecs/component/register.html</link><guid isPermaLink="false">docs/shared/ecs/Component/register.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:44:08 GMT</pubDate></item><item><title><![CDATA[_Index_of_ecs]]></title><description><![CDATA[ 
+ <br><br>
+<a data-tooltip-position="top" aria-label="docs/shared/ecs/Component/_Index_of_Component" data-href="docs/shared/ecs/Component/_Index_of_Component" href="https://riatzukiza.github.io/docs/shared/ecs/component/_index_of_component.html" class="internal-link" target="_self" rel="noopener nofollow">_Index_of_Component</a><br>
+]]></description><link>https://riatzukiza.github.io/docs/shared/ecs/_index_of_ecs.html</link><guid isPermaLink="false">docs/shared/ecs/_Index_of_ecs.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 21:34:58 GMT</pubDate></item><item><title><![CDATA[_Index_of_ComponentSystem]]></title><description><![CDATA[ 
+ <br><br>
+<a data-tooltip-position="top" aria-label="docs/Shared/ecs/ComponentSystem/register" data-href="docs/Shared/ecs/ComponentSystem/register" href="https://riatzukiza.github.io/docs/shared/ecs/componentsystem/register.html" class="internal-link" target="_self" rel="noopener nofollow">register</a><br>
+]]></description><link>https://riatzukiza.github.io/docs/shared/ecs/componentsystem/_index_of_componentsystem.html</link><guid isPermaLink="false">docs/Shared/ecs/ComponentSystem/_Index_of_ComponentSystem.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 21:34:58 GMT</pubDate></item><item><title><![CDATA[Shared.ecs.ComponentSystem.register]]></title><description><![CDATA[ 
+ <br><br><br>no args<br><br>Called by<br>
+ComponentSystem<br>
+sub classes by initializer function.<br><br>var NewComponent = Component.define("NewComponent", { 
+  INeedSomthingFromMySystem( x ){ 
+    
+      return this.dependentProperty = (x + this.system.neededThing);
+    
+   }
+ });
+var NewSystem = ComponentSystem.define("NewSystem", { 
+  register(  ){ 
+    
+      this.neededThing = [];
+      return (function() {
+        /* node_modules/kit/inc/loops.sibilant:26:8 */
+      
+        var $for = null;
+        for (var i = 0;i &lt; 10;++(i))
+        {
+        $for = (function() {
+          /* node_modules/kit/inc/loops.sibilant:28:35 */
+        
+          return this.neededThing.push(Math.random());
+        }).call(this);
+        }
+        ;
+        return $for;
+      }).call(this);
+    
+   }
+ });
+
+
+]]></description><link>https://riatzukiza.github.io/docs/shared/ecs/componentsystem/register.html</link><guid isPermaLink="false">docs/Shared/ecs/ComponentSystem/register.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:44:09 GMT</pubDate></item><item><title><![CDATA[_Index_of_ecs]]></title><description><![CDATA[ 
+ <br><br>
+<a data-tooltip-position="top" aria-label="docs/Shared/ecs/ComponentSystem/_Index_of_ComponentSystem" data-href="docs/Shared/ecs/ComponentSystem/_Index_of_ComponentSystem" href="https://riatzukiza.github.io/docs/shared/ecs/componentsystem/_index_of_componentsystem.html" class="internal-link" target="_self" rel="noopener nofollow">_Index_of_ComponentSystem</a><br>
+<a data-tooltip-position="top" aria-label="docs/Shared/ecs/ComponentSystem" data-href="docs/Shared/ecs/ComponentSystem" href="https://riatzukiza.github.io/docs/shared/ecs/componentsystem.html" class="internal-link" target="_self" rel="noopener nofollow">ComponentSystem</a><br>
+]]></description><link>https://riatzukiza.github.io/docs/shared/ecs/_index_of_ecs.html</link><guid isPermaLink="false">docs/Shared/ecs/_Index_of_ecs.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 21:34:58 GMT</pubDate></item><item><title><![CDATA[Shared.ecs.ComponentSystem]]></title><description><![CDATA[ 
+ <br><br><br>(process interface<br>
+(components ((create Ordered-map)))<br>
+(pool ((create Dynamic-pool)  interface))<br>
+(thread (Promise.resolve)))<br><br>An Abstract interface for defining game systems. By default updates its components every tick. This behavior can be overriden. Requires an _updateComponent implementation Optionally accepts _prepare and _cleanup methods]]></description><link>https://riatzukiza.github.io/docs/shared/ecs/componentsystem.html</link><guid isPermaLink="false">docs/Shared/ecs/ComponentSystem.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Tue, 10 Dec 2024 21:38:14 GMT</pubDate></item><item><title><![CDATA[_Index_of_Shared]]></title><description><![CDATA[ 
+ <br><br>
+<a data-tooltip-position="top" aria-label="docs/Shared/ecs/_Index_of_ecs" data-href="docs/Shared/ecs/_Index_of_ecs" href="https://riatzukiza.github.io/docs/shared/ecs/_index_of_ecs.html" class="internal-link" target="_self" rel="noopener nofollow">_Index_of_ecs</a><br>
+]]></description><link>https://riatzukiza.github.io/docs/shared/_index_of_shared.html</link><guid isPermaLink="false">docs/Shared/_Index_of_Shared.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 21:34:58 GMT</pubDate></item><item><title><![CDATA[_Index_of_docs]]></title><description><![CDATA[ 
+ <br><br>
+<a data-tooltip-position="top" aria-label="docs/obstacles/_Index_of_obstacles" data-href="docs/obstacles/_Index_of_obstacles" href="https://riatzukiza.github.io/docs/obstacles/_index_of_obstacles.html" class="internal-link" target="_self" rel="noopener nofollow">_Index_of_obstacles</a><br>
+<a data-tooltip-position="top" aria-label="docs/Obstacles/_Index_of_Obstacles" data-href="docs/Obstacles/_Index_of_Obstacles" href="https://riatzukiza.github.io/docs/obstacles/_index_of_obstacles.html" class="internal-link" target="_self" rel="noopener nofollow">_Index_of_Obstacles</a><br>
+<a data-tooltip-position="top" aria-label="docs/Pools/_Index_of_Pools" data-href="docs/Pools/_Index_of_Pools" href="https://riatzukiza.github.io/docs/pools/_index_of_pools.html" class="internal-link" target="_self" rel="noopener nofollow">_Index_of_Pools</a><br>
+<a data-tooltip-position="top" aria-label="docs/shared/_Index_of_shared" data-href="docs/shared/_Index_of_shared" href="https://riatzukiza.github.io/docs/shared/_index_of_shared.html" class="internal-link" target="_self" rel="noopener nofollow">_Index_of_shared</a><br>
+<a data-tooltip-position="top" aria-label="docs/Shared/_Index_of_Shared" data-href="docs/Shared/_Index_of_Shared" href="https://riatzukiza.github.io/docs/shared/_index_of_shared.html" class="internal-link" target="_self" rel="noopener nofollow">_Index_of_Shared</a><br>
+<a data-tooltip-position="top" aria-label="docs/Untitled" data-href="docs/Untitled" href="https://riatzukiza.github.io/docs/Untitled" class="internal-link" target="_self" rel="noopener nofollow">Untitled</a><br>
+]]></description><link>https://riatzukiza.github.io/docs/_index_of_docs.html</link><guid isPermaLink="false">docs/_Index_of_docs.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 21:35:45 GMT</pubDate></item><item><title><![CDATA[readme]]></title><description><![CDATA[ 
+ <br>These docs are auto generated using the doc-string macro in <a data-tooltip-position="top" aria-label="inc/docs.sibilant" data-href="inc/docs.sibilant" href="https://riatzukiza.github.io/inc/docs.sibilant" class="internal-link" target="_self" rel="noopener nofollow">docs</a>]]></description><link>https://riatzukiza.github.io/docs/readme.html</link><guid isPermaLink="false">docs/readme.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 21:36:33 GMT</pubDate></item><item><title><![CDATA[_Index_of_tasks]]></title><description><![CDATA[ 
+ <br><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/a gpu implementation for signal fields and vector math." data-href="kanban/tasks/a gpu implementation for signal fields and vector math." href="https://riatzukiza.github.io/kanban/tasks/a-gpu-implementation-for-signal-fields-and-vector-math..html" class="internal-link" target="_self" rel="noopener nofollow">a gpu implementation for signal fields and vector math.</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/Add beautifier and beautifier to pipeline to pipeline" data-href="kanban/tasks/Add beautifier and beautifier to pipeline to pipeline" href="https://riatzukiza.github.io/kanban/tasks/add-beautifier-and-beautifier-to-pipeline-to-pipeline.html" class="internal-link" target="_self" rel="noopener nofollow">Add beautifier and beautifier to pipeline to pipeline</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/attack system" data-href="kanban/tasks/attack system" href="https://riatzukiza.github.io/kanban/tasks/attack-system.html" class="internal-link" target="_self" rel="noopener nofollow">attack system</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/Brain storm new projects" data-href="kanban/tasks/Brain storm new projects" href="https://riatzukiza.github.io/kanban/tasks/brain-storm-new-projects.html" class="internal-link" target="_self" rel="noopener nofollow">Brain storm new projects</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/BUG Collision doesn't work correctly in some circumstances." data-href="kanban/tasks/BUG Collision doesn't work correctly in some circumstances." href="https://riatzukiza.github.io/kanban/tasks/bug-collision-doesn't-work-correctly-in-some-circumstances..html" class="internal-link" target="_self" rel="noopener nofollow">BUG Collision doesn't work correctly in some circumstances.</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/camera system" data-href="kanban/tasks/camera system" href="https://riatzukiza.github.io/kanban/tasks/camera-system.html" class="internal-link" target="_self" rel="noopener nofollow">camera system</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/config system" data-href="kanban/tasks/config system" href="https://riatzukiza.github.io/kanban/tasks/config-system.html" class="internal-link" target="_self" rel="noopener nofollow">config system</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/Cull duplicate macros" data-href="kanban/tasks/Cull duplicate macros" href="https://riatzukiza.github.io/kanban/tasks/cull-duplicate-macros.html" class="internal-link" target="_self" rel="noopener nofollow">Cull duplicate macros</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/deletable entites" data-href="kanban/tasks/deletable entites" href="https://riatzukiza.github.io/kanban/tasks/deletable-entites.html" class="internal-link" target="_self" rel="noopener nofollow">deletable entites</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/documentation" data-href="kanban/tasks/documentation" href="https://riatzukiza.github.io/kanban/tasks/documentation.html" class="internal-link" target="_self" rel="noopener nofollow">documentation</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/Enhance document macros" data-href="kanban/tasks/Enhance document macros" href="https://riatzukiza.github.io/kanban/tasks/enhance-document-macros.html" class="internal-link" target="_self" rel="noopener nofollow">Enhance document macros</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/github readme" data-href="kanban/tasks/github readme" href="https://riatzukiza.github.io/kanban/tasks/github-readme.html" class="internal-link" target="_self" rel="noopener nofollow">github readme</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/Home page" data-href="kanban/tasks/Home page" href="https://riatzukiza.github.io/kanban/tasks/home-page.html" class="internal-link" target="_self" rel="noopener nofollow">Home page</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/Hot reload system" data-href="kanban/tasks/Hot reload system" href="https://riatzukiza.github.io/kanban/tasks/hot-reload-system.html" class="internal-link" target="_self" rel="noopener nofollow">Hot reload system</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/Mirror board to github" data-href="kanban/tasks/Mirror board to github" href="https://riatzukiza.github.io/kanban/tasks/mirror-board-to-github.html" class="internal-link" target="_self" rel="noopener nofollow">Mirror board to github</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/Move all outside work into the portfolio git" data-href="kanban/tasks/Move all outside work into the portfolio git" href="https://riatzukiza.github.io/kanban/tasks/move-all-outside-work-into-the-portfolio-git.html" class="internal-link" target="_self" rel="noopener nofollow">Move all outside work into the portfolio git</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/multiple factions" data-href="kanban/tasks/multiple factions" href="https://riatzukiza.github.io/kanban/tasks/multiple-factions.html" class="internal-link" target="_self" rel="noopener nofollow">multiple factions</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/paralell processing for each system" data-href="kanban/tasks/paralell processing for each system" href="https://riatzukiza.github.io/kanban/tasks/paralell-processing-for-each-system.html" class="internal-link" target="_self" rel="noopener nofollow">paralell processing for each system</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/placeable entities (rocks, plants, bases)" data-href="kanban/tasks/placeable entities (rocks, plants, bases)" href="https://riatzukiza.github.io/kanban/tasks/placeable-entities-(rocks,-plants,-bases).html" class="internal-link" target="_self" rel="noopener nofollow">placeable entities (rocks, plants, bases)</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/Remove duplicate code included in headers." data-href="kanban/tasks/Remove duplicate code included in headers." href="https://riatzukiza.github.io/kanban/tasks/remove-duplicate-code-included-in-headers..html" class="internal-link" target="_self" rel="noopener nofollow">Remove duplicate code included in headers.</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/Rewrite andy lib in lisp" data-href="kanban/tasks/Rewrite andy lib in lisp" href="https://riatzukiza.github.io/kanban/tasks/rewrite-andy-lib-in-lisp.html" class="internal-link" target="_self" rel="noopener nofollow">Rewrite andy lib in lisp</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/selection box" data-href="kanban/tasks/selection box" href="https://riatzukiza.github.io/kanban/tasks/selection-box.html" class="internal-link" target="_self" rel="noopener nofollow">selection box</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/settings interface" data-href="kanban/tasks/settings interface" href="https://riatzukiza.github.io/kanban/tasks/settings-interface.html" class="internal-link" target="_self" rel="noopener nofollow">settings interface</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/simulation backend" data-href="kanban/tasks/simulation backend" href="https://riatzukiza.github.io/kanban/tasks/simulation-backend.html" class="internal-link" target="_self" rel="noopener nofollow">simulation backend</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/sprites" data-href="kanban/tasks/sprites" href="https://riatzukiza.github.io/kanban/tasks/sprites.html" class="internal-link" target="_self" rel="noopener nofollow">sprites</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/unit system" data-href="kanban/tasks/unit system" href="https://riatzukiza.github.io/kanban/tasks/unit-system.html" class="internal-link" target="_self" rel="noopener nofollow">unit system</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/vector field visualization" data-href="kanban/tasks/vector field visualization" href="https://riatzukiza.github.io/kanban/tasks/vector-field-visualization.html" class="internal-link" target="_self" rel="noopener nofollow">vector field visualization</a><br>
+]]></description><link>https://riatzukiza.github.io/kanban/tasks/_index_of_tasks.html</link><guid isPermaLink="false">kanban/tasks/_Index_of_tasks.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Thu, 19 Dec 2024 00:08:55 GMT</pubDate></item><item><title><![CDATA[a gpu implementation for signal fields and vector math.]]></title><description><![CDATA[ 
+ <br>I have used tensorflow.js and tensorflow.py before and feel relatively comfortable doing tensor math with this library.]]></description><link>https://riatzukiza.github.io/kanban/tasks/a-gpu-implementation-for-signal-fields-and-vector-math..html</link><guid isPermaLink="false">kanban/tasks/a gpu implementation for signal fields and vector math..md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 21:16:52 GMT</pubDate></item><item><title><![CDATA[Todo]]></title><description><![CDATA[<a class="tag" href="https://riatzukiza.github.io/?query=tag:todo" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#todo</a> 
+ <br>The generated files have a lot of extra whitespace, and are not properly indented all the time.<br><br>
+<br>js-beautify is applied to all javascript files generated from lisp source code
+<br>A minified version of the files is created for production.
+<br>Template files generate a version for development and for production using either the minified source code or the beautified code
+<br><a href="https://riatzukiza.github.io?query=tag:todo" class="tag" target="_blank" rel="noopener nofollow">#todo</a> ]]></description><link>https://riatzukiza.github.io/kanban/tasks/add-beautifier-and-beautifier-to-pipeline-to-pipeline.html</link><guid isPermaLink="false">kanban/tasks/Add beautifier and beautifier to pipeline to pipeline.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:48:36 GMT</pubDate></item><item><title><![CDATA[Attack System]]></title><description><![CDATA[ 
+ <br><br>Entities are able to damage other entities, entities can die.<br><br>
+<br>Attack system
+<br>Health system
+<br>Entities Are despawned when they're health reaches zero
+]]></description><link>https://riatzukiza.github.io/kanban/tasks/attack-system.html</link><guid isPermaLink="false">kanban/tasks/attack system.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 19:54:22 GMT</pubDate></item><item><title><![CDATA[Brain storm new projects]]></title><description><![CDATA[ 
+ <br><br>We need more than one project to call this a portfolio. I've already added a few possibilities to the board, we need to add a few more. We can brain storm a whole crap load of them. We don't need to do all of them, but we need an idea of what is possible and what isn't.<br><br>
+<br>At least 100 possible new projects are added to the board.
+]]></description><link>https://riatzukiza.github.io/kanban/tasks/brain-storm-new-projects.html</link><guid isPermaLink="false">kanban/tasks/Brain storm new projects.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 19:44:07 GMT</pubDate></item><item><title><![CDATA[BUG Collision doesn't work correctly in some circumstances.]]></title><description><![CDATA[ 
+ ]]></description><link>https://riatzukiza.github.io/kanban/tasks/bug-collision-doesn&apos;t-work-correctly-in-some-circumstances..html</link><guid isPermaLink="false">kanban/tasks/BUG Collision doesn&apos;t work correctly in some circumstances..md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 17:29:10 GMT</pubDate></item><item><title><![CDATA[Camera System]]></title><description><![CDATA[ 
+ <br><br>A system that allows us to zoom in and out on the map. It allows us to scroll cross tile.<br><br>
+<br>Mouse click/hold events on the game canvas for dragging the view.
+<br>Mouse wheel events that allow the camera to zoom in and out.
+<br>No visual artifacts when viewing the edges of the map where the coordinate system tiles.
+]]></description><link>https://riatzukiza.github.io/kanban/tasks/camera-system.html</link><guid isPermaLink="false">kanban/tasks/camera system.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 19:54:14 GMT</pubDate></item><item><title><![CDATA[Config system]]></title><description><![CDATA[ 
+ <br><br>For component systems to leverage my config file I have to inject it manually and it is a little annoying to do. I want a more streamlined way of using config files that is integrated with the rest of the game systems.<br>This is pretty simple to do, and I think I've already kinda done it?<br>I had somthing a little different than the hack I did in mind though.<br>Like each component should be individually configurable, accepting a config interface as a parameter for initialization<br><br>
+<br>shared standardized config interface integrated with @shared component system.
+]]></description><link>https://riatzukiza.github.io/kanban/tasks/config-system.html</link><guid isPermaLink="false">kanban/tasks/config system.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 19:51:36 GMT</pubDate></item><item><title><![CDATA[Cull duplicate macros]]></title><description><![CDATA[<a class="tag" href="https://riatzukiza.github.io/?query=tag:subtask" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#subtask</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:consolidation" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#consolidation</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:kitframework" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#kitframework</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:hashtag" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#hashtag</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:duplicate" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#duplicate</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:rejected" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#rejected</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:epic" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#epic</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:kanban" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#kanban</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:tasks" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#tasks</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:portfolio" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#portfolio</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:git" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#git</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:rewrite" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#rewrite</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:andylib" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#andylib</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:lisp" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#lisp</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:macros" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#macros</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:codeduplication" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#codeduplication</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:refactoring" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#refactoring</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:refactor" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#refactor</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:move" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#move</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:outsidework" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#outsidework</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:workinprogress" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#workinprogress</a> 
+ <br>I have implemented many macros that in some cases have been copied, or implemented differently, that share the same name. Some times this causes issues at run time. For instance, the remember macro was implemented in a way that did not maintain the same this as the surrounding closure and broke my code in a few cases where I depended on that behavior at random when that version got read in after or instead of the version that does maintain the "this" binding of the surrounding closure.<br>This issue is related to <a data-href="kanban/tasks/Move all outside work into the portfolio git" href="https://riatzukiza.github.io/kanban/tasks/move-all-outside-work-into-the-portfolio-git.html" class="internal-link" target="_self" rel="noopener nofollow">kanban/tasks/Move all outside work into the portfolio git</a> and <a data-href="Remove duplicate code included in headers." href="https://riatzukiza.github.io/kanban/tasks/remove-duplicate-code-included-in-headers..html" class="internal-link" target="_self" rel="noopener nofollow">Remove duplicate code included in headers.</a><br><a href="https://riatzukiza.github.io?query=tag:subtask" class="tag" target="_blank" rel="noopener nofollow">#subtask</a> <a href="https://riatzukiza.github.io?query=tag:consolidation" class="tag" target="_blank" rel="noopener nofollow">#consolidation</a> <a href="https://riatzukiza.github.io?query=tag:kitframework" class="tag" target="_blank" rel="noopener nofollow">#kitframework</a> <br>Here are the tags for the selected text in the format <a href="https://riatzukiza.github.io?query=tag:hashtag" class="tag" target="_blank" rel="noopener nofollow">#hashtag</a>:<br><a href="https://riatzukiza.github.io?query=tag:duplicate" class="tag" target="_blank" rel="noopener nofollow">#duplicate</a><br>
+<a href="https://riatzukiza.github.io?query=tag:rejected" class="tag" target="_blank" rel="noopener nofollow">#rejected</a><br>
+<a href="https://riatzukiza.github.io?query=tag:epic" class="tag" target="_blank" rel="noopener nofollow">#epic</a><br>
+<a href="https://riatzukiza.github.io?query=tag:kanban" class="tag" target="_blank" rel="noopener nofollow">#kanban</a><br>
+<a href="https://riatzukiza.github.io?query=tag:tasks" class="tag" target="_blank" rel="noopener nofollow">#tasks</a><br>
+<a href="https://riatzukiza.github.io?query=tag:portfolio" class="tag" target="_blank" rel="noopener nofollow">#portfolio</a><br>
+<a href="https://riatzukiza.github.io?query=tag:git" class="tag" target="_blank" rel="noopener nofollow">#git</a><br>
+<a href="https://riatzukiza.github.io?query=tag:rewrite" class="tag" target="_blank" rel="noopener nofollow">#rewrite</a><br>
+<a href="https://riatzukiza.github.io?query=tag:andylib" class="tag" target="_blank" rel="noopener nofollow">#andylib</a><br>
+<a href="https://riatzukiza.github.io?query=tag:lisp" class="tag" target="_blank" rel="noopener nofollow">#lisp</a><br>
+<a href="https://riatzukiza.github.io?query=tag:macros" class="tag" target="_blank" rel="noopener nofollow">#macros</a><br>
+<a href="https://riatzukiza.github.io?query=tag:codeduplication" class="tag" target="_blank" rel="noopener nofollow">#codeduplication</a><br>
+<a href="https://riatzukiza.github.io?query=tag:refactoring" class="tag" target="_blank" rel="noopener nofollow">#refactoring</a><br>
+<a href="https://riatzukiza.github.io?query=tag:refactor" class="tag" target="_blank" rel="noopener nofollow">#refactor</a><br>
+<a href="https://riatzukiza.github.io?query=tag:move" class="tag" target="_blank" rel="noopener nofollow">#move</a><br>
+<a href="https://riatzukiza.github.io?query=tag:outsidework" class="tag" target="_blank" rel="noopener nofollow">#outsidework</a><br>
+<a href="https://riatzukiza.github.io?query=tag:workinprogress" class="tag" target="_blank" rel="noopener nofollow">#workinprogress</a>]]></description><link>https://riatzukiza.github.io/kanban/tasks/cull-duplicate-macros.html</link><guid isPermaLink="false">kanban/tasks/Cull duplicate macros.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 23:15:10 GMT</pubDate></item><item><title><![CDATA[Description]]></title><description><![CDATA[ 
+ <br><br>Add a button to delete an entity to it's entity panel display.<br><br>
+<br>entitieis can be easily deleted with a button
+]]></description><link>https://riatzukiza.github.io/kanban/tasks/deletable-entites.html</link><guid isPermaLink="false">kanban/tasks/deletable entites.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:32:32 GMT</pubDate></item><item><title><![CDATA[documentation]]></title><description><![CDATA[ 
+ <br>Some interfaces from the object pools have doc macros attached to them automaticly generating document markdown files from the source code. It started out as a bit of a hack, this task is centered around documenting existing code using that hack. A seperate piece of work will be genreated for enhancing the document macro system.<br><br>
+<br>Every major system has been documented
+<br>The documents are published and viewable on the static github website.
+<br>Every major system has an example associated with it.
+<br><br>I'm going to document everything I touch while I work on other things. We<br>
+know the doc macro works, we just have to use it.]]></description><link>https://riatzukiza.github.io/kanban/tasks/documentation.html</link><guid isPermaLink="false">kanban/tasks/documentation.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 19:38:47 GMT</pubDate></item><item><title><![CDATA[Enhance Document Macros]]></title><description><![CDATA[ 
+ <br><br>The current document macros place simple markdown files into a "./docs" folder.<br>
+If I want them to be hosted on the website, they need to end up as html files.<br>
+In fact, since we are working with lisp we can make them go directly to html can't we?<br>
+We can make this documentation system pretty powerful. <br>I'm going to sit on this for a bit, more ideas will come to mind after I have documented the esisting codebase.<br><br>
+<br>convert markdown files to html
+<br>docs need links to the files they are from
+<br>Runnable examples of the feature working
+<br>Links to parent interface
+<br>Documents that work for macros
+]]></description><link>https://riatzukiza.github.io/kanban/tasks/enhance-document-macros.html</link><guid isPermaLink="false">kanban/tasks/Enhance document macros.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 19:53:20 GMT</pubDate></item><item><title><![CDATA[Github Readme]]></title><description><![CDATA[ 
+ <br><br>Pretty straight forward, github needs a readme to explain to everyone coming to the code from github to understand what this repository is. I want to generate the readme from a collection of documents like this one.<br><br>
+<br>introduction
+<br>this kanban is a part of it
+<br>A link to the home page
+<br>A link to the projects
+<br>A brief explaination of each project
+]]></description><link>https://riatzukiza.github.io/kanban/tasks/github-readme.html</link><guid isPermaLink="false">kanban/tasks/github readme.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 19:54:08 GMT</pubDate></item><item><title><![CDATA[Home page]]></title><description><![CDATA[ 
+ <br><br>Any good website, especially the portfolio of a developer, needs a good home page.<br>
+it should have a nav panel, a brief synopsis of what it is I do and how I do it<br>
+it should have references to my work, somthing resembling my resume.<br>Basicly everything on my resume must be in some way present on this website.<br><br>
+<br>Uses MUI to look good
+<br>Has a navagation menu
+<br>Explains what I am about
+<br>Has links to my github, linkedin, twitter, blue sky, etc
+<br>Has links to the projects I have worked on
+]]></description><link>https://riatzukiza.github.io/kanban/tasks/home-page.html</link><guid isPermaLink="false">kanban/tasks/Home page.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 19:53:09 GMT</pubDate></item><item><title><![CDATA[Hot reload system]]></title><description><![CDATA[<a class="tag" href="https://riatzukiza.github.io/?query=tag:hotreloadsystem" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#hotreloadsystem</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:devmode" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#devmode</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:frontendreload" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#frontendreload</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:backendreload" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#backendreload</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:compilerprocesses" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#compilerprocesses</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:bundlerprocesses" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#bundlerprocesses</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:separatescripts" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#separatescripts</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:npmscripts" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#npmscripts</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:bundlex" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#bundlex</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:compilex" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#compilex</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:startx" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#startx</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:testx" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#testx</a> 
+ <br><br>I don't want to have to refresh the page every time I make a change, and I don't want to have to restart the server every time I want to change the server.<br>
+Initially this was added as two seperate tasks, but I've decided to merge therm<br>
+into one that includes both the frontend and the backend.<br>This task will also encapsulate seperating the compiler(s) and the bundler(s)<br>
+into seperate processes.<br><br>
+<br>When in dev mode:
+
+<br>The frontend reloads when a change is made
+<br>The backend reloads when a change is made
+<br>each compiler runs in it's own process. Those compilers are:
+
+<br>templates
+<br>frontend
+<br>backend
+
+<br>This will become more than one part as we work on the simulation backend,<br>
+so this feature should be set up to handle that.
+
+
+<br>Each bundler runs in it's own process.
+
+
+
+
+<br>There should be seperate scripts for npm to run for each piece.
+
+<br>bundle x
+<br>compile x
+<br>start x
+<br>test x
+
+
+<br>Here are the generated tags:<br><a href="https://riatzukiza.github.io?query=tag:hotreloadsystem" class="tag" target="_blank" rel="noopener nofollow">#hotreloadsystem</a><br>
+<a href="https://riatzukiza.github.io?query=tag:devmode" class="tag" target="_blank" rel="noopener nofollow">#devmode</a><br>
+<a href="https://riatzukiza.github.io?query=tag:frontendreload" class="tag" target="_blank" rel="noopener nofollow">#frontendreload</a><br>
+<a href="https://riatzukiza.github.io?query=tag:backendreload" class="tag" target="_blank" rel="noopener nofollow">#backendreload</a><br>
+<a href="https://riatzukiza.github.io?query=tag:compilerprocesses" class="tag" target="_blank" rel="noopener nofollow">#compilerprocesses</a><br>
+<a href="https://riatzukiza.github.io?query=tag:bundlerprocesses" class="tag" target="_blank" rel="noopener nofollow">#bundlerprocesses</a><br>
+<a href="https://riatzukiza.github.io?query=tag:separatescripts" class="tag" target="_blank" rel="noopener nofollow">#separatescripts</a><br>
+<a href="https://riatzukiza.github.io?query=tag:npmscripts" class="tag" target="_blank" rel="noopener nofollow">#npmscripts</a><br>
+<a href="https://riatzukiza.github.io?query=tag:bundlex" class="tag" target="_blank" rel="noopener nofollow">#bundlex</a><br>
+<a href="https://riatzukiza.github.io?query=tag:compilex" class="tag" target="_blank" rel="noopener nofollow">#compilex</a><br>
+<a href="https://riatzukiza.github.io?query=tag:startx" class="tag" target="_blank" rel="noopener nofollow">#startx</a><br>
+<a href="https://riatzukiza.github.io?query=tag:testx" class="tag" target="_blank" rel="noopener nofollow">#testx</a>]]></description><link>https://riatzukiza.github.io/kanban/tasks/hot-reload-system.html</link><guid isPermaLink="false">kanban/tasks/Hot reload system.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:17:53 GMT</pubDate></item><item><title><![CDATA[Mirror board to github]]></title><description><![CDATA[ 
+ <br>Are there obsidian plugins that could create git project boards from the obsidian kanban?]]></description><link>https://riatzukiza.github.io/kanban/tasks/mirror-board-to-github.html</link><guid isPermaLink="false">kanban/tasks/Mirror board to github.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Thu, 19 Dec 2024 00:09:13 GMT</pubDate></item><item><title><![CDATA[Epic: Move Kit Framework to Portfolio]]></title><description><![CDATA[<a class="tag" href="https://riatzukiza.github.io/?query=tag:duplicate" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#duplicate</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:rejected" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#rejected</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:shared" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#shared</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:client" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#client</a> <a class="tag" href="https://riatzukiza.github.io/?query=tag:epic" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#epic</a> 
+ <br>To put the full depth of my work on this lisp framework into view in this portfolio, I want to move the code I wrote in all of the kit framework into this portfolio. This way it is easier for future employers to see exactly how much work went into making this entire framework function the way it does. The work meant for <a data-href="Remove duplicate code included in headers." href="https://riatzukiza.github.io/kanban/tasks/remove-duplicate-code-included-in-headers..html" class="internal-link" target="_self" rel="noopener nofollow">Remove duplicate code included in headers.</a> and <a data-href="Cull duplicate macros" href="https://riatzukiza.github.io/kanban/tasks/cull-duplicate-macros.html" class="internal-link" target="_self" rel="noopener nofollow">Cull duplicate macros</a> will be tracked in this issue. May as well call it an epic, it could be a lot of work to move everything into here. <br><br><br>
+<br><a data-href="Cull duplicate macros" href="https://riatzukiza.github.io/kanban/tasks/cull-duplicate-macros.html" class="internal-link" target="_self" rel="noopener nofollow">Cull duplicate macros</a>
+<br><a data-href="Remove duplicate code included in headers." href="https://riatzukiza.github.io/kanban/tasks/remove-duplicate-code-included-in-headers..html" class="internal-link" target="_self" rel="noopener nofollow">Remove duplicate code included in headers.</a>
+<br><a data-href="Rewrite andy lib in lisp" href="https://riatzukiza.github.io/kanban/tasks/rewrite-andy-lib-in-lisp.html" class="internal-link" target="_self" rel="noopener nofollow">Rewrite andy lib in lisp</a>
+<br><br><a data-href="Cull duplicate macros" href="https://riatzukiza.github.io/kanban/tasks/cull-duplicate-macros.html" class="internal-link" target="_self" rel="noopener nofollow">Cull duplicate macros</a>, I have implemented many macros that share the same name, causing issues at runtime. For instance, the remember macro was implemented differently, which broke my code in some cases.<br>This issue is related to <a data-href="kanban/tasks/Move all outside work into the portfolio git" href="https://riatzukiza.github.io/kanban/tasks/move-all-outside-work-into-the-portfolio-git.html" class="internal-link" target="_self" rel="noopener nofollow">kanban/tasks/Move all outside work into the portfolio git</a> and <a data-href="Remove duplicate code included in headers." href="https://riatzukiza.github.io/kanban/tasks/remove-duplicate-code-included-in-headers..html" class="internal-link" target="_self" rel="noopener nofollow">Remove duplicate code included in headers.</a>, and may be marked as <a href="https://riatzukiza.github.io?query=tag:duplicate" class="tag" target="_blank" rel="noopener nofollow">#duplicate</a> or possibly <a href="https://riatzukiza.github.io?query=tag:rejected" class="tag" target="_blank" rel="noopener nofollow">#rejected</a> in favor of another task.<br><br>
+<br>Move the kit macros into the portfolio
+<br>Refactor the kit macros a bit
+<br>Rewrite Andy's gl library in Lisp
+<br>Define interfaces for every class in the library
+<br>Obstacles simulation works as before
+<br>Performance is not impacted by new implementation
+<br><br>
+<br><a data-href="Andy's gl library" href="https://riatzukiza.github.io/Andy's gl library" class="internal-link" target="_self" rel="noopener nofollow">Andy's gl library</a>: Move the lib into portfolio
+<br><a data-href="Lisp interfaces" href="https://riatzukiza.github.io/Lisp interfaces" class="internal-link" target="_self" rel="noopener nofollow">Lisp interfaces</a>: Define interfaces for every class in the library
+<br><a data-href="Simulation reset" href="https://riatzukiza.github.io/simulation-reset.html" class="internal-link" target="_self" rel="noopener nofollow">Simulation reset</a>: Reset the simulation to its original state
+<br><a data-href="File explorer" href="https://riatzukiza.github.io/File explorer" class="internal-link" target="_self" rel="noopener nofollow">File explorer</a>: Implement a file explorer feature
+<br><a data-href="Chat app" href="https://riatzukiza.github.io/Chat app" class="internal-link" target="_self" rel="noopener nofollow">Chat app</a>: Implement a chat app feature
+<br><br>
+<br>Add a project page to the website
+<br>Side scroller
+<br>Game of life
+<br>File explorer
+<br>Chat app
+<br>Find unknown content warnings
+<br><br>
+<br><a data-href="Config system" href="https://riatzukiza.github.io/kanban/tasks/config-system.html" class="internal-link" target="_self" rel="noopener nofollow">Config system</a>: Implement a config system
+<br><a data-href="Entity inspector" href="https://riatzukiza.github.io/Entity inspector" class="internal-link" target="_self" rel="noopener nofollow">Entity inspector</a>: Implement an entity inspector feature
+<br><a data-href="Github pages static site" href="https://riatzukiza.github.io/Github pages static site" class="internal-link" target="_self" rel="noopener nofollow">Github pages static site</a>: Create a Github pages static site
+<br><a data-href="Trail entities" href="https://riatzukiza.github.io/Trail entities" class="internal-link" target="_self" rel="noopener nofollow">Trail entities</a>: Implement trail entities
+<br><a data-href="Simulation reset" href="https://riatzukiza.github.io/simulation-reset.html" class="internal-link" target="_self" rel="noopener nofollow">Simulation reset</a>: Reset the simulation to its original state
+<br><br>
+<br>Add a project page to the website
+<br>Side scroller
+<br>Game of life
+<br>File explorer
+<br>Chat app
+<br>Find unknown content warnings
+<br>The dev code that watches, compiles, bundles, and serves the website would have a difficult time accessing the code that is in the <a href="https://riatzukiza.github.io?query=tag:shared" class="tag" target="_blank" rel="noopener nofollow">#shared</a> and <a href="https://riatzukiza.github.io?query=tag:client" class="tag" target="_blank" rel="noopener nofollow">#client</a> modules, as browserify currently does some extra work parsing a namespacing system ie "@shared/data-structures/lists.js" refers to the code in <a data-tooltip-position="top" aria-label="shared/data-structures/list.js" data-href="shared/data-structures/list.js" href="https://riatzukiza.github.io/shared/data-structures/list.js" class="internal-link" target="_self" rel="noopener nofollow">list</a> and everything in that folder uses that "@shared" prefix.<br><br>
+<br><a data-href="Cull duplicate macros" href="https://riatzukiza.github.io/kanban/tasks/cull-duplicate-macros.html" class="internal-link" target="_self" rel="noopener nofollow">Cull duplicate macros</a>
+<br><a data-href="Remove duplicate code included in headers." href="https://riatzukiza.github.io/kanban/tasks/remove-duplicate-code-included-in-headers..html" class="internal-link" target="_self" rel="noopener nofollow">Remove duplicate code included in headers.</a>
+<br><a data-href="Rewrite andy lib in lisp" href="https://riatzukiza.github.io/kanban/tasks/rewrite-andy-lib-in-lisp.html" class="internal-link" target="_self" rel="noopener nofollow">Rewrite andy lib in lisp</a>
+<br><a href="https://riatzukiza.github.io?query=tag:epic" class="tag" target="_blank" rel="noopener nofollow">#epic</a>]]></description><link>https://riatzukiza.github.io/kanban/tasks/move-all-outside-work-into-the-portfolio-git.html</link><guid isPermaLink="false">kanban/tasks/Move all outside work into the portfolio git.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 23:05:46 GMT</pubDate></item><item><title><![CDATA[Multiple Factions]]></title><description><![CDATA[ 
+ <br><br>There are several entity groups with different properties and their own signal fields.<br><br>
+<br>each faction has a food source/goal
+<br>each faction has it's own set of hyper parameters
+<br>each faction has its own signal/noise fields
+]]></description><link>https://riatzukiza.github.io/kanban/tasks/multiple-factions.html</link><guid isPermaLink="false">kanban/tasks/multiple factions.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 19:54:59 GMT</pubDate></item><item><title><![CDATA[paralell processing for each system]]></title><description><![CDATA[ 
+ <br>This task may be a bit harder than the others.<br>In theory each system should be able to work totally independently if given the previous state of the system.<br>Right now though, only the current state is stored and everything is updated in place.<br>I did somthing like this in symbiants.<br>
+Symbiants was a cellular automata, so it was easier to detect collision. If somthing was to end up in the same spot as somthing else, you would know because its a lookup.<br>In a cartiesian space where objects have varying size and coordinates are floats, you need to check everything. At least you need to check everything nearby, using a quad or an octtree.<br>The idea for pseudo immutability will be the same though. Keep two versions of the datastructure used to store the systems state, freeze the one holding the previous state, and update the other for the current state. When everything is upated, the two objects switch places and the one is locked and the other is updated on the state of the prior.]]></description><link>https://riatzukiza.github.io/kanban/tasks/paralell-processing-for-each-system.html</link><guid isPermaLink="false">kanban/tasks/paralell processing for each system.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 17:49:30 GMT</pubDate></item><item><title><![CDATA[Placeable entities.]]></title><description><![CDATA[ 
+ <br><br>I could circumvent some issues with placing objects during initialization if I could place the objects with a gui. This will require a pallette interface to select entities from and edit the characteristics of placed entities.<br><br>
+<br>A pallete for placing entities from groups
+<br>A pallete for creating custom entities from existing components
+<br>A drop down menu featuring the games active component systems
+<br>A drop down menu featuring the games active entity groups
+<br>Mouse event handlers for choosing where to place the entity
+]]></description><link>https://riatzukiza.github.io/kanban/tasks/placeable-entities-(rocks,-plants,-bases).html</link><guid isPermaLink="false">kanban/tasks/placeable entities (rocks, plants, bases).md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 19:53:47 GMT</pubDate></item><item><title><![CDATA[Description]]></title><description><![CDATA[ 
+ <br><br>The way I wrote the kit framework ended up adding a lot of duplicate code to the top of a lot of files.<br>To remove these, I need to move the kit macros into the portfolio and refactor them a bit. This task can probably be consoldated into the <a data-href="kanban/tasks/Move all outside work into the portfolio git" href="https://riatzukiza.github.io/kanban/tasks/move-all-outside-work-into-the-portfolio-git.html" class="internal-link" target="_self" rel="noopener nofollow">kanban/tasks/Move all outside work into the portfolio git</a>]]></description><link>https://riatzukiza.github.io/kanban/tasks/remove-duplicate-code-included-in-headers..html</link><guid isPermaLink="false">kanban/tasks/Remove duplicate code included in headers..md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 21:19:45 GMT</pubDate></item><item><title><![CDATA[Rewrite andy lib in lisp]]></title><description><![CDATA[<a class="tag" href="https://riatzukiza.github.io/?query=tag:todo" style="background-color: rgb(4, 108, 116); color: white; font-weight: 700; border: none; border-radius: 1em; padding: 0.2em 0.5em;">#todo</a> 
+ <br>There were some useful things in here but all done with classes and that doesn't work with the properly prototypal interface pattern I am using.<br><br>
+<br>Andy's gl library is moved into portfolio
+<br>Lisp interfaces are defined for every class in the library
+<br>The obstacles simulation works as before
+<br>performance is not impacted by new implementation<br>
+<a href="https://riatzukiza.github.io?query=tag:todo" class="tag" target="_blank" rel="noopener nofollow">#todo</a>
+]]></description><link>https://riatzukiza.github.io/kanban/tasks/rewrite-andy-lib-in-lisp.html</link><guid isPermaLink="false">kanban/tasks/Rewrite andy lib in lisp.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 20:37:24 GMT</pubDate></item><item><title><![CDATA[Selection Box]]></title><description><![CDATA[ 
+ <br><br>We want to be able to drag a box around entities for selection. Selected entities will show up in a panel and be highlighted.<br><br>
+<br>Mouse click, hold, and release events for dragging a box
+<br>A box appears when the mouse is held and dragged
+<br>Entities with in the box are highlighted 
+<br>When the mouse is release, the highlighted entities are displayed in a panel.
+<br>There is a different highlighted color for entities that are selected and ones that are in a box to be highlighted upon mouse up event
+]]></description><link>https://riatzukiza.github.io/kanban/tasks/selection-box.html</link><guid isPermaLink="false">kanban/tasks/selection box.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 19:55:20 GMT</pubDate></item><item><title><![CDATA[Settings interface]]></title><description><![CDATA[ 
+ <br><br>While I have a quick settings interface, it is just somthing I found when I found the code that inspired the signal vector field concept. In the same area as the entity inspecter and placement pallette will be located, there will be an interface for updating the simulation settings.<br>Sine I've already got work started on interface components it makes sense for me to add prioritize this.<br><br>
+<br>pairity with old quicksettings menu
+]]></description><link>https://riatzukiza.github.io/kanban/tasks/settings-interface.html</link><guid isPermaLink="false">kanban/tasks/settings interface.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 19:53:00 GMT</pubDate></item><item><title><![CDATA[Simulation backend]]></title><description><![CDATA[ 
+ <br><br>The more I add to the game the more the browser is going to chug along.<br>
+If I move the simulation to the backend, and have the frontend just render a stream of objects from the backend..<br>The browser can afford to miss a few frames or packets,<br>
+as it will not actually affect the simulation. It will only<br>
+affect the rendering process.<br>
+This could be a neat chance to play around with webrtc udp like sockets.<br>
+It may be a bit more than we should fit into a single task though.<br>
+The first pass on this will be straightforward using a technology we are very familar with, socket.io<br><br>
+<br>The rendering system can run in the browser being fed data from the backend.
+<br>The backend can run continuously, allowing users to leave,<br>
+then comeback, and the simulation has progressed from where it was.
+<br>The simulation can persist with server restarts.
+<br>The simulation can still be run in the browser.
+<br>The simulation state also persists if being run in the browser through local storage.
+]]></description><link>https://riatzukiza.github.io/kanban/tasks/simulation-backend.html</link><guid isPermaLink="false">kanban/tasks/simulation backend.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 19:41:49 GMT</pubDate></item><item><title><![CDATA[Sprites]]></title><description><![CDATA[ 
+ <br><br>Make the game look better with some sprite graphics, we have an existing sprite implementation. It may be worth investigating different graphics engines at this point?<br>
+I'm not sure if individually placing dots is the best way to be doing sprites. It should<br>
+work for now. We know we have cod e for 3d stuff in another repository.<br><br>
+<br>Create sprite sheets for agents and rocks
+<br>Try existing sprite system, compare speed to vertex rendering mode speed.
+<br>If speed is unreasonable, create a new task to look into other graphics<br>
+engine solutions, or write a new shader for sprites.
+]]></description><link>https://riatzukiza.github.io/kanban/tasks/sprites.html</link><guid isPermaLink="false">kanban/tasks/sprites.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 19:55:11 GMT</pubDate></item><item><title><![CDATA[unit system]]></title><description><![CDATA[ 
+ <br><br>We need an abstraction that allows us to describe and talk about agents abstractly with out manually creating them every time. We have "Entity Groups" right now, but that requires us to create a new entity group every time we have a new set of entities, and the way it is written there cannot be overlap between the groups.<br>If we wanted to say create multiple factions that each have the same set of units, just using entity groups as they are would be combersome.<br><br>
+<br>An abstraction is implemented for describing, creating, and managing complex multi<br>
+entity systems that compose a larger unit
+<br>Units are easily clearable
+<br>Units are selectable
+<br>Units are all movable
+]]></description><link>https://riatzukiza.github.io/kanban/tasks/unit-system.html</link><guid isPermaLink="false">kanban/tasks/unit system.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 19:42:45 GMT</pubDate></item><item><title><![CDATA[Vector field visualizations]]></title><description><![CDATA[ 
+ <br><br>We have implemented an abstraction for trails segments that decoupled them<br>
+from the ants life cycle. This simplified our field file,<br>
+the primary source of our tech debt.<br>
+The way I was thinking of doing this was to have ghost entities that only<br>
+follow one field, and do not influence , or interact with other entities it by moving.<br><br>Ghost entities are a good example of an entityt that is not a unit.<br>
+It represents a visual effect in the game, but it is not a part of the simulation.<br>Other examples of non unit entities would be like:<br>
+<br>tile
+
+<br>Not selectable, simple, static
+
+
+<br>shadows
+
+<br>May be a part of a unit, but would be a simple entity.
+<br>it has a location, and a rendering component,<br>
+but is not meaningful to the simulation.
+
+
+<br><br>
+<br>the @shared/field.sibilant file is factored out
+<br>each field gets it's own system
+<br>There are non interacting ghost entities that follow the fields
+<br>The number of ghosts is configurable.
+<br>The length of their trails is configurable.
+]]></description><link>https://riatzukiza.github.io/kanban/tasks/vector-field-visualization.html</link><guid isPermaLink="false">kanban/tasks/vector field visualization.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 19:41:20 GMT</pubDate></item><item><title><![CDATA[_Index_of_kanban]]></title><description><![CDATA[ 
+ <br><br>
+<a data-tooltip-position="top" aria-label="kanban/blocked" data-href="kanban/blocked" href="https://riatzukiza.github.io/kanban/blocked.html" class="internal-link" target="_self" rel="noopener nofollow">blocked</a><br>
+<a data-tooltip-position="top" aria-label="kanban/board" data-href="kanban/board" href="https://riatzukiza.github.io/kanban/board.html" class="internal-link" target="_self" rel="noopener nofollow">board</a><br>
+<a data-tooltip-position="top" aria-label="kanban/breakdown" data-href="kanban/breakdown" href="https://riatzukiza.github.io/kanban/breakdown.html" class="internal-link" target="_self" rel="noopener nofollow">breakdown</a><br>
+<a data-tooltip-position="top" aria-label="kanban/done" data-href="kanban/done" href="https://riatzukiza.github.io/kanban/done.html" class="internal-link" target="_self" rel="noopener nofollow">done</a><br>
+<a data-tooltip-position="top" aria-label="kanban/in-progress" data-href="kanban/in-progress" href="https://riatzukiza.github.io/kanban/in-progress.html" class="internal-link" target="_self" rel="noopener nofollow">in-progress</a><br>
+<a data-tooltip-position="top" aria-label="kanban/in-review" data-href="kanban/in-review" href="https://riatzukiza.github.io/kanban/in-review.html" class="internal-link" target="_self" rel="noopener nofollow">in-review</a><br>
+<a data-tooltip-position="top" aria-label="kanban/process" data-href="kanban/process" href="https://riatzukiza.github.io/kanban/process.html" class="internal-link" target="_self" rel="noopener nofollow">process</a><br>
+<a data-tooltip-position="top" aria-label="kanban/project" data-href="kanban/project" href="https://riatzukiza.github.io/kanban/project.html" class="internal-link" target="_self" rel="noopener nofollow">project</a><br>
+<a data-tooltip-position="top" aria-label="kanban/ready" data-href="kanban/ready" href="https://riatzukiza.github.io/kanban/ready.html" class="internal-link" target="_self" rel="noopener nofollow">ready</a><br>
+<a data-tooltip-position="top" aria-label="kanban/tasks/_Index_of_tasks" data-href="kanban/tasks/_Index_of_tasks" href="https://riatzukiza.github.io/kanban/tasks/_index_of_tasks.html" class="internal-link" target="_self" rel="noopener nofollow">_Index_of_tasks</a><br>
+<a data-tooltip-position="top" aria-label="kanban/to-do" data-href="kanban/to-do" href="https://riatzukiza.github.io/kanban/to-do.html" class="internal-link" target="_self" rel="noopener nofollow">to-do</a><br>
+]]></description><link>https://riatzukiza.github.io/kanban/_index_of_kanban.html</link><guid isPermaLink="false">kanban/_Index_of_kanban.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Thu, 19 Dec 2024 00:08:55 GMT</pubDate></item><item><title><![CDATA[Predator agents]]></title><description><![CDATA[ 
+ <br><br>Like in the original symbiants using a scalar signal field, I want to introduce predation. I'd like it to be a little more nuanced then the way I did it before, just spawnings new factions and weighted randomly selecting a food source based on total number of agents belonging to each type of food. This may require a little more thought. I can get a basic system up now. Maybe all agents can choose to be a predator based on how recently they've found food?<br><br>
+<br>attack sytem
+<br>multiple factions
+<br><br>
+<br>A system for ants to win when they kill another ant
+<br>Path finding allows predator agents to consistently find other ants.
+<br><br>Resources other than plants exist. The entites can do things with the resources. Entities take the resources home. Entities require resources to be spawned.<br>
+This issue will not add other resources, but follow on work that adds new resources will depend on this one. The only resource we will add is plant matter.<br><br>
+<br>Agents can carry objects
+<br>The faction requires resources to create new agents
+<br>agents require resources to be created.
+<br>Factions have a resource counter interface
+<br><br>
+<br>trail entities
+
+<br>resource mechanics will require agents lives to<br>
+be dictated by somthing other than a max trail length if they can only be created with resources being added
+
+
+<br>reverse navigation home
+
+<br>Agents have to be able to make it home in order to find and return resources.
+
+
+<br><br>Agents need to be able to find their way home. This will be done by adding a new field, and/or reversing the ants relationship to the existing fields.<br>
+They follow them in the reverse.<br><br>
+<br>Agents consistently make it to goals and back.
+<br>A new agent is spawned only by returning back to the objective
+<br><br>
+<br>Trail entities
+<br>Multiple signal fields?
+<br><br>Agents can create structures to perform their objectives.<br>
+Buildings allow for the creation of new units and adaptations.<br><br>
+<br>Units can create structures
+<br>structures require resources to be brought to them to be constructed
+<br>structures at least one worker unit to be working on them to progress
+<br>structures build faster with more worker units
+<br><br>
+<br>units
+<br>resource system
+<br>Mineral resources
+<br><br>Agents need to slowly use resources they have consumed to survive.<br>
+Agent should starve to death to loose unless killed by another agent.<br><br>
+<br>Units consume plant matter to survive
+<br>Units mass is based on how much food it has consumed.
+<br>There is a maximum amount of food the agent can contain inside of them
+<br>Once an agent is full they begin going home.
+<br>Agents will not eat food they are carrying unless they get "hungry"
+<br>Hungry means the amount of food the agent can store internally has gone below a certain threshhold upon previously being satiated.
+<br>Agents are spawned hungry
+<br><br>
+<br>trail entities
+<br>Reverse navigation
+<br>Resource system
+<br><br>Ants of the real world have a complex cocktail of pheremones they use to communicate different things. Different amounts of each pheremone can create varied behavior.<br>We want the agents to mimic this behavior. Agents should be able to use multiple fields to navigate. At first the fields will be given specific purposes, but later on when the agents have more complex decision making systems in the form of neural networks, they will just have a bunch of fields and the neural net will decide what each one means, how much to weight each one at any given time, etc.<br><br>
+<br>A system for handling multiple fields.
+<br>A new field for satiated ants returning home with food
+<br>A new field for satiated ants looking for food to bring home
+<br><br>
+<br>Trail entities
+<br>Reverse navigation home?
+
+<br>These two tickets may need to be worked on at the same time or merged into one.
+<br>Start by working on reverse navigation home using only the inverse of the existing field.
+<br>If agents cannot make it home, the ticket is blocked and we start work on this one.
+
+
+<br><br>The ground needs to have different characteristics at different points, and different colorings.<br>
+Some spots need to be easier to walk on, others need to be very hard to walk on.<br><br>
+<br>There is a matrix of tiles that are rendered to the screen
+<br>Tiles have variable characteristics
+<br>Tiles correspond to more than one coordinate point (They are larger than 1x1)
+<br><br>
+<br>camera
+
+<br>While not really a blocker, I would prefer to have a camera ready before this.
+
+
+]]></description><link>https://riatzukiza.github.io/kanban/blocked.html</link><guid isPermaLink="false">kanban/blocked.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Thu, 12 Dec 2024 21:17:44 GMT</pubDate></item><item><title><![CDATA[breakdown]]></title><description><![CDATA[ 
+ ]]></description><link>https://riatzukiza.github.io/kanban/breakdown.html</link><guid isPermaLink="false">kanban/breakdown.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Thu, 12 Dec 2024 21:17:44 GMT</pubDate></item><item><title><![CDATA[Github static website]]></title><description><![CDATA[ 
+ <br><br>This has to be a priority.<br>
+People need to be able to see my work.<br>
+This requires me to have a landing page.<br>
+I need to research what is required to set up a github static website.<br>Turns out it's pretty easy. I renamed the repository, set up a github<br>
+action for a static html website.<br>Now I need an actual website.<br>I think we can call this done though, we have the work flow for a static github website and it is deployed. All we have to do is keep working on everything.<br>Future work will be added specific to the website around the portfolio projects as needed.<br><br><br>In addition to a side pallette to place the entities with, I want an interface to inspect and edit existing entities and their properties.<br><br>I have a panel that displays all of the rocks and their properties. <br><br>
+<br>a similar panel for all entities.
+<br>pagination
+<br>collapsable
+<br><br>I started working on a component system encapsulating interfaces for entities.<br><br>I have pagination, and the system is set up to work for any entity with "view"able components.<br>
+I have not made it collapsable.<br><br>This feature will help me make sure that I am clearing the object pools correctly and let me change settings easier with out having to restart if I want to see the simulation from the start with a new set of settings.<br><br>
+<br>A button that resets the simulation without<br>
+refreshing the page
+<br>The simulation is not degraded in performance<br>
+from memory leaks or other artifacts leftover<br>
+from the previous simulation instance.
+<br><br>It seems to be working as it is now, we'll keep an eye on it as other work is introduced to make sure<br>
+the button continues to work. it is possible that more complex features later on will end up requring more work, as it is possible that there are still despawning paths that have not been taken (Clearing all the entity groups is fine for what the game is now)<br><br>I have added signal trail entities, I have to add them to the reset button and test.<br>
+The signal trails already have to despawn a lot so I am figuring this will go smoothly.<br>
+I should keep the entity groups in a list so I can write a function to despawn all of them every time I add a new one<br>
+so I don't always have to remember to add them to the reset button.<br><br>The signal field code has the most tech debt of all the systems.<br>
+I want to be able to visualize the  trails agents leave behind.<br>
+The agents should be able to live longer than their trail.<br>
+When a trail has reached its max size, the oldest trail segment<br>
+should despawn and contribute nothing to the win/loose field update.<br><br>
+<br>Trails can be seen
+<br>Agents life is not dependent on the length of the trail
+<br>Agents do not loose when the trail max length is met
+<br>the oldest trail segment despawns when a trail reaches its max length.
+<br><br>We are going to start by breaking down the huge ass field function.<br>
+It is probably multiple systems.<br>
+It is currently where the trails are tracked, and they are outside of the ECS.<br>
+Agents will get a new component: Trail<br>
+The trail system will create a new entity for each tick of movement at the location of the agent.<br>
+The Trail segment will have: <br>
+<br>position component
+<br>dot component
+<br>signal vector component
+<br>experation component
+<br>The position and dot systems are already in place.<br>
+The signal vector component stores the velocity of the agent at the time of creation.<br>
+The experation component stores the time the agent created the signal.<br>
+The signal expires if the current tick is placement time + max-trai-length.<br>
+When expired the trail segment entity despawns.<br>
+If the agent succeeds, all non expired signal vectors are applied to the signal field.<br>
+If the agent fails, all non expired signal vectors are applied inversely to the signal field.<br>
+All trail segments associated with an agent that has succeeded or failed despawn<br>
+after they are applied.<br><br>The modules are started, but they are all over the place.<br>
+This has to be done, the field file is a mess that limits how far I can take this,<br>
+as it exists largely outside of the entity component framework.<br><br>The new interfaces have been created, most of them at least. There may be more, but we are starting here.<br>
+<br>Timer
+<br>Ant-dot
+<br>Ant-life-timer
+<br>Ant-trails
+<br>Trail Dots
+<br>Trail segments
+<br><br>The timer type is initialize with a duration and a callback.<br>
+When the duration has been reached, the callback is called and the timer is flagged as deactivated.<br>
+The call back can reset or despawn the timer.<br>The ant life and trail life components are durived from this.<br><br>The ant life timer sets the entity back to spawn, increases the loose count, and resets the timer.<br><br>The trail life component encapsulates a vector, and its call back despawns the vector.<br><br>A simple sub class of the dot interface with a fixed color.<br>
+Using more than one instance of the dot interface will give us more layers of vertices, and a higher limit on the number of entities we can have.<br><br>Similar to the ant dot, it is also an instance of the dot interface with a fixed color.<br>
+It's alpha will vary with the remaining duration on the trail segment.<br><br>A new component for ants to associate it with the trail entities it spawns as it moves.<br><br>A new entity is also being added for the trail segments.<br>
+It has a position, a rendering component, and an expiring vector.<br>
+Every tick the ant moves, a new trail segment is spawned.<br>
+When an ant either wins or looses, it will itterate through it's trail segments component,<br>
+applying the associated vectors to the signal field.<br><br>While this is how I am choosing to implement this now, it is possible this could be done with out creating a new entity<br>
+by creating a new renderable interface containing a collection of vertices instead of just one vertex like the dot interface.<br>I've already started it this way, and what is most important right now is to move behavior out of the shared/field file, and into our<br>
+entity framework. Once the behaviors of the field are captured in ecs, it wil be easier to change how we interact with the fields.<br>I will comment further at the end of the day, trying not to leave the update for the morning after.<br><br>This is basicly ready, it's a little slower now with the rendered trails, but that can be another task.<br>
+The simulation should run faster if the trails are able to be turned off.<br>
+TUrning them off in the config file will be pretty easy.<br>
+Having a button to turn them on and off may be harder.<br>Setting this to ready for review<br><br>I will be reading the pr diff today.<br>
+They look big, but they also contain the bundles.<br>
+I don't want to ignore the bundles, but they do create a lot of noise.<br>
+I was thinking I could add a sha-sum tracker so new bundles aren't compiled if their source code didn't change.<br>
+Sometimes sibilant will make minor changes to the ways functions and what have you are generated.<br>
+The compiler could use some work, a source map for one.<br>
+debugging when the issue is a macro can be tricky right now.]]></description><link>https://riatzukiza.github.io/kanban/done.html</link><guid isPermaLink="false">kanban/done.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Tue, 17 Dec 2024 17:25:44 GMT</pubDate></item><item><title><![CDATA[in-progress]]></title><description><![CDATA[ 
+ ]]></description><link>https://riatzukiza.github.io/kanban/in-progress.html</link><guid isPermaLink="false">kanban/in-progress.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 19:38:30 GMT</pubDate></item><item><title><![CDATA[in-review]]></title><description><![CDATA[ 
+ ]]></description><link>https://riatzukiza.github.io/kanban/in-review.html</link><guid isPermaLink="false">kanban/in-review.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Tue, 17 Dec 2024 17:25:44 GMT</pubDate></item><item><title><![CDATA[Board flow]]></title><description><![CDATA[ 
+ <br><br>
+New-&gt; Accepted -&gt; Breakdown -----&gt; Ready -&gt; Todo -&gt; In Progress -&gt; In Review -&gt; Done
+|                 |  |  ^          ^                |    ^            |
+|                 |  |  |          |                |    |            |
+----&gt; Rejected&lt;----  -&gt; Blocked ---|    |&lt;-----------    |-------------
+                           ^            |&lt;----------------
+                           |-------------
+<br><br>Feature ideas we may or may not do. A place for brainstorming.<br><br>New ideas can move to either an accepted or rejected state.<br>New-&gt; Accepted
+|
+----&gt; Rejected
+<br>
+<br>We've started writing about it
+<br>it seems feasable.
+<br>It is not a duplicate.
+<br><br>Tasks we opened up that we later realized were not useful, or a duplicate of an existing task.<br>Rejected tasks do not have state transitions at the moment.<br>New  Breakdown
+|    |
+--------&gt; Rejected
+<br><br>
+<br>a backend implementation of the simulation
+
+<br>Duplicate
+
+
+<br>Components as data views
+
+<br>Redundent by entity panel, provides data view
+
+
+<br><br>Features we have decided to look into.<br>
+If we think they will add value we will move on to break down.<br>
+The task must be described to continue<br>Accepted tasks cannot be rejected with out first going through breakdown<br>Accepted -&gt; Breakdown
+<br><br>
+<br>A brief description of the task is created. 
+<br>We have decided the feature has value
+<br>The task must not be a duplicate or redundent.
+<br><br>Features we are actively thinking about and preparing for work.<br>
+The result of a breakdown is either a task that is ready for work,<br>
+or a task that is rejected upon further examination.<br>
+Tasks may become blocked if once the work was started it became clear<br>
+the task was not defined clearly enough.<br>
+Breakdown-&gt;Ready
+|
+-&gt;Blocked
+
+<br><br>
+<br>requirements
+<br>explaination of value
+<br>a general approach to the problem
+<br><br>Features that have been refined and are ready to work on after a feature they rely on has been implemented<br><br>Tasks that are ready to be worked that we have not decided to start.<br>
+Tasks that are ready for work have not been prioritized and there is no estimate on complexity.<br><br>Tasks that have been prioritized and estimated. These are what are to be done after<br>
+in progress tasks have been completed.<br><br>Tasks that are currently being worked on.<br><br>Work that has been completed but needs to be reviewed to be sure.<br><br>The work has been reviewed and we are sure that it is done.<br>
+:confetti:]]></description><link>https://riatzukiza.github.io/kanban/process.html</link><guid isPermaLink="false">kanban/process.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Tue, 17 Dec 2024 17:25:44 GMT</pubDate></item><item><title><![CDATA[Project Description]]></title><description><![CDATA[ 
+ <br><br>Sentient sand, as I am now calling the project using ACO, is doing very well. It works exactly as intended, and now only needs refinements.<br><br>The progress on the project is tracked using a kanban board with the following sections and procedure<br><br>Incoming work, a place to throw ideas for future work. <br><br>Items taken from the new colomun that are being broken down and refined to be used as actual work tickets.<br><br>Work that has been sufficiently refined and is considered ready to be worked on.<br><br>Work that has been started only<br><br>Work that is pending review before being consdiered actually done.<br><br>It's done.]]></description><link>https://riatzukiza.github.io/kanban/project.html</link><guid isPermaLink="false">kanban/project.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Mon, 09 Dec 2024 22:13:13 GMT</pubDate></item><item><title><![CDATA[ready]]></title><description><![CDATA[ 
+ ]]></description><link>https://riatzukiza.github.io/kanban/ready.html</link><guid isPermaLink="false">kanban/ready.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Wed, 18 Dec 2024 19:55:29 GMT</pubDate></item><item><title><![CDATA[to-do]]></title><description><![CDATA[ 
+ ]]></description><link>https://riatzukiza.github.io/kanban/to-do.html</link><guid isPermaLink="false">kanban/to-do.md</guid><dc:creator><![CDATA[Aaron Beavers]]></dc:creator><pubDate>Tue, 10 Dec 2024 17:17:22 GMT</pubDate></item></channel></rss>

@@ -1,4 +1,19 @@
 require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({"@obstacles/entities/plants.js":[function(require,module,exports){
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Dot
  } = require("@shared/systems/rendering/dot.js"),
@@ -29,11 +44,11 @@ var {
  } = require("@obstacles/game.js"),
     config = require("@obstacles/config.js");
 const plants=create(EntityGroup)("Plants", [ Dot, Position, Physics, Collision, Velocity ], game.ent);
-var spawnPlant = (function spawnPlant$(x_y$17, mass) {
+var spawnPlant = (function spawnPlant$(x_y$2, mass) {
   /* spawn-plant eval.sibilant:21:0 */
 
-  var x = x_y$17[0],
-      y = x_y$17[1];
+  var x = x_y$2[0],
+      y = x_y$2[1];
 
   var plant = plants.spawn([ Dot, Position, Physics, Collision, Velocity ]);
   game.systems.get(Dot, plant).color = rgba(0, 255, 0, 255);

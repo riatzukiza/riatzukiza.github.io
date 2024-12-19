@@ -1,3 +1,9 @@
+
+(require! (lit Component System) "@shared/ecs.js"
+          ;; (lit Binary-search-tree) "@shared/data-structures/trees/binary-search-tree.js"
+          (lit Red-black-tree) "@shared/data-structures/trees/red-black-tree.js"
+          config "@obstacles/config.js"
+          )
 (require! (lit Timer Time-limit) "@obstacles/systems/timer.js"
           (lit place-entity) "@shared/systems/collision.js"
 
@@ -9,7 +15,7 @@
 (const views (new Map))
 
 (define Ant-life Time-limit
-  (gett duration config.ant-life)
+  (duration config.ant-life)
   (update-view? true)
   (def-view view ()
     (.div .className "panel"
@@ -20,12 +26,11 @@
 
 
   (def *clear ()
-    ;; (.remove this.view)
+    (.call Time-limit.*clear this)
     (.delete this.views this.entity)
 
     (assign this.win-count 0)
-    (assign this.loose-count 0)
-    (assign this.triggered false))
+    (assign this.loose-count 0))
 
   (def register ()
     (.call Time-limit.register this)
@@ -49,10 +54,11 @@
     (incr c.loose-count)
     (.clear e.ant-trail.segments)
 
-    (.reset c)))
+    (.reset c config.ant-life-duration)))
 (export Ant-life)
 
 (define Ant-life-timer Timer
+  (gett default-duration config.ant-life)
   (interface Ant-life))
 
 (export Ant-life-timer)

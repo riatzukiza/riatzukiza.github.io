@@ -1,3 +1,18 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Interface
  } = require("@kit-js/interface");
@@ -75,7 +90,7 @@ var shaders = Interface.define("shaders", {
   `
  });
 var vertexLayer = (function vertexLayer$(limit, game) {
-  /* vertex-layer eval.sibilant:1:939 */
+  /* vertex-layer eval.sibilant:1:970 */
 
   uniforms.init(game);
   return game.rendering.spawn(limit, Vertex, [ uniforms.res, uniforms.scale ], [ shaders.vert, shaders.frag ]);
@@ -94,7 +109,7 @@ var DotInterface = Component.define("DotInterface", {
    },
   get scale(  ){ 
     
-      return this.system.process.systems.get(Physics, this.entity).scale;
+      return this.entity.physicalProperties.scale;
     
    },
   get point(  ){ 

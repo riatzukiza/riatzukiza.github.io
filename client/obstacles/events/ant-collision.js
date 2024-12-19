@@ -1,3 +1,18 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Velocity
  } = require("@shared/systems/velocity.js");
@@ -28,8 +43,11 @@ const updateParticle=createParticleUpdater(config, game);
 game.events.on("antCollision", ((c, c_) => {
 	
   var v = c.entity.velocityInterface;
+  var v_ = c_.entity.velocityInterface;
   var p = c.entity.physicalProperties;
-  return updateParticle(v, v.pos, SignalField.field, SignalField.layer, game.ticker.ticks, config.decayOnCollision, false, homePos);
+  var p_ = c_.entity.physicalProperties;
+  updateParticle(v, v.pos, SignalField.field, SignalField.layer, game.ticker.ticks, config.decayOnCollision, false, homePos);
+  return updateParticle(v_, v_.pos, SignalField.field, SignalField.layer, game.ticker.ticks, config.decayOnCollision, false, homePos);
 
 })).once("error", ((err) => {
 	

@@ -1,3 +1,18 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Interface
  } = require("@kit-js/interface");
@@ -17,37 +32,37 @@ var {
   Scalar
  } = require("@shared/math/scalar.js");
 var bound = (function() {
-  /* eval.sibilant:1:462 */
+  /* eval.sibilant:1:493 */
 
   return arguments[0].bind();
 }),
     clear = (function() {
-  /* eval.sibilant:1:487 */
+  /* eval.sibilant:1:518 */
 
   return arguments[0].clear();
 }),
     rendered = (function() {
-  /* eval.sibilant:1:516 */
+  /* eval.sibilant:1:547 */
 
   return arguments[0].render();
 }),
     unbound = (function() {
-  /* eval.sibilant:1:546 */
+  /* eval.sibilant:1:577 */
 
   return arguments[0].unbind();
 }),
     disabled = (function() {
-  /* eval.sibilant:1:575 */
+  /* eval.sibilant:1:606 */
 
   return arguments[0].disable();
 }),
     enabled = (function() {
-  /* eval.sibilant:1:606 */
+  /* eval.sibilant:1:637 */
 
   return arguments[0].enable();
 });
 var allowAlphaBlending = (function allowAlphaBlending$(context) {
-  /* allow-alpha-blending eval.sibilant:1:624 */
+  /* allow-alpha-blending eval.sibilant:1:655 */
 
   context.gl.enable(context.gl.BLEND);
   context.gl.blendEquation(context.gl.FUNC_ADD);

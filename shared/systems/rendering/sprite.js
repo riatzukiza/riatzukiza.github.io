@@ -1,3 +1,18 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Interface
  } = require("@kit-js/interface");
@@ -11,7 +26,7 @@ var SpriteInterface = Component.define("SpriteInterface", {
   register( dim = this.dim,system = this.system ){ 
     
       return this.verts = create(MatrixMap)(dim, (function(array) {
-        /* node_modules/kit/inc/scope.sibilant:12:9 */
+        /* inc/misc.sibilant:1:798 */
       
         (function() {
           /* node_modules/kit/inc/loops.sibilant:26:8 */
@@ -23,7 +38,7 @@ var SpriteInterface = Component.define("SpriteInterface", {
             /* node_modules/kit/inc/loops.sibilant:28:35 */
           
             array.push((function() {
-              /* eval.sibilant:1:400 */
+              /* eval.sibilant:1:431 */
             
               return system.verts.spawn();
             }).call(this));
@@ -34,7 +49,7 @@ var SpriteInterface = Component.define("SpriteInterface", {
           return $for;
         }).call(this);
         return array;
-      })([]));
+      }).call(this, []));
     
    },
   frameId:0,

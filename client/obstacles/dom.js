@@ -1,3 +1,18 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   renderChildren,
   createDocumentNode,
@@ -84,7 +99,7 @@ const getStats=(() => {
   });
   const wins=getWins();
   const losses=getLosses();
-  return [ createDocumentNode("div", {  }, [ "Ants" ]), createDocumentNode("div", {  }, [ "count:", getAntCount ]), createDocumentNode("div", {  }, [ "latency:", game.ticker.averageLatency ]), createDocumentNode("div", {  }, [ "fps:", game.ticker.averageFps ]), createDocumentNode("div", {  }, [ "total mass:", getTotalAntMass ]), createDocumentNode("div", {  }, [ "wins:", displayDecimal(wins) ]), createDocumentNode("div", {  }, [ "losses:", displayDecimal(losses) ]), createDocumentNode("div", {  }, [ "win/loss:", displayDecimal((wins / losses)) ]) ];
+  return [ createDocumentNode("div", {  }, [ "Ants" ]), createDocumentNode("div", {  }, [ "count:", getAntCount ]), createDocumentNode("div", {  }, [ "latency:", game.ticker.averageLatency ]), createDocumentNode("div", {  }, [ "fps:", game.ticker.averageFps ]), createDocumentNode("div", {  }, [ "target fps:", game.ticker.fps ]), createDocumentNode("div", {  }, [ "total mass:", getTotalAntMass ]), createDocumentNode("div", {  }, [ "wins:", displayDecimal(wins) ]), createDocumentNode("div", {  }, [ "losses:", displayDecimal(losses) ]), createDocumentNode("div", {  }, [ "win/loss:", displayDecimal((wins / losses)) ]) ];
 
 });
 const stats=createDocumentNode("div", { 'className': "panel" }, [ getStats ]);
@@ -164,7 +179,7 @@ exports.container = container;
 exports.gameView = gameView;
 exports.debugView = debugView;
 var startInterface = (function startInterface$() {
-  /* start-interface eval.sibilant:124:0 */
+  /* start-interface eval.sibilant:125:0 */
 
   var { 
     game

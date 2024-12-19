@@ -28,15 +28,15 @@
   (gett dimensions this.area)
   (gett dim this.dimensions)
 
-  (gett scale this.physics.scale)
-  (gett physics (.get this.system.process.systems Physics this.entity))
-  (gett x this.pos.x)
-  (gett y this.pos.y)
+  (gett scale this.entity.physical-properties.scale)
+  (gett physics this.entity.physical-properties)
+  (gett x this.entity.position-interface.x)
+  (gett y this.entity.position-interface.y)
 
   ;; (gett x this.pos.x)
   ;; (gett y this.pos.y)
-  (gett height this.scale )
-  (gett width this.scale)
+  (gett height this.entity.physical-properties.scale )
+  (gett width this.entity.physical-properties.scale)
 
 
   ;; (gett height (*  2 this.scale))
@@ -44,8 +44,8 @@
 
   ;; (gett bounding-box (.spawn Bounding-box c))
 
-  (gett max-x (+ this.x (/ this.scale 2)))
-  (gett max-y (+ this.y (/ this.scale 2)))
+  (gett max-x (+ this.entity.position-interface.x (* this.entity.physical-properties.scale 0.5)))
+  (gett max-y (+ this.entity.position-interface.y (* this.entity.physical-properties.scale 0.5)))
 
   ;; (gett max-x (+ this.x (/ this.scale 2)))
   ;; (gett max-y (+ this.y (/ this.scale 2)))
@@ -66,8 +66,8 @@
   ;; (gett min-y (+ this.y this.scale))
 
 
-  (gett min-x (- this.x (/ this.scale 2)))
-  (gett min-y (- this.y (/ this.scale 2)))
+  (gett min-x (- this.entity.position-interface.x (* this.entity.physical-properties.scale 0.5)))
+  (gett min-y (- this.entity.position-interface.y (* this.entity.physical-properties.scale 0.5)))
 
   (gett position this.entity.position-interface)
   (gett pos this.position)
@@ -75,17 +75,9 @@
 
   (def-generic is-colliding?  (c* (c this))
 
-    ;; shape of bounding box for non rotated rectangles.
 
-    ;; shape of bounding box for non rotated rectangles.
-    (var d [(- c*.min-x c.max-x)
-            (- c*.min-y c.max-y)
-            (- c.min-x c*.max-x)
-            (- c.min-y c*.max-y)])
+    (var d1x (- c*.min-x c.max-x) d1y (- c*.min-y c.max-y) d2x (- c.min-x c*.max-x) d2y (- c.min-y c*.max-y))
 
-    (var [d1x d1y d2x d2y] d)
-
-    (set c 'colliding false)
     (not (or (>= d1x 0) (>= d1y 0) (>= d2x 0) (>= d2y 0)))))
 
 (export Collision-bounds)
@@ -106,13 +98,8 @@
                                  width,height)
                             max-objects
                             max-levels)))
-  (def-curried *check  (c c*)
-
-
-    (set c 'colliding false)
+  (def *check  (c c*)
     (if! (.is-colliding? c c*)
-         (set c 'colliding true)
-         (set c* 'colliding true)
          (.emit c.system.game.events "collision"
                c c*))
       (return))
@@ -120,25 +107,23 @@
   (def-generic *update-all (t components)
     (.clear this.quads)
 
-    (each  components (c)
-           ;; (const pos [ c.pos.x c.pos.y c.entity])
-           ;; (const node? (.find this.bit-field [c.pos.x c.pos.y]))
-           ;; (if! node?
-           ;;      (each node? (node)
-           ;;            (unless (= c node.value)
-           ;;              (c.system.game.events.emit 'collision c node.value)))
-           ;;      (return ))
+    (var node this.components.values.head)
+    (while! node
+            (var c node.item)
+            (assign c.checked false)
+            (.insert this.quads c)
+            (assign node node.next))
 
-           ;; (.set this.bit-field pos c)
-           (.insert this.quads c))
-    (each components (c)
-          (const possible-collisions (.retrieve this.quads c))
-          (for-of! c* possible-collisions
-                   (if! (not (= c c*))
-                        (.*check this c c*))
-                   null
-                   )
-          (return))
+    (assign node this.components.values.head)
+    (while! node
+            (var c node.item)
+            (const possible-collisions (.retrieve this.quads c))
+            (for-of! c* possible-collisions
+                     (if! (and (not (= c c*)) (not c*.checked))
+                          (.*check this c c*))
+                     null)
+            (assign c.checked true)
+            (assign node node.next))
     (return null))
   )
 (export Collision)

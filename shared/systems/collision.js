@@ -1,3 +1,18 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var R = require("ramda");
 var { 
   create,
@@ -49,52 +64,52 @@ var CollisionBounds = Component.define("CollisionBounds", {
    },
   get scale(  ){ 
     
-      return this.physics.scale;
+      return this.entity.physicalProperties.scale;
     
    },
   get physics(  ){ 
     
-      return this.system.process.systems.get(Physics, this.entity);
+      return this.entity.physicalProperties;
     
    },
   get x(  ){ 
     
-      return this.pos.x;
+      return this.entity.positionInterface.x;
     
    },
   get y(  ){ 
     
-      return this.pos.y;
+      return this.entity.positionInterface.y;
     
    },
   get height(  ){ 
     
-      return this.scale;
+      return this.entity.physicalProperties.scale;
     
    },
   get width(  ){ 
     
-      return this.scale;
+      return this.entity.physicalProperties.scale;
     
    },
   get maxX(  ){ 
     
-      return (this.x + (this.scale / 2));
+      return (this.entity.positionInterface.x + (this.entity.physicalProperties.scale * 0.5));
     
    },
   get maxY(  ){ 
     
-      return (this.y + (this.scale / 2));
+      return (this.entity.positionInterface.y + (this.entity.physicalProperties.scale * 0.5));
     
    },
   get minX(  ){ 
     
-      return (this.x - (this.scale / 2));
+      return (this.entity.positionInterface.x - (this.entity.physicalProperties.scale * 0.5));
     
    },
   get minY(  ){ 
     
-      return (this.y - (this.scale / 2));
+      return (this.entity.positionInterface.y - (this.entity.physicalProperties.scale * 0.5));
     
    },
   get position(  ){ 
@@ -114,12 +129,10 @@ var CollisionBounds = Component.define("CollisionBounds", {
    },
   isColliding__QUERY( c_ = this.c_,c = this ){ 
     
-      var d = [ (c_.minX - c.maxX), (c_.minY - c.maxY), (c.minX - c_.maxX), (c.minY - c_.maxY) ];
-      var d1x = d[0],
-          d1y = d[1],
-          d2x = d[2],
-          d2y = d[3];
-      c.colliding = false;
+      var d1x = (c_.minX - c.maxX),
+          d1y = (c_.minY - c.maxY),
+          d2x = (c.minX - c_.maxX),
+          d2y = (c.minY - c_.maxY);
       return !((d1x >= 0 || d1y >= 0 || d2x >= 0 || d2y >= 0));
     
    }
@@ -140,39 +153,28 @@ var Collision = System.define("Collision", {
        }, maxObjects, maxLevels));
     
    },
-  _check:R.curry((function(c, c_) {
-    /* eval.sibilant:9:73 */
-  
-    c.colliding = false;
-    if( c.isColliding__QUERY(c_) ){ 
-      c.colliding = true;;
-      c_.colliding = true;;
-      c.system.game.events.emit("collision", c, c_)
-     };
-    return ;
-  })),
+  _check( c,c_ ){ 
+    
+      if( c.isColliding__QUERY(c_) ){ 
+        c.system.game.events.emit("collision", c, c_)
+       };
+      return ;
+    
+   },
   _updateAll( t = this.t,components = this.components ){ 
     
       this.quads.clear();
-      components.each(((c) => {
-      	
-        return this.quads.insert(c);
-      
-      }));
-      components.each(((c) => {
-      	
-        const possibleCollisions=this.quads.retrieve(c);
-        for (var c_ of possibleCollisions)
-        {
-        if( !(c === c_) ){ 
-          this._check(c, c_)
-         };
-        null
-        }
-        ;
-        return ;
-      
-      }));
+      var node = this.components.values.head;
+      while__BANG(node, var c = node.item;, c.checked = false;, this.quads.insert(c), node = node.next;);
+      node = this.components.values.head;
+      while__BANG(node, var c = node.item;, const possibleCollisions=this.quads.retrieve(c);, for (var c_ of possibleCollisions)
+      {
+      if( (!(c === c_) && !(c_.checked)) ){ 
+        this._check(c, c_)
+       };
+      null
+      }
+      , c.checked = true;, node = node.next;);
       return null;
     
    }
@@ -191,9 +193,9 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
   const placementVector=Vector.spawn(1, 1);
   var colliding = true;
   (function() {
-    var while$47 = undefined;
+    var while$48 = undefined;
     while (colliding) {
-      while$47 = (function() {
+      while$48 = (function() {
         var noCollisions = true;
         placementTree.clear();
         c.system.components.each(((c_) => {
@@ -209,16 +211,16 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         for (var c_ of possibleCollisions)
         {
         (function() {
-          var while$48 = undefined;
+          var while$49 = undefined;
           while (c.isColliding__QUERY(c_)) {
-            while$48 = (function() {
+            while$49 = (function() {
               noCollisions = false;
               placementVector.setLength((0.5 * c_.scale));
               placementVector.setAngle(((Math.random() * ( - 360)) + 360));
               return c.pos.system.shift(c.pos, [ placementVector.x, placementVector.y ]);
             }).call(this);
           };
-          return while$48;
+          return while$49;
         }).call(this)
         }
         ;
@@ -230,7 +232,7 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         return null;
       }).call(this);
     };
-    return while$47;
+    return while$48;
   }).call(this);
   placementVector.despawn();
   return entity;

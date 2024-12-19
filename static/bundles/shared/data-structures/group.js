@@ -10604,14 +10604,32 @@ module.exports = _curry3(function zipWith(fn, a, b) {
 });
 
 },{"./internal/_curry3":107}],"@shared/data-structures/group.js":[function(require,module,exports){
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Interface
  } = require("@kit-js/interface");
 var { 
   List
- } = require("@shared/data-structures/list.js");
-var Group = Interface.define("Group", { 
-  init( _list = create(List)(),_members = (new Map()) ){ 
+ } = require("@shared/data-structures/list.js"),
+    { 
+  Spawnable
+ } = require("@shared/data-structures/spawnable.js");
+var Group = Spawnable.define("Group", { 
+  init( _list = List.spawn(),_members = (new Map()) ){ 
     
       this._list = _list;this._members = _members;
       return this;
@@ -10743,4 +10761,4 @@ var Group = Interface.define("Group", {
    }
  });
 exports.Group = Group;
-},{"@kit-js/interface":1,"@shared/data-structures/list.js":"@shared/data-structures/list.js"}]},{},[]);
+},{"@kit-js/interface":1,"@shared/data-structures/list.js":"@shared/data-structures/list.js","@shared/data-structures/spawnable.js":"@shared/data-structures/spawnable.js"}]},{},[]);

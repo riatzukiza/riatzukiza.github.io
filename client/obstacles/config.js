@@ -1,7 +1,22 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 const dim=[ (0.8 * window.innerWidth), (window.innerHeight - 3) ];
-const size=1;
+const size=4;
 module.exports.size = size;
-module.exports.uiPollingRate = 60;
+module.exports.uiPollingRate = 10;
 module.exports.trailResolution = 5;
 module.exports.angleZoom = 58;
 module.exports.noiseZ = 55;
@@ -12,12 +27,12 @@ module.exports.rows = Math.ceil((dim[1] / size));
 module.exports.decay = 1;
 module.exports.maxLength = 30;
 module.exports.trailResultDuration = 5000;
-module.exports.growthRate = 0.001;
-module.exports.startingPlants = 20;
+module.exports.growthRate = 0.0005;
+module.exports.startingPlants = 3;
 module.exports.plantMassLimit = 30;
-module.exports.antLimit = 500;
+module.exports.antLimit = 200;
 module.exports.maxInDecay = 1000;
-module.exports.trailLimit = 15000;
+module.exports.trailLimit = 30000;
 module.exports.antLife = 120000;
 module.exports.decayOnCollision = false;
 module.exports.optionsAmplitude = 10;

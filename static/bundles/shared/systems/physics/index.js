@@ -10604,6 +10604,21 @@ module.exports = _curry3(function zipWith(fn, a, b) {
 });
 
 },{"./internal/_curry3":107}],313:[function(require,module,exports){
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Friction
  } = require("@shared/systems/physics/forces/friction.js"),
@@ -10613,6 +10628,21 @@ var {
 exports.Friction = Friction;
 exports.SignalField = SignalField;
 },{"@shared/systems/physics/forces/friction.js":"@shared/systems/physics/forces/friction.js","@shared/systems/physics/forces/signal-field.js":"@shared/systems/physics/forces/signal-field.js"}],314:[function(require,module,exports){
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Interface
  } = require("@kit-js/interface");
@@ -10726,7 +10756,7 @@ var Physics = System.define("Physics", {
   _updateComponent( c ){ 
     
       return c.forces.each((function() {
-        /* eval.sibilant:1:1652 */
+        /* eval.sibilant:1:1683 */
       
         return arguments[0].apply(c);
       }));
@@ -10760,6 +10790,21 @@ Physics.Force = Interface.define("Physics.Force", {
    }
  });
 },{"@kit-js/interface":1,"@shared/ecs.js":"@shared/ecs.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js"}],"@shared/systems/physics/index.js":[function(require,module,exports){
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Physics
  } = require("./system.js"),

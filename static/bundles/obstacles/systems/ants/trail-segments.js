@@ -1,8 +1,26 @@
 require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({"@obstacles/systems/ants/trail-segments.js":[function(require,module,exports){
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   TimeLimit,
   Timer
  } = require("@obstacles/systems/timer.js"),
+    { 
+  RedBlackTree
+ } = require("@shared/data-structures/trees/red-black-tree.js"),
     { 
   rgba
  } = require("@obstacles/colors.js"),
@@ -21,14 +39,22 @@ var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
   return (Math.round((Math.pow(10, n) * d)) / Math.pow(10, n));
 });
 var TrailSegment = TimeLimit.define("TrailSegment", { 
-  docString:"obstacles.systems.ant-trails.Trail-vector",
+  docString:`
+  obstacles/systems/ant-trails/Trail-vector.md
+
+  # obstacles.systems.ant-trails.Trail-vector
+
+  ## arguments
+
+  inherits from shared.ecs.Component
+
+  ## description
+
+  A time limited vector component that modifies the signal field when the ant has either succeeded or failed
+  If the time limit expires, it disapears.`
+
+  ,
   duration:config.trailLimit,
-  _clear(  ){ 
-    
-      this.duration = config.trailLimit;
-      return this.startedAt = 0;
-    
-   },
   updateView__QUERY:true,
   get views(  ){ 
 
@@ -119,8 +145,7 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
             x:(this.x * weight * config.antInfluence),
             y:(this.y * weight * config.antInfluence)
            });
-          this.duration = (this.remainingTime + config.trailResultDuration);
-          return this.reset();
+          return this.reset((this.remainingTime + config.trailResultDuration));
         }
       }).call(this);
     
@@ -140,23 +165,27 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
 
       ;
       this.entity.trailDot.color = rgba(255, 20, 20, 255);
-      (function() {
+      return (function() {
         if (config.punishLoosers) {
           const weight=(this.entity.ant.antLife.looseCount / (this.entity.ant.antLife.winCount + 1));
-          return this.pheremones.subFrom({ 
+          this.pheremones.subFrom({ 
             x:(this.x * weight * config.antInfluence),
             y:(this.y * weight * config.antInfluence)
            });
+          return this.reset((this.remainingTime + config.trailResultDuration));
         }
       }).call(this);
-      this.duration = (this.remainingTime + config.trailResultDuration);
-      return this.reset();
     
    }
  });
 exports.TrailSegment = TrailSegment;
 var DecayingTrails = Timer.define("DecayingTrails", { 
+  get defaultDuration(  ){ 
+    
+      return config.trailLimit;
+    
+   },
   interface:TrailSegment
  });
 exports.DecayingTrails = DecayingTrails;
-},{"@obstacles/colors.js":"@obstacles/colors.js","@obstacles/config.js":"@obstacles/config.js","@obstacles/entities/trail-segments.js":"@obstacles/entities/trail-segments.js","@obstacles/systems/timer.js":"@obstacles/systems/timer.js","@shared/dom.js":"@shared/dom.js"}]},{},[]);
+},{"@obstacles/colors.js":"@obstacles/colors.js","@obstacles/config.js":"@obstacles/config.js","@obstacles/entities/trail-segments.js":"@obstacles/entities/trail-segments.js","@obstacles/systems/timer.js":"@obstacles/systems/timer.js","@shared/data-structures/trees/red-black-tree.js":"@shared/data-structures/trees/red-black-tree.js","@shared/dom.js":"@shared/dom.js"}]},{},[]);

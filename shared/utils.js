@@ -1,3 +1,18 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var R = require("ramda");
 var { 
   create,
@@ -9,13 +24,13 @@ var {
  } = require("@kit-js/core/js/util");
 ;
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1105 */
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1167 */
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -29,12 +44,12 @@ var m = require("mathjs"),
  } = require("kit-events"),
     events = require("events");
 EventEmitter.removeAllListeners = (function EventEmitter$removeAllListeners$(...args) {
-  /* Event-emitter.remove-all-listeners eval.sibilant:1:335 */
+  /* Event-emitter.remove-all-listeners eval.sibilant:1:366 */
 
   return events.EventEmitter.prototype.removeAllListeners.call(this, ...args);
 });
 var rgb = (function rgb$(r, g, b) {
-  /* rgb eval.sibilant:1:504 */
+  /* rgb eval.sibilant:1:535 */
 
   return { 
     r,
@@ -44,7 +59,7 @@ var rgb = (function rgb$(r, g, b) {
 });
 exports.rgb = rgb;
 var memoize = (function memoize$(f) {
-  /* memoize eval.sibilant:1:554 */
+  /* memoize eval.sibilant:1:585 */
 
   "create a memoized version of any function. A memoized function will return\n"+"previously calculated results from a cache if the arguments given to it are the same";
   var m = {  };

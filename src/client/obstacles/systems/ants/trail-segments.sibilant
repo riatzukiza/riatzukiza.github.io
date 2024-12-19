@@ -1,5 +1,7 @@
 (namespace obstacles)
 (require! (lit Time-limit Timer) "@obstacles/systems/timer.js"
+
+          (lit Red-black-tree) "@shared/data-structures/trees/red-black-tree.js"
           (lit rgba) "@obstacles/colors.js"
           config "@obstacles/config.js"
           )
@@ -18,9 +20,10 @@
 
   (duration config.trail-limit)
 
-  (def *clear ()
-    (assign this.duration config.trail-limit)
-    (assign this.started-at 0))
+  ;; (def *clear ()
+  ;;   (.call Time-limit.*clear this)
+  ;;   ;; (assign this.duration config.trail-limit)
+  ;;   )
 
   (update-view? true)
   (def-view view ()
@@ -51,9 +54,8 @@
         (x (* this.x weight config.ant-influence))
         (y (* this.y weight config.ant-influence))))
 
-      (assign this.duration (+ this.remaining-time config.trail-result-duration))
 
-      (.reset this)
+      (.reset this  (+ this.remaining-time config.trail-result-duration))
 
       ))
 
@@ -67,13 +69,18 @@
       (this.pheremones.sub-from
        (lit
         (x (* this.x weight config.ant-influence))
-        (y (* this.y weight config.ant-influence)))))
-    (assign this.duration (+ this.remaining-time config.trail-result-duration))
-    (.reset this)))
+        (y (* this.y weight config.ant-influence))))
+      (.reset this  (+ this.remaining-time config.trail-result-duration))
+      )
+    ))
 
 (export Trail-segment)
 
 (define Decaying-trails Timer
+  ;; (def register ()
+  ;;   (assign this.tree (.spawn Red-black-tree)))
+
+  (gett default-duration config.trail-limit)
   (interface Trail-segment))
 
 (export Decaying-trails)

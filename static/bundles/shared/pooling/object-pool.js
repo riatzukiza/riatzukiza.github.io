@@ -10604,6 +10604,21 @@ module.exports = _curry3(function zipWith(fn, a, b) {
 });
 
 },{"./internal/_curry3":107}],"@shared/pooling/object-pool.js":[function(require,module,exports){
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Interface
  } = require("@kit-js/interface");
@@ -10630,7 +10645,7 @@ var ObjectPool = Interface.define("ObjectPool", {
         /* node_modules/kit/inc/loops.sibilant:28:35 */
       
         array.push((function() {
-          /* eval.sibilant:1:400 */
+          /* eval.sibilant:1:431 */
         
           return Object.create(_interface);
         }).call(this));

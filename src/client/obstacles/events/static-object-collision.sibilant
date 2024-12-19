@@ -49,8 +49,13 @@
 
                (*   d.y (/ phys2.density phys1.density) phys1.density)])
 
+    (const a2 [(*   -1 d.x  (/ phys1.density phys2.density) phys2.density)
+
+               (*   -1 d.y (/ phys1.density phys2.density) phys2.density)])
+
 
     (.accelerate v a1)
+    (.accelerate v* a2)
 
     (.despawn p1)
     (.despawn p2)

@@ -40,6 +40,7 @@
                    (dom (.div "count:" get-ant-count))
                    (dom (.div "latency:" game.ticker.average-latency))
                    (dom (.div "fps:" game.ticker.average-fps))
+                   (dom (.div "target fps:" game.ticker.fps))
                    (dom (.div "total mass:" get-total-ant-mass))
                    (dom (.div "wins:" (display-decimal wins)))
                    (dom (.div "losses:" (display-decimal losses)))

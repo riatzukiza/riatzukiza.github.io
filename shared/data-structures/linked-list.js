@@ -1,3 +1,18 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Interface
  } = require("@kit-js/interface");
@@ -123,9 +138,9 @@ var List = Interface.define("List", {
       var node = this.head;
       var success = false;
       return (function() {
-        var while$9 = undefined;
+        var while$30 = undefined;
         while (node) {
-          while$9 = (function() {
+          while$30 = (function() {
             return (function() {
               if (node.item !== item) {
                 node = node.next;
@@ -137,7 +152,7 @@ var List = Interface.define("List", {
             }).call(this);
           }).call(this);
         };
-        return while$9;
+        return while$30;
       }).call(this);
     
    },
@@ -245,14 +260,14 @@ var List = Interface.define("List", {
     
       var node = this.head;
       (function() {
-        var while$10 = undefined;
+        var while$31 = undefined;
         while (node) {
-          while$10 = (function() {
+          while$31 = (function() {
             f(node.item, node);
             return node = node.next;
           }).call(this);
         };
-        return while$10;
+        return while$31;
       }).call(this);
       return this;
     
@@ -262,13 +277,13 @@ var List = Interface.define("List", {
       var result = create(List)();
       var node = this.head;
       return (function() {
-        var while$11 = undefined;
+        var while$32 = undefined;
         while (node) {
-          while$11 = (function() {
+          while$32 = (function() {
             return result.push(f(node, node.next, node.prev));
           }).call(this);
         };
-        return while$11;
+        return while$32;
       }).call(this);
     
    },

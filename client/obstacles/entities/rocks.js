@@ -1,3 +1,18 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
 var { 
   Dot
  } = require("@shared/systems/rendering/dot.js"),
@@ -56,11 +71,11 @@ const maxRockBaseMass=(config.rockMassScalingFactor * config.rockMaxMassFactor);
 const minRockBaseMass=(config.rockMassScalingFactor * config.rockMinMassFactor);
 const maxRockDensity=((config.rockMinSize * maxRockBaseMass) / Math.pow(config.rockMinSize, 3));
 const minRockDensity=((config.rockMaxSize * maxRockBaseMass) / Math.pow(config.rockMaxSize, 3));
-var spawnRock = (function spawnRock$(x_y$18, mass, scale) {
+var spawnRock = (function spawnRock$(x_y$3, mass, scale) {
   /* spawn-rock eval.sibilant:39:0 */
 
-  var x = x_y$18[0],
-      y = x_y$18[1];
+  var x = x_y$3[0],
+      y = x_y$3[1];
 
   console.log("spawning rock");
   var rock = rocks.spawn([ Dot, Position, Physics, Collision, Velocity ]);
