@@ -1,0 +1,1 @@
+I've made symbiants work by its self before, it should not be hard to get it working here on this website. If I have more projects I will have more incentive to write the home page and project pages. Right now there isn't a lot else than the vector ants, so those pages would be pretty empty.

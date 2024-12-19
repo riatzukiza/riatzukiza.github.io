@@ -27,8 +27,8 @@ This issue is related to [kanban/tasks/Move all outside work into the portfolio 
 * [ ] [[Andy's gl library]]: Move the lib into portfolio
 * [ ] [[Lisp interfaces]]: Define interfaces for every class in the library
 * [ ] [Simulation reset](../../Simulation%20reset.md): Reset the simulation to its original state
-* [ ] [[File explorer]]: Implement a file explorer feature
-* [ ] [[Chat app]]: Implement a chat app feature
+* [ ] [file explorer](file%20explorer.md): Implement a file explorer feature
+* [ ] [chat app](chat%20app.md): Implement a chat app feature
 
 ## New Features
 

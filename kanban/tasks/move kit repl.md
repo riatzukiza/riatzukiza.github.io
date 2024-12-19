@@ -1,0 +1,1 @@
+ I think that a bunch of the kit electron stuff was either here or in the shell module.
