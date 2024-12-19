@@ -13,6 +13,7 @@
  [[kanban/tasks/github readme|github readme]]
  [[kanban/tasks/Home page|Home page]]
  [[kanban/tasks/Hot reload system|Hot reload system]]
+ [[kanban/tasks/Mirror board to github|Mirror board to github]]
  [[kanban/tasks/Move all outside work into the portfolio git|Move all outside work into the portfolio git]]
  [[kanban/tasks/multiple factions|multiple factions]]
  [[kanban/tasks/paralell processing for each system|paralell processing for each system]]

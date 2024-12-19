@@ -9,15 +9,8 @@ kanban-plugin: board
 - [ ] [[BUG Collision doesn't work correctly in some circumstances.]]
 - [ ] BUG: Rendering background color setter never seems to work.
 - [ ] DevOps: Sibilant transpiler should create less noise in pull requests when acting on unchanged files.
-- [ ] Mirror board to github
-- [ ] Make old symbiants work
-- [ ] Make old algage work
 - [ ] Add a project page to the website
 - [ ] Side scroller
-- [ ] add game of life to portfolio
-- [ ] file explorer
-- [ ] chat app
-- [ ] Find unknown content warnings
 
 
 ## Rejected
@@ -38,6 +31,19 @@ kanban-plugin: board
 - [ ] Design theme for website.
 - [ ] SPIKE: can we simplify object pools? (2 hrs)
 - [ ] Implemment tests for existing shared components.
+- [ ] Make old symbiants work
+- [ ] [[Mirror board to github]]
+- [ ] Find unknown content warnings
+- [ ] Make old algage work
+- [ ] add game of life to portfolio
+- [ ] file explorer
+- [ ] move kit core
+- [ ] move kit shell
+- [ ] move kit http
+- [ ] move kit repl
+- [ ] chat app
+- [ ] move kit html
+- [ ] move kit fs
 - [ ] neural network for signal field hyerparameter adjustments
 - [ ] Individual ant neural networks
 - [ ] minimap
@@ -138,6 +144,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,false,true,false,null],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,true,false,true,false,null],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}]}
 ```
 %%
