@@ -243,33 +243,34 @@
                 "state": {
                   "type": "markdown",
                   "state": {
-                    "file": "kanban/tasks/Move all outside work into the portfolio git.md",
+                    "file": "Simulation reset.md",
                     "mode": "source",
                     "source": false
                   },
                   "icon": "lucide-file",
-                  "title": "Move all outside work into the portfolio git"
+                  "title": "Simulation reset"
                 }
               }
             ]
           }
         ],
         "direction": "vertical",
-        "x": 1024,
-        "y": 0,
-        "width": 512,
-        "height": 888,
+        "x": 2,
+        "y": 22,
+        "width": 1532,
+        "height": 864,
         "maximize": false,
         "zoom": 0
       }
     ]
   },
-  "active": "e3a75711866de0a9",
+  "active": "890c3aeb5d0cd004",
   "lastOpenFiles": [
-    "kanban/board.md",
-    "kanban/tasks/Mirror board to github.md",
-    "kanban/tasks/Cull duplicate macros.md",
+    "Simulation reset.md",
     "kanban/tasks/Move all outside work into the portfolio git.md",
+    "kanban/tasks/Mirror board to github.md",
+    "kanban/board.md",
+    "kanban/tasks/Cull duplicate macros.md",
     "docs/obstacles/systems/ant-trails/Trail-segment/_Index_of_Trail-segment.md",
     "docs/obstacles/systems/ant-trails/_Index_of_ant-trails.md",
     "docs/obstacles/systems/_Index_of_systems.md",
@@ -291,7 +292,6 @@
     "docs/shared/ecs/_Index_of_ecs.md",
     "docs/shared/ecs/Component/_Index_of_Component.md",
     "node_modules/@babel/_Index_of_@babel.md",
-    "node_modules/@babel/runtime/_Index_of_runtime.md",
     "shared/andy.js",
     "kanban/tasks",
     "Untitled.canvas"

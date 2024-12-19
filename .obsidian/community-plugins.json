@@ -8,5 +8,9 @@
   "zoottelkeeper-obsidian-plugin",
   "obsidian-relative-line-numbers",
   "obsidian-html-plugin",
-  "obsidian-tagfolder"
+  "obsidian-tagfolder",
+  "githobs",
+  "github-issue-augmentation",
+  "github-link",
+  "webpage-html-export"
 ]
