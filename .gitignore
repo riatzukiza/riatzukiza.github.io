@@ -40,3 +40,9 @@ jspm_packages
 files/
 images/
 
+
+
+
+
+# Ignore Smart Environment folder
+.smart-env

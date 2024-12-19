@@ -198,14 +198,33 @@
               "icon": "lucide-archive",
               "title": "All properties"
             }
+          },
+          {
+            "id": "0fe495545f43972f",
+            "type": "leaf",
+            "state": {
+              "type": "smart-connections-view",
+              "state": {},
+              "icon": "smart-connections",
+              "title": "Smart Connections"
+            }
+          },
+          {
+            "id": "11fb40a1ed2733ad",
+            "type": "leaf",
+            "state": {
+              "type": "smart-chat-view",
+              "state": {},
+              "icon": "message-square",
+              "title": "Smart Chat"
+            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 7
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -224,7 +243,10 @@
       "zk-prefixer:Create new unique note": false,
       "workspaces:Manage workspace layouts": false,
       "githobs:Manage a github issue": false,
-      "webpage-html-export:Export Vault to HTML": false
+      "webpage-html-export:Export Vault to HTML": false,
+      "obisidian-note-linker:Note Linker": false,
+      "smart-connections:Open: View Smart Connections": false,
+      "smart-connections:Open: Smart Chat Conversation": false
     }
   },
   "floating": {
@@ -257,17 +279,19 @@
           }
         ],
         "direction": "vertical",
-        "x": 2,
-        "y": 22,
-        "width": 1532,
-        "height": 864,
+        "x": 0,
+        "y": 21,
+        "width": 1536,
+        "height": 867,
         "maximize": false,
         "zoom": 0
       }
     ]
   },
-  "active": "abeb491da61976eb",
+  "active": "11fb40a1ed2733ad",
   "lastOpenFiles": [
+    "kanban/board.md",
+    "kanban/to-do.md",
     "static/lib/fonts/535a6cf662596b3bd6a6.woff2",
     "static/lib/fonts/cbe0ae49c52c920fd563.woff2",
     "static/lib/fonts/b5f0f109bc88052d4000.woff2",
@@ -278,7 +302,6 @@
     "static/lib/fonts/94f2f163d4b698242fef.otf",
     "static/lib/fonts",
     "static/lib/scripts/graph-wasm.wasm",
-    "static/lib/scripts",
     "kanban/ready.md",
     "kanban/project.md",
     "kanban/process.md",
@@ -286,7 +309,6 @@
     "kanban/in-progress.md",
     "kanban/done.md",
     "kanban/breakdown.md",
-    "kanban/board.md",
     "kanban/blocked.md",
     "kanban/_Index_of_kanban.md",
     "kanban/tasks/vector field visualization.md",
