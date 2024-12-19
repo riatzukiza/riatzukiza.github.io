@@ -8,7 +8,7 @@ kanban-plugin: board
 
 - [ ] [BUG Collision doesn't work correctly in some circumstances.](tasks/BUG%20Collision%20doesn't%20work%20correctly%20in%20some%20circumstances..md)
 - [ ] BUG: Rendering background color setter never seems to work.
-- [ ] DevOps: Sibilant transpiler should create less noise in pull requests when acting on unchanged files.
+- [ ] [[DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files.]]
 - [ ] Add a [project](project.md) page to the website
 - [ ] Side scroller
 
@@ -30,10 +30,10 @@ kanban-plugin: board
 	last tick. Use two data structures, and swap them out [each](../docs/Pools/Dynamic/each.md) tick.
 - [ ] Design theme for website.
 - [ ] SPIKE: can we simplify object pools? (2 hrs)
-- [ ] Implemment tests for existing shared components.
+- [ ] [[Implemment tests for existing shared components.]]
 - [ ] Make old symbiants work
 - [ ] [Mirror board to github](tasks/Mirror%20board%20to%20github.md)
-- [ ] Find unknown content warnings
+- [ ] [[Find unknown content warnings]]
 - [ ] Make old algage work
 - [ ] add game of life to portfolio
 - [ ] file explorer
@@ -83,6 +83,7 @@ kanban-plugin: board
 ## Epics
 
 - [ ] [Move all outside work into the portfolio git](tasks/Move%20all%20outside%20work%20into%20the%20portfolio%20git.md)
+- [ ] [[devops pipeline]]
 
 
 ## Ready
@@ -104,7 +105,6 @@ kanban-plugin: board
 - [ ] [placeable entities (rocks, plants, bases)](tasks/placeable%20entities%20(rocks,%20plants,%20bases).md)
 - [ ] [Enhance document macros](tasks/Enhance%20document%20macros.md)
 - [ ] [Home page](tasks/Home%20page.md)
-- [ ] [settings interface](tasks/settings%20interface.md)
 - [ ] [attack system](tasks/attack%20system.md)
 - [ ] [multiple factions](tasks/multiple%20factions.md)
 - [ ] [simulation backend](tasks/simulation%20backend.md)
@@ -127,6 +127,7 @@ kanban-plugin: board
 
 ## In Review (2)
 
+- [ ] [settings interface](tasks/settings%20interface.md)
 
 
 ## Done
