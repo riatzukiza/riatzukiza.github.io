@@ -2,7 +2,7 @@
   "settingsVersion": "1.8.01",
   "makeOfflineCompatible": false,
   "inlineAssets": false,
-  "includePluginCSS": "",
+  "includePluginCSS": "obsidian-kanban\nobsidian-tasks-plugin\nobsidian-checklist-plugin\nzoottelkeeper-obsidian-plugin\ngithub-issue-augmentation\ngithobs\nobsidian-tagfolder\ngithub-link",
   "includeSvelteCSS": true,
   "titleProperty": "title",
   "customHeadContentPath": "",
@@ -10,7 +10,7 @@
   "documentWidth": "40em",
   "sidebarWidth": "20em",
   "minOutlineCollapse": 2,
-  "startOutlineCollapsed": false,
+  "startOutlineCollapsed": true,
   "allowFoldingHeadings": true,
   "allowFoldingLists": true,
   "allowResizingSidebars": true,
@@ -26,8 +26,8 @@
   "addGraphView": true,
   "addTitle": true,
   "addRSSFeed": true,
-  "siteURL": "",
-  "authorName": "",
+  "siteURL": "https://riatzukiza.github.io/",
+  "authorName": "Aaron Beavers",
   "vaultTitle": "portfolio",
   "exportPreset": "website",
   "openAfterExport": false,
@@ -43,7 +43,7 @@
   "defaultFileIcon": "lucide//file",
   "defaultFolderIcon": "lucide//folder",
   "defaultMediaIcon": "lucide//file-image",
-  "exportPath": "",
+  "exportPath": "/home/error/devel/portfolio/static",
   "filesToExport": [
     []
   ]
