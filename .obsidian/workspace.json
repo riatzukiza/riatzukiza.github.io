@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "ea58cac21727c36a",
+        "id": "ea13481075c591e8",
         "type": "tabs",
         "children": [
           {
-            "id": "890c3aeb5d0cd004",
+            "id": "f1e3feef9d680606",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "readme.md",
+                "file": "kanban/tasks/Mirror board to github.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "readme"
+              "title": "Mirror board to github"
             }
           }
         ]
@@ -240,34 +240,34 @@
       "smart-connections:Open: Smart Chat Conversation": false
     }
   },
-  "active": "890c3aeb5d0cd004",
+  "active": "f1e3feef9d680606",
   "lastOpenFiles": [
     "kanban/board.md",
+    "kanban/tasks/Design theme for website..md",
+    "kanban/tasks/SPIKE can we simplify object pools (2 hrs).md",
+    "kanban/done.md",
+    "kanban/project.md",
+    "kanban/to-do.md",
+    "kanban/ready.md",
+    "kanban/process.md",
+    "kanban/in-review.md",
+    "kanban/in-progress.md",
+    "kanban/tasks/ground tiles.md",
+    "kanban/blocked.md",
+    "_Index_of_riatzukiza.github.io.md",
+    "kanban/breakdown.md",
+    "kanban/tasks/multiple signal fields.md",
+    "kanban/tasks/metabolism system.md",
+    "kanban/tasks/Building system.md",
+    "kanban/tasks/reverse navigation home.md",
+    "kanban/tasks/resource mechanics.md",
+    "kanban/tasks/predator agents.md",
+    "readme.md",
     "kanban/tasks/Home page.md",
     "kanban/tasks/github readme.md",
-    "readme.md",
-    "kanban/tasks/Building system.md",
-    "kanban/tasks/resource mechanics.md",
-    "kanban/tasks/reverse navigation home.md",
-    "kanban/tasks/ground tiles.md",
-    "kanban/tasks/metabolism system.md",
-    "kanban/tasks/multiple signal fields.md",
-    "kanban/tasks/predator agents.md",
     "kanban/tasks/move kit repl.md",
     "kanban/tasks/Make old algage work.md",
     "kanban/tasks/Electron client.md",
-    "kanban/tasks/Make old symbiants work.md",
-    "kanban/tasks/BUG Collision doesn't work correctly in some circumstances..md",
-    "kanban/tasks/Mirror board to github.md",
-    "docs/Obstacles/systems/ant-trails/Trail-segment/_Index_of_Trail-segment.md",
-    "kanban/tasks/DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files..md",
-    "kanban/tasks/BUG Rendering background color setter never seems to work..md",
-    "kanban/tasks/move kit fs.md",
-    "kanban/tasks/move kit http.md",
-    "kanban/tasks/move kit html.md",
-    "kanban/tasks/chat app.md",
-    "kanban/tasks/file explorer.md",
-    "kanban/tasks/add game of life to portfolio.md",
     "static/lib/fonts/535a6cf662596b3bd6a6.woff2",
     "static/lib/fonts/cbe0ae49c52c920fd563.woff2",
     "static/lib/fonts/b5f0f109bc88052d4000.woff2",

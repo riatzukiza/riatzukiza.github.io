@@ -69,8 +69,6 @@ kanban-plugin: board
 
 ## Breakdown (5)
 
-- [ ] [Design theme for website.](tasks/Design%20theme%20for%20website..md)
-- [ ] [SPIKE can we simplify object pools (2 hrs)](tasks/SPIKE%20can%20we%20simplify%20object%20pools%20(2%20hrs).md)
 - [ ] [Mirror board to github](tasks/Mirror%20board%20to%20github.md)
 - [ ] [DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files.](tasks/DevOps%20Sibilant%20transpiler%20should%20create%20less%20noise%20in%20pull%20requests%20when%20acting%20on%20unchanged%20files..md)
 - [ ] [Implemment tests for existing shared components.](tasks/Implemment%20tests%20for%20existing%20shared%20components..md)
@@ -78,7 +76,9 @@ kanban-plugin: board
 
 ## Ready
 
+- [ ] [Design theme for website.](tasks/Design%20theme%20for%20website..md)
 - [ ] [camera system](tasks/camera%20system.md)
+- [ ] [SPIKE can we simplify object pools (2 hrs)](tasks/SPIKE%20can%20we%20simplify%20object%20pools%20(2%20hrs).md)
 - [ ] [Rewrite andy lib in lisp](tasks/Rewrite%20andy%20lib%20in%20lisp.md)
 - [ ] [placeable entities (rocks, plants, bases)](tasks/placeable%20entities%20(rocks,%20plants,%20bases).md)
 - [ ] [Add beautifier and beautifier to pipeline to pipeline](tasks/Add%20beautifier%20and%20beautifier%20to%20pipeline%20to%20pipeline.md)
