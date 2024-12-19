@@ -10696,18 +10696,28 @@ var shaders = Interface.define("shaders", {
   `
  });
 var vertexLayer = (function vertexLayer$(limit, game) {
-  /* vertex-layer eval.sibilant:1:970 */
+  /* vertex-layer eval.sibilant:1:939 */
 
   uniforms.init(game);
   return game.rendering.spawn(limit, Vertex, [ uniforms.res, uniforms.scale ], [ shaders.vert, shaders.frag ]);
 });
 var DotInterface = Component.define("DotInterface", { 
-  color:{
+  _color:{
     r: 0,
     g: 0,
     b: 0,
     a: 0
   },
+  get color(  ){ 
+    
+      return this._color;
+    
+   },
+  set color( c ){ 
+    
+      return this._color = c;
+    
+   },
   get pos(  ){ 
     
       return this.entity.positionInterface;

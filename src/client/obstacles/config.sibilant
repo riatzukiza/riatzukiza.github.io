@@ -1,6 +1,6 @@
 (namespace vector-ants)
 (const dim      [(* 0.8 window.innerWidth), (- window.innerHeight 3)])
-(const size 4)
+(const size 1)
 (set module.exports
      'size size
      'ui-polling-rate 10
@@ -17,10 +17,10 @@
      'growth-rate 0.0005
      'starting-plants 3
      'plantMassLimit 30
-     'ant-limit 200
+     'ant-limit 500
      'max-in-decay 1000
-     'trail-limit 30000
-     'ant-life 120000
+     'trail-limit 3000
+     'ant-life 12000
      'decay-on-collision false
      'options-amplitude 10
      'limit-decay true

@@ -10627,25 +10627,54 @@ var {
   System
  } = require("@shared/ecs.js");
 var PositionInterface = Component.define("PositionInterface", { 
-  x:0,
-  y:0,
+  _x:0,
+  _y:0,
   z:0,
+  get x(  ){ 
+    
+      return this._x;
+    
+   },
+  get y(  ){ 
+    
+      return this._y;
+    
+   },
+  set y( y ){ 
+    
+      if( !(this.moved) ){ 
+        this.system.queue.push(this)
+       };
+      this._y = y;
+      return this.moved = true;
+    
+   },
+  set x( x ){ 
+    
+      if( !(this.moved) ){ 
+        this.system.queue.push(this)
+       };
+      this._x = x;
+      return this.moved = true;
+    
+   },
   _clear(  ){ 
     
       this.x = null;
       this.y = null;
-      return this.z = null;
+      this.z = null;
+      return this.moved = false;
     
    }
  });
 exports.PositionInterface = PositionInterface;
 var Position = System.define("Position", { 
   interface:PositionInterface,
+  queue:[],
   shift( c,[ xshift, yshift ] ){ 
     
-      c.x = (c.x + xshift);
-      c.y = (c.y + yshift);
-      return this._updateComponent(c);
+      c.x = (c._x + xshift);
+      return c.y = (c._y + yshift);
     
    },
   move( entity,{ 
@@ -10655,24 +10684,32 @@ var Position = System.define("Position", {
     
       var c = this.components.get(entity);
       c.x = x;
-      c.y = y;
-      return this._updateComponent(c);
+      return c.y = y;
+    
+   },
+  _updateAll(  ){ 
+    
+      while( this.queue.length > 0 ){ 
+        this._updateComponent(this.queue.pop())
+       };
+      return null;
     
    },
   _updateComponent( c ){ 
     
       (function() {
-        if (c.x < 0) {
-          return c.x = (c.x + this.process.rendering.dimensions[0]);
+        if (c._x < 0) {
+          return c._x = (c._x + this.process.rendering.dimensions[0]);
         }
       }).call(this);
       (function() {
-        if (c.y < 0) {
-          return c.y = (c.y + this.process.rendering.dimensions[1]);
+        if (c._y < 0) {
+          return c._y = (c._y + this.process.rendering.dimensions[1]);
         }
       }).call(this);
-      c.x = (c.x % this.process.rendering.dimensions[0]);
-      return c.y = (c.y % this.process.rendering.dimensions[1]);
+      c._x = (c._x % this.process.rendering.dimensions[0]);
+      c._y = (c._y % this.process.rendering.dimensions[1]);
+      return c.moved = false;
     
    }
  });

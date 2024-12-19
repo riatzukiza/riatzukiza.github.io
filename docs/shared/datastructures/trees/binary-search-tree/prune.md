@@ -2,8 +2,8 @@
 
 ## arguments
 
-key: A numeric key, depth: How far to  traverse the tree before cutting off
+key: A numeric key
 
 ## description
 
-Search the tree to a given depth for a key, removing the branch at the depth.
+Search the tree for a key, removing the branch
