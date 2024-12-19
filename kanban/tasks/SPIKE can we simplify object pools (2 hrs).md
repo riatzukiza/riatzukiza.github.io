@@ -1,0 +1,1 @@
+I think we can simplify object pools from what they are now. We don't need buckets for everything. Buckets could be very useful for the rendeirng stuff as it all has to be preallocated, but most things can be created as needed, then released for reuse.

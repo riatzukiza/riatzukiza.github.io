@@ -6,44 +6,35 @@ kanban-plugin: board
 
 ## New
 
-- [ ] [BUG Collision doesn't work correctly in some circumstances.](tasks/BUG%20Collision%20doesn't%20work%20correctly%20in%20some%20circumstances..md)
-- [ ] BUG: Rendering background color setter never seems to work.
-- [ ] [[DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files.]]
 - [ ] Add a [project](project.md) page to the website
 - [ ] Side scroller
 
 
-## Rejected
-
-- [ ] a backend implementation of the simulation
-	  - Duplicate
-- [ ] Components as data views
-	  - Redundent by entity panel, provides data view
-
-
 ## Accepted
 
+- [ ] [[DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files.]]
+- [ ] [[BUG Rendering background color setter never seems to work.]]
+- [ ] [BUG Collision doesn't work correctly in some circumstances.](tasks/BUG%20Collision%20doesn't%20work%20correctly%20in%20some%20circumstances..md)
 - [ ] Electron client
 - [ ] Update physics engine to increase accuracy and performance
 	  - Consolodate position and velocity into physics
 	  - When performing updates, do not mutate the state of the
 	last tick. Use two data structures, and swap them out [each](../docs/Pools/Dynamic/each.md) tick.
-- [ ] Design theme for website.
-- [ ] SPIKE: can we simplify object pools? (2 hrs)
+- [ ] [[SPIKE can we simplify object pools (2 hrs)]]
 - [ ] [[Implemment tests for existing shared components.]]
 - [ ] Make old symbiants work
 - [ ] [Mirror board to github](tasks/Mirror%20board%20to%20github.md)
 - [ ] [[Find unknown content warnings]]
 - [ ] Make old algage work
-- [ ] add game of life to portfolio
-- [ ] file explorer
-- [ ] move kit core
-- [ ] move kit shell
-- [ ] move kit http
+- [ ] [[add game of life to portfolio]]
+- [ ] [[file explorer]]
+- [ ] [[move kit core]]
+- [ ] [[move kit shell]]
+- [ ] [[move kit http]]
 - [ ] move kit repl
-- [ ] chat app
-- [ ] move kit html
-- [ ] move kit fs
+- [ ] [[chat app]]
+- [ ] [[move kit html]]
+- [ ] [[move kit fs]]
 - [ ] neural network for signal field hyerparameter adjustments
 - [ ] Individual ant neural networks
 - [ ] minimap
@@ -54,6 +45,13 @@ kanban-plugin: board
 - [ ] flying units
 - [ ] shadows
 - [ ] night/day cycle
+
+
+## Epics
+
+- [ ] [Move all outside work into the portfolio git](tasks/Move%20all%20outside%20work%20into%20the%20portfolio%20git.md)
+- [ ] [[devops pipeline]]
+- [ ] [[Import other projects]]
 
 
 ## Blocked
@@ -71,27 +69,22 @@ kanban-plugin: board
 
 ## Breakdown (5)
 
-- [ ] [Add beautifier and beautifier to pipeline to pipeline](tasks/Add%20beautifier%20and%20beautifier%20to%20pipeline%20to%20pipeline.md)
-	  - Maybe this should be [done](done.md) at the same time as hot reloading? it is at least [blocked](blocked.md) by that task.
-- [ ] [Rewrite andy lib in lisp](tasks/Rewrite%20andy%20lib%20in%20lisp.md)
-- [ ] [a gpu implementation for signal fields and vector math.](tasks/a%20gpu%20implementation%20for%20signal%20fields%20and%20vector%20math..md)
-	  - Use tensorflow.js
-- [ ] [Cull duplicate macros](tasks/Cull%20duplicate%20macros.md)
-- [ ] [Remove duplicate code included in headers.](tasks/Remove%20duplicate%20code%20included%20in%20headers..md)
-
-
-## Epics
-
-- [ ] [Move all outside work into the portfolio git](tasks/Move%20all%20outside%20work%20into%20the%20portfolio%20git.md)
-- [ ] [[devops pipeline]]
+- [ ] [[Design theme for website.]]
 
 
 ## Ready
 
+- [ ] [Rewrite andy lib in lisp](tasks/Rewrite%20andy%20lib%20in%20lisp.md)
+- [ ] [a gpu implementation for signal fields and vector math.](tasks/a%20gpu%20implementation%20for%20signal%20fields%20and%20vector%20math..md)
+	  - Use tensorflow.js
+- [ ] [Add beautifier and beautifier to pipeline to pipeline](tasks/Add%20beautifier%20and%20beautifier%20to%20pipeline%20to%20pipeline.md)
+	  - Maybe this should be [done](done.md) at the same time as hot reloading? it is at least [blocked](blocked.md) by that task.
 - [ ] [deletable entites](tasks/deletable%20entites.md)
 	  - Entities can be deleted from a panel
 - [ ] [Brain storm new projects](tasks/Brain%20storm%20new%20projects.md)
 - [ ] [vector field visualization](tasks/vector%20field%20visualization.md)
+- [ ] [Remove duplicate code included in headers.](tasks/Remove%20duplicate%20code%20included%20in%20headers..md)
+- [ ] [Cull duplicate macros](tasks/Cull%20duplicate%20macros.md)
 - [ ] [unit system](tasks/unit%20system.md)
 	  - A unit is an abstraction over an entity.
 	  - Entities can be anything in the game
@@ -130,6 +123,14 @@ kanban-plugin: board
 - [ ] [settings interface](tasks/settings%20interface.md)
 
 
+## Rejected
+
+- [ ] a backend implementation of the simulation
+	  - Duplicate
+- [ ] Components as data views
+	  - Redundent by entity panel, provides data view
+
+
 ## Done
 
 **Complete**
@@ -145,6 +146,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,true,false,true,false,null],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,false,true,true,false,true],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}]}
 ```
 %%

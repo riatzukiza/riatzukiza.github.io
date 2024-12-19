@@ -1,0 +1,1 @@
+A simple file explorer interface for the website. Could be facilitated through the obsidian index plugin that generates files like [[_Index_of_docs]]

@@ -1,0 +1,1 @@
+Move kit shell library into shared or server

@@ -1,0 +1,1 @@
+Move the core kit-js macro library into [[inc/_Index_of_inc]]

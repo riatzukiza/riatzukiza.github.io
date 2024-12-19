@@ -1,0 +1,1 @@
+Move the kit-http module we use for middleware management to the ./server folder.

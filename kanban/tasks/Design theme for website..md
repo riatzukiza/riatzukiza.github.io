@@ -1,0 +1,1 @@
+I'm thinking monkai. If we make the website from obsidian using the export functionality, we can make our lives easier.

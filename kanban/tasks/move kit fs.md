@@ -1,0 +1,1 @@
+move kit fs into shared, since browserify can use web fs it doesn't have to change for web applications.
