@@ -124,6 +124,7 @@
                      null)
             (assign c.checked true)
             (assign node node.next))
+
     (return null))
   )
 (export Collision)
