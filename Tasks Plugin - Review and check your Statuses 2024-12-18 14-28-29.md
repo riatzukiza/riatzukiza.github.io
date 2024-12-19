@@ -24,11 +24,11 @@ These are the status values in the Core and Custom statuses sections.
 | Status Symbol | Next Status Symbol | Status Name | Status Type | Problems (if any) |
 | ----- | ----- | ----- | ----- | ----- |
 | `space` | `x` | Todo | `TODO` |  |
-| `x` | `space` | Done | `DONE` |  |
+| `x` | `space` | [done](kanban/done.md) | `[[done]]` |  |
 | `/` | `x` | In Progress | `IN_PROGRESS` |  |
 | `-` | `space` | Cancelled | `CANCELLED` |  |
 | `space` | `x` | Unchecked | `TODO` | Duplicate symbol '`space`': this status will be ignored. |
-| `x` | `space` | Checked | `DONE` | Duplicate symbol '`x`': this status will be ignored. |
+| `x` | `space` | Checked | `[[done]]` | Duplicate symbol '`x`': this status will be ignored. |
 | `>` | `x` | Rescheduled | `TODO` |  |
 | `<` | `x` | Scheduled | `TODO` |  |
 | `!` | `x` | Important | `TODO` |  |
@@ -57,7 +57,7 @@ These are the status values in the Core and Custom statuses sections.
 | `x` | `space` | complete / done | `DONE` | Duplicate symbol '`x`': this status will be ignored. |
 | `-` | `space` | cancelled | `CANCELLED` | Duplicate symbol '`-`': this status will be ignored. |
 | `>` | `x` | deferred | `TODO` | Duplicate symbol '`>`': this status will be ignored. |
-| `/` | `x` | in progress, or half-done | `IN_PROGRESS` | Duplicate symbol '`/`': this status will be ignored. |
+| `/` | `x` | in progress, or half-[done](kanban/done.md) | `IN_PROGRESS` | Duplicate symbol '`/`': this status will be ignored. |
 | `?` | `x` | question | `TODO` | Duplicate symbol '`?`': this status will be ignored. |
 | `R` | `x` | review | `TODO` |  |
 | `+` | `x` | Inbox / task that should be processed later | `TODO` |  |
@@ -72,17 +72,17 @@ These are the status values in the Core and Custom statuses sections.
 | `P` | `x` | pro | `TODO` |  |
 | `C` | `x` | con | `TODO` |  |
 | `space` | `x` | To Do | `TODO` | Duplicate symbol '`space`': this status will be ignored. |
-| `x` | `space` | Done | `DONE` | Duplicate symbol '`x`': this status will be ignored. |
+| `x` | `space` | [done](kanban/done.md) | `[[done]]` | Duplicate symbol '`x`': this status will be ignored. |
 | `i` | `x` | Infomation | `TODO` | Duplicate symbol '`i`': this status will be ignored. |
 | `“` | `x` | Quote | `TODO` |  |
 | `u` | `x` | Up | `TODO` |  |
 | `d` | `x` | Down | `TODO` |  |
-| `x` | `space` | Regular | `DONE` | Duplicate symbol '`x`': this status will be ignored. |
-| `X` | `space` | Checked | `DONE` |  |
+| `x` | `space` | Regular | `[[done]]` | Duplicate symbol '`x`': this status will be ignored. |
+| `X` | `space` | Checked | `[[done]]` |  |
 | `-` | `space` | Dropped | `CANCELLED` | Duplicate symbol '`-`': this status will be ignored. |
 | `>` | `x` | Forward | `TODO` | Duplicate symbol '`>`': this status will be ignored. |
 | `D` | `x` | Date | `TODO` | Duplicate symbol '`D`': this status will be ignored. |
-| `/` | `x` | Half Done | `IN_PROGRESS` | Duplicate symbol '`/`': this status will be ignored. |
+| `/` | `x` | Half [done](kanban/done.md) | `IN_PROGRESS` | Duplicate symbol '`/`': this status will be ignored. |
 | `+` | `x` | Add | `TODO` | Duplicate symbol '`+`': this status will be ignored. |
 | `R` | `x` | Research | `TODO` | Duplicate symbol '`R`': this status will be ignored. |
 | `i` | `x` | Idea | `TODO` | Duplicate symbol '`i`': this status will be ignored. |
@@ -113,9 +113,9 @@ These are the status values in the Core and Custom statuses sections.
 | `f` | `x` | Fire | `TODO` | Duplicate symbol '`f`': this status will be ignored. |
 | `k` | `x` | Key | `TODO` |  |
 | `w` | `x` | Win | `TODO` |  |
-| `space` | `x` | to-do | `TODO` | Duplicate symbol '`space`': this status will be ignored. |
+| `space` | `x` | [to-do](kanban/to-do.md) | `TODO` | Duplicate symbol '`space`': this status will be ignored. |
 | `/` | `x` | incomplete | `IN_PROGRESS` | Duplicate symbol '`/`': this status will be ignored. |
-| `x` | `space` | done | `DONE` | Duplicate symbol '`x`': this status will be ignored. |
+| `x` | `space` | [done](kanban/done.md) | `[[done]]` | Duplicate symbol '`x`': this status will be ignored. |
 | `-` | `space` | canceled | `CANCELLED` | Duplicate symbol '`-`': this status will be ignored. |
 | `>` | `x` | forwarded | `TODO` | Duplicate symbol '`>`': this status will be ignored. |
 | `<` | `x` | scheduling | `TODO` | Duplicate symbol '`<`': this status will be ignored. |

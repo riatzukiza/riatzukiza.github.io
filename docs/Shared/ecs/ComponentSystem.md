@@ -2,7 +2,7 @@
 
 ## arguments
 
-(process interface
+([process](../../../kanban/process.md) interface
                  (components ((create Ordered-map)))
                  (pool ((create Dynamic-pool)  interface))
                  (thread (Promise.resolve)))

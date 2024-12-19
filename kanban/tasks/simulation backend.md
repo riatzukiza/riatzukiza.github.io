@@ -6,7 +6,7 @@ If I move the simulation to the backend, and have the frontend just render a str
 
 The browser can afford to miss a few frames or packets,
 as it will not actually affect the simulation. It will only
-affect the rendering process.
+affect the rendering [process](../process.md).
 This could be a neat chance to play around with webrtc udp like sockets.
 It may be a bit more than we should fit into a single task though.
 The first pass on this will be straightforward using a technology we are very familar with, socket.io

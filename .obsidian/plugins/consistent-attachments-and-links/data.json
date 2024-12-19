@@ -10,9 +10,10 @@
   ],
   "ignoreFolders": [
     ".git/",
-    ".obsidian/"
+    ".obsidian/",
+    "node_modules/"
   ],
   "moveAttachmentsWithNote": true,
-  "showWarning": true,
+  "showWarning": false,
   "updateLinks": true
 }

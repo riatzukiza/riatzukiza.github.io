@@ -1,12 +1,12 @@
 
 # Predator agents
 
-Like in the original symbiants using a scalar signal field, I want to introduce predation. I'd like it to be a little more nuanced then the way I did it before, just spawnings new factions and weighted randomly selecting a food source based on total number of agents belonging to each type of food. This may require a little more thought. I can get a basic system up now. Maybe all agents can choose to be a predator based on how recently they've found food?
+Like in the original symbiants using a scalar signal field, I want to introduce predation. I'd like it to be a little more nuanced then the way I did it before, just spawnings new factions and weighted randomly selecting a food source based on total number of agents belonging to [each](../docs/Pools/Dynamic/each.md) type of food. This may require a little more thought. I can get a basic system up now. Maybe all agents can choose to be a predator based on how recently they've found food?
 
 ## Blocked by
 
 - attack sytem
-- multiple factions
+- [multiple factions](tasks/multiple%20factions.md)
 
 ## requirements
 
@@ -37,7 +37,7 @@ This issue will not add other resources, but follow on work that adds new resour
 
 # Reverse navigation home
 
-Agents need to be able to find their way home. This will be done by adding a new field, and/or reversing the ants relationship to the existing fields. 
+Agents need to be able to find their way home. This will be [done](done.md) by adding a new field, and/or reversing the ants relationship to the existing fields. 
 They follow them in the reverse.
 
 ## Requirements
@@ -94,9 +94,9 @@ Agent should starve to death to loose unless killed by another agent.
 
 # Multiple Signal Fields
 
-Ants of the real world have a complex cocktail of pheremones they use to communicate different things. Different amounts of each pheremone can create varied behavior.
+Ants of the real world have a complex cocktail of pheremones they use to communicate different things. Different amounts of [each](../docs/Pools/Dynamic/each.md) pheremone can create varied behavior.
 
-We want the agents to mimic this behavior. Agents should be able to use multiple fields to navigate. At first the fields will be given specific purposes, but later on when the agents have more complex decision making systems in the form of neural networks, they will just have a bunch of fields and the neural net will decide what each one means, how much to weight each one at any given time, etc.
+We want the agents to mimic this behavior. Agents should be able to use multiple fields to navigate. At first the fields will be given specific purposes, but later on when the agents have more complex decision making systems in the form of neural networks, they will just have a bunch of fields and the neural net will decide what [each](../docs/Pools/Dynamic/each.md) one means, how much to weight [each](../docs/Pools/Dynamic/each.md) one at any given time, etc.
 
 ## Requirements
 
@@ -128,4 +128,4 @@ Some spots need to be easier to walk on, others need to be very hard to walk on.
 ## Blockers
 
 - camera
-  - While not really a blocker, I would prefer to have a camera ready before this.
+  - While not really a blocker, I would prefer to have a camera [ready](ready.md) before this.

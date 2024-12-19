@@ -6,4 +6,4 @@ key: A numeric key, value: A value to be removed.
 
 ## description
 
-Search the tree as deep as needed to find and remove a value
+[search](../binary-searchtree/search.md) the tree as deep as needed to find and remove a value

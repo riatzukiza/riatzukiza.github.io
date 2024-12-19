@@ -54,7 +54,7 @@ Features we have decided to look into.
 If we think they will add value we will move on to break down.
 The task must be described to continue
 
-Accepted tasks cannot be rejected with out first going through breakdown
+Accepted tasks cannot be rejected with out first going through [breakdown](breakdown.md)
 
 
 ```
@@ -70,9 +70,9 @@ Accepted -> Breakdown
 # Breakdown (5)
 
 Features we are actively thinking about and preparing for work.
-The result of a breakdown is either a task that is ready for work,
+The result of a [breakdown](breakdown.md) is either a task that is [ready](ready.md) for work,
 or a task that is rejected upon further examination.
-Tasks may become blocked if once the work was started it became clear
+Tasks may become [blocked](blocked.md) if once the work was started it became [clear](../docs/Pools/Dynamic/clear.md)
 the task was not defined clearly enough.
 
 ```
@@ -92,18 +92,18 @@ Breakdown->Ready
 
 # Blocked
 
-Features that have been refined and are ready to work on after a feature they rely on has been implemented
+Features that have been refined and are [ready](ready.md) to work on after a feature they rely on has been implemented
 
 
 # Ready
 
-Tasks that are ready to be worked that we have not decided to start.
-Tasks that are ready for work have not been prioritized and there is no estimate on complexity.
+Tasks that are [ready](ready.md) to be worked that we have not decided to start.
+Tasks that are [ready](ready.md) for work have not been prioritized and there is no estimate on complexity.
 
 
 # Todo (2)
 
-Tasks that have been prioritized and estimated. These are what are to be done after 
+Tasks that have been prioritized and estimated. These are what are to be [done](done.md) after 
 in progress tasks have been completed.
 
 
@@ -119,5 +119,5 @@ Work that has been completed but needs to be reviewed to be sure.
 
 # Done
 
-The work has been reviewed and we are sure that it is done.
+The work has been reviewed and we are sure that it is [done](done.md).
 :confetti:
