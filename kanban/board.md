@@ -83,6 +83,8 @@ kanban-plugin: board
 - [ ] [placeable entities (rocks, plants, bases)](tasks/placeable%20entities%20(rocks,%20plants,%20bases).md)
 - [ ] [Add beautifier and beautifier to pipeline to pipeline](tasks/Add%20beautifier%20and%20beautifier%20to%20pipeline%20to%20pipeline.md)
 	  - Maybe this should be [done](done.md) at the same time as hot reloading? it is at least [blocked](blocked.md) by that task.
+- [ ] [github readme](tasks/github%20readme.md)
+	  - The [readme](../readme.md) can be generated from this kanban through simple concatonation.
 - [ ] [Hot reload system](tasks/Hot%20reload%20system.md)
 	  - Create a seperate pipeline for development and production
 - [ ] [Home page](tasks/Home%20page.md)
@@ -93,7 +95,6 @@ kanban-plugin: board
 - [ ] [Enhance document macros](tasks/Enhance%20document%20macros.md)
 - [ ] [Brain storm new projects](tasks/Brain%20storm%20new%20projects.md)
 - [ ] [vector field visualization](tasks/vector%20field%20visualization.md)
-- [ ] [Remove duplicate code included in headers.](tasks/Remove%20duplicate%20code%20included%20in%20headers..md)
 - [ ] [multiple factions](tasks/multiple%20factions.md)
 - [ ] [unit system](tasks/unit%20system.md)
 	  - A unit is an abstraction over an entity.
@@ -101,7 +102,6 @@ kanban-plugin: board
 	  - A unit is a dynamic collection of entities
 	- Like say a weapon, a shield
 - [ ] [selection box](tasks/selection%20box.md)
-- [ ] [sprites](tasks/sprites.md)
 - [ ] [attack system](tasks/attack%20system.md)
 - [ ] [simulation backend](tasks/simulation%20backend.md)
 	  - Realizing after adding a toggle for the trail dots that rendering was not what was slowing the sim down
@@ -112,12 +112,12 @@ kanban-plugin: board
 ## Todo (2)
 
 - [ ] [Cull duplicate macros](tasks/Cull%20duplicate%20macros.md)
-- [ ] [github readme](tasks/github%20readme.md)
-	  - The [readme](../readme.md) can be generated from this kanban through simple concatonation.
+- [ ] [Remove duplicate code included in headers.](tasks/Remove%20duplicate%20code%20included%20in%20headers..md)
 
 
 ## In Progress (2)
 
+- [ ] [sprites](tasks/sprites.md)
 - [ ] [documentation](tasks/documentation.md)
 	  - Documenting a little bit at a time, especially when we find outselves having to look at older code to use or change it for use with new features.
 

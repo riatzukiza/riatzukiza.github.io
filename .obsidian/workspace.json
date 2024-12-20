@@ -14,7 +14,17 @@
               "type": "kanban",
               "state": {
                 "file": "kanban/board.md",
-                "kanbanViewState": {}
+                "kanbanViewState": {
+                  "kanban-plugin": "board",
+                  "list-collapse": [
+                    false,
+                    false,
+                    true,
+                    false,
+                    false,
+                    false
+                  ]
+                }
               },
               "icon": "lucide-trello",
               "title": "board"
