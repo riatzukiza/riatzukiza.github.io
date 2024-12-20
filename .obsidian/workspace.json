@@ -11,14 +11,13 @@
             "id": "f1e3feef9d680606",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "kanban",
               "state": {
-                "file": "kanban/tasks/Mirror board to github.md",
-                "mode": "source",
-                "source": false
+                "file": "kanban/board.md",
+                "kanbanViewState": {}
               },
-              "icon": "lucide-file",
-              "title": "Mirror board to github"
+              "icon": "lucide-trello",
+              "title": "board"
             }
           }
         ]
@@ -242,6 +241,7 @@
   },
   "active": "f1e3feef9d680606",
   "lastOpenFiles": [
+    "kanban/tasks/Mirror board to github.md",
     "kanban/board.md",
     "kanban/tasks/Design theme for website..md",
     "kanban/tasks/SPIKE can we simplify object pools (2 hrs).md",
@@ -267,7 +267,6 @@
     "kanban/tasks/github readme.md",
     "kanban/tasks/move kit repl.md",
     "kanban/tasks/Make old algage work.md",
-    "kanban/tasks/Electron client.md",
     "static/lib/fonts/535a6cf662596b3bd6a6.woff2",
     "static/lib/fonts/cbe0ae49c52c920fd563.woff2",
     "static/lib/fonts/b5f0f109bc88052d4000.woff2",
