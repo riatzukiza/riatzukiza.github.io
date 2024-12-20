@@ -5,6 +5,8 @@
           (lit Velocity) "@obstacles/systems/velocity.js"
           (lit Physics) "@shared/systems/physics/index.js"
           (lit  Entity-group) "@shared/ecs.js"
+
+          (lit Sprites) "@shared/systems/rendering/gl-sprites.js"
           (lit Collision place-entity) "@shared/systems/collision.js"
           (lit game active-game-systems) "@obstacles/game.js"
           (lit Ant-panel) "@obstacles/systems/ants/ant-panel.js"
@@ -13,7 +15,8 @@
 (const ants ((create Entity-group)
              "Ants"
              [Collision
-              Ant-dots
+              ;; Ant-dots
+              Sprites
               Ant-panel
               Physics
               Velocity

@@ -29,6 +29,9 @@ var {
   Dot
  } = require("@shared/systems/rendering/dot.js"),
     { 
+  Sprites
+ } = require("@shared/systems/rendering/gl-sprites.js"),
+    { 
   Position
  } = require("@obstacles/systems/position.js"),
     { 
@@ -68,7 +71,7 @@ var {
   DecayingTrails
  } = require("@obstacles/systems/ants/trail-segments.js"),
     config = require("@obstacles/config.js");
-var activeGameSystems = [ Position, Physics, Velocity, Collision, AntTrails, DecayingTrails, AntLifeTimer, Dot, TrailDots, AntDots, AntPanel, TrailsPanel ];
+var activeGameSystems = [ Position, Physics, Velocity, Collision, AntTrails, DecayingTrails, AntLifeTimer, Dot, TrailDots, AntDots, AntPanel, TrailsPanel, Sprites ];
 var game = create(Game)(config, rendering, activeGameSystems, config.gameSpeed);
 exports.game = game;
 exports.activeGameSystems = activeGameSystems;

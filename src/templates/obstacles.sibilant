@@ -26,5 +26,6 @@
                       (markup (.script .src (Path.join "/bundles/obstacles" file.rel))))))
 
 
-      (.script .src "/bundles/obstacles/main.js"))
+      (.script .src "/bundles/obstacles/main.js")
+      (.img .id "sprite-texture".src "/ant.png" .hidden "true"))
 

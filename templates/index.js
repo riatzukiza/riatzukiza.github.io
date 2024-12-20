@@ -41,4 +41,8 @@ create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(H
     }).call(this);
   
   }));
-}).call(this), create(HtmlElement)("script", { 'src': "/bundles/obstacles/main.js" }, []) ]);
+}).call(this), create(HtmlElement)("img", {
+  'id': "sprite-texture",
+  'src': "/ant.png",
+  'hidden': "true"
+}, []), create(HtmlElement)("script", { 'src': "/bundles/obstacles/main.js" }, []) ]);

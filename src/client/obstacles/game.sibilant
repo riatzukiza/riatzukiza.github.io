@@ -4,6 +4,7 @@
 
 (require! (lit Game) "@shared/game.js"
           (lit Dot) "@shared/systems/rendering/dot.js"
+          (lit Sprites) "@shared/systems/rendering/gl-sprites.js"
           (lit Position) "@obstacles/systems/position.js"
           (lit Velocity) "@obstacles/systems/velocity.js"
           (lit Physics) "@shared/systems/physics/index.js"
@@ -34,6 +35,7 @@
       Ant-dots
       Ant-panel
       Trails-panel
+      Sprites
       ])
 
 (var game ((create Game)
