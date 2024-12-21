@@ -10634,7 +10634,10 @@ var {
  } = require("@shared/systems/position.js"),
     { 
   Gl
- } = require("@shared/gl.js");
+ } = require("@shared/gl.js"),
+    { 
+  Vector
+ } = require("@shared/vectors.js");
 var { 
   Andy
  } = require("@shared/gl.js");
@@ -10642,12 +10645,13 @@ var {
   Renderable
  } = require("@shared/systems/rendering/renderable.js");
 var setPoint = (function setPoint$(x, y, z, vert) {
-  /* set-point eval.sibilant:20:0 */
+  /* set-point eval.sibilant:22:0 */
 
   vert.point.x = x;
   vert.point.y = y;
   return vert.point.z = z;
 });
+console.log("types", Andy.Type);
 var SpriteRenderable = Renderable.define("SpriteRenderable", { 
   init( layer = this.layer ){ 
     
@@ -10657,7 +10661,8 @@ var SpriteRenderable = Renderable.define("SpriteRenderable", {
    },
   structure:(new Andy.Gl.Type.Composite({ 
     point:Andy.Type.Vector3,
-    size:Andy.Type.float
+    size:Andy.Type.float,
+    rotation:Andy.Type.float
    })),
   clear(  ){ 
     
@@ -10684,15 +10689,24 @@ var uniforms = Interface.define("uniforms", {
       return Gl.uniform("Vector2", "Resolution", this.game.config.dimensions);
     
    },
-  scale:Gl.uniform("Float", "Scale", 1)
+  scale:Gl.uniform("Float", "Scale", 1),
+  id:0,
+  get spriteTexture(  ){ 
+    
+      return Gl.uniform("Integer", "SpriteTexture", ((this.id)++));
+    
+   }
  });
 var shaders = Interface.define("shaders", { 
   vert:`#version 300 es
   in vec3 a_point;
   in float a_size;
+  in float a_rotation;
+
+  out highp float vRotation;
 
   uniform vec2  u_Resolution;
-  uniform float u_Scale;
+  uniform  float u_Scale;
 
   vec4 clipspace_coordinate (vec3 xyz, float scale, vec2 res)
   {
@@ -10710,38 +10724,69 @@ var shaders = Interface.define("shaders", {
 
     gl_Position  = clipspace_coordinate( p, u_Scale, u_Resolution );
     gl_PointSize = a_size + zAxis;
+    vRotation = a_rotation;
 
     //size * z
     // so that the closer the vertex is (the larger z is), the larger the vertex will be relative to its physical size
 
   }
   `,
-  frag:`uniform sampler2D u_spriteTexture;  // texture we are drawing
+  frag:`#version 300 es
+
+  precision highp float;
+  in float vRotation;
+  uniform sampler2D u_SpriteTexture;  // texture we are drawing
+
+  precision mediump float;
+
+  out vec4 FragColor;
 
   void main() {
-    gl_FragColor = texture2D(spriteTexture, gl_PointCoord);
+
+    float mid = 0.5;
+    vec2 rotated = vec2(cos(vRotation) * (gl_PointCoord.x - mid) + sin(vRotation) * (gl_PointCoord.y - mid) + mid,
+                        cos(vRotation) * (gl_PointCoord.y - mid) - sin(vRotation) * (gl_PointCoord.x - mid) + mid);
+
+    vec4 rotatedTexture=texture(u_SpriteTexture, rotated);
+
+    FragColor =  rotatedTexture;
+    FragColor.rgb *= FragColor.a;
   }
   `
  });
-const demoImage=document.getElementById("sprite-texture");
+var Texture = Interface.define("Texture", { 
+  init( img = this.img,context = this.context,id = this.id,texture = gl.createTexture() ){ 
+    
+      this.img = img;this.context = context;this.id = id;this.texture = texture;
+      const gl=context.gl;
+      gl.bindTexture(gl.TEXTURE_2D, texture);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+      gl.generateMipmap(gl.TEXTURE_2D);
+      return this;
+    
+   },
+  get gl(  ){ 
+    
+      return this.context.gl;
+    
+   },
+  enable( img = this.img,texture = this.texture,gl = this.gl ){ 
+    
+      gl.activeTexture((gl.TEXTURE0 + this.id));
+      return gl.bindTexture(gl.TEXTURE_2D, texture);
+    
+   }
+ });
 var spriteLayer = (function spriteLayer$(limit, textureData, game) {
-  /* sprite-layer eval.sibilant:65:0 */
+  /* sprite-layer eval.sibilant:91:0 */
 
-  console.log(demoImage);
-  const texture=gl.createTexture();
-  gl.bindTexture(gl.TEXTURE_2D, texture);
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, textureData);
-  gl.generateMipmap(gl.TEXTURE_2D);
   uniforms.init(game);
-  return game.rendering.spawn(limit, SpriteRenderable, [ uniforms.res, uniforms.scale ], [ shaders.vert, shaders.frag ]);
+  var id = uniforms.id;
+  const layer=game.rendering.spawn(limit, SpriteRenderable, [ uniforms.res, uniforms.scale, uniforms.spriteTexture ], [ shaders.vert, shaders.frag ]);
+  layer.texture = create(Texture)(textureData, game.rendering.context, id);
+  return layer;
 });
 var Sprite = Component.define("Sprite", { 
-  color:{
-    r: 0,
-    g: 0,
-    b: 0,
-    a: 0
-  },
   get pos(  ){ 
     
       return this.entity.positionInterface;
@@ -10755,6 +10800,11 @@ var Sprite = Component.define("Sprite", {
   get point(  ){ 
     
       return this.sprite.point;
+    
+   },
+  get rotation(  ){ 
+    
+      return this.sprite.rotation;
     
    },
   register(  ){ 
@@ -10780,7 +10830,7 @@ var Sprites = System.define("Sprites", {
   maxSprites:100000,
   register(  ){ 
     
-      return this.sprites = spriteLayer(this.maxSprites, demoImage, this.game);
+      return this.sprites = spriteLayer(this.maxSprites, this.img, this.game);
     
    },
   interface:Sprite,
@@ -10790,14 +10840,29 @@ var Sprites = System.define("Sprites", {
       return c;
     
    },
+  get texture(  ){ 
+    
+      return this.sprites.texture;
+    
+   },
+  _prepare(  ){ 
+    
+      return this.texture.enable();
+    
+   },
   _updateComponent( dot ){ 
     
+      var rotationVector = Vector.spawn(dot.entity.velocityInterface.xd, dot.entity.velocityInterface.yd);
+      rotationVector.setLength(1);
+      const angle=rotationVector.getAngle();
+      dot.sprite.rotation = angle;
       dot.sprite.point.x = dot.pos.x;
       dot.sprite.point.y = dot.pos.y;
       dot.sprite.point.z = dot.pos.z;
-      return dot.sprite.size = dot.scale;
+      dot.sprite.size = dot.scale;
+      return rotationVector.despawn();
     
    }
  });
 exports.Sprites = Sprites;
-},{"@kit-js/interface":1,"@shared/ecs.js":"@shared/ecs.js","@shared/gl.js":"@shared/gl.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/rendering/renderable.js":"@shared/systems/rendering/renderable.js"}]},{},[]);
+},{"@kit-js/interface":1,"@shared/ecs.js":"@shared/ecs.js","@shared/gl.js":"@shared/gl.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/rendering/renderable.js":"@shared/systems/rendering/renderable.js","@shared/vectors.js":"@shared/vectors.js"}]},{},[]);

@@ -49,11 +49,9 @@ var Game = Interface.define("Game", {
       });
       systemTypes.each(((s) => {
       	
-        console.log("creating system", s);
         return systems.push([ s.symbol, create(s)(this) ]);
       
       }));
-      console.log("done creating systems", this.systems);
       this.systems.push([ rendering.symbol, rendering ]);
       return this;
     
@@ -85,7 +83,7 @@ var Game = Interface.define("Game", {
       return events.on("tick", ((t) => {
       	
         return systems.each((function() {
-          /* eval.sibilant:1:1678 */
+          /* eval.sibilant:1:1560 */
         
           return arguments[0].update();
         }));
@@ -110,7 +108,7 @@ var Game = Interface.define("Game", {
       entities.clear();
       events.removeAllListeners();
       return systems.each((function() {
-        /* eval.sibilant:1:1957 */
+        /* eval.sibilant:1:1839 */
       
         return arguments[0].clear();
       }));

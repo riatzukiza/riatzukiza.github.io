@@ -13,8 +13,8 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   
   }));
 });
-create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(HtmlElement)("style", {  }, [ "\n"+"        .panel {\n"+"            float: left;\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"        .bordered {\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"\n"+"" ]), create(HtmlElement)("script", { 'src': "https://cdn.jsdelivr.net/quicksettings/3.0/quicksettings.min.js" }, []) ]), create(HtmlElement)("script", { 'src': "/socket.io/socket.io.js" }, []), (function() {
-  /* eval.sibilant:18:6 */
+create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(HtmlElement)("style", {  }, [ "\n"+"        .panel {\n"+"            float: left;\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"        .bordered {\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"img {\n"+"position:fixed;\n"+"}\n"+"\n"+"" ]), create(HtmlElement)("script", { 'src': "https://cdn.jsdelivr.net/quicksettings/3.0/quicksettings.min.js" }, []) ]), create(HtmlElement)("script", { 'src': "/socket.io/socket.io.js" }, []), (function() {
+  /* eval.sibilant:21:6 */
 
   var { 
     FileSystem
@@ -26,7 +26,7 @@ create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(H
   
   }));
 }).call(this), (function() {
-  /* eval.sibilant:22:6 */
+  /* eval.sibilant:25:6 */
 
   var { 
     FileSystem
@@ -42,7 +42,11 @@ create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(H
   
   }));
 }).call(this), create(HtmlElement)("img", {
-  'id': "sprite-texture",
+  'id': "ant-texture",
   'src': "/ant.png",
+  'hidden': "true"
+}, []), create(HtmlElement)("img", {
+  'id': "rock-texture",
+  'src': "/rock.png",
   'hidden': "true"
 }, []), create(HtmlElement)("script", { 'src': "/bundles/obstacles/main.js" }, []) ]);

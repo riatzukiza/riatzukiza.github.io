@@ -10615,9 +10615,15 @@ var {
     { 
   DecayingTrails
  } = require("@obstacles/systems/ants/trail-segments.js"),
+    { 
+  AntSprites
+ } = require("@obstacles/systems/ant-sprites.js"),
+    { 
+  RockSprites
+ } = require("@obstacles/systems/rock-sprites.js"),
     config = require("@obstacles/config.js");
-var activeGameSystems = [ Position, Physics, Velocity, Collision, AntTrails, DecayingTrails, AntLifeTimer, Dot, TrailDots, AntDots, AntPanel, TrailsPanel, Sprites ];
+var activeGameSystems = [ Position, Physics, Velocity, Collision, AntTrails, DecayingTrails, AntLifeTimer, Dot, TrailDots, AntDots, AntPanel, TrailsPanel, RockSprites, AntSprites ];
 var game = create(Game)(config, rendering, activeGameSystems, config.gameSpeed);
 exports.game = game;
 exports.activeGameSystems = activeGameSystems;
-},{"@kit-js/core/js/util":2,"@obstacles/config.js":"@obstacles/config.js","@obstacles/rendering.js":"@obstacles/rendering.js","@obstacles/systems/ants/ant-dot.js":"@obstacles/systems/ants/ant-dot.js","@obstacles/systems/ants/ant-life-timer.js":"@obstacles/systems/ants/ant-life-timer.js","@obstacles/systems/ants/ant-panel.js":"@obstacles/systems/ants/ant-panel.js","@obstacles/systems/ants/ant-trails.js":"@obstacles/systems/ants/ant-trails.js","@obstacles/systems/ants/trail-dots.js":"@obstacles/systems/ants/trail-dots.js","@obstacles/systems/ants/trail-panel.js":"@obstacles/systems/ants/trail-panel.js","@obstacles/systems/ants/trail-segments.js":"@obstacles/systems/ants/trail-segments.js","@obstacles/systems/position.js":"@obstacles/systems/position.js","@obstacles/systems/property-view.js":"@obstacles/systems/property-view.js","@obstacles/systems/velocity.js":"@obstacles/systems/velocity.js","@shared/game.js":"@shared/game.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/rendering/dot.js":"@shared/systems/rendering/dot.js","@shared/systems/rendering/gl-sprites.js":"@shared/systems/rendering/gl-sprites.js","ramda":3}]},{},[]);
+},{"@kit-js/core/js/util":2,"@obstacles/config.js":"@obstacles/config.js","@obstacles/rendering.js":"@obstacles/rendering.js","@obstacles/systems/ant-sprites.js":"@obstacles/systems/ant-sprites.js","@obstacles/systems/ants/ant-dot.js":"@obstacles/systems/ants/ant-dot.js","@obstacles/systems/ants/ant-life-timer.js":"@obstacles/systems/ants/ant-life-timer.js","@obstacles/systems/ants/ant-panel.js":"@obstacles/systems/ants/ant-panel.js","@obstacles/systems/ants/ant-trails.js":"@obstacles/systems/ants/ant-trails.js","@obstacles/systems/ants/trail-dots.js":"@obstacles/systems/ants/trail-dots.js","@obstacles/systems/ants/trail-panel.js":"@obstacles/systems/ants/trail-panel.js","@obstacles/systems/ants/trail-segments.js":"@obstacles/systems/ants/trail-segments.js","@obstacles/systems/position.js":"@obstacles/systems/position.js","@obstacles/systems/property-view.js":"@obstacles/systems/property-view.js","@obstacles/systems/rock-sprites.js":"@obstacles/systems/rock-sprites.js","@obstacles/systems/velocity.js":"@obstacles/systems/velocity.js","@shared/game.js":"@shared/game.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/rendering/dot.js":"@shared/systems/rendering/dot.js","@shared/systems/rendering/gl-sprites.js":"@shared/systems/rendering/gl-sprites.js","ramda":3}]},{},[]);

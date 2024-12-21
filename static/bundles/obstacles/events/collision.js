@@ -62,7 +62,7 @@ game.events.on("collision", ((c, c_) => {
       game.events.emit("antCollision", c, c_);
       return game.events.emit("simpleCollision", c_, c);
      };
-    if( ((plants.has(c.entity) && plants.has(c_.entity)) || (plants.has(c.entity) && rocks.has(c_.entity)) || (rocks.has(c.entity) && plants.has(c_.entity)) || (rocks.has(c.entity) && rocks.has(c_.entity))) ){ 
+    if( ((plants.has(c.entity) && plants.has(c_.entity)) || (plants.has(c.entity) && rocks.has(c_.entity)) || (rocks.has(c.entity) && plants.has(c_.entity))) ){ 
       game.events.emit("staticObjectCollision", c, c_)
      };
     game.events.emit("simpleCollision", c_, c)

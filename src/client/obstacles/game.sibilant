@@ -18,6 +18,8 @@
           (lit Ant-panel) "@obstacles/systems/ants/ant-panel.js"
           (lit Trails-panel) "@obstacles/systems/ants/trail-panel.js"
           (lit Decaying-trails) "@obstacles/systems/ants/trail-segments.js"
+          (lit Ant-sprites) "@obstacles/systems/ant-sprites.js"
+          (lit Rock-sprites) "@obstacles/systems/rock-sprites.js"
           config "@obstacles/config.js"
           )
 
@@ -35,7 +37,8 @@
       Ant-dots
       Ant-panel
       Trails-panel
-      Sprites
+      Rock-sprites
+      Ant-sprites
       ])
 
 (var game ((create Game)

@@ -32,14 +32,14 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
       var count = 1;
       var node = this;
       (function() {
-        var while$69 = undefined;
+        var while$67 = undefined;
         while (node) {
-          while$69 = (function() {
+          while$67 = (function() {
             node = node.left;
             return ((count)++);
           }).call(this);
         };
-        return while$69;
+        return while$67;
       }).call(this);
       return count;
     

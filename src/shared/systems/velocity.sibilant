@@ -4,11 +4,18 @@
 
 
 (require! (lit Component System) "@shared/ecs.js"
+          (lit Vector) "@shared/vectors.js"
           (lit Position) "@shared/systems/position.js")
 
 (define Velocity-interface Component
-  (xd 0)
-  (yd 0)
+  (gett xd this.vector.x)
+  (gett yd this.vector.y)
+  (sett xd x (assign this.vector.x x))
+  (sett yd y (assign this.vector.y y))
+
+
+  (def register ()
+    (unless this.vector (assign this.vector (.spawn Vector 0 0))))
 
   (gett pos this.entity.position-interface)
 

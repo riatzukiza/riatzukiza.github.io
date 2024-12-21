@@ -71,25 +71,6 @@
 
   (def *update-component (dot)
 
-    ;; (set dot.vertex.point
-    ;;      'x (- dot.pos.x (/ dot.scale 2))
-    ;;      'y (- dot.pos.y (/ dot.scale 2))
-
-    ;;      'z dot.pos.z )
-
-    ;; (set dot.vertex.point
-    ;;      'x (- dot.pos.x dot.scale)
-    ;;      'y (- dot.pos.y dot.scale)
-    ;;      'z dot.pos.z )
-    ;; (set dot.vertex.point
-    ;;      'x (+ dot.pos.x dot.scale)
-    ;;      'y (+ dot.pos.y dot.scale)
-    ;;      'z dot.pos.z )
-
-    ;; (set dot.vertex.point
-    ;;      'x (+ dot.pos.x (/ dot.scale 2))
-    ;;      'y (+ dot.pos.y (/ dot.scale 2))
-    ;;      'z dot.pos.z )
     (set dot.vertex.point
          'x dot.pos.x
             'y dot.pos.y
