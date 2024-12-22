@@ -5,7 +5,7 @@
           (lit Physics) "@shared/systems/physics/system.js"
           (lit create-particle-updater) "@shared/field.js"
 
-          (lit  random-location next-spawn spawn-ant ants
+          (lit   next-spawn spawn-ant ants
                 home home-pos next-spawn plants rocks spawn-plant spawn-rock rock-gen-step )
           "@obstacles/entities.js"
 

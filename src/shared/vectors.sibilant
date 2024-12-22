@@ -7,9 +7,10 @@
 (require! (lit List) "@shared/data-structures/list.js"
           (lit Pooled-data-structure) "@shared/data-structures/pooled.js"
           (lit Dynamic-pool) "@shared/pooling/dynamic-pool.js"
+          (lit Spawnable) "@shared/data-structures/spawnable.js"
           )
 
-(define Vector Interface
+(define Vector Spawnable
   (init ((x 0) (y 0))
         )
   (def add (v) (.spawn Vector (+ this.x v.x) (+ this.y v.y)))
@@ -72,9 +73,8 @@
   (def equals (v))
 
 
-  (def despawn ()
-    (.release vector-pool this))
-  (def spawn (x y) (.init (.aquire vector-pool) x y))
+  ;; (def despawn () (.release vector-pool this))
+  ;; (def spawn (x y) (.init (.aquire vector-pool) x y))
   (def clear ()
     (assign this.x null)
     (assign this.y null)
@@ -82,17 +82,15 @@
 
   )
 (export Vector)
-(define Trail-vector Interface
+(define Trail-vector Spawnable
   (init (x y pheremones))
   (def clear ()
     (assign this.x null)
     (assign this.y null)
     (assign this.pheremones null)
     )
-  (def spawn (x y pheremones) (.init (.aquire trail-pool) x y pheremones))
-  (def despawn () (.release trail-pool this)
-
-    )
+  ;; (def spawn (x y pheremones) (.init (.aquire trail-pool) x y pheremones))
+  ;; (def despawn () (.release trail-pool this))
   )
 
 (export Trail-vector)

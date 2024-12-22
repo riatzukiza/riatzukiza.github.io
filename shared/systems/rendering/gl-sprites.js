@@ -253,7 +253,7 @@ var Sprites = System.define("Sprites", {
       dot.sprite.point.x = dot.pos.x;
       dot.sprite.point.y = dot.pos.y;
       dot.sprite.point.z = dot.pos.z;
-      dot.sprite.size = dot.scale;
+      dot.sprite.size = (1.1 * dot.scale);
       return rotationVector.despawn();
     
    }

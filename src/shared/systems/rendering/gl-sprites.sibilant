@@ -152,7 +152,7 @@
          'z dot.pos.z)
     ;; (print rotation-vector angle dot.sprite)
 
-    (set dot.sprite 'size dot.scale)
+    (set dot.sprite 'size (* 1.1 dot.scale))
     (.despawn rotation-vector)
     ))
 

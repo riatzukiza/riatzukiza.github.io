@@ -73,11 +73,11 @@ const maxRockBaseMass=(config.rockMassScalingFactor * config.rockMaxMassFactor);
 const minRockBaseMass=(config.rockMassScalingFactor * config.rockMinMassFactor);
 const maxRockDensity=((config.rockMinSize * maxRockBaseMass) / Math.pow(config.rockMinSize, 3));
 const minRockDensity=((config.rockMaxSize * maxRockBaseMass) / Math.pow(config.rockMaxSize, 3));
-var spawnRock = (function spawnRock$(x_y$6, mass, scale) {
+var spawnRock = (function spawnRock$(x_y$8, mass, scale) {
   /* spawn-rock eval.sibilant:41:0 */
 
-  var x = x_y$6[0],
-      y = x_y$6[1];
+  var x = x_y$8[0],
+      y = x_y$8[1];
 
   console.log("spawning rock");
   var rock = rocks.spawn([ RockSprites, Position, Physics, Collision, Velocity ]);
@@ -98,8 +98,8 @@ var rockGenStep = (function rockGenStep$(position = lastRockPos, mass = (config.
   /* rock-gen-step node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
   spawnRock(position, (config.rockMassScalingFactor * scale * mass), scale);
-  rockPlacementVector.rotateTo((30 * Math.random()));
-  rockPlacementVector.setLength((((Math.random() * ( - 20)) + 20) * scale));
+  rockPlacementVector.rotateTo((5 * Math.random()));
+  rockPlacementVector.setLength((((Math.random() * ( - 50)) + 50) * scale));
   return lastRockPos = [ (Math.abs((position[0] + rockPlacementVector.x)) % config.dimensions[0]), (Math.abs((position[1] + rockPlacementVector.y)) % config.dimensions[1]) ];
 });
 exports.rocks = rocks;

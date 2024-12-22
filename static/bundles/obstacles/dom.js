@@ -171,7 +171,7 @@ const debugView=createDocumentNode("div", {
   'className': "panel",
   'style': { 
     height:(config.dimensions[1] + "px"),
-    width:(Math.round(((window.innerWidth * 0.2) - 24)) + "px"),
+    width:(Math.round(((window.innerWidth * 0.2) - 42)) + "px"),
     "overflow-y":"scroll"
    }
 }, [ createDocumentNode("div", {  }, [ createDocumentNode("b", {  }, [ "stats" ]), resetButton, stats, poolsView ]), createDocumentNode("div", {  }, [ settingsPanel ]) ]);
@@ -185,7 +185,7 @@ var startInterface = (function startInterface$() {
   var { 
     game
    } = require("@obstacles/game.js");
-  createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentRoot);
+  createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentBody);
   return game.events.on("tick", ((t) => {
   	
     return (function() {

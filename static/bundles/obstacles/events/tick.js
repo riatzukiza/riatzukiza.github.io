@@ -31,7 +31,6 @@ var {
   createParticleUpdater
  } = require("@shared/field.js"),
     { 
-  randomLocation,
   nextSpawn,
   spawnAnt,
   ants,

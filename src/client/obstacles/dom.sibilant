@@ -103,7 +103,7 @@
 (const debug-view
        (dom (.div .id "debug-view" .className "panel"
                   .style (lit (height (+  (second config.dimensions)"px"))
-                              (width (+ (Math.round (- (* window.innerWidth 0.2) 24)) "px"))
+                              (width (+ (Math.round (- (* window.innerWidth 0.2) 42)) "px"))
                               ("overflow-y" "scroll"))
                   (.div (.b "stats")
                         reset-button
@@ -124,7 +124,7 @@
 (export debug-view)
 (def start-interface ()
   (require! (lit game) "@obstacles/game.js")
-  (with-dom Document-root (.div .id 'frame container))
+  (with-dom Document-body (.div .id 'frame container))
   (on game.events 'tick (t)
 
       (when (= (mod t config.ui-polling-rate) 0)

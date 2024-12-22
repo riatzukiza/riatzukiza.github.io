@@ -25,11 +25,6 @@
 
 (var active-game-systems
      [
-      Position
-      Physics
-      Velocity
-      Collision
-      Ant-trails
       Decaying-trails
       Ant-life-timer
       Dot
@@ -39,6 +34,11 @@
       Trails-panel
       Rock-sprites
       Ant-sprites
+      Ant-trails
+      Physics
+      Velocity
+      Position
+      Collision
       ])
 
 (var game ((create Game)

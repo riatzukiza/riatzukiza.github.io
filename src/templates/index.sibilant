@@ -10,7 +10,7 @@
             border-width: 1px;
         }
 img {
-position:fixed;
+position:absolute;
 }
 
 ")
@@ -29,8 +29,8 @@ position:fixed;
                       (markup (.script .src (Path.join "/bundles/obstacles" file.rel))))))
 
 
-      (.img .id "ant-texture".src "/ant.png" .hidden "true")
-      (.img .id "rock-texture".src "/rock.png" .hidden "true")
+      (.body (.img .id "ant-texture".src "/ant.png" .hidden "true")
+       (.img .id "rock-texture".src "/rock.png" .hidden "true"))
 
       (.script .src "/bundles/obstacles/main.js")
 

@@ -46,15 +46,17 @@ game.events.on("simpleCollision", ((c, c_) => {
   var m_ = p_.mass;
   const pos=v.pos;
   const pos_=v_.pos;
-  const v1=v.vector;
-  const v2=v_.vector;
-  const theta=Math.atan2((v1.y - v2.y), (v1.x - v2.x));
-  v1.rotateTo((theta));
-  v2.rotateTo((theta));
-  v1.x = (((v1.x * (m - m_)) / (m + m_)) + (v2.x * 2 * (m_ / (m + m_))));
-  v1.rotateTo(theta);
-  v2.x = (((v2.x * (m_ - m)) / (m_ + m)) + (v1.x * 2 * (m / (m_ + m))));
-  v2.rotateTo(theta);
+  const vector1=Vector.spawn(v.xd, v.yd);
+  const vector2=Vector.spawn(v_.xd, v_.yd);
+  const theta=Math.atan2((vector1.y - vector2.y), (vector1.x - vector2.x));
+  const v1=vector1.rotateTo((theta));
+  const v2=vector2.rotateTo((theta));
+  const u1=Vector.spawn((((v1.x * (m - m_)) / (m + m_)) + (v2.x * 2 * (m_ / (m + m_)))), v1.y).rotateTo(theta);
+  v.xd = u1.x;
+  v.yd = u1.y;
+  v1.despawn();
+  v2.despawn();
+  u1.despawn();
   return null;
 
 })).once("error", ((err) => {
