@@ -8,7 +8,6 @@ kanban-plugin: board
 
 - [ ] Add a [project](project.md) page to the website
 - [ ] Side scroller
-- [ ] Dynamic pools for renderables.
 - [ ] Toggle coordinate wrap around
 - [ ] 3d gravity using babylon
 - [ ] blog
@@ -16,10 +15,7 @@ kanban-plugin: board
 
 ## Accepted
 
-- [ ] Update physics engine to increase accuracy and performance
-	  - Consolodate position and velocity into physics
-	  - When performing updates, do not mutate the state of the
-	last tick. Use two data structures, and swap them out [each](../docs/Pools/Dynamic/each.md) tick.
+- [ ] [[Dynamic pools for renderables.]]
 - [ ] [move kit fs](tasks/move%20kit%20fs.md)
 - [ ] [file explorer](tasks/file%20explorer.md)
 - [ ] [chat app](tasks/chat%20app.md)
@@ -52,6 +48,7 @@ kanban-plugin: board
 - [ ] [Move all outside work into the portfolio git](tasks/Move%20all%20outside%20work%20into%20the%20portfolio%20git.md)
 - [ ] [devops pipeline](tasks/devops%20pipeline.md)
 - [ ] [Import other projects](tasks/Import%20other%20projects.md)
+- [ ] [[Optimizations]]
 
 
 ## Blocked
@@ -65,20 +62,24 @@ kanban-plugin: board
 - [ ] [resource mechanics](tasks/resource%20mechanics.md)
 - [ ] [reverse navigation home](tasks/reverse%20navigation%20home.md)
 - [ ] [Building system](tasks/Building%20system.md)
+- [ ] [DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files.](tasks/DevOps%20Sibilant%20transpiler%20should%20create%20less%20noise%20in%20pull%20requests%20when%20acting%20on%20unchanged%20files..md)
 
 
 ## Breakdown (5)
 
-- [ ] [Mirror board to github](tasks/Mirror%20board%20to%20github.md)
-- [ ] [DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files.](tasks/DevOps%20Sibilant%20transpiler%20should%20create%20less%20noise%20in%20pull%20requests%20when%20acting%20on%20unchanged%20files..md)
+- [ ] Update physics engine to increase accuracy and performance
+	  - Consolodate position and velocity into physics
+	  - When performing updates, do not mutate the state of the
+	last tick. Use two data structures, and swap them out [each](../docs/Pools/Dynamic/each.md) tick.
 - [ ] [Implemment tests for existing shared components.](tasks/Implemment%20tests%20for%20existing%20shared%20components..md)
 
 
 ## Ready
 
-- [ ] [Design theme for website.](tasks/Design%20theme%20for%20website..md)
+- [ ] [Mirror board to github](tasks/Mirror%20board%20to%20github.md)
+- [ ] [Cull duplicate macros](tasks/Cull%20duplicate%20macros.md)
+- [ ] [Remove duplicate code included in headers.](tasks/Remove%20duplicate%20code%20included%20in%20headers..md)
 - [ ] [camera system](tasks/camera%20system.md)
-- [ ] [SPIKE can we simplify object pools (2 hrs)](tasks/SPIKE%20can%20we%20simplify%20object%20pools%20(2%20hrs).md)
 - [ ] [Rewrite andy lib in lisp](tasks/Rewrite%20andy%20lib%20in%20lisp.md)
 - [ ] [placeable entities (rocks, plants, bases)](tasks/placeable%20entities%20(rocks,%20plants,%20bases).md)
 - [ ] [Add beautifier and beautifier to pipeline to pipeline](tasks/Add%20beautifier%20and%20beautifier%20to%20pipeline%20to%20pipeline.md)
@@ -87,7 +88,6 @@ kanban-plugin: board
 	  - The [readme](../readme.md) can be generated from this kanban through simple concatonation.
 - [ ] [Hot reload system](tasks/Hot%20reload%20system.md)
 	  - Create a seperate pipeline for development and production
-- [ ] [Home page](tasks/Home%20page.md)
 - [ ] [a gpu implementation for signal fields and vector math.](tasks/a%20gpu%20implementation%20for%20signal%20fields%20and%20vector%20math..md)
 	  - Use tensorflow.js
 - [ ] [deletable entites](tasks/deletable%20entites.md)
@@ -109,10 +109,11 @@ kanban-plugin: board
 	have liked. The simulation needs more optimizations, and we don't currently have a place to host such an intensive backend.
 
 
-## Todo (2)
+## Todo (5)
 
-- [ ] [Cull duplicate macros](tasks/Cull%20duplicate%20macros.md)
-- [ ] [Remove duplicate code included in headers.](tasks/Remove%20duplicate%20code%20included%20in%20headers..md)
+- [ ] [SPIKE can we simplify object pools (2 hrs)](tasks/SPIKE%20can%20we%20simplify%20object%20pools%20(2%20hrs).md)
+- [ ] [Home page](tasks/Home%20page.md)
+- [ ] [Design theme for website.](tasks/Design%20theme%20for%20website..md)
 
 
 ## In Progress (2)
@@ -123,7 +124,6 @@ kanban-plugin: board
 
 ## In Review (2)
 
-- [ ] [settings interface](tasks/settings%20interface.md)
 - [ ] [sprites](tasks/sprites.md)
 
 
@@ -138,6 +138,7 @@ kanban-plugin: board
 ## Done
 
 **Complete**
+- [x] [settings interface](tasks/settings%20interface.md) ✅ 2024-12-22
 - [ ] [config system](tasks/config%20system.md)
 	  - we just kinda did this one before moving it through the board :shrug:
 - [ ] Entity inspector
@@ -150,6 +151,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,false,true,false,false,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,false,false,true,false,false,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md"}
 ```
 %%

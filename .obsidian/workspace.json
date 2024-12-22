@@ -11,20 +11,11 @@
             "id": "f1e3feef9d680606",
             "type": "leaf",
             "state": {
-              "type": "kanban",
+              "type": "markdown",
               "state": {
-                "file": "kanban/board.md",
-                "kanbanViewState": {
-                  "kanban-plugin": "board",
-                  "list-collapse": [
-                    false,
-                    false,
-                    true,
-                    false,
-                    false,
-                    false
-                  ]
-                }
+                "file": "docs/readme.md",
+                "mode": "source",
+                "source": false
               }
             }
           }
@@ -78,8 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "cb509b7f274d7b5e",
@@ -95,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "kanban/board.md",
+                "file": "docs/readme.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -112,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "kanban/board.md",
+                "file": "docs/readme.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -135,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "kanban/board.md"
+                "file": "docs/readme.md"
               }
             }
           },
@@ -224,32 +214,35 @@
   },
   "active": "f1e3feef9d680606",
   "lastOpenFiles": [
-    "kanban/tasks/Mirror board to github.md",
+    "docs 1.sibilant.md",
+    "docs/readme.md",
+    "_Index_of_riatzukiza.github.io.md",
     "kanban/board.md",
+    "readme.md",
+    "Tasks Plugin - Review and check your Statuses 2024-12-18 14-28-29.md",
+    "docs.sibilant",
+    "kanban/tasks/Identify and write useful templates for obsidian.md",
+    "kanban/templates/New Task.md",
+    "kanban/templates/Epic.md",
+    "kanban/tasks/Optimizations.md",
+    "kanban/tasks/Dynamic pools for renderables..md",
+    "kanban/templates/_Index_of_templates.md",
+    "kanban/process.md",
+    "kanban/project.md",
+    "kanban/done.md",
+    "kanban/templates",
+    "Untitled",
+    "kanban/tasks/predator agents.md",
+    "kanban/tasks/DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files..md",
+    "kanban/Move fork of sibilant into git.md",
+    "kanban/tasks/Mirror board to github.md",
+    "kanban/tasks/Cull duplicate macros.md",
+    "kanban/tasks/Move all outside work into the portfolio git.md",
+    "kanban/tasks/multiple factions.md",
+    "kanban/tasks/metabolism system.md",
     "kanban/tasks/Design theme for website..md",
     "kanban/tasks/SPIKE can we simplify object pools (2 hrs).md",
-    "kanban/done.md",
-    "kanban/project.md",
     "kanban/to-do.md",
-    "kanban/ready.md",
-    "kanban/process.md",
-    "kanban/in-review.md",
-    "kanban/in-progress.md",
-    "kanban/tasks/ground tiles.md",
-    "kanban/blocked.md",
-    "_Index_of_riatzukiza.github.io.md",
-    "kanban/breakdown.md",
-    "kanban/tasks/multiple signal fields.md",
-    "kanban/tasks/metabolism system.md",
-    "kanban/tasks/Building system.md",
-    "kanban/tasks/reverse navigation home.md",
-    "kanban/tasks/resource mechanics.md",
-    "kanban/tasks/predator agents.md",
-    "readme.md",
-    "kanban/tasks/Home page.md",
-    "kanban/tasks/github readme.md",
-    "kanban/tasks/move kit repl.md",
-    "kanban/tasks/Make old algage work.md",
     "static/lib/fonts/535a6cf662596b3bd6a6.woff2",
     "static/lib/fonts/cbe0ae49c52c920fd563.woff2",
     "static/lib/fonts/b5f0f109bc88052d4000.woff2",
@@ -257,9 +250,6 @@
     "static/lib/fonts/c8ba52b05a9ef10f4758.woff2",
     "static/lib/fonts/2d5198822ab091ce4305.woff2",
     "static/lib/fonts/72505e6a122c6acd5471.woff2",
-    "static/lib/fonts/94f2f163d4b698242fef.otf",
-    "static/lib/fonts",
-    "static/lib/scripts/graph-wasm.wasm",
     "Untitled.canvas"
   ]
 }

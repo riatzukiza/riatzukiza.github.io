@@ -196,6 +196,23 @@
         "KeyW",
         "KeyD"
       ]
+    },
+    {
+      "command": "workspace:move-to-new-window",
+      "chords": [
+        "C-",
+        "Space",
+        "KeyW",
+        "S-KeyF"
+      ]
+    },
+    {
+      "command": "workspace:move-to-new-window",
+      "chords": [
+        "C-Space",
+        "KeyW",
+        "S-KeyF"
+      ]
     }
   ]
 }
