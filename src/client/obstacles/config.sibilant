@@ -14,8 +14,8 @@
      'decay 1
      'maxLength 200
      'trail-result-duration 5000
-     'growth-rate 0.001
-     'starting-plants 20
+     'growth-rate 0.0005
+     'starting-plants 10
      'plantMassLimit 32
      'ant-limit 500
      'max-in-decay 1000
@@ -25,17 +25,17 @@
      'options-amplitude 10
      'limit-decay false
      'ant-influence 90
-     'friction 0.2
+     'friction 0.1
      'collision-static 5
      'spawn-static 10
      'spawn-rate 10
      'home-location [300, 200]
      'target-location [700, 900]
-     'rocks 200
-     'rock-min-size 1
+     'rocks 10
+     'rock-min-size 16
      'rock-max-size 32
-     'rock-mass-scaling-factor 0.01 ;; How much does scale effect mass?
-     'rock-min-mass-factor 1 ;; Min bounds to rock mass variation
+     'rock-mass-scaling-factor 1 ;; How much does scale effect mass?
+     'rock-min-mass-factor 10 ;; Min bounds to rock mass variation
      'rock-max-mass-factor 100  ;; max bounds to rock mass variation
      'stationary-resistance-coefficiant 2
      'track-trail true
