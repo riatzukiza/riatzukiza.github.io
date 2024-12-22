@@ -117,7 +117,6 @@ kanban-plugin: board
 
 ## In Progress (2)
 
-- [ ] [sprites](tasks/sprites.md)
 - [ ] [documentation](tasks/documentation.md)
 	  - Documenting a little bit at a time, especially when we find outselves having to look at older code to use or change it for use with new features.
 
@@ -125,6 +124,7 @@ kanban-plugin: board
 ## In Review (2)
 
 - [ ] [settings interface](tasks/settings%20interface.md)
+- [ ] [sprites](tasks/sprites.md)
 
 
 ## Rejected
