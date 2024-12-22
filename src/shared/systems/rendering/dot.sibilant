@@ -36,7 +36,9 @@
 
 (define Dot-interface Component
 
-  (color {r 0 g 0 b 0 a 0})
+  (*color {r 0 g 0 b 0 a 0})
+  (gett color this.*color)
+  (sett color c (assign this.*color c))
 
   (gett pos this.entity.position-interface)
   (gett scale this.entity.physical-properties.scale)

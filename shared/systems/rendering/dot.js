@@ -1,18 +1,3 @@
-Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
-
-  this.forEach(f);
-  return this;
-});
-Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
-
-  return Object.keys(this).forEach(((k) => {
-  	
-    return f(this[k], k);
-  
-  }));
-});
 var { 
   Interface
  } = require("@kit-js/interface");
@@ -47,46 +32,46 @@ var uniforms = Interface.define("uniforms", {
   scale:Gl.uniform("Float", "Scale", 1)
  });
 var shaders = Interface.define("shaders", { 
-  vert:`#version 300 es
-  in vec3 a_point;
-  in vec4 a_color;
-  in float a_size;
+  vert:`#version 300 es
+  in vec3 a_point;
+  in vec4 a_color;
+  in float a_size;
 
-  out highp vec4 vColor;
+  out highp vec4 vColor;
 
-  uniform vec2  u_Resolution;
-  uniform float u_Scale;
-  vec4 clipspace_coordinate (vec3 xyz, float scale, vec2 res)
-  {
-    return (vec4(((xyz * vec3(1.0,1.0,1.0) * scale)
-                  / vec3(res,1.0) * 1.98 - 0.99), 1.0)
-            * vec4( 1.0,-1.0,1.0,1.0 ));
+  uniform vec2  u_Resolution;
+  uniform float u_Scale;
+  vec4 clipspace_coordinate (vec3 xyz, float scale, vec2 res)
+  {
+    return (vec4(((xyz * vec3(1.0,1.0,1.0) * scale)
+                  / vec3(res,1.0) * 1.98 - 0.99), 1.0)
+            * vec4( 1.0,-1.0,1.0,1.0 ));
 
-  }
-  void main (void)
-  {
+  }
+  void main (void)
+  {
 
-    float zAxis = a_point[2];
-    vec3 p = vec3(a_point);
-    p.z = 1.0;
+    float zAxis = a_point[2];
+    vec3 p = vec3(a_point);
+    p.z = 1.0;
 
-    gl_Position  = clipspace_coordinate( p, u_Scale, u_Resolution );
-    gl_PointSize = a_size + zAxis;
+    gl_Position  = clipspace_coordinate( p, u_Scale, u_Resolution );
+    gl_PointSize = a_size + zAxis;
 
-    //size * z
-    // so that the closer the vertex is (the larger z is), the larger the vertex will be relative to its physical size
+    //size * z
+    // so that the closer the vertex is (the larger z is), the larger the vertex will be relative to its physical size
 
-    vColor       = a_color;
+    vColor       = a_color;
 
-  }
+  }
   `,
-  frag:`#version 300 es
-  precision mediump float;
+  frag:`#version 300 es
+  precision mediump float;
 
-  in  vec4 vColor;
-  out vec4 FragColor;
+  in  vec4 vColor;
+  out vec4 FragColor;
 
-  void main(void) {FragColor = vColor;}
+  void main(void) {FragColor = vColor;}
   `
  });
 var vertexLayer = (function vertexLayer$(limit, game) {
@@ -96,12 +81,22 @@ var vertexLayer = (function vertexLayer$(limit, game) {
   return game.rendering.spawn(limit, Vertex, [ uniforms.res, uniforms.scale ], [ shaders.vert, shaders.frag ]);
 });
 var DotInterface = Component.define("DotInterface", { 
-  color:{
+  _color:{
     r: 0,
     g: 0,
     b: 0,
     a: 0
   },
+  get color(  ){ 
+    
+      return this._color;
+    
+   },
+  set color( c ){ 
+    
+      return this._color = c;
+    
+   },
   get pos(  ){ 
     
       return this.entity.positionInterface;
