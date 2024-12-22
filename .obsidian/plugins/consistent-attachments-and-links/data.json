@@ -1,5 +1,5 @@
 {
-  "autoCollectAttachments": true,
+  "autoCollectAttachments": false,
   "changeNoteBacklinksAlt": true,
   "consistencyReportFile": "consistency-report.md",
   "deleteAttachmentsWithNote": true,

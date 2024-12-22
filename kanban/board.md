@@ -144,7 +144,7 @@ kanban-plugin: board
 - [ ] Entity inspector
 - [ ] Github pages static site [high priority]
 - [ ] trail entities
-- [ ] [Simulation reset](../Simulation%20reset.md)
+- [ ] [Simulation reset](Simulation%20reset.md)
 
 
 

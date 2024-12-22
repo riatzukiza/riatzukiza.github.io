@@ -42,7 +42,7 @@ This issue is related to [kanban/tasks/Move all outside work into the portfolio 
 * [ ] [[Entity inspector]]: Implement an entity inspector feature
 * [ ] [[Github pages static site]]: Create a Github pages static site
 * [ ] [[Trail entities]]: Implement trail entities
-* [ ] [Simulation reset](../../Simulation%20reset.md): Reset the simulation to its original state
+* [ ] [Simulation reset](Simulation%20reset.md): Reset the simulation to its original state
 
 ## New Features
 
