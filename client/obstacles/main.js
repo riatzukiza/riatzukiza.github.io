@@ -1,18 +1,3 @@
-Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
-
-  this.forEach(f);
-  return this;
-});
-Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
-
-  return Object.keys(this).forEach(((k) => {
-  	
-    return f(this[k], k);
-  
-  }));
-});
 var R = require("ramda");
 var { 
   create,
@@ -26,13 +11,13 @@ var {
   Interface
  } = require("@kit-js/interface");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1105 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1167 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -54,7 +39,7 @@ var {
     { 
   startInterface
  } = require("@obstacles/dom.js");
-Collision.setBounds(config.dimensions[0], config.dimensions[1], 100, 1000);
+Collision.setBounds(config.dimensions[0], config.dimensions[1], 500, 1000);
 game.start();
 require("@obstacles/events/ant-collision.js");
 require("@obstacles/events/ant-found-plant.js");

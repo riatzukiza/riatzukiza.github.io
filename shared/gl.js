@@ -42,15 +42,16 @@ Gl.buffer = (function Gl$buffer$(_members, context) {
 Gl.context = (function Gl$context$(dimensions, blend) {
   /* Gl.context eval.sibilant:1:706 */
 
-  return (new Andy.Context()).makeCurrent().resize(...dimensions).clearColor(0, 0, 0, 0).blend(blend).clear();
+  const context=(new Andy.Context()).makeCurrent().resize(...dimensions).clearColor(0, 0, 0, 0).blend(blend).clear();
+  return context;
 });
 Gl.uniform = (function Gl$uniform$(typeName, varName, value) {
-  /* Gl.uniform eval.sibilant:1:910 */
+  /* Gl.uniform eval.sibilant:1:1016 */
 
   return (new Andy.Gl.Uniform[typeName](varName, value));
 });
 Gl.program = (function Gl$program$(vert, frag, context) {
-  /* Gl.program eval.sibilant:1:1214 */
+  /* Gl.program eval.sibilant:1:1320 */
 
   return (new Andy.Gl.Program(Gl.shader("vertex", vert, context), Gl.shader("fragment", frag, context)));
 });

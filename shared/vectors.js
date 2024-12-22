@@ -33,8 +33,11 @@ var {
  } = require("@shared/data-structures/pooled.js"),
     { 
   DynamicPool
- } = require("@shared/pooling/dynamic-pool.js");
-var Vector = Interface.define("Vector", { 
+ } = require("@shared/pooling/dynamic-pool.js"),
+    { 
+  Spawnable
+ } = require("@shared/data-structures/spawnable.js");
+var Vector = Spawnable.define("Vector", { 
   init( x = 0,y = 0 ){ 
     
       this.x = x;this.y = y;
@@ -150,16 +153,6 @@ var Vector = Interface.define("Vector", {
   equals( v ){ 
     
    },
-  despawn(  ){ 
-    
-      return vectorPool.release(this);
-    
-   },
-  spawn( x,y ){ 
-    
-      return vectorPool.aquire().init(x, y);
-    
-   },
   clear(  ){ 
     
       this.x = null;
@@ -168,7 +161,7 @@ var Vector = Interface.define("Vector", {
    }
  });
 exports.Vector = Vector;
-var TrailVector = Interface.define("TrailVector", { 
+var TrailVector = Spawnable.define("TrailVector", { 
   init( x = this.x,y = this.y,pheremones = this.pheremones ){ 
     
       this.x = x;this.y = y;this.pheremones = pheremones;
@@ -180,16 +173,6 @@ var TrailVector = Interface.define("TrailVector", {
       this.x = null;
       this.y = null;
       return this.pheremones = null;
-    
-   },
-  spawn( x,y,pheremones ){ 
-    
-      return trailPool.aquire().init(x, y, pheremones);
-    
-   },
-  despawn(  ){ 
-    
-      return trailPool.release(this);
     
    }
  });

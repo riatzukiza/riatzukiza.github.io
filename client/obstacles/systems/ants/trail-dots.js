@@ -1,18 +1,3 @@
-Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
-
-  this.forEach(f);
-  return this;
-});
-Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
-
-  return Object.keys(this).forEach(((k) => {
-  	
-    return f(this[k], k);
-  
-  }));
-});
 var { 
   DotInterface,
   Dot
@@ -54,7 +39,7 @@ var TrailDot = DotInterface.define("TrailDot", {
  });
 exports.TrailDot = TrailDot;
 var TrailDots = Dot.define("TrailDots", { 
-  maxVerts:100000,
+  maxVerts:300000,
   interface:TrailDot,
   register(  ){ 
     
@@ -91,7 +76,7 @@ var TrailDots = Dot.define("TrailDots", {
    },
   _updateComponent( dot ){ 
     
-      dot.vertex.color.a = 255;
+      dot.vertex.color.a = Math.round(Math.max(0, (255 * (dot.entity.trailSegment.remainingTime / dot.entity.trailSegment.duration))));
       if( dot.changed__QUERY ){ 
         dot.vertex.color.r = dot.color.r;
         dot.vertex.color.g = dot.color.g;

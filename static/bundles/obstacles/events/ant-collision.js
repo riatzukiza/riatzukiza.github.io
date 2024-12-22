@@ -1,19 +1,4 @@
 require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({"@obstacles/events/ant-collision.js":[function(require,module,exports){
-Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
-
-  this.forEach(f);
-  return this;
-});
-Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
-
-  return Object.keys(this).forEach(((k) => {
-  	
-    return f(this[k], k);
-  
-  }));
-});
 var { 
   Velocity
  } = require("@shared/systems/velocity.js");
@@ -47,8 +32,7 @@ game.events.on("antCollision", ((c, c_) => {
   var v_ = c_.entity.velocityInterface;
   var p = c.entity.physicalProperties;
   var p_ = c_.entity.physicalProperties;
-  updateParticle(v, v.pos, SignalField.field, SignalField.layer, game.ticker.ticks, config.decayOnCollision, false, homePos);
-  return updateParticle(v_, v_.pos, SignalField.field, SignalField.layer, game.ticker.ticks, config.decayOnCollision, false, homePos);
+  return updateParticle(v, v.pos, SignalField.field, SignalField.layer, game.ticker.ticks, config.decayOnCollision, false, homePos);
 
 })).once("error", ((err) => {
 	

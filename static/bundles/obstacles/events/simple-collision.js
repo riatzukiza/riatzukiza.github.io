@@ -1,19 +1,4 @@
 require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({"@obstacles/events/simple-collision.js":[function(require,module,exports){
-Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
-
-  this.forEach(f);
-  return this;
-});
-Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
-
-  return Object.keys(this).forEach(((k) => {
-  	
-    return f(this[k], k);
-  
-  }));
-});
 var { 
   Velocity
  } = require("@shared/systems/velocity.js");
@@ -53,15 +38,11 @@ game.events.on("simpleCollision", ((c, c_) => {
   const v1=vector1.rotateTo((theta));
   const v2=vector2.rotateTo((theta));
   const u1=Vector.spawn((((v1.x * (m - m_)) / (m + m_)) + (v2.x * 2 * (m_ / (m + m_)))), v1.y).rotateTo(theta);
-  const u2=Vector.spawn((((v2.x * (m_ - m)) / (m_ + m)) + (v1.x * 2 * (m / (m_ + m)))), v2.y).rotateTo(theta);
   v.xd = u1.x;
   v.yd = u1.y;
-  v_.xd = u2.x;
-  v_.yd = u2.y;
   v1.despawn();
   v2.despawn();
   u1.despawn();
-  u2.despawn();
   return null;
 
 })).once("error", ((err) => {

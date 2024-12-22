@@ -11103,11 +11103,13 @@ var {
   activeGameSystems
  } = require("@obstacles/game.js"),
     { 
+  RockSprites
+ } = require("@obstacles/systems/rock-sprites.js"),
+    { 
   rgba
  } = require("@obstacles/colors.js"),
     config = require("@obstacles/config.js");
-const rocks=create(EntityGroup)("Rocks", [ Dot, Position, Physics, Collision, Velocity ], game.ent);
-const rockBoundries=create(EntityGroup)("Rock boundries", [ Dot, Position, Physics ], game.ent);
+const rocks=create(EntityGroup)("Rocks", [ RockSprites, Position, Physics, Collision, Velocity ], game.ent);
 const rockPlacementVector=Vector.spawn(0, 0);
 const rockScaleVariation=(config.rockMaxSize - config.rockMinSize);
 const rockMassVariation=(config.rockMaxMassFactor - config.rockMinMassFactor);
@@ -11115,14 +11117,14 @@ const maxRockBaseMass=(config.rockMassScalingFactor * config.rockMaxMassFactor);
 const minRockBaseMass=(config.rockMassScalingFactor * config.rockMinMassFactor);
 const maxRockDensity=((config.rockMinSize * maxRockBaseMass) / Math.pow(config.rockMinSize, 3));
 const minRockDensity=((config.rockMaxSize * maxRockBaseMass) / Math.pow(config.rockMaxSize, 3));
-var spawnRock = (function spawnRock$(x_y$3, mass, scale) {
-  /* spawn-rock eval.sibilant:39:0 */
+var spawnRock = (function spawnRock$(x_y$8, mass, scale) {
+  /* spawn-rock eval.sibilant:41:0 */
 
-  var x = x_y$3[0],
-      y = x_y$3[1];
+  var x = x_y$8[0],
+      y = x_y$8[1];
 
   console.log("spawning rock");
-  var rock = rocks.spawn([ Dot, Position, Physics, Collision, Velocity ]);
+  var rock = rocks.spawn([ RockSprites, Position, Physics, Collision, Velocity ]);
   const pos=game.systems.get(Position, rock);
   pos.x = x;
   pos.y = y;
@@ -11133,7 +11135,6 @@ var spawnRock = (function spawnRock$(x_y$3, mass, scale) {
   phys.forces = [ Friction ];
   const velocity=phys.velocity;
   var hardness = Math.max(60, Math.min(225, Math.round((maxRockDensity / phys.density))));
-  game.systems.get(Dot, rock).color = rgba(hardness, hardness, hardness, 255);
   return placeEntity(rock, game, config);
 });
 var lastRockPos = [ ((Math.random() * ( - config.dimensions[0])) + config.dimensions[0]), ((Math.random() * ( - config.dimensions[1])) + config.dimensions[1]) ];
@@ -11141,11 +11142,11 @@ var rockGenStep = (function rockGenStep$(position = lastRockPos, mass = (config.
   /* rock-gen-step node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
   spawnRock(position, (config.rockMassScalingFactor * scale * mass), scale);
-  rockPlacementVector.rotateTo((30 * Math.random()));
-  rockPlacementVector.setLength((((Math.random() * ( - 20)) + 20) * scale));
+  rockPlacementVector.rotateTo((5 * Math.random()));
+  rockPlacementVector.setLength((((Math.random() * ( - 50)) + 50) * scale));
   return lastRockPos = [ (Math.abs((position[0] + rockPlacementVector.x)) % config.dimensions[0]), (Math.abs((position[1] + rockPlacementVector.y)) % config.dimensions[1]) ];
 });
 exports.rocks = rocks;
 exports.spawnRock = spawnRock;
 exports.rockGenStep = rockGenStep;
-},{"@obstacles/colors.js":"@obstacles/colors.js","@obstacles/config.js":"@obstacles/config.js","@obstacles/forces.js":"@obstacles/forces.js","@obstacles/game.js":"@obstacles/game.js","@obstacles/systems/position.js":"@obstacles/systems/position.js","@obstacles/systems/velocity.js":"@obstacles/systems/velocity.js","@shared/data-structures/group.js":"@shared/data-structures/group.js","@shared/data-structures/list.js":"@shared/data-structures/list.js","@shared/data-structures/trees/trie.js":"@shared/data-structures/trees/trie.js","@shared/ecs.js":"@shared/ecs.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/rendering/dot.js":"@shared/systems/rendering/dot.js","@shared/vectors.js":"@shared/vectors.js","@timohausmann/quadtree-js":1,"tree-kit":313}]},{},[]);
+},{"@obstacles/colors.js":"@obstacles/colors.js","@obstacles/config.js":"@obstacles/config.js","@obstacles/forces.js":"@obstacles/forces.js","@obstacles/game.js":"@obstacles/game.js","@obstacles/systems/position.js":"@obstacles/systems/position.js","@obstacles/systems/rock-sprites.js":"@obstacles/systems/rock-sprites.js","@obstacles/systems/velocity.js":"@obstacles/systems/velocity.js","@shared/data-structures/group.js":"@shared/data-structures/group.js","@shared/data-structures/list.js":"@shared/data-structures/list.js","@shared/data-structures/trees/trie.js":"@shared/data-structures/trees/trie.js","@shared/ecs.js":"@shared/ecs.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/rendering/dot.js":"@shared/systems/rendering/dot.js","@shared/vectors.js":"@shared/vectors.js","@timohausmann/quadtree-js":1,"tree-kit":313}]},{},[]);

@@ -44,19 +44,7 @@ var VelocityInterface = VelocityInterface.define("VelocityInterface", {
    },
   _clear(  ){ 
     
-      oldClear.call(this);
-      return (function() {
-        if (this.trail) {
-          this.winCount = 0;
-          this.looseCount = 0;
-          this.trail.each(((seq) => {
-          	
-            return seq.despawn();
-          
-          }));
-          return this.trail = [];
-        }
-      }).call(this);
+      return oldClear.call(this);
     
    },
   get views(  ){ 

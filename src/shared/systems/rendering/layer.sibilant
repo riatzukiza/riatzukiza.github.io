@@ -27,7 +27,6 @@
          (program (Gl.program (first shaders) (second shaders) context))
          (*members (interface.structure.Array limit))
          (buffer (Gl.buffer *members context)))
-        (print "creating layer" *members)
 
 
         (.call Pooled-system.init this

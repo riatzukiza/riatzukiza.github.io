@@ -1,19 +1,4 @@
 require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({"@obstacles/events/collision.js":[function(require,module,exports){
-Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
-
-  this.forEach(f);
-  return this;
-});
-Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
-
-  return Object.keys(this).forEach(((k) => {
-  	
-    return f(this[k], k);
-  
-  }));
-});
 var { 
   Velocity
  } = require("@obstacles/systems/velocity.js");
@@ -56,8 +41,6 @@ game.events.on("collision", ((c, c_) => {
      };
     v.pos.x = (v.priorX || v.pos.x);;
     v.pos.y = (v.priorY || v.pos.y);;
-    v_.pos.x = (v_.priorX || v_.pos.x);;
-    v_.pos.y = (v_.priorY || v_.pos.y);;
     if( (ants.has(c.entity) && ants.has(c_.entity)) ){ 
       game.events.emit("antCollision", c, c_);
       return game.events.emit("simpleCollision", c_, c);

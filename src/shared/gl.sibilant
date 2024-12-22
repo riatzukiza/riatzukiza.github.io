@@ -19,12 +19,14 @@
         (.unbind)))
 
 (def Gl.context (dimensions blend)
-  (pipe (new Andy.Context)
-        (.make-current)
-        (.resize (dots dimensions))
-        (.clear-color 0 0 0 0)
-        (.blend blend)
-        (.clear)))
+  (const context (pipe (new Andy.Context)
+                       (.make-current)
+                       (.resize (dots dimensions))
+                       (.clear-color 0 0 0 0)
+                       (.blend blend)
+                       (.clear)))
+  context
+  )
 
 (def Gl.uniform (type-name var-name value)
   (new (get Andy.Gl.Uniform type-name) var-name value))

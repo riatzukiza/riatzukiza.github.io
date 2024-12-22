@@ -10670,19 +10670,21 @@ var bound = (function() {
 var allowAlphaBlending = (function allowAlphaBlending$(context) {
   /* allow-alpha-blending eval.sibilant:1:701 */
 
-  context.gl.enable(context.gl.BLEND);
-  context.gl.blendEquation(context.gl.FUNC_ADD);
+  context.gl = context.canvas.getContext("webgl2", { 
+    premultipliedAlpha:false
+   });
+  gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
   return context.gl.blendFuncSeparate(context.gl.SRC_ALPHA, context.gl.ONE_MINUS_SRC_ALPHA, context.gl.ONE, context.gl.ONE_MINUS_SRC_ALPHA);
 });
 var Rendering = PooledSystem.define("Rendering", { 
   init( dimensions = window.size(),blend = true,context = Gl.context(dimensions, blend),layers = [] ){ 
     
       this.dimensions = dimensions;this.blend = blend;this.context = context;this.layers = layers;
-      this.interface.context = context;
-      this.interface.rendering = this;
       if( blend ){ 
         allowAlphaBlending(context)
        };
+      this.interface.context = context;
+      this.interface.rendering = this;
       PooledSystem.init.call(this);
       return this;
     
@@ -10695,7 +10697,7 @@ var Rendering = PooledSystem.define("Rendering", {
     a
    } ){ 
     
-      return this.context.makeCurrent().clearColor(...Scalar.div([ r, g, b, a ], 255));
+      return this.context.makeCurrent().clearColor(0, 0, 0, 0);
     
    },
   resize( [ width, height ] = [ this.width, this.height ],context = this.context ){ 
@@ -10711,7 +10713,7 @@ var Rendering = PooledSystem.define("Rendering", {
       return create(Rendering)(dimensions, blend);
     
    },
-  update( layers = this.layers,context = this.context ){ 
+  update( layers = this.layers,context = this.context,blend = this.blend ){ 
     
       "render each visible dot to the screen";
       return layers.each(rendered);

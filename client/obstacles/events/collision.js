@@ -1,18 +1,3 @@
-Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
-
-  this.forEach(f);
-  return this;
-});
-Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
-
-  return Object.keys(this).forEach(((k) => {
-  	
-    return f(this[k], k);
-  
-  }));
-});
 var { 
   Velocity
  } = require("@obstacles/systems/velocity.js");
@@ -55,8 +40,6 @@ game.events.on("collision", ((c, c_) => {
      };
     v.pos.x = (v.priorX || v.pos.x);;
     v.pos.y = (v.priorY || v.pos.y);;
-    v_.pos.x = (v_.priorX || v_.pos.x);;
-    v_.pos.y = (v_.priorY || v_.pos.y);;
     if( (ants.has(c.entity) && ants.has(c_.entity)) ){ 
       game.events.emit("antCollision", c, c_);
       return game.events.emit("simpleCollision", c_, c);
