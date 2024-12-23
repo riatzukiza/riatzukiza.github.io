@@ -1,9 +1,9 @@
 {
   "settingsVersion": "1.8.01",
   "makeOfflineCompatible": true,
-  "inlineAssets": false,
-  "includePluginCSS": "obsidian-auto-link-title\nobsidian-kanban",
-  "includeSvelteCSS": true,
+  "inlineAssets": true,
+  "includePluginCSS": "obsidian-kanban\nobsidian-auto-link-title\nobsidian-tasks-plugin\nobsidian-checklist-plugin",
+  "includeSvelteCSS": false,
   "titleProperty": "title",
   "customHeadContentPath": "",
   "faviconPath": "",
@@ -14,23 +14,23 @@
   "allowFoldingHeadings": true,
   "allowFoldingLists": true,
   "allowResizingSidebars": true,
-  "logLevel": "warning",
-  "minifyHTML": true,
-  "makeNamesWebStyle": true,
+  "logLevel": "all",
+  "minifyHTML": false,
+  "makeNamesWebStyle": false,
   "onlyExportModified": false,
   "deleteOldFiles": true,
   "addThemeToggle": true,
   "addOutline": true,
   "addFileNav": true,
-  "addSearchBar": true,
-  "addGraphView": true,
+  "addSearchBar": false,
+  "addGraphView": false,
   "addTitle": true,
   "addRSSFeed": true,
   "siteURL": "https://riatzukiza.github.io/",
   "authorName": "Aaron Beavers",
   "vaultTitle": "portfolio",
-  "exportPreset": "website",
-  "openAfterExport": false,
+  "exportPreset": "documents",
+  "openAfterExport": true,
   "graphAttractionForce": 1,
   "graphLinkLength": 10,
   "graphRepulsionForce": 150,
@@ -45,6 +45,9 @@
   "defaultMediaIcon": "lucide//file-image",
   "exportPath": "C:\\\\Users\\foamy\\devel\\riatzukiza.github.io\\static",
   "filesToExport": [
-    []
+    [
+      "docs",
+      "kanban"
+    ]
   ]
 }
