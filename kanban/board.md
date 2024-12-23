@@ -43,6 +43,7 @@ kanban-plugin: board
 ## Epics
 
 - [ ] [devops pipeline](tasks/devops%20pipeline.md)
+- [ ] [Move all outside work into the portfolio git](tasks/Move%20all%20outside%20work%20into%20the%20portfolio%20git.md)
 - [ ] [Import other projects](tasks/Import%20other%20projects.md)
 - [ ] [[Optimizations]]
 - [ ] [[Game Mechanics]]
@@ -55,6 +56,8 @@ kanban-plugin: board
 
 ## Blocked
 
+- [ ] [Remove duplicate code included in headers.](tasks/Remove%20duplicate%20code%20included%20in%20headers..md)
+- [ ] [Cull duplicate macros](tasks/Cull%20duplicate%20macros.md)
 - [ ] [Find unknown content warnings](tasks/Find%20unknown%20content%20warnings.md)
 - [ ] [paralell processing for each system](tasks/paralell%20processing%20for%20each%20system.md)
 	  - [blocked](blocked.md) by backend task
@@ -85,12 +88,8 @@ kanban-plugin: board
 
 ## Ready
 
-- [ ] [Move all outside work into the portfolio git](tasks/Move%20all%20outside%20work%20into%20the%20portfolio%20git.md)
 - [ ] [Mirror board to github](tasks/Mirror%20board%20to%20github.md)
-- [ ] [Cull duplicate macros](tasks/Cull%20duplicate%20macros.md)
-- [ ] [Remove duplicate code included in headers.](tasks/Remove%20duplicate%20code%20included%20in%20headers..md)
 - [ ] [camera system](tasks/camera%20system.md)
-- [ ] [Rewrite andy lib in lisp](tasks/Rewrite%20andy%20lib%20in%20lisp.md)
 - [ ] [placeable entities (rocks, plants, bases)](tasks/placeable%20entities%20(rocks,%20plants,%20bases).md)
 - [ ] [Add beautifier and beautifier to pipeline to pipeline](tasks/Add%20beautifier%20and%20beautifier%20to%20pipeline%20to%20pipeline.md)
 	  - Maybe this should be [done](done.md) at the same time as hot reloading? it is at least [blocked](blocked.md) by that task.
@@ -115,26 +114,27 @@ kanban-plugin: board
 
 ## Todo (5)
 
+- [ ] [SPIKE can we simplify object pools (2 hrs)](tasks/SPIKE%20can%20we%20simplify%20object%20pools%20(2%20hrs).md)
+- [ ] [multiple factions](tasks/multiple%20factions.md)
+- [ ] [Rewrite andy lib in lisp](tasks/Rewrite%20andy%20lib%20in%20lisp.md)
+
+
+## In Progress (2)
+
 - [ ] [[Update physics engine to increase accuracy and performance]]
 	  - Consolodate position and velocity into physics
 	  - When performing updates, do not mutate the state of the
 	last tick. Use two data structures, and swap them out [each](../docs/Pools/Dynamic/each.md) tick.
-- [ ] [SPIKE can we simplify object pools (2 hrs)](tasks/SPIKE%20can%20we%20simplify%20object%20pools%20(2%20hrs).md)
 - [ ] [unit system](tasks/unit%20system.md)
 	  - A unit is an abstraction over an entity.
 	  - Entities can be anything in the game
 	  - A unit is a dynamic collection of entities
 	- Like say a weapon, a shield
-- [ ] [multiple factions](tasks/multiple%20factions.md)
-
-
-## In Progress (2)
-
-- [ ] [[Add a project page to the website]]
 
 
 ## In Review (2)
 
+- [ ] [[Add a project page to the website]]
 
 
 ## Rejected
@@ -164,6 +164,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,true,true,true,false,false,null,true],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,false,false,false,true,false,false,false,null,true],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
