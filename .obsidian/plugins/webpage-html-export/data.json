@@ -2,7 +2,7 @@
   "settingsVersion": "1.8.01",
   "makeOfflineCompatible": false,
   "inlineAssets": false,
-  "includePluginCSS": "obsidian-kanban\nobsidian-tasks-plugin\nobsidian-checklist-plugin\nzoottelkeeper-obsidian-plugin\ngithub-issue-augmentation\ngithobs\nobsidian-tagfolder\ngithub-link",
+  "includePluginCSS": "obsidian-kanban\nobsidian-auto-link-title",
   "includeSvelteCSS": true,
   "titleProperty": "title",
   "customHeadContentPath": "",
@@ -17,7 +17,7 @@
   "logLevel": "warning",
   "minifyHTML": true,
   "makeNamesWebStyle": true,
-  "onlyExportModified": true,
+  "onlyExportModified": false,
   "deleteOldFiles": true,
   "addThemeToggle": true,
   "addOutline": true,
@@ -38,12 +38,12 @@
   "graphEdgePruning": 100,
   "graphMinNodeSize": 3,
   "graphMaxNodeSize": 7,
-  "showDefaultTreeIcons": false,
+  "showDefaultTreeIcons": true,
   "emojiStyle": "Native",
   "defaultFileIcon": "lucide//file",
   "defaultFolderIcon": "lucide//folder",
   "defaultMediaIcon": "lucide//file-image",
-  "exportPath": "/home/error/devel/portfolio/static",
+  "exportPath": "C:\\\\Users\\foamy\\devel\\riatzukiza.github.io\\static",
   "filesToExport": [
     []
   ]

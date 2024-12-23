@@ -1,15 +1,15 @@
 # Description
 
-{{Description}}
+Each agent needs to decided how to weight the various signal fields it will be interacting with based on it's current goals.
 
 ## Related Epics
-- [[Identify and write useful templates for obsidian]] 
+- [[Game Mechanics]]
+- [[movement commands]]
+- [[Game AI]]
 ## Requirements
 
-{{Requirements}}
-- High level expecations
-- Acceptance criteria
-- Definition of done
+- Agent is able to decide which fields to weight the most based on it's current goals.
+- User is able to influence those goals by issuing commands and setting agendas.
 
 ## Tasks 
 

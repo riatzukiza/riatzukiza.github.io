@@ -1,35 +1,27 @@
 # Description
 
-{{Description}}
+The elevation at a given location will change the movement characteristics of that location. Water will fall down slope, units will have a harder time moving up them than down them, in some cases they will not be able to overcome the gravity.
 
 ## Related Epics
-- [[Identify and write useful templates for obsidian]] 
+- [[Game Mechanics]]
+- [[Graphics]]
 ## Requirements
 
-{{Requirements}}
-- High level expecations
-- Acceptance criteria
-- Definition of done
+- Units move differently on locations with higher or lower slopes
+- Fluids fall down slope
+- static objects will slide down a slope if the static friction is overcome by the force of gravity given a slopes angle
+- Elevation is visually distinguishable 
 
 ## Tasks 
 
-{{Tasks}}
+- [ ] Implement elevation component system for tile entities
+- [ ] Implement systems for units that interact with elevation
+- [ ] Implement systems for fluids that interact with elevation
+- [ ] Implement systems for static objects that interact with elevation
 
-- [ ] Somthing that needs to be done to accomplish this task
-- [ ] Non exhaustive, suggestive
-- [ ] Represents expected high level steps to meet AC
 ## Blocked by 
 
-{{BlockedBy}}
-
-- Can't be worked on till this task is done
-- blocking task
-- blocking task
-
-## Blocks
-
-{{Blocks}}
-
-- This task cannot be done until this one is done.
-- neither can this one
-- or this one
+- [[ground tiles]]
+- [[unit system]]
+- [[static object system]]
+- [[Update physics engine to increase accuracy and performance]]
