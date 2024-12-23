@@ -13,3 +13,7 @@ Basicly everything on my resume must be in some way present on this website.
 - Explains what I am about
 - Has links to my github, linkedin, twitter, blue sky, etc
 - Has links to the projects I have worked on
+
+## Review
+
+I have a color pallette I am working from, and a basic layout of the home page. I started working on the project page next. I need to have stuff to show off  on the website to use it.

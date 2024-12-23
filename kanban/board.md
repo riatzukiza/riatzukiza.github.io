@@ -115,7 +115,6 @@ kanban-plugin: board
 
 ## Todo (5)
 
-- [ ] [[Add a project page to the website]]
 - [ ] [[Update physics engine to increase accuracy and performance]]
 	  - Consolodate position and velocity into physics
 	  - When performing updates, do not mutate the state of the
@@ -131,12 +130,11 @@ kanban-plugin: board
 
 ## In Progress (2)
 
+- [ ] [[Add a project page to the website]]
 
 
 ## In Review (2)
 
-- [ ] [Home page](tasks/Home%20page.md)
-- [ ] [Design theme for website.](tasks/Design%20theme%20for%20website..md)
 
 
 ## Rejected
@@ -151,6 +149,8 @@ kanban-plugin: board
 ## Done
 
 **Complete**
+- [x] [Design theme for website.](tasks/Design%20theme%20for%20website..md) ✅ 2024-12-23
+- [x] [Home page](tasks/Home%20page.md) ✅ 2024-12-23
 - [x] [settings interface](tasks/settings%20interface.md) ✅ 2024-12-22
 - [ ] [config system](tasks/config%20system.md)
 	  - we just kinda did this one before moving it through the board :shrug:
@@ -164,6 +164,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,false,false,false,false,true,false,false,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,true,true,true,false,false,null,true],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
