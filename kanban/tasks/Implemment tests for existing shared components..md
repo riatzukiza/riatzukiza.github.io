@@ -1,1 +1,0 @@
-We need a suite of tests to garentee each component works and doesn't break other projects when changes are made as we begin work on more projects.

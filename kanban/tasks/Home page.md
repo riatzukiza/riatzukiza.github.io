@@ -9,7 +9,6 @@ Basicly everything on my resume must be in some way present on this website.
 
 ## Requirements
 
-- Uses MUI to look good
 - Has a navagation menu
 - Explains what I am about
 - Has links to my github, linkedin, twitter, blue sky, etc
