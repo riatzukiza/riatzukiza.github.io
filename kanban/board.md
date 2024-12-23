@@ -84,16 +84,23 @@ kanban-plugin: board
 
 ## Ready
 
-- [ ] [Add beautifier and beautifier to pipeline to pipeline](tasks/Add%20beautifier%20and%20beautifier%20to%20pipeline%20to%20pipeline.md)
-	  - Maybe this should be [done](done.md) at the same time as hot reloading? it is at least [blocked](blocked.md) by that task.
-- [ ] [github readme](tasks/github%20readme.md)
-	  - The [readme](../readme.md) can be generated from this kanban through simple concatonation.
 - [ ] [Hot reload system](tasks/Hot%20reload%20system.md)
 	  - Create a seperate pipeline for development and production
+- [ ] [Rewrite andy lib in lisp](tasks/Rewrite%20andy%20lib%20in%20lisp.md)
 - [ ] [Enhance document macros](tasks/Enhance%20document%20macros.md)
 - [ ] [Brain storm new projects](tasks/Brain%20storm%20new%20projects.md)
+- [ ] [multiple factions](tasks/multiple%20factions.md)
 - [ ] [Implement tests for existing shared components.](Implement%20tests%20for%20existing%20shared%20components..md)
 - [ ] [Mirror board to github](tasks/Mirror%20board%20to%20github.md)
+- [ ] [[Update physics engine to increase accuracy and performance]]
+	  - Consolodate position and velocity into physics
+	  - When performing updates, do not mutate the state of the
+	last tick. Use two data structures, and swap them out [each](../docs/Pools/Dynamic/each.md) tick.
+- [ ] [unit system](tasks/unit%20system.md)
+	  - A unit is an abstraction over an entity.
+	  - Entities can be anything in the game
+	  - A unit is a dynamic collection of entities
+	- Like say a weapon, a shield
 - [ ] [deletable entites](tasks/deletable%20entites.md)
 	  - Entities can be deleted from a panel
 - [ ] [placeable entities (rocks, plants, bases)](tasks/placeable%20entities%20(rocks,%20plants,%20bases).md)
@@ -113,23 +120,16 @@ kanban-plugin: board
 
 ## Todo (5)
 
-- [ ] [multiple factions](tasks/multiple%20factions.md)
-- [ ] [Rewrite andy lib in lisp](tasks/Rewrite%20andy%20lib%20in%20lisp.md)
 - [ ] [move kit fs](tasks/move%20kit%20fs.md)
 - [ ] [chat app](tasks/chat%20app.md)
+- [ ] [github readme](tasks/github%20readme.md)
+	  - The [readme](../readme.md) can be generated from this kanban through simple concatonation.
+- [ ] [Add beautifier and beautifier to pipeline to pipeline](tasks/Add%20beautifier%20and%20beautifier%20to%20pipeline%20to%20pipeline.md)
+	  - Maybe this should be [done](done.md) at the same time as hot reloading? it is at least [blocked](blocked.md) by that task.
 
 
 ## In Progress (2)
 
-- [ ] [[Update physics engine to increase accuracy and performance]]
-	  - Consolodate position and velocity into physics
-	  - When performing updates, do not mutate the state of the
-	last tick. Use two data structures, and swap them out [each](../docs/Pools/Dynamic/each.md) tick.
-- [ ] [unit system](tasks/unit%20system.md)
-	  - A unit is an abstraction over an entity.
-	  - Entities can be anything in the game
-	  - A unit is a dynamic collection of entities
-	- Like say a weapon, a shield
 
 
 ## In Review (2)

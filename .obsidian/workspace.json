@@ -4,38 +4,39 @@
     "type": "split",
     "children": [
       {
-        "id": "ea13481075c591e8",
+        "id": "f2c95c94b69fa38c",
         "type": "tabs",
         "children": [
           {
-            "id": "f1e3feef9d680606",
+            "id": "4e6c0287c33a1e30",
             "type": "leaf",
             "state": {
-              "type": "kanban",
+              "type": "markdown",
               "state": {
-                "file": "kanban/board.md",
-                "kanbanViewState": {
-                  "kanban-plugin": "board",
-                  "list-collapse": [
-                    true,
-                    false,
-                    false,
-                    false,
-                    false,
-                    true,
-                    false,
-                    false,
-                    false,
-                    null,
-                    true
-                  ]
-                }
+                "file": "kanban/process.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-trello",
-              "title": "board"
+              "icon": "lucide-file",
+              "title": "process"
+            }
+          },
+          {
+            "id": "367eac1a99bcd8ca",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "kanban/tasks/move kit core.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "move kit core"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -254,35 +255,35 @@
       "smart-connections:Open: Smart Chat Conversation": false
     }
   },
-  "active": "f1e3feef9d680606",
+  "active": "367eac1a99bcd8ca",
   "lastOpenFiles": [
-    "kanban/tasks/file explorer.md",
     "kanban/board.md",
-    "kanban/tasks/chat app.md",
-    "kanban/tasks/Dynamic pools for renderables..md",
-    "kanban/tasks/Implement tests for existing shared components..md",
-    "kanban/tasks/move kit fs.md",
-    "kanban/tasks/Cull duplicate macros.md",
-    "kanban/tasks/Import other projects.md",
     "kanban/tasks/Add a project page to the website.md",
-    "Add a project page to the website.md",
-    "kanban/tasks/Design theme for website..md",
-    "static/obstacles.html",
-    "kanban/tasks/Home page.md",
-    "docs/readme.md",
-    "kanban/tasks/weather system.md",
-    "kanban/tasks/sprite lighting.md",
-    "kanban/tasks/shadows.md",
-    "kanban/tasks/night day cycle.md",
-    "kanban/tasks/neural network for signal field hyerparameter adjustments.md",
-    "kanban/tasks/movement commands.md",
-    "kanban/tasks/minimap.md",
-    "kanban/tasks/flying units.md",
     "Colors.md",
+    "Add a project page to the website.md",
+    "kanban/tasks/Home page.md",
+    "kanban/process.md",
     "kanban/project.md",
-    "kanban/tasks/Move fork of sibilant into git.md",
-    "kanban/tasks/settings interface.md",
-    "docs 1.sibilant.md",
+    "kanban/tasks/3d gravity using babylon.md",
+    "kanban/tasks/move kit core.md",
+    "kanban/tasks/weather system.md",
+    "kanban/tasks/github readme.md",
+    "kanban/tasks/Game Mechanics.md",
+    "kanban/epics",
+    "kanban/tasks/sprite lighting.md",
+    "kanban/tasks/Game UI.md",
+    "kanban/tasks/Website Design.md",
+    "kanban/tasks/Graphics.md",
+    "kanban/tasks/Better sprite rotation.md",
+    "kanban/tasks/Sprite sheets.md",
+    "kanban/tasks/add game of life to portfolio.md",
+    "kanban/tasks/Find unknown content warnings.md",
+    "kanban/tasks/Implement tests for existing shared components..md",
+    "kanban/tasks/Toggle coordinate wrap around.md",
+    "kanban/tasks/move kit http.md",
+    "kanban/tasks/Identify and write useful templates for obsidian.md",
+    "kanban/tasks/neural network for signal field hyerparameter adjustments.md",
+    "kanban/tasks/Individual ant neural networks.md",
     "inc/docs.sibilant",
     "kanban/templates",
     "Untitled",
