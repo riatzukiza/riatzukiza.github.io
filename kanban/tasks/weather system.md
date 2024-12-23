@@ -1,35 +1,29 @@
 # Description
 
-{{Description}}
-
+Weather effects how real plants grow, we have an issue now where plants usually grow uncontrollably, or completely disappear due to consumption by the ants. The plants need a limiting growth factor other than the plants consuming them if they are to be able to grow enough to not disapear so the ants can actually find them.
 ## Related Epics
-- [[Identify and write useful templates for obsidian]] 
+- [[Game Mechanics]]
 ## Requirements
 
-{{Requirements}}
-- High level expecations
-- Acceptance criteria
-- Definition of done
+- The weather changes over time in the game
+- There are multiple weather types:
+	- Cloudy
+	- sunny
+	- rainy
+	- snowy
+- There is a temperature system
+- Water accumulates on the ground due to rainfall.
+- Water evaporates in the sun
+- plants use water to grow
 
 ## Tasks 
 
-{{Tasks}}
-
-- [ ] Somthing that needs to be done to accomplish this task
-- [ ] Non exhaustive, suggestive
-- [ ] Represents expected high level steps to meet AC
+- [ ] Implement water system
+- [ ] Implement evaporation
+- [ ] Implement rainfall
+- [ ] implement lighting system
 ## Blocked by 
 
-{{BlockedBy}}
-
-- Can't be worked on till this task is done
-- blocking task
-- blocking task
-
-## Blocks
-
-{{Blocks}}
-
-- This task cannot be done until this one is done.
-- neither can this one
-- or this one
+- [[sprite lighting]]
+- [[ground tiles]]
+- [[Water resource]]

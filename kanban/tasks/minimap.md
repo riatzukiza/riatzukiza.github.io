@@ -1,35 +1,21 @@
 # Description
 
-{{Description}}
+Allow users to see what is going on in a small view to the side of the main one.
+The minimap will basicly be what the game looked like before we added sprites.
 
 ## Related Epics
-- [[Identify and write useful templates for obsidian]] 
+- [[Game Mechanics]]
+- [[Graphics]]
 ## Requirements
 
-{{Requirements}}
-- High level expecations
-- Acceptance criteria
-- Definition of done
+- Entire map is viewable in the panel
+- camera can be navigated by interacting with the minimap
+- Entities are viewable in the mini map
 
 ## Tasks 
 
-{{Tasks}}
-
-- [ ] Somthing that needs to be done to accomplish this task
-- [ ] Non exhaustive, suggestive
-- [ ] Represents expected high level steps to meet AC
+- [ ] Implement minimap display element
+- [ ] implement minimap click events
 ## Blocked by 
 
-{{BlockedBy}}
-
-- Can't be worked on till this task is done
-- blocking task
-- blocking task
-
-## Blocks
-
-{{Blocks}}
-
-- This task cannot be done until this one is done.
-- neither can this one
-- or this one
+- [[camera system]]

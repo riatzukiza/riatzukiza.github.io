@@ -1,23 +1,19 @@
 # Description
 
-{{Description}}
+The current implementation of sprite rotations uses trig, I was getting frustrated and wwanted somthing that "worked", and I wasn't understanding the matrix code. The current version of sprites has artifacts around the edges if the image has pixels close to the edge.
 
 ## Related Epics
 - [[graphics]]
 ## Requirements
 
-{{Requirements}}
-- High level expecations
-- Acceptance criteria
-- Definition of done
+- Uses rotation matrix
+- Demonstrate higher performance than current implementation
 
 ## Tasks 
 
-{{Tasks}}
-
-- [ ] Somthing that needs to be done to accomplish this task
-- [ ] Non exhaustive, suggestive
-- [ ] Represents expected high level steps to meet AC
+- [ ] Write new shader 
+- [ ] Writer new component system
+- [ ] Write a new project that spawns a lot of sprites to compare the performance of the current implementation, the old implementation, and the new implementation.
 ## Blocked by 
 
 {{BlockedBy}}
