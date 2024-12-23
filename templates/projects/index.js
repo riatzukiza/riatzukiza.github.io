@@ -33,6 +33,7 @@ ${".iframe-container iframe"}{
   height:${"calc(100% - 16px)"};
   overflow:${"hidden"};
   pointer-events:${"none"};
+  z-index:${"-100"};
 }
 `, `
 ${".panel"}{
@@ -82,7 +83,7 @@ ${"a"}{
   color:${"#cccccc"};
 }
 ` ]), create(HtmlElement)("script", { 'src': "https://cdn.jsdelivr.net/quicksettings/3.0/quicksettings.min.js" }, []) ]), create(HtmlElement)("script", { 'src': "/socket.io/socket.io.js" }, []), (function() {
-  /* eval.sibilant:89:6 */
+  /* eval.sibilant:90:6 */
 
   var { 
     FileSystem
@@ -94,7 +95,7 @@ ${"a"}{
   
   }));
 }).call(this), (function() {
-  /* eval.sibilant:93:6 */
+  /* eval.sibilant:94:6 */
 
   var { 
     FileSystem
@@ -113,19 +114,17 @@ ${"a"}{
 	
   return clientDir.map(((dir) => {
   	
-    return create(HtmlElement)("div", {
-      'class': "iframe-container",
-      'onclick': "((e) => {\n" +
-      "	\n" +
-      "  alert(\"yo\");\n" +
-      "  return window.location = (\"/projects/\" + e.target.id + \".html\");\n" +
-      "\n" +
-      "})"
-    }, [ create(HtmlElement)("iframe", {
+    return create(HtmlElement)("a", {
+      'href': ("/projects/" + Path.basename(dir.path) + ".html"),
+      'target': "_blank"
+    }, [ create(HtmlElement)("div", { 'class': "iframe-container" }, [ create(HtmlElement)("iframe", {
       'class': "project-preview",
+      'frameborder': "0",
+      'height': "100%",
+      'width': "100%",
       'src': ("/projects/" + Path.basename(dir.path) + ".html"),
       'id': Path.basename(dir.path)
-    }, []) ]);
+    }, []) ]) ]);
   
   }));
 

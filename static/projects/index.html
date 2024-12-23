@@ -28,6 +28,7 @@
   height:calc(100% - 16px);
   overflow:hidden;
   pointer-events:none;
+  z-index:-100;
 }
 
 .panel{
@@ -206,20 +207,15 @@ a{
 </html>
 </nav>
 </header>
-<main id='main' ><div class='iframe-container'  onclick='((e) => {
-	
-  alert("yo");
-  return window.location = ("/projects/" + e.target.id + ".html");
-
-})' ><iframe class='project-preview'  src='/projects/obstacles.html'  id='obstacles' ></iframe>
+<main id='main' ><a href='/projects/obstacles.html'  target='_blank' ><div class='iframe-container' ><iframe class='project-preview'  frameborder='0'  height='100%'  width='100%'  src='/projects/obstacles.html'  id='obstacles' ></iframe>
 </div>
-<div class='iframe-container'  onclick='((e) => {
-	
-  alert("yo");
-  return window.location = ("/projects/" + e.target.id + ".html");
-
-})' ><iframe class='project-preview'  src='/projects/tests.html'  id='tests' ></iframe>
+</a>
+<a href='/projects/red-black-tree-visualization.html'  target='_blank' ><div class='iframe-container' ><iframe class='project-preview'  frameborder='0'  height='100%'  width='100%'  src='/projects/red-black-tree-visualization.html'  id='red-black-tree-visualization' ></iframe>
 </div>
+</a>
+<a href='/projects/tests.html'  target='_blank' ><div class='iframe-container' ><iframe class='project-preview'  frameborder='0'  height='100%'  width='100%'  src='/projects/tests.html'  id='tests' ></iframe>
+</div>
+</a>
 </main>
 <footer id='footer' ><section id='links' ><a href='https://www.linkedin.com/in/aaron-beavers-76b13aa7/' >linkedin</a>
 <a href='https://x.com/anomalous_error' >Twitter/X</a>
