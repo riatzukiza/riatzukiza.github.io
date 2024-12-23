@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Add a project page to the website.md",
+                "file": "kanban/tasks/Add a project page to the website.md",
                 "mode": "source",
                 "source": false
               },
@@ -242,8 +242,8 @@
   },
   "active": "f1e3feef9d680606",
   "lastOpenFiles": [
-    "kanban/board.md",
     "Add a project page to the website.md",
+    "kanban/board.md",
     "kanban/tasks/Design theme for website..md",
     "static/obstacles.html",
     "kanban/tasks/Home page.md",
