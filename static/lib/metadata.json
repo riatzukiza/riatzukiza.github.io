@@ -1,6 +1,6 @@
 {
   "vaultName": "portfolio",
-  "lastExport": 1734994020053,
+  "lastExport": 1734994799508,
   "pluginVersion": "1.8.01",
   "validBodyClasses": "publish css-settings-manager theme-dark show-inline-title show-ribbon",
   "useCustomHeadContent": false,
@@ -143,6 +143,7 @@
     "kanban/done.md",
     "kanban/process.md",
     "kanban/project.md",
+    "lib/scripts/graph-wasm.wasm",
     "lib/fonts/94f2f163d4b698242fef.otf",
     "lib/fonts/72505e6a122c6acd5471.woff2",
     "lib/fonts/2d5198822ab091ce4305.woff2",
@@ -156,9 +157,25 @@
     "lib/fonts/52ac8f3034507f1d9e53.ttf",
     "lib/fonts/05b618077343fbbd92b7.ttf",
     "lib/fonts/4bb6ac751d1c5478ff3a.woff2",
-    "lib/media/874d8b8e340f75575caa.svg"
+    "lib/media/874d8b8e340f75575caa.svg",
+    "lib/html/file-tree.html",
+    "lib/scripts/webpage.js",
+    "lib/scripts/graph-view.js",
+    "lib/scripts/graph-wasm.js",
+    "lib/scripts/graph-render-worker.js",
+    "lib/scripts/tinycolor.js",
+    "lib/scripts/pixi.js",
+    "lib/scripts/minisearch.js",
+    "lib/media/favicon.png",
+    "lib/scripts/graph-data.js",
+    "lib/styles/obsidian.css",
+    "lib/styles/other-plugins.css",
+    "lib/styles/theme.css",
+    "lib/styles/global-variable-styles.css",
+    "lib/styles/main-styles.css"
   ],
   "mainDependencies": [
+    "lib/scripts/graph-wasm.wasm",
     "lib/fonts/94f2f163d4b698242fef.otf",
     "lib/fonts/72505e6a122c6acd5471.woff2",
     "lib/fonts/2d5198822ab091ce4305.woff2",
@@ -172,1007 +189,1022 @@
     "lib/fonts/52ac8f3034507f1d9e53.ttf",
     "lib/fonts/05b618077343fbbd92b7.ttf",
     "lib/fonts/4bb6ac751d1c5478ff3a.woff2",
-    "lib/media/874d8b8e340f75575caa.svg"
+    "lib/media/874d8b8e340f75575caa.svg",
+    "lib/html/file-tree.html",
+    "lib/scripts/webpage.js",
+    "lib/scripts/graph-view.js",
+    "lib/scripts/graph-wasm.js",
+    "lib/scripts/graph-render-worker.js",
+    "lib/scripts/tinycolor.js",
+    "lib/scripts/pixi.js",
+    "lib/scripts/minisearch.js",
+    "lib/media/favicon.png",
+    "lib/scripts/graph-data.js",
+    "lib/styles/obsidian.css",
+    "lib/styles/other-plugins.css",
+    "lib/styles/theme.css",
+    "lib/styles/global-variable-styles.css",
+    "lib/styles/main-styles.css"
   ],
   "fileInfo": {
     "lib/scripts/graph-wasm.wasm": {
-      "modifiedTime": 1734993157100,
+      "modifiedTime": 1734994799508,
       "sourceSize": 23377,
       "exportedPath": "lib/scripts/graph-wasm.wasm",
       "dependencies": []
     },
     "lib/fonts/94f2f163d4b698242fef.otf": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 66800,
       "exportedPath": "lib/fonts/94f2f163d4b698242fef.otf",
       "dependencies": []
     },
     "lib/fonts/72505e6a122c6acd5471.woff2": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 104232,
       "exportedPath": "lib/fonts/72505e6a122c6acd5471.woff2",
       "dependencies": []
     },
     "lib/fonts/2d5198822ab091ce4305.woff2": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 104332,
       "exportedPath": "lib/fonts/2d5198822ab091ce4305.woff2",
       "dependencies": []
     },
     "lib/fonts/c8ba52b05a9ef10f4758.woff2": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 98868,
       "exportedPath": "lib/fonts/c8ba52b05a9ef10f4758.woff2",
       "dependencies": []
     },
     "lib/fonts/cb10ffd7684cd9836a05.woff2": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 106876,
       "exportedPath": "lib/fonts/cb10ffd7684cd9836a05.woff2",
       "dependencies": []
     },
     "lib/fonts/b5f0f109bc88052d4000.woff2": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 105804,
       "exportedPath": "lib/fonts/b5f0f109bc88052d4000.woff2",
       "dependencies": []
     },
     "lib/fonts/cbe0ae49c52c920fd563.woff2": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 106108,
       "exportedPath": "lib/fonts/cbe0ae49c52c920fd563.woff2",
       "dependencies": []
     },
     "lib/fonts/535a6cf662596b3bd6a6.woff2": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 111708,
       "exportedPath": "lib/fonts/535a6cf662596b3bd6a6.woff2",
       "dependencies": []
     },
     "lib/fonts/70cc7ff27245e82ad414.ttf": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 192740,
       "exportedPath": "lib/fonts/70cc7ff27245e82ad414.ttf",
       "dependencies": []
     },
     "lib/fonts/454577c22304619db035.ttf": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 161376,
       "exportedPath": "lib/fonts/454577c22304619db035.ttf",
       "dependencies": []
     },
     "lib/fonts/52ac8f3034507f1d9e53.ttf": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 191568,
       "exportedPath": "lib/fonts/52ac8f3034507f1d9e53.ttf",
       "dependencies": []
     },
     "lib/fonts/05b618077343fbbd92b7.ttf": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 155288,
       "exportedPath": "lib/fonts/05b618077343fbbd92b7.ttf",
       "dependencies": []
     },
     "lib/fonts/4bb6ac751d1c5478ff3a.woff2": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 7876,
       "exportedPath": "lib/fonts/4bb6ac751d1c5478ff3a.woff2",
       "dependencies": []
     },
     "lib/media/874d8b8e340f75575caa.svg": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 317,
       "exportedPath": "lib/media/874d8b8e340f75575caa.svg",
       "dependencies": []
     },
     "lib/html/file-tree.html": {
-      "modifiedTime": 1734993157100,
+      "modifiedTime": 1734994799508,
       "sourceSize": 120237,
       "exportedPath": "lib/html/file-tree.html",
       "dependencies": []
     },
     "lib/scripts/webpage.js": {
-      "modifiedTime": 1734993157100,
+      "modifiedTime": 1734994799508,
       "sourceSize": 47290,
       "exportedPath": "lib/scripts/webpage.js",
       "dependencies": []
     },
     "lib/scripts/graph-view.js": {
-      "modifiedTime": 1734993157100,
+      "modifiedTime": 1734994799508,
       "sourceSize": 15519,
       "exportedPath": "lib/scripts/graph-view.js",
       "dependencies": []
     },
     "lib/scripts/graph-wasm.js": {
-      "modifiedTime": 1734993157100,
+      "modifiedTime": 1734994799508,
       "sourceSize": 14021,
       "exportedPath": "lib/scripts/graph-wasm.js",
       "dependencies": []
     },
     "lib/scripts/graph-render-worker.js": {
-      "modifiedTime": 1734993157100,
+      "modifiedTime": 1734994799508,
       "sourceSize": 5179,
       "exportedPath": "lib/scripts/graph-render-worker.js",
       "dependencies": []
     },
     "lib/scripts/tinycolor.js": {
-      "modifiedTime": 1734993157100,
+      "modifiedTime": 1734994799508,
       "sourceSize": 29832,
       "exportedPath": "lib/scripts/tinycolor.js",
       "dependencies": []
     },
     "lib/scripts/pixi.js": {
-      "modifiedTime": 1734993157100,
+      "modifiedTime": 1734994799508,
       "sourceSize": 449509,
       "exportedPath": "lib/scripts/pixi.js",
       "dependencies": []
     },
     "lib/scripts/minisearch.js": {
-      "modifiedTime": 1734993157100,
+      "modifiedTime": 1734994799508,
       "sourceSize": 29422,
       "exportedPath": "lib/scripts/minisearch.js",
       "dependencies": []
     },
     "lib/media/favicon.png": {
-      "modifiedTime": 1734993157100,
+      "modifiedTime": 1734994799508,
       "sourceSize": 1105,
       "exportedPath": "lib/media/favicon.png",
       "dependencies": []
     },
     "lib/scripts/graph-data.js": {
-      "modifiedTime": 1734993157100,
+      "modifiedTime": 1734994799508,
       "sourceSize": 14078,
       "exportedPath": "lib/scripts/graph-data.js",
       "dependencies": []
     },
     "lib/styles/obsidian.css": {
-      "modifiedTime": 1734993157100,
+      "modifiedTime": 1734994799508,
       "sourceSize": 131118,
       "exportedPath": "lib/styles/obsidian.css",
       "dependencies": []
     },
     "lib/styles/other-plugins.css": {
-      "modifiedTime": 1734993157100,
-      "sourceSize": 60652,
+      "modifiedTime": 1734994799508,
+      "sourceSize": 72313,
       "exportedPath": "lib/styles/other-plugins.css",
       "dependencies": []
     },
     "lib/styles/theme.css": {
-      "modifiedTime": 1734993157100,
+      "modifiedTime": 1734994799508,
       "sourceSize": 13428,
       "exportedPath": "lib/styles/theme.css",
       "dependencies": []
     },
     "lib/styles/global-variable-styles.css": {
-      "modifiedTime": 1734993157100,
-      "sourceSize": 236,
+      "modifiedTime": 1734994799508,
+      "sourceSize": 232,
       "exportedPath": "lib/styles/global-variable-styles.css",
       "dependencies": []
     },
     "lib/styles/main-styles.css": {
-      "modifiedTime": 1734993157100,
+      "modifiedTime": 1734994799508,
       "sourceSize": 23130,
       "exportedPath": "lib/styles/main-styles.css",
       "dependencies": []
     },
     "kanban/tasks/_Index_of_tasks.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 5978,
-      "exportedPath": "kanban/tasks/_Index_of_tasks.html",
+      "exportedPath": "kanban/tasks/_index_of_tasks.html",
       "dependencies": []
     },
     "kanban/tasks/3d gravity using babylon.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 608,
-      "exportedPath": "kanban/tasks/3d gravity using babylon.html",
+      "exportedPath": "kanban/tasks/3d-gravity-using-babylon.html",
       "dependencies": []
     },
     "kanban/tasks/a gpu implementation for signal fields and vector math..md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 121,
-      "exportedPath": "kanban/tasks/a gpu implementation for signal fields and vector math..html",
+      "exportedPath": "kanban/tasks/a-gpu-implementation-for-signal-fields-and-vector-math..html",
       "dependencies": []
     },
     "kanban/tasks/Add a project page to the website.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 732,
-      "exportedPath": "kanban/tasks/Add a project page to the website.html",
+      "exportedPath": "kanban/tasks/add-a-project-page-to-the-website.html",
       "dependencies": []
     },
     "kanban/tasks/Add beautifier and beautifier to pipeline to pipeline.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 398,
-      "exportedPath": "kanban/tasks/Add beautifier and beautifier to pipeline to pipeline.html",
+      "exportedPath": "kanban/tasks/add-beautifier-and-beautifier-to-pipeline-to-pipeline.html",
       "dependencies": []
     },
     "kanban/tasks/add game of life to portfolio.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 247,
-      "exportedPath": "kanban/tasks/add game of life to portfolio.html",
+      "exportedPath": "kanban/tasks/add-game-of-life-to-portfolio.html",
       "dependencies": []
     },
     "kanban/tasks/attack system.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 187,
-      "exportedPath": "kanban/tasks/attack system.html",
+      "exportedPath": "kanban/tasks/attack-system.html",
       "dependencies": []
     },
     "kanban/tasks/Better sprite rotation.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 870,
-      "exportedPath": "kanban/tasks/Better sprite rotation.html",
+      "exportedPath": "kanban/tasks/better-sprite-rotation.html",
       "dependencies": []
     },
     "kanban/tasks/blog.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 573,
       "exportedPath": "kanban/tasks/blog.html",
       "dependencies": []
     },
     "kanban/tasks/Brain storm new projects.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 427,
-      "exportedPath": "kanban/tasks/Brain storm new projects.html",
+      "exportedPath": "kanban/tasks/brain-storm-new-projects.html",
       "dependencies": []
     },
     "kanban/tasks/browser based lisp shell.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 598,
-      "exportedPath": "kanban/tasks/browser based lisp shell.html",
+      "exportedPath": "kanban/tasks/browser-based-lisp-shell.html",
       "dependencies": []
     },
     "kanban/tasks/BUG Collision doesn't work correctly in some circumstances..md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 557,
-      "exportedPath": "kanban/tasks/BUG Collision doesn't work correctly in some circumstances..html",
+      "exportedPath": "kanban/tasks/bug-collision-doesn't-work-correctly-in-some-circumstances..html",
       "dependencies": []
     },
     "kanban/tasks/BUG Rendering background color setter never seems to work..md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 194,
-      "exportedPath": "kanban/tasks/BUG Rendering background color setter never seems to work..html",
+      "exportedPath": "kanban/tasks/bug-rendering-background-color-setter-never-seems-to-work..html",
       "dependencies": []
     },
     "kanban/tasks/Building system.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 445,
-      "exportedPath": "kanban/tasks/Building system.html",
+      "exportedPath": "kanban/tasks/building-system.html",
       "dependencies": []
     },
     "kanban/tasks/camera system.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 349,
-      "exportedPath": "kanban/tasks/camera system.html",
+      "exportedPath": "kanban/tasks/camera-system.html",
       "dependencies": []
     },
     "kanban/tasks/chat app.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 478,
-      "exportedPath": "kanban/tasks/chat app.html",
+      "exportedPath": "kanban/tasks/chat-app.html",
       "dependencies": []
     },
     "kanban/tasks/Commit messages generated by LLM.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 734,
-      "exportedPath": "kanban/tasks/Commit messages generated by LLM.html",
+      "exportedPath": "kanban/tasks/commit-messages-generated-by-llm.html",
       "dependencies": []
     },
     "kanban/tasks/config system.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 646,
-      "exportedPath": "kanban/tasks/config system.html",
+      "exportedPath": "kanban/tasks/config-system.html",
       "dependencies": []
     },
     "kanban/tasks/Cull duplicate macros.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 1158,
-      "exportedPath": "kanban/tasks/Cull duplicate macros.html",
+      "exportedPath": "kanban/tasks/cull-duplicate-macros.html",
       "dependencies": []
     },
     "kanban/tasks/deletable entites.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 146,
-      "exportedPath": "kanban/tasks/deletable entites.html",
+      "exportedPath": "kanban/tasks/deletable-entites.html",
       "dependencies": []
     },
     "kanban/tasks/Design theme for website..md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 536,
-      "exportedPath": "kanban/tasks/Design theme for website..html",
+      "exportedPath": "kanban/tasks/design-theme-for-website..html",
       "dependencies": []
     },
     "kanban/tasks/devops pipeline.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 475,
-      "exportedPath": "kanban/tasks/devops pipeline.html",
+      "exportedPath": "kanban/tasks/devops-pipeline.html",
       "dependencies": []
     },
     "kanban/tasks/DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files..md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 167,
-      "exportedPath": "kanban/tasks/DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files..html",
+      "exportedPath": "kanban/tasks/devops-sibilant-transpiler-should-create-less-noise-in-pull-requests-when-acting-on-unchanged-files..html",
       "dependencies": []
     },
     "kanban/tasks/documentation.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 669,
       "exportedPath": "kanban/tasks/documentation.html",
       "dependencies": []
     },
     "kanban/tasks/Dynamic pools for renderables..md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 530,
-      "exportedPath": "kanban/tasks/Dynamic pools for renderables..html",
+      "exportedPath": "kanban/tasks/dynamic-pools-for-renderables..html",
       "dependencies": []
     },
     "kanban/tasks/Electron client.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 516,
-      "exportedPath": "kanban/tasks/Electron client.html",
+      "exportedPath": "kanban/tasks/electron-client.html",
       "dependencies": []
     },
     "kanban/tasks/elevation.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 1000,
       "exportedPath": "kanban/tasks/elevation.html",
       "dependencies": []
     },
     "kanban/tasks/Enhance document macros.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 663,
-      "exportedPath": "kanban/tasks/Enhance document macros.html",
+      "exportedPath": "kanban/tasks/enhance-document-macros.html",
       "dependencies": []
     },
     "kanban/tasks/file explorer.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 1030,
-      "exportedPath": "kanban/tasks/file explorer.html",
+      "exportedPath": "kanban/tasks/file-explorer.html",
       "dependencies": []
     },
     "kanban/tasks/Find unknown content warnings.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 224,
-      "exportedPath": "kanban/tasks/Find unknown content warnings.html",
+      "exportedPath": "kanban/tasks/find-unknown-content-warnings.html",
       "dependencies": []
     },
     "kanban/tasks/flying units.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 596,
-      "exportedPath": "kanban/tasks/flying units.html",
+      "exportedPath": "kanban/tasks/flying-units.html",
       "dependencies": []
     },
     "kanban/tasks/Game AI.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 1084,
-      "exportedPath": "kanban/tasks/Game AI.html",
+      "exportedPath": "kanban/tasks/game-ai.html",
       "dependencies": []
     },
     "kanban/tasks/Game Mechanics.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 200,
-      "exportedPath": "kanban/tasks/Game Mechanics.html",
+      "exportedPath": "kanban/tasks/game-mechanics.html",
       "dependencies": []
     },
     "kanban/tasks/Game UI.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 596,
-      "exportedPath": "kanban/tasks/Game UI.html",
+      "exportedPath": "kanban/tasks/game-ui.html",
       "dependencies": []
     },
     "kanban/tasks/github readme.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 496,
-      "exportedPath": "kanban/tasks/github readme.html",
+      "exportedPath": "kanban/tasks/github-readme.html",
       "dependencies": []
     },
     "kanban/tasks/Governor System.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 1300,
-      "exportedPath": "kanban/tasks/Governor System.html",
+      "exportedPath": "kanban/tasks/governor-system.html",
       "dependencies": []
     },
     "kanban/tasks/Graphics.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 596,
-      "exportedPath": "kanban/tasks/Graphics.html",
+      "exportedPath": "kanban/tasks/graphics.html",
       "dependencies": []
     },
     "kanban/tasks/ground tiles.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 512,
-      "exportedPath": "kanban/tasks/ground tiles.html",
+      "exportedPath": "kanban/tasks/ground-tiles.html",
       "dependencies": []
     },
     "kanban/tasks/Home page.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 693,
-      "exportedPath": "kanban/tasks/Home page.html",
+      "exportedPath": "kanban/tasks/home-page.html",
       "dependencies": []
     },
     "kanban/tasks/Hot reload system.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 1320,
-      "exportedPath": "kanban/tasks/Hot reload system.html",
+      "exportedPath": "kanban/tasks/hot-reload-system.html",
       "dependencies": []
     },
     "kanban/tasks/Identify and write useful templates for obsidian.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 0,
-      "exportedPath": "kanban/tasks/Identify and write useful templates for obsidian.html",
+      "exportedPath": "kanban/tasks/identify-and-write-useful-templates-for-obsidian.html",
       "dependencies": []
     },
     "kanban/tasks/Image editor program.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 598,
-      "exportedPath": "kanban/tasks/Image editor program.html",
+      "exportedPath": "kanban/tasks/image-editor-program.html",
       "dependencies": []
     },
     "kanban/tasks/Implement tests for existing shared components..md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 380,
-      "exportedPath": "kanban/tasks/Implement tests for existing shared components..html",
+      "exportedPath": "kanban/tasks/implement-tests-for-existing-shared-components..html",
       "dependencies": []
     },
     "kanban/tasks/Import other projects.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 34,
-      "exportedPath": "kanban/tasks/Import other projects.html",
+      "exportedPath": "kanban/tasks/import-other-projects.html",
       "dependencies": []
     },
     "kanban/tasks/Individual ant neural networks.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 791,
-      "exportedPath": "kanban/tasks/Individual ant neural networks.html",
+      "exportedPath": "kanban/tasks/individual-ant-neural-networks.html",
       "dependencies": []
     },
     "kanban/tasks/Make old algage work.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 325,
-      "exportedPath": "kanban/tasks/Make old algage work.html",
+      "exportedPath": "kanban/tasks/make-old-algage-work.html",
       "dependencies": []
     },
     "kanban/tasks/Make old symbiants work.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 772,
-      "exportedPath": "kanban/tasks/Make old symbiants work.html",
+      "exportedPath": "kanban/tasks/make-old-symbiants-work.html",
       "dependencies": []
     },
     "kanban/tasks/metabolism system.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 697,
-      "exportedPath": "kanban/tasks/metabolism system.html",
+      "exportedPath": "kanban/tasks/metabolism-system.html",
       "dependencies": []
     },
     "kanban/tasks/Mineral Resource.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 520,
-      "exportedPath": "kanban/tasks/Mineral Resource.html",
+      "exportedPath": "kanban/tasks/mineral-resource.html",
       "dependencies": []
     },
     "kanban/tasks/minimap.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 507,
       "exportedPath": "kanban/tasks/minimap.html",
       "dependencies": []
     },
     "kanban/tasks/Mirror board to github.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 688,
-      "exportedPath": "kanban/tasks/Mirror board to github.html",
+      "exportedPath": "kanban/tasks/mirror-board-to-github.html",
       "dependencies": []
     },
     "kanban/tasks/Move all outside work into the portfolio git.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 3215,
-      "exportedPath": "kanban/tasks/Move all outside work into the portfolio git.html",
+      "exportedPath": "kanban/tasks/move-all-outside-work-into-the-portfolio-git.html",
       "dependencies": []
     },
     "kanban/tasks/Move fork of sibilant into git.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 488,
-      "exportedPath": "kanban/tasks/Move fork of sibilant into git.html",
+      "exportedPath": "kanban/tasks/move-fork-of-sibilant-into-git.html",
       "dependencies": []
     },
     "kanban/tasks/move kit core.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 566,
-      "exportedPath": "kanban/tasks/move kit core.html",
+      "exportedPath": "kanban/tasks/move-kit-core.html",
       "dependencies": []
     },
     "kanban/tasks/move kit fs.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 454,
-      "exportedPath": "kanban/tasks/move kit fs.html",
+      "exportedPath": "kanban/tasks/move-kit-fs.html",
       "dependencies": []
     },
     "kanban/tasks/move kit html.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 616,
-      "exportedPath": "kanban/tasks/move kit html.html",
+      "exportedPath": "kanban/tasks/move-kit-html.html",
       "dependencies": []
     },
     "kanban/tasks/move kit http.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 572,
-      "exportedPath": "kanban/tasks/move kit http.html",
+      "exportedPath": "kanban/tasks/move-kit-http.html",
       "dependencies": []
     },
     "kanban/tasks/move kit repl.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 579,
-      "exportedPath": "kanban/tasks/move kit repl.html",
+      "exportedPath": "kanban/tasks/move-kit-repl.html",
       "dependencies": []
     },
     "kanban/tasks/move kit shell.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 536,
-      "exportedPath": "kanban/tasks/move kit shell.html",
+      "exportedPath": "kanban/tasks/move-kit-shell.html",
       "dependencies": []
     },
     "kanban/tasks/movement commands.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 2856,
-      "exportedPath": "kanban/tasks/movement commands.html",
+      "exportedPath": "kanban/tasks/movement-commands.html",
       "dependencies": []
     },
     "kanban/tasks/multiple factions.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 373,
-      "exportedPath": "kanban/tasks/multiple factions.html",
+      "exportedPath": "kanban/tasks/multiple-factions.html",
       "dependencies": []
     },
     "kanban/tasks/multiple signal fields.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 1198,
-      "exportedPath": "kanban/tasks/multiple signal fields.html",
+      "exportedPath": "kanban/tasks/multiple-signal-fields.html",
       "dependencies": []
     },
     "kanban/tasks/neural network for signal field hyerparameter adjustments.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 596,
-      "exportedPath": "kanban/tasks/neural network for signal field hyerparameter adjustments.html",
+      "exportedPath": "kanban/tasks/neural-network-for-signal-field-hyerparameter-adjustments.html",
       "dependencies": []
     },
     "kanban/tasks/night day cycle.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 596,
-      "exportedPath": "kanban/tasks/night day cycle.html",
+      "exportedPath": "kanban/tasks/night-day-cycle.html",
       "dependencies": []
     },
     "kanban/tasks/Optimizations.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 796,
-      "exportedPath": "kanban/tasks/Optimizations.html",
+      "exportedPath": "kanban/tasks/optimizations.html",
       "dependencies": []
     },
     "kanban/tasks/paralell processing for each system.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 1028,
-      "exportedPath": "kanban/tasks/paralell processing for each system.html",
+      "exportedPath": "kanban/tasks/paralell-processing-for-each-system.html",
       "dependencies": []
     },
     "kanban/tasks/placeable entities (rocks, plants, bases).md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 565,
-      "exportedPath": "kanban/tasks/placeable entities (rocks, plants, bases).html",
+      "exportedPath": "kanban/tasks/placeable-entities-(rocks,-plants,-bases).html",
       "dependencies": []
     },
     "kanban/tasks/predator agents.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 738,
-      "exportedPath": "kanban/tasks/predator agents.html",
+      "exportedPath": "kanban/tasks/predator-agents.html",
       "dependencies": []
     },
     "kanban/tasks/Question answering system for file system.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 598,
-      "exportedPath": "kanban/tasks/Question answering system for file system.html",
+      "exportedPath": "kanban/tasks/question-answering-system-for-file-system.html",
       "dependencies": []
     },
     "kanban/tasks/Remove duplicate code included in headers..md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 452,
-      "exportedPath": "kanban/tasks/Remove duplicate code included in headers..html",
+      "exportedPath": "kanban/tasks/remove-duplicate-code-included-in-headers..html",
       "dependencies": []
     },
     "kanban/tasks/resource mechanics.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 827,
-      "exportedPath": "kanban/tasks/resource mechanics.html",
+      "exportedPath": "kanban/tasks/resource-mechanics.html",
       "dependencies": []
     },
     "kanban/tasks/reverse navigation home.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 415,
-      "exportedPath": "kanban/tasks/reverse navigation home.html",
+      "exportedPath": "kanban/tasks/reverse-navigation-home.html",
       "dependencies": []
     },
     "kanban/tasks/Rewrite andy lib in lisp.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 391,
-      "exportedPath": "kanban/tasks/Rewrite andy lib in lisp.html",
+      "exportedPath": "kanban/tasks/rewrite-andy-lib-in-lisp.html",
       "dependencies": []
     },
     "kanban/tasks/selection box.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 611,
-      "exportedPath": "kanban/tasks/selection box.html",
+      "exportedPath": "kanban/tasks/selection-box.html",
       "dependencies": []
     },
     "kanban/tasks/settings interface.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 468,
-      "exportedPath": "kanban/tasks/settings interface.html",
+      "exportedPath": "kanban/tasks/settings-interface.html",
       "dependencies": []
     },
     "kanban/tasks/shadows.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 596,
       "exportedPath": "kanban/tasks/shadows.html",
       "dependencies": []
     },
     "kanban/tasks/Side scroller.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 442,
-      "exportedPath": "kanban/tasks/Side scroller.html",
+      "exportedPath": "kanban/tasks/side-scroller.html",
       "dependencies": []
     },
     "kanban/tasks/simulation backend.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 1033,
-      "exportedPath": "kanban/tasks/simulation backend.html",
+      "exportedPath": "kanban/tasks/simulation-backend.html",
       "dependencies": []
     },
     "kanban/tasks/Simulation reset.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 24,
-      "exportedPath": "kanban/tasks/Simulation reset.html",
+      "exportedPath": "kanban/tasks/simulation-reset.html",
       "dependencies": []
     },
     "kanban/tasks/SPIKE can we simplify object pools (2 hrs).md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 683,
-      "exportedPath": "kanban/tasks/SPIKE can we simplify object pools (2 hrs).html",
+      "exportedPath": "kanban/tasks/spike-can-we-simplify-object-pools-(2-hrs).html",
       "dependencies": []
     },
     "kanban/tasks/sprite lighting.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 693,
-      "exportedPath": "kanban/tasks/sprite lighting.html",
+      "exportedPath": "kanban/tasks/sprite-lighting.html",
       "dependencies": []
     },
     "kanban/tasks/Sprite sheets.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 1004,
-      "exportedPath": "kanban/tasks/Sprite sheets.html",
+      "exportedPath": "kanban/tasks/sprite-sheets.html",
       "dependencies": []
     },
     "kanban/tasks/sprites.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 610,
       "exportedPath": "kanban/tasks/sprites.html",
       "dependencies": []
     },
     "kanban/tasks/Toggle coordinate wrap around.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 779,
-      "exportedPath": "kanban/tasks/Toggle coordinate wrap around.html",
+      "exportedPath": "kanban/tasks/toggle-coordinate-wrap-around.html",
       "dependencies": []
     },
     "kanban/tasks/unit system.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 850,
-      "exportedPath": "kanban/tasks/unit system.html",
+      "exportedPath": "kanban/tasks/unit-system.html",
       "dependencies": []
     },
     "kanban/tasks/Update physics engine to increase accuracy and performance.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 739,
-      "exportedPath": "kanban/tasks/Update physics engine to increase accuracy and performance.html",
+      "exportedPath": "kanban/tasks/update-physics-engine-to-increase-accuracy-and-performance.html",
       "dependencies": []
     },
     "kanban/tasks/vector field visualization.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 1071,
-      "exportedPath": "kanban/tasks/vector field visualization.html",
+      "exportedPath": "kanban/tasks/vector-field-visualization.html",
       "dependencies": []
     },
     "kanban/tasks/Water resource.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 578,
-      "exportedPath": "kanban/tasks/Water resource.html",
+      "exportedPath": "kanban/tasks/water-resource.html",
       "dependencies": []
     },
     "kanban/tasks/weather system.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 856,
-      "exportedPath": "kanban/tasks/weather system.html",
+      "exportedPath": "kanban/tasks/weather-system.html",
       "dependencies": []
     },
     "kanban/tasks/Website Design.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 596,
-      "exportedPath": "kanban/tasks/Website Design.html",
+      "exportedPath": "kanban/tasks/website-design.html",
       "dependencies": []
     },
     "kanban/templates/_Index_of_templates.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 204,
-      "exportedPath": "kanban/templates/_Index_of_templates.html",
+      "exportedPath": "kanban/templates/_index_of_templates.html",
       "dependencies": []
     },
     "kanban/templates/Epic.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 204,
-      "exportedPath": "kanban/templates/Epic.html",
+      "exportedPath": "kanban/templates/epic.html",
       "dependencies": []
     },
     "kanban/templates/New Task.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 598,
-      "exportedPath": "kanban/templates/New Task.html",
+      "exportedPath": "kanban/templates/new-task.html",
       "dependencies": []
     },
     "kanban/_Index_of_kanban.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 396,
-      "exportedPath": "kanban/_Index_of_kanban.html",
+      "exportedPath": "kanban/_index_of_kanban.html",
       "dependencies": []
     },
     "kanban/board.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 7454,
       "exportedPath": "kanban/board.html",
       "dependencies": []
     },
     "kanban/done.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 7916,
       "exportedPath": "kanban/done.html",
       "dependencies": []
     },
     "kanban/process.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 2755,
       "exportedPath": "kanban/process.html",
       "dependencies": []
     },
     "kanban/project.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 752,
       "exportedPath": "kanban/project.html",
       "dependencies": []
     },
     "docs/Obstacles/entities/trail-segment/_Index_of_trail-segment.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 179,
-      "exportedPath": "docs/Obstacles/entities/trail-segment/_Index_of_trail-segment.html",
+      "exportedPath": "docs/obstacles/entities/trail-segment/_index_of_trail-segment.html",
       "dependencies": []
     },
     "docs/Obstacles/entities/trail-segment/spawn-trail-segment.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 224,
-      "exportedPath": "docs/Obstacles/entities/trail-segment/spawn-trail-segment.html",
+      "exportedPath": "docs/obstacles/entities/trail-segment/spawn-trail-segment.html",
       "dependencies": []
     },
     "docs/Obstacles/entities/_Index_of_entities.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 204,
-      "exportedPath": "docs/Obstacles/entities/_Index_of_entities.html",
+      "exportedPath": "docs/obstacles/entities/_index_of_entities.html",
       "dependencies": []
     },
     "docs/Obstacles/systems/ant-trails/Trail-segment/_Index_of_Trail-segment.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 151,
-      "exportedPath": "docs/Obstacles/systems/ant-trails/Trail-segment/_Index_of_Trail-segment.html",
+      "exportedPath": "docs/obstacles/systems/ant-trails/trail-segment/_index_of_trail-segment.html",
       "dependencies": []
     },
     "docs/Obstacles/systems/ant-trails/Trail-segment/apply.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 116,
-      "exportedPath": "docs/Obstacles/systems/ant-trails/Trail-segment/apply.html",
+      "exportedPath": "docs/obstacles/systems/ant-trails/trail-segment/apply.html",
       "dependencies": []
     },
     "docs/Obstacles/systems/ant-trails/_Index_of_ant-trails.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 237,
-      "exportedPath": "docs/Obstacles/systems/ant-trails/_Index_of_ant-trails.html",
+      "exportedPath": "docs/obstacles/systems/ant-trails/_index_of_ant-trails.html",
       "dependencies": []
     },
     "docs/Obstacles/systems/ant-trails/Trail-vector.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 258,
-      "exportedPath": "docs/Obstacles/systems/ant-trails/Trail-vector.html",
+      "exportedPath": "docs/obstacles/systems/ant-trails/trail-vector.html",
       "dependencies": []
     },
     "docs/Obstacles/systems/_Index_of_systems.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 228,
-      "exportedPath": "docs/Obstacles/systems/_Index_of_systems.html",
+      "exportedPath": "docs/obstacles/systems/_index_of_systems.html",
       "dependencies": []
     },
     "docs/Obstacles/systems/Ant-dot.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 181,
-      "exportedPath": "docs/Obstacles/systems/Ant-dot.html",
+      "exportedPath": "docs/obstacles/systems/ant-dot.html",
       "dependencies": []
     },
     "docs/Obstacles/systems/Ant-dots.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 117,
-      "exportedPath": "docs/Obstacles/systems/Ant-dots.html",
+      "exportedPath": "docs/obstacles/systems/ant-dots.html",
       "dependencies": []
     },
     "docs/Obstacles/systems/Time-limit.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 181,
-      "exportedPath": "docs/Obstacles/systems/Time-limit.html",
+      "exportedPath": "docs/obstacles/systems/time-limit.html",
       "dependencies": []
     },
     "docs/Obstacles/systems/Timer.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 206,
-      "exportedPath": "docs/Obstacles/systems/Timer.html",
+      "exportedPath": "docs/obstacles/systems/timer.html",
       "dependencies": []
     },
     "docs/Obstacles/_Index_of_Obstacles.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 186,
-      "exportedPath": "docs/Obstacles/_Index_of_Obstacles.html",
+      "exportedPath": "docs/obstacles/_index_of_obstacles.html",
       "dependencies": []
     },
     "docs/Pools/Dynamic/_Index_of_Dynamic.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 317,
-      "exportedPath": "docs/Pools/Dynamic/_Index_of_Dynamic.html",
+      "exportedPath": "docs/pools/dynamic/_index_of_dynamic.html",
       "dependencies": []
     },
     "docs/Pools/Dynamic/adjust.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 249,
-      "exportedPath": "docs/Pools/Dynamic/adjust.html",
+      "exportedPath": "docs/pools/dynamic/adjust.html",
       "dependencies": []
     },
     "docs/Pools/Dynamic/aquire.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 232,
-      "exportedPath": "docs/Pools/Dynamic/aquire.html",
+      "exportedPath": "docs/pools/dynamic/aquire.html",
       "dependencies": []
     },
     "docs/Pools/Dynamic/clear.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 129,
-      "exportedPath": "docs/Pools/Dynamic/clear.html",
+      "exportedPath": "docs/pools/dynamic/clear.html",
       "dependencies": []
     },
     "docs/Pools/Dynamic/despawn.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 135,
-      "exportedPath": "docs/Pools/Dynamic/despawn.html",
+      "exportedPath": "docs/pools/dynamic/despawn.html",
       "dependencies": []
     },
     "docs/Pools/Dynamic/each.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 136,
-      "exportedPath": "docs/Pools/Dynamic/each.html",
+      "exportedPath": "docs/pools/dynamic/each.html",
       "dependencies": []
     },
     "docs/Pools/Dynamic/grow.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 169,
-      "exportedPath": "docs/Pools/Dynamic/grow.html",
+      "exportedPath": "docs/pools/dynamic/grow.html",
       "dependencies": []
     },
     "docs/Pools/Dynamic/register.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 163,
-      "exportedPath": "docs/Pools/Dynamic/register.html",
+      "exportedPath": "docs/pools/dynamic/register.html",
       "dependencies": []
     },
     "docs/Pools/Dynamic/release.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 164,
-      "exportedPath": "docs/Pools/Dynamic/release.html",
+      "exportedPath": "docs/pools/dynamic/release.html",
       "dependencies": []
     },
     "docs/Pools/Dynamic/spawn.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 127,
-      "exportedPath": "docs/Pools/Dynamic/spawn.html",
+      "exportedPath": "docs/pools/dynamic/spawn.html",
       "dependencies": []
     },
     "docs/Pools/_Index_of_Pools.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 186,
-      "exportedPath": "docs/Pools/_Index_of_Pools.html",
+      "exportedPath": "docs/pools/_index_of_pools.html",
       "dependencies": []
     },
     "docs/Shared/datastructures/trees/binary-search-tree/_Index_of_binary-search-tree.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 172,
-      "exportedPath": "docs/Shared/datastructures/trees/binary-search-tree/_Index_of_binary-search-tree.html",
+      "exportedPath": "docs/shared/datastructures/trees/binary-search-tree/_index_of_binary-search-tree.html",
       "dependencies": []
     },
     "docs/Shared/datastructures/trees/binary-search-tree/prune.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 240,
-      "exportedPath": "docs/Shared/datastructures/trees/binary-search-tree/prune.html",
+      "exportedPath": "docs/shared/datastructures/trees/binary-search-tree/prune.html",
       "dependencies": []
     },
     "docs/Shared/datastructures/trees/binary-search-tree/remove.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 198,
-      "exportedPath": "docs/Shared/datastructures/trees/binary-search-tree/remove.html",
+      "exportedPath": "docs/shared/datastructures/trees/binary-search-tree/remove.html",
       "dependencies": []
     },
     "docs/Shared/datastructures/trees/binary-searchtree/_Index_of_binary-searchtree.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 153,
-      "exportedPath": "docs/Shared/datastructures/trees/binary-searchtree/_Index_of_binary-searchtree.html",
+      "exportedPath": "docs/shared/datastructures/trees/binary-searchtree/_index_of_binary-searchtree.html",
       "dependencies": []
     },
     "docs/Shared/datastructures/trees/binary-searchtree/search.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 235,
-      "exportedPath": "docs/Shared/datastructures/trees/binary-searchtree/search.html",
+      "exportedPath": "docs/shared/datastructures/trees/binary-searchtree/search.html",
       "dependencies": []
     },
     "docs/Shared/datastructures/trees/_Index_of_trees.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 303,
-      "exportedPath": "docs/Shared/datastructures/trees/_Index_of_trees.html",
+      "exportedPath": "docs/shared/datastructures/trees/_index_of_trees.html",
       "dependencies": []
     },
     "docs/Shared/ecs/Component/_Index_of_Component.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 157,
-      "exportedPath": "docs/Shared/ecs/Component/_Index_of_Component.html",
+      "exportedPath": "docs/shared/ecs/component/_index_of_component.html",
       "dependencies": []
     },
     "docs/Shared/ecs/Component/register.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 169,
-      "exportedPath": "docs/Shared/ecs/Component/register.html",
+      "exportedPath": "docs/shared/ecs/component/register.html",
       "dependencies": []
     },
     "docs/Shared/ecs/ComponentSystem/_Index_of_ComponentSystem.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 157,
-      "exportedPath": "docs/Shared/ecs/ComponentSystem/_Index_of_ComponentSystem.html",
+      "exportedPath": "docs/shared/ecs/componentsystem/_index_of_componentsystem.html",
       "dependencies": []
     },
     "docs/Shared/ecs/ComponentSystem/register.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 879,
-      "exportedPath": "docs/Shared/ecs/ComponentSystem/register.html",
+      "exportedPath": "docs/shared/ecs/componentsystem/register.html",
       "dependencies": []
     },
     "docs/Shared/ecs/_Index_of_ecs.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 249,
-      "exportedPath": "docs/Shared/ecs/_Index_of_ecs.html",
+      "exportedPath": "docs/shared/ecs/_index_of_ecs.html",
       "dependencies": []
     },
     "docs/Shared/ecs/ComponentSystem.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 492,
-      "exportedPath": "docs/Shared/ecs/ComponentSystem.html",
+      "exportedPath": "docs/shared/ecs/componentsystem.html",
       "dependencies": []
     },
     "docs/Shared/_Index_of_Shared.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 174,
-      "exportedPath": "docs/Shared/_Index_of_Shared.html",
+      "exportedPath": "docs/shared/_index_of_shared.html",
       "dependencies": []
     },
     "docs/_Index_of_docs.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 430,
-      "exportedPath": "docs/_Index_of_docs.html",
+      "exportedPath": "docs/_index_of_docs.html",
       "dependencies": []
     },
     "docs/readme.md": {
-      "modifiedTime": 1734994020053,
+      "modifiedTime": 1734994799508,
       "sourceSize": 91,
       "exportedPath": "docs/readme.html",
       "dependencies": []
