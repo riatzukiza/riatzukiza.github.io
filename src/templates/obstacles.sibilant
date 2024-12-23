@@ -1,3 +1,4 @@
+
 (html (.head
        (.style "
         .panel {
@@ -9,6 +10,9 @@
             border-style: solid;
             border-width: 1px;
         }
+img {
+position:absolute;
+}
 
 ")
        (.script .src "https://cdn.jsdelivr.net/quicksettings/3.0/quicksettings.min.js"))
@@ -26,6 +30,9 @@
                       (markup (.script .src (Path.join "/bundles/obstacles" file.rel))))))
 
 
-      (.script .src "/bundles/obstacles/main.js")
-      (.img .id "sprite-texture".src "/ant.png" .hidden "true"))
+      (.body (.img .id "ant-texture".src "/ant.png" .hidden "true")
+       (.img .id "rock-texture".src "/rock.png" .hidden "true"))
 
+      (.script .src "/bundles/obstacles/main.js")
+
+      )

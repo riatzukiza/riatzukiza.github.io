@@ -20,7 +20,7 @@ var {
  } = require("@obstacles/systems/property-view.js"),
     { 
   TrailDots
- } = require("@obstacles/systems/trail-dots.js");
+ } = require("@obstacles/systems/ants/trail-dots.js");
 var { 
   renderChildren,
   createDocumentNode,
@@ -96,4 +96,4 @@ var TrailsPanel = ViewPanel.define("TrailsPanel", {
  });
 exports.TrailsPropertyView = TrailsPropertyView;
 exports.TrailsPanel = TrailsPanel;
-},{"@obstacles/systems/property-view.js":"@obstacles/systems/property-view.js","@obstacles/systems/trail-dots.js":"@obstacles/systems/trail-dots.js","@shared/dom.js":"@shared/dom.js"}]},{},[]);
+},{"@obstacles/systems/ants/trail-dots.js":"@obstacles/systems/ants/trail-dots.js","@obstacles/systems/property-view.js":"@obstacles/systems/property-view.js","@shared/dom.js":"@shared/dom.js"}]},{},[]);
