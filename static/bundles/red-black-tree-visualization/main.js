@@ -1,4 +1,141 @@
-require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+(function (global){(function (){
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
+var { 
+  Interface
+ } = require("@kit-js/interface");
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
+global.mixin = mixin;
+global.create = create;
+var { 
+  BinarySearchTree
+ } = require("@shared/data-structures/trees/binary-search-tree.js"),
+    { 
+  RedBlackTree
+ } = require("@shared/data-structures/trees/red-black-tree.js"),
+    { 
+  Ticker
+ } = require("@shared/ticker.js");
+var { 
+  renderChildren,
+  createDocumentNode,
+  DocumentNode,
+  DocumentBody,
+  DocumentHead,
+  DocumentRoot
+ } = require("@shared/dom.js");
+const rbTree=RedBlackTree.spawn();
+const low=(Math.floor((Math.random() * ( - 9000))) + 9000);
+const high=(low + (Math.floor((Math.random() * ( - 10000))) + 10000));
+var renderNode = (function renderNode$(node) {
+  /* render-node eval.sibilant:28:0 */
+
+  const foregroundColor=(function() {
+    if (node.inRange__QUERY) {
+      return "yellow";
+    } else if (node.color === "black") {
+      return "white";
+    } else {
+      return "black";
+    }
+  }).call(this);
+  return createDocumentNode("div", { 'style': { 
+    "background-color":node.color,
+    "color":foregroundColor,
+    "float":"left",
+    "width":(function() {
+      if (node.sibling) {
+        return "calc(50% - 4px)";
+      } else {
+        return "calc(100% - 4px)";
+      }
+    }).call(this),
+    "border-color":foregroundColor,
+    "border-width":"2px",
+    "border-style":"solid"
+   } }, [ createDocumentNode("div", {  }, [ (node.key || "nil") ]), (function() {
+    if (node.left) {
+      return renderNode(node.left);
+    } else {
+      return "";
+    }
+  }).call(this), (function() {
+    if (node.right) {
+      return renderNode(node.right);
+    } else {
+      return "";
+    }
+  }).call(this) ]);
+});
+const ticker=create(Ticker)(1);
+ticker.start();
+const container=createDocumentNode("div", {
+  'id': "container",
+  'style': { 
+    "width":(window.innerWidth + "px")
+   }
+}, [ createDocumentNode("h1", {  }, [ "find nodes between", low, "and", high ]), (() => {
+	
+  return renderNode(rbTree.root);
+
+}) ]);
+const frame=createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentBody);
+ticker.events.on("tick", (() => {
+	
+  rbTree.root.insert((Math.floor((Math.random() * ( - (low + high)))) + (low + high)));
+  const nodesInRange=rbTree.root.findRange(low, high);
+  for (var _node of nodesInRange)
+  {
+  _node.inRange__QUERY = true;
+  }
+  ;
+  return container.render();
+
+})).once("error", ((err) => {
+	
+  console.log("error on", "tick", "of", "ticker.events", "given", "null");
+  return console.log(err);
+
+}));
+}).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"@kit-js/core/js/util":3,"@kit-js/interface":4,"@shared/data-structures/trees/binary-search-tree.js":"@shared/data-structures/trees/binary-search-tree.js","@shared/data-structures/trees/red-black-tree.js":"@shared/data-structures/trees/red-black-tree.js","@shared/dom.js":"@shared/dom.js","@shared/ticker.js":"@shared/ticker.js","ramda":7}],2:[function(require,module,exports){
 const create = (object, r) => (...args) => ((r = Object.create(object)), r.init(...args), r);
 const defined = (value) => (!(value === undefined));
 
@@ -100,7 +237,7 @@ const Sym = {
 
 module.exports = {Obj, Sym, Arr, Fun, create, defined, extend, mixin, curry};
 
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 
 
 (function(a, b, c) {
@@ -200,7 +337,7 @@ Map.prototype.each = (function Map$prototype$each$(f) {
   return this;
 });
 
-},{"../js/andy-util.js":1,"ramda":7}],3:[function(require,module,exports){
+},{"../js/andy-util.js":2,"ramda":7}],4:[function(require,module,exports){
 var R = require("ramda");
 var { 
   create,
@@ -261,263 +398,11 @@ var Interface = {
    }
  };
 exports.Interface = Interface;
-},{"@kit-js/core/js/util":5,"ramda":7}],4:[function(require,module,exports){
-arguments[4][1][0].apply(exports,arguments)
-},{"dup":1}],5:[function(require,module,exports){
+},{"@kit-js/core/js/util":6,"ramda":7}],5:[function(require,module,exports){
 arguments[4][2][0].apply(exports,arguments)
-},{"../js/andy-util.js":4,"dup":2,"ramda":7}],6:[function(require,module,exports){
-/**
- * quadtree-js
- * @version 1.2.6
- * @license MIT
- * @author Timo Hausmann
- */
-
-/* https://github.com/timohausmann/quadtree-js.git v1.2.6 */
- 
-/*
-Copyright © 2012-2023 Timo Hausmann
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
-
-;(function() {
-
-    /**
-     * The Quadtree uses rectangle objects for all areas ("Rect").
-     * All rectangles require the properties x, y, width, height
-     * @typedef {Object} Rect
-     * @property {number} x         X-Position
-     * @property {number} y         Y-Position
-     * @property {number} width     Width
-     * @property {number} height    Height
-     */
-     
-    /**
-     * Quadtree Constructor
-     * @class Quadtree
-     * @param {Rect} bounds                 bounds of the node ({ x, y, width, height })
-     * @param {number} [max_objects=10]     (optional) max objects a node can hold before splitting into 4 subnodes (default: 10)
-     * @param {number} [max_levels=4]       (optional) total max levels inside root Quadtree (default: 4) 
-     * @param {number} [level=0]            (optional) depth level, required for subnodes (default: 0)
-     */
-    function Quadtree(bounds, max_objects, max_levels, level) {
-        
-        this.max_objects    = max_objects || 10;
-        this.max_levels     = max_levels || 4;
-        
-        this.level  = level || 0;
-        this.bounds = bounds;
-        
-        this.objects    = [];
-        this.nodes      = [];
-    };
-    
-    
-    /**
-     * Split the node into 4 subnodes
-     * @memberof Quadtree
-     */
-    Quadtree.prototype.split = function() {
-        
-        var nextLevel   = this.level + 1,
-            subWidth    = this.bounds.width/2,
-            subHeight   = this.bounds.height/2,
-            x           = this.bounds.x,
-            y           = this.bounds.y;        
-     
-        //top right node
-        this.nodes[0] = new Quadtree({
-            x       : x + subWidth, 
-            y       : y, 
-            width   : subWidth, 
-            height  : subHeight
-        }, this.max_objects, this.max_levels, nextLevel);
-        
-        //top left node
-        this.nodes[1] = new Quadtree({
-            x       : x, 
-            y       : y, 
-            width   : subWidth, 
-            height  : subHeight
-        }, this.max_objects, this.max_levels, nextLevel);
-        
-        //bottom left node
-        this.nodes[2] = new Quadtree({
-            x       : x, 
-            y       : y + subHeight, 
-            width   : subWidth, 
-            height  : subHeight
-        }, this.max_objects, this.max_levels, nextLevel);
-        
-        //bottom right node
-        this.nodes[3] = new Quadtree({
-            x       : x + subWidth, 
-            y       : y + subHeight, 
-            width   : subWidth, 
-            height  : subHeight
-        }, this.max_objects, this.max_levels, nextLevel);
-    };
-    
-    
-    /**
-     * Determine which node the object belongs to
-     * @param {Rect} pRect      bounds of the area to be checked ({ x, y, width, height })
-     * @return {number[]}       an array of indexes of the intersecting subnodes (0-3 = top-right, top-left, bottom-left, bottom-right / ne, nw, sw, se)
-     * @memberof Quadtree
-     */
-    Quadtree.prototype.getIndex = function(pRect) {
-        
-        var indexes = [],
-            verticalMidpoint    = this.bounds.x + (this.bounds.width/2),
-            horizontalMidpoint  = this.bounds.y + (this.bounds.height/2);    
-
-        var startIsNorth = pRect.y < horizontalMidpoint,
-            startIsWest  = pRect.x < verticalMidpoint,
-            endIsEast    = pRect.x + pRect.width > verticalMidpoint,
-            endIsSouth   = pRect.y + pRect.height > horizontalMidpoint;    
-
-        //top-right quad
-        if(startIsNorth && endIsEast) {
-            indexes.push(0);
-        }
-        
-        //top-left quad
-        if(startIsWest && startIsNorth) {
-            indexes.push(1);
-        }
-
-        //bottom-left quad
-        if(startIsWest && endIsSouth) {
-            indexes.push(2);
-        }
-
-        //bottom-right quad
-        if(endIsEast && endIsSouth) {
-            indexes.push(3);
-        }
-     
-        return indexes;
-    };
-    
-    
-    /**
-     * Insert the object into the node. If the node
-     * exceeds the capacity, it will split and add all
-     * objects to their corresponding subnodes.
-     * @param {Rect} pRect      bounds of the object to be added ({ x, y, width, height })
-     * @memberof Quadtree
-     */
-    Quadtree.prototype.insert = function(pRect) {
-        
-        var i = 0,
-            indexes;
-         
-        //if we have subnodes, call insert on matching subnodes
-        if(this.nodes.length) {
-            indexes = this.getIndex(pRect);
-     
-            for(i=0; i<indexes.length; i++) {
-                this.nodes[indexes[i]].insert(pRect);     
-            }
-            return;
-        }
-     
-        //otherwise, store object here
-        this.objects.push(pRect);
-
-        //max_objects reached
-        if(this.objects.length > this.max_objects && this.level < this.max_levels) {
-
-            //split if we don't already have subnodes
-            if(!this.nodes.length) {
-                this.split();
-            }
-            
-            //add all objects to their corresponding subnode
-            for(i=0; i<this.objects.length; i++) {
-                indexes = this.getIndex(this.objects[i]);
-                for(var k=0; k<indexes.length; k++) {
-                    this.nodes[indexes[k]].insert(this.objects[i]);
-                }
-            }
-
-            //clean up this node
-            this.objects = [];
-        }
-     };
-     
-     
-    /**
-     * Return all objects that could collide with the given object
-     * @param {Rect} pRect      bounds of the object to be checked ({ x, y, width, height })
-     * @return {Rect[]}         array with all detected objects
-     * @memberof Quadtree
-     */
-    Quadtree.prototype.retrieve = function(pRect) {
-         
-        var indexes = this.getIndex(pRect),
-            returnObjects = this.objects;
-            
-        //if we have subnodes, retrieve their objects
-        if(this.nodes.length) {
-            for(var i=0; i<indexes.length; i++) {
-                returnObjects = returnObjects.concat(this.nodes[indexes[i]].retrieve(pRect));
-            }
-        }
-
-        //remove duplicates
-        if(this.level === 0) {
-            return Array.from(new Set(returnObjects));
-        }
-     
-        return returnObjects;
-    };
-    
-    
-    /**
-     * Clear the quadtree
-     * @memberof Quadtree
-     */
-    Quadtree.prototype.clear = function() {
-        
-        this.objects = [];
-     
-        for(var i=0; i < this.nodes.length; i++) {
-            if(this.nodes.length) {
-                this.nodes[i].clear();
-              }
-        }
-
-        this.nodes = [];
-    };
-
-    //export for commonJS or browser
-    if(typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-        module.exports = Quadtree;
-    } else {
-        window.Quadtree = Quadtree;    
-    }
-
-})();
-},{}],7:[function(require,module,exports){
+},{"dup":2}],6:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"../js/andy-util.js":5,"dup":3,"ramda":7}],7:[function(require,module,exports){
 module.exports = {
   F: require('./src/F'),
   T: require('./src/T'),
@@ -10859,256 +10744,4 @@ module.exports = _curry3(function zipWith(fn, a, b) {
   return rv;
 });
 
-},{"./internal/_curry3":110}],"@shared/systems/collision.js":[function(require,module,exports){
-Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
-
-  this.forEach(f);
-  return this;
-});
-Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
-
-  return Object.keys(this).forEach(((k) => {
-  	
-    return f(this[k], k);
-  
-  }));
-});
-var R = require("ramda");
-var { 
-  create,
-  extend,
-  mixin,
-  conditional,
-  cond,
-  partiallyApplyAfter
- } = require("@kit-js/core/js/util");
-var { 
-  Interface
- } = require("@kit-js/interface");
-var { 
-  Component,
-  System
- } = require("@shared/ecs.js"),
-    { 
-  Physics
- } = require("@shared/systems/physics/system.js"),
-    { 
-  Vector
- } = require("@shared/vectors.js"),
-    { 
-  Trie
- } = require("@shared/data-structures/trees/trie.js"),
-    QuadTree = require("@timohausmann/quadtree-js");
-var { 
-  List
- } = require("@shared/data-structures/list.js"),
-    { 
-  DynamicPool
- } = require("@shared/pooling/dynamic-pool.js"),
-    { 
-  PooledDataStructure
- } = require("@shared/data-structures/pooled.js");
-var CollisionBounds = Component.define("CollisionBounds", { 
-  _clear(  ){ 
-    
-   },
-  get dimensions(  ){ 
-    
-      return this.area;
-    
-   },
-  get dim(  ){ 
-    
-      return this.dimensions;
-    
-   },
-  get scale(  ){ 
-    
-      return this.entity.physicalProperties.scale;
-    
-   },
-  get physics(  ){ 
-    
-      return this.entity.physicalProperties;
-    
-   },
-  get x(  ){ 
-    
-      return this.entity.positionInterface.x;
-    
-   },
-  get y(  ){ 
-    
-      return this.entity.positionInterface.y;
-    
-   },
-  get height(  ){ 
-    
-      return this.entity.physicalProperties.scale;
-    
-   },
-  get width(  ){ 
-    
-      return this.entity.physicalProperties.scale;
-    
-   },
-  get maxX(  ){ 
-    
-      return (this.entity.positionInterface.x + (this.entity.physicalProperties.scale * 0.5));
-    
-   },
-  get maxY(  ){ 
-    
-      return (this.entity.positionInterface.y + (this.entity.physicalProperties.scale * 0.5));
-    
-   },
-  get minX(  ){ 
-    
-      return (this.entity.positionInterface.x - (this.entity.physicalProperties.scale * 0.5));
-    
-   },
-  get minY(  ){ 
-    
-      return (this.entity.positionInterface.y - (this.entity.physicalProperties.scale * 0.5));
-    
-   },
-  get position(  ){ 
-    
-      return this.entity.positionInterface;
-    
-   },
-  get pos(  ){ 
-    
-      return this.position;
-    
-   },
-  get velocity(  ){ 
-    
-      return this.entity.velocityInterface;
-    
-   },
-  isColliding__QUERY( c_ = this.c_,c = this ){ 
-    
-      var d1x = (c_.minX - c.maxX),
-          d1y = (c_.minY - c.maxY),
-          d2x = (c.minX - c_.maxX),
-          d2y = (c.minY - c_.maxY);
-      return !((d1x >= 0 || d1y >= 0 || d2x >= 0 || d2y >= 0));
-    
-   }
- });
-exports.CollisionBounds = CollisionBounds;
-var Collision = System.define("Collision", { 
-  interface:CollisionBounds,
-  setBounds( height = 100,width = 100,maxObjects = 10,maxLevels = 10 ){ 
-    
-      if( this.quads ){ 
-        throw (new Error("bounds are already set"))
-       };
-      return this.quads = (new QuadTree({ 
-        x:0,
-        y:0,
-        width,
-        height
-       }, maxObjects, maxLevels));
-    
-   },
-  _check( c,c_ ){ 
-    
-      if( c.isColliding__QUERY(c_) ){ 
-        c.system.game.events.emit("collision", c, c_)
-       };
-      return ;
-    
-   },
-  _updateAll( t = this.t,components = this.components ){ 
-    
-      this.quads.clear();
-      var node = this.components.values.head;
-      while( node ){ 
-        var c = node.item;;
-        c.checked = false;;
-        this.quads.insert(c);
-        node = node.next;
-       };
-      node = this.components.values.head;
-      while( node ){ 
-        var c = node.item;;
-        const possibleCollisions=this.quads.retrieve(c);;
-        for (var c_ of possibleCollisions)
-        {
-        if( (!(c === c_) && !(c_.checked)) ){ 
-          this._check(c, c_)
-         };
-        null
-        }
-        ;
-        c.checked = true;;
-        node = node.next;
-       };
-      return null;
-    
-   }
- });
-exports.Collision = Collision;
-var placeEntity = (function placeEntity$(entity = this.entity, game = this.game, config = this.config) {
-  /* place-entity node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
-
-  const placementTree=(new QuadTree({ 
-    x:0,
-    y:0,
-    width:config.dimensions[0],
-    height:config.dimensions[1]
-   }, 20, 500));
-  const c=game.systems.get(Collision, entity);
-  const placementVector=Vector.spawn(1, 1);
-  var colliding = true;
-  (function() {
-    var while$48 = undefined;
-    while (colliding) {
-      while$48 = (function() {
-        var noCollisions = true;
-        placementTree.clear();
-        c.system.components.each(((c_) => {
-        	
-          return (function() {
-            if (!(c === c_)) {
-              return placementTree.insert(c_);
-            }
-          }).call(this);
-        
-        }));
-        const possibleCollisions=placementTree.retrieve(c);
-        for (var c_ of possibleCollisions)
-        {
-        (function() {
-          var while$49 = undefined;
-          while (c.isColliding__QUERY(c_)) {
-            while$49 = (function() {
-              noCollisions = false;
-              placementVector.setLength((1 * c_.scale));
-              placementVector.setAngle(((Math.random() * ( - 360)) + 360));
-              return c.pos.system.shift(c.pos, [ placementVector.x, placementVector.y ]);
-            }).call(this);
-          };
-          return while$49;
-        }).call(this)
-        }
-        ;
-        (function() {
-          if (noCollisions) {
-            return colliding = false;
-          }
-        }).call(this);
-        return null;
-      }).call(this);
-    };
-    return while$48;
-  }).call(this);
-  placementVector.despawn();
-  return entity;
-});
-exports.placeEntity = placeEntity;
-},{"@kit-js/core/js/util":2,"@kit-js/interface":3,"@shared/data-structures/list.js":"@shared/data-structures/list.js","@shared/data-structures/pooled.js":"@shared/data-structures/pooled.js","@shared/data-structures/trees/trie.js":"@shared/data-structures/trees/trie.js","@shared/ecs.js":"@shared/ecs.js","@shared/pooling/dynamic-pool.js":"@shared/pooling/dynamic-pool.js","@shared/systems/physics/system.js":"@shared/systems/physics/system.js","@shared/vectors.js":"@shared/vectors.js","@timohausmann/quadtree-js":6,"ramda":7}]},{},[]);
+},{"./internal/_curry3":110}]},{},[1]);
