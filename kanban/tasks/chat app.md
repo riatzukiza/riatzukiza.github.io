@@ -1,1 +1,14 @@
-Add a simple web chat to the website, possibly using totally peer to peer so we don't need to host anything other than a static website.
+Add a simple chat widget that allows the user to communicate with a variety of LLM providers.
+
+## Requirements
+- [ ] User can send messages
+- [ ] Messages are never stored remotely
+- [ ] Local only mode
+- [ ] p2p ⏬ 
+
+## Tasks
+
+- [ ] Implement chat UI
+- [ ] Implement at least one llm provider
+- [ ] Add a selector if it is possible to implement more than one provider
+- [ ] implement local only mode, using a reasonable default that can run on most devices in reasonable time.
