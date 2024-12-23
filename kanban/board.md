@@ -55,9 +55,9 @@ kanban-plugin: board
 - [ ] [[Governor System]]
 - [ ] [[Individual ant neural networks]]
 - [ ] [[neural network for signal field hyerparameter adjustments]]
-- [ ] Question answering system for file system
-- [ ] browser based lisp shell
-- [ ] Image editor program
+- [ ] [[Question answering system for file system]]
+- [ ] [[browser based lisp shell]]
+- [ ] [[Image editor program]]
 - [ ] Agenda system
 - [ ] Text editor program
 - [ ] Vector based file system search
