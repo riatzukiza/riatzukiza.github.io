@@ -4,11 +4,25 @@
     "type": "split",
     "children": [
       {
-        "id": "ea13481075c591e8",
+        "id": "f2c95c94b69fa38c",
         "type": "tabs",
         "children": [
           {
-            "id": "f1e3feef9d680606",
+            "id": "4e6c0287c33a1e30",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "kanban/process.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "process"
+            }
+          },
+          {
+            "id": "367eac1a99bcd8ca",
             "type": "leaf",
             "state": {
               "type": "kanban",
@@ -19,16 +33,22 @@
                   "list-collapse": [
                     false,
                     false,
+                    false,
+                    false,
+                    false,
                     true,
                     false,
                     false,
                     false
                   ]
                 }
-              }
+              },
+              "icon": "lucide-trello",
+              "title": "board"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -48,7 +68,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical"
-              }
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
             }
           },
           {
@@ -63,7 +85,9 @@
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical"
-              }
+              },
+              "icon": "lucide-search",
+              "title": "Search"
             }
           },
           {
@@ -71,7 +95,9 @@
             "type": "leaf",
             "state": {
               "type": "bookmarks",
-              "state": {}
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
             }
           }
         ]
@@ -95,7 +121,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "kanban/board.md",
+                "file": "docs/readme.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +129,9 @@
                 "searchQuery": "",
                 "backlinkCollapsed": false,
                 "unlinkedCollapsed": true
-              }
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for readme"
             }
           },
           {
@@ -112,10 +140,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "kanban/board.md",
+                "file": "docs/readme.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
-              }
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from readme"
             }
           },
           {
@@ -126,7 +156,9 @@
               "state": {
                 "sortOrder": "frequency",
                 "useHierarchy": true
-              }
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
             }
           },
           {
@@ -135,8 +167,10 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "kanban/board.md"
-              }
+                "file": "docs/readme.md"
+              },
+              "icon": "lucide-list",
+              "title": "Outline of readme"
             }
           },
           {
@@ -144,7 +178,9 @@
             "type": "leaf",
             "state": {
               "type": "todo",
-              "state": {}
+              "state": {},
+              "icon": "checkmark",
+              "title": "Todo List"
             }
           },
           {
@@ -156,7 +192,9 @@
                 "sortOrder": "frequency",
                 "showSearch": false,
                 "searchQuery": ""
-              }
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
             }
           },
           {
@@ -164,7 +202,9 @@
             "type": "leaf",
             "state": {
               "type": "smart-connections-view",
-              "state": {}
+              "state": {},
+              "icon": "lucide-file",
+              "title": "Plugin no longer active"
             }
           },
           {
@@ -172,7 +212,9 @@
             "type": "leaf",
             "state": {
               "type": "smart-chat-view",
-              "state": {}
+              "state": {},
+              "icon": "lucide-file",
+              "title": "Plugin no longer active"
             }
           },
           {
@@ -180,7 +222,9 @@
             "type": "leaf",
             "state": {
               "type": "smart-connections-view",
-              "state": {}
+              "state": {},
+              "icon": "lucide-file",
+              "title": "Plugin no longer active"
             }
           },
           {
@@ -188,7 +232,9 @@
             "type": "leaf",
             "state": {
               "type": "smart-chat-view",
-              "state": {}
+              "state": {},
+              "icon": "lucide-file",
+              "title": "Plugin no longer active"
             }
           }
         ],
@@ -222,44 +268,44 @@
       "smart-connections:Open: Smart Chat Conversation": false
     }
   },
-  "active": "f1e3feef9d680606",
+  "active": "367eac1a99bcd8ca",
   "lastOpenFiles": [
-    "kanban/tasks/Mirror board to github.md",
+    "Colors.md",
     "kanban/board.md",
-    "kanban/tasks/Design theme for website..md",
-    "kanban/tasks/SPIKE can we simplify object pools (2 hrs).md",
-    "kanban/done.md",
-    "kanban/project.md",
-    "kanban/to-do.md",
-    "kanban/ready.md",
-    "kanban/process.md",
-    "kanban/in-review.md",
-    "kanban/in-progress.md",
-    "kanban/tasks/ground tiles.md",
-    "kanban/blocked.md",
-    "_Index_of_riatzukiza.github.io.md",
-    "kanban/breakdown.md",
-    "kanban/tasks/multiple signal fields.md",
-    "kanban/tasks/metabolism system.md",
-    "kanban/tasks/Building system.md",
-    "kanban/tasks/reverse navigation home.md",
-    "kanban/tasks/resource mechanics.md",
-    "kanban/tasks/predator agents.md",
-    "readme.md",
     "kanban/tasks/Home page.md",
+    "kanban/process.md",
+    "kanban/project.md",
+    "kanban/tasks/3d gravity using babylon.md",
+    "kanban/tasks/Add a project page to the website.md",
+    "kanban/tasks/move kit core.md",
+    "kanban/tasks/weather system.md",
     "kanban/tasks/github readme.md",
-    "kanban/tasks/move kit repl.md",
-    "kanban/tasks/Make old algage work.md",
+    "kanban/tasks/Game Mechanics.md",
+    "kanban/epics",
+    "kanban/tasks/sprite lighting.md",
+    "kanban/tasks/Game UI.md",
+    "kanban/tasks/Website Design.md",
+    "kanban/tasks/Graphics.md",
+    "kanban/tasks/Better sprite rotation.md",
+    "kanban/tasks/Sprite sheets.md",
+    "kanban/tasks/add game of life to portfolio.md",
+    "kanban/tasks/Find unknown content warnings.md",
+    "kanban/tasks/Implement tests for existing shared components..md",
+    "kanban/tasks/Toggle coordinate wrap around.md",
+    "kanban/tasks/move kit http.md",
+    "kanban/tasks/Identify and write useful templates for obsidian.md",
+    "kanban/tasks/neural network for signal field hyerparameter adjustments.md",
+    "kanban/tasks/Individual ant neural networks.md",
+    "kanban/tasks/minimap.md",
+    "inc/docs.sibilant",
+    "kanban/templates",
+    "Untitled",
     "static/lib/fonts/535a6cf662596b3bd6a6.woff2",
     "static/lib/fonts/cbe0ae49c52c920fd563.woff2",
     "static/lib/fonts/b5f0f109bc88052d4000.woff2",
     "static/lib/fonts/cb10ffd7684cd9836a05.woff2",
     "static/lib/fonts/c8ba52b05a9ef10f4758.woff2",
     "static/lib/fonts/2d5198822ab091ce4305.woff2",
-    "static/lib/fonts/72505e6a122c6acd5471.woff2",
-    "static/lib/fonts/94f2f163d4b698242fef.otf",
-    "static/lib/fonts",
-    "static/lib/scripts/graph-wasm.wasm",
     "Untitled.canvas"
   ]
 }

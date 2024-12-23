@@ -13,3 +13,6 @@ If we wanted to say create [multiple factions](multiple%20factions.md) that [eac
 - Units are selectable
 - Units are all movable
 
+
+## Tasks
+- Ants, rocks, and plants are easily managable through a unit interface

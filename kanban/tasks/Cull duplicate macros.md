@@ -4,7 +4,14 @@ This issue is related to [kanban/tasks/Move all outside work into the portfolio 
 
 #subtask #consolidation #kitframework 
 
+## Blocked by
 
+- [[move kit core]]
+- [[move kit fs]]
+- [[move kit repl]]
+- [[move kit html]]
+- [[move kit shell]]
+- [[move kit http]]
 
 
 
