@@ -115,7 +115,6 @@ kanban-plugin: board
 
 ## Todo (5)
 
-- [ ] [[Add a project page to the website]]
 - [ ] [[Update physics engine to increase accuracy and performance]]
 	  - Consolodate position and velocity into physics
 	  - When performing updates, do not mutate the state of the
@@ -131,6 +130,7 @@ kanban-plugin: board
 
 ## In Progress (2)
 
+- [ ] [[Add a project page to the website]]
 
 
 ## In Review (2)
