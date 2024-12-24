@@ -21,4 +21,4 @@ A simple file explorer interface for the website. Could be facilitated through t
 
 
 ## Blocked by
-- [[move kit fs]]
+- [move kit fs](move%20kit%20fs.md)
