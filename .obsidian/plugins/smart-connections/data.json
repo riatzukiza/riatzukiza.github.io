@@ -1,7 +1,7 @@
 {
   "new_user": false,
   "legacy_transformers": false,
-  "enable_mobile": true,
+  "enable_mobile": false,
   "actions": {
     "lookup": true
   },
@@ -17,5 +17,5 @@
   "show_full_path": false,
   "expanded_view": true,
   "language": "en",
-  "version": "2.3.45"
+  "version": "2.3.46"
 }

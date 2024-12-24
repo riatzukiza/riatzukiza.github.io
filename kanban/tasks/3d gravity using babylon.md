@@ -9,11 +9,11 @@ I wrote a bablyon based 3d gravity simulation using oct trees to cluster togethe
 - Original simulation works
 - Code is hosted on this git
 - The simulation is written in lisp
-- Shows up on project page
+- Shows up on [[project]] page
 
 ## Tasks 
 
 - [ ] Test original code and make any changes needed to make it work
 - [ ] Make the code work in this repo
 - [ ] rewrite it in lisp
-- [ ] If it's in the right spot it will show up on project page automaticly.
+- [ ] If it's in the right spot it will show up on [[project]] page automaticly.

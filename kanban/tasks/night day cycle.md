@@ -1,35 +1,24 @@
 # Description
 
-{{Description}}
+Lighting conditions and weather changes cyclically over time, effecting behavior of all agents.
 
 ## Related Epics
-- [[Identify and write useful templates for obsidian]] 
+- [[Graphics]]
+- [[Game Mechanics]]
 ## Requirements
 
-{{Requirements}}
-- High level expecations
-- Acceptance criteria
-- Definition of done
+- Temperature changes over time
+- lighting changes over time
+- plants do not grow much with out light
 
 ## Tasks 
 
-{{Tasks}}
-
-- [ ] Somthing that needs to be done to accomplish this task
-- [ ] Non exhaustive, suggestive
-- [ ] Represents expected high level steps to meet AC
+- [ ] Implement night/day system
+- [ ] implement interactions with lighting systems
+- [ ] implement interactions with temperature systems
 ## Blocked by 
 
-{{BlockedBy}}
+- [[sprite lighting]]
+- [[weather system]]
 
-- Can't be worked on till this task is done
-- blocking task
-- blocking task
 
-## Blocks
-
-{{Blocks}}
-
-- This task cannot be done until this one is done.
-- neither can this one
-- or this one

@@ -12,14 +12,14 @@ Using symbiants and algae programs as reference, implement physics system in a w
 
 {{Tasks}}
 
-- [ ] Somthing that needs to be done to accomplish this task
+- [ ] Somthing that needs to be [[done]] to accomplish this task
 - [ ] Non exhaustive, suggestive
 - [ ] Represents expected high level steps to meet AC
 ## Blocked by 
 
 {{BlockedBy}}
 
-- Can't be worked on till this task is done
+- Can't be worked on till this task is [[done]]
 - blocking task
 - blocking task
 
@@ -27,6 +27,6 @@ Using symbiants and algae programs as reference, implement physics system in a w
 
 {{Blocks}}
 
-- This task cannot be done until this one is done.
+- This task cannot be [[done]] until this one is [[done]].
 - neither can this one
 - or this one

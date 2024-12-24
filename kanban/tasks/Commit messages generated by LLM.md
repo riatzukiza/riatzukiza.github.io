@@ -1,6 +1,6 @@
 # Description
 
-Use ollama to generate commit messages automaticly and automaticly commit the work that is being done
+Use ollama to generate commit messages automaticly and automaticly commit the work that is being [[done]]
 ## Related Epics
 - [[devops pipeline]]
 ## Requirements
@@ -16,4 +16,4 @@ Use ollama to generate commit messages automaticly and automaticly commit the wo
 - [ ] Write a module that stages the change for commit 
 - [ ] Write a module that accepts a commit message and commits currently staged code with that message
 - [ ] Write code to push committed code
-- [ ] Write an event handler for src file change events and executes each of the above
+- [ ] Write an event handler for src file change events and executes [[each]] of the above

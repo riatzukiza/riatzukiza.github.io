@@ -2428,86 +2428,413 @@ function sort_by_score(a, b) {
 }
 
 // node_modules/smart-sources/node_modules/smart-entities/adapters/_adapter.js
+var EntitiesVectorAdapter = class {
+  /**
+   * @constructor
+   * @param {Object} collection - The collection (SmartEntities or derived class) instance.
+   */
+  constructor(collection) {
+    this.collection = collection;
+  }
+  /**
+   * Find the nearest entities to the given vector.
+   * @async
+   * @param {number[]} vec - The reference vector.
+   * @param {Object} [filter={}] - Optional filters (limit, exclude, etc.)
+   * @returns {Promise<Array<{item:Object, score:number}>>} Array of results sorted by score descending.
+   * @throws {Error} Not implemented by default.
+   */
+  async nearest(vec, filter = {}) {
+    throw new Error("EntitiesVectorAdapter.nearest() not implemented");
+  }
+  /**
+   * Find the furthest entities from the given vector.
+   * @async
+   * @param {number[]} vec - The reference vector.
+   * @param {Object} [filter={}] - Optional filters (limit, exclude, etc.)
+   * @returns {Promise<Array<{item:Object, score:number}>>} Array of results sorted by score ascending (furthest).
+   * @throws {Error} Not implemented by default.
+   */
+  async furthest(vec, filter = {}) {
+    throw new Error("EntitiesVectorAdapter.furthest() not implemented");
+  }
+  /**
+   * Embed a batch of entities.
+   * @async
+   * @param {Object[]} entities - Array of entity instances to embed.
+   * @returns {Promise<void>}
+   * @throws {Error} Not implemented by default.
+   */
+  async embed_batch(entities) {
+    throw new Error("EntitiesVectorAdapter.embed_batch() not implemented");
+  }
+  /**
+   * Process a queue of entities waiting to be embedded.
+   * Typically, this will call embed_batch in batches and update entities.
+   * @async
+   * @param {Object[]} embed_queue - Array of entities to embed.
+   * @returns {Promise<void>}
+   * @throws {Error} Not implemented by default.
+   */
+  async process_embed_queue(embed_queue) {
+    throw new Error("EntitiesVectorAdapter.process_embed_queue() not implemented");
+  }
+};
 var EntityVectorAdapter = class {
   /**
-   * Creates an instance of EntityVectorAdapter.
    * @constructor
-   * @param {Object} item - The SmartEntity instance this adapter manages.
-   * @example
-   * const adapter = new EntityVectorAdapter(mySmartEntity);
+   * @param {Object} item - The SmartEntity instance that this adapter is associated with.
    */
   constructor(item) {
     this.item = item;
   }
   /**
-   * Retrieves the full data object of the associated SmartEntity. This data object typically contains
-   * metadata, embeddings, and other entity-related information.
-   * @readonly
-   * @type {Object}
-   * @example
-   * const data = adapter.data;
+   * Retrieve the current vector embedding for this entity.
+   * @async
+   * @returns {Promise<number[]|undefined>} The entity's vector or undefined if not set.
+   * @throws {Error} Not implemented by default.
    */
+  async get_vec() {
+    throw new Error("EntityVectorAdapter.get_vec() not implemented");
+  }
+  /**
+   * Store/update the vector embedding for this entity.
+   * @async
+   * @param {number[]} vec - The vector to set.
+   * @returns {Promise<void>}
+   * @throws {Error} Not implemented by default.
+   */
+  async set_vec(vec) {
+    throw new Error("EntityVectorAdapter.set_vec() not implemented");
+  }
+  /**
+   * Delete/remove the vector embedding for this entity.
+   * @async
+   * @returns {Promise<void>}
+   * @throws {Error} Not implemented by default.
+   */
+  async delete_vec() {
+    throw new Error("EntityVectorAdapter.delete_vec() not implemented");
+  }
+};
+
+// node_modules/smart-sources/node_modules/smart-entities/cos_sim.js
+function cos_sim(vector1, vector2) {
+  if (vector1.length !== vector2.length) {
+    throw new Error("Vectors must have the same length");
+  }
+  let dot_product = 0;
+  let magnitude1 = 0;
+  let magnitude2 = 0;
+  const epsilon = 1e-8;
+  for (let i = 0; i < vector1.length; i++) {
+    dot_product += vector1[i] * vector2[i];
+    magnitude1 += vector1[i] * vector1[i];
+    magnitude2 += vector2[i] * vector2[i];
+  }
+  magnitude1 = Math.sqrt(magnitude1);
+  magnitude2 = Math.sqrt(magnitude2);
+  if (magnitude1 < epsilon || magnitude2 < epsilon) {
+    return 0;
+  }
+  return dot_product / (magnitude1 * magnitude2);
+}
+
+// node_modules/smart-sources/node_modules/smart-entities/top_acc.js
+function results_acc(_acc, result, ct = 10) {
+  if (_acc.results.size < ct) {
+    _acc.results.add(result);
+  } else if (result.score > _acc.min) {
+    _acc.results.add(result);
+    _acc.results.delete(_acc.minResult);
+    _acc.minResult = Array.from(_acc.results).reduce((min, curr) => curr.score < min.score ? curr : min);
+    _acc.min = _acc.minResult.score;
+  }
+}
+function furthest_acc(_acc, result, ct = 10) {
+  if (_acc.results.size < ct) {
+    _acc.results.add(result);
+  } else if (result.score < _acc.max) {
+    _acc.results.add(result);
+    _acc.results.delete(_acc.maxResult);
+    _acc.maxResult = Array.from(_acc.results).reduce((max, curr) => curr.score > max.score ? curr : max);
+    _acc.max = _acc.maxResult.score;
+  }
+}
+
+// node_modules/smart-sources/node_modules/smart-entities/adapters/default.js
+var DefaultEntitiesVectorAdapter = class extends EntitiesVectorAdapter {
+  constructor(collection) {
+    super(collection);
+    this._reset_embed_queue_stats();
+  }
+  /**
+   * Find the nearest entities to the given vector.
+   * @async
+   * @param {number[]} vec - The reference vector.
+   * @param {Object} [filter={}] - Optional filters (limit, exclude, etc.)
+   * @returns {Promise<Array<{item:Object, score:number}>>} Array of results sorted by score descending.
+   */
+  async nearest(vec, filter = {}) {
+    if (!vec || !Array.isArray(vec)) {
+      throw new Error("Invalid vector input to nearest()");
+    }
+    const {
+      limit = 50
+      // TODO: default configured in settings
+    } = filter;
+    const nearest = this.collection.filter(filter).reduce((acc, item) => {
+      if (!item.vec) return acc;
+      const result = { item, score: cos_sim(vec, item.vec) };
+      results_acc(acc, result, limit);
+      return acc;
+    }, { min: 0, results: /* @__PURE__ */ new Set() });
+    return Array.from(nearest.results);
+  }
+  /**
+   * Find the furthest entities from the given vector.
+   * @async
+   * @param {number[]} vec - The reference vector.
+   * @param {Object} [filter={}] - Optional filters (limit, exclude, etc.)
+   * @returns {Promise<Array<{item:Object, score:number}>>} Array of results sorted by score ascending (furthest).
+   */
+  async furthest(vec, filter = {}) {
+    if (!vec || !Array.isArray(vec)) {
+      throw new Error("Invalid vector input to furthest()");
+    }
+    const {
+      limit = 50
+      // TODO: default configured in settings
+    } = filter;
+    const furthest = this.collection.filter(filter).reduce((acc, item) => {
+      if (!item.vec) return acc;
+      const result = { item, score: cos_sim(vec, item.vec) };
+      furthest_acc(acc, result, limit);
+      return acc;
+    }, { max: 0, results: /* @__PURE__ */ new Set() });
+    return Array.from(furthest.results);
+  }
+  /**
+   * Embed a batch of entities.
+   * @async
+   * @param {Object[]} entities - Array of entity instances to embed.
+   * @returns {Promise<void>}
+   */
+  async embed_batch(entities) {
+    if (!this.collection.embed_model) {
+      throw new Error("No embed_model found in collection for embedding");
+    }
+    await Promise.all(entities.map((e) => e.get_embed_input()));
+    const embeddings = await this.collection.embed_model.embed_batch(entities);
+    embeddings.forEach((emb, i) => {
+      const entity = entities[i];
+      entity.vec = emb.vec;
+      if (emb.tokens !== void 0) entity.tokens = emb.tokens;
+    });
+  }
+  /**
+   * Process a queue of entities waiting to be embedded.
+   * Typically, this will call embed_batch in batches and update entities.
+   * @async
+   * @returns {Promise<void>}
+   */
+  async process_embed_queue() {
+    const embed_queue = this.collection.embed_queue;
+    this._reset_embed_queue_stats();
+    if (this.collection.embed_model_key === "None") {
+      console.log(`Smart Connections: No active embedding model for ${this.collection.collection_key}, skipping embedding`);
+      return;
+    }
+    if (!this.collection.embed_model) {
+      console.log(`Smart Connections: No active embedding model for ${this.collection.collection_key}, skipping embedding`);
+      return;
+    }
+    const datetime_start = /* @__PURE__ */ new Date();
+    if (!embed_queue.length) {
+      return console.log(`Smart Connections: No items in ${this.collection.collection_key} embed queue`);
+    }
+    console.log(`Time spent getting embed queue: ${(/* @__PURE__ */ new Date()).getTime() - datetime_start.getTime()}ms`);
+    console.log(`Processing ${this.collection.collection_key} embed queue: ${embed_queue.length} items`);
+    for (let i = 0; i < embed_queue.length; i += this.collection.embed_model.batch_size) {
+      if (this.collection.is_queue_halted) {
+        this.collection.is_queue_halted = false;
+        break;
+      }
+      const batch = embed_queue.slice(i, i + this.collection.embed_model.batch_size);
+      await Promise.all(batch.map((item) => item.get_embed_input()));
+      try {
+        const start_time = Date.now();
+        await this.embed_batch(batch);
+        this.collection.total_time += Date.now() - start_time;
+      } catch (e) {
+        if (e && e.message && e.message.includes("API key not set")) {
+          this.halt_embed_queue_processing(`API key not set for ${this.collection.embed_model_key}
+Please set the API key in the settings.`);
+        }
+        console.error(e);
+        console.error(`Error processing ${this.collection.collection_key} embed queue: ` + JSON.stringify(e || {}, null, 2));
+      }
+      batch.forEach((item) => {
+        item.embed_hash = item.read_hash;
+      });
+      this.collection.embedded_total += batch.length;
+      this.collection.total_tokens += batch.reduce((acc, item) => acc + (item.tokens || 0), 0);
+      this._show_embed_progress_notice(embed_queue.length);
+      if (this.collection.embedded_total - this.collection.last_save_total > 1e3) {
+        this.collection.last_save_total = this.collection.embedded_total;
+        await this.collection.process_save_queue();
+      }
+    }
+    this._show_embed_completion_notice(embed_queue.length);
+    this.collection.process_save_queue();
+  }
+  /**
+   * Displays the embedding progress notice.
+   * @private
+   * @returns {void}
+   */
+  _show_embed_progress_notice() {
+    if (this.embedded_total - this.last_notice_embedded_total < 100) return;
+    this.last_notice_embedded_total = this.embedded_total;
+    const pause_btn = { text: "Pause", callback: this.halt_embed_queue_processing.bind(this), stay_open: true };
+    this.notices?.show(
+      "embedding_progress",
+      [
+        `Making Smart Connections...`,
+        `Embedding progress: ${this.embedded_total} / ${this.embed_queue.length}`,
+        `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
+      ],
+      {
+        timeout: 0,
+        button: pause_btn
+      }
+    );
+  }
+  /**
+   * Displays the embedding completion notice.
+   * @private
+   * @returns {void}
+   */
+  _show_embed_completion_notice() {
+    this.notices?.remove("embedding_progress");
+    this.notices?.show("embedding_complete", [
+      `Embedding complete.`,
+      `${this.embedded_total} entities embedded.`,
+      `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
+    ], { timeout: 1e4 });
+  }
+  /**
+   * Halts the embed queue processing.
+   * @param {string|null} msg - Optional message.
+   */
+  halt_embed_queue_processing(msg = null) {
+    this.is_queue_halted = true;
+    console.log("Embed queue processing halted");
+    this.notices?.remove("embedding_progress");
+    this.notices?.show(
+      "embedding_paused",
+      [
+        msg || `Embedding paused.`,
+        `Progress: ${this.embedded_total} / ${this.embed_queue.length}`,
+        `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
+      ],
+      {
+        timeout: 0,
+        button: { text: "Resume", callback: () => this.resume_embed_queue_processing(100) }
+      }
+    );
+  }
+  /**
+   * Resumes the embed queue processing after a delay.
+   * @param {number} [delay=0] - The delay in milliseconds before resuming.
+   * @returns {void}
+   */
+  resume_embed_queue_processing(delay = 0) {
+    console.log("resume_embed_queue_processing");
+    this.notices?.remove("embedding_paused");
+    setTimeout(() => {
+      this.embedded_total = 0;
+      this.process_embed_queue();
+    }, delay);
+  }
+  /**
+   * Calculates the number of tokens processed per second.
+   * @private
+   * @returns {number} Tokens per second.
+   */
+  _calculate_embed_tokens_per_second() {
+    const elapsed_time = this.total_time / 1e3;
+    return Math.round(this.total_tokens / elapsed_time);
+  }
+  /**
+   * Resets the statistics related to embed queue processing.
+   * @private
+   * @returns {void}
+   */
+  _reset_embed_queue_stats() {
+    this._embed_queue = [];
+    this.embedded_total = 0;
+    this.is_queue_halted = false;
+    this.last_save_total = 0;
+    this.last_notice_embedded_total = 0;
+    this.total_tokens = 0;
+    this.total_time = 0;
+  }
+  get notices() {
+    return this.collection.notices;
+  }
+};
+var DefaultEntityVectorAdapter = class extends EntityVectorAdapter {
   get data() {
     return this.item.data;
   }
   /**
-   * Retrieves the key identifying which embedding model is currently in use. This key is used to
-   * access the correct embedding vector from the data object.
-   * @readonly
-   * @type {string|undefined}
-   * @example
-   * const modelKey = adapter.embed_model_key;
+   * Retrieve the current vector embedding for this entity.
+   * @async
+   * @returns {Promise<number[]|undefined>} The entity's vector or undefined if not set.
    */
-  get embed_model_key() {
-    return this.item.embed_model?.model_key;
+  async get_vec() {
+    return this.vec;
   }
   /**
-   * Retrieves the vector representation (the embedding) associated with the current embedding model.
-   * 
-   * By default, this adapter stores embeddings directly in `this.smart_entity.data.embeddings`,
-   * keyed by the embedding model's key. If no vector is found, `undefined` is returned.
-   *
-   * Future adapters could override this getter to retrieve the vector from external sources, such as:
-   * - Local disk storage (e.g., reading from a local file or database).
-   * - Cloud-based vector databases or APIs.
-   * - Custom caching layers for faster access.
-   *
-   * @readonly
-   * @type {Array<number>|undefined}
-   * @example
-   * const vector = adapter.vec; // [0.23, 0.01, ...] or undefined if not set
+   * Store/update the vector embedding for this entity.
+   * @async
+   * @param {number[]} vec - The vector to set.
+   * @returns {Promise<void>}
    */
+  async set_vec(vec) {
+    this.vec = vec;
+  }
+  /**
+   * Delete/remove the vector embedding for this entity.
+   * @async
+   * @returns {Promise<void>}
+   */
+  async delete_vec() {
+    if (this.item.data?.embeddings?.[this.item.embed_model_key]) {
+      delete this.item.data.embeddings[this.item.embed_model_key].vec;
+    }
+  }
+  // adds synchronous get/set for vec
   get vec() {
-    return this.data?.embeddings?.[this.embed_model_key]?.vec;
+    return this.item.data?.embeddings?.[this.item.embed_model_key]?.vec;
   }
-  /**
-   * Sets the vector representation (the embedding) for the current embedding model. If the embeddings
-   * data structure does not exist, it is initialized. This default implementation persists the vector
-   * in the SmartEntity's internal data object.
-   * 
-   * Future adapters could override this setter to store the vector in external systems, for example:
-   * - Writing to a local database for persistence.
-   * - Sending the vector to a remote vector database or search index.
-   * - Implementing custom storage strategies (e.g., sharding, caching).
-   *
-   * @param {Array<number>} vec - The embedding vector.
-   * @example
-   * adapter.vec = [0.23, 0.01, 0.76, ...];
-   */
   set vec(vec) {
-    if (!this.data.embeddings) {
-      this.data.embeddings = {};
+    if (!this.item.data.embeddings) {
+      this.item.data.embeddings = {};
     }
-    if (!this.data.embeddings[this.embed_model_key]) {
-      this.data.embeddings[this.embed_model_key] = {};
+    if (!this.item.data.embeddings[this.item.embed_model_key]) {
+      this.item.data.embeddings[this.item.embed_model_key] = {};
     }
-    this.data.embeddings[this.embed_model_key].vec = vec;
+    this.item.data.embeddings[this.item.embed_model_key].vec = vec;
   }
 };
 
 // node_modules/smart-sources/node_modules/smart-entities/components/entity.js
 async function render2(entity, opts = {}) {
-  const markdown = should_render_embed(entity) ? entity.embed_link : process_for_rendering(await entity.get_content());
+  let markdown;
+  if (should_render_embed(entity)) markdown = entity.embed_link;
+  else markdown = process_for_rendering(await entity.read());
   let frag;
   if (entity.env.settings.smart_view_filter.render_markdown) frag = await this.render_markdown(markdown, entity);
   else frag = this.create_doc_fragment(markdown);
@@ -2537,7 +2864,7 @@ var SmartEntity = class extends CollectionItem {
    */
   constructor(env, opts = {}) {
     super(env, opts);
-    this.entity_adapter = new EntityVectorAdapter(this);
+    this.entity_adapter = new DefaultEntityVectorAdapter(this);
   }
   /**
    * Provides default values for a SmartEntity instance.
@@ -2550,7 +2877,6 @@ var SmartEntity = class extends CollectionItem {
       data: {
         path: null,
         embeddings: {},
-        // contains keys per model
         last_embed: {
           hash: null
         }
@@ -2589,15 +2915,15 @@ var SmartEntity = class extends CollectionItem {
   /**
    * Finds the nearest entities to this entity.
    * @param {Object} [filter={}] - Optional filters to apply.
-   * @returns {Array<Result>} An array of result objects with score and item.
+   * @returns {Array<{item:Object, score:number}>} An array of result objects with score and item.
    */
-  nearest(filter = {}) {
-    return this.collection.nearest_to(this, filter);
+  async nearest(filter = {}) {
+    return await this.collection.nearest_to(this, filter);
   }
   /**
    * Prepares the input for embedding.
    * @async
-   * @param {string} [content=null] - Optional content to use instead calling subsequent read()
+   * @param {string} [content=null] - Optional content to use instead of calling subsequent read()
    * @returns {Promise<void>} Should be overridden in child classes.
    */
   async get_embed_input(content = null) {
@@ -2620,16 +2946,17 @@ var SmartEntity = class extends CollectionItem {
   }
   /**
    * Finds connections relevant to this entity based on provided parameters.
+   * @async
    * @param {Object} [params={}] - Parameters for finding connections.
-   * @returns {Array<Result>} An array of result objects with score and item.
+   * @returns {Array<{item:Object, score:number}>} An array of result objects with score and item.
    */
-  find_connections(params = {}) {
+  async find_connections(params = {}) {
     const filter_opts = this.prepare_find_connections_filter_opts(params);
     const limit = params.filter?.limit || params.limit || this.env.settings.smart_view_filter?.results_limit || 10;
     const cache_key = this.key + JSON.stringify(params);
     if (!this.env.connections_cache) this.env.connections_cache = {};
     if (!this.env.connections_cache[cache_key]) {
-      const connections = this.nearest(filter_opts).sort(sort_by_score).slice(0, limit);
+      const connections = (await this.nearest(filter_opts)).sort(sort_by_score).slice(0, limit);
       this.connections_to_cache(cache_key, connections);
     }
     return this.connections_from_cache(cache_key);
@@ -2637,7 +2964,7 @@ var SmartEntity = class extends CollectionItem {
   /**
    * Retrieves connections from the cache based on the cache key.
    * @param {string} cache_key - The cache key.
-   * @returns {Array<Result>} The cached connections.
+   * @returns {Array<{item:Object, score:number}>} The cached connections.
    */
   connections_from_cache(cache_key) {
     return this.env.connections_cache[cache_key];
@@ -2645,7 +2972,7 @@ var SmartEntity = class extends CollectionItem {
   /**
    * Stores connections in the cache with the provided cache key.
    * @param {string} cache_key - The cache key.
-   * @param {Array<Result>} connections - The connections to cache.
+   * @param {Array<{item:Object, score:number}>} connections - The connections to cache.
    * @returns {void}
    */
   connections_to_cache(cache_key, connections) {
@@ -2722,24 +3049,13 @@ var SmartEntity = class extends CollectionItem {
     return this.data.embeddings[this.embed_model_key]?.tokens;
   }
   /**
-   * Determines if the entity is unembedded based on vector presence and size.
-   * @readonly
-   * @returns {boolean} True if unembedded, false otherwise.
-   */
-  get is_unembedded() {
-    if (this.vec) return false;
-    if (this.size < (this.settings?.min_chars || 300)) return false;
-    return true;
-  }
-  /**
    * Determines if the entity should be embedded.
    * @readonly
-   * @returns {boolean} Always returns true. Can be overridden in child classes.
+   * @returns {boolean} True if no vector is set, false otherwise.
    */
   get should_embed() {
-    return !this.vec;
+    return !this.vec && this.size > (this.settings?.min_chars || 300);
   }
-  // may override in child class
   /**
    * Sets the error for the embedding model.
    * @param {string} error - The error message.
@@ -2821,50 +3137,6 @@ var SmartEntity = class extends CollectionItem {
   }
 };
 
-// node_modules/smart-sources/node_modules/smart-entities/top_acc.js
-function results_acc(_acc, result, ct = 10) {
-  if (_acc.results.size < ct) {
-    _acc.results.add(result);
-  } else if (result.score > _acc.min) {
-    _acc.results.add(result);
-    _acc.results.delete(_acc.minResult);
-    _acc.minResult = Array.from(_acc.results).reduce((min, curr) => curr.score < min.score ? curr : min);
-    _acc.min = _acc.minResult.score;
-  }
-}
-function furthest_acc(_acc, result, ct = 10) {
-  if (_acc.results.size < ct) {
-    _acc.results.add(result);
-  } else if (result.score < _acc.max) {
-    _acc.results.add(result);
-    _acc.results.delete(_acc.maxResult);
-    _acc.maxResult = Array.from(_acc.results).reduce((max, curr) => curr.score > max.score ? curr : max);
-    _acc.max = _acc.maxResult.score;
-  }
-}
-
-// node_modules/smart-sources/node_modules/smart-entities/cos_sim.js
-function cos_sim(vector1, vector2) {
-  if (vector1.length !== vector2.length) {
-    throw new Error("Vectors must have the same length");
-  }
-  let dot_product = 0;
-  let magnitude1 = 0;
-  let magnitude2 = 0;
-  const epsilon = 1e-8;
-  for (let i = 0; i < vector1.length; i++) {
-    dot_product += vector1[i] * vector2[i];
-    magnitude1 += vector1[i] * vector1[i];
-    magnitude2 += vector2[i] * vector2[i];
-  }
-  magnitude1 = Math.sqrt(magnitude1);
-  magnitude2 = Math.sqrt(magnitude2);
-  if (magnitude1 < epsilon || magnitude2 < epsilon) {
-    return 0;
-  }
-  return dot_product / (magnitude1 * magnitude2);
-}
-
 // node_modules/smart-sources/node_modules/smart-entities/smart_entities.js
 var SmartEntities = class extends Collection {
   /**
@@ -2875,11 +3147,9 @@ var SmartEntities = class extends Collection {
    */
   constructor(env, opts) {
     super(env, opts);
+    this.entities_vector_adapter = new DefaultEntitiesVectorAdapter(this);
     this.model_instance_id = null;
-    this.embedded_total = 0;
-    this.is_queue_halted = false;
-    this.total_tokens = 0;
-    this.total_time = 0;
+    this._embed_queue = [];
   }
   /**
    * Initializes the SmartEntities instance by loading embeddings.
@@ -2982,47 +3252,35 @@ var SmartEntities = class extends Collection {
   }
   /**
    * Finds the nearest entities to a given entity.
+   * @async
    * @param {Object} entity - The reference entity.
    * @param {Object} [filter={}] - Optional filters to apply.
-   * @returns {Array<Result>} An array of result objects with score and item.
+   * @returns {Promise<Array<{item:Object, score:number}>>} An array of result objects with score and item.
    */
-  nearest_to(entity, filter = {}) {
-    return this.nearest(entity.vec, filter);
+  async nearest_to(entity, filter = {}) {
+    return await this.nearest(entity.vec, filter);
   }
   /**
-   * Finds the nearest entities to a vector based on cosine similarity.
+   * Finds the nearest entities to a vector using the default adapter.
+   * @async
    * @param {Array<number>} vec - The vector to compare against.
    * @param {Object} [filter={}] - Optional filters to apply.
-   * @param {number} [filter.limit=50] - The maximum number of results to return.
-   * @returns {Array<Result>} An array of result objects with score and item.
+   * @returns {Promise<Array<{item:Object, score:number}>>} An array of result objects with score and item.
    */
-  nearest(vec, filter = {}) {
-    if (!vec) return console.log("no vec");
-    const {
-      limit = 50
-      // TODO: default configured in settings
-    } = filter;
-    const nearest = this.filter(filter).reduce((acc, item) => {
-      if (!item.vec) return acc;
-      const result = { item, score: cos_sim(vec, item.vec) };
-      results_acc(acc, result, limit);
-      return acc;
-    }, { min: 0, results: /* @__PURE__ */ new Set() });
-    return Array.from(nearest.results);
+  async nearest(vec, filter = {}) {
+    if (!vec) return console.warn("nearest: no vec");
+    return await this.entities_vector_adapter.nearest(vec, filter);
   }
-  furthest(vec, filter = {}) {
-    if (!vec) return console.log("no vec");
-    const {
-      limit = 50
-      // TODO: default configured in settings
-    } = filter;
-    const furthest = this.filter(filter).reduce((acc, item) => {
-      if (!item.vec) return acc;
-      const result = { item, score: cos_sim(vec, item.vec) };
-      furthest_acc(acc, result, limit);
-      return acc;
-    }, { max: 0, results: /* @__PURE__ */ new Set() });
-    return Array.from(furthest.results);
+  /**
+   * Finds the furthest entities from a vector using the default adapter.
+   * @async
+   * @param {Array<number>} vec - The vector to compare against.
+   * @param {Object} [filter={}] - Optional filters to apply.
+   * @returns {Promise<Array<{item:Object, score:number}>>} An array of result objects with score and item.
+   */
+  async furthest(vec, filter = {}) {
+    if (!vec) return console.warn("furthest: no vec");
+    return await this.entities_vector_adapter.furthest(vec, filter);
   }
   /**
    * Gets the file name based on collection key and embedding model key.
@@ -3032,8 +3290,6 @@ var SmartEntities = class extends Collection {
   get file_name() {
     return this.collection_key + "-" + this.embed_model_key.split("/").pop();
   }
-  // Uncomment and implement if needed
-  // get data_dir() { return this.env.env_data_dir + "/" + this.embed_model_key.replace("/", "_"); }
   /**
    * Calculates the relevance of an item based on the search filter.
    * @param {Object} item - The item to calculate relevance for.
@@ -3113,8 +3369,9 @@ var SmartEntities = class extends Collection {
       ...this.env.chats?.current?.scope || {},
       ...params.filter || {}
     };
-    const results = hyp_vecs.reduce((acc, embedding, i) => {
-      const results2 = this.nearest(embedding.vec, filter);
+    const results = await hyp_vecs.reduce(async (acc_promise, embedding, i) => {
+      const acc = await acc_promise;
+      const results2 = await this.nearest(embedding.vec, filter);
       results2.forEach((result) => {
         if (!acc[result.item.path] || result.score > acc[result.item.path].score) {
           acc[result.item.path] = {
@@ -3130,7 +3387,7 @@ var SmartEntities = class extends Collection {
         }
       });
       return acc;
-    }, {});
+    }, Promise.resolve({}));
     const top_k = Object.values(results).sort(sort_by_score).slice(0, limit);
     console.log(`Found and returned ${top_k.length} ${this.collection_key}.`);
     return top_k;
@@ -3163,149 +3420,16 @@ var SmartEntities = class extends Collection {
    * @returns {Array<Object>} The embed queue.
    */
   get embed_queue() {
-    if (!this._embed_queue.length) this._embed_queue = Object.values(this.items).filter((item) => item._queue_embed && item.should_embed);
+    if (!this._embed_queue?.length) this._embed_queue = Object.values(this.items).filter((item) => item._queue_embed && item.should_embed);
     return this._embed_queue;
   }
   /**
-   * Processes the embed queue by batching and embedding items using a promise-based state.
-   *
+   * Processes the embed queue by delegating to the default vector adapter.
    * @async
    * @returns {Promise<void>}
    */
   async process_embed_queue() {
-    this._reset_embed_queue_stats();
-    if (this.embed_model_key === "None") return console.log(`Smart Connections: No active embedding model for ${this.collection_key}, skipping embedding`);
-    if (!this.embed_model) return console.log(`Smart Connections: No active embedding model for ${this.collection_key}, skipping embedding`);
-    const datetime_start = /* @__PURE__ */ new Date();
-    if (!this.embed_queue.length) {
-      return console.log(`Smart Connections: No items in ${this.collection_key} embed queue`);
-    }
-    console.log(`Time spent getting embed queue: ${(/* @__PURE__ */ new Date()).getTime() - datetime_start.getTime()}ms`);
-    console.log(`Processing ${this.collection_key} embed queue: ${this.embed_queue.length} items`);
-    for (let i = 0; i < this.embed_queue.length; i += this.embed_model.batch_size) {
-      if (this.is_queue_halted) {
-        this.is_queue_halted = false;
-        break;
-      }
-      const batch = this.embed_queue.slice(i, i + this.embed_model.batch_size);
-      await Promise.all(batch.map((item) => item.get_embed_input()));
-      try {
-        const start_time = Date.now();
-        await this.embed_model.embed_batch(batch);
-        this.total_time += Date.now() - start_time;
-      } catch (e) {
-        if (e && e.message && e.message.includes("API key not set")) {
-          this.halt_embed_queue_processing(`API key not set for ${this.embed_model_key}
-Please set the API key in the settings.`);
-        }
-        console.error(e);
-        console.error(`Error processing ${this.collection_key} embed queue: ` + JSON.stringify(e || {}, null, 2));
-      }
-      batch.forEach((item) => {
-        item.embed_hash = item.read_hash;
-      });
-      this.embedded_total += batch.length;
-      this.total_tokens += batch.reduce((acc, item) => acc + (item.tokens || 0), 0);
-      this._show_embed_progress_notice();
-      if (this.embedded_total - this.last_save_total > 1e3) {
-        this.last_save_total = this.embedded_total;
-        await this.process_save_queue();
-      }
-    }
-    this._show_embed_completion_notice();
-    this.process_save_queue();
-  }
-  /**
-   * Displays the embedding progress notice.
-   * @private
-   * @returns {void}
-   */
-  _show_embed_progress_notice() {
-    if (this.embedded_total - this.last_notice_embedded_total < 100) return;
-    this.last_notice_embedded_total = this.embedded_total;
-    const pause_btn = { text: "Pause", callback: this.halt_embed_queue_processing.bind(this), stay_open: true };
-    this.notices?.show(
-      "embedding_progress",
-      [
-        `Making Smart Connections...`,
-        `Embedding progress: ${this.embedded_total} / ${this.embed_queue.length}`,
-        `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
-      ],
-      {
-        timeout: 0,
-        button: pause_btn
-      }
-    );
-  }
-  /**
-   * Displays the embedding completion notice.
-   * @private
-   * @returns {void}
-   */
-  _show_embed_completion_notice() {
-    this.notices?.remove("embedding_progress");
-    this.notices?.show("embedding_complete", [
-      `Embedding complete.`,
-      `${this.embedded_total} entities embedded.`,
-      `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
-    ], { timeout: 1e4 });
-  }
-  /**
-   * Calculates the number of tokens processed per second.
-   * @private
-   * @returns {number} Tokens per second.
-   */
-  _calculate_embed_tokens_per_second() {
-    const elapsed_time = this.total_time / 1e3;
-    return Math.round(this.total_tokens / elapsed_time);
-  }
-  /**
-   * Resets the statistics related to embed queue processing.
-   * @private
-   * @returns {void}
-   */
-  _reset_embed_queue_stats() {
-    this.is_queue_halted = false;
-    this.last_save_total = 0;
-    this._embed_queue = [];
-    this.embedded_total = 0;
-    this.total_tokens = 0;
-    this.total_time = 0;
-    this.last_notice_embedded_total = 0;
-  }
-  /**
-   * Halts the embed queue processing.
-   * @returns {void}
-   */
-  halt_embed_queue_processing(msg = null) {
-    this.is_queue_halted = true;
-    console.log("Embed queue processing halted");
-    this.notices?.remove("embedding_progress");
-    this.notices?.show(
-      "embedding_paused",
-      [
-        msg || `Embedding paused.`,
-        `Progress: ${this.embedded_total} / ${this.embed_queue.length}`,
-        `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
-      ],
-      {
-        timeout: 0,
-        button: { text: "Resume", callback: () => this.resume_embed_queue_processing(100) }
-      }
-    );
-  }
-  /**
-   * Resumes the embed queue processing after a delay.
-   * @param {number} [delay=0] - The delay in milliseconds before resuming.
-   * @returns {void}
-   */
-  resume_embed_queue_processing(delay = 0) {
-    console.log("resume_embed_queue_processing");
-    this.notices?.remove("embedding_paused");
-    setTimeout(() => {
-      this.embedded_total = 0;
-      this.process_embed_queue();
-    }, delay);
+    await this.entities_vector_adapter.process_embed_queue();
   }
   /**
    * Handles changes to the embedding model by reinitializing and processing the load queue.
@@ -3388,17 +3512,13 @@ var connections_filter_config = {
 
 // node_modules/smart-sources/components/source.js
 async function render3(source, opts = {}) {
-  const markdown = should_render_embed_source(source) ? source.embed_link : process_for_rendering(await source.get_content());
+  let markdown;
+  if (should_render_embed(source)) markdown = source.embed_link;
+  else markdown = process_for_rendering(await source.read());
   let frag;
   if (source.env.settings.smart_view_filter.render_markdown) frag = await this.render_markdown(markdown, source);
   else frag = this.create_doc_fragment(`<span>${markdown}</span>`);
   return await post_process2.call(this, source, frag, opts);
-}
-function should_render_embed_source(source) {
-  if (should_render_embed(source)) return true;
-  if (source.source?.is_canvas || source.source?.is_excalidraw) return true;
-  if (source.file_type !== "md") return true;
-  return false;
 }
 
 // node_modules/smart-sources/utils/create_hash.js
@@ -3479,15 +3599,16 @@ var SmartSource = class extends SmartEntity {
   }
   /**
    * Finds connections relevant to this SmartSource based on provided parameters.
+   * @async
    * @param {Object} [params={}] - Parameters for finding connections.
    * @param {boolean} [params.exclude_source_connections=false] - Whether to exclude source connections.
    * @param {boolean} [params.exclude_blocks_from_source_connections=false] - Whether to exclude block connections from source connections.
    * @returns {Array<SmartSource>} An array of relevant SmartSource entities.
    */
-  find_connections(params = {}) {
+  async find_connections(params = {}) {
     let connections;
     if (this.block_collection.settings.embed_blocks && params.exclude_source_connections) connections = [];
-    else connections = super.find_connections(params);
+    else connections = await super.find_connections(params);
     const filter_opts = this.prepare_find_connections_filter_opts(params);
     const limit = params.filter?.limit || params.limit || this.env.settings.smart_view_filter?.results_limit || 20;
     if (params.filter?.limit) delete params.filter.limit;
@@ -3496,7 +3617,7 @@ var SmartSource = class extends SmartEntity {
       const cache_key = this.key + JSON.stringify(params) + "_blocks";
       if (!this.env.connections_cache) this.env.connections_cache = {};
       if (!this.env.connections_cache[cache_key]) {
-        const nearest = this.env.smart_blocks.nearest(this.vec, filter_opts).sort(sort_by_score).slice(0, limit);
+        const nearest = (await this.env.smart_blocks.nearest(this.vec, filter_opts)).sort(sort_by_score).slice(0, limit);
         this.connections_to_cache(cache_key, nearest);
       }
       connections = [
@@ -4013,14 +4134,6 @@ ${content}`.substring(0, max_tokens * 4);
   }
   // DEPRECATED methods
   /**
-   * @async
-   * @deprecated Use `read` instead.
-   * @returns {Promise<string>} A promise that resolves with the content of the block or "BLOCK NOT FOUND".
-   */
-  async get_content() {
-    return await this.read() || 'SOURCE NOT FOUND (run "Prune" to remove)';
-  }
-  /**
    * @deprecated Use `source` instead.
    * @readonly
    * @returns {SmartSource} The associated SmartSource instance.
@@ -4121,7 +4234,7 @@ ${remove_smart_blocks.map((item) => `${item.reason} - ${item.key}`).join("\n")}`
     const items_w_vec = Object.values(this.items).filter((item) => item.vec);
     for (const item of items_w_vec) {
       if (item.source_adapter.should_import) item.queue_import();
-      else if (item.is_unembedded) item.queue_embed();
+      else if (item.should_embed) item.queue_embed();
     }
   }
   /**
@@ -4215,21 +4328,6 @@ ${remove_smart_blocks.map((item) => `${item.reason} - ${item.key}`).join("\n")}`
       ].sort(sort_by_score);
     }
     return results.slice(0, limit);
-  }
-  /**
-   * Imports a file by adding it to the file system and initializing the corresponding SmartSource.
-   * @async
-   * @param {Object} file - The file object to import.
-   * @param {string} file.path - The path of the file.
-   * @returns {Promise<void>}
-   */
-  async import_file(file) {
-    this.fs.files[file.path] = file;
-    this.fs.file_paths.push(file.path);
-    const source = await this.create_or_update({ path: file.path });
-    await source.import();
-    await this.process_embed_queue();
-    await this.process_save_queue();
   }
   /**
    * Processes the load queue by loading items and optionally importing them.
@@ -5359,86 +5457,413 @@ function sort_by_score2(a, b) {
 }
 
 // node_modules/smart-blocks/node_modules/smart-entities/adapters/_adapter.js
+var EntitiesVectorAdapter2 = class {
+  /**
+   * @constructor
+   * @param {Object} collection - The collection (SmartEntities or derived class) instance.
+   */
+  constructor(collection) {
+    this.collection = collection;
+  }
+  /**
+   * Find the nearest entities to the given vector.
+   * @async
+   * @param {number[]} vec - The reference vector.
+   * @param {Object} [filter={}] - Optional filters (limit, exclude, etc.)
+   * @returns {Promise<Array<{item:Object, score:number}>>} Array of results sorted by score descending.
+   * @throws {Error} Not implemented by default.
+   */
+  async nearest(vec, filter = {}) {
+    throw new Error("EntitiesVectorAdapter.nearest() not implemented");
+  }
+  /**
+   * Find the furthest entities from the given vector.
+   * @async
+   * @param {number[]} vec - The reference vector.
+   * @param {Object} [filter={}] - Optional filters (limit, exclude, etc.)
+   * @returns {Promise<Array<{item:Object, score:number}>>} Array of results sorted by score ascending (furthest).
+   * @throws {Error} Not implemented by default.
+   */
+  async furthest(vec, filter = {}) {
+    throw new Error("EntitiesVectorAdapter.furthest() not implemented");
+  }
+  /**
+   * Embed a batch of entities.
+   * @async
+   * @param {Object[]} entities - Array of entity instances to embed.
+   * @returns {Promise<void>}
+   * @throws {Error} Not implemented by default.
+   */
+  async embed_batch(entities) {
+    throw new Error("EntitiesVectorAdapter.embed_batch() not implemented");
+  }
+  /**
+   * Process a queue of entities waiting to be embedded.
+   * Typically, this will call embed_batch in batches and update entities.
+   * @async
+   * @param {Object[]} embed_queue - Array of entities to embed.
+   * @returns {Promise<void>}
+   * @throws {Error} Not implemented by default.
+   */
+  async process_embed_queue(embed_queue) {
+    throw new Error("EntitiesVectorAdapter.process_embed_queue() not implemented");
+  }
+};
 var EntityVectorAdapter2 = class {
   /**
-   * Creates an instance of EntityVectorAdapter.
    * @constructor
-   * @param {Object} item - The SmartEntity instance this adapter manages.
-   * @example
-   * const adapter = new EntityVectorAdapter(mySmartEntity);
+   * @param {Object} item - The SmartEntity instance that this adapter is associated with.
    */
   constructor(item) {
     this.item = item;
   }
   /**
-   * Retrieves the full data object of the associated SmartEntity. This data object typically contains
-   * metadata, embeddings, and other entity-related information.
-   * @readonly
-   * @type {Object}
-   * @example
-   * const data = adapter.data;
+   * Retrieve the current vector embedding for this entity.
+   * @async
+   * @returns {Promise<number[]|undefined>} The entity's vector or undefined if not set.
+   * @throws {Error} Not implemented by default.
    */
+  async get_vec() {
+    throw new Error("EntityVectorAdapter.get_vec() not implemented");
+  }
+  /**
+   * Store/update the vector embedding for this entity.
+   * @async
+   * @param {number[]} vec - The vector to set.
+   * @returns {Promise<void>}
+   * @throws {Error} Not implemented by default.
+   */
+  async set_vec(vec) {
+    throw new Error("EntityVectorAdapter.set_vec() not implemented");
+  }
+  /**
+   * Delete/remove the vector embedding for this entity.
+   * @async
+   * @returns {Promise<void>}
+   * @throws {Error} Not implemented by default.
+   */
+  async delete_vec() {
+    throw new Error("EntityVectorAdapter.delete_vec() not implemented");
+  }
+};
+
+// node_modules/smart-blocks/node_modules/smart-entities/cos_sim.js
+function cos_sim2(vector1, vector2) {
+  if (vector1.length !== vector2.length) {
+    throw new Error("Vectors must have the same length");
+  }
+  let dot_product = 0;
+  let magnitude1 = 0;
+  let magnitude2 = 0;
+  const epsilon = 1e-8;
+  for (let i = 0; i < vector1.length; i++) {
+    dot_product += vector1[i] * vector2[i];
+    magnitude1 += vector1[i] * vector1[i];
+    magnitude2 += vector2[i] * vector2[i];
+  }
+  magnitude1 = Math.sqrt(magnitude1);
+  magnitude2 = Math.sqrt(magnitude2);
+  if (magnitude1 < epsilon || magnitude2 < epsilon) {
+    return 0;
+  }
+  return dot_product / (magnitude1 * magnitude2);
+}
+
+// node_modules/smart-blocks/node_modules/smart-entities/top_acc.js
+function results_acc2(_acc, result, ct = 10) {
+  if (_acc.results.size < ct) {
+    _acc.results.add(result);
+  } else if (result.score > _acc.min) {
+    _acc.results.add(result);
+    _acc.results.delete(_acc.minResult);
+    _acc.minResult = Array.from(_acc.results).reduce((min, curr) => curr.score < min.score ? curr : min);
+    _acc.min = _acc.minResult.score;
+  }
+}
+function furthest_acc2(_acc, result, ct = 10) {
+  if (_acc.results.size < ct) {
+    _acc.results.add(result);
+  } else if (result.score < _acc.max) {
+    _acc.results.add(result);
+    _acc.results.delete(_acc.maxResult);
+    _acc.maxResult = Array.from(_acc.results).reduce((max, curr) => curr.score > max.score ? curr : max);
+    _acc.max = _acc.maxResult.score;
+  }
+}
+
+// node_modules/smart-blocks/node_modules/smart-entities/adapters/default.js
+var DefaultEntitiesVectorAdapter2 = class extends EntitiesVectorAdapter2 {
+  constructor(collection) {
+    super(collection);
+    this._reset_embed_queue_stats();
+  }
+  /**
+   * Find the nearest entities to the given vector.
+   * @async
+   * @param {number[]} vec - The reference vector.
+   * @param {Object} [filter={}] - Optional filters (limit, exclude, etc.)
+   * @returns {Promise<Array<{item:Object, score:number}>>} Array of results sorted by score descending.
+   */
+  async nearest(vec, filter = {}) {
+    if (!vec || !Array.isArray(vec)) {
+      throw new Error("Invalid vector input to nearest()");
+    }
+    const {
+      limit = 50
+      // TODO: default configured in settings
+    } = filter;
+    const nearest = this.collection.filter(filter).reduce((acc, item) => {
+      if (!item.vec) return acc;
+      const result = { item, score: cos_sim2(vec, item.vec) };
+      results_acc2(acc, result, limit);
+      return acc;
+    }, { min: 0, results: /* @__PURE__ */ new Set() });
+    return Array.from(nearest.results);
+  }
+  /**
+   * Find the furthest entities from the given vector.
+   * @async
+   * @param {number[]} vec - The reference vector.
+   * @param {Object} [filter={}] - Optional filters (limit, exclude, etc.)
+   * @returns {Promise<Array<{item:Object, score:number}>>} Array of results sorted by score ascending (furthest).
+   */
+  async furthest(vec, filter = {}) {
+    if (!vec || !Array.isArray(vec)) {
+      throw new Error("Invalid vector input to furthest()");
+    }
+    const {
+      limit = 50
+      // TODO: default configured in settings
+    } = filter;
+    const furthest = this.collection.filter(filter).reduce((acc, item) => {
+      if (!item.vec) return acc;
+      const result = { item, score: cos_sim2(vec, item.vec) };
+      furthest_acc2(acc, result, limit);
+      return acc;
+    }, { max: 0, results: /* @__PURE__ */ new Set() });
+    return Array.from(furthest.results);
+  }
+  /**
+   * Embed a batch of entities.
+   * @async
+   * @param {Object[]} entities - Array of entity instances to embed.
+   * @returns {Promise<void>}
+   */
+  async embed_batch(entities) {
+    if (!this.collection.embed_model) {
+      throw new Error("No embed_model found in collection for embedding");
+    }
+    await Promise.all(entities.map((e) => e.get_embed_input()));
+    const embeddings = await this.collection.embed_model.embed_batch(entities);
+    embeddings.forEach((emb, i) => {
+      const entity = entities[i];
+      entity.vec = emb.vec;
+      if (emb.tokens !== void 0) entity.tokens = emb.tokens;
+    });
+  }
+  /**
+   * Process a queue of entities waiting to be embedded.
+   * Typically, this will call embed_batch in batches and update entities.
+   * @async
+   * @returns {Promise<void>}
+   */
+  async process_embed_queue() {
+    const embed_queue = this.collection.embed_queue;
+    this._reset_embed_queue_stats();
+    if (this.collection.embed_model_key === "None") {
+      console.log(`Smart Connections: No active embedding model for ${this.collection.collection_key}, skipping embedding`);
+      return;
+    }
+    if (!this.collection.embed_model) {
+      console.log(`Smart Connections: No active embedding model for ${this.collection.collection_key}, skipping embedding`);
+      return;
+    }
+    const datetime_start = /* @__PURE__ */ new Date();
+    if (!embed_queue.length) {
+      return console.log(`Smart Connections: No items in ${this.collection.collection_key} embed queue`);
+    }
+    console.log(`Time spent getting embed queue: ${(/* @__PURE__ */ new Date()).getTime() - datetime_start.getTime()}ms`);
+    console.log(`Processing ${this.collection.collection_key} embed queue: ${embed_queue.length} items`);
+    for (let i = 0; i < embed_queue.length; i += this.collection.embed_model.batch_size) {
+      if (this.collection.is_queue_halted) {
+        this.collection.is_queue_halted = false;
+        break;
+      }
+      const batch = embed_queue.slice(i, i + this.collection.embed_model.batch_size);
+      await Promise.all(batch.map((item) => item.get_embed_input()));
+      try {
+        const start_time = Date.now();
+        await this.embed_batch(batch);
+        this.collection.total_time += Date.now() - start_time;
+      } catch (e) {
+        if (e && e.message && e.message.includes("API key not set")) {
+          this.halt_embed_queue_processing(`API key not set for ${this.collection.embed_model_key}
+Please set the API key in the settings.`);
+        }
+        console.error(e);
+        console.error(`Error processing ${this.collection.collection_key} embed queue: ` + JSON.stringify(e || {}, null, 2));
+      }
+      batch.forEach((item) => {
+        item.embed_hash = item.read_hash;
+      });
+      this.collection.embedded_total += batch.length;
+      this.collection.total_tokens += batch.reduce((acc, item) => acc + (item.tokens || 0), 0);
+      this._show_embed_progress_notice(embed_queue.length);
+      if (this.collection.embedded_total - this.collection.last_save_total > 1e3) {
+        this.collection.last_save_total = this.collection.embedded_total;
+        await this.collection.process_save_queue();
+      }
+    }
+    this._show_embed_completion_notice(embed_queue.length);
+    this.collection.process_save_queue();
+  }
+  /**
+   * Displays the embedding progress notice.
+   * @private
+   * @returns {void}
+   */
+  _show_embed_progress_notice() {
+    if (this.embedded_total - this.last_notice_embedded_total < 100) return;
+    this.last_notice_embedded_total = this.embedded_total;
+    const pause_btn = { text: "Pause", callback: this.halt_embed_queue_processing.bind(this), stay_open: true };
+    this.notices?.show(
+      "embedding_progress",
+      [
+        `Making Smart Connections...`,
+        `Embedding progress: ${this.embedded_total} / ${this.embed_queue.length}`,
+        `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
+      ],
+      {
+        timeout: 0,
+        button: pause_btn
+      }
+    );
+  }
+  /**
+   * Displays the embedding completion notice.
+   * @private
+   * @returns {void}
+   */
+  _show_embed_completion_notice() {
+    this.notices?.remove("embedding_progress");
+    this.notices?.show("embedding_complete", [
+      `Embedding complete.`,
+      `${this.embedded_total} entities embedded.`,
+      `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
+    ], { timeout: 1e4 });
+  }
+  /**
+   * Halts the embed queue processing.
+   * @param {string|null} msg - Optional message.
+   */
+  halt_embed_queue_processing(msg = null) {
+    this.is_queue_halted = true;
+    console.log("Embed queue processing halted");
+    this.notices?.remove("embedding_progress");
+    this.notices?.show(
+      "embedding_paused",
+      [
+        msg || `Embedding paused.`,
+        `Progress: ${this.embedded_total} / ${this.embed_queue.length}`,
+        `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
+      ],
+      {
+        timeout: 0,
+        button: { text: "Resume", callback: () => this.resume_embed_queue_processing(100) }
+      }
+    );
+  }
+  /**
+   * Resumes the embed queue processing after a delay.
+   * @param {number} [delay=0] - The delay in milliseconds before resuming.
+   * @returns {void}
+   */
+  resume_embed_queue_processing(delay = 0) {
+    console.log("resume_embed_queue_processing");
+    this.notices?.remove("embedding_paused");
+    setTimeout(() => {
+      this.embedded_total = 0;
+      this.process_embed_queue();
+    }, delay);
+  }
+  /**
+   * Calculates the number of tokens processed per second.
+   * @private
+   * @returns {number} Tokens per second.
+   */
+  _calculate_embed_tokens_per_second() {
+    const elapsed_time = this.total_time / 1e3;
+    return Math.round(this.total_tokens / elapsed_time);
+  }
+  /**
+   * Resets the statistics related to embed queue processing.
+   * @private
+   * @returns {void}
+   */
+  _reset_embed_queue_stats() {
+    this._embed_queue = [];
+    this.embedded_total = 0;
+    this.is_queue_halted = false;
+    this.last_save_total = 0;
+    this.last_notice_embedded_total = 0;
+    this.total_tokens = 0;
+    this.total_time = 0;
+  }
+  get notices() {
+    return this.collection.notices;
+  }
+};
+var DefaultEntityVectorAdapter2 = class extends EntityVectorAdapter2 {
   get data() {
     return this.item.data;
   }
   /**
-   * Retrieves the key identifying which embedding model is currently in use. This key is used to
-   * access the correct embedding vector from the data object.
-   * @readonly
-   * @type {string|undefined}
-   * @example
-   * const modelKey = adapter.embed_model_key;
+   * Retrieve the current vector embedding for this entity.
+   * @async
+   * @returns {Promise<number[]|undefined>} The entity's vector or undefined if not set.
    */
-  get embed_model_key() {
-    return this.item.embed_model?.model_key;
+  async get_vec() {
+    return this.vec;
   }
   /**
-   * Retrieves the vector representation (the embedding) associated with the current embedding model.
-   * 
-   * By default, this adapter stores embeddings directly in `this.smart_entity.data.embeddings`,
-   * keyed by the embedding model's key. If no vector is found, `undefined` is returned.
-   *
-   * Future adapters could override this getter to retrieve the vector from external sources, such as:
-   * - Local disk storage (e.g., reading from a local file or database).
-   * - Cloud-based vector databases or APIs.
-   * - Custom caching layers for faster access.
-   *
-   * @readonly
-   * @type {Array<number>|undefined}
-   * @example
-   * const vector = adapter.vec; // [0.23, 0.01, ...] or undefined if not set
+   * Store/update the vector embedding for this entity.
+   * @async
+   * @param {number[]} vec - The vector to set.
+   * @returns {Promise<void>}
    */
+  async set_vec(vec) {
+    this.vec = vec;
+  }
+  /**
+   * Delete/remove the vector embedding for this entity.
+   * @async
+   * @returns {Promise<void>}
+   */
+  async delete_vec() {
+    if (this.item.data?.embeddings?.[this.item.embed_model_key]) {
+      delete this.item.data.embeddings[this.item.embed_model_key].vec;
+    }
+  }
+  // adds synchronous get/set for vec
   get vec() {
-    return this.data?.embeddings?.[this.embed_model_key]?.vec;
+    return this.item.data?.embeddings?.[this.item.embed_model_key]?.vec;
   }
-  /**
-   * Sets the vector representation (the embedding) for the current embedding model. If the embeddings
-   * data structure does not exist, it is initialized. This default implementation persists the vector
-   * in the SmartEntity's internal data object.
-   * 
-   * Future adapters could override this setter to store the vector in external systems, for example:
-   * - Writing to a local database for persistence.
-   * - Sending the vector to a remote vector database or search index.
-   * - Implementing custom storage strategies (e.g., sharding, caching).
-   *
-   * @param {Array<number>} vec - The embedding vector.
-   * @example
-   * adapter.vec = [0.23, 0.01, 0.76, ...];
-   */
   set vec(vec) {
-    if (!this.data.embeddings) {
-      this.data.embeddings = {};
+    if (!this.item.data.embeddings) {
+      this.item.data.embeddings = {};
     }
-    if (!this.data.embeddings[this.embed_model_key]) {
-      this.data.embeddings[this.embed_model_key] = {};
+    if (!this.item.data.embeddings[this.item.embed_model_key]) {
+      this.item.data.embeddings[this.item.embed_model_key] = {};
     }
-    this.data.embeddings[this.embed_model_key].vec = vec;
+    this.item.data.embeddings[this.item.embed_model_key].vec = vec;
   }
 };
 
 // node_modules/smart-blocks/node_modules/smart-entities/components/entity.js
 async function render4(entity, opts = {}) {
-  const markdown = should_render_embed2(entity) ? entity.embed_link : process_for_rendering2(await entity.get_content());
+  let markdown;
+  if (should_render_embed2(entity)) markdown = entity.embed_link;
+  else markdown = process_for_rendering2(await entity.read());
   let frag;
   if (entity.env.settings.smart_view_filter.render_markdown) frag = await this.render_markdown(markdown, entity);
   else frag = this.create_doc_fragment(markdown);
@@ -5468,7 +5893,7 @@ var SmartEntity2 = class extends CollectionItem2 {
    */
   constructor(env, opts = {}) {
     super(env, opts);
-    this.entity_adapter = new EntityVectorAdapter2(this);
+    this.entity_adapter = new DefaultEntityVectorAdapter2(this);
   }
   /**
    * Provides default values for a SmartEntity instance.
@@ -5481,7 +5906,6 @@ var SmartEntity2 = class extends CollectionItem2 {
       data: {
         path: null,
         embeddings: {},
-        // contains keys per model
         last_embed: {
           hash: null
         }
@@ -5520,15 +5944,15 @@ var SmartEntity2 = class extends CollectionItem2 {
   /**
    * Finds the nearest entities to this entity.
    * @param {Object} [filter={}] - Optional filters to apply.
-   * @returns {Array<Result>} An array of result objects with score and item.
+   * @returns {Array<{item:Object, score:number}>} An array of result objects with score and item.
    */
-  nearest(filter = {}) {
-    return this.collection.nearest_to(this, filter);
+  async nearest(filter = {}) {
+    return await this.collection.nearest_to(this, filter);
   }
   /**
    * Prepares the input for embedding.
    * @async
-   * @param {string} [content=null] - Optional content to use instead calling subsequent read()
+   * @param {string} [content=null] - Optional content to use instead of calling subsequent read()
    * @returns {Promise<void>} Should be overridden in child classes.
    */
   async get_embed_input(content = null) {
@@ -5551,16 +5975,17 @@ var SmartEntity2 = class extends CollectionItem2 {
   }
   /**
    * Finds connections relevant to this entity based on provided parameters.
+   * @async
    * @param {Object} [params={}] - Parameters for finding connections.
-   * @returns {Array<Result>} An array of result objects with score and item.
+   * @returns {Array<{item:Object, score:number}>} An array of result objects with score and item.
    */
-  find_connections(params = {}) {
+  async find_connections(params = {}) {
     const filter_opts = this.prepare_find_connections_filter_opts(params);
     const limit = params.filter?.limit || params.limit || this.env.settings.smart_view_filter?.results_limit || 10;
     const cache_key = this.key + JSON.stringify(params);
     if (!this.env.connections_cache) this.env.connections_cache = {};
     if (!this.env.connections_cache[cache_key]) {
-      const connections = this.nearest(filter_opts).sort(sort_by_score2).slice(0, limit);
+      const connections = (await this.nearest(filter_opts)).sort(sort_by_score2).slice(0, limit);
       this.connections_to_cache(cache_key, connections);
     }
     return this.connections_from_cache(cache_key);
@@ -5568,7 +5993,7 @@ var SmartEntity2 = class extends CollectionItem2 {
   /**
    * Retrieves connections from the cache based on the cache key.
    * @param {string} cache_key - The cache key.
-   * @returns {Array<Result>} The cached connections.
+   * @returns {Array<{item:Object, score:number}>} The cached connections.
    */
   connections_from_cache(cache_key) {
     return this.env.connections_cache[cache_key];
@@ -5576,7 +6001,7 @@ var SmartEntity2 = class extends CollectionItem2 {
   /**
    * Stores connections in the cache with the provided cache key.
    * @param {string} cache_key - The cache key.
-   * @param {Array<Result>} connections - The connections to cache.
+   * @param {Array<{item:Object, score:number}>} connections - The connections to cache.
    * @returns {void}
    */
   connections_to_cache(cache_key, connections) {
@@ -5653,24 +6078,13 @@ var SmartEntity2 = class extends CollectionItem2 {
     return this.data.embeddings[this.embed_model_key]?.tokens;
   }
   /**
-   * Determines if the entity is unembedded based on vector presence and size.
-   * @readonly
-   * @returns {boolean} True if unembedded, false otherwise.
-   */
-  get is_unembedded() {
-    if (this.vec) return false;
-    if (this.size < (this.settings?.min_chars || 300)) return false;
-    return true;
-  }
-  /**
    * Determines if the entity should be embedded.
    * @readonly
-   * @returns {boolean} Always returns true. Can be overridden in child classes.
+   * @returns {boolean} True if no vector is set, false otherwise.
    */
   get should_embed() {
-    return !this.vec;
+    return !this.vec && this.size > (this.settings?.min_chars || 300);
   }
-  // may override in child class
   /**
    * Sets the error for the embedding model.
    * @param {string} error - The error message.
@@ -5752,50 +6166,6 @@ var SmartEntity2 = class extends CollectionItem2 {
   }
 };
 
-// node_modules/smart-blocks/node_modules/smart-entities/top_acc.js
-function results_acc2(_acc, result, ct = 10) {
-  if (_acc.results.size < ct) {
-    _acc.results.add(result);
-  } else if (result.score > _acc.min) {
-    _acc.results.add(result);
-    _acc.results.delete(_acc.minResult);
-    _acc.minResult = Array.from(_acc.results).reduce((min, curr) => curr.score < min.score ? curr : min);
-    _acc.min = _acc.minResult.score;
-  }
-}
-function furthest_acc2(_acc, result, ct = 10) {
-  if (_acc.results.size < ct) {
-    _acc.results.add(result);
-  } else if (result.score < _acc.max) {
-    _acc.results.add(result);
-    _acc.results.delete(_acc.maxResult);
-    _acc.maxResult = Array.from(_acc.results).reduce((max, curr) => curr.score > max.score ? curr : max);
-    _acc.max = _acc.maxResult.score;
-  }
-}
-
-// node_modules/smart-blocks/node_modules/smart-entities/cos_sim.js
-function cos_sim2(vector1, vector2) {
-  if (vector1.length !== vector2.length) {
-    throw new Error("Vectors must have the same length");
-  }
-  let dot_product = 0;
-  let magnitude1 = 0;
-  let magnitude2 = 0;
-  const epsilon = 1e-8;
-  for (let i = 0; i < vector1.length; i++) {
-    dot_product += vector1[i] * vector2[i];
-    magnitude1 += vector1[i] * vector1[i];
-    magnitude2 += vector2[i] * vector2[i];
-  }
-  magnitude1 = Math.sqrt(magnitude1);
-  magnitude2 = Math.sqrt(magnitude2);
-  if (magnitude1 < epsilon || magnitude2 < epsilon) {
-    return 0;
-  }
-  return dot_product / (magnitude1 * magnitude2);
-}
-
 // node_modules/smart-blocks/node_modules/smart-entities/smart_entities.js
 var SmartEntities2 = class extends Collection2 {
   /**
@@ -5806,11 +6176,9 @@ var SmartEntities2 = class extends Collection2 {
    */
   constructor(env, opts) {
     super(env, opts);
+    this.entities_vector_adapter = new DefaultEntitiesVectorAdapter2(this);
     this.model_instance_id = null;
-    this.embedded_total = 0;
-    this.is_queue_halted = false;
-    this.total_tokens = 0;
-    this.total_time = 0;
+    this._embed_queue = [];
   }
   /**
    * Initializes the SmartEntities instance by loading embeddings.
@@ -5913,47 +6281,35 @@ var SmartEntities2 = class extends Collection2 {
   }
   /**
    * Finds the nearest entities to a given entity.
+   * @async
    * @param {Object} entity - The reference entity.
    * @param {Object} [filter={}] - Optional filters to apply.
-   * @returns {Array<Result>} An array of result objects with score and item.
+   * @returns {Promise<Array<{item:Object, score:number}>>} An array of result objects with score and item.
    */
-  nearest_to(entity, filter = {}) {
-    return this.nearest(entity.vec, filter);
+  async nearest_to(entity, filter = {}) {
+    return await this.nearest(entity.vec, filter);
   }
   /**
-   * Finds the nearest entities to a vector based on cosine similarity.
+   * Finds the nearest entities to a vector using the default adapter.
+   * @async
    * @param {Array<number>} vec - The vector to compare against.
    * @param {Object} [filter={}] - Optional filters to apply.
-   * @param {number} [filter.limit=50] - The maximum number of results to return.
-   * @returns {Array<Result>} An array of result objects with score and item.
+   * @returns {Promise<Array<{item:Object, score:number}>>} An array of result objects with score and item.
    */
-  nearest(vec, filter = {}) {
-    if (!vec) return console.log("no vec");
-    const {
-      limit = 50
-      // TODO: default configured in settings
-    } = filter;
-    const nearest = this.filter(filter).reduce((acc, item) => {
-      if (!item.vec) return acc;
-      const result = { item, score: cos_sim2(vec, item.vec) };
-      results_acc2(acc, result, limit);
-      return acc;
-    }, { min: 0, results: /* @__PURE__ */ new Set() });
-    return Array.from(nearest.results);
+  async nearest(vec, filter = {}) {
+    if (!vec) return console.warn("nearest: no vec");
+    return await this.entities_vector_adapter.nearest(vec, filter);
   }
-  furthest(vec, filter = {}) {
-    if (!vec) return console.log("no vec");
-    const {
-      limit = 50
-      // TODO: default configured in settings
-    } = filter;
-    const furthest = this.filter(filter).reduce((acc, item) => {
-      if (!item.vec) return acc;
-      const result = { item, score: cos_sim2(vec, item.vec) };
-      furthest_acc2(acc, result, limit);
-      return acc;
-    }, { max: 0, results: /* @__PURE__ */ new Set() });
-    return Array.from(furthest.results);
+  /**
+   * Finds the furthest entities from a vector using the default adapter.
+   * @async
+   * @param {Array<number>} vec - The vector to compare against.
+   * @param {Object} [filter={}] - Optional filters to apply.
+   * @returns {Promise<Array<{item:Object, score:number}>>} An array of result objects with score and item.
+   */
+  async furthest(vec, filter = {}) {
+    if (!vec) return console.warn("furthest: no vec");
+    return await this.entities_vector_adapter.furthest(vec, filter);
   }
   /**
    * Gets the file name based on collection key and embedding model key.
@@ -5963,8 +6319,6 @@ var SmartEntities2 = class extends Collection2 {
   get file_name() {
     return this.collection_key + "-" + this.embed_model_key.split("/").pop();
   }
-  // Uncomment and implement if needed
-  // get data_dir() { return this.env.env_data_dir + "/" + this.embed_model_key.replace("/", "_"); }
   /**
    * Calculates the relevance of an item based on the search filter.
    * @param {Object} item - The item to calculate relevance for.
@@ -6044,8 +6398,9 @@ var SmartEntities2 = class extends Collection2 {
       ...this.env.chats?.current?.scope || {},
       ...params.filter || {}
     };
-    const results = hyp_vecs.reduce((acc, embedding, i) => {
-      const results2 = this.nearest(embedding.vec, filter);
+    const results = await hyp_vecs.reduce(async (acc_promise, embedding, i) => {
+      const acc = await acc_promise;
+      const results2 = await this.nearest(embedding.vec, filter);
       results2.forEach((result) => {
         if (!acc[result.item.path] || result.score > acc[result.item.path].score) {
           acc[result.item.path] = {
@@ -6061,7 +6416,7 @@ var SmartEntities2 = class extends Collection2 {
         }
       });
       return acc;
-    }, {});
+    }, Promise.resolve({}));
     const top_k = Object.values(results).sort(sort_by_score2).slice(0, limit);
     console.log(`Found and returned ${top_k.length} ${this.collection_key}.`);
     return top_k;
@@ -6094,149 +6449,16 @@ var SmartEntities2 = class extends Collection2 {
    * @returns {Array<Object>} The embed queue.
    */
   get embed_queue() {
-    if (!this._embed_queue.length) this._embed_queue = Object.values(this.items).filter((item) => item._queue_embed && item.should_embed);
+    if (!this._embed_queue?.length) this._embed_queue = Object.values(this.items).filter((item) => item._queue_embed && item.should_embed);
     return this._embed_queue;
   }
   /**
-   * Processes the embed queue by batching and embedding items using a promise-based state.
-   *
+   * Processes the embed queue by delegating to the default vector adapter.
    * @async
    * @returns {Promise<void>}
    */
   async process_embed_queue() {
-    this._reset_embed_queue_stats();
-    if (this.embed_model_key === "None") return console.log(`Smart Connections: No active embedding model for ${this.collection_key}, skipping embedding`);
-    if (!this.embed_model) return console.log(`Smart Connections: No active embedding model for ${this.collection_key}, skipping embedding`);
-    const datetime_start = /* @__PURE__ */ new Date();
-    if (!this.embed_queue.length) {
-      return console.log(`Smart Connections: No items in ${this.collection_key} embed queue`);
-    }
-    console.log(`Time spent getting embed queue: ${(/* @__PURE__ */ new Date()).getTime() - datetime_start.getTime()}ms`);
-    console.log(`Processing ${this.collection_key} embed queue: ${this.embed_queue.length} items`);
-    for (let i = 0; i < this.embed_queue.length; i += this.embed_model.batch_size) {
-      if (this.is_queue_halted) {
-        this.is_queue_halted = false;
-        break;
-      }
-      const batch = this.embed_queue.slice(i, i + this.embed_model.batch_size);
-      await Promise.all(batch.map((item) => item.get_embed_input()));
-      try {
-        const start_time = Date.now();
-        await this.embed_model.embed_batch(batch);
-        this.total_time += Date.now() - start_time;
-      } catch (e) {
-        if (e && e.message && e.message.includes("API key not set")) {
-          this.halt_embed_queue_processing(`API key not set for ${this.embed_model_key}
-Please set the API key in the settings.`);
-        }
-        console.error(e);
-        console.error(`Error processing ${this.collection_key} embed queue: ` + JSON.stringify(e || {}, null, 2));
-      }
-      batch.forEach((item) => {
-        item.embed_hash = item.read_hash;
-      });
-      this.embedded_total += batch.length;
-      this.total_tokens += batch.reduce((acc, item) => acc + (item.tokens || 0), 0);
-      this._show_embed_progress_notice();
-      if (this.embedded_total - this.last_save_total > 1e3) {
-        this.last_save_total = this.embedded_total;
-        await this.process_save_queue();
-      }
-    }
-    this._show_embed_completion_notice();
-    this.process_save_queue();
-  }
-  /**
-   * Displays the embedding progress notice.
-   * @private
-   * @returns {void}
-   */
-  _show_embed_progress_notice() {
-    if (this.embedded_total - this.last_notice_embedded_total < 100) return;
-    this.last_notice_embedded_total = this.embedded_total;
-    const pause_btn = { text: "Pause", callback: this.halt_embed_queue_processing.bind(this), stay_open: true };
-    this.notices?.show(
-      "embedding_progress",
-      [
-        `Making Smart Connections...`,
-        `Embedding progress: ${this.embedded_total} / ${this.embed_queue.length}`,
-        `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
-      ],
-      {
-        timeout: 0,
-        button: pause_btn
-      }
-    );
-  }
-  /**
-   * Displays the embedding completion notice.
-   * @private
-   * @returns {void}
-   */
-  _show_embed_completion_notice() {
-    this.notices?.remove("embedding_progress");
-    this.notices?.show("embedding_complete", [
-      `Embedding complete.`,
-      `${this.embedded_total} entities embedded.`,
-      `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
-    ], { timeout: 1e4 });
-  }
-  /**
-   * Calculates the number of tokens processed per second.
-   * @private
-   * @returns {number} Tokens per second.
-   */
-  _calculate_embed_tokens_per_second() {
-    const elapsed_time = this.total_time / 1e3;
-    return Math.round(this.total_tokens / elapsed_time);
-  }
-  /**
-   * Resets the statistics related to embed queue processing.
-   * @private
-   * @returns {void}
-   */
-  _reset_embed_queue_stats() {
-    this.is_queue_halted = false;
-    this.last_save_total = 0;
-    this._embed_queue = [];
-    this.embedded_total = 0;
-    this.total_tokens = 0;
-    this.total_time = 0;
-    this.last_notice_embedded_total = 0;
-  }
-  /**
-   * Halts the embed queue processing.
-   * @returns {void}
-   */
-  halt_embed_queue_processing(msg = null) {
-    this.is_queue_halted = true;
-    console.log("Embed queue processing halted");
-    this.notices?.remove("embedding_progress");
-    this.notices?.show(
-      "embedding_paused",
-      [
-        msg || `Embedding paused.`,
-        `Progress: ${this.embedded_total} / ${this.embed_queue.length}`,
-        `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
-      ],
-      {
-        timeout: 0,
-        button: { text: "Resume", callback: () => this.resume_embed_queue_processing(100) }
-      }
-    );
-  }
-  /**
-   * Resumes the embed queue processing after a delay.
-   * @param {number} [delay=0] - The delay in milliseconds before resuming.
-   * @returns {void}
-   */
-  resume_embed_queue_processing(delay = 0) {
-    console.log("resume_embed_queue_processing");
-    this.notices?.remove("embedding_paused");
-    setTimeout(() => {
-      this.embedded_total = 0;
-      this.process_embed_queue();
-    }, delay);
+    await this.entities_vector_adapter.process_embed_queue();
   }
   /**
    * Handles changes to the embedding model by reinitializing and processing the load queue.
@@ -6427,7 +6649,15 @@ var SmartBlock = class extends SmartEntity2 {
    * @returns {Promise<string>} The block content.
    */
   async read() {
-    return await this.block_adapter.read();
+    try {
+      return await this.block_adapter.read();
+    } catch (e) {
+      if (e.message.includes("BLOCK NOT FOUND")) {
+        return 'BLOCK NOT FOUND (run "Prune" to remove)';
+      } else {
+        throw e;
+      }
+    }
   }
   /**
    * @method append
@@ -6557,15 +6787,6 @@ var SmartBlock = class extends SmartEntity2 {
     if (!this.source?.file) return true;
     if (!this.source?.data?.blocks?.[this.sub_key]) return true;
     return false;
-  }
-  /**
-   * Determines if the block is unembedded based on exclusion and embedding status.
-   * @readonly
-   * @returns {boolean} `true` if unembedded, `false` otherwise.
-   */
-  get is_unembedded() {
-    if (this.excluded) return false;
-    return super.is_unembedded;
   }
   get last_embed() {
     return this.data.last_embed;
@@ -6766,14 +6987,6 @@ var SmartBlock = class extends SmartEntity2 {
    */
   // get component() { return render_source_component; }
   // DEPRECATED
-  /**
-   * @async
-   * @deprecated Use `read` instead.
-   * @returns {Promise<string>} A promise that resolves with the content of the block or "BLOCK NOT FOUND".
-   */
-  async get_content() {
-    return await this.read() || 'BLOCK NOT FOUND (run "Prune" to remove)';
-  }
   /**
    * @deprecated Use `source` instead.
    * @readonly
@@ -7208,14 +7421,6 @@ var SmartBlocks = class extends SmartEntities2 {
    * @throws {Error} Throws an error indicating the method is not implemented.
    * @returns {Promise<void>}
    */
-  async import_file() {
-    throw "Not implemented: import_file";
-  }
-  /**
-   * @async
-   * @throws {Error} Throws an error indicating the method is not implemented.
-   * @returns {Promise<void>}
-   */
   async run_data_load() {
     throw "Not implemented: run_data_load";
   }
@@ -7377,14 +7582,15 @@ var BlockContentAdapter = class {
   /**
    * @constructor
    * @param {Object} item - The SmartBlock instance this adapter operates on.
+   * The `item` should at least provide `data` and references to its parent source.
    */
   constructor(item) {
     this.item = item;
   }
   /**
-   * Read the content of the block.
-   * @abstract
    * @async
+   * @method read
+   * @abstract
    * @returns {Promise<string>} The content of the block.
    * @throws {Error} If not implemented by subclass.
    */
@@ -7392,10 +7598,10 @@ var BlockContentAdapter = class {
     throw new Error("Not implemented");
   }
   /**
-   * Append content to the block.
-   * @abstract
    * @async
-   * @param {string} content Content to append.
+   * @method append
+   * @abstract
+   * @param {string} content Content to append to the block.
    * @returns {Promise<void>}
    * @throws {Error} If not implemented by subclass.
    */
@@ -7403,11 +7609,11 @@ var BlockContentAdapter = class {
     throw new Error("Not implemented");
   }
   /**
-   * Update the block with new content.
-   * @abstract
    * @async
-   * @param {string} new_content New content for the block.
-   * @param {Object} [opts={}] Additional options.
+   * @method update
+   * @abstract
+   * @param {string} new_content The new content for the block.
+   * @param {Object} [opts={}] Additional update options.
    * @returns {Promise<void>}
    * @throws {Error} If not implemented by subclass.
    */
@@ -7415,9 +7621,9 @@ var BlockContentAdapter = class {
     throw new Error("Not implemented");
   }
   /**
-   * Remove the block from the source.
-   * @abstract
    * @async
+   * @method remove
+   * @abstract
    * @returns {Promise<void>}
    * @throws {Error} If not implemented by subclass.
    */
@@ -7425,24 +7631,31 @@ var BlockContentAdapter = class {
     throw new Error("Not implemented");
   }
   /**
-   * Move the block to another location.
-   * @abstract
    * @async
-   * @param {string} to_key Destination path or entity reference.
+   * @method move_to
+   * @abstract
+   * @param {string} to_key The destination key (source or block reference).
    * @returns {Promise<void>}
    * @throws {Error} If not implemented by subclass.
    */
   async move_to(to_key) {
     throw new Error("Not implemented");
   }
+  /**
+   * @name data
+   * @type {Object}
+   * @readonly
+   * @description Access the block’s data object. Useful for updating metadata like line references or hashes.
+   */
   get data() {
     return this.item.data;
   }
   /**
-   * Update the last read timestamp and hash of the block.
    * @async
-   * @param {string} content The content of the block.
+   * @method update_last_read
+   * @param {string} content The current content of the block.
    * @returns {Promise<void>}
+   * @description Update the block’s `last_read` hash and timestamp based on the given content.
    */
   async update_last_read(content) {
     this.data.last_read = {
@@ -7451,10 +7664,11 @@ var BlockContentAdapter = class {
     };
   }
   /**
-   * Create a hash of the block content.
    * @async
+   * @method create_hash
    * @param {string} content The content to hash.
-   * @returns {Promise<string>} The hash of the content.
+   * @returns {Promise<string>} The computed hash of the content.
+   * @description Hash the block content to detect changes and prevent unnecessary re-embeddings.
    */
   async create_hash(content) {
     return await create_hash2(content);
@@ -7598,19 +7812,57 @@ var MarkdownBlockContentAdapter = class extends BlockContentAdapter {
 
 // node_modules/smart-sources/adapters/_file.js
 var FileSourceContentAdapter = class extends SourceContentAdapter {
+  /**
+   * @name fs
+   * @type {Object}
+   * @readonly
+   * @description 
+   * Access the file system interface used by this adapter. Typically derived 
+   * from `this.item.collection.fs`.
+   */
   get fs() {
     return this.item.collection.fs;
   }
+  /**
+   * @name file_path
+   * @type {string}
+   * @readonly
+   * @description 
+   * The file path on disk corresponding to the source. Used for read/write operations.
+   */
   get file_path() {
     return this.item.file_path;
   }
+  /**
+   * @async
+   * @method create
+   * @param {string|null} [content=null] Initial content for the new file.
+   * @description 
+   * Create a new file on disk. If content is not provided, attempts to use 
+   * `this.item.data.content` as fallback.
+   */
   async create(content = null) {
     if (!content) content = this.item.data.content || "";
     await this.fs.write(this.file_path, content);
   }
+  /**
+   * @async
+   * @method update
+   * @param {string} content The full new content to write to the file.
+   * @description 
+   * Overwrite the entire file content on disk.
+   */
   async update(content) {
     await this.fs.write(this.file_path, content);
   }
+  /**
+   * @async
+   * @method read
+   * @returns {Promise<string>} The content of the file.
+   * @description 
+   * Read the file content from disk. Updates `last_read` hash and timestamp on the entity’s data.
+   * If file is large or special handling is needed, override this method.
+   */
   async read() {
     const content = await this.fs.read(this.file_path);
     this.data.last_read = {
@@ -7619,6 +7871,13 @@ var FileSourceContentAdapter = class extends SourceContentAdapter {
     };
     return content;
   }
+  /**
+   * @async
+   * @method remove
+   * @returns {Promise<void>}
+   * @description 
+   * Delete the file from disk. After removal, the source item should also be deleted or updated accordingly.
+   */
   async remove() {
     await this.fs.remove(this.file_path);
   }
@@ -11662,7 +11921,7 @@ async function render_content(directory, sources_container, subdirs_container, o
   if (!sources_container.innerHTML.trim()) {
     sources_container.innerHTML = "";
     subdirs_container.innerHTML = "";
-    const results = directory.settings.sort_nearest ? directory.nearest_sources_results : directory.furthest_sources_results;
+    const results = directory.settings.sort_nearest ? await directory.get_nearest_sources_results() : await directory.get_furthest_sources_results();
     const result_frags = await render9.call(this, results, opts);
     sources_container.appendChild(result_frags);
   }
@@ -13464,7 +13723,7 @@ var SmartChatModelRequestAdapter = class {
   _transform_single_message_to_openai(message) {
     const transformed = {
       role: this._get_openai_role(message.role),
-      content: this._get_openai_content(message.content)
+      content: this._get_openai_content(message)
     };
     if (message.name) transformed.name = message.name;
     if (message.tool_calls) transformed.tool_calls = this._transform_tool_calls_to_openai(message.tool_calls);
@@ -13487,8 +13746,8 @@ var SmartChatModelRequestAdapter = class {
    * @returns {string} The transformed content.
    * @private
    */
-  _get_openai_content(content) {
-    return content;
+  _get_openai_content(message) {
+    return message.content;
   }
   /**
    * Transform tool calls to OpenAI format.
@@ -13683,7 +13942,7 @@ var SmartChatModelResponseAdapter = class {
   _transform_message_to_openai(message = {}) {
     const transformed = {
       role: this._get_openai_role(message.role),
-      content: this._get_openai_content(message.content)
+      content: this._get_openai_content(message)
     };
     if (message.name) transformed.name = message.name;
     if (message.tool_calls) transformed.tool_calls = this._transform_tool_calls_to_openai(message.tool_calls);
@@ -13705,8 +13964,8 @@ var SmartChatModelResponseAdapter = class {
    * @returns {string} The transformed content.
    * @private
    */
-  _get_openai_content(content) {
-    return content;
+  _get_openai_content(message) {
+    return message.content;
   }
   /**
    * Get the OpenAI finish reason for a given finish reason.
@@ -14749,6 +15008,29 @@ var SmartChatModelCustomAdapter = class extends SmartChatModelApiAdapter {
     type: "API"
   };
   req_adapter = SmartChatModelCustomRequestAdapter;
+  get custom_protocol() {
+    return this.adapter_config.protocol || "http";
+  }
+  get custom_hostname() {
+    return this.adapter_config.hostname || "localhost";
+  }
+  get custom_port() {
+    return this.adapter_config.port ? `:${this.adapter_config.port}` : "";
+  }
+  get custom_path() {
+    let path = this.adapter_config.path || "";
+    if (path && !path.startsWith("/")) path = `/${path}`;
+    return path;
+  }
+  get endpoint() {
+    return [
+      this.custom_protocol,
+      "://",
+      this.custom_hostname,
+      this.custom_port,
+      this.custom_path
+    ].join("");
+  }
   get settings_config() {
     return {
       // LOCAL PLATFORM SETTINGS
@@ -15086,6 +15368,243 @@ var SmartChatModelOllamaResponseAdapter = class extends SmartChatModelResponseAd
   }
 };
 
+// node_modules/smart-chat-model/adapters/lm_studio.js
+var SmartChatModelLmStudioAdapter = class extends SmartChatModelApiAdapter {
+  static defaults = {
+    description: "LM Studio (OpenAI-compatible)",
+    type: "API",
+    endpoint: "http://localhost:1234/v1/chat/completions",
+    streaming: true,
+    adapter: "LM_Studio_OpenAI_Compat",
+    models_endpoint: "http://localhost:1234/v1/models",
+    default_model: "gpt-4o-mini",
+    // Replace with a model listed by LM Studio
+    signup_url: "https://lmstudio.ai/docs/api/openai-api",
+    can_use_tools: true
+  };
+  /**
+   * Request adapter class
+   */
+  get req_adapter() {
+    return SmartChatModelLmStudioRequestAdapter;
+  }
+  /**
+   * Response adapter class
+   */
+  get res_adapter() {
+    return SmartChatModelLmStudioResponseAdapter;
+  }
+  /**
+   * Validate parameters for getting models
+   * @returns {boolean} True
+   */
+  validate_get_models_params() {
+    return true;
+  }
+  /**
+   * LM Studio's /v1/models returns OpenAI-like response format:
+   * {
+   *   "object": "list",
+   *   "data": [
+   *     { "id": "model-name", "object": "model", ... },
+   *     ...
+   *   ]
+   * }
+   * Parse this like the OpenAI format.
+   * @param {Object} model_data - Raw model data from LM Studio
+   * @returns {Object} Map of model objects
+   */
+  parse_model_data(model_data) {
+    if (model_data.object !== "list" || !Array.isArray(model_data.data)) {
+      return { "_": { id: "No models found." } };
+    }
+    const parsed = {};
+    for (const m of model_data.data) {
+      parsed[m.id] = {
+        id: m.id,
+        model_name: m.id,
+        // We don't have direct context length info here, can set a default
+        // or check if LM Studio returns it in the model object
+        description: `LM Studio model: ${m.id}`,
+        multimodal: false
+        // LM Studio doesn't mention multimodal support via /v1
+      };
+    }
+    return parsed;
+  }
+  get models_endpoint_method() {
+    return "get";
+  }
+  /**
+   * Count tokens in input text (no dedicated endpoint)
+   * Rough estimate: 1 token ~ 4 chars
+   * @param {string|Object} input
+   * @returns {Promise<number>}
+   */
+  async count_tokens(input) {
+    const text = typeof input === "string" ? input : JSON.stringify(input);
+    return Math.ceil(text.length / 4);
+  }
+  /**
+   * Test API key - LM Studio doesn't require API key. Always true.
+   * @returns {Promise<boolean>}
+   */
+  async test_api_key() {
+    return true;
+  }
+  /**
+   * Validate configuration
+   */
+  validate_config() {
+    if (!this.adapter_config.model_key) {
+      return { valid: false, message: "No model selected." };
+    }
+    return { valid: true, message: "Configuration is valid." };
+  }
+};
+var SmartChatModelLmStudioRequestAdapter = class extends SmartChatModelRequestAdapter {
+  to_platform(streaming = false) {
+    const req = this.to_openai(streaming);
+    const body = JSON.parse(req.body);
+    if (this.tool_choice?.function?.name) {
+      if (typeof body.messages[body.messages.length - 1].content === "string") {
+        body.messages[body.messages.length - 1].content = [
+          {
+            type: "text",
+            text: body.messages[body.messages.length - 1].content
+          }
+        ];
+      }
+      body.messages[body.messages.length - 1].content.push({
+        type: "text",
+        text: `Use the "${this.tool_choice.function.name}" tool.`
+      });
+    }
+    req.body = JSON.stringify(body);
+    return req;
+  }
+};
+var SmartChatModelLmStudioResponseAdapter = class extends SmartChatModelResponseAdapter {
+};
+
+// node_modules/smart-chat-model/adapters/groq.js
+var SmartChatModelGroqAdapter = class extends SmartChatModelApiAdapter {
+  static defaults = {
+    description: "Groq",
+    type: "API",
+    endpoint: "https://api.groq.com/openai/v1/chat/completions",
+    streaming: true,
+    adapter: "Groq",
+    models_endpoint: "https://api.groq.com/openai/v1/models",
+    default_model: "llama3-8b-8192",
+    signup_url: "https://groq.com",
+    can_use_tools: true
+  };
+  /**
+   * Request adapter class
+   * @returns {typeof SmartChatModelGroqRequestAdapter}
+   */
+  get req_adapter() {
+    return SmartChatModelGroqRequestAdapter;
+  }
+  /**
+   * Response adapter class
+   * @returns {typeof SmartChatModelGroqResponseAdapter}
+   */
+  get res_adapter() {
+    return SmartChatModelGroqResponseAdapter;
+  }
+  /**
+   * Retrieve the list of models from Groq's API.
+   * @returns {Promise<Object>} A dictionary of models keyed by their id
+   */
+  async get_models(refresh = false) {
+    if (!refresh && this.adapter_config?.models && Object.keys(this.adapter_config.models).length > 0) {
+      return this.adapter_config.models;
+    }
+    const request_params = {
+      url: this.models_endpoint,
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${this.api_key}`
+      }
+    };
+    try {
+      const resp = await this.http_adapter.request(request_params);
+      const data = await resp.json();
+      const model_data = this.parse_model_data(data);
+      this.adapter_settings.models = model_data;
+      this.model.re_render_settings();
+      return model_data;
+    } catch (error) {
+      console.error("Failed to fetch Groq model data:", error);
+      return { "_": { id: "Failed to fetch models from Groq" } };
+    }
+  }
+  /**
+   * Parse model data from Groq API format to a dictionary keyed by model ID.
+   * The API returns a list of model objects like:
+   * {
+   *   "object": "list",
+   *   "data": [ { "id": "...", "object": "model", ... }, ... ]
+   * }
+   * 
+   * We'll convert each model to:
+   * {
+   *   model_name: model.id,
+   *   id: model.id,
+   *   max_input_tokens: model.context_window,
+   *   description: `Owned by: ${model.owned_by}, context: ${model.context_window}`,
+   *   multimodal: Check if model name or description suggests multimodality
+   * }
+   */
+  parse_model_data(model_data) {
+    if (model_data.object !== "list" || !Array.isArray(model_data.data)) {
+      return { "_": { id: "No models found." } };
+    }
+    const parsed = {};
+    for (const m of model_data.data) {
+      parsed[m.id] = {
+        model_name: m.id,
+        id: m.id,
+        max_input_tokens: m.context_window || 8192,
+        description: `Owned by: ${m.owned_by}, context: ${m.context_window}`,
+        // A basic heuristic for multimodal: if 'vision' or 'tool' is in model id
+        // Adjust as needed based on known capabilities
+        multimodal: m.id.includes("vision")
+      };
+    }
+    return parsed;
+  }
+  /**
+   * Validate configuration for Groq
+   * @returns {Object} { valid: boolean, message: string }
+   */
+  validate_config() {
+    if (!this.adapter_config.model_key) return { valid: false, message: "No model selected." };
+    if (!this.api_key) {
+      return { valid: false, message: "API key is missing." };
+    }
+    return { valid: true, message: "Configuration is valid." };
+  }
+};
+var SmartChatModelGroqRequestAdapter = class extends SmartChatModelRequestAdapter {
+  _get_openai_content(message) {
+    if (["assistant", "tool"].includes(message.role)) {
+      if (Array.isArray(message.content)) {
+        return message.content.map((part) => {
+          if (typeof part === "string") return part;
+          if (part?.text) return part.text;
+          return "";
+        }).join("\n");
+      }
+    }
+    return message.content;
+  }
+};
+var SmartChatModelGroqResponseAdapter = class extends SmartChatModelResponseAdapter {
+};
+
 // node_modules/smart-http-request/smart_http_request.js
 var SmartHttpRequest3 = class {
   /**
@@ -15199,86 +15718,413 @@ function sort_by_score_ascending(a, b) {
 }
 
 // node_modules/smart-directories/node_modules/smart-entities/adapters/_adapter.js
+var EntitiesVectorAdapter3 = class {
+  /**
+   * @constructor
+   * @param {Object} collection - The collection (SmartEntities or derived class) instance.
+   */
+  constructor(collection) {
+    this.collection = collection;
+  }
+  /**
+   * Find the nearest entities to the given vector.
+   * @async
+   * @param {number[]} vec - The reference vector.
+   * @param {Object} [filter={}] - Optional filters (limit, exclude, etc.)
+   * @returns {Promise<Array<{item:Object, score:number}>>} Array of results sorted by score descending.
+   * @throws {Error} Not implemented by default.
+   */
+  async nearest(vec, filter = {}) {
+    throw new Error("EntitiesVectorAdapter.nearest() not implemented");
+  }
+  /**
+   * Find the furthest entities from the given vector.
+   * @async
+   * @param {number[]} vec - The reference vector.
+   * @param {Object} [filter={}] - Optional filters (limit, exclude, etc.)
+   * @returns {Promise<Array<{item:Object, score:number}>>} Array of results sorted by score ascending (furthest).
+   * @throws {Error} Not implemented by default.
+   */
+  async furthest(vec, filter = {}) {
+    throw new Error("EntitiesVectorAdapter.furthest() not implemented");
+  }
+  /**
+   * Embed a batch of entities.
+   * @async
+   * @param {Object[]} entities - Array of entity instances to embed.
+   * @returns {Promise<void>}
+   * @throws {Error} Not implemented by default.
+   */
+  async embed_batch(entities) {
+    throw new Error("EntitiesVectorAdapter.embed_batch() not implemented");
+  }
+  /**
+   * Process a queue of entities waiting to be embedded.
+   * Typically, this will call embed_batch in batches and update entities.
+   * @async
+   * @param {Object[]} embed_queue - Array of entities to embed.
+   * @returns {Promise<void>}
+   * @throws {Error} Not implemented by default.
+   */
+  async process_embed_queue(embed_queue) {
+    throw new Error("EntitiesVectorAdapter.process_embed_queue() not implemented");
+  }
+};
 var EntityVectorAdapter3 = class {
   /**
-   * Creates an instance of EntityVectorAdapter.
    * @constructor
-   * @param {Object} item - The SmartEntity instance this adapter manages.
-   * @example
-   * const adapter = new EntityVectorAdapter(mySmartEntity);
+   * @param {Object} item - The SmartEntity instance that this adapter is associated with.
    */
   constructor(item) {
     this.item = item;
   }
   /**
-   * Retrieves the full data object of the associated SmartEntity. This data object typically contains
-   * metadata, embeddings, and other entity-related information.
-   * @readonly
-   * @type {Object}
-   * @example
-   * const data = adapter.data;
+   * Retrieve the current vector embedding for this entity.
+   * @async
+   * @returns {Promise<number[]|undefined>} The entity's vector or undefined if not set.
+   * @throws {Error} Not implemented by default.
    */
+  async get_vec() {
+    throw new Error("EntityVectorAdapter.get_vec() not implemented");
+  }
+  /**
+   * Store/update the vector embedding for this entity.
+   * @async
+   * @param {number[]} vec - The vector to set.
+   * @returns {Promise<void>}
+   * @throws {Error} Not implemented by default.
+   */
+  async set_vec(vec) {
+    throw new Error("EntityVectorAdapter.set_vec() not implemented");
+  }
+  /**
+   * Delete/remove the vector embedding for this entity.
+   * @async
+   * @returns {Promise<void>}
+   * @throws {Error} Not implemented by default.
+   */
+  async delete_vec() {
+    throw new Error("EntityVectorAdapter.delete_vec() not implemented");
+  }
+};
+
+// node_modules/smart-directories/node_modules/smart-entities/cos_sim.js
+function cos_sim3(vector1, vector2) {
+  if (vector1.length !== vector2.length) {
+    throw new Error("Vectors must have the same length");
+  }
+  let dot_product = 0;
+  let magnitude1 = 0;
+  let magnitude2 = 0;
+  const epsilon = 1e-8;
+  for (let i = 0; i < vector1.length; i++) {
+    dot_product += vector1[i] * vector2[i];
+    magnitude1 += vector1[i] * vector1[i];
+    magnitude2 += vector2[i] * vector2[i];
+  }
+  magnitude1 = Math.sqrt(magnitude1);
+  magnitude2 = Math.sqrt(magnitude2);
+  if (magnitude1 < epsilon || magnitude2 < epsilon) {
+    return 0;
+  }
+  return dot_product / (magnitude1 * magnitude2);
+}
+
+// node_modules/smart-directories/node_modules/smart-entities/top_acc.js
+function results_acc3(_acc, result, ct = 10) {
+  if (_acc.results.size < ct) {
+    _acc.results.add(result);
+  } else if (result.score > _acc.min) {
+    _acc.results.add(result);
+    _acc.results.delete(_acc.minResult);
+    _acc.minResult = Array.from(_acc.results).reduce((min, curr) => curr.score < min.score ? curr : min);
+    _acc.min = _acc.minResult.score;
+  }
+}
+function furthest_acc3(_acc, result, ct = 10) {
+  if (_acc.results.size < ct) {
+    _acc.results.add(result);
+  } else if (result.score < _acc.max) {
+    _acc.results.add(result);
+    _acc.results.delete(_acc.maxResult);
+    _acc.maxResult = Array.from(_acc.results).reduce((max, curr) => curr.score > max.score ? curr : max);
+    _acc.max = _acc.maxResult.score;
+  }
+}
+
+// node_modules/smart-directories/node_modules/smart-entities/adapters/default.js
+var DefaultEntitiesVectorAdapter3 = class extends EntitiesVectorAdapter3 {
+  constructor(collection) {
+    super(collection);
+    this._reset_embed_queue_stats();
+  }
+  /**
+   * Find the nearest entities to the given vector.
+   * @async
+   * @param {number[]} vec - The reference vector.
+   * @param {Object} [filter={}] - Optional filters (limit, exclude, etc.)
+   * @returns {Promise<Array<{item:Object, score:number}>>} Array of results sorted by score descending.
+   */
+  async nearest(vec, filter = {}) {
+    if (!vec || !Array.isArray(vec)) {
+      throw new Error("Invalid vector input to nearest()");
+    }
+    const {
+      limit = 50
+      // TODO: default configured in settings
+    } = filter;
+    const nearest = this.collection.filter(filter).reduce((acc, item) => {
+      if (!item.vec) return acc;
+      const result = { item, score: cos_sim3(vec, item.vec) };
+      results_acc3(acc, result, limit);
+      return acc;
+    }, { min: 0, results: /* @__PURE__ */ new Set() });
+    return Array.from(nearest.results);
+  }
+  /**
+   * Find the furthest entities from the given vector.
+   * @async
+   * @param {number[]} vec - The reference vector.
+   * @param {Object} [filter={}] - Optional filters (limit, exclude, etc.)
+   * @returns {Promise<Array<{item:Object, score:number}>>} Array of results sorted by score ascending (furthest).
+   */
+  async furthest(vec, filter = {}) {
+    if (!vec || !Array.isArray(vec)) {
+      throw new Error("Invalid vector input to furthest()");
+    }
+    const {
+      limit = 50
+      // TODO: default configured in settings
+    } = filter;
+    const furthest = this.collection.filter(filter).reduce((acc, item) => {
+      if (!item.vec) return acc;
+      const result = { item, score: cos_sim3(vec, item.vec) };
+      furthest_acc3(acc, result, limit);
+      return acc;
+    }, { max: 0, results: /* @__PURE__ */ new Set() });
+    return Array.from(furthest.results);
+  }
+  /**
+   * Embed a batch of entities.
+   * @async
+   * @param {Object[]} entities - Array of entity instances to embed.
+   * @returns {Promise<void>}
+   */
+  async embed_batch(entities) {
+    if (!this.collection.embed_model) {
+      throw new Error("No embed_model found in collection for embedding");
+    }
+    await Promise.all(entities.map((e) => e.get_embed_input()));
+    const embeddings = await this.collection.embed_model.embed_batch(entities);
+    embeddings.forEach((emb, i) => {
+      const entity = entities[i];
+      entity.vec = emb.vec;
+      if (emb.tokens !== void 0) entity.tokens = emb.tokens;
+    });
+  }
+  /**
+   * Process a queue of entities waiting to be embedded.
+   * Typically, this will call embed_batch in batches and update entities.
+   * @async
+   * @returns {Promise<void>}
+   */
+  async process_embed_queue() {
+    const embed_queue = this.collection.embed_queue;
+    this._reset_embed_queue_stats();
+    if (this.collection.embed_model_key === "None") {
+      console.log(`Smart Connections: No active embedding model for ${this.collection.collection_key}, skipping embedding`);
+      return;
+    }
+    if (!this.collection.embed_model) {
+      console.log(`Smart Connections: No active embedding model for ${this.collection.collection_key}, skipping embedding`);
+      return;
+    }
+    const datetime_start = /* @__PURE__ */ new Date();
+    if (!embed_queue.length) {
+      return console.log(`Smart Connections: No items in ${this.collection.collection_key} embed queue`);
+    }
+    console.log(`Time spent getting embed queue: ${(/* @__PURE__ */ new Date()).getTime() - datetime_start.getTime()}ms`);
+    console.log(`Processing ${this.collection.collection_key} embed queue: ${embed_queue.length} items`);
+    for (let i = 0; i < embed_queue.length; i += this.collection.embed_model.batch_size) {
+      if (this.collection.is_queue_halted) {
+        this.collection.is_queue_halted = false;
+        break;
+      }
+      const batch = embed_queue.slice(i, i + this.collection.embed_model.batch_size);
+      await Promise.all(batch.map((item) => item.get_embed_input()));
+      try {
+        const start_time = Date.now();
+        await this.embed_batch(batch);
+        this.collection.total_time += Date.now() - start_time;
+      } catch (e) {
+        if (e && e.message && e.message.includes("API key not set")) {
+          this.halt_embed_queue_processing(`API key not set for ${this.collection.embed_model_key}
+Please set the API key in the settings.`);
+        }
+        console.error(e);
+        console.error(`Error processing ${this.collection.collection_key} embed queue: ` + JSON.stringify(e || {}, null, 2));
+      }
+      batch.forEach((item) => {
+        item.embed_hash = item.read_hash;
+      });
+      this.collection.embedded_total += batch.length;
+      this.collection.total_tokens += batch.reduce((acc, item) => acc + (item.tokens || 0), 0);
+      this._show_embed_progress_notice(embed_queue.length);
+      if (this.collection.embedded_total - this.collection.last_save_total > 1e3) {
+        this.collection.last_save_total = this.collection.embedded_total;
+        await this.collection.process_save_queue();
+      }
+    }
+    this._show_embed_completion_notice(embed_queue.length);
+    this.collection.process_save_queue();
+  }
+  /**
+   * Displays the embedding progress notice.
+   * @private
+   * @returns {void}
+   */
+  _show_embed_progress_notice() {
+    if (this.embedded_total - this.last_notice_embedded_total < 100) return;
+    this.last_notice_embedded_total = this.embedded_total;
+    const pause_btn = { text: "Pause", callback: this.halt_embed_queue_processing.bind(this), stay_open: true };
+    this.notices?.show(
+      "embedding_progress",
+      [
+        `Making Smart Connections...`,
+        `Embedding progress: ${this.embedded_total} / ${this.embed_queue.length}`,
+        `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
+      ],
+      {
+        timeout: 0,
+        button: pause_btn
+      }
+    );
+  }
+  /**
+   * Displays the embedding completion notice.
+   * @private
+   * @returns {void}
+   */
+  _show_embed_completion_notice() {
+    this.notices?.remove("embedding_progress");
+    this.notices?.show("embedding_complete", [
+      `Embedding complete.`,
+      `${this.embedded_total} entities embedded.`,
+      `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
+    ], { timeout: 1e4 });
+  }
+  /**
+   * Halts the embed queue processing.
+   * @param {string|null} msg - Optional message.
+   */
+  halt_embed_queue_processing(msg = null) {
+    this.is_queue_halted = true;
+    console.log("Embed queue processing halted");
+    this.notices?.remove("embedding_progress");
+    this.notices?.show(
+      "embedding_paused",
+      [
+        msg || `Embedding paused.`,
+        `Progress: ${this.embedded_total} / ${this.embed_queue.length}`,
+        `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
+      ],
+      {
+        timeout: 0,
+        button: { text: "Resume", callback: () => this.resume_embed_queue_processing(100) }
+      }
+    );
+  }
+  /**
+   * Resumes the embed queue processing after a delay.
+   * @param {number} [delay=0] - The delay in milliseconds before resuming.
+   * @returns {void}
+   */
+  resume_embed_queue_processing(delay = 0) {
+    console.log("resume_embed_queue_processing");
+    this.notices?.remove("embedding_paused");
+    setTimeout(() => {
+      this.embedded_total = 0;
+      this.process_embed_queue();
+    }, delay);
+  }
+  /**
+   * Calculates the number of tokens processed per second.
+   * @private
+   * @returns {number} Tokens per second.
+   */
+  _calculate_embed_tokens_per_second() {
+    const elapsed_time = this.total_time / 1e3;
+    return Math.round(this.total_tokens / elapsed_time);
+  }
+  /**
+   * Resets the statistics related to embed queue processing.
+   * @private
+   * @returns {void}
+   */
+  _reset_embed_queue_stats() {
+    this._embed_queue = [];
+    this.embedded_total = 0;
+    this.is_queue_halted = false;
+    this.last_save_total = 0;
+    this.last_notice_embedded_total = 0;
+    this.total_tokens = 0;
+    this.total_time = 0;
+  }
+  get notices() {
+    return this.collection.notices;
+  }
+};
+var DefaultEntityVectorAdapter3 = class extends EntityVectorAdapter3 {
   get data() {
     return this.item.data;
   }
   /**
-   * Retrieves the key identifying which embedding model is currently in use. This key is used to
-   * access the correct embedding vector from the data object.
-   * @readonly
-   * @type {string|undefined}
-   * @example
-   * const modelKey = adapter.embed_model_key;
+   * Retrieve the current vector embedding for this entity.
+   * @async
+   * @returns {Promise<number[]|undefined>} The entity's vector or undefined if not set.
    */
-  get embed_model_key() {
-    return this.item.embed_model?.model_key;
+  async get_vec() {
+    return this.vec;
   }
   /**
-   * Retrieves the vector representation (the embedding) associated with the current embedding model.
-   * 
-   * By default, this adapter stores embeddings directly in `this.smart_entity.data.embeddings`,
-   * keyed by the embedding model's key. If no vector is found, `undefined` is returned.
-   *
-   * Future adapters could override this getter to retrieve the vector from external sources, such as:
-   * - Local disk storage (e.g., reading from a local file or database).
-   * - Cloud-based vector databases or APIs.
-   * - Custom caching layers for faster access.
-   *
-   * @readonly
-   * @type {Array<number>|undefined}
-   * @example
-   * const vector = adapter.vec; // [0.23, 0.01, ...] or undefined if not set
+   * Store/update the vector embedding for this entity.
+   * @async
+   * @param {number[]} vec - The vector to set.
+   * @returns {Promise<void>}
    */
+  async set_vec(vec) {
+    this.vec = vec;
+  }
+  /**
+   * Delete/remove the vector embedding for this entity.
+   * @async
+   * @returns {Promise<void>}
+   */
+  async delete_vec() {
+    if (this.item.data?.embeddings?.[this.item.embed_model_key]) {
+      delete this.item.data.embeddings[this.item.embed_model_key].vec;
+    }
+  }
+  // adds synchronous get/set for vec
   get vec() {
-    return this.data?.embeddings?.[this.embed_model_key]?.vec;
+    return this.item.data?.embeddings?.[this.item.embed_model_key]?.vec;
   }
-  /**
-   * Sets the vector representation (the embedding) for the current embedding model. If the embeddings
-   * data structure does not exist, it is initialized. This default implementation persists the vector
-   * in the SmartEntity's internal data object.
-   * 
-   * Future adapters could override this setter to store the vector in external systems, for example:
-   * - Writing to a local database for persistence.
-   * - Sending the vector to a remote vector database or search index.
-   * - Implementing custom storage strategies (e.g., sharding, caching).
-   *
-   * @param {Array<number>} vec - The embedding vector.
-   * @example
-   * adapter.vec = [0.23, 0.01, 0.76, ...];
-   */
   set vec(vec) {
-    if (!this.data.embeddings) {
-      this.data.embeddings = {};
+    if (!this.item.data.embeddings) {
+      this.item.data.embeddings = {};
     }
-    if (!this.data.embeddings[this.embed_model_key]) {
-      this.data.embeddings[this.embed_model_key] = {};
+    if (!this.item.data.embeddings[this.item.embed_model_key]) {
+      this.item.data.embeddings[this.item.embed_model_key] = {};
     }
-    this.data.embeddings[this.embed_model_key].vec = vec;
+    this.item.data.embeddings[this.item.embed_model_key].vec = vec;
   }
 };
 
 // node_modules/smart-directories/node_modules/smart-entities/components/entity.js
 async function render15(entity, opts = {}) {
-  const markdown = should_render_embed3(entity) ? entity.embed_link : process_for_rendering3(await entity.get_content());
+  let markdown;
+  if (should_render_embed3(entity)) markdown = entity.embed_link;
+  else markdown = process_for_rendering3(await entity.read());
   let frag;
   if (entity.env.settings.smart_view_filter.render_markdown) frag = await this.render_markdown(markdown, entity);
   else frag = this.create_doc_fragment(markdown);
@@ -15308,7 +16154,7 @@ var SmartEntity3 = class extends CollectionItem {
    */
   constructor(env, opts = {}) {
     super(env, opts);
-    this.entity_adapter = new EntityVectorAdapter3(this);
+    this.entity_adapter = new DefaultEntityVectorAdapter3(this);
   }
   /**
    * Provides default values for a SmartEntity instance.
@@ -15321,7 +16167,6 @@ var SmartEntity3 = class extends CollectionItem {
       data: {
         path: null,
         embeddings: {},
-        // contains keys per model
         last_embed: {
           hash: null
         }
@@ -15360,15 +16205,15 @@ var SmartEntity3 = class extends CollectionItem {
   /**
    * Finds the nearest entities to this entity.
    * @param {Object} [filter={}] - Optional filters to apply.
-   * @returns {Array<Result>} An array of result objects with score and item.
+   * @returns {Array<{item:Object, score:number}>} An array of result objects with score and item.
    */
-  nearest(filter = {}) {
-    return this.collection.nearest_to(this, filter);
+  async nearest(filter = {}) {
+    return await this.collection.nearest_to(this, filter);
   }
   /**
    * Prepares the input for embedding.
    * @async
-   * @param {string} [content=null] - Optional content to use instead calling subsequent read()
+   * @param {string} [content=null] - Optional content to use instead of calling subsequent read()
    * @returns {Promise<void>} Should be overridden in child classes.
    */
   async get_embed_input(content = null) {
@@ -15391,16 +16236,17 @@ var SmartEntity3 = class extends CollectionItem {
   }
   /**
    * Finds connections relevant to this entity based on provided parameters.
+   * @async
    * @param {Object} [params={}] - Parameters for finding connections.
-   * @returns {Array<Result>} An array of result objects with score and item.
+   * @returns {Array<{item:Object, score:number}>} An array of result objects with score and item.
    */
-  find_connections(params = {}) {
+  async find_connections(params = {}) {
     const filter_opts = this.prepare_find_connections_filter_opts(params);
     const limit = params.filter?.limit || params.limit || this.env.settings.smart_view_filter?.results_limit || 10;
     const cache_key = this.key + JSON.stringify(params);
     if (!this.env.connections_cache) this.env.connections_cache = {};
     if (!this.env.connections_cache[cache_key]) {
-      const connections = this.nearest(filter_opts).sort(sort_by_score3).slice(0, limit);
+      const connections = (await this.nearest(filter_opts)).sort(sort_by_score3).slice(0, limit);
       this.connections_to_cache(cache_key, connections);
     }
     return this.connections_from_cache(cache_key);
@@ -15408,7 +16254,7 @@ var SmartEntity3 = class extends CollectionItem {
   /**
    * Retrieves connections from the cache based on the cache key.
    * @param {string} cache_key - The cache key.
-   * @returns {Array<Result>} The cached connections.
+   * @returns {Array<{item:Object, score:number}>} The cached connections.
    */
   connections_from_cache(cache_key) {
     return this.env.connections_cache[cache_key];
@@ -15416,7 +16262,7 @@ var SmartEntity3 = class extends CollectionItem {
   /**
    * Stores connections in the cache with the provided cache key.
    * @param {string} cache_key - The cache key.
-   * @param {Array<Result>} connections - The connections to cache.
+   * @param {Array<{item:Object, score:number}>} connections - The connections to cache.
    * @returns {void}
    */
   connections_to_cache(cache_key, connections) {
@@ -15493,24 +16339,13 @@ var SmartEntity3 = class extends CollectionItem {
     return this.data.embeddings[this.embed_model_key]?.tokens;
   }
   /**
-   * Determines if the entity is unembedded based on vector presence and size.
-   * @readonly
-   * @returns {boolean} True if unembedded, false otherwise.
-   */
-  get is_unembedded() {
-    if (this.vec) return false;
-    if (this.size < (this.settings?.min_chars || 300)) return false;
-    return true;
-  }
-  /**
    * Determines if the entity should be embedded.
    * @readonly
-   * @returns {boolean} Always returns true. Can be overridden in child classes.
+   * @returns {boolean} True if no vector is set, false otherwise.
    */
   get should_embed() {
-    return !this.vec;
+    return !this.vec && this.size > (this.settings?.min_chars || 300);
   }
-  // may override in child class
   /**
    * Sets the error for the embedding model.
    * @param {string} error - The error message.
@@ -15592,50 +16427,6 @@ var SmartEntity3 = class extends CollectionItem {
   }
 };
 
-// node_modules/smart-directories/node_modules/smart-entities/top_acc.js
-function results_acc3(_acc, result, ct = 10) {
-  if (_acc.results.size < ct) {
-    _acc.results.add(result);
-  } else if (result.score > _acc.min) {
-    _acc.results.add(result);
-    _acc.results.delete(_acc.minResult);
-    _acc.minResult = Array.from(_acc.results).reduce((min, curr) => curr.score < min.score ? curr : min);
-    _acc.min = _acc.minResult.score;
-  }
-}
-function furthest_acc3(_acc, result, ct = 10) {
-  if (_acc.results.size < ct) {
-    _acc.results.add(result);
-  } else if (result.score < _acc.max) {
-    _acc.results.add(result);
-    _acc.results.delete(_acc.maxResult);
-    _acc.maxResult = Array.from(_acc.results).reduce((max, curr) => curr.score > max.score ? curr : max);
-    _acc.max = _acc.maxResult.score;
-  }
-}
-
-// node_modules/smart-directories/node_modules/smart-entities/cos_sim.js
-function cos_sim3(vector1, vector2) {
-  if (vector1.length !== vector2.length) {
-    throw new Error("Vectors must have the same length");
-  }
-  let dot_product = 0;
-  let magnitude1 = 0;
-  let magnitude2 = 0;
-  const epsilon = 1e-8;
-  for (let i = 0; i < vector1.length; i++) {
-    dot_product += vector1[i] * vector2[i];
-    magnitude1 += vector1[i] * vector1[i];
-    magnitude2 += vector2[i] * vector2[i];
-  }
-  magnitude1 = Math.sqrt(magnitude1);
-  magnitude2 = Math.sqrt(magnitude2);
-  if (magnitude1 < epsilon || magnitude2 < epsilon) {
-    return 0;
-  }
-  return dot_product / (magnitude1 * magnitude2);
-}
-
 // node_modules/smart-directories/node_modules/smart-entities/smart_entities.js
 var SmartEntities3 = class extends Collection {
   /**
@@ -15646,11 +16437,9 @@ var SmartEntities3 = class extends Collection {
    */
   constructor(env, opts) {
     super(env, opts);
+    this.entities_vector_adapter = new DefaultEntitiesVectorAdapter3(this);
     this.model_instance_id = null;
-    this.embedded_total = 0;
-    this.is_queue_halted = false;
-    this.total_tokens = 0;
-    this.total_time = 0;
+    this._embed_queue = [];
   }
   /**
    * Initializes the SmartEntities instance by loading embeddings.
@@ -15753,47 +16542,35 @@ var SmartEntities3 = class extends Collection {
   }
   /**
    * Finds the nearest entities to a given entity.
+   * @async
    * @param {Object} entity - The reference entity.
    * @param {Object} [filter={}] - Optional filters to apply.
-   * @returns {Array<Result>} An array of result objects with score and item.
+   * @returns {Promise<Array<{item:Object, score:number}>>} An array of result objects with score and item.
    */
-  nearest_to(entity, filter = {}) {
-    return this.nearest(entity.vec, filter);
+  async nearest_to(entity, filter = {}) {
+    return await this.nearest(entity.vec, filter);
   }
   /**
-   * Finds the nearest entities to a vector based on cosine similarity.
+   * Finds the nearest entities to a vector using the default adapter.
+   * @async
    * @param {Array<number>} vec - The vector to compare against.
    * @param {Object} [filter={}] - Optional filters to apply.
-   * @param {number} [filter.limit=50] - The maximum number of results to return.
-   * @returns {Array<Result>} An array of result objects with score and item.
+   * @returns {Promise<Array<{item:Object, score:number}>>} An array of result objects with score and item.
    */
-  nearest(vec, filter = {}) {
-    if (!vec) return console.log("no vec");
-    const {
-      limit = 50
-      // TODO: default configured in settings
-    } = filter;
-    const nearest = this.filter(filter).reduce((acc, item) => {
-      if (!item.vec) return acc;
-      const result = { item, score: cos_sim3(vec, item.vec) };
-      results_acc3(acc, result, limit);
-      return acc;
-    }, { min: 0, results: /* @__PURE__ */ new Set() });
-    return Array.from(nearest.results);
+  async nearest(vec, filter = {}) {
+    if (!vec) return console.warn("nearest: no vec");
+    return await this.entities_vector_adapter.nearest(vec, filter);
   }
-  furthest(vec, filter = {}) {
-    if (!vec) return console.log("no vec");
-    const {
-      limit = 50
-      // TODO: default configured in settings
-    } = filter;
-    const furthest = this.filter(filter).reduce((acc, item) => {
-      if (!item.vec) return acc;
-      const result = { item, score: cos_sim3(vec, item.vec) };
-      furthest_acc3(acc, result, limit);
-      return acc;
-    }, { max: 0, results: /* @__PURE__ */ new Set() });
-    return Array.from(furthest.results);
+  /**
+   * Finds the furthest entities from a vector using the default adapter.
+   * @async
+   * @param {Array<number>} vec - The vector to compare against.
+   * @param {Object} [filter={}] - Optional filters to apply.
+   * @returns {Promise<Array<{item:Object, score:number}>>} An array of result objects with score and item.
+   */
+  async furthest(vec, filter = {}) {
+    if (!vec) return console.warn("furthest: no vec");
+    return await this.entities_vector_adapter.furthest(vec, filter);
   }
   /**
    * Gets the file name based on collection key and embedding model key.
@@ -15803,8 +16580,6 @@ var SmartEntities3 = class extends Collection {
   get file_name() {
     return this.collection_key + "-" + this.embed_model_key.split("/").pop();
   }
-  // Uncomment and implement if needed
-  // get data_dir() { return this.env.env_data_dir + "/" + this.embed_model_key.replace("/", "_"); }
   /**
    * Calculates the relevance of an item based on the search filter.
    * @param {Object} item - The item to calculate relevance for.
@@ -15884,8 +16659,9 @@ var SmartEntities3 = class extends Collection {
       ...this.env.chats?.current?.scope || {},
       ...params.filter || {}
     };
-    const results = hyp_vecs.reduce((acc, embedding, i) => {
-      const results2 = this.nearest(embedding.vec, filter);
+    const results = await hyp_vecs.reduce(async (acc_promise, embedding, i) => {
+      const acc = await acc_promise;
+      const results2 = await this.nearest(embedding.vec, filter);
       results2.forEach((result) => {
         if (!acc[result.item.path] || result.score > acc[result.item.path].score) {
           acc[result.item.path] = {
@@ -15901,7 +16677,7 @@ var SmartEntities3 = class extends Collection {
         }
       });
       return acc;
-    }, {});
+    }, Promise.resolve({}));
     const top_k = Object.values(results).sort(sort_by_score3).slice(0, limit);
     console.log(`Found and returned ${top_k.length} ${this.collection_key}.`);
     return top_k;
@@ -15934,149 +16710,16 @@ var SmartEntities3 = class extends Collection {
    * @returns {Array<Object>} The embed queue.
    */
   get embed_queue() {
-    if (!this._embed_queue.length) this._embed_queue = Object.values(this.items).filter((item) => item._queue_embed && item.should_embed);
+    if (!this._embed_queue?.length) this._embed_queue = Object.values(this.items).filter((item) => item._queue_embed && item.should_embed);
     return this._embed_queue;
   }
   /**
-   * Processes the embed queue by batching and embedding items using a promise-based state.
-   *
+   * Processes the embed queue by delegating to the default vector adapter.
    * @async
    * @returns {Promise<void>}
    */
   async process_embed_queue() {
-    this._reset_embed_queue_stats();
-    if (this.embed_model_key === "None") return console.log(`Smart Connections: No active embedding model for ${this.collection_key}, skipping embedding`);
-    if (!this.embed_model) return console.log(`Smart Connections: No active embedding model for ${this.collection_key}, skipping embedding`);
-    const datetime_start = /* @__PURE__ */ new Date();
-    if (!this.embed_queue.length) {
-      return console.log(`Smart Connections: No items in ${this.collection_key} embed queue`);
-    }
-    console.log(`Time spent getting embed queue: ${(/* @__PURE__ */ new Date()).getTime() - datetime_start.getTime()}ms`);
-    console.log(`Processing ${this.collection_key} embed queue: ${this.embed_queue.length} items`);
-    for (let i = 0; i < this.embed_queue.length; i += this.embed_model.batch_size) {
-      if (this.is_queue_halted) {
-        this.is_queue_halted = false;
-        break;
-      }
-      const batch = this.embed_queue.slice(i, i + this.embed_model.batch_size);
-      await Promise.all(batch.map((item) => item.get_embed_input()));
-      try {
-        const start_time = Date.now();
-        await this.embed_model.embed_batch(batch);
-        this.total_time += Date.now() - start_time;
-      } catch (e) {
-        if (e && e.message && e.message.includes("API key not set")) {
-          this.halt_embed_queue_processing(`API key not set for ${this.embed_model_key}
-Please set the API key in the settings.`);
-        }
-        console.error(e);
-        console.error(`Error processing ${this.collection_key} embed queue: ` + JSON.stringify(e || {}, null, 2));
-      }
-      batch.forEach((item) => {
-        item.embed_hash = item.read_hash;
-      });
-      this.embedded_total += batch.length;
-      this.total_tokens += batch.reduce((acc, item) => acc + (item.tokens || 0), 0);
-      this._show_embed_progress_notice();
-      if (this.embedded_total - this.last_save_total > 1e3) {
-        this.last_save_total = this.embedded_total;
-        await this.process_save_queue();
-      }
-    }
-    this._show_embed_completion_notice();
-    this.process_save_queue();
-  }
-  /**
-   * Displays the embedding progress notice.
-   * @private
-   * @returns {void}
-   */
-  _show_embed_progress_notice() {
-    if (this.embedded_total - this.last_notice_embedded_total < 100) return;
-    this.last_notice_embedded_total = this.embedded_total;
-    const pause_btn = { text: "Pause", callback: this.halt_embed_queue_processing.bind(this), stay_open: true };
-    this.notices?.show(
-      "embedding_progress",
-      [
-        `Making Smart Connections...`,
-        `Embedding progress: ${this.embedded_total} / ${this.embed_queue.length}`,
-        `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
-      ],
-      {
-        timeout: 0,
-        button: pause_btn
-      }
-    );
-  }
-  /**
-   * Displays the embedding completion notice.
-   * @private
-   * @returns {void}
-   */
-  _show_embed_completion_notice() {
-    this.notices?.remove("embedding_progress");
-    this.notices?.show("embedding_complete", [
-      `Embedding complete.`,
-      `${this.embedded_total} entities embedded.`,
-      `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
-    ], { timeout: 1e4 });
-  }
-  /**
-   * Calculates the number of tokens processed per second.
-   * @private
-   * @returns {number} Tokens per second.
-   */
-  _calculate_embed_tokens_per_second() {
-    const elapsed_time = this.total_time / 1e3;
-    return Math.round(this.total_tokens / elapsed_time);
-  }
-  /**
-   * Resets the statistics related to embed queue processing.
-   * @private
-   * @returns {void}
-   */
-  _reset_embed_queue_stats() {
-    this.is_queue_halted = false;
-    this.last_save_total = 0;
-    this._embed_queue = [];
-    this.embedded_total = 0;
-    this.total_tokens = 0;
-    this.total_time = 0;
-    this.last_notice_embedded_total = 0;
-  }
-  /**
-   * Halts the embed queue processing.
-   * @returns {void}
-   */
-  halt_embed_queue_processing(msg = null) {
-    this.is_queue_halted = true;
-    console.log("Embed queue processing halted");
-    this.notices?.remove("embedding_progress");
-    this.notices?.show(
-      "embedding_paused",
-      [
-        msg || `Embedding paused.`,
-        `Progress: ${this.embedded_total} / ${this.embed_queue.length}`,
-        `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
-      ],
-      {
-        timeout: 0,
-        button: { text: "Resume", callback: () => this.resume_embed_queue_processing(100) }
-      }
-    );
-  }
-  /**
-   * Resumes the embed queue processing after a delay.
-   * @param {number} [delay=0] - The delay in milliseconds before resuming.
-   * @returns {void}
-   */
-  resume_embed_queue_processing(delay = 0) {
-    console.log("resume_embed_queue_processing");
-    this.notices?.remove("embedding_paused");
-    setTimeout(() => {
-      this.embedded_total = 0;
-      this.process_embed_queue();
-    }, delay);
+    await this.entities_vector_adapter.process_embed_queue();
   }
   /**
    * Handles changes to the embedding model by reinitializing and processing the load queue.
@@ -16254,7 +16897,7 @@ var SmartDirectory = class extends SmartEntity3 {
       (source) => source.path.startsWith(this.data.path)
     );
   }
-  get nearest_sources_results() {
+  async get_nearest_sources_results() {
     if (!this.median_vec) {
       console.log(`no median vec for directory: ${this.data.path}`);
       return [];
@@ -16262,10 +16905,10 @@ var SmartDirectory = class extends SmartEntity3 {
     const filter = {
       key_starts_with: this.data.path
     };
-    const results = this.env.smart_sources.nearest(this.median_vec, filter);
+    const results = await this.env.smart_sources.nearest(this.median_vec, filter);
     return results.sort(sort_by_score_descending);
   }
-  get furthest_sources_results() {
+  async get_furthest_sources_results() {
     if (!this.median_vec) {
       console.log(`no median vec for directory: ${this.data.path}`);
       return [];
@@ -16273,7 +16916,7 @@ var SmartDirectory = class extends SmartEntity3 {
     const filter = {
       key_starts_with: this.data.path
     };
-    const results = this.env.smart_sources.furthest(this.median_vec, filter);
+    const results = await this.env.smart_sources.furthest(this.median_vec, filter);
     return results.sort(sort_by_score_ascending);
   }
   /**
@@ -17356,19 +17999,34 @@ var SmartThread = class extends SmartSource {
    */
   async to_request() {
     const request2 = { messages: [] };
-    for (const msg of this.messages) {
-      if (this.settings.send_tool_output_in_user_message && this.#should_include_tool_output(msg)) {
-        const combined_msg = await this.#combine_user_and_tool_output(msg);
-        request2.messages.push(combined_msg);
-        continue;
+    for (let i = 0; i < this.messages.length; i++) {
+      const msg = this.messages[i];
+      if (this.settings.send_tool_output_in_user_message) {
+        if (this.#should_include_tool_output(msg)) {
+          const combined_msg = await this.#combine_user_and_tool_output(msg);
+          request2.messages.push(combined_msg);
+          continue;
+        }
+        if (msg.role === "assistant" && msg.tool_calls?.length) {
+          continue;
+        }
+        if (msg.role === "tool") {
+          continue;
+        }
       }
       request2.messages.push(await msg.to_request());
       if (msg.context?.has_self_ref || msg.context?.folder_refs) {
         request2.tools = [this.tools["lookup"]];
-        if (msg.is_last_message) {
+        if (msg.is_last_message && msg.role === "user") {
           request2.tool_choice = { type: "function", function: { name: "lookup" } };
         }
       }
+    }
+    if (this.last_message_is_tool && this.settings.send_tool_output_in_user_message) {
+      request2.tools = null;
+    }
+    if (this.last_message_is_tool) {
+      request2.tool_choice = "none";
     }
     request2.temperature = 0.3;
     request2.top_p = 1;
@@ -17376,6 +18034,10 @@ var SmartThread = class extends SmartSource {
     request2.frequency_penalty = 0;
     this.#reorder_last_user_message_if_needed(request2);
     return request2;
+  }
+  get last_message_is_tool() {
+    const last_msg = this.messages[this.messages.length - 1];
+    return last_msg?.role === "tool";
   }
   /**
    * Sends the current thread state to the AI model for completion.
@@ -18377,7 +19039,7 @@ ${lookup_content[index].content}
               return { type: "text", content: await item.read() };
             }
           } catch (e) {
-            console.error(`Error fetching content for ${path}:`, e);
+            console.warn(`Error fetching content for ${path}:`, e);
             return { type: "error", content: "Failed to fetch content" };
           }
         }
@@ -18803,7 +19465,9 @@ var smart_env_config = {
         gemini: SmartChatModelGeminiAdapter,
         open_router: SmartChatModelOpenRouterAdapter,
         custom: SmartChatModelCustomAdapter,
-        ollama: SmartChatModelOllamaAdapter
+        ollama: SmartChatModelOllamaAdapter,
+        lm_studio: SmartChatModelLmStudioAdapter,
+        groq: SmartChatModelGroqAdapter
       },
       http_adapter: new SmartHttpRequest3({
         adapter: SmartHttpObsidianRequestAdapter3,
@@ -19087,7 +19751,7 @@ var ScConnectionsView = class extends SmartEntitiesView {
     this.status_elm.innerText = "Loading...";
     this.entities_count_elm.dataset.key = entity.key;
     this.status_elm.dataset.key = entity.key;
-    const results = entity.find_connections({
+    const results = await entity.find_connections({
       ...opts,
       exclude_source_connections: entity.env.smart_blocks.settings.embed_blocks
     });
@@ -19704,7 +20368,7 @@ var SmartSearch = class {
         this.main.notices.show("embed search text failed", "Failed to embed search text.");
         return [];
       }
-      return collection.nearest(embedding.vec, filter).sort((a, b) => {
+      return (await collection.nearest(embedding.vec, filter)).sort((a, b) => {
         if (a.score > b.score) return -1;
         if (a.score < b.score) return 1;
         return 0;
@@ -20497,10 +21161,10 @@ var SmartConnectionsPlugin = class extends Plugin {
     this.addCommand({
       id: "smart-connections-random",
       name: "Random Note",
-      callback: () => {
+      callback: async () => {
         const curr_file = this.app.workspace.getActiveFile();
         const entity = this.env.smart_sources.get(curr_file.path);
-        const connections = entity.find_connections({
+        const connections = await entity.find_connections({
           filter: { limit: 20 }
         });
         const rand = Math.floor(Math.random() * connections.length / 2);

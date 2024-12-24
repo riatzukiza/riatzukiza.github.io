@@ -6,12 +6,51 @@ kanban-plugin: board
 
 ## New
 
+- [ ] [[peer to peer networking]]
+- [ ] [[Pure p2p video text chat]]
+- [ ] [[sparse vector fields]]
+- [ ] Map generation
+- [ ] Terrain features
+- [ ] Faction Central building/townsquare
+- [ ] worker units
+- [ ] Weapon loadout system
+- [ ] In game unit designer
+- [ ] AI avatar video chat
+- [ ] Solar system level strategy game
+- [ ] Galactic level strategy game
+- [ ] planetary level strategy game
+- [ ] City builder
+- [ ] Tactical top down
+- [ ] Rim world clone
+- [ ] RPG with dynamic NPCs
+- [ ] Top down space tactical
+- [ ] Evolution
+- [ ] WWIII
+- [ ] War of the worlds
+- [ ] Colony simulator
+- [ ] Sims
+- [ ] Kanban board
+- [ ] Personal assistant
+- [ ] Warframe clone
+- [ ] Budget manager
+- [ ] Programming assistant
+- [ ] Web crawler
+- [ ] Prompt generator
+- [ ] Economy simulator
+- [ ] Space fps
+- [ ] Squad based top down
+- [ ] Smart Moba
+- [ ] Protein builder
+- [ ] Story writer
+- [ ] Model generator
+- [ ] sprite generator
 
 
 ## Epics
 
 - [ ] [devops pipeline](tasks/devops%20pipeline.md)
-- [ ] [[movement commands]]
+- [ ] [[RTS Game MVP]]
+- [ ] [[Intelligent movement commands]]
 - [ ] [Move all outside work into the portfolio git](tasks/Move%20all%20outside%20work%20into%20the%20portfolio%20git.md)
 - [ ] [Import other projects](tasks/Import%20other%20projects.md)
 - [ ] [[Optimizations]]
@@ -22,10 +61,15 @@ kanban-plugin: board
 - [ ] [[Website Design]]
 - [ ] [[Game UI]]
 - [ ] [[Game AI]]
+- [ ] [[Natural language information systems]]
+- [ ] [[Conversational language modeling]]
 
 
 ## Blocked
 
+- [ ] [[shadows]]
+- [ ] [[night day cycle]]
+- [ ] [[flying units]]
 - [ ] [[Water resource]]
 - [ ] [[Mineral Resource]]
 - [ ] [[minimap]]
@@ -51,25 +95,21 @@ kanban-plugin: board
 
 ## Accepted
 
-- [ ] [[elevation]]
-- [ ] [[Governor System]]
 - [ ] [[Individual ant neural networks]]
 - [ ] [[neural network for signal field hyerparameter adjustments]]
 - [ ] [[Question answering system for file system]]
 - [ ] [[browser based lisp shell]]
 - [ ] [[Image editor program]]
-- [ ] Agenda system
-- [ ] Text editor program
-- [ ] Vector based file system search
-- [ ] Order queues
-- [ ] Priority management system
+- [ ] [[Text editor program]]
 
 
 ## Breakdown (5)
 
-- [ ] [[flying units]]
-- [ ] [[night day cycle]]
-- [ ] [[shadows]]
+- [ ] [[Governor System]]
+- [ ] [[Priority management system]]
+- [ ] [[Order queues]]
+- [ ] [[Agenda system]]
+- [ ] [[Vector based file system search]]
 
 
 ## Bugs
@@ -79,6 +119,7 @@ kanban-plugin: board
 
 ## Ready
 
+- [ ] [[elevation]]
 - [ ] [[Sprite sheets]]
 - [ ] [[Better sprite rotation]]
 - [ ] [Electron client](tasks/Electron%20client.md)
@@ -98,7 +139,6 @@ kanban-plugin: board
 	  - Create a seperate pipeline for development and production
 - [ ] [Rewrite andy lib in lisp](tasks/Rewrite%20andy%20lib%20in%20lisp.md)
 - [ ] [Enhance document macros](tasks/Enhance%20document%20macros.md)
-- [ ] [Brain storm new projects](tasks/Brain%20storm%20new%20projects.md)
 - [ ] [multiple factions](tasks/multiple%20factions.md)
 - [ ] [Implement tests for existing shared components.](Implement%20tests%20for%20existing%20shared%20components..md)
 - [ ] [Mirror board to github](tasks/Mirror%20board%20to%20github.md)
@@ -125,13 +165,13 @@ kanban-plugin: board
 - [ ] [simulation backend](tasks/simulation%20backend.md)
 	  - Realizing after adding a toggle for the trail dots that rendering was not what was slowing the sim down
 	We have decided to move this out of the todo backlog, as it will not be as much of a value add as we'd 
-	have liked. The simulation needs more optimizations, and we don't currently have a place to host such an intensive backend.
+	have liked. The simulation needs more [[Optimizations]], and we don't currently have a place to host such an intensive backend.
 
 
 ## Todo (5)
 
 - [ ] [move kit fs](tasks/move%20kit%20fs.md)
-- [ ] [chat app](tasks/chat%20app.md)
+- [ ] [chat app MVP](chat%20app%20MVP.md)
 - [ ] [github readme](tasks/github%20readme.md)
 	  - The [readme](../readme.md) can be generated from this kanban through simple concatonation.
 - [ ] [Add beautifier and beautifier to pipeline to pipeline](tasks/Add%20beautifier%20and%20beautifier%20to%20pipeline%20to%20pipeline.md)
@@ -140,40 +180,44 @@ kanban-plugin: board
 
 ## In Progress (2)
 
+- [ ] [Brain storm new projects](tasks/Brain%20storm%20new%20projects.md)
 
 
 ## In Review (2)
 
-- [ ] [[Add a project page to the website]]
-
-
-## Rejected
-
-- [ ] [sprites](tasks/sprites.md)
-- [ ] a backend implementation of the simulation
-	  - Duplicate
-- [ ] Components as data views
-	  - Redundent by entity panel, provides data view
 
 
 ## Done
 
 **Complete**
+- [x] [[Add a project page to the website]] ✅ 2024-12-23
 - [x] [Design theme for website.](tasks/Design%20theme%20for%20website..md) ✅ 2024-12-23
+- [x] [sprites](tasks/sprites.md) ✅ 2024-12-23
 - [x] [Home page](tasks/Home%20page.md) ✅ 2024-12-23
 - [x] [settings interface](tasks/settings%20interface.md) ✅ 2024-12-22
-- [ ] [config system](tasks/config%20system.md)
+- [x] [config system](tasks/config%20system.md) ✅ 2024-12-23
 	  - we just kinda did this one before moving it through the board :shrug:
-- [ ] Entity inspector
-- [ ] Github pages static site [high priority]
-- [ ] trail entities
-- [ ] [Simulation reset](Simulation%20reset.md)
+- [x] Github pages static site [high priority] ✅ 2024-12-23
+- [x] Entity inspector ✅ 2024-12-23
+- [x] [Simulation reset](Simulation%20reset.md) ✅ 2024-12-23
+- [x] trail entities ✅ 2024-12-23
+
+
+## Rejected
 
 
 
+***
+
+## Archive
+
+- [ ] 2024-12-23 18:27 a backend implementation of the simulation
+	  - Duplicate
+- [ ] 2024-12-23 18:27 Components as data views
+	  - Redundent by entity panel, provides data view
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,false,false,false,false,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,false,true,false,false,true,false,false,false,true,null,true],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/[[New Task]].md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%

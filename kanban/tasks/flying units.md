@@ -1,35 +1,20 @@
 # Description
 
-{{Description}}
+Allow for agents that don't follow the ground and are not (as) limited by [[elevation]]
+
 
 ## Related Epics
-- [[Identify and write useful templates for obsidian]] 
+
+- [[Game Mechanics]]
+## Related tasks
+- [[unit system]]
 ## Requirements
 
-{{Requirements}}
-- High level expecations
-- Acceptance criteria
-- Definition of done
+- Units which cannot be targeted by melee and appear to be above the ground (via a shadow?)
 
 ## Tasks 
 
-{{Tasks}}
-
-- [ ] Somthing that needs to be done to accomplish this task
-- [ ] Non exhaustive, suggestive
-- [ ] Represents expected high level steps to meet AC
+- [ ] Create a new unit type with a default non zero z coordinate
 ## Blocked by 
 
-{{BlockedBy}}
-
-- Can't be worked on till this task is done
-- blocking task
-- blocking task
-
-## Blocks
-
-{{Blocks}}
-
-- This task cannot be done until this one is done.
-- neither can this one
-- or this one
+- [[unit system]]
