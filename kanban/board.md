@@ -79,6 +79,8 @@ kanban-plugin: board
 - [ ] High fantasy city buiilder
 - [ ] Fact checker
 - [ ] Stream assistant
+- [ ] AI Imposter
+- [ ] AI Mafia
 
 
 ## Epics
