@@ -9,6 +9,41 @@ kanban-plugin: board
 - [ ] [[peer to peer networking]]
 - [ ] [[Pure p2p video text chat]]
 - [ ] [[sparse vector fields]]
+- [ ] Map generation
+- [ ] Terrain features
+- [ ] Faction Central building/townsquare
+- [ ] worker units
+- [ ] Weapon loadout system
+- [ ] In game unit designer
+- [ ] AI avatar video chat
+- [ ] Solar system level strategy game
+- [ ] Galactic level strategy game
+- [ ] planetary level strategy game
+- [ ] City builder
+- [ ] Tactical top down
+- [ ] Rim world clone
+- [ ] RPG with dynamic NPCs
+- [ ] Top down space tactical
+- [ ] Evolution
+- [ ] WWIII
+- [ ] War of the worlds
+- [ ] Colony simulator
+- [ ] Sims
+- [ ] Kanban board
+- [ ] Personal assistant
+- [ ] Warframe clone
+- [ ] Budget manager
+- [ ] Programming assistant
+- [ ] Web crawler
+- [ ] Prompt generator
+- [ ] Economy simulator
+- [ ] Space fps
+- [ ] Squad based top down
+- [ ] Smart Moba
+- [ ] Protein builder
+- [ ] Story writer
+- [ ] Model generator
+- [ ] sprite generator
 
 
 ## Epics
@@ -104,7 +139,6 @@ kanban-plugin: board
 	  - Create a seperate pipeline for development and production
 - [ ] [Rewrite andy lib in lisp](tasks/Rewrite%20andy%20lib%20in%20lisp.md)
 - [ ] [Enhance document macros](tasks/Enhance%20document%20macros.md)
-- [ ] [Brain storm new projects](tasks/Brain%20storm%20new%20projects.md)
 - [ ] [multiple factions](tasks/multiple%20factions.md)
 - [ ] [Implement tests for existing shared components.](Implement%20tests%20for%20existing%20shared%20components..md)
 - [ ] [Mirror board to github](tasks/Mirror%20board%20to%20github.md)
@@ -146,6 +180,7 @@ kanban-plugin: board
 
 ## In Progress (2)
 
+- [ ] [Brain storm new projects](tasks/Brain%20storm%20new%20projects.md)
 
 
 ## In Review (2)
@@ -183,6 +218,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,false,true,false,false,true,false,false,true,true,null,true],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,false,true,false,false,true,false,false,false,true,null,true],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/[[New Task]].md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%

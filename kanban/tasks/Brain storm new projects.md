@@ -7,3 +7,5 @@ We need more than one [project](../project.md) to call this a portfolio. I've al
 
 - At least 100 possible new projects are added to the [board](../board.md).
 
+#ideas #brainstorming #prototyping #creativity 
+

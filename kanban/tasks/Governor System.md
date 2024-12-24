@@ -15,6 +15,8 @@ Additionally, you can define your own governors by customizing permissions, and 
 ## Related Epics
 - [[Game Mechanics]]
 - [[Game AI]]
+- [[Natural language information systems]]
+- [[Conversational language modeling]]
 
 ## Blocked by 
 
