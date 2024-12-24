@@ -45,6 +45,8 @@ kanban-plugin: board
 - [ ] Model generator
 - [ ] sprite generator
 - [ ] Entity Linker
+- [ ] Tag generator
+- [ ] Inteligent calendar
 
 
 ## Epics
@@ -68,6 +70,7 @@ kanban-plugin: board
 
 ## Blocked
 
+- [ ] [Governor System](tasks/Governor%20System.md)
 - [ ] [shadows](tasks/shadows.md)
 - [ ] [night day cycle](tasks/night%20day%20cycle.md)
 - [ ] [flying units](tasks/flying%20units.md)
@@ -106,7 +109,6 @@ kanban-plugin: board
 
 ## Breakdown (5)
 
-- [ ] [Governor System](tasks/Governor%20System.md)
 - [ ] [Priority management system](tasks/Priority%20management%20system.md)
 - [ ] [Order queues](tasks/Order%20queues.md)
 - [ ] [Agenda system](tasks/Agenda%20system.md)
