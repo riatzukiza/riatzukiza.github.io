@@ -16,5 +16,5 @@ This issue will not add other resources, but follow on work that adds new resour
 - trail entities
   - resource mechanics will require agents lives to
   be dictated by somthing other than a max trail length if they can only be created with resources being added
-- [[reverse navigation home]]
+- [reverse navigation home](reverse%20navigation%20home.md)
   - Agents have to be able to make it home in order to find and return resources.

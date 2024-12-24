@@ -12,4 +12,4 @@ They follow them in the reverse.
 ## Blocked by
 
 - Trail entities
-- [[multiple signal fields]]?
+- [multiple signal fields](multiple%20signal%20fields.md)?

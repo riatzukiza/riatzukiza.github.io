@@ -13,23 +13,23 @@ There will be different types of governors
 Additionally, you can define your own governors by customizing permissions, and decision hierarchies, all of which are also tasks that you can assign a governor to do.
 
 ## Related Epics
-- [[Game Mechanics]]
-- [[Game AI]]
-- [[Natural language information systems]]
-- [[Conversational language modeling]]
+- [Game Mechanics](Game%20Mechanics.md)
+- [Game AI](Game%20AI.md)
+- [Natural language information systems](Natural%20language%20information%20systems.md)
+- [Conversational language modeling](Conversational%20language%20modeling.md)
 
 ## Blocked by 
 
-- [[Order queues]]
-- [[Agenda system]]
-- [[Priority management system]]
-- [[chat app MVP]]
-- [[Vector based file system search]]
+- [Order queues](Order%20queues.md)
+- [Agenda system](Agenda%20system.md)
+- [Priority management system](Priority%20management%20system.md)
+- [chat app MVP](chat%20app%20MVP.md)
+- [Vector based file system search](Vector%20based%20file%20system%20search.md)
 
 
 ## Blocks
 
-- This task cannot be [[../done|done]] until this one is [[../done|done]].
+- This task cannot be [done](../done.md) until this one is [done](../done.md).
 - neither can this one
 - or this one
 

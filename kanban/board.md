@@ -6,9 +6,9 @@ kanban-plugin: board
 
 ## New
 
-- [ ] [[tasks/peer to peer networking|peer to peer networking]]
-- [ ] [[tasks/Pure p2p video text chat|Pure p2p video text chat]]
-- [ ] [[tasks/sparse vector fields|sparse vector fields]]
+- [ ] [peer to peer networking](tasks/peer%20to%20peer%20networking.md)
+- [ ] [Pure p2p video text chat](tasks/Pure%20p2p%20video%20text%20chat.md)
+- [ ] [sparse vector fields](tasks/sparse%20vector%20fields.md)
 - [ ] Map generation
 - [ ] Terrain features
 - [ ] Faction Central building/townsquare
@@ -50,33 +50,33 @@ kanban-plugin: board
 ## Epics
 
 - [ ] [devops pipeline](tasks/devops%20pipeline.md)
-- [ ] [[tasks/RTS Game MVP|RTS Game MVP]]
-- [ ] [[tasks/Intelligent movement commands|Intelligent movement commands]]
+- [ ] [RTS Game MVP](tasks/RTS%20Game%20MVP.md)
+- [ ] [Intelligent movement commands](tasks/Intelligent%20movement%20commands.md)
 - [ ] [Move all outside work into the portfolio git](tasks/Move%20all%20outside%20work%20into%20the%20portfolio%20git.md)
 - [ ] [Import other projects](tasks/Import%20other%20projects.md)
-- [ ] [[tasks/Optimizations|Optimizations]]
-- [ ] [[tasks/Game Mechanics|Game Mechanics]]
+- [ ] [Optimizations](tasks/Optimizations.md)
+- [ ] [Game Mechanics](tasks/Game%20Mechanics.md)
 - [ ] [documentation](tasks/documentation.md)
 	  - Documenting a little bit at a time, especially when we find outselves having to look at older code to use or change it for use with new features.
-- [ ] [[tasks/Graphics|Graphics]]
-- [ ] [[tasks/Website Design|Website Design]]
-- [ ] [[tasks/Game UI|Game UI]]
-- [ ] [[tasks/Game AI|Game AI]]
-- [ ] [[tasks/Natural language information systems|Natural language information systems]]
-- [ ] [[tasks/Conversational language modeling|Conversational language modeling]]
+- [ ] [Graphics](tasks/Graphics.md)
+- [ ] [Website Design](tasks/Website%20Design.md)
+- [ ] [Game UI](tasks/Game%20UI.md)
+- [ ] [Game AI](tasks/Game%20AI.md)
+- [ ] [Natural language information systems](tasks/Natural%20language%20information%20systems.md)
+- [ ] [Conversational language modeling](tasks/Conversational%20language%20modeling.md)
 
 
 ## Blocked
 
-- [ ] [[tasks/shadows|shadows]]
-- [ ] [[tasks/night day cycle|night day cycle]]
-- [ ] [[tasks/flying units|flying units]]
-- [ ] [[tasks/Water resource|Water resource]]
-- [ ] [[tasks/Mineral Resource|Mineral Resource]]
-- [ ] [[tasks/minimap|minimap]]
-- [ ] [[tasks/weather system|weather system]]
-- [ ] [[tasks/Toggle coordinate wrap around|Toggle coordinate wrap around]]
-- [ ] [[tasks/sprite lighting|sprite lighting]]
+- [ ] [shadows](tasks/shadows.md)
+- [ ] [night day cycle](tasks/night%20day%20cycle.md)
+- [ ] [flying units](tasks/flying%20units.md)
+- [ ] [Water resource](tasks/Water%20resource.md)
+- [ ] [Mineral Resource](tasks/Mineral%20Resource.md)
+- [ ] [minimap](tasks/minimap.md)
+- [ ] [weather system](tasks/weather%20system.md)
+- [ ] [Toggle coordinate wrap around](tasks/Toggle%20coordinate%20wrap%20around.md)
+- [ ] [sprite lighting](tasks/sprite%20lighting.md)
 - [ ] [BUG Collision doesn't work correctly in some circumstances.](tasks/BUG%20Collision%20doesn't%20work%20correctly%20in%20some%20circumstances..md)
 - [ ] [Remove duplicate code included in headers.](tasks/Remove%20duplicate%20code%20included%20in%20headers..md)
 - [ ] [Cull duplicate macros](tasks/Cull%20duplicate%20macros.md)
@@ -96,21 +96,21 @@ kanban-plugin: board
 
 ## Accepted
 
-- [ ] [[tasks/Individual ant neural networks|Individual ant neural networks]]
-- [ ] [[tasks/neural network for signal field hyerparameter adjustments|neural network for signal field hyerparameter adjustments]]
-- [ ] [[tasks/Question answering system for file system|Question answering system for file system]]
-- [ ] [[tasks/browser based lisp shell|browser based lisp shell]]
-- [ ] [[tasks/Image editor program|Image editor program]]
-- [ ] [[tasks/Text editor program|Text editor program]]
+- [ ] [Individual ant neural networks](tasks/Individual%20ant%20neural%20networks.md)
+- [ ] [neural network for signal field hyerparameter adjustments](tasks/neural%20network%20for%20signal%20field%20hyerparameter%20adjustments.md)
+- [ ] [Question answering system for file system](tasks/Question%20answering%20system%20for%20file%20system.md)
+- [ ] [browser based lisp shell](tasks/browser%20based%20lisp%20shell.md)
+- [ ] [Image editor program](tasks/Image%20editor%20program.md)
+- [ ] [Text editor program](tasks/Text%20editor%20program.md)
 
 
 ## Breakdown (5)
 
-- [ ] [[tasks/Governor System|Governor System]]
-- [ ] [[tasks/Priority management system|Priority management system]]
-- [ ] [[tasks/Order queues|Order queues]]
-- [ ] [[tasks/Agenda system|Agenda system]]
-- [ ] [[tasks/Vector based file system search|Vector based file system search]]
+- [ ] [Governor System](tasks/Governor%20System.md)
+- [ ] [Priority management system](tasks/Priority%20management%20system.md)
+- [ ] [Order queues](tasks/Order%20queues.md)
+- [ ] [Agenda system](tasks/Agenda%20system.md)
+- [ ] [Vector based file system search](tasks/Vector%20based%20file%20system%20search.md)
 
 
 ## Bugs
@@ -120,20 +120,20 @@ kanban-plugin: board
 
 ## Ready
 
-- [ ] [[tasks/elevation|elevation]]
-- [ ] [[tasks/Sprite sheets|Sprite sheets]]
-- [ ] [[tasks/Better sprite rotation|Better sprite rotation]]
+- [ ] [elevation](tasks/elevation.md)
+- [ ] [Sprite sheets](tasks/Sprite%20sheets.md)
+- [ ] [Better sprite rotation](tasks/Better%20sprite%20rotation.md)
 - [ ] [Electron client](tasks/Electron%20client.md)
-- [ ] [[tasks/Side scroller|Side scroller]]
-- [ ] [[tasks/3d gravity using babylon|3d gravity using babylon]]
-- [ ] [[tasks/blog|blog]]
+- [ ] [Side scroller](tasks/Side%20scroller.md)
+- [ ] [3d gravity using babylon](tasks/3d%20gravity%20using%20babylon.md)
+- [ ] [blog](tasks/blog.md)
 - [ ] [move kit http](tasks/move%20kit%20http.md)
 - [ ] [move kit shell](tasks/move%20kit%20shell.md)
 - [ ] [move kit core](tasks/move%20kit%20core.md)
 - [ ] [move kit html](tasks/move%20kit%20html.md)
 - [ ] [move kit repl](tasks/move%20kit%20repl.md)
 - [ ] [file explorer](tasks/file%20explorer.md)
-- [ ] [[tasks/Commit messages generated by LLM|Commit messages generated by LLM]]
+- [ ] [Commit messages generated by LLM](tasks/Commit%20messages%20generated%20by%20LLM.md)
 - [ ] [Make old algage work](tasks/Make%20old%20algage%20work.md)
 - [ ] [add game of life to portfolio](tasks/add%20game%20of%20life%20to%20portfolio.md)
 - [ ] [Hot reload system](tasks/Hot%20reload%20system.md)
@@ -143,7 +143,7 @@ kanban-plugin: board
 - [ ] [multiple factions](tasks/multiple%20factions.md)
 - [ ] [Implement tests for existing shared components.](tasks/Implement%20tests%20for%20existing%20shared%20components..md)
 - [ ] [Mirror board to github](tasks/Mirror%20board%20to%20github.md)
-- [ ] [[tasks/Update physics engine to increase accuracy and performance|Update physics engine to increase accuracy and performance]]
+- [ ] [Update physics engine to increase accuracy and performance](tasks/Update%20physics%20engine%20to%20increase%20accuracy%20and%20performance.md)
 	  - Consolodate position and velocity into physics
 	  - When performing updates, do not mutate the state of the
 	last tick. Use two data structures, and swap them out [each](../docs/Pools/Dynamic/each.md) tick.
@@ -159,14 +159,14 @@ kanban-plugin: board
 - [ ] [selection box](tasks/selection%20box.md)
 - [ ] [camera system](tasks/camera%20system.md)
 - [ ] [vector field visualization](tasks/vector%20field%20visualization.md)
-- [ ] [[tasks/Dynamic pools for renderables.|Dynamic pools for renderables.]]
+- [ ] [Dynamic pools for renderables.](tasks/Dynamic%20pools%20for%20renderables..md)
 - [ ] [a gpu implementation for signal fields and vector math.](tasks/a%20gpu%20implementation%20for%20signal%20fields%20and%20vector%20math..md)
 	  - Use tensorflow.js
 - [ ] [SPIKE can we simplify object pools (2 hrs)](tasks/SPIKE%20can%20we%20simplify%20object%20pools%20(2%20hrs).md)
 - [ ] [simulation backend](tasks/simulation%20backend.md)
 	  - Realizing after adding a toggle for the trail dots that rendering was not what was slowing the sim down
 	We have decided to move this out of the todo backlog, as it will not be as much of a value add as we'd 
-	have liked. The simulation needs more [[tasks/Optimizations|Optimizations]], and we don't currently have a place to host such an intensive backend.
+	have liked. The simulation needs more [Optimizations](tasks/Optimizations.md), and we don't currently have a place to host such an intensive backend.
 
 
 ## Todo (5)
@@ -191,7 +191,7 @@ kanban-plugin: board
 ## Done
 
 **Complete**
-- [x] [[tasks/Add a project page to the website|Add a project page to the website]] ✅ 2024-12-23
+- [x] [Add a project page to the website](tasks/Add%20a%20project%20page%20to%20the%20website.md) ✅ 2024-12-23
 - [x] [Design theme for website.](tasks/Design%20theme%20for%20website..md) ✅ 2024-12-23
 - [x] [sprites](tasks/sprites.md) ✅ 2024-12-23
 - [x] [Home page](tasks/Home%20page.md) ✅ 2024-12-23

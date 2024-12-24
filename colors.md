@@ -53,7 +53,7 @@ Monokai Pro with Classic filter colors:
 | List Inactive Selection Background | ![list inactive selection background preview](https://placehold.co/15x15/414339/414339.png) | `#414339` | (65, 67, 57)  |
 | Menu Background                   | ![menu background preview](https://placehold.co/15x15/1e1f1c/1e1f1c.png)         | `#1e1f1c` | (30, 31, 28)    |
 | Menu Foreground                   | ![menu foreground preview](https://placehold.co/15x15/cccccc/cccccc.png)         | `#cccccc` | (204, 204, 204) |
-| [[kanban/tasks/minimap|minimap]] Selection Highlight        | ![minimap selection highlight preview](https://placehold.co/15x15/878b9180/878b9180.png) | `#878b9180` | (135, 139, 145, 128) |
+| [minimap](kanban/tasks/minimap.md) Selection Highlight        | ![minimap selection highlight preview](https://placehold.co/15x15/878b9180/878b9180.png) | `#878b9180` | (135, 139, 145, 128) |
 | Panel Border                     | ![panel border preview](https://placehold.co/15x15/414339/414339.png)             | `#414339` | (65, 67, 57)    |
 | Panel Title Active Border        | ![panel title active border preview](https://placehold.co/15x15/75715e/75715e.png) | `#75715e` | (117, 113, 94)  |
 | Panel Title Active Foreground    | ![panel title active foreground preview](https://placehold.co/15x15/f8f8f2/f8f8f2.png) | `#f8f8f2` | (248, 248, 242) |
@@ -66,7 +66,7 @@ Monokai Pro with Classic filter colors:
 | Peek View Result Selection Background | ![peek view result selection background preview](https://placehold.co/15x15/414339/414339.png) | `#414339` | (65, 67, 57)  |
 | Peek View Title Background        | ![peek view title background preview](https://placehold.co/15x15/1e1f1c/1e1f1c.png) | `#1e1f1c` | (30, 31, 28)    |
 | Picker Group Foreground           | ![picker group foreground preview](https://placehold.co/15x15/75715e/75715e.png) | `#75715e` | (117, 113, 94)  |
-| Ports Icon Running [[kanban/process|process]] Foreground | ![ports icon running process foreground preview](https://placehold.co/15x15/cccccc/cccccc.png) | `#cccccc` | (204, 204, 204) |
+| Ports Icon Running [process](kanban/process.md) Foreground | ![ports icon running process foreground preview](https://placehold.co/15x15/cccccc/cccccc.png) | `#cccccc` | (204, 204, 204) |
 | Progress Bar Background           | ![progress bar background preview](https://placehold.co/15x15/75715e/75715e.png) | `#75715e` | (117, 113, 94)  |
 | Quick Input List Focus Background  | ![quick input list focus background preview](https://placehold.co/15x15/414339/414339.png) | `#414339` | (65, 67, 57)  |
 | Selection Background              | ![selection background preview](https://placehold.co/15x15/878b9180/878b9180.png) | `#878b9180` | (135, 139, 145, 128) |
