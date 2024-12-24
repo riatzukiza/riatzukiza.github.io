@@ -238,7 +238,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 461.5
+    "width": 596.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -263,7 +263,7 @@
       "smart-connections:Open: Smart Chat Conversation": false
     }
   },
-  "active": "b7a6f626c77f73c9",
+  "active": "deda7187f8d4e062",
   "lastOpenFiles": [
     "kanban/project.md",
     "static/kanban/tasks/commit-messages-generated-by-llm.html",
