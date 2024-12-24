@@ -44,6 +44,7 @@ kanban-plugin: board
 - [ ] Story writer
 - [ ] Model generator
 - [ ] sprite generator
+- [ ] Entity Linker
 
 
 ## Epics
