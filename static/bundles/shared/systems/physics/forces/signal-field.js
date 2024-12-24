@@ -65,14 +65,14 @@ var SignalField = Physics.Force.define("SignalField", {
       var collision = c.system.process.systems.get(Collision, c.entity);
       updateParticle(v, v.pos, field, layer, game.ticker.ticks, false, false, entities.homePos);
       var winRate = (v.entity.antLife.winCount / ((1 + v.entity.antLife.looseCount) || 1));
-      c.scale = (0.5 * (function() {
+      c.scale = (5 + (2 * (function() {
         if (winRate > 1) {
           return winRate;
         } else {
           return 1;
         }
-      }).call(this));
-      return c.mass = (2 * (function() {
+      }).call(this)));
+      return c.mass = (10 * (function() {
         if (winRate > 1) {
           return winRate;
         } else {

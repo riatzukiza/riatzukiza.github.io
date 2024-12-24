@@ -47,8 +47,7 @@ game.events.on("antCollision", ((c, c_) => {
   var v_ = c_.entity.velocityInterface;
   var p = c.entity.physicalProperties;
   var p_ = c_.entity.physicalProperties;
-  updateParticle(v, v.pos, SignalField.field, SignalField.layer, game.ticker.ticks, config.decayOnCollision, false, homePos);
-  return updateParticle(v_, v_.pos, SignalField.field, SignalField.layer, game.ticker.ticks, config.decayOnCollision, false, homePos);
+  return updateParticle(v, v.pos, SignalField.field, SignalField.layer, game.ticker.ticks, config.decayOnCollision, false, homePos);
 
 })).once("error", ((err) => {
 	

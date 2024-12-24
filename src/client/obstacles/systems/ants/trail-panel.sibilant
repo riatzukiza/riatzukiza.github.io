@@ -1,6 +1,6 @@
 (namespace obstacles)
 (require! (lit Property-view View-panel) "@obstacles/systems/property-view.js"
-          (lit Trail-dots) "@obstacles/systems/trail-dots.js"
+          (lit Trail-dots) "@obstacles/systems/ants/trail-dots.js"
           )
 
 (include "../../../../../inc/dom.sibilant")

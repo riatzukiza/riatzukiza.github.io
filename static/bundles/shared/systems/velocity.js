@@ -10627,11 +10627,41 @@ var {
   System
  } = require("@shared/ecs.js"),
     { 
+  Vector
+ } = require("@shared/vectors.js"),
+    { 
   Position
  } = require("@shared/systems/position.js");
 var VelocityInterface = Component.define("VelocityInterface", { 
-  xd:0,
-  yd:0,
+  get xd(  ){ 
+    
+      return this.vector.x;
+    
+   },
+  get yd(  ){ 
+    
+      return this.vector.y;
+    
+   },
+  set xd( x ){ 
+    
+      return this.vector.x = x;
+    
+   },
+  set yd( y ){ 
+    
+      return this.vector.y = y;
+    
+   },
+  register(  ){ 
+    
+      return (function() {
+        if (!(this.vector)) {
+          return this.vector = Vector.spawn(0, 0);
+        }
+      }).call(this);
+    
+   },
   get pos(  ){ 
     
       return this.entity.positionInterface;
@@ -10678,4 +10708,4 @@ var Velocity = System.define("Velocity", {
    }
  });
 exports.Velocity = Velocity;
-},{"@kit-js/interface":1,"@shared/ecs.js":"@shared/ecs.js","@shared/systems/position.js":"@shared/systems/position.js"}]},{},[]);
+},{"@kit-js/interface":1,"@shared/ecs.js":"@shared/ecs.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/vectors.js":"@shared/vectors.js"}]},{},[]);

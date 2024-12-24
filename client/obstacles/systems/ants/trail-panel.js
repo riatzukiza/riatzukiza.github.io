@@ -19,7 +19,7 @@ var {
  } = require("@obstacles/systems/property-view.js"),
     { 
   TrailDots
- } = require("@obstacles/systems/trail-dots.js");
+ } = require("@obstacles/systems/ants/trail-dots.js");
 var { 
   renderChildren,
   createDocumentNode,

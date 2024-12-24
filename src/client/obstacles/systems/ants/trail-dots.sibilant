@@ -28,7 +28,7 @@
 (export Trail-dot)
 
 (define Trail-dots Dot
-  (max-verts 100000)
+  (max-verts 300000)
   (interface Trail-dot)
 
   (def register ()
@@ -51,9 +51,9 @@
 
   (def *update-component (dot)
     (set dot.vertex.color
-         ;; 'a (Math.round
-         ;;     (Math.max 0 (* 255 (/ dot.entity.trail-segment.remaining-time dot.entity.trail-segment.duration))))
-         'a 255
+         'a (Math.round
+             (Math.max 0 (* 255 (/ dot.entity.trail-segment.remaining-time dot.entity.trail-segment.duration))))
+         ;; 'a 255
          )
     (if! dot.changed?
         (set dot.vertex.color

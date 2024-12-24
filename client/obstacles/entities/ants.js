@@ -35,6 +35,9 @@ var {
   EntityGroup
  } = require("@shared/ecs.js"),
     { 
+  AntSprites
+ } = require("@obstacles/systems/ant-sprites.js"),
+    { 
   Collision,
   placeEntity
  } = require("@shared/systems/collision.js"),
@@ -46,14 +49,14 @@ var {
   AntPanel
  } = require("@obstacles/systems/ants/ant-panel.js"),
     config = require("@obstacles/config.js");
-const ants=create(EntityGroup)("Ants", [ Collision, AntDots, AntPanel, Physics, Velocity, Position, AntTrails, AntLifeTimer ], game.ent);
+const ants=create(EntityGroup)("Ants", [ Collision, AntSprites, AntPanel, Physics, Velocity, Position, AntTrails, AntLifeTimer ], game.ent);
 var clearAnts = (function clearAnts$() {
-  /* clear-ants eval.sibilant:25:0 */
+  /* clear-ants eval.sibilant:29:0 */
 
   return ants.clear();
 });
 var spawnAnt = (function spawnAnt$(x_y$1, home, startingLife) {
-  /* spawn-ant eval.sibilant:26:0 */
+  /* spawn-ant eval.sibilant:30:0 */
 
   var x = x_y$1[0],
       y = x_y$1[1];

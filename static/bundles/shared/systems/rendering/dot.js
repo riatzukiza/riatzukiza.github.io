@@ -10702,12 +10702,22 @@ var vertexLayer = (function vertexLayer$(limit, game) {
   return game.rendering.spawn(limit, Vertex, [ uniforms.res, uniforms.scale ], [ shaders.vert, shaders.frag ]);
 });
 var DotInterface = Component.define("DotInterface", { 
-  color:{
+  _color:{
     r: 0,
     g: 0,
     b: 0,
     a: 0
   },
+  get color(  ){ 
+    
+      return this._color;
+    
+   },
+  set color( c ){ 
+    
+      return this._color = c;
+    
+   },
   get pos(  ){ 
     
       return this.entity.positionInterface;

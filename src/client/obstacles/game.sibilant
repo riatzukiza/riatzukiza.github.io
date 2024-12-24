@@ -4,6 +4,7 @@
 
 (require! (lit Game) "@shared/game.js"
           (lit Dot) "@shared/systems/rendering/dot.js"
+          (lit Sprites) "@shared/systems/rendering/gl-sprites.js"
           (lit Position) "@obstacles/systems/position.js"
           (lit Velocity) "@obstacles/systems/velocity.js"
           (lit Physics) "@shared/systems/physics/index.js"
@@ -17,16 +18,13 @@
           (lit Ant-panel) "@obstacles/systems/ants/ant-panel.js"
           (lit Trails-panel) "@obstacles/systems/ants/trail-panel.js"
           (lit Decaying-trails) "@obstacles/systems/ants/trail-segments.js"
+          (lit Ant-sprites) "@obstacles/systems/ant-sprites.js"
+          (lit Rock-sprites) "@obstacles/systems/rock-sprites.js"
           config "@obstacles/config.js"
           )
 
 (var active-game-systems
      [
-      Position
-      Physics
-      Velocity
-      Collision
-      Ant-trails
       Decaying-trails
       Ant-life-timer
       Dot
@@ -34,6 +32,13 @@
       Ant-dots
       Ant-panel
       Trails-panel
+      Rock-sprites
+      Ant-sprites
+      Ant-trails
+      Physics
+      Velocity
+      Position
+      Collision
       ])
 
 (var game ((create Game)
