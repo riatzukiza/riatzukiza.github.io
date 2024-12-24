@@ -7,6 +7,6 @@ This seems possible
 
 ## Requirements
 
-- Changes to the [[board]] get reflected to a github [[project]] [[board]] on push to a specific branch
-- Changes to the [[project]] [[board]] on github get reflected onto the obsidian [[board]] and pushed to a specific branch
+- Changes to the [[../board|board]] get reflected to a github [[../project|project]] [[../board|board]] on push to a specific branch
+- Changes to the [[../project|project]] [[../board|board]] on github get reflected onto the obsidian [[../board|board]] and pushed to a specific branch
 - All changes get a pull request

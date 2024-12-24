@@ -4,7 +4,7 @@ The RTS game will heavily utilize machine learning and other real AI systems, un
 
 Units will not bump into walls they encounter when issues are given to move to locations in the fog of war.
 
-Units will stop [[each]] other when groups are given seperate sets of commands that may result in paths overlapping
+Units will stop [[../../docs/Pools/Dynamic/each|each]] other when groups are given seperate sets of commands that may result in paths overlapping
 
 Units will respond to changes in situation, such as when they are attacked. They will not just keep moving, they will prioritize their own survival. This facilitates naturally occuring routs and allows for both setting up ambushes and for units to respond to them if they have the "knowledge" and resources to do so.
 

@@ -1,5 +1,5 @@
 # Epic
-One of the core mechanics in an rts game is the ability to issue movement commands. The way we do that in this game will be a little different than how it is usually [[done]].
+One of the core mechanics in an rts game is the ability to issue movement commands. The way we do that in this game will be a little different than how it is usually [[../done|done]].
 I'm thinking that you can select a group of units, and you issue a series of way points, then a ghost ant quickly traverses the field until it reaches that point, up to a limit.
 If the point can be reached with the existing field with in the traversal limit, that path is is used ontop of the noise to reach it.
 
@@ -20,7 +20,7 @@ Man this is going to be a lot of work.
 - User can issue general move commands.
 - user is notified if there are expected to be complications on the route
 - User can set multiple waypoints
-- A set of path vectors are generated for [[each]] waypoint
+- A set of path vectors are generated for [[../../docs/Pools/Dynamic/each|each]] waypoint
 - Agents are still influenced by changing in the underlying field that generated the waypoint
 - User is informed if the path has been updated
 - User is informed if the path has become blocked based on complicating factors unknown at the time of path generation

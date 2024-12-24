@@ -19,7 +19,7 @@ The current implementation of [[sprites]] does not support sprite sheets, only i
 
 {{BlockedBy}}
 
-- Can't be worked on till this task is [[done]]
+- Can't be worked on till this task is [[../done|done]]
 - blocking task
 - blocking task
 
@@ -27,6 +27,6 @@ The current implementation of [[sprites]] does not support sprite sheets, only i
 
 {{Blocks}}
 
-- This task cannot be [[done]] until this one is [[done]].
+- This task cannot be [[../done|done]] until this one is [[../done|done]].
 - neither can this one
 - or this one

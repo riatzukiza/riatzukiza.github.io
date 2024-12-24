@@ -6,7 +6,7 @@ Add a blog page to the website
 ## Requirements
 
 - nav button for blog directs you to a list of all pages currently hosted on the blog
-- [[each]] element on the main blog page shows you a blurb from the blog post
+- [[../../docs/Pools/Dynamic/each|each]] element on the main blog page shows you a blurb from the blog post
 - clicking the element on the main blog page brings you to the full blog article
 
 ## Tasks 

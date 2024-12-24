@@ -1,6 +1,6 @@
 # Description
 
-[[each]] agent needs to decided how to weight the various signal fields it will be interacting with based on it's current goals.
+[[../../docs/Pools/Dynamic/each|each]] agent needs to decided how to weight the various signal fields it will be interacting with based on it's current goals.
 
 ## Related Epics
 - [[Game Mechanics]]

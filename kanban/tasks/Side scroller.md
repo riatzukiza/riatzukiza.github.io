@@ -7,11 +7,11 @@ I wrote a simple side scroller with a different implementation of [[sprites]]. M
 ## Requirements
 
 - It works like it did before but here
-- it shows up on [[project]] page
+- it shows up on [[../project|project]] page
 
 ## Tasks 
 
 - [ ] Move code into client
 - [ ] update imports
-- [ ] [[adjust]] code if needed to work with updated framework
+- [ ] [[../../docs/Pools/Dynamic/adjust|adjust]] code if needed to work with updated framework
 

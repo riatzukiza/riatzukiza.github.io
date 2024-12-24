@@ -11,5 +11,5 @@ work for now. We know we have cod e for 3d stuff in another repository.
 
 - Create [[Sprite sheets]] for agents and rocks
 - Try existing sprite system, compare speed to vertex rendering mode speed.
-- If speed is unreasonable, create a [[New Task]] to look into other [[Graphics]] 
+- If speed is unreasonable, create a [[../templates/New Task|New Task]] to look into other [[Graphics]] 
   engine solutions, or write a new shader for sprites.

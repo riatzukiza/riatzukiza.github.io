@@ -7,22 +7,22 @@ A general description of the task
 
 - High level expecations
 - Acceptance criteria
-- Definition of [[done]]
+- Definition of [[../done|done]]
 
 ## Tasks 
 
-- [ ] Somthing that needs to be [[done]] to accomplish this task
+- [ ] Somthing that needs to be [[../done|done]] to accomplish this task
 - [ ] Non exhaustive, suggestive
 - [ ] Represents expected high level steps to meet AC
 ## Blocked by 
 
-- Can't be worked on till this task is [[done]]
+- Can't be worked on till this task is [[../done|done]]
 - blocking task
 - blocking task
 
 ## Blocks
 
-- This task cannot be [[done]] until this one is [[done]].
+- This task cannot be [[../done|done]] until this one is [[../done|done]].
 - neither can this one
 - or this one
 

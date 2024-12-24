@@ -6,4 +6,4 @@ obj,foobar
 
 ## description
 
-[[remove]] an object from the system, and [[release]] it back into the pool.
+[[../../Shared/datastructures/trees/binary-search-tree/remove|remove]] an object from the system, and [[release]] it back into the pool.

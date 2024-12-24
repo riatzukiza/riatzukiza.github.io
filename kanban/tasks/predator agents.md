@@ -6,7 +6,7 @@ Like in the original symbiants using a scalar signal field, I want to introduce 
 ## Blocked by
 
 - attack sytem
-- [multiple factions](tasks/multiple%20factions.md)
+- [multiple factions](multiple%20factions.md)
 
 ## requirements
 

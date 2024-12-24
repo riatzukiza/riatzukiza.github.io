@@ -29,7 +29,7 @@ Additionally, you can define your own governors by customizing permissions, and 
 
 ## Blocks
 
-- This task cannot be [[done]] until this one is [[done]].
+- This task cannot be [[../done|done]] until this one is [[../done|done]].
 - neither can this one
 - or this one
 

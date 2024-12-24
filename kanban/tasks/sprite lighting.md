@@ -16,7 +16,7 @@ Lighting is a common effect in games, write a shader that allows [[sprites]] to 
 
 - [ ] Write lighting shader
 - [ ] Write lighting component system
-- [ ] Write ticket for future work involving plants using light to [[grow]]
+- [ ] Write ticket for future work involving plants using light to [[../../docs/Pools/Dynamic/grow|grow]]
 ## Blocked by 
 
 - [[Sprite sheets]]

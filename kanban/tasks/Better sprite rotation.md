@@ -13,12 +13,12 @@ The current implementation of sprite rotations uses trig, I was getting frustrat
 
 - [ ] Write new shader 
 - [ ] Writer new component system
-- [ ] Write a new [[project]] that spawns a lot of [[sprites]] to compare the performance of the current implementation, the old implementation, and the new implementation.
+- [ ] Write a new [[../project|project]] that spawns a lot of [[sprites]] to compare the performance of the current implementation, the old implementation, and the new implementation.
 ## Blocked by 
 
 {{BlockedBy}}
 
-- Can't be worked on till this task is [[done]]
+- Can't be worked on till this task is [[../done|done]]
 - blocking task
 - blocking task
 
@@ -26,6 +26,6 @@ The current implementation of sprite rotations uses trig, I was getting frustrat
 
 {{Blocks}}
 
-- This task cannot be [[done]] until this one is [[done]].
+- This task cannot be [[../done|done]] until this one is [[../done|done]].
 - neither can this one
 - or this one
