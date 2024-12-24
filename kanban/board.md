@@ -47,6 +47,31 @@ kanban-plugin: board
 - [ ] Entity Linker
 - [ ] Tag generator
 - [ ] Inteligent calendar
+- [ ] Implement A* algorithim
+- [ ] implement binary heap
+- [ ] Implement AVL trees
+- [ ] Implement graph datastructure
+- [ ] Implement Feed Forward Neural network
+- [ ] Neural network visualization
+- [ ] Music composition program
+- [ ] Warframe Celpelon
+- [ ] Ancient warfare RTS
+- [ ] Medieval warfare RTS
+- [ ] Modern warfare rts
+- [ ] Reinecaince warfare
+- [ ] Zombie survival
+- [ ] Voxels
+- [ ] Crafting survival
+- [ ] Mining game
+- [ ] naval units
+- [ ] Ampibious units
+- [ ] ranged attack system
+- [ ] projectile system
+- [ ] Dynamic story teller
+- [ ] Random events system
+- [ ] Research assistant
+- [ ] Digital tutor
+- [ ] Language model benchmarks
 
 
 ## Epics
@@ -66,6 +91,7 @@ kanban-plugin: board
 - [ ] [Game AI](tasks/Game%20AI.md)
 - [ ] [Natural language information systems](tasks/Natural%20language%20information%20systems.md)
 - [ ] [Conversational language modeling](tasks/Conversational%20language%20modeling.md)
+- [ ] Data structures
 
 
 ## Blocked
