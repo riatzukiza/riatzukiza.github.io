@@ -252,9 +252,7 @@
       "obsidian-git:Open Git source control": false,
       "githobs:Manage a github issue": false,
       "webpage-html-export:Export Vault to HTML": false,
-      "obisidian-note-linker:Note Linker": false,
-      "smart-connections:Open: View Smart Connections": false,
-      "smart-connections:Open: Smart Chat Conversation": false
+      "obisidian-note-linker:Note Linker": false
     }
   },
   "floating": {
@@ -287,10 +285,10 @@
           }
         ],
         "direction": "vertical",
-        "x": 451,
+        "x": 450,
         "y": 168,
-        "width": 901,
-        "height": 500,
+        "width": 906,
+        "height": 503,
         "maximize": false,
         "zoom": 0
       }
