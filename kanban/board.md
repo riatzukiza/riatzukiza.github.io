@@ -42,7 +42,7 @@ kanban-plugin: board
 - [ ] Smart Moba
 - [ ] Protein builder
 - [ ] Story writer
-- [ ] Model generator
+- [ ] 3d Model generator
 - [ ] sprite generator
 - [ ] Entity Linker
 - [ ] Tag generator
@@ -88,6 +88,7 @@ kanban-plugin: board
 - [ ] checkers
 - [ ] astrology chart
 - [ ] star map
+- [ ] Ai Vtuber avatar
 
 
 ## Epics
