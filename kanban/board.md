@@ -82,6 +82,10 @@ kanban-plugin: board
 - [ ] AI Imposter
 - [ ] AI Mafia
 - [ ] poker
+- [ ] trading card game
+- [ ] black jack
+- [ ] chess
+- [ ] checkers
 
 
 ## Epics
