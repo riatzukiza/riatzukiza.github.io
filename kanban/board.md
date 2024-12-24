@@ -8,7 +8,7 @@ kanban-plugin: board
 
 - [ ] [[peer to peer networking]]
 - [ ] [[Pure p2p video text chat]]
-- [ ] sparse vector fields
+- [ ] [[sparse vector fields]]
 
 
 ## Epics
@@ -152,10 +152,6 @@ kanban-plugin: board
 
 
 
-## Rejected
-
-
-
 ## Done
 
 **Complete**
@@ -164,12 +160,16 @@ kanban-plugin: board
 - [x] [sprites](tasks/sprites.md) ✅ 2024-12-23
 - [x] [Home page](tasks/Home%20page.md) ✅ 2024-12-23
 - [x] [settings interface](tasks/settings%20interface.md) ✅ 2024-12-22
-- [ ] [config system](tasks/config%20system.md)
+- [x] [config system](tasks/config%20system.md) ✅ 2024-12-23
 	  - we just kinda did this one before moving it through the board :shrug:
-- [ ] Entity inspector
-- [ ] Github pages static site [high priority]
-- [ ] trail entities
-- [ ] [Simulation reset](Simulation%20reset.md)
+- [x] Github pages static site [high priority] ✅ 2024-12-23
+- [x] Entity inspector ✅ 2024-12-23
+- [x] [Simulation reset](Simulation%20reset.md) ✅ 2024-12-23
+- [x] trail entities ✅ 2024-12-23
+
+
+## Rejected
+
 
 
 ***
@@ -183,6 +183,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,true,true,false,false,true,false,false,true,true,true],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,false,true,false,false,true,false,false,true,true,null,true],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%

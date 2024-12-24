@@ -15,18 +15,7 @@ Additionally, you can define your own governors by customizing permissions, and 
 ## Related Epics
 - [[Game Mechanics]]
 - [[Game AI]]
-- 
-## Requirements
 
-- High level expecations
-- Acceptance criteria
-- Definition of [[done]]
-
-## Tasks 
-
-- [ ] Somthing that needs to be [[done]] to accomplish this task
-- [ ] Non exhaustive, suggestive
-- [ ] Represents expected high level steps to meet AC
 ## Blocked by 
 
 - [[Order queues]]
