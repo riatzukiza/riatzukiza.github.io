@@ -72,6 +72,13 @@ kanban-plugin: board
 - [ ] Research assistant
 - [ ] Digital tutor
 - [ ] Language model benchmarks
+- [ ] Process diagram
+- [ ] Post apocolypse survival game
+- [ ] High fantasy strategy game
+- [ ] High fantasy RPG
+- [ ] High fantasy city buiilder
+- [ ] Fact checker
+- [ ] Stream assistant
 
 
 ## Epics
@@ -91,7 +98,16 @@ kanban-plugin: board
 - [ ] [Game AI](tasks/Game%20AI.md)
 - [ ] [Natural language information systems](tasks/Natural%20language%20information%20systems.md)
 - [ ] [Conversational language modeling](tasks/Conversational%20language%20modeling.md)
-- [ ] Data structures
+- [ ] [[Data structures]]
+- [ ] [[Game Art]]
+- [ ] [[Audio Design]]
+- [ ] Digital Assistants
+- [ ] Benchmarking
+- [ ] Algorithims
+- [ ] Abstractions
+- [ ] Process
+- [ ] World building
+- [ ] Game design
 
 
 ## Blocked
@@ -247,6 +263,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,false,false,false,false,false,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/[[New Task]].md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,false,false,false,false,false,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%

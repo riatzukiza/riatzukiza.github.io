@@ -237,8 +237,12 @@
   },
   "active": "02ba21013b3ad7f9",
   "lastOpenFiles": [
-    "kanban/tasks/Make old symbiants work.md",
+    "kanban/templates/New Task.md",
     "kanban/board.md",
+    "kanban/tasks/Audio Design.md",
+    "kanban/tasks/Game Art.md",
+    "kanban/tasks/Data structures.md",
+    "kanban/tasks/Make old symbiants work.md",
     "kanban/tasks/Priority management system.md",
     "kanban/project.md",
     "kanban/tasks/Governor System.md",
@@ -269,10 +273,6 @@
     "kanban/tasks/Import other projects.md",
     "kanban/tasks/Implement tests for existing shared components..md",
     "kanban/tasks/Image editor program.md",
-    "kanban/tasks/Identify and write useful templates for obsidian.md",
-    "kanban/tasks/Hot reload system.md",
-    "kanban/tasks/Home page.md",
-    "kanban/tasks/ground tiles.md",
     "Untitled.canvas"
   ]
 }
