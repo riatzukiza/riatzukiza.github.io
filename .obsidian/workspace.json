@@ -256,6 +256,8 @@
   },
   "active": "f1e3feef9d680606",
   "lastOpenFiles": [
+    "src/client/red-black-tree-visualization/main.sibilant",
+    "src/client/red-black-tree-visualization",
     "docs/Shared/datastructures/_Index_of_datastructures.md",
     "templates/projects/red-black-tree-visualization.js",
     "templates/projects/obstacles.js",
@@ -266,7 +268,6 @@
     "static/projects/index.html",
     "static/projects",
     "static/kanban/templates/_index_of_templates.html",
-    "static/kanban/templates/epic.html",
     "static/ant.png",
     "docs/Shared/datastructures/trees/binary-search-tree.md",
     "colors.md",
@@ -292,7 +293,6 @@
     "kanban/tasks/minimap.md",
     "kanban/tasks/flying units.md",
     "Colors.md",
-    "kanban/project.md",
     "Untitled.canvas"
   ]
 }
