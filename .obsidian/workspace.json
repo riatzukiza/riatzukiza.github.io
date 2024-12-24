@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "4287a5116e3d7c8f",
+        "id": "ea13481075c591e8",
         "type": "tabs",
         "children": [
           {
-            "id": "02ba21013b3ad7f9",
+            "id": "f1e3feef9d680606",
             "type": "leaf",
             "state": {
               "type": "kanban",
@@ -17,18 +17,17 @@
                 "kanbanViewState": {
                   "kanban-plugin": "board",
                   "list-collapse": [
+                    true,
                     false,
                     false,
                     false,
                     false,
-                    false,
-                    false,
-                    false,
+                    true,
                     false,
                     false,
                     false,
                     null,
-                    false
+                    true
                   ]
                 }
               },
@@ -86,16 +85,6 @@
               "state": {},
               "icon": "lucide-bookmark",
               "title": "Bookmarks"
-            }
-          },
-          {
-            "id": "d8912b5d28154545",
-            "type": "leaf",
-            "state": {
-              "type": "tagfolder-view",
-              "state": {},
-              "icon": "stacked-levels",
-              "title": "Tag Folder"
             }
           }
         ]
@@ -195,7 +184,37 @@
             }
           },
           {
-            "id": "0c0c0fb7b7b372b7",
+            "id": "0fe495545f43972f",
+            "type": "leaf",
+            "state": {
+              "type": "smart-connections-view",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "Plugin no longer active"
+            }
+          },
+          {
+            "id": "11fb40a1ed2733ad",
+            "type": "leaf",
+            "state": {
+              "type": "smart-chat-view",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "Plugin no longer active"
+            }
+          },
+          {
+            "id": "c446c1100d2f9bc2",
+            "type": "leaf",
+            "state": {
+              "type": "smart-connections-view",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "Plugin no longer active"
+            }
+          },
+          {
+            "id": "c4af0db78330ac70",
             "type": "leaf",
             "state": {
               "type": "smart-chat-view",
@@ -205,11 +224,11 @@
             }
           }
         ],
-        "currentTab": 6
+        "currentTab": 9
       }
     ],
     "direction": "horizontal",
-    "width": 596.5,
+    "width": 461.5,
     "collapsed": true
   },
   "left-ribbon": {
@@ -235,44 +254,45 @@
       "smart-connections:Open: Smart Chat Conversation": false
     }
   },
-  "active": "02ba21013b3ad7f9",
+  "active": "f1e3feef9d680606",
   "lastOpenFiles": [
-    "kanban/templates/New Task.md",
+    "docs/Shared/datastructures/_Index_of_datastructures.md",
+    "templates/projects/red-black-tree-visualization.js",
+    "templates/projects/obstacles.js",
+    "templates/projects/index.js",
+    "templates/projects",
+    "static/projects/red-black-tree-visualization.html",
+    "static/projects/obstacles.html",
+    "static/projects/index.html",
+    "static/projects",
+    "static/kanban/templates/_index_of_templates.html",
+    "static/kanban/templates/epic.html",
+    "static/ant.png",
+    "docs/Shared/datastructures/trees/binary-search-tree.md",
+    "colors.md",
+    "kanban/tasks/file explorer.md",
     "kanban/board.md",
-    "kanban/tasks/Audio Design.md",
-    "kanban/tasks/Game Art.md",
-    "kanban/tasks/Data structures.md",
-    "kanban/tasks/Make old symbiants work.md",
-    "kanban/tasks/Priority management system.md",
-    "kanban/project.md",
-    "kanban/tasks/Governor System.md",
-    "kanban/tasks/metabolism system.md",
-    "kanban/tasks/Individual ant neural networks.md",
-    "kanban/tasks/Brain storm new projects.md",
-    "static/docs/readme.html",
-    "static/docs/_index_of_docs.html",
-    "static/docs/shared/_index_of_shared.html",
-    "static/docs/shared/ecs/componentsystem/_index_of_componentsystem.html",
-    "static/docs/shared/ecs/componentsystem/register.html",
-    "static/docs/shared/ecs/component/_index_of_component.html",
-    "static/docs/shared/ecs/component/register.html",
-    "static/docs/shared/ecs/_index_of_ecs.html",
-    "static/docs/shared/ecs/componentsystem.html",
-    "static/docs/shared/ecs/componentsystem",
-    "kanban/process.md",
-    "kanban/done.md",
-    "kanban/tasks/move kit fs.md",
-    "kanban/tasks/move kit core.md",
-    "kanban/tasks/Move fork of sibilant into git.md",
-    "kanban/tasks/Move all outside work into the portfolio git.md",
-    "kanban/tasks/Mirror board to github.md",
-    "kanban/tasks/minimap.md",
-    "kanban/tasks/Mineral Resource.md",
-    "kanban/tasks/Make old algage work.md",
-    "kanban/tasks/Intelligent movement commands.md",
-    "kanban/tasks/Import other projects.md",
+    "kanban/tasks/chat app.md",
+    "kanban/tasks/Dynamic pools for renderables..md",
     "kanban/tasks/Implement tests for existing shared components..md",
-    "kanban/tasks/Image editor program.md",
+    "kanban/tasks/move kit fs.md",
+    "kanban/tasks/Cull duplicate macros.md",
+    "kanban/tasks/Import other projects.md",
+    "kanban/tasks/Add a project page to the website.md",
+    "Add a project page to the website.md",
+    "kanban/tasks/Design theme for website..md",
+    "kanban/tasks/Home page.md",
+    "docs/readme.md",
+    "kanban/tasks/weather system.md",
+    "kanban/tasks/sprite lighting.md",
+    "kanban/tasks/shadows.md",
+    "kanban/tasks/night day cycle.md",
+    "kanban/tasks/neural network for signal field hyerparameter adjustments.md",
+    "kanban/tasks/movement commands.md",
+    "kanban/tasks/minimap.md",
+    "kanban/tasks/flying units.md",
+    "Colors.md",
+    "kanban/project.md",
     "Untitled.canvas"
   ]
 }
