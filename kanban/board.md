@@ -86,6 +86,8 @@ kanban-plugin: board
 - [ ] black jack
 - [ ] chess
 - [ ] checkers
+- [ ] astrology chart
+- [ ] star map
 
 
 ## Epics
