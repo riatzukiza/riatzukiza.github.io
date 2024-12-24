@@ -150,22 +150,18 @@ kanban-plugin: board
 
 ## In Review (2)
 
-- [ ] [[Add a project page to the website]]
 
 
 ## Rejected
 
-- [ ] [sprites](tasks/sprites.md)
-- [ ] a backend implementation of the simulation
-	  - Duplicate
-- [ ] Components as data views
-	  - Redundent by entity panel, provides data view
 
 
 ## Done
 
 **Complete**
+- [x] [[Add a project page to the website]] ✅ 2024-12-23
 - [x] [Design theme for website.](tasks/Design%20theme%20for%20website..md) ✅ 2024-12-23
+- [x] [sprites](tasks/sprites.md) ✅ 2024-12-23
 - [x] [Home page](tasks/Home%20page.md) ✅ 2024-12-23
 - [x] [settings interface](tasks/settings%20interface.md) ✅ 2024-12-22
 - [ ] [config system](tasks/config%20system.md)
@@ -176,10 +172,17 @@ kanban-plugin: board
 - [ ] [Simulation reset](Simulation%20reset.md)
 
 
+***
 
+## Archive
+
+- [ ] 2024-12-23 18:27 a backend implementation of the simulation
+	  - Duplicate
+- [ ] 2024-12-23 18:27 Components as data views
+	  - Redundent by entity panel, provides data view
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,false,false,false,false,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,true,true,false,false,true,false,false,true,true,true],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
