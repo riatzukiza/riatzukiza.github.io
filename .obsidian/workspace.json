@@ -11,29 +11,14 @@
             "id": "02ba21013b3ad7f9",
             "type": "leaf",
             "state": {
-              "type": "kanban",
+              "type": "markdown",
               "state": {
-                "file": "kanban/board.md",
-                "kanbanViewState": {
-                  "kanban-plugin": "board",
-                  "list-collapse": [
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    null,
-                    false
-                  ]
-                }
+                "file": "kanban/tasks/chat app MVP.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-trello",
-              "title": "board"
+              "icon": "lucide-file",
+              "title": "chat app MVP"
             }
           }
         ]
@@ -237,9 +222,9 @@
   },
   "active": "02ba21013b3ad7f9",
   "lastOpenFiles": [
+    "kanban/board.md",
     "docs/Shared/datastructures/_Index_of_datastructures.md",
     "kanban/templates/New Task.md",
-    "kanban/board.md",
     "kanban/tasks/Audio Design.md",
     "kanban/tasks/Game Art.md",
     "kanban/tasks/Data structures.md",
