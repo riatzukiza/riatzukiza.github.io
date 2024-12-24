@@ -81,6 +81,7 @@ kanban-plugin: board
 - [ ] Stream assistant
 - [ ] AI Imposter
 - [ ] AI Mafia
+- [ ] poker
 
 
 ## Epics
