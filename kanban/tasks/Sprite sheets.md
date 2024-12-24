@@ -1,11 +1,11 @@
 # Description
 
-The current implementation of sprites does not support sprite sheets, only individual sprites. To animate them would require switching between different textures which may hurt performance
+The current implementation of [[sprites]] does not support sprite sheets, only individual [[sprites]]. To animate them would require switching between different textures which may hurt performance
 ## Related Epics
 - [[Graphics]]
 ## Requirements
 
-- There is an implementation of sprites with a new shader that allows for a single image sprite sheet
+- There is an implementation of [[sprites]] with a new shader that allows for a single image sprite sheet
 - The performance of the implementation is better than implementing animations alternating between textures
 - There is a benchmark that demsonstrates this
 
@@ -19,7 +19,7 @@ The current implementation of sprites does not support sprite sheets, only indiv
 
 {{BlockedBy}}
 
-- Can't be worked on till this task is done
+- Can't be worked on till this task is [[done]]
 - blocking task
 - blocking task
 
@@ -27,6 +27,6 @@ The current implementation of sprites does not support sprite sheets, only indiv
 
 {{Blocks}}
 
-- This task cannot be done until this one is done.
+- This task cannot be [[done]] until this one is [[done]].
 - neither can this one
 - or this one

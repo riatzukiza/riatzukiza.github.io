@@ -6,12 +6,16 @@ kanban-plugin: board
 
 ## New
 
+- [ ] [[peer to peer networking]]
+- [ ] [[Pure p2p video text chat]]
+- [ ] sparse vector fields
 
 
 ## Epics
 
 - [ ] [devops pipeline](tasks/devops%20pipeline.md)
-- [ ] [[movement commands]]
+- [ ] [[RTS Game MVP]]
+- [ ] [[Intelligent movement commands]]
 - [ ] [Move all outside work into the portfolio git](tasks/Move%20all%20outside%20work%20into%20the%20portfolio%20git.md)
 - [ ] [Import other projects](tasks/Import%20other%20projects.md)
 - [ ] [[Optimizations]]
@@ -22,10 +26,15 @@ kanban-plugin: board
 - [ ] [[Website Design]]
 - [ ] [[Game UI]]
 - [ ] [[Game AI]]
+- [ ] [[Natural language information systems]]
+- [ ] [[Conversational language modeling]]
 
 
 ## Blocked
 
+- [ ] [[shadows]]
+- [ ] [[night day cycle]]
+- [ ] [[flying units]]
 - [ ] [[Water resource]]
 - [ ] [[Mineral Resource]]
 - [ ] [[minimap]]
@@ -51,25 +60,21 @@ kanban-plugin: board
 
 ## Accepted
 
-- [ ] [[elevation]]
-- [ ] [[Governor System]]
 - [ ] [[Individual ant neural networks]]
 - [ ] [[neural network for signal field hyerparameter adjustments]]
 - [ ] [[Question answering system for file system]]
 - [ ] [[browser based lisp shell]]
 - [ ] [[Image editor program]]
-- [ ] Agenda system
-- [ ] Text editor program
-- [ ] Vector based file system search
-- [ ] Order queues
-- [ ] Priority management system
+- [ ] [[Text editor program]]
 
 
 ## Breakdown (5)
 
-- [ ] [[flying units]]
-- [ ] [[night day cycle]]
-- [ ] [[shadows]]
+- [ ] [[Governor System]]
+- [ ] [[Priority management system]]
+- [ ] [[Order queues]]
+- [ ] [[Agenda system]]
+- [ ] [[Vector based file system search]]
 
 
 ## Bugs
@@ -79,6 +84,7 @@ kanban-plugin: board
 
 ## Ready
 
+- [ ] [[elevation]]
 - [ ] [[Sprite sheets]]
 - [ ] [[Better sprite rotation]]
 - [ ] [Electron client](tasks/Electron%20client.md)
@@ -125,13 +131,13 @@ kanban-plugin: board
 - [ ] [simulation backend](tasks/simulation%20backend.md)
 	  - Realizing after adding a toggle for the trail dots that rendering was not what was slowing the sim down
 	We have decided to move this out of the todo backlog, as it will not be as much of a value add as we'd 
-	have liked. The simulation needs more optimizations, and we don't currently have a place to host such an intensive backend.
+	have liked. The simulation needs more [[Optimizations]], and we don't currently have a place to host such an intensive backend.
 
 
 ## Todo (5)
 
 - [ ] [move kit fs](tasks/move%20kit%20fs.md)
-- [ ] [chat app](tasks/chat%20app.md)
+- [ ] [chat app MVP](chat%20app%20MVP.md)
 - [ ] [github readme](tasks/github%20readme.md)
 	  - The [readme](../readme.md) can be generated from this kanban through simple concatonation.
 - [ ] [Add beautifier and beautifier to pipeline to pipeline](tasks/Add%20beautifier%20and%20beautifier%20to%20pipeline%20to%20pipeline.md)

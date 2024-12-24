@@ -8,7 +8,7 @@ Add a config/settings panel toggle for coordinate systems wrap around. The entit
 - Wrap around can be toggled off by config file
 - Wrap around can be toggled off in the settings panel
 - Entities trigger an elastic collision (simple collision) when they encounter the edge when wrap around is toggled off.
-- The toggle can be done without resetting the simulation
+- The toggle can be [[done]] without resetting the simulation
 
 ## Tasks 
 

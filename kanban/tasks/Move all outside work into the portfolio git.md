@@ -1,4 +1,4 @@
-To put the full depth of my work on this lisp framework into view in this portfolio, I want to move the code I wrote in all of the kit framework into this portfolio. This way it is easier for future employers to see exactly how much work went into making this entire framework function the way it does. The work meant for [Remove duplicate code included in headers.](Remove%20duplicate%20code%20included%20in%20headers..md) and [Cull duplicate macros](Cull%20duplicate%20macros.md) will be tracked in this issue. May as well call it an epic, it could be a lot of work to move *everything* into here. 
+To put the full depth of my work on this lisp framework into view in this portfolio, I want to move the code I wrote in all of the kit framework into this portfolio. This way it is easier for future employers to see exactly how much work went into making this entire framework function the way it does. The work meant for [Remove duplicate code included in headers.](Remove%20duplicate%20code%20included%20in%20headers..md) and [Cull duplicate macros](Cull%20duplicate%20macros.md) will be tracked in this issue. May as well call it an [[Epic]], it could be a lot of work to move *everything* into here. 
 
 # Epic: Move Kit Framework to Portfolio
 
@@ -30,11 +30,11 @@ This issue is related to [kanban/tasks/Move all outside work into the portfolio 
 ## New Features
 
 * Add a [project](../project.md) page to the website
-* Side scroller
+* [[Side scroller]]
 * Game of life
-* File explorer
-* Chat app
-* Find unknown content warnings
+* [[file explorer]]
+* [[chat app MVP]]
+* [[Find unknown content warnings]]
 
 ## Tasks
 
@@ -47,11 +47,11 @@ This issue is related to [kanban/tasks/Move all outside work into the portfolio 
 ## New Features
 
 * Add a [project](../project.md) page to the website
-* Side scroller
+* [[Side scroller]]
 * Game of life
-* File explorer
-* Chat app
-* Find unknown content warnings
+* [[file explorer]]
+* [[chat app MVP]]
+* [[Find unknown content warnings]]
 
 The dev code that watches, compiles, bundles, and serves the website would have a difficult time accessing the code that is in the #shared and #client modules, as browserify currently does some extra work parsing a namespacing system ie "@shared/data-structures/lists.js" refers to the code in [list.js](../../list.js) and everything in that folder uses that "@shared" prefix.
 
@@ -61,4 +61,4 @@ The dev code that watches, compiles, bundles, and serves the website would have 
 - [ ] [Remove duplicate code included in headers.](Remove%20duplicate%20code%20included%20in%20headers..md)
 - [ ] [Rewrite andy lib in lisp](Rewrite%20andy%20lib%20in%20lisp.md)
 
-#epic
+#[[Epic]]

@@ -1,6 +1,6 @@
 # Description
 
-Weather effects how real plants grow, we have an issue now where plants usually grow uncontrollably, or completely disappear due to consumption by the ants. The plants need a limiting growth factor other than the plants consuming them if they are to be able to grow enough to not disapear so the ants can actually find them.
+Weather effects how real plants [[grow]], we have an issue now where plants usually [[grow]] uncontrollably, or completely disappear due to consumption by the ants. The plants need a limiting growth factor other than the plants consuming them if they are to be able to [[grow]] enough to not disapear so the ants can actually find them.
 ## Related Epics
 - [[Game Mechanics]]
 ## Requirements
@@ -14,7 +14,7 @@ Weather effects how real plants grow, we have an issue now where plants usually 
 - There is a temperature system
 - Water accumulates on the ground due to rainfall.
 - Water evaporates in the sun
-- plants use water to grow
+- plants use water to [[grow]]
 
 ## Tasks 
 

@@ -1,7 +1,7 @@
 # Description
 
 Allow users to see what is going on in a small view to the side of the main one.
-The minimap will basicly be what the game looked like before we added sprites.
+The minimap will basicly be what the game looked like before we added [[sprites]].
 
 ## Related Epics
 - [[Game Mechanics]]

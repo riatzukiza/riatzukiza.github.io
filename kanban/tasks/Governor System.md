@@ -13,27 +13,32 @@ There will be different types of governors
 Additionally, you can define your own governors by customizing permissions, and decision hierarchies, all of which are also tasks that you can assign a governor to do.
 
 ## Related Epics
-- [[Identify and write useful templates for obsidian]] 
+- [[Game Mechanics]]
+- [[Game AI]]
+- 
 ## Requirements
 
 - High level expecations
 - Acceptance criteria
-- Definition of done
+- Definition of [[done]]
 
 ## Tasks 
 
-- [ ] Somthing that needs to be done to accomplish this task
+- [ ] Somthing that needs to be [[done]] to accomplish this task
 - [ ] Non exhaustive, suggestive
 - [ ] Represents expected high level steps to meet AC
 ## Blocked by 
 
-- Can't be worked on till this task is done
-- blocking task
-- blocking task
+- [[Order queues]]
+- [[Agenda system]]
+- [[Priority management system]]
+- [[chat app MVP]]
+- [[Vector based file system search]]
+
 
 ## Blocks
 
-- This task cannot be done until this one is done.
+- This task cannot be [[done]] until this one is [[done]].
 - neither can this one
 - or this one
 

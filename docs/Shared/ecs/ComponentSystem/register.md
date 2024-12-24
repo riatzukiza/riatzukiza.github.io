@@ -7,7 +7,7 @@ no args
 ## description
 
 Called by
-`ComponentSystem`
+`[[ComponentSystem]]`
 sub classes by initializer function.
 ## Example Usage
 

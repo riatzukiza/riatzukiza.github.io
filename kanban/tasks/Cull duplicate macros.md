@@ -19,7 +19,7 @@ Here are the tags for the selected text in the format #hashtag:
 
 #duplicate
 #rejected
-#epic
+#[[Epic]]
 #kanban
 #tasks
 #portfolio
