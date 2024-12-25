@@ -237,6 +237,7 @@
   },
   "active": "02ba21013b3ad7f9",
   "lastOpenFiles": [
+    "Colors.md",
     "src/client/red-black-tree-visualization/main.sibilant",
     "src/client/red-black-tree-visualization",
     "docs/Shared/datastructures/_Index_of_datastructures.md",
@@ -260,8 +261,6 @@
     "static/docs/shared/ecs/component/_index_of_component.html",
     "static/docs/shared/ecs/component/register.html",
     "static/docs/shared/ecs/_index_of_ecs.html",
-    "static/docs/shared/ecs/componentsystem.html",
-    "static/docs/shared/ecs/componentsystem",
     "kanban/process.md",
     "kanban/done.md",
     "kanban/tasks/move kit fs.md",
@@ -274,7 +273,6 @@
     "kanban/tasks/Make old algage work.md",
     "kanban/tasks/Intelligent movement commands.md",
     "kanban/tasks/Import other projects.md",
-    "kanban/tasks/Implement tests for existing shared components..md",
     "Untitled.canvas"
   ]
 }
