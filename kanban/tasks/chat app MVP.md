@@ -16,3 +16,7 @@ Add a simple chat widget that allows the user to communicate with a variety of L
 - [ ] Implement at least one llm provider
 - [ ] Add a selector if it is possible to implement more than one provider
 - [ ] implement local only mode, using a reasonable default that can run on most devices in reasonable time.
+
+## Additional links
+
+chat.webllm.ai/#/
