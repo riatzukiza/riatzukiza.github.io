@@ -11,7 +11,7 @@
             "id": "02ba21013b3ad7f9",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "kanban",
               "state": {
                 "file": "notes/daily/2024-12-27.md",
                 "mode": "source",
@@ -230,7 +230,9 @@
     "notes/unique",
     "notes/daily",
     "notes",
-    "kanban/board.md",
+    "Colors.md",
+    "src/client/red-black-tree-visualization/main.sibilant",
+    "src/client/red-black-tree-visualization",
     "docs/Shared/datastructures/_Index_of_datastructures.md",
     "kanban/templates/New Task.md",
     "kanban/tasks/Audio Design.md",
@@ -249,7 +251,6 @@
     "static/docs/shared/ecs/componentsystem/_index_of_componentsystem.html",
     "static/docs/shared/ecs/componentsystem/register.html",
     "static/docs/shared/ecs/component/_index_of_component.html",
-    "static/docs/shared/ecs/component/register.html",
     "kanban/process.md",
     "kanban/done.md",
     "kanban/tasks/move kit fs.md",

@@ -89,6 +89,11 @@ kanban-plugin: board
 - [ ] astrology chart
 - [ ] star map
 - [ ] Ai Vtuber avatar
+- [ ] Horror game
+- [ ] Tower defense
+- [ ] shoot em up
+- [ ] Flight simulator
+- [ ] Spaceship shooter
 
 
 ## Epics
