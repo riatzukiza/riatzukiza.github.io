@@ -179,6 +179,11 @@ kanban-plugin: board
 
 ## Ready
 
+- [ ] [github readme](tasks/github%20readme.md)
+	  - The [readme](../readme.md) can be generated from this kanban through simple concatonation.
+- [ ] [move kit fs](tasks/move%20kit%20fs.md)
+- [ ] [Add beautifier and beautifier to pipeline to pipeline](tasks/Add%20beautifier%20and%20beautifier%20to%20pipeline%20to%20pipeline.md)
+	  - Maybe this should be [done](done.md) at the same time as hot reloading? it is at least [blocked](blocked.md) by that task.
 - [ ] [elevation](tasks/elevation.md)
 - [ ] [Sprite sheets](tasks/Sprite%20sheets.md)
 - [ ] [Better sprite rotation](tasks/Better%20sprite%20rotation.md)
@@ -230,21 +235,16 @@ kanban-plugin: board
 
 ## Todo (5)
 
-- [ ] [move kit fs](tasks/move%20kit%20fs.md)
 - [ ] [chat app MVP](tasks/chat%20app%20MVP.md)
-- [ ] [github readme](tasks/github%20readme.md)
-	  - The [readme](../readme.md) can be generated from this kanban through simple concatonation.
-- [ ] [Add beautifier and beautifier to pipeline to pipeline](tasks/Add%20beautifier%20and%20beautifier%20to%20pipeline%20to%20pipeline.md)
-	  - Maybe this should be [done](done.md) at the same time as hot reloading? it is at least [blocked](blocked.md) by that task.
 
 
 ## In Progress (2)
 
-- [ ] [Brain storm new projects](tasks/Brain%20storm%20new%20projects.md)
 
 
 ## In Review (2)
 
+- [ ] [Brain storm new projects](tasks/Brain%20storm%20new%20projects.md)
 
 
 ## Done
