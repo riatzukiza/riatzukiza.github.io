@@ -11,29 +11,14 @@
             "id": "02ba21013b3ad7f9",
             "type": "leaf",
             "state": {
-              "type": "kanban",
+              "type": "markdown",
               "state": {
-                "file": "kanban/board.md",
-                "kanbanViewState": {
-                  "kanban-plugin": "board",
-                  "list-collapse": [
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    null,
-                    false
-                  ]
-                }
+                "file": "notes/daily/2025-01-03.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-trello",
-              "title": "board"
+              "icon": "lucide-file",
+              "title": "2025-01-03"
             }
           }
         ]
@@ -237,6 +222,8 @@
   },
   "active": "02ba21013b3ad7f9",
   "lastOpenFiles": [
+    "kanban/board.md",
+    "notes/daily/2025-01-03.md",
     "notes/daily/2024-12-27.md",
     "conflict-files-obsidian-git.md",
     "notes/daily/2024-12-24.md",
@@ -246,7 +233,6 @@
     "notes/unique",
     "notes/daily",
     "notes",
-    "kanban/board.md",
     "docs/Shared/datastructures/_Index_of_datastructures.md",
     "kanban/templates/New Task.md",
     "kanban/tasks/Audio Design.md",
@@ -272,7 +258,6 @@
     "kanban/tasks/move kit core.md",
     "kanban/tasks/Move fork of sibilant into git.md",
     "kanban/tasks/Move all outside work into the portfolio git.md",
-    "kanban/tasks/Mirror board to github.md",
     "Untitled.canvas"
   ]
 }
