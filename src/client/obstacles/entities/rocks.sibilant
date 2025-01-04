@@ -12,16 +12,18 @@
           (lit Friction Signal-field) "@obstacles/forces.js"
           (lit Tree-map) "tree-kit"
           (lit game active-game-systems) "@obstacles/game.js"
+
+          (lit Rock-sprites) "@obstacles/systems/rock-sprites.js"
           (lit rgba) "@obstacles/colors.js"
           config "@obstacles/config.js"
 
           )
 
 
-(const rocks ((create Entity-group) "Rocks" [Dot, Position, Physics, Collision, Velocity]
+
+(const rocks ((create Entity-group) "Rocks" [Rock-sprites, Position, Physics, Collision, Velocity]
               game.ent))
 
-(const rock-boundries ((create Entity-group) "Rock boundries" [Dot Position Physics] game.ent))
 
 (const rock-placement-vector (.spawn Vector 0 0 ))
 (const rock-scale-variation (-  config.rock-max-size config.rock-min-size))
@@ -38,7 +40,7 @@
 
 (def spawn-rock ([x, y], mass, scale)
   (print "spawning rock")
-  (var rock (.spawn rocks [Dot, Position, Physics, Collision, Velocity]))
+  (var rock (.spawn rocks [Rock-sprites, Position, Physics, Collision, Velocity]))
 
   (const pos (.get game.systems Position rock))
   (set pos 'x x 'y y 'z 0)
@@ -53,8 +55,6 @@
 
   (var hardness (Math.max 60 (Math.min 225 (Math.round (/    max-rock-density phys.density)))))
 
-  (set (.get game.systems Dot rock)
-       'color (rgba hardness hardness  hardness  255))
 
 
   (place-entity rock game config))
@@ -73,8 +73,8 @@
               (* config.rock-mass-scaling-factor scale mass)
               scale)
 
-  (.rotate-to rock-placement-vector (* 30 (Math.random)))
-  (.set-length rock-placement-vector (* (random-float 20) scale))
+  (.rotate-to rock-placement-vector (* 5 (Math.random)))
+  (.set-length rock-placement-vector (* (random-float 50) scale))
   (assign last-rock-pos [(mod (Math.abs (+ (get position 0) rock-placement-vector.x)) (first config.dimensions))
                          (mod (Math.abs (+ (get position 1) rock-placement-vector.y )) (second config.dimensions))])
   )

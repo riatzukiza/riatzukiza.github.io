@@ -7,20 +7,20 @@ This application requires a very high level of performance due to the number of 
 {{Requirements}}
 - High level expecations
 - Acceptance criteria
-- Definition of done
+- Definition of [done](../done.md)
 
 ## Tasks 
 
 {{Tasks}}
 
-- [ ] Somthing that needs to be done to accomplish this task
+- [ ] Somthing that needs to be [done](../done.md) to accomplish this task
 - [ ] Non exhaustive, suggestive
 - [ ] Represents expected high level steps to meet AC
 ## Blocked by 
 
 {{BlockedBy}}
 
-- Can't be worked on till this task is done
+- Can't be worked on till this task is [done](../done.md)
 - blocking task
 - blocking task
 
@@ -28,6 +28,6 @@ This application requires a very high level of performance due to the number of 
 
 {{Blocks}}
 
-- This task cannot be done until this one is done.
+- This task cannot be [done](../done.md) until this one is [done](../done.md).
 - neither can this one
 - or this one

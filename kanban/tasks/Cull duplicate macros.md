@@ -6,12 +6,12 @@ This issue is related to [kanban/tasks/Move all outside work into the portfolio 
 
 ## Blocked by
 
-- [[move kit core]]
-- [[move kit fs]]
-- [[move kit repl]]
-- [[move kit html]]
-- [[move kit shell]]
-- [[move kit http]]
+- [move kit core](move%20kit%20core.md)
+- [move kit fs](move%20kit%20fs.md)
+- [move kit repl](move%20kit%20repl.md)
+- [move kit html](move%20kit%20html.md)
+- [move kit shell](move%20kit%20shell.md)
+- [move kit http](move%20kit%20http.md)
 
 
 
@@ -19,7 +19,7 @@ Here are the tags for the selected text in the format #hashtag:
 
 #duplicate
 #rejected
-#epic
+#[Epic](../templates/Epic.md)
 #kanban
 #tasks
 #portfolio

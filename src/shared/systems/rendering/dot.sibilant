@@ -36,7 +36,9 @@
 
 (define Dot-interface Component
 
-  (color {r 0 g 0 b 0 a 0})
+  (*color {r 0 g 0 b 0 a 0})
+  (gett color this.*color)
+  (sett color c (assign this.*color c))
 
   (gett pos this.entity.position-interface)
   (gett scale this.entity.physical-properties.scale)
@@ -71,25 +73,6 @@
 
   (def *update-component (dot)
 
-    ;; (set dot.vertex.point
-    ;;      'x (- dot.pos.x (/ dot.scale 2))
-    ;;      'y (- dot.pos.y (/ dot.scale 2))
-
-    ;;      'z dot.pos.z )
-
-    ;; (set dot.vertex.point
-    ;;      'x (- dot.pos.x dot.scale)
-    ;;      'y (- dot.pos.y dot.scale)
-    ;;      'z dot.pos.z )
-    ;; (set dot.vertex.point
-    ;;      'x (+ dot.pos.x dot.scale)
-    ;;      'y (+ dot.pos.y dot.scale)
-    ;;      'z dot.pos.z )
-
-    ;; (set dot.vertex.point
-    ;;      'x (+ dot.pos.x (/ dot.scale 2))
-    ;;      'y (+ dot.pos.y (/ dot.scale 2))
-    ;;      'z dot.pos.z )
     (set dot.vertex.point
          'x dot.pos.x
             'y dot.pos.y

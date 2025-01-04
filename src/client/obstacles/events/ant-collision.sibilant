@@ -35,11 +35,11 @@
 
                      home-pos)
 
-    (update-particle v* v*.pos, Signal-field.field,
+    ;; (update-particle v* v*.pos, Signal-field.field,
 
-                     Signal-field.layer
-                     game.ticker.ticks
-                     config.decay-on-collision
-                     false
-                     home-pos)
+    ;;                  Signal-field.layer
+    ;;                  game.ticker.ticks
+    ;;                  config.decay-on-collision
+    ;;                  false
+    ;;                  home-pos)
     )

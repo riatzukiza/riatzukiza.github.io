@@ -6,4 +6,4 @@
 
 ## description
 
-aquire an object from the systems pool, and initialize it.
+[aquire](aquire.md) an object from the systems pool, and initialize it.

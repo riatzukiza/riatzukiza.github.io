@@ -1,32 +1,16 @@
 # Description
 
-Since we use webgl to render our content, the logic for pooling these components is done at a lower level. The object pool current creates a buffer that can fit 100,000 instances of the given data type.
+Since we use webgl to render our content, the logic for pooling these components is [done](../done.md) at a lower level. The object pool current creates a buffer that can fit 100,000 instances of the given data type.
 ## Requirements
 
-{{Requirements}}
-- High level expecations
-- Acceptance criteria
-- Definition of done
+- [ ] [Graphics](Graphics.md) systems don't break the game when large numbers of members are generated
+- [ ] the pool does not dramaticly effect performance
 
 ## Tasks 
 
-{{Tasks}}
-
-- [ ] Somthing that needs to be done to accomplish this task
-- [ ] Non exhaustive, suggestive
-- [ ] Represents expected high level steps to meet AC
+- [ ] Implement dynamic pools around typed buffers
+- [ ] Test pools performance using browser benchmarking tools.
 ## Blocked by 
 
-{{BlockedBy}}
-
-- Can't be worked on till this task is done
-- blocking task
-- blocking task
 
 ## Blocks
-
-{{Blocks}}
-
-- This task cannot be done until this one is done.
-- neither can this one
-- or this one

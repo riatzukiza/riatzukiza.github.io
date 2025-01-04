@@ -28,10 +28,7 @@
              (if ent (.get sys ent)
                sys))
 
-        (.each system-types
-               (=> (s) (print "creating system" s)
-                   (.push systems [s.symbol ((create s) this)])))
-        (print "done creating systems" this.systems)
+        (.each system-types (=> (s) (.push systems [s.symbol ((create s) this)])))
 
         (.push this.systems [rendering.symbol rendering]))
 

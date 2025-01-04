@@ -55,8 +55,6 @@ game.events.on("collision", ((c, c_) => {
      };
     v.pos.x = (v.priorX || v.pos.x);;
     v.pos.y = (v.priorY || v.pos.y);;
-    v_.pos.x = (v_.priorX || v_.pos.x);;
-    v_.pos.y = (v_.priorY || v_.pos.y);;
     if( (ants.has(c.entity) && ants.has(c_.entity)) ){ 
       game.events.emit("antCollision", c, c_);
       return game.events.emit("simpleCollision", c_, c);

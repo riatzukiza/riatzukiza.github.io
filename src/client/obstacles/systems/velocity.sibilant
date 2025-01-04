@@ -16,12 +16,7 @@
 
   (gett update-view? this.moved)
   (def *clear ()
-    (.call old-clear this)
-    (when this.trail
-      (assign this.win-count 0)
-      (assign this.loose-count 0)
-      (each this.trail (seq) (.despawn seq) )
-      (assign this.trail [])))
+    (.call old-clear this))
 
   (def-view view ()
     (.div .className "panel"

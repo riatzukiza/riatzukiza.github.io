@@ -1,1 +1,0 @@
-Add a simple web chat to the website, possibly using totally peer to peer so we don't need to host anything other than a static website.
