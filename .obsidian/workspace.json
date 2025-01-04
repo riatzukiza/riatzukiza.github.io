@@ -11,29 +11,14 @@
             "id": "36ec7274abfa729c",
             "type": "leaf",
             "state": {
-              "type": "kanban",
+              "type": "markdown",
               "state": {
-                "file": "kanban/board.md",
-                "kanbanViewState": {
-                  "kanban-plugin": "board",
-                  "list-collapse": [
-                    false,
-                    false,
-                    false,
-                    true,
-                    true,
-                    true,
-                    false,
-                    false,
-                    false,
-                    false,
-                    null,
-                    false
-                  ]
-                }
+                "file": "kanban/tasks/multiple signal fields.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-trello",
-              "title": "board"
+              "icon": "lucide-file",
+              "title": "multiple signal fields"
             }
           }
         ]
@@ -258,8 +243,8 @@
   },
   "active": "36ec7274abfa729c",
   "lastOpenFiles": [
-    "kanban/tasks/ground tiles.md",
     "kanban/board.md",
+    "kanban/tasks/ground tiles.md",
     "kanban/tasks/night day cycle.md",
     "kanban/tasks/Building system.md",
     "kanban/tasks/resource mechanics.md",
