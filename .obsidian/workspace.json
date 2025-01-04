@@ -235,9 +235,7 @@
       "obsidian-git:Open Git source control": false,
       "githobs:Manage a github issue": false,
       "webpage-html-export:Export Vault to HTML": false,
-      "obisidian-note-linker:Note Linker": false,
-      "smart-connections:Open: View Smart Connections": false,
-      "smart-connections:Open: Smart Chat Conversation": false
+      "obisidian-note-linker:Note Linker": false
     }
   },
   "active": "9fbed87703fc0ffa",
