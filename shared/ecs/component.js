@@ -95,7 +95,7 @@ var Component = Interface.define("Component", {
    }
  });
 Component.clear = (function Component$clear$(system = this.system) {
-  /* Component.clear node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
+  /* Component.clear node_modules/@kit-js/core/inc/core/function-expressions.sibilant:29:8 */
 
   (function() {
     if (!(this._clear)) {

@@ -1,0 +1,48 @@
+(namespace crash-landed)
+
+(require! (lit Velocity) "@shared/systems/velocity.js")
+
+(require! (lit Position) "@shared/systems/position.js")
+
+(require! (lit game) "@crash-landed/game.js"
+          (lit create-particle-updater) "@shared/field.js"
+          (lit home-pos plants ants rocks) "@crash-landed/entities.js"
+          (lit place-entity) "@shared/systems/collision.js"
+          (lit config) "@crash-landed/config.js"
+          (lit Physics) "@shared/systems/physics/system.js"
+          (lit Friction Signal-field) "@crash-landed/forces.js"
+          config "@crash-landed/config.js")
+
+(const update-particle (create-particle-updater config game))
+(def Set.prototype.each (f)
+  (.for-each this f)
+  this)
+
+(.on game.events "antFoundPlant"
+     (=> (ant plant)
+         (var av ant.entity.velocity-interface)
+         (var ap (.get game.systems Physics ant.entity))
+
+         ;; (update-particle av av.pos, Signal-field.field
+         ;;                  Signal-field.layer
+         ;;                  game.ticker.ticks
+         ;;                  true
+         ;;                  true
+         ;;                  home-pos)
+         ;; (for-of! seg  ant.entity.ant-trail.segments
+         ;;       (.apply seg.trail-segment ))
+         (.reset ant.entity.ant-life)
+         (incr ant.entity.ant-life.win-count)
+         ;; (.clear ant.entity.ant-trail.segments)
+
+
+         (set av.pos
+              'x  home-pos.x
+              'y home-pos.y)
+         (place-entity ant.entity game config)
+
+
+         (var pp (.get game.systems Physics plant.entity))
+
+         (set pp 'scale (set pp 'mass (Math.max (- pp.mass (* 0.05 ap.mass)) 0))))
+    )

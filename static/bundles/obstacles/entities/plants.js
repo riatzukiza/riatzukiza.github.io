@@ -44,11 +44,11 @@ var {
  } = require("@obstacles/game.js"),
     config = require("@obstacles/config.js");
 const plants=create(EntityGroup)("Plants", [ Dot, Position, Physics, Collision, Velocity ], game.ent);
-var spawnPlant = (function spawnPlant$(x_y$3, mass) {
+var spawnPlant = (function spawnPlant$(x_y$6, mass) {
   /* spawn-plant eval.sibilant:21:0 */
 
-  var x = x_y$3[0],
-      y = x_y$3[1];
+  var x = x_y$6[0],
+      y = x_y$6[1];
 
   var plant = plants.spawn([ Dot, Position, Physics, Collision, Velocity ]);
   game.systems.get(Dot, plant).color = rgba(0, 255, 0, 255);

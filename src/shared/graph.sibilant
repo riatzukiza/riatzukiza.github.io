@@ -1,0 +1,6 @@
+(define Graph Spawnable
+  (gett edges this.*edges)
+  (gett nodes this.*nodes)
+  )
+(define Node Spawnable)
+(define Edge Spawnable)

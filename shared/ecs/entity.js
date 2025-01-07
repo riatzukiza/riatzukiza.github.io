@@ -84,12 +84,12 @@ var Entity = Interface.define("Entity", {
    }
  });
 Entity.despawn = (function Entity$despawn$(entity = this.entity, components = this.components) {
-  /* Entity.despawn node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
+  /* Entity.despawn node_modules/@kit-js/core/inc/core/function-expressions.sibilant:29:8 */
 
   return this.system.pool.release(this);
 });
 Entity.clear = (function Entity$clear$() {
-  /* Entity.clear node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
+  /* Entity.clear node_modules/@kit-js/core/inc/core/function-expressions.sibilant:29:8 */
 
   this.components.each(((c) => {
   	

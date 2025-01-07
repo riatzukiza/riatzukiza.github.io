@@ -1,0 +1,50 @@
+(define Entity-type Interface
+  (init (properties
+         (entities ((create Entity-group)
+                    properties))))
+  )
+(define Unit Interface
+  (properties [Position Physics Velocity Collision Line-of-sight ])
+  )
+
+(define Mental-state System)
+(define Hunger System)
+(define Spatial-memory System)
+(define Priorities System)
+(define Animal Unit
+  (properties [Hunger Health Spatial-memory Mental-state Priorities Species Objective]))
+
+(define Faction System)
+
+(define Trait Interface)
+
+(define Trait-list Component)
+(define Traits System)
+
+(define Relationships System)
+
+(define Contents Component
+  (items [])
+  )
+(define Item-container System
+  (interface Contents)
+  (requires [Position])
+  
+  )
+
+(define Item  Entity-type
+  (properties [Sprite Stats])
+  )
+
+(define Inventory Item-container)
+(define Equipment Item-container)
+
+(define Human Unit
+  (properties [...Animals.properties
+               Traits
+               Relationships
+               Inventory
+               Equipment
+               Faction]))
+
+

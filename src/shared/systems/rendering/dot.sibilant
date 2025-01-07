@@ -18,8 +18,11 @@
 
 (define uniforms Interface
   (init (game))
-  (gett res (Gl.uniform 'Vector2 "Resolution" this.game.config.dimensions))
-  (scale (Gl.uniform 'Float "Scale" 1.0)))
+  (gett res (-> (Gl.uniform 'Vector2 "Resolution" this.game.config.dimensions)))
+  (gett zoom (-> (Gl.uniform 'Vector3 "Zoom" [ 1.0 1.0 this.game.rendering.zoom-level  ])))
+  (gett offset (-> (Gl.uniform 'Vector3 "Offset" [ this.game.rendering.x-offset this.game.rendering.y-offset 0.0  ])))
+  (gett scale  (-> (Gl.uniform 'Float "Scale" this.game.rendering.zoom-level)))
+  )
 
 (define shaders Interface
 
@@ -30,8 +33,11 @@
 
 (def vertex-layer (limit game)
   (.init uniforms game)
+  (const context game.rendering.context)
+
+
   (.spawn game.rendering limit Vertex
-          [ uniforms.res uniforms.scale]
+          [ uniforms.res uniforms.scale uniforms.zoom uniforms.offset]
           [shaders.vert shaders.frag]))
 
 (define Dot-interface Component

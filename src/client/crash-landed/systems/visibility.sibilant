@@ -1,0 +1,5 @@
+(define Known-state Component
+  (currently-visible? false)
+  (explored? false)
+  )
+(define Visibility System)

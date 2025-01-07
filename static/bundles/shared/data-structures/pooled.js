@@ -10642,7 +10642,6 @@ var PooledDataStructure = Interface.define("PooledDataStructure", {
   get dataPool(  ){ 
     
       const symbol=this.symbol;
-      console.log("finding pool");
       return (function() {
         if (pools.has(symbol)) {
           return pools.get(symbol);
@@ -10650,7 +10649,6 @@ var PooledDataStructure = Interface.define("PooledDataStructure", {
           var r = (function() {
             /* inc/misc.sibilant:1:689 */
           
-            console.log("pool cache miss");
             return create(DynamicPool)(this);
           }).call(this);
           pools.set(symbol, r);
@@ -10661,7 +10659,6 @@ var PooledDataStructure = Interface.define("PooledDataStructure", {
    },
   spawn( ...args ){ 
     
-      console.log("spawning", this, this.dataPool);
       return this.dataPool.aquire().init(...args);
     
    },

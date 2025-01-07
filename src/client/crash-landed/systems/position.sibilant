@@ -1,0 +1,28 @@
+(namespace crash-landed )
+
+(require! (lit display-decimal) "@crash-landed/strings.js"
+          (lit Position Position-interface) "@shared/systems/position.js")
+
+(include "../../../../inc/dom.sibilant")
+(import-namespace dom)
+
+(const views (new Map))
+(macro cache (m k ...body)
+       `(if (.has @m @k)
+            (.get @m @k)
+            (do (var r (scoped ...@body))
+                (.set @m @k r) r)))
+(define Position-interface Position-interface
+
+  (gett parent-view this.entity.property-view.view )
+  (gett update-view? (if this.entity.velocity-interface this.entity.velocity-interface.update-view?))
+  (def-view view ()
+    (.div .className "panel"
+          .style (lit (width "48%"))
+          (.div "position")
+          (.div (-> (display-decimal this.x 2)) ", " (-> (display-decimal this.y 2))))))
+
+(define Position Position
+  (interface Position-interface))
+(export Position)
+(export Position-interface)

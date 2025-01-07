@@ -1,0 +1,46 @@
+
+(require! (lit Spawnable) "@shared/data-structures/spawnable.js")
+(define Tile-node Spawnable
+  (init (entity graph ))
+  (gett pos this.entity.position-interface)
+  (sett x x (assign this.pos.x x))
+  (sett y y (assign this.pos.y y))
+
+  (gett x this.pos.x)
+  (gett y this.pos.y)
+  (gett tile-size this.graph.tile-size)
+
+  (gett north (.get graph this.x (+ this.y this.tile-size)))
+  (gett south (.get graph this.x (- this.y this.tile-size)))
+  (gett east  (.get graph (+ this.x this.tile-size) this.y))
+  (gett west (.get graph (- this.x this.tile-size) this.y))
+
+  (gett north-east (.get graph (+ this.x this.tile-size) (+ this.y this.tile-size)))
+  (gett north-west (.get graph (- this.x this.tile-size) (+ this.y this.tile-size)))
+  (gett south-east (.get graph (+ this.x this.tile-size) (- this.y this.tile-size)))
+  (gett south-west (.get graph (- this.x this.tile-size) (- this.y this.tile-size)))
+  (cached edges [this.north
+                 this.south
+                 this.east
+                 this.west
+                 this.north-east
+                 this.north-west
+
+                 this.south-east
+                 this.south-west])
+  )
+(define Tile-graph Spawnable
+  (init ((tile-size 30)
+         (tile-properties [])
+         (trie (.spawn Trie))
+         (tile-entities ((create Entity-group)
+                         [Position Physics ...tile-properties ]))))
+  (def get (x y)
+    (if (.has this.trie [x y])
+        (.get this.trie [x y])
+        (do (const entity (.spawn this.tile-entities))
+            (const tile (.spawn Tile-node entity this))
+          (set tile 'x x 'y y)
+          (.set this.trie [x y] tile)))))
+
+(export Tile-graph)

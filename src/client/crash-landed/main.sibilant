@@ -1,0 +1,85 @@
+(namespace crash-landed)
+
+(include "kit/header" )
+(import-namespace kit)
+
+(include "kit-interface/header" )
+(import-namespace interface)
+
+(include "../../../inc/rand.sibilant")
+(include "../../../inc/misc.sibilant")
+(include "../../../inc/docs.sibilant")
+(import-namespace docs)
+
+(set global 'mixin mixin 'create create)
+
+(require! (lit game active-game-systems ) "@crash-landed/game.js")
+(require! (lit start-interface) "@crash-landed/dom.js"
+
+          (lit Physics) "@shared/systems/physics/index.js"
+          (lit Position) "@shared/systems/position.js"
+          (lit Velocity) "@shared/systems/velocity.js"
+          (lit Player-sprites) "@crash-landed/systems/sprites/player.js"
+          (lit Entity-group) "@shared/ecs/entity-group.js"
+          )
+
+
+(require! (lit Tile-graph) "@shared/data-structures/tiles.js")
+
+
+(.start game)
+
+(const player ((create Entity-group)"player" [Position Player-sprites Physics Velocity  Sight] game.ent))
+
+(const p (.spawn player))
+
+(assign p.position-interface.x 300)
+(assign p.position-interface.y 300)
+(const v p.velocity-interface.vector)
+(assign p.physical-properties.scale 60)
+(.select-sequence p.player-sprite "east")
+(const eigth-turn (/ (* Math.PI 2) 8))
+(const east 0)
+(const south-east eigth-turn)
+(const south (* eigth-turn 2))
+(const south-west (* eigth-turn 3))
+(const west (* eigth-turn 4))
+(const north-west (* eigth-turn 5))
+(const north (* eigth-turn 6))
+(const north-east (* eigth-turn 7))
+
+(.set-length v 10)
+(.set-angle v eas)
+(print (.get-angle v))
+
+(const directions [north north-east east south-east south south-west west north-west])
+(const direction-names  ['north 'north-east 'east 'south-east 'south 'south-west 'west 'north-west] )
+
+(def get-cardinal-direction (vector)
+  (const angle (.get-angle vector))
+  (get directions (Math.round (/ angle eigth-turn))))
+
+(const tiles (.spawn Tile-graph 30 [Floor-sprite ]))
+
+(var i 2)
+(on game.events 'tick (t)
+
+    (if (= (mod t 10) 0) (.step p.player-sprite))
+
+    (when (= (mod t 180) 0)
+      (assign i (mod (+ i 1) 8))
+      (const direction-name (get direction-names i))
+      (const direction-angle (get directions i))
+      (print (.get-angle p.velocity-interface.vector))
+      (.select-sequence p.player-sprite direction-name)
+      (print p.velocity-interface direction-angle direction-name
+             direction-names
+             directions
+             )
+
+      (.set-angle v direction-angle))
+
+    )
+
+(start-interface)
+

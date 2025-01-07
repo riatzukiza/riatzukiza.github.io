@@ -1,0 +1,31 @@
+(namespace vector-ants)
+(include "kit/header" )
+(import-namespace kit)
+
+(require! (lit Game) "@shared/game.js"
+
+          (lit Physics) "@shared/systems/physics/index.js"
+          (lit Position) "@shared/systems/position.js"
+          (lit Player-sprites) "@crash-landed/systems/sprites/player.js"
+          (lit rendering) "@crash-landed/rendering.js"
+          (lit Velocity) "@shared/systems/velocity.js"
+
+          config "@crash-landed/config.js"
+          )
+
+(require! (lit Floor-sprites) "@crash-landed/systems/sprites/floor.js")
+
+
+(var active-game-systems [Position Player-sprites Physics Velocity Floor-sprites Sight])
+
+(var game ((create Game)
+           config
+           rendering
+           active-game-systems
+           config.game-speed))
+
+
+
+(export game)
+(export active-game-systems)
+

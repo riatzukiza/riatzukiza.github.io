@@ -1,0 +1,10 @@
+(define Field-of-view Component
+  (visible-tiles (.spawn List))
+  (observed-tiles (.spawn List))
+  (range 4)
+  )
+(define Sight System
+  (def *update-component (c)
+    
+    )
+  )

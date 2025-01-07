@@ -10686,10 +10686,40 @@ var uniforms = Interface.define("uniforms", {
    },
   get res(  ){ 
     
-      return Gl.uniform("Vector2", "Resolution", this.game.config.dimensions);
+      return (() => {
+      	
+        return Gl.uniform("Vector2", "Resolution", this.game.config.dimensions);
+      
+      });
     
    },
-  scale:Gl.uniform("Float", "Scale", 1),
+  get zoom(  ){ 
+    
+      return (() => {
+      	
+        return Gl.uniform("Vector3", "Zoom", [ 1, 1, this.game.rendering.zoomLevel ]);
+      
+      });
+    
+   },
+  get offset(  ){ 
+    
+      return (() => {
+      	
+        return Gl.uniform("Vector3", "Offset", [ this.game.rendering.xOffset, this.game.rendering.yOffset, 0 ]);
+      
+      });
+    
+   },
+  get scale(  ){ 
+    
+      return (() => {
+      	
+        return Gl.uniform("Float", "Scale", this.game.rendering.zoomLevel);
+      
+      });
+    
+   },
   id:0,
   get spriteTexture(  ){ 
     
@@ -10707,10 +10737,12 @@ var shaders = Interface.define("shaders", {
 
   uniform vec2  u_Resolution;
   uniform  float u_Scale;
+  uniform vec3 u_Zoom;
+  uniform vec3 u_Offset;
 
   vec4 clipspace_coordinate (vec3 xyz, float scale, vec2 res)
   {
-    return (vec4(((xyz * vec3(1.0,1.0,1.0) * scale)
+    return (vec4((((xyz + u_Offset) * u_Zoom * scale)
                   / vec3(res,1.0) * 1.98 - 0.99), 1.0)
             * vec4( 1.0,-1.0,1.0,1.0 ));
 
@@ -10723,7 +10755,7 @@ var shaders = Interface.define("shaders", {
     p.z = 1.0;
 
     gl_Position  = clipspace_coordinate( p, u_Scale, u_Resolution );
-    gl_PointSize = a_size + zAxis;
+    gl_PointSize = (a_size + zAxis) * u_Scale;
     vRotation = a_rotation;
 
     //size * z
@@ -10762,6 +10794,7 @@ var Texture = Interface.define("Texture", {
       gl.bindTexture(gl.TEXTURE_2D, texture);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
       gl.generateMipmap(gl.TEXTURE_2D);
+      console.log(context.canvas);
       return this;
     
    },
@@ -10778,11 +10811,11 @@ var Texture = Interface.define("Texture", {
    }
  });
 var spriteLayer = (function spriteLayer$(limit, textureData, game) {
-  /* sprite-layer eval.sibilant:91:0 */
+  /* sprite-layer eval.sibilant:95:0 */
 
   uniforms.init(game);
   var id = uniforms.id;
-  const layer=game.rendering.spawn(limit, SpriteRenderable, [ uniforms.res, uniforms.scale, uniforms.spriteTexture ], [ shaders.vert, shaders.frag ]);
+  const layer=game.rendering.spawn(limit, SpriteRenderable, [ uniforms.res, uniforms.scale, uniforms.zoom, uniforms.offset, uniforms.spriteTexture ], [ shaders.vert, shaders.frag ]);
   layer.texture = create(Texture)(textureData, game.rendering.context, id);
   return layer;
 });

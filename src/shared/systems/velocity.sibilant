@@ -10,8 +10,11 @@
 (define Velocity-interface Component
   (gett xd this.vector.x)
   (gett yd this.vector.y)
-  (sett xd x (assign this.vector.x x))
-  (sett yd y (assign this.vector.y y))
+  (sett xd x (if (isNaN x) (throw (new Error "assigning non number to velocity")))
+        (assign this.vector.x x))
+  (sett yd y
+        (if (isNaN y) (throw (new Error "assigning non number to velocity")))
+        (assign this.vector.y y))
 
 
   (def register ()

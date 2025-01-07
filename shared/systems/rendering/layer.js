@@ -87,7 +87,17 @@ var Layer = PooledSystem.define("Layer", {
     
       buffer.bind();
       program.enable();
-      uniform.each(enabled);
+      uniform.each(((uniform) => {
+      	
+        return (function() {
+          if (typeof uniform === "function") {
+            return uniform(context).enable();
+          } else {
+            return uniform.enable();
+          }
+        }).call(this);
+      
+      }));
       return this.interface.structure.enableGlAttributes();
     
    },

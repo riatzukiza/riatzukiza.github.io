@@ -70,7 +70,7 @@ var EntityGroup = Interface.define("EntityGroup", {
     
       const self=this;
       return (function(e) {
-        /* inc/misc.sibilant:1:798 */
+        /* eval.sibilant:1:489 */
       
         e.group = self;
         group.add(e);

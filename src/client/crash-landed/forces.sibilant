@@ -1,0 +1,21 @@
+
+(require! (lit Signal-field) "@shared/systems/physics/forces/signal-field.js"
+          (lit Friction) "@shared/systems/physics/forces/friction.js"
+          (lit game) "@crash-landed/game.js"
+          (lit create-particle-updater create-vector-field) "@shared/field.js"
+          config "@crash-landed/config.js"
+
+          )
+(print "initializing forces" (lit Friction Signal-field))
+
+(define Friction Friction
+  (config config)
+
+  (template false)
+  (def register () (assign this.config config))
+  (def reset ())
+  )
+
+
+(export Friction)
+(export Signal-field)

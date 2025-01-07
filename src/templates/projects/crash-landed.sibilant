@@ -1,0 +1,42 @@
+
+(html (.head
+       (.style "
+        .panel {
+            float: left;
+            border-style: solid;
+            border-width: 1px;
+        }
+        .bordered {
+            border-style: solid;
+            border-width: 1px;
+        }
+img {
+position:absolute;
+}
+
+")
+       )
+
+
+      (.script .src "/socket.io/socket.io.js")
+      (scoped (require! (lit File-system) "kit-file-system"
+                        Path 'path)
+              (each (.load File-system "./shared") (file)
+                    (markup (.script .src (Path.join "/bundles/shared" file.rel)))))
+      (scoped (require! (lit File-system) "kit-file-system"
+                        Path 'path)
+
+              (each (.load File-system "./client/crash-landed") (file)
+                    (unless (= (Path.basename file.path) "main.js")
+                      (markup (.script .src (Path.join "/bundles/crash-landed" file.rel))))))
+
+
+      (.body
+
+       (.img .id "player-sprite".src "/sprites/Small-8-Direction-Characters_by_AxulArt/8-way-128-72.png" .hidden "true")
+       (.img .id "grass-sprite".src "/sprites/GRASS+.png" .hidden "true")
+       )
+
+      (.script .src "/bundles/crash-landed/main.js")
+
+      )

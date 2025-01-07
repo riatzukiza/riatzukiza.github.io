@@ -10647,14 +10647,14 @@ var Trie = Tree.define("Trie", {
    },
   clear( value = this.value,_children = this._children,tree = this ){ 
     
-      tree.value = null;
-      tree.parent = null;
-      return _children.each(((child) => {
+      _children.each(((child) => {
       	
-        child.clear();
-        return _children.delete(tree.key);
+        return child.despawn();
       
       }));
+      tree.value = null;
+      tree.parent = null;
+      return tree.key = null;
     
    },
   add( key = this.key,tree = this,_children = tree._children ){ 
@@ -10667,8 +10667,8 @@ var Trie = Tree.define("Trie", {
   delete( seq = this.seq,tree = this ){ 
     
       var node = tree.find(seq);
-      node.clear();
-      return node.parent._children.delete(seq.slice(-1)[0]);
+      node.parent._children.delete(seq.slice(-1)[0]);
+      return node.despawn();
     
    },
   _find( seq = this.seq,node = this._children.get(seq[0]) ){ 

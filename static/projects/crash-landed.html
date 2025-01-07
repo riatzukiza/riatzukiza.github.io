@@ -1,0 +1,143 @@
+<html><head><style>
+        .panel {
+            float: left;
+            border-style: solid;
+            border-width: 1px;
+        }
+        .bordered {
+            border-style: solid;
+            border-width: 1px;
+        }
+img {
+position:absolute;
+}
+
+</style>
+</head>
+<script src='/socket.io/socket.io.js' ></script>
+<script src='/bundles/shared/andy.js' ></script>
+<script src='/bundles/shared/data-structures/array.js' ></script>
+<script src='/bundles/shared/data-structures/contrib.js' ></script>
+<script src='/bundles/shared/data-structures/fields/sparse.js' ></script>
+<script src='/bundles/shared/data-structures/fields/wrapped.js' ></script>
+<script src='/bundles/shared/data-structures/group.js' ></script>
+<script src='/bundles/shared/data-structures/linked-list.js' ></script>
+<script src='/bundles/shared/data-structures/list.js' ></script>
+<script src='/bundles/shared/data-structures/maps/matrix.js' ></script>
+<script src='/bundles/shared/data-structures/maps/ordered-buckets.js' ></script>
+<script src='/bundles/shared/data-structures/maps/ordered.js' ></script>
+<script src='/bundles/shared/data-structures/old-list.js' ></script>
+<script src='/bundles/shared/data-structures/pooled.js' ></script>
+<script src='/bundles/shared/data-structures/spawnable.js' ></script>
+<script src='/bundles/shared/data-structures/table.js' ></script>
+<script src='/bundles/shared/data-structures/trees/avl.js' ></script>
+<script src='/bundles/shared/data-structures/trees/base.js' ></script>
+<script src='/bundles/shared/data-structures/trees/binary-search-tree.js' ></script>
+<script src='/bundles/shared/data-structures/trees/bst-buckets.js' ></script>
+<script src='/bundles/shared/data-structures/trees/bst-fixed-depth.js' ></script>
+<script src='/bundles/shared/data-structures/trees/bucket-tree.js' ></script>
+<script src='/bundles/shared/data-structures/trees/red-black-tree.js' ></script>
+<script src='/bundles/shared/data-structures/trees/trie.js' ></script>
+<script src='/bundles/shared/dom.js' ></script>
+<script src='/bundles/shared/ecs/component-system.js' ></script>
+<script src='/bundles/shared/ecs/component.js' ></script>
+<script src='/bundles/shared/ecs/entity-group.js' ></script>
+<script src='/bundles/shared/ecs/entity-system.js' ></script>
+<script src='/bundles/shared/ecs/entity.js' ></script>
+<script src='/bundles/shared/ecs.js' ></script>
+<script src='/bundles/shared/field.js' ></script>
+<script src='/bundles/shared/game.js' ></script>
+<script src='/bundles/shared/gl.js' ></script>
+<script src='/bundles/shared/graph.js' ></script>
+<script src='/bundles/shared/interface.js' ></script>
+<script src='/bundles/shared/math/math.js' ></script>
+<script src='/bundles/shared/math/scalar.js' ></script>
+<script src='/bundles/shared/noise.js' ></script>
+<script src='/bundles/shared/pooling/dynamic-pool.js' ></script>
+<script src='/bundles/shared/pooling/object-pool.js' ></script>
+<script src='/bundles/shared/pooling/pooled-system.js' ></script>
+<script src='/bundles/shared/systems/collision.js' ></script>
+<script src='/bundles/shared/systems/physics/forces/friction.js' ></script>
+<script src='/bundles/shared/systems/physics/forces/gravity.js' ></script>
+<script src='/bundles/shared/systems/physics/forces/gravity.sibilant .js' ></script>
+<script src='/bundles/shared/systems/physics/forces/index.js' ></script>
+<script src='/bundles/shared/systems/physics/forces/signal-field.js' ></script>
+<script src='/bundles/shared/systems/physics/forces.js' ></script>
+<script src='/bundles/shared/systems/physics/index.js' ></script>
+<script src='/bundles/shared/systems/physics/system.js' ></script>
+<script src='/bundles/shared/systems/physics.js' ></script>
+<script src='/bundles/shared/systems/position.js' ></script>
+<script src='/bundles/shared/systems/rendering/dot.js' ></script>
+<script src='/bundles/shared/systems/rendering/gl-sprites.js' ></script>
+<script src='/bundles/shared/systems/rendering/layer.js' ></script>
+<script src='/bundles/shared/systems/rendering/renderable.js' ></script>
+<script src='/bundles/shared/systems/rendering/rendering.js' ></script>
+<script src='/bundles/shared/systems/rendering/scaling-vertex.js' ></script>
+<script src='/bundles/shared/systems/rendering/sprite-atlas.js' ></script>
+<script src='/bundles/shared/systems/rendering/sprite.js' ></script>
+<script src='/bundles/shared/systems/rendering/vertex.js' ></script>
+<script src='/bundles/shared/systems/rendering.js' ></script>
+<script src='/bundles/shared/systems/velocity.js' ></script>
+<script src='/bundles/shared/ticker.js' ></script>
+<script src='/bundles/shared/tiles.js' ></script>
+<script src='/bundles/shared/utils.js' ></script>
+<script src='/bundles/shared/vector.js' ></script>
+<script src='/bundles/shared/vectors.js' ></script>
+<script src='/bundles/crash-landed/agents.js' ></script>
+<script src='/bundles/crash-landed/colors.js' ></script>
+<script src='/bundles/crash-landed/config.js' ></script>
+<script src='/bundles/crash-landed/dom/dom-node.js' ></script>
+<script src='/bundles/crash-landed/dom/entity-panel.js' ></script>
+<script src='/bundles/crash-landed/dom/rocks.js' ></script>
+<script src='/bundles/crash-landed/dom.js' ></script>
+<script src='/bundles/crash-landed/entities/ants.js' ></script>
+<script src='/bundles/crash-landed/entities/home.js' ></script>
+<script src='/bundles/crash-landed/entities/plants.js' ></script>
+<script src='/bundles/crash-landed/entities/rocks.js' ></script>
+<script src='/bundles/crash-landed/entities/trail-segments.js' ></script>
+<script src='/bundles/crash-landed/entities.js' ></script>
+<script src='/bundles/crash-landed/events/ant-collision.js' ></script>
+<script src='/bundles/crash-landed/events/ant-found-plant.js' ></script>
+<script src='/bundles/crash-landed/events/collision.js' ></script>
+<script src='/bundles/crash-landed/events/plant-colliding-with-spawn.js' ></script>
+<script src='/bundles/crash-landed/events/simple-collision.js' ></script>
+<script src='/bundles/crash-landed/events/static-object-collision.js' ></script>
+<script src='/bundles/crash-landed/events/tick.js' ></script>
+<script src='/bundles/crash-landed/forces.js' ></script>
+<script src='/bundles/crash-landed/game.js' ></script>
+<script src='/bundles/crash-landed/location.js' ></script>
+<script src='/bundles/crash-landed/matrix/kernel.js' ></script>
+<script src='/bundles/crash-landed/matrix/matrix-view.js' ></script>
+<script src='/bundles/crash-landed/matrix/matrix.js' ></script>
+<script src='/bundles/crash-landed/rendering.js' ></script>
+<script src='/bundles/crash-landed/settings.js' ></script>
+<script src='/bundles/crash-landed/strings.js' ></script>
+<script src='/bundles/crash-landed/systems/ant-life-timer.js' ></script>
+<script src='/bundles/crash-landed/systems/ant-sprites.js' ></script>
+<script src='/bundles/crash-landed/systems/ants/ant-dot.js' ></script>
+<script src='/bundles/crash-landed/systems/ants/ant-life-timer.js' ></script>
+<script src='/bundles/crash-landed/systems/ants/ant-panel.js' ></script>
+<script src='/bundles/crash-landed/systems/ants/ant-trails.js' ></script>
+<script src='/bundles/crash-landed/systems/ants/trail-dots.js' ></script>
+<script src='/bundles/crash-landed/systems/ants/trail-panel.js' ></script>
+<script src='/bundles/crash-landed/systems/ants/trail-segments.js' ></script>
+<script src='/bundles/crash-landed/systems/ants/trail-view.js' ></script>
+<script src='/bundles/crash-landed/systems/dot.js' ></script>
+<script src='/bundles/crash-landed/systems/experation.js' ></script>
+<script src='/bundles/crash-landed/systems/position.js' ></script>
+<script src='/bundles/crash-landed/systems/property-view.js' ></script>
+<script src='/bundles/crash-landed/systems/rock-sprites.js' ></script>
+<script src='/bundles/crash-landed/systems/signal.js' ></script>
+<script src='/bundles/crash-landed/systems/signals/collision.js' ></script>
+<script src='/bundles/crash-landed/systems/signals/goal.js' ></script>
+<script src='/bundles/crash-landed/systems/signals/noise.js' ></script>
+<script src='/bundles/crash-landed/systems/sprites/floor.js' ></script>
+<script src='/bundles/crash-landed/systems/sprites/player.js' ></script>
+<script src='/bundles/crash-landed/systems/timer.js' ></script>
+<script src='/bundles/crash-landed/systems/velocity.js' ></script>
+<script src='/bundles/crash-landed/tiles.js' ></script>
+<body><img id='player-sprite'  src='/sprites/Small-8-Direction-Characters_by_AxulArt/8-way-128-72.png'  hidden='true' ></img>
+<img id='grass-sprite'  src='/sprites/GRASS+.png'  hidden='true' ></img>
+</body>
+<script src='/bundles/crash-landed/main.js' ></script>
+</html>

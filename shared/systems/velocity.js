@@ -39,11 +39,21 @@ var VelocityInterface = Component.define("VelocityInterface", {
    },
   set xd( x ){ 
     
+      (function() {
+        if (isNaN(x)) {
+          throw (new Error("assigning non number to velocity"))
+        }
+      }).call(this);
       return this.vector.x = x;
     
    },
   set yd( y ){ 
     
+      (function() {
+        if (isNaN(y)) {
+          throw (new Error("assigning non number to velocity"))
+        }
+      }).call(this);
       return this.vector.y = y;
     
    },

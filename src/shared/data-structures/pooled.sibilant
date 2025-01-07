@@ -10,13 +10,10 @@
 
   (gett data-pool
         (const symbol this.symbol)
-        (print "finding pool")
         (remember pools symbol
-                  (print "pool cache miss")
                   ((create Dynamic-pool) this)))
 
   (def spawn ((dots args))
-    (print "spawning" this this.data-pool)
     (.init (.aquire this.data-pool) (dots args)))
 
   (def despawn ()

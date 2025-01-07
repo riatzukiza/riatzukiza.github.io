@@ -1,0 +1,29 @@
+(require! (lit Sparse-vector-field) "@shared/data-structures/fields/sparse.js")
+(require! (lit Signal Influence) "@crash-landed/systems/signal.js")
+(require! noise "@shared/noise.js")
+
+(require! config "@crash-landed/config.js")
+
+
+(define Noise-field Sparse-vector-field
+  (angle-zoom config.angle-zoom)
+  (noise-z config.noise-z)
+  (force config.field-force)
+  (def-generic *equation (x y t t* v v* angle-zoom noise-z force)
+    (.set-angle v
+                (* (noise.simplex3 (/ x angle-zoom 5)
+                                   (/ y angle-zoom 5)
+                                   (* t (/ noise-z 10000)))
+                   Math.PI 2))
+
+    (.set-length v
+                 (/ (* (noise.simplex3 (+ (/ x 50) 40000)
+                                       (+ (/ y 50) 40000)
+                                       (* t (/ noise-z 10000)))
+                       force) 20))))
+
+(define Static Influence)
+(define Noise Signal
+  (interface Static)
+  (field (.spawn Noise-field)))
+(export Noise)

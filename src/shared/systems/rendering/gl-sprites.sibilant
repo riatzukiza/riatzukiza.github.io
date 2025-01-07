@@ -54,10 +54,13 @@
 
 
 
+
 (define uniforms Interface
   (init (game))
-  (gett res (Gl.uniform 'Vector2 "Resolution" this.game.config.dimensions))
-  (scale (Gl.uniform 'Float "Scale" 1.0))
+  (gett res (-> (Gl.uniform 'Vector2 "Resolution" this.game.config.dimensions)))
+  (gett zoom (-> (Gl.uniform 'Vector3 "Zoom" [ 1.0 1.0 this.game.rendering.zoom-level  ])))
+  (gett offset (-> (Gl.uniform 'Vector3 "Offset" [ this.game.rendering.x-offset this.game.rendering.y-offset 0.0  ])))
+  (gett scale  (-> (Gl.uniform 'Float "Scale" this.game.rendering.zoom-level)))
   (id 0)
   (gett sprite-texture (Gl.uniform 'Integer "SpriteTexture" (incr this.id)))
 
@@ -80,6 +83,7 @@
         (.bind-texture gl gl.TEXTURE_2D texture)
         (.texImage2D gl gl.TEXTURE_2D 0 gl.RGBA  gl.RGBA gl.UNSIGNED_BYTE img)
         (.generate-mipmap gl gl.TEXTURE_2D)
+        (print context.canvas)
 
         )
   (gett gl  this.context.gl)
@@ -96,6 +100,8 @@
   (const layer (.spawn game.rendering limit Sprite-renderable
                        [uniforms.res
                         uniforms.scale
+                        uniforms.zoom
+                        uniforms.offset
                         uniforms.sprite-texture
                         ]
                        [shaders.vert shaders.frag]))

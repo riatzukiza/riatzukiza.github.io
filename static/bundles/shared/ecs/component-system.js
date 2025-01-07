@@ -10884,13 +10884,13 @@ var System = Interface.define("System", {
 
             this.neededThing = [];
             return (function() {
-              /* node_modules/kit/inc/loops.sibilant:26:8 */
+              /* node_modules/@kit-js/core/inc/loops.sibilant:26:8 */
 
               var $for = null;
               for (var i = 0;i < 10;++(i))
               {
               $for = (function() {
-                /* node_modules/kit/inc/loops.sibilant:28:35 */
+                /* node_modules/@kit-js/core/inc/loops.sibilant:28:35 */
 
                 return this.neededThing.push(Math.random());
               }).call(this);
@@ -10955,7 +10955,7 @@ var System = Interface.define("System", {
   spawn( entity = this.entity,pool = this.pool,components = this.components ){ 
     
       return (function(c) {
-        /* inc/misc.sibilant:1:798 */
+        /* eval.sibilant:1:489 */
       
         components.set(entity, c);
         return c;
@@ -11014,13 +11014,13 @@ System.build = (function System$build$() {
   }).call(this);
 });
 System.clear = (function System$clear$(pool = this.pool, components = this.components) {
-  /* System.clear node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
+  /* System.clear node_modules/@kit-js/core/inc/core/function-expressions.sibilant:29:8 */
 
   components.clear();
   return pool.clear();
 });
 System.get = (function System$get$(entity = this.entity, components = this.components) {
-  /* System.get node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
+  /* System.get node_modules/@kit-js/core/inc/core/function-expressions.sibilant:29:8 */
 
   return components.get(entity);
 });

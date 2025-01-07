@@ -1,0 +1,56 @@
+(namespace crash-landed)
+
+(include "../../../inc/dom.sibilant")
+(import-namespace dom)
+
+(require! (lit rendering ) "@crash-landed/rendering.js"
+          (lit vector-pool trail-pool) "@shared/vectors.js"
+          (lit Physics) "@shared/systems/physics/index.js"
+          (lit Dot) "@shared/systems/rendering/dot.js"
+          (lit summate) "@shared/math/math.js"
+          (lit View-panel Property-view) "@crash-landed/systems/property-view.js"
+          config "@crash-landed/config.js"
+          )
+
+
+(def-generic display-decimal (d (n 6)) (/ (Math.round (* (Math.pow 10 n) d)) (Math.pow 10 n)))
+
+
+
+(macro sum-of (reducable ...keys)
+       `(.reduce @reducable  (=> ( sum el) (+ sum (or (get el ...@keys) 0))) 0))
+
+(const game-view (dom (.div .id "game-view" .className "panel"
+                            .style (lit ("background-color" "black"))
+                            rendering.context.canvas)))
+
+
+(const debug-view
+       (dom (.div .id "debug-view" .className "panel"
+                  .style (lit (height (+  (second config.dimensions)"px"))
+                              (width (+ (Math.round (- (* window.innerWidth 0.2) 42)) "px"))
+                              ("overflow-y" "scroll")))))
+
+
+
+
+
+(var container (dom (.div .id "container"
+                          game-view
+                          debug-view
+                          )))
+(export container)
+(export game-view)
+(export debug-view)
+(def start-interface ()
+  (require! (lit game) "@crash-landed/game.js")
+  (with-dom Document-body (.div .id 'frame container))
+  (on game.events 'tick (t)
+
+      (when (= (mod t config.ui-polling-rate) 0)
+        ;; (.render stats)
+        (.render pools-view))))
+
+(export start-interface)
+
+

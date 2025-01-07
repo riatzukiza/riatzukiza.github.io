@@ -1,0 +1,35 @@
+
+(require! (lit Component System) "@shared/ecs.js")
+(define Influence Component
+  (gett min-x (Math.floor this.entity.collision-bounds.min-x))
+  (gett min-y (Math.floor this.entity.collision-bounds.min-y))
+  (gett max-x (Math.ceil this.entity.collision-bounds.max-x))
+  (gett max-y (Math.ceil this.entity.collision-bounds.max-y))
+  (gett velocity this.entity.velocity-interface)
+  (gett pos this.entity.position-interface)
+  ;; must run after collision as a result of this interaction.
+  (gett quad-tree this.entity.collision-bounds.system.quads)
+
+  )
+(export Influence)
+(define Signal System
+  (gett field (throw (new Error "No signal matrix defined for signal system")))
+  (def evolve (cell))
+  (def *update-component (c)
+
+    (const signal-cell (.get this.field
+                             (Math.round c.pos.x)
+                             (Math.round c.pos.y)
+                             this.game.ticker.ticks))
+    (print (lit signal-cell c))
+    (if c.velocity
+        (.accelerate c.velocity [signal-cell.x signal-cell.y]))
+    (.evolve this signal-cell c)
+    ;; (for! (x c.min-x) (< x c.max-x) (++ x)
+    ;;       (for! (y c.min-y) (< y c.max-y) (++ y)
+    ;;             (const signal-cell (.get this.field x y this.game.ticker.ticks))
+    ;;             ))
+    (return null))
+  )
+
+(export Signal)

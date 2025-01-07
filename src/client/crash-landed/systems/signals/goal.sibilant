@@ -1,0 +1,38 @@
+(require! (lit Sparse-vector-field) "@shared/data-structures/fields/sparse.js")
+(require! (lit Signal Influence) "@crash-landed/systems/signal.js")
+(require! config "@crash-landed/config.js")
+
+(define Goal-field Sparse-vector-field
+  (max-length config.max-length)
+  (decay-rate config.decay-rate)
+
+  (def-generic *equation (x y t t* v v* decay-rate max-length)
+    ;; maybe this should be a subtraction or multiplication by percentile?
+
+    (when (and v.x v.y)
+      (.div-to v (* decay-rate (+ 1 (- t t*))))
+
+      (if (> (v.get-length) max-length)
+          (v.set-length max-length))
+      )
+    ))
+
+
+(define Goal-tracker Influence)
+(define Goal-finder Signal
+  (interface Goal-tracker)
+  (field (.spawn Goal-field))
+  (def evolve (cell c)
+
+    (print (lit cell config))
+    (cell.add-to
+     (lit
+      (x (* c.velocity.xd  config.ant-influence))
+      (y (* c.velocity.yd  config.ant-influence))))
+    (print (lit cell))
+    )
+
+
+  )
+
+(export Goal-finder)

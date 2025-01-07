@@ -10680,6 +10680,58 @@ var Rendering = PooledSystem.define("Rendering", {
   init( dimensions = window.size(),blend = true,context = Gl.context(dimensions, blend),layers = [] ){ 
     
       this.dimensions = dimensions;this.blend = blend;this.context = context;this.layers = layers;
+      const self=this;
+      this.xOffset = 0;
+      this.yOffset = 0;
+      this.zoomLevel = 1;
+      var mouseHeld = false;
+      context.canvas.onmousedown = (function context$canvas$onmousedown$(e) {
+        /* context.canvas.onmousedown eval.sibilant:1:1742 */
+      
+        e.preventDefault();
+        return mouseHeld = true;
+      });
+      context.canvas.onmouseup = (function context$canvas$onmouseup$(e) {
+        /* context.canvas.onmouseup eval.sibilant:1:1843 */
+      
+        e.preventDefault();
+        return mouseHeld = false;
+      });
+      context.canvas.onmousemove = (function context$canvas$onmousemove$(e) {
+        /* context.canvas.onmousemove eval.sibilant:1:1941 */
+      
+        e.preventDefault();
+        return (function() {
+          if (mouseHeld) {
+            (function() {
+              if (e.movementX > 0) {
+                return self.xOffset = (self.xOffset + (5 / self.zoomLevel));
+              } else {
+                return self.xOffset = (self.xOffset - (5 / self.zoomLevel));
+              }
+            }).call(this);
+            return (function() {
+              if (e.movementY > 0) {
+                return self.yOffset = (self.yOffset + (5 / self.zoomLevel));
+              } else {
+                return self.yOffset = (self.yOffset - (5 / self.zoomLevel));
+              }
+            }).call(this);
+          }
+        }).call(this);
+      });
+      context.canvas.onwheel = (function context$canvas$onwheel$(e) {
+        /* context.canvas.onwheel eval.sibilant:1:2413 */
+      
+        e.preventDefault();
+        return (function() {
+          if (e.deltaY > 0) {
+            return self.zoomLevel = Math.max((self.zoomLevel - 0.01), 0.01);
+          } else {
+            return self.zoomLevel = Math.min((self.zoomLevel + 0.01), 1);
+          }
+        }).call(this);
+      });
       if( blend ){ 
         allowAlphaBlending(context)
        };

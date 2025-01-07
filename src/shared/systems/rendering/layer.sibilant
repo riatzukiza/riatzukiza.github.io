@@ -55,7 +55,13 @@
     (.bind buffer)
 
     (.enable program)
-    (.each uniform enabled)
+    (each uniform (uniform)
+          (if (function? uniform)
+              (.enable (uniform context))
+              (.enable uniform)
+
+              )
+          )
     (.enable-gl-attributes this.interface.structure))
 
   (def-generic disable (buffer uniform program)

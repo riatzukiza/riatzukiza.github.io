@@ -89,21 +89,8 @@ var Position = System.define("Position", {
       return null;
     
    },
+  wraps__QUERY:true,
   _updateComponent( c ){ 
-    
-      (function() {
-        if (c._x < 0) {
-          return c._x = (c._x + this.process.rendering.dimensions[0]);
-        }
-      }).call(this);
-      (function() {
-        if (c._y < 0) {
-          return c._y = (c._y + this.process.rendering.dimensions[1]);
-        }
-      }).call(this);
-      c._x = (c._x % this.process.rendering.dimensions[0]);
-      c._y = (c._y % this.process.rendering.dimensions[1]);
-      return c.moved = false;
     
    }
  });
