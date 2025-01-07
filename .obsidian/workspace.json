@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "notes/daily/2025-01-02.md",
+                "file": "notes/daily/2025-01-07.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2025-01-02"
+              "title": "2025-01-07"
             }
           }
         ]
@@ -215,15 +215,14 @@
       "obsidian-git:Open Git source control": false,
       "githobs:Manage a github issue": false,
       "webpage-html-export:Export Vault to HTML": false,
-      "obisidian-note-linker:Note Linker": false,
-      "smart-connections:Open: View Smart Connections": false,
-      "smart-connections:Open: Smart Chat Conversation": false
+      "obisidian-note-linker:Note Linker": false
     }
   },
   "active": "02ba21013b3ad7f9",
   "lastOpenFiles": [
-    "kanban/board.md",
     "notes/daily/2025-01-02.md",
+    "notes/daily/2025-01-07.md",
+    "kanban/board.md",
     "notes/daily/2024-12-27.md",
     "conflict-files-obsidian-git.md",
     "notes/daily/_Index_of_daily.md",
@@ -257,7 +256,6 @@
     "kanban/tasks/move kit fs.md",
     "kanban/tasks/move kit core.md",
     "kanban/tasks/Move fork of sibilant into git.md",
-    "kanban/tasks/Move all outside work into the portfolio git.md",
     "Untitled.canvas"
   ]
 }
