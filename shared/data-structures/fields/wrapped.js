@@ -33,7 +33,7 @@ var WrappingVectorField = Interface.define("WrappingVectorField", {
    },
   each( f = this.f,columns = this.columns,rows = this.rows,data = this.data ){ 
     
-      return for (var x = 0;x < columns;++(x))
+      for (var x = 0;x < columns;++(x))
       {
       for (var y = 0;y < rows;++(y))
       {
@@ -42,6 +42,7 @@ var WrappingVectorField = Interface.define("WrappingVectorField", {
       
       }
       ;
+      return this;
     
    },
   traverse( start,end ){ 
@@ -49,7 +50,7 @@ var WrappingVectorField = Interface.define("WrappingVectorField", {
    },
   populate( columns = this.columns,rows = this.rows,_data = this._data ){ 
     
-      return for (var x = 0;x < columns;++(x))
+      for (var x = 0;x < columns;++(x))
       {
       _data[x] = (new Array(rows));;
       for (var y = 0;y < rows;++(y))
@@ -59,6 +60,7 @@ var WrappingVectorField = Interface.define("WrappingVectorField", {
       
       }
       ;
+      return this;
     
    }
  });

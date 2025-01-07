@@ -1,5 +1,14 @@
-(define Known-state Component
-  (currently-visible? false)
-  (explored? false)
-  )
-(define Visibility System)
+
+(require! (lit Component System) "@shared/ecs.js"
+          (lit List) "@shared/data-structures/list.js")
+(define Visible-status Component
+  (visible? false)
+  (explored? false))
+(define Tile-visibility System
+  (interface Visible-status)
+  (def *update-component (c)
+    ;; noop/data only component
+
+    ))
+
+(export Tile-visibility)

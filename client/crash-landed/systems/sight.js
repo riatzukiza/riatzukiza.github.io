@@ -13,13 +13,53 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   
   }));
 });
+var { 
+  Component,
+  System
+ } = require("@shared/ecs.js"),
+    { 
+  List
+ } = require("@shared/data-structures/list.js");
 var FieldOfView = Component.define("FieldOfView", { 
   visibleTiles:List.spawn(),
-  observedTiles:List.spawn(),
+  get worldPos(  ){ 
+    
+      return this.entity.positionInterface;
+    
+   },
   range:4
  });
 var Sight = System.define("Sight", { 
+  interface:FieldOfView,
+  registerTileGraph( tiles ){ 
+    
+      return this.tiles = tiles;
+    
+   },
   _updateComponent( c ){ 
+    
+      const pos=c.entity.positionInterface;
+      const occupiedTile=this.tiles.getClosestFromWorldPos(pos.x, pos.y);
+      c.visibleTiles.each(((tile) => {
+      	
+        return tile.entity.visibleStatus.visible__QUERY = false;
+      
+      }));
+      c.visibleTiles.clear();
+      for (var x = (occupiedTile.x - c.range);x < (occupiedTile.x + c.range);++(x))
+      {
+      for (var y = (occupiedTile.y - c.range);y < (occupiedTile.y + c.range);++(y))
+      {
+      const visibleTile=this.tiles.get(x, y);;
+      c.visibleTiles.push(visibleTile);
+      visibleTile.entity.visibleStatus.visible__QUERY = true;;
+      visibleTile.entity.visibleStatus.explored__QUERY = true;
+      }
+      
+      }
+      ;
+      return this;
     
    }
  });
+exports.Sight = Sight;

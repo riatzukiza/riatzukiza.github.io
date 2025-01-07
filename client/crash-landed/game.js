@@ -40,11 +40,21 @@ var {
     { 
   Velocity
  } = require("@shared/systems/velocity.js"),
+    { 
+  Sight
+ } = require("@crash-landed/systems/sight.js"),
+    { 
+  TileVisibility
+ } = require("@crash-landed/systems/visibility.js"),
     config = require("@crash-landed/config.js");
 var { 
   FloorSprites
  } = require("@crash-landed/systems/sprites/floor.js");
-var activeGameSystems = [ Position, PlayerSprites, Physics, Velocity, FloorSprites, Sight ];
+var activeGameSystems = [ Position, FloorSprites, PlayerSprites, Physics, Velocity, Sight, TileVisibility ];
 var game = create(Game)(config, rendering, activeGameSystems, config.gameSpeed);
+console.log({ 
+  PlayerSprites,
+  FloorSprites
+ });
 exports.game = game;
 exports.activeGameSystems = activeGameSystems;

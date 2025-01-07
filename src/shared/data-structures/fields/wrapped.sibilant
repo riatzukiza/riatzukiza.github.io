@@ -17,7 +17,9 @@
   (def-generic each (f columns rows data)
     (for! (x 0) (< x columns) (++ x)
           (for! (y 0) (< y rows) (++ y)
-                (f (get data x y) [x y]))))
+                (f (get data x y) [x y])))
+    this
+    )
   (def traverse (start end)
     )
 
@@ -25,4 +27,5 @@
     (for! (x 0) (< x columns) (++ x)
           (set *data x (new Array rows))
           (for! (y 0) (< y rows) (++ y)
-                (set (get field x) y (.spawn Vector 0 0))))))
+                (set (get field x) y (.spawn Vector 0 0))))
+    this))

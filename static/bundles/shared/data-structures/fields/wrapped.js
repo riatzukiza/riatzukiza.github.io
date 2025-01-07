@@ -1,0 +1,68 @@
+require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({"@shared/data-structures/fields/wrapped.js":[function(require,module,exports){
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+
+  return Object.keys(this).forEach(((k) => {
+  	
+    return f(this[k], k);
+  
+  }));
+});
+var WrappingVectorField = Interface.define("WrappingVectorField", { 
+  init( columns = this.columns,rows = this.rows,_data = (new Array(columns)) ){ 
+    
+      this.columns = columns;this.rows = rows;this._data = _data;
+      this.populate(columns, rows, _data);
+      return this;
+    
+   },
+  get data(  ){ 
+    
+      return this._data;
+    
+   },
+  get( x = this.x,y = this.y,columns = this.columns,rows = this.rows ){ 
+    
+      return this.data[(Math.min(Math.max(Math.round(x), 0), (columns - 1)) || 0)][(Math.min(Math.max(Math.round(y), 0), (rows - 1)) || 0)];
+    
+   },
+  each( f = this.f,columns = this.columns,rows = this.rows,data = this.data ){ 
+    
+      for (var x = 0;x < columns;++(x))
+      {
+      for (var y = 0;y < rows;++(y))
+      {
+      f(data[x][y], [ x, y ])
+      }
+      
+      }
+      ;
+      return this;
+    
+   },
+  traverse( start,end ){ 
+    
+   },
+  populate( columns = this.columns,rows = this.rows,_data = this._data ){ 
+    
+      for (var x = 0;x < columns;++(x))
+      {
+      _data[x] = (new Array(rows));;
+      for (var y = 0;y < rows;++(y))
+      {
+      field[x][y] = Vector.spawn(0, 0);
+      }
+      
+      }
+      ;
+      return this;
+    
+   }
+ });
+},{}]},{},[]);

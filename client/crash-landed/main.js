@@ -62,12 +62,22 @@ var {
   PlayerSprites
  } = require("@crash-landed/systems/sprites/player.js"),
     { 
+  FloorSprites
+ } = require("@crash-landed/systems/sprites/floor.js"),
+    { 
+  Sight
+ } = require("@crash-landed/systems/sight.js"),
+    { 
+  TileVisibility
+ } = require("@crash-landed/systems/visibility.js"),
+    { 
   EntityGroup
  } = require("@shared/ecs/entity-group.js");
 var { 
   TileGraph
- } = require("@shared/data-structures/tiles.js");
+ } = require("@shared/tiles.js");
 game.start();
+const tiles=TileGraph.spawn(60, [ FloorSprites, TileVisibility ], game);
 const player=create(EntityGroup)("player", [ Position, PlayerSprites, Physics, Velocity, Sight ], game.ent);
 const p=player.spawn();
 p.positionInterface.x = 300;
@@ -84,18 +94,19 @@ const west=(eigthTurn * 4);
 const northWest=(eigthTurn * 5);
 const north=(eigthTurn * 6);
 const northEast=(eigthTurn * 7);
+Position.wraps__QUERY = false;
 v.setLength(10);
-v.setAngle(eas);
+v.setAngle(east);
 console.log(v.getAngle());
 const directions=[ north, northEast, east, southEast, south, southWest, west, northWest ];
 const directionNames=[ "north", "northEast", "east", "southEast", "south", "southWest", "west", "northWest" ];
 var getCardinalDirection = (function getCardinalDirection$(vector) {
-  /* get-cardinal-direction eval.sibilant:58:0 */
+  /* get-cardinal-direction eval.sibilant:66:0 */
 
   const angle=vector.getAngle();
   return directions[Math.round((angle / eigthTurn))];
 });
-const tiles=TileGraph.spawn(30, [ FloorSprite ]);
+Sight.registerTileGraph(tiles);
 var i = 2;
 game.events.on("tick", ((t) => {
 	
@@ -109,9 +120,7 @@ game.events.on("tick", ((t) => {
       i = ((i + 1) % 8);
       const directionName=directionNames[i];
       const directionAngle=directions[i];
-      console.log(p.velocityInterface.vector.getAngle());
       p.playerSprite.selectSequence(directionName);
-      console.log(p.velocityInterface, directionAngle, directionName, directionNames, directions);
       return v.setAngle(directionAngle);
     }
   }).call(this);

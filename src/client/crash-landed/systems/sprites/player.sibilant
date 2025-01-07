@@ -27,7 +27,7 @@
   )
 
 (define Player-sprites Sprite-atlas
-  (id 1)
+  (id 0)
   (interface Player-sprite)
 
   (sequence-map

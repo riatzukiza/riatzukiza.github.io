@@ -138,9 +138,9 @@ var List = Interface.define("List", {
       var node = this.head;
       var success = false;
       return (function() {
-        var while$830 = undefined;
+        var while$25 = undefined;
         while (node) {
-          while$830 = (function() {
+          while$25 = (function() {
             return (function() {
               if (node.item !== item) {
                 node = node.next;
@@ -152,7 +152,7 @@ var List = Interface.define("List", {
             }).call(this);
           }).call(this);
         };
-        return while$830;
+        return while$25;
       }).call(this);
     
    },
@@ -260,14 +260,14 @@ var List = Interface.define("List", {
     
       var node = this.head;
       (function() {
-        var while$831 = undefined;
+        var while$26 = undefined;
         while (node) {
-          while$831 = (function() {
+          while$26 = (function() {
             f(node.item, node);
             return node = node.next;
           }).call(this);
         };
-        return while$831;
+        return while$26;
       }).call(this);
       return this;
     
@@ -277,13 +277,13 @@ var List = Interface.define("List", {
       var result = create(List)();
       var node = this.head;
       return (function() {
-        var while$832 = undefined;
+        var while$27 = undefined;
         while (node) {
-          while$832 = (function() {
+          while$27 = (function() {
             return result.push(f(node, node.next, node.prev));
           }).call(this);
         };
-        return while$832;
+        return while$27;
       }).call(this);
     
    },

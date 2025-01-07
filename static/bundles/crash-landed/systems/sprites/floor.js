@@ -22,12 +22,23 @@ const spriteImage=document.getElementById("grass-sprite");
 var FloorSprite = AnimatedSprite.define("FloorSprite", { 
   column:0,
   row:0,
-  visible__QUERY:false,
+  get visible__QUERY(  ){ 
+    
+      return this.entity.visibleStatus.visible__QUERY;
+    
+   },
+  get explored__QUERY(  ){ 
+    
+      return this.entity.visibleStatus.explored__QUERY;
+    
+   },
   get alpha(  ){ 
     
       return (function() {
         if (this.visible__QUERY) {
           return 1;
+        } else if (this.explored__QUERY) {
+          return 0.5;
         } else {
           return 0;
         }
@@ -57,8 +68,7 @@ var FloorSprite = AnimatedSprite.define("FloorSprite", {
    }
  });
 var FloorSprites = SpriteAtlas.define("FloorSprites", { 
-  id:1,
-  interface:PlayerSprite,
+  interface:FloorSprite,
   frameDimensions:[ 16, 16 ],
   height:10,
   width:10,

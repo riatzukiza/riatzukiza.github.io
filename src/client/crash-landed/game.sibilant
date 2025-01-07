@@ -9,14 +9,17 @@
           (lit Player-sprites) "@crash-landed/systems/sprites/player.js"
           (lit rendering) "@crash-landed/rendering.js"
           (lit Velocity) "@shared/systems/velocity.js"
-
+          (lit Sight) "@crash-landed/systems/sight.js"
+          (lit Tile-visibility) "@crash-landed/systems/visibility.js"
           config "@crash-landed/config.js"
           )
+
+
 
 (require! (lit Floor-sprites) "@crash-landed/systems/sprites/floor.js")
 
 
-(var active-game-systems [Position Player-sprites Physics Velocity Floor-sprites Sight])
+(var active-game-systems [Position Floor-sprites Player-sprites Physics Velocity  Sight Tile-visibility])
 
 (var game ((create Game)
            config
@@ -24,6 +27,7 @@
            active-game-systems
            config.game-speed))
 
+(print (lit Player-sprites Floor-sprites))
 
 
 (export game)

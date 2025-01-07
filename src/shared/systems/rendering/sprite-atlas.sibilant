@@ -82,7 +82,6 @@
         (.bind-texture gl gl.TEXTURE_2D texture)
         (.texImage2D gl gl.TEXTURE_2D 0 gl.RGBA  gl.RGBA gl.UNSIGNED_BYTE img)
         (.generate-mipmap gl gl.TEXTURE_2D)
-        (print context.canvas)
 
         )
   (gett gl  this.context.gl)
@@ -120,7 +119,7 @@
   (gett point this.sprite.point)
   (gett column (throw (new Error "no current frame defined")))
   (gett row (throw (new Error "No sequence index defined")))
-  (alpha )
+  (alpha 1)
 
   (gett atlas-x-min (* this.column  (first this.system.frame-dimensions)))
   (gett atlas-y-min (*  this.row (second this.system.frame-dimensions)))

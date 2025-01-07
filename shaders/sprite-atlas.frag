@@ -10,7 +10,7 @@ in vec2 vSpriteEndUV;     // opposite corner uv coord for sprite in atlas
 precision highp float;
 in float vAlpha;
 
-uniform sampler2D someTexture;
+uniform sampler2D u_SpriteTexture;  // texture we are drawing
 
 out vec4 FragColor;
 void main() {
@@ -21,10 +21,10 @@ void main() {
   vec2 spriteRange = (vSpriteEndUV - vSpriteStartUV);
   vec2 uv = vSpriteStartUV + texcoord * spriteRange;
 
-  vec4 color = texture(someTexture, uv);
+  vec4 color = texture(u_SpriteTexture, uv);
   FragColor = color;
 
   FragColor.rgb *= FragColor.a;
-  FragColor.a *= 
+  FragColor.a *= vAlpha;
 
 }

@@ -10622,6 +10622,7 @@ var {
   RockSprites
  } = require("@obstacles/systems/rock-sprites.js"),
     config = require("@obstacles/config.js");
+Position.wraps__QUERY = true;
 var activeGameSystems = [ DecayingTrails, AntLifeTimer, Dot, TrailDots, AntDots, AntPanel, TrailsPanel, RockSprites, AntSprites, AntTrails, Physics, Velocity, Position, Collision ];
 var game = create(Game)(config, rendering, activeGameSystems, config.gameSpeed);
 exports.game = game;

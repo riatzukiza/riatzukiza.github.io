@@ -47,6 +47,6 @@ create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(H
   'hidden': "true"
 }, []), create(HtmlElement)("img", {
   'id': "grass-sprite",
-  'src': "/sprites/GRASS+.png",
+  'src': "/sprites/Square-grass.png",
   'hidden': "true"
 }, []) ]), create(HtmlElement)("script", { 'src': "/bundles/crash-landed/main.js" }, []) ]);

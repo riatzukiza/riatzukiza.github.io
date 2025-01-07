@@ -79,7 +79,7 @@ var startInterface = (function startInterface$() {
   	
     return (function() {
       if ((t % config.uiPollingRate) === 0) {
-        return poolsView.render();
+        
       }
     }).call(this);
   

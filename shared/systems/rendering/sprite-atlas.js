@@ -177,7 +177,7 @@ var shaders = Interface.define("shaders", {
   precision highp float;
   in float vAlpha;
 
-  uniform sampler2D someTexture;
+  uniform sampler2D u_SpriteTexture;  // texture we are drawing
 
   out vec4 FragColor;
   void main() {
@@ -188,11 +188,11 @@ var shaders = Interface.define("shaders", {
     vec2 spriteRange = (vSpriteEndUV - vSpriteStartUV);
     vec2 uv = vSpriteStartUV + texcoord * spriteRange;
 
-    vec4 color = texture(someTexture, uv);
+    vec4 color = texture(u_SpriteTexture, uv);
     FragColor = color;
 
     FragColor.rgb *= FragColor.a;
-    FragColor.a *= 
+    FragColor.a *= vAlpha;
 
   }
   `
@@ -205,7 +205,6 @@ var Texture = Interface.define("Texture", {
       gl.bindTexture(gl.TEXTURE_2D, texture);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
       gl.generateMipmap(gl.TEXTURE_2D);
-      console.log(context.canvas);
       return this;
     
    },
@@ -222,7 +221,7 @@ var Texture = Interface.define("Texture", {
    }
  });
 var spriteLayer = (function spriteLayer$(limit, textureData, game) {
-  /* sprite-layer eval.sibilant:94:0 */
+  /* sprite-layer eval.sibilant:93:0 */
 
   uniforms.init(game);
   var id = uniforms.id;
@@ -256,7 +255,7 @@ var AnimatedSprite = Component.define("AnimatedSprite", {
       throw (new Error("No sequence index defined"))
     
    },
-  alpha:,
+  alpha:1,
   get atlasXMin(  ){ 
     
       return (this.column * this.system.frameDimensions[0]);

@@ -17,7 +17,7 @@ Array.transform = (function Array$transform$(f, a, r = a) {
   /* Array.transform eval.sibilant:1:407 */
 
   return (function(r) {
-    /* eval.sibilant:1:489 */
+    /* inc/misc.sibilant:1:798 */
   
     a.each(((e, i) => {
     	
@@ -51,7 +51,7 @@ Array.prototype.bind = (function Array$prototype$bind$(f) {
   /* Array.prototype.bind eval.sibilant:1:765 */
 
   return (function(r) {
-    /* eval.sibilant:1:489 */
+    /* inc/misc.sibilant:1:798 */
   
     this.each(((a) => {
     	

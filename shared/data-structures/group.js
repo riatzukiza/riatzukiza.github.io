@@ -84,7 +84,7 @@ var Group = Spawnable.define("Group", {
     
       "remove and return the element last in the groups ordering.";
       return (function(item) {
-        /* eval.sibilant:1:489 */
+        /* inc/misc.sibilant:1:798 */
       
         _members.delete(item);
         return item;
@@ -114,7 +114,7 @@ var Group = Spawnable.define("Group", {
       return (function() {
         if (!(_members.has(member))) {
           return (function(node) {
-            /* eval.sibilant:1:489 */
+            /* inc/misc.sibilant:1:798 */
           
             _members.set(member, node);
             _list.pushNode(node);
@@ -139,7 +139,7 @@ var Group = Spawnable.define("Group", {
     
       "Remove a specific member from the group.";
       return (function(node) {
-        /* eval.sibilant:1:489 */
+        /* inc/misc.sibilant:1:798 */
       
         (function() {
           if (node) {

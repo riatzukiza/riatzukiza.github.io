@@ -1,4 +1,3 @@
-
 (require! (lit Animated-sprite Sprite-atlas) "@shared/systems/rendering/sprite-atlas.js")
 (const sprite-image (.get-element-by-id document "grass-sprite"))
 
@@ -7,8 +6,11 @@
 (define Floor-sprite Animated-sprite
   (column 0)
   (row 0)
-  (visible? false)
-  (gett alpha (if this.visible? 1 0))
+  (gett visible? this.entity.visible-status.visible?)
+  (gett explored? this.entity.visible-status.explored?)
+  (gett alpha (if this.visible? 1
+                  this.explored? 0.5
+                  0))
 
 
   (def select-tile (x y)
@@ -22,8 +24,7 @@
   )
 
 (define Floor-sprites Sprite-atlas
-  (id 1)
-  (interface Player-sprite)
+  (interface Floor-sprite)
 
   (frame-dimensions [ 16 16 ])
   ;; how many frames vertically

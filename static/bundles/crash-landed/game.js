@@ -10585,12 +10585,22 @@ var {
     { 
   Velocity
  } = require("@shared/systems/velocity.js"),
+    { 
+  Sight
+ } = require("@crash-landed/systems/sight.js"),
+    { 
+  TileVisibility
+ } = require("@crash-landed/systems/visibility.js"),
     config = require("@crash-landed/config.js");
 var { 
   FloorSprites
  } = require("@crash-landed/systems/sprites/floor.js");
-var activeGameSystems = [ Position, PlayerSprites, Physics, Velocity, FloorSprites, Sight ];
+var activeGameSystems = [ Position, FloorSprites, PlayerSprites, Physics, Velocity, Sight, TileVisibility ];
 var game = create(Game)(config, rendering, activeGameSystems, config.gameSpeed);
+console.log({ 
+  PlayerSprites,
+  FloorSprites
+ });
 exports.game = game;
 exports.activeGameSystems = activeGameSystems;
-},{"@crash-landed/config.js":"@crash-landed/config.js","@crash-landed/rendering.js":"@crash-landed/rendering.js","@crash-landed/systems/sprites/floor.js":"@crash-landed/systems/sprites/floor.js","@crash-landed/systems/sprites/player.js":"@crash-landed/systems/sprites/player.js","@kit-js/core/js/util":2,"@shared/game.js":"@shared/game.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js","ramda":3}]},{},[]);
+},{"@crash-landed/config.js":"@crash-landed/config.js","@crash-landed/rendering.js":"@crash-landed/rendering.js","@crash-landed/systems/sight.js":"@crash-landed/systems/sight.js","@crash-landed/systems/sprites/floor.js":"@crash-landed/systems/sprites/floor.js","@crash-landed/systems/sprites/player.js":"@crash-landed/systems/sprites/player.js","@crash-landed/systems/visibility.js":"@crash-landed/systems/visibility.js","@kit-js/core/js/util":2,"@shared/game.js":"@shared/game.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js","ramda":3}]},{},[]);

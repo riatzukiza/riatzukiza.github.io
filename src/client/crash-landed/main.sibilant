@@ -20,15 +20,21 @@
           (lit Position) "@shared/systems/position.js"
           (lit Velocity) "@shared/systems/velocity.js"
           (lit Player-sprites) "@crash-landed/systems/sprites/player.js"
+          (lit Floor-sprites) "@crash-landed/systems/sprites/floor.js"
+          (lit Sight) "@crash-landed/systems/sight.js"
+          (lit Tile-visibility) "@crash-landed/systems/visibility.js"
           (lit Entity-group) "@shared/ecs/entity-group.js"
           )
 
 
-(require! (lit Tile-graph) "@shared/data-structures/tiles.js")
+
+(require! (lit Tile-graph) "@shared/tiles.js")
+
 
 
 (.start game)
 
+(const tiles (.spawn Tile-graph 60 [Floor-sprites Tile-visibility] game))
 (const player ((create Entity-group)"player" [Position Player-sprites Physics Velocity  Sight] game.ent))
 
 (const p (.spawn player))
@@ -48,8 +54,10 @@
 (const north (* eigth-turn 6))
 (const north-east (* eigth-turn 7))
 
+
+(assign Position.wraps? false)
 (.set-length v 10)
-(.set-angle v eas)
+(.set-angle v east)
 (print (.get-angle v))
 
 (const directions [north north-east east south-east south south-west west north-west])
@@ -59,7 +67,8 @@
   (const angle (.get-angle vector))
   (get directions (Math.round (/ angle eigth-turn))))
 
-(const tiles (.spawn Tile-graph 30 [Floor-sprite ]))
+
+(Sight.register-tile-graph tiles)
 
 (var i 2)
 (on game.events 'tick (t)
@@ -70,12 +79,7 @@
       (assign i (mod (+ i 1) 8))
       (const direction-name (get direction-names i))
       (const direction-angle (get directions i))
-      (print (.get-angle p.velocity-interface.vector))
       (.select-sequence p.player-sprite direction-name)
-      (print p.velocity-interface direction-angle direction-name
-             direction-names
-             directions
-             )
 
       (.set-angle v direction-angle))
 

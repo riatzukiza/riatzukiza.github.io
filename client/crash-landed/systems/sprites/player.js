@@ -78,7 +78,7 @@ var PlayerSprite = AnimatedSprite.define("PlayerSprite", {
    }
  });
 var PlayerSprites = SpriteAtlas.define("PlayerSprites", { 
-  id:1,
+  id:0,
   interface:PlayerSprite,
   sequenceMap:{ 
     north:0,

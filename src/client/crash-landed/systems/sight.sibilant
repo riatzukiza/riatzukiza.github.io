@@ -1,10 +1,30 @@
+(require! (lit Component System) "@shared/ecs.js"
+          (lit List) "@shared/data-structures/list.js"
+          )
 (define Field-of-view Component
   (visible-tiles (.spawn List))
-  (observed-tiles (.spawn List))
+  (gett world-pos this.entity.position-interface)
   (range 4)
   )
 (define Sight System
-  (def *update-component (c)
-    
+  (interface Field-of-view)
+  (def register-tile-graph (tiles)
+    (assign this.tiles tiles)
     )
-  )
+  (def *update-component (c)
+    (const pos c.entity.position-interface)
+    (const occupied-tile (.get-closest-from-world-pos this.tiles pos.x pos.y))
+    (each c.visible-tiles (tile)
+          (assign tile.entity.visible-status.visible? false))
+    (.clear c.visible-tiles)
+
+
+    (for! (x (- occupied-tile.x c.range)) (< x (+ occupied-tile.x c.range) ) (++ x)
+          (for! (y (- occupied-tile.y c.range)) (< y (+ occupied-tile.y c.range) ) (++ y)
+                (const visible-tile (.get this.tiles x y))
+                (.push c.visible-tiles visible-tile)
+                (assign visible-tile.entity.visible-status.visible? true)
+                (assign visible-tile.entity.visible-status.explored? true)))
+    this))
+
+(export Sight)

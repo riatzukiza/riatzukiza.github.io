@@ -10657,11 +10657,7 @@ var DynamicPool = Interface.define("DynamicPool", {
    },
   get used(  ){ 
     
-      return this.buckets.reduce(((sum, el) => {
-      	
-        return (sum + (el.used || 0));
-      
-      }), 0);
+      return sumOf(this.buckets, "used");
     
    },
   grow( buckets = this.buckets,bucketSize = this.bucketSize,self = this ){ 
