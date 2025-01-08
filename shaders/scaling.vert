@@ -12,7 +12,7 @@ uniform vec3 u_Offset;
 
 vec4 clipspace_coordinate (vec3 xyz, float scale, vec2 res)
 {
-  return (vec4((((xyz + u_Offset) * u_Zoom * scale)
+  return (vec4((((xyz ) * u_Zoom * scale) + u_Offset
                 / vec3(res,1.0) * 1.98 - 0.99), 1.0)
           * vec4( 1.0,-1.0,1.0,1.0 ));
 

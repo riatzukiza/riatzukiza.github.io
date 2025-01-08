@@ -17,10 +17,10 @@ var {
   AnimatedSprite,
   SpriteAtlas
  } = require("@shared/systems/rendering/sprite-atlas.js");
-const spriteImage=document.getElementById("grass-sprite");
-var FloorSprite = AnimatedSprite.define("FloorSprite", { 
-  column:0,
-  row:0,
+const spriteImage=document.getElementById("cliff-sprite");
+var CliffSprite = AnimatedSprite.define("CliffSprite", { 
+  column:1,
+  row:2,
   get visible__QUERY(  ){ 
     
       return this.entity.visibleStatus.visible__QUERY;
@@ -66,12 +66,11 @@ var FloorSprite = AnimatedSprite.define("FloorSprite", {
     
    }
  });
-exports.FloorSprite = FloorSprite;
-var FloorSprites = SpriteAtlas.define("FloorSprites", { 
-  interface:FloorSprite,
+var CliffSprites = SpriteAtlas.define("CliffSprites", { 
+  interface:CliffSprite,
   frameDimensions:[ 16, 16 ],
-  height:16,
-  width:16,
+  height:10,
+  width:10,
   img:spriteImage
  });
-exports.FloorSprites = FloorSprites;
+exports.CliffSprites = CliffSprites;

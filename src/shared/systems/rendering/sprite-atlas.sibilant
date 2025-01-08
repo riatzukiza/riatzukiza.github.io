@@ -80,9 +80,23 @@
         (const gl context.gl)
 
         (.bind-texture gl gl.TEXTURE_2D texture)
-        (.texImage2D gl gl.TEXTURE_2D 0 gl.RGBA  gl.RGBA gl.UNSIGNED_BYTE img)
-        (.generate-mipmap gl gl.TEXTURE_2D)
-        (print context.canvas)
+        (.texImage2D gl gl.TEXTURE_2D 0 gl.RGBA  gl.RGBA gl.UNSIGNED_BYTE img)        
+
+
+        ;; (.generate-mipmap gl gl.TEXTURE_2D)
+        ;; (gl.texParameteri gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT)
+        ;; (gl.texParameteri gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT)
+
+        (gl.texParameteri gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+        (gl.texParameteri gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+        
+        ;; (gl.texParameteri gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR)
+        ;; (gl.texParameteri gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+        (gl.texParameteri gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST)
+        ;; (gl.texParameteri gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+
+
+
 
         )
   (gett gl  this.context.gl)
@@ -122,10 +136,14 @@
   (gett row (throw (new Error "No sequence index defined")))
   (alpha 1)
 
-  (gett atlas-x-min (* this.column  (first this.system.frame-dimensions)))
-  (gett atlas-y-min (*  this.row (second this.system.frame-dimensions)))
-  (gett atlas-x-max (+ this.atlas-x-min (first this.system.frame-dimensions)) )
-  (gett atlas-y-max (+ this.atlas-y-min (second this.system.frame-dimensions)) )
+  (gett atlas-x-min (+ ;; 0.5
+                       (* this.column  (first this.system.frame-dimensions))))
+  (gett atlas-y-min (+ ;; 0.5
+                       (*  this.row (second this.system.frame-dimensions))))
+  (gett atlas-x-max (+  ;; 0.5
+                        this.atlas-x-min (first this.system.frame-dimensions)) )
+  (gett atlas-y-max (+ ;; 0.5
+                       this.atlas-y-min (second this.system.frame-dimensions)) )
 
   (def register () (unless this.sprite (assign this.sprite (.spawn this.system.sprites))))
 
@@ -154,9 +172,7 @@
   (def *prepare ()
     (.enable this.texture))
   (def *update-component (dot)
-
     (assign dot.sprite.alpha dot.alpha)
-
     (set dot.sprite.point
 
          'x dot.pos.x
@@ -164,14 +180,17 @@
          'z dot.pos.z)
     (set dot.sprite.sprite-startUV
 
-         'x (/ dot.atlas-x-min this.img.width )
-         'y (/ dot.atlas-y-min this.img.height))
+         'x (/ (+ 0.5 dot.atlas-x-min) this.img.width )
+         'y (/ (+ 0.5 dot.atlas-y-min) this.img.height))
+
 
     (set dot.sprite.sprite-endUV
-         'x (/ dot.atlas-x-max this.img.width)
-         'y (/ dot.atlas-y-max this.img.height))
+         'x (/ (- (+ 0.5 dot.atlas-x-max) 1 ) this.img.width)
+         'y (/ (- (+ 0.5 dot.atlas-y-max) 1  ) this.img.height))
 
-    (set dot.sprite 'size (* 1 dot.scale))
+
+    (set dot.sprite 'size (* 0.5 (+ 2 dot.scale)))
     ))
 
 (export Sprite-atlas)
+

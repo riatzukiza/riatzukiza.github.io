@@ -1,11 +1,11 @@
 (require! (lit Animated-sprite Sprite-atlas) "@shared/systems/rendering/sprite-atlas.js")
-(const sprite-image (.get-element-by-id document "grass-sprite"))
+(const sprite-image (.get-element-by-id document "cliff-sprite"))
 
 
 
-(define Floor-sprite Animated-sprite
-  (column 0)
-  (row 0)
+(define Cliff-sprite Animated-sprite
+  (column 1)
+  (row 2)
   (gett visible? this.entity.visible-status.visible?)
   (gett explored? this.entity.visible-status.explored?)
   (gett alpha (if this.visible? 1
@@ -20,18 +20,18 @@
     (assign this.row y)
     )
   (def step ()
-    (assign this.current-frame (mod (+ this.current-frame 1) this.system.sequence-length))))
-(export Floor-sprite)
+    (assign this.current-frame (mod (+ this.current-frame 1) this.system.sequence-length)))
+  )
 
-(define Floor-sprites Sprite-atlas
-  (interface Floor-sprite)
+(define Cliff-sprites Sprite-atlas
+  (interface Cliff-sprite)
 
   (frame-dimensions [ 16 16 ])
   ;; how many frames vertically
-  (height 16)
+  (height 10)
   ;; how many frames horizontally
-  (width 16)
+  (width 10)
   (img sprite-image))
 
 
-(export Floor-sprites)
+(export Cliff-sprites)

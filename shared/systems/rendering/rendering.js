@@ -64,10 +64,9 @@ var bound = (function() {
 var allowAlphaBlending = (function allowAlphaBlending$(context) {
   /* allow-alpha-blending eval.sibilant:1:701 */
 
-  context.gl = context.canvas.getContext("webgl2", { 
-    premultipliedAlpha:false
-   });
-  gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+  context.gl = context.canvas.getContext("webgl2");
+  context.gl.enable(context.gl.BLEND);
+  context.gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
   return context.gl.blendFuncSeparate(context.gl.SRC_ALPHA, context.gl.ONE_MINUS_SRC_ALPHA, context.gl.ONE, context.gl.ONE_MINUS_SRC_ALPHA);
 });
 var Rendering = PooledSystem.define("Rendering", { 
@@ -78,46 +77,39 @@ var Rendering = PooledSystem.define("Rendering", {
       this.xOffset = 0;
       this.yOffset = 0;
       this.zoomLevel = 1;
+      console.log(self);
       var mouseHeld = false;
       context.canvas.onmousedown = (function context$canvas$onmousedown$(e) {
-        /* context.canvas.onmousedown eval.sibilant:1:1742 */
+        /* context.canvas.onmousedown eval.sibilant:1:1749 */
       
         e.preventDefault();
         return mouseHeld = true;
       });
       context.canvas.onmouseup = (function context$canvas$onmouseup$(e) {
-        /* context.canvas.onmouseup eval.sibilant:1:1843 */
+        /* context.canvas.onmouseup eval.sibilant:1:1850 */
       
         e.preventDefault();
         return mouseHeld = false;
       });
       context.canvas.onmousemove = (function context$canvas$onmousemove$(e) {
-        /* context.canvas.onmousemove eval.sibilant:1:1941 */
+        /* context.canvas.onmousemove eval.sibilant:1:1948 */
       
         e.preventDefault();
         return (function() {
           if (mouseHeld) {
-            (function() {
-              if (e.movementX > 0) {
-                return self.xOffset = (self.xOffset + (5 / self.zoomLevel));
-              } else {
-                return self.xOffset = (self.xOffset - (5 / self.zoomLevel));
-              }
-            }).call(this);
-            return (function() {
-              if (e.movementY > 0) {
-                return self.yOffset = (self.yOffset + (5 / self.zoomLevel));
-              } else {
-                return self.yOffset = (self.yOffset - (5 / self.zoomLevel));
-              }
-            }).call(this);
+            console.log("moved when held");
+            self.xOffset = (self.xOffset + ((2 * e.movementX) / self.zoomLevel));
+            return self.yOffset = (self.yOffset + ((2 * e.movementY) / self.zoomLevel));
           }
         }).call(this);
       });
       context.canvas.onwheel = (function context$canvas$onwheel$(e) {
-        /* context.canvas.onwheel eval.sibilant:1:2413 */
+        /* context.canvas.onwheel eval.sibilant:1:2460 */
       
         e.preventDefault();
+        console.log(e.offsetX, e.offsetY);
+        console.log(self);
+        const oldScale=(1 / self.zoomLevel);
         return (function() {
           if (e.deltaY > 0) {
             return self.zoomLevel = Math.max((self.zoomLevel - 0.01), 0.01);
@@ -143,7 +135,7 @@ var Rendering = PooledSystem.define("Rendering", {
     a
    } ){ 
     
-      return this.context.makeCurrent().clearColor(0, 0, 0, 0);
+      return this.context.makeCurrent().clearColor(0, 0, 0, 1);
     
    },
   resize( [ width, height ] = [ this.width, this.height ],context = this.context ){ 

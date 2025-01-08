@@ -1,3 +1,4 @@
+require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({"@crash-landed/systems/sprites/cliff.js":[function(require,module,exports){
 Array.prototype.each = (function Array$prototype$each$(f) {
   /* Array.prototype.each inc/misc.sibilant:1:1121 */
 
@@ -17,10 +18,10 @@ var {
   AnimatedSprite,
   SpriteAtlas
  } = require("@shared/systems/rendering/sprite-atlas.js");
-const spriteImage=document.getElementById("grass-sprite");
-var FloorSprite = AnimatedSprite.define("FloorSprite", { 
-  column:0,
-  row:0,
+const spriteImage=document.getElementById("cliff-sprite");
+var CliffSprite = AnimatedSprite.define("CliffSprite", { 
+  column:1,
+  row:2,
   get visible__QUERY(  ){ 
     
       return this.entity.visibleStatus.visible__QUERY;
@@ -66,12 +67,12 @@ var FloorSprite = AnimatedSprite.define("FloorSprite", {
     
    }
  });
-exports.FloorSprite = FloorSprite;
-var FloorSprites = SpriteAtlas.define("FloorSprites", { 
-  interface:FloorSprite,
+var CliffSprites = SpriteAtlas.define("CliffSprites", { 
+  interface:CliffSprite,
   frameDimensions:[ 16, 16 ],
-  height:16,
-  width:16,
+  height:10,
+  width:10,
   img:spriteImage
  });
-exports.FloorSprites = FloorSprites;
+exports.CliffSprites = CliffSprites;
+},{"@shared/systems/rendering/sprite-atlas.js":"@shared/systems/rendering/sprite-atlas.js"}]},{},[]);

@@ -15,23 +15,12 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   }));
 });
 var { 
-  SignalField
- } = require("@shared/systems/physics/forces/signal-field.js"),
-    { 
   Friction
  } = require("@shared/systems/physics/forces/friction.js"),
     { 
   game
  } = require("@crash-landed/game.js"),
-    { 
-  createParticleUpdater,
-  createVectorField
- } = require("@shared/field.js"),
     config = require("@crash-landed/config.js");
-console.log("initializing forces", { 
-  Friction,
-  SignalField
- });
 var Friction = Friction.define("Friction", { 
   config:config,
   template:false,
@@ -45,5 +34,4 @@ var Friction = Friction.define("Friction", {
    }
  });
 exports.Friction = Friction;
-exports.SignalField = SignalField;
-},{"@crash-landed/config.js":"@crash-landed/config.js","@crash-landed/game.js":"@crash-landed/game.js","@shared/field.js":"@shared/field.js","@shared/systems/physics/forces/friction.js":"@shared/systems/physics/forces/friction.js","@shared/systems/physics/forces/signal-field.js":"@shared/systems/physics/forces/signal-field.js"}]},{},[]);
+},{"@crash-landed/config.js":"@crash-landed/config.js","@crash-landed/game.js":"@crash-landed/game.js","@shared/systems/physics/forces/friction.js":"@shared/systems/physics/forces/friction.js"}]},{},[]);

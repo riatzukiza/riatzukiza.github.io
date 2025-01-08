@@ -17,24 +17,31 @@
 (require! (lit start-interface) "@crash-landed/dom.js"
 
           (lit Physics) "@shared/systems/physics/index.js"
+          (lit Friction) "@crash-landed/forces.js"
           (lit Position) "@shared/systems/position.js"
           (lit Velocity) "@shared/systems/velocity.js"
           (lit Player-sprites) "@crash-landed/systems/sprites/player.js"
           (lit Floor-sprites) "@crash-landed/systems/sprites/floor.js"
+          (lit Cliff-sprites) "@crash-landed/systems/sprites/cliff.js"
           (lit Sight) "@crash-landed/systems/sight.js"
           (lit Tile-visibility) "@crash-landed/systems/visibility.js"
           (lit Entity-group) "@shared/ecs/entity-group.js"
+          (lit Vector) "@shared/vectors.js"
+          noise "@shared/noise.js"
+          config "@crash-landed/config.js"
           )
 
 
 
-(require! (lit Tile-graph) "@shared/tiles.js")
+(print config.dimensions)
+(require! (lit Tile-graph Tile-node) "@shared/tiles.js")
 
 
 
 (.start game)
 
-(const tiles (.spawn Tile-graph 60 [Floor-sprites Tile-visibility] game))
+(const game-scale 128)
+(const tiles (.spawn Tile-graph game-scale  [Floor-sprites Cliff-sprites Tile-visibility] game))
 (const player ((create Entity-group)"player" [Position Player-sprites Physics Velocity  Sight] game.ent))
 
 (const p (.spawn player))
@@ -42,7 +49,7 @@
 (assign p.position-interface.x 300)
 (assign p.position-interface.y 300)
 (const v p.velocity-interface.vector)
-(assign p.physical-properties.scale 60)
+(assign p.physical-properties.scale game-scale)
 (.select-sequence p.player-sprite "east")
 (const eigth-turn (/ (* Math.PI 2) 8))
 (const east 0)
@@ -56,37 +63,99 @@
 
 
 (assign Position.wraps? false)
-(.set-length v 60)
+(.set-length v 256)
 (.set-angle v east)
 (print (.get-angle v))
 
-(const directions [north north-east east south-east south south-west west north-west])
-(const direction-names  ['north 'north-east 'east 'south-east 'south 'south-west 'west 'north-west] )
+(const directions [ east south-east south south-west west north-west north north-east])
+(const direction-names  [ 'east 'south-east 'south 'south-west 'west 'north-west 'north 'north-east] )
 
 (def get-cardinal-direction (vector)
   (const angle (.get-angle vector))
-  (get directions (Math.round (/ angle eigth-turn))))
+  (get directions (mod (Math.abs (Math.round (/ angle eigth-turn))) 8))
+  )
+
+
+(define direction-actions Interface
+  (north [0 1])
+  (north-east [1 1])
+  (east [1 0])
+  (south-east [1 -1])
+  (south [0 -1])
+  (south-west [ -1 -1 ])
+  (west [-1 0])
+  (north-west [-1 1])
+       )
+
+(def get-cardinal-direction-name (vector)
+  (const angle (.get-angle vector))
+  (const i  (mod (Math.abs (Math.round (/ angle eigth-turn))) 8))
+  (get direction-names i))
 
 
 (Sight.register-tile-graph tiles)
 
-(var i 2)
+(def-generic get-tile-noise (x y (force 16) (v (.spawn Vector 1 1)))
+  (.set-angle v
+              (* (noise.simplex3 (/ x config.angle-zoom 5)
+                                 (/ y config.angle-zoom 5)
+                                 (/ config.noise-z 10000))
+                 Math.PI 2))
+  (const length (noise.simplex3 (+ (/ x 50)
+                                   40000)
+                                (+ (/ x 50)
+                                   40000)
+                                (/ config.noise-z 10000)))
+  (.set-length v (* length force))
+  v)
+(def-generic get-move-noise (x y t (force 16) (v (.spawn Vector 1 1)))
+  (.set-angle v
+              (* (noise.simplex3 (/ x config.angle-zoom 5)
+                                 (/ y config.angle-zoom 5)
+                                 (* t (/ config.noise-z 10000)))
+                 Math.PI 2))
+  (const length (noise.simplex3 (+ (/ x 50)
+                                   40000)
+                                (+ (/ x 50)
+                                   40000)
+                                (* t (/ config.noise-z 10000))))
+  (.set-length v (* length force))
+  v)
+
+(def Tile-node.setup (x y)
+  (const v (get-tile-noise x y 256))
+  ;; (print v x y (.get-length v) (.get-angle v))
+  (const x* (mod (Math.abs (Math.round v.x) ) 16))
+  (const y* (mod (Math.abs (Math.round v.y) ) 16))
+  (.select-tile this.entity.floor-sprite
+                x*
+                y*
+                )
+  (.select-tile this.entity.cliff-sprite
+                x*
+                y*
+                )
+  (.despawn v))
+
+(set p.physical-properties
+     'forces [Friction])
+
 (on game.events 'tick (t)
 
     (if (= (mod t 10) 0) (.step p.player-sprite))
+    (when (= (mod t 30) 0)
+      (const noise-v (get-move-noise p.position-interface.x p.position-interface.y t
+                                    game-scale))
+     (.add-to  v noise-v)
+     (.set-length v game-scale)
+     (.despawn noise-v)
 
-    (when (= (mod t 180) 0)
-      (assign i (mod (+ i 1) 8))
-      (const direction-name (get direction-names i))
-      (const direction-angle (get directions i))
-      (print (.get-angle p.velocity-interface.vector))
-      (.select-sequence p.player-sprite direction-name)
-      (print p.velocity-interface direction-angle direction-name
-             direction-names
-             directions
-             )
+     (const direction-name (get-cardinal-direction-name v))
+     (const direction (get-cardinal-direction v))
+     (.select-sequence p.player-sprite direction-name)
+     (.set-angle v direction)
+     )
 
-      (.set-angle v direction-angle))
 
     )
 

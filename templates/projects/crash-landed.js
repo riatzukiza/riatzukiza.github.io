@@ -47,6 +47,10 @@ create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(H
   'hidden': "true"
 }, []), create(HtmlElement)("img", {
   'id': "grass-sprite",
-  'src': "/sprites/Square-grass.png",
+  'src': "/sprites/Pixel_art_top_down_basic_v1.1.2/TX_Tileset_Grass.png",
+  'hidden': "true"
+}, []), create(HtmlElement)("img", {
+  'id': "cliff-sprite",
+  'src': "/sprites/Pixel_art_top_down_basic_v1.1.2/TX_Tileset_Wall.png",
   'hidden': "true"
 }, []) ]), create(HtmlElement)("script", { 'src': "/bundles/crash-landed/main.js" }, []) ]);

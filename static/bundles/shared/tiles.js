@@ -35,7 +35,13 @@ var TileNode = Spawnable.define("TileNode", {
       this._x = _x;this._y = _y;this.entity = entity;this.graph = graph;
       entity.positionInterface.x = (this.graph.tileSize * _x);
       entity.positionInterface.y = (this.graph.tileSize * _y);
+      this.setup(_x, _y);
       return this;
+    
+   },
+  setup(  ){ 
+    
+      throw (new Error("No tile setup function defined"))
     
    },
   get worldPos(  ){ 
@@ -114,6 +120,7 @@ var TileNode = Spawnable.define("TileNode", {
     
    }
  });
+exports.TileNode = TileNode;
 var TileGraph = Spawnable.define("TileGraph", { 
   init( tileSize = 30,tileProperties = [],game = this.game,trie = Trie.spawn(),tileEntities = create(EntityGroup)("tiles", [ Position, Physics ].concat(tileProperties), game.ent) ){ 
     
@@ -133,7 +140,7 @@ var TileGraph = Spawnable.define("TileGraph", {
           return this.trie.get([ x, y ]);
         } else {
           const entity=this.tileEntities.spawn();
-          entity.physicalProperties.scale = this.tileSize;
+          entity.physicalProperties.scale = (this.tileSize - 2);
           const tile=TileNode.spawn(x, y, entity, this);
           tile.x = x;
           tile.y = y;

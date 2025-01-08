@@ -1,12 +1,12 @@
 (namespace vector-ants)
-(const dim      [(* 0.8 window.innerWidth), (- window.innerHeight 3)])
+(const dim      [(Math.round (* 0.8 window.innerWidth)), (Math.round (- window.innerHeight 3))])
 (const size 1)
 (set module.exports
      'size size
      'ui-polling-rate 10
      'trail-resolution 5
-     'angle-zoom 35
-     'noise-z 255
+     'angle-zoom 1
+     'noise-z 2
      'field-force 28
      'dimensions dim
      'columns (Math.ceil (/ (first dim) size))
@@ -25,7 +25,7 @@
      'options-amplitude 10
      'limit-decay false
      'ant-influence 90
-     'friction 0.01
+     'friction 0.0001
      'collision-static 5
      'spawn-static 10
      'spawn-rate 10
@@ -37,7 +37,7 @@
      'rock-mass-scaling-factor 1 ;; How much does scale effect mass?
      'rock-min-mass-factor 10 ;; Min bounds to rock mass variation
      'rock-max-mass-factor 100  ;; max bounds to rock mass variation
-     'stationary-resistance-coefficiant 2
+     'stationary-resistance-coefficiant 1
      'track-trail true
      'vary-noise-with-time true
      'reward-winners true

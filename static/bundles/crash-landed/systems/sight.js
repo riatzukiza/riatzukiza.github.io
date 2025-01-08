@@ -28,7 +28,7 @@ var FieldOfView = Component.define("FieldOfView", {
       return this.entity.positionInterface;
     
    },
-  range:4
+  range:8
  });
 var Sight = System.define("Sight", { 
   interface:FieldOfView,

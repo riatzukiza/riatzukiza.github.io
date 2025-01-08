@@ -21,20 +21,21 @@
 
 (def allow-alpha-blending (context)
 
-  (assign context.gl (.get-context context.canvas "webgl2" (lit (premultiplied-alpha false))))
+  (assign context.gl (.get-context context.canvas "webgl2" ))
   ;; (assign context.gl (.get-context context.canvas "webgl2" (lit (alpha false))))
 
-  ;; (.enable context.gl context.gl.BLEND)
+  (.enable context.gl context.gl.BLEND)
   ;; (.blend-equation context.gl context.gl.FUNC_ADD)
 
   ;; (.disable context.gl context.gl.DEPTH_TEST)
-  ;; (.blend-func context.gl gl.ONE gl.ONE_MINUS_SRC_ALPHA)
-  (gl.pixelStorei gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL true)
+  (.blend-func context.gl gl.ONE gl.ONE_MINUS_SRC_ALPHA)
+  ;; (gl.pixelStorei gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL true)
   (.blend-func-separate context.gl
                         context.gl.SRC_ALPHA
                         context.gl.ONE_MINUS_SRC_ALPHA
                         context.gl.ONE
-                        context.gl.ONE_MINUS_SRC_ALPHA)
+                        context.gl.ONE_MINUS_SRC_ALPHA
+                        )
   )
 
 
@@ -49,6 +50,7 @@
    (assign this.x-offset 0)
    (assign this.y-offset 0)
    (assign this.zoom-level 1.0)
+   (print self)
 
    (var mouse-held false)
    (def context.canvas.onmousedown (e)
@@ -61,20 +63,26 @@
    (def context.canvas.onmousemove (e)
      (.prevent-default e)
      (when mouse-held
-       (if (> e.movement-x 0)
-           (assign self.x-offset (+ self.x-offset (/ 5 self.zoom-level)))
-           (assign self.x-offset (- self.x-offset (/ 5 self.zoom-level))))
-       (if (> e.movement-y 0)
-           (assign self.y-offset (+ self.y-offset (/ 5 self.zoom-level)))
-           (assign self.y-offset (- self.y-offset (/ 5 self.zoom-level))))
+       (print "moved when held")
+       ;; (assign self.x-offset (+ self.x-offset (*  2 e.movement-x (/ 1 self.zoom-level))))
+       ;; (assign self.y-offset (+ self.y-offset (*  2 e.movement-y (/ 1 self.zoom-level))))
+
+       (assign self.x-offset (+ self.x-offset (/  (* 2 e.movement-x) self.zoom-level )))
+       (assign self.y-offset (+ self.y-offset (/  (* 2 e.movement-y) self.zoom-level )))
        )
      )
    (def  context.canvas.onwheel (e)
      (.prevent-default e)
+     (print e.offset-x e.offset-y)
+     (print self)
+
+     (const old-scale (/ 1 self.zoom-level))
+
      (if (> e.delta-y 0)
          (assign self.zoom-level (Math.max (- self.zoom-level 0.01) 0.01))
-         (assign self.zoom-level (Math.min (+ self.zoom-level 0.01) 1.0))
-         )
+         (assign self.zoom-level (Math.min (+ self.zoom-level 0.01) 1.0)))
+
+
      )
    (if! blend (allow-alpha-blending context))
 
@@ -90,7 +98,7 @@
   (sett background-color (lit r g b a)
         (pipe this.context
               .make-current
-              (.clear-color  0 0 0 0))
+              (.clear-color  0 0 0 1))
 
         )
 

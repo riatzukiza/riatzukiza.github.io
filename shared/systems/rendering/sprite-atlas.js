@@ -143,7 +143,7 @@ var shaders = Interface.define("shaders", {
   vec4 clipspace_coordinate (vec3 xyz, float scale, vec2 res)
   {
     return (vec4((((xyz + u_Offset) * u_Zoom * scale)
-                  / vec3(res,1.0) * 1.98 - 0.99), 1.0)
+                  / vec3(res,1.0)), 1.0)
             * vec4( 1.0,-1.0,1.0,1.0 ));
 
   }
@@ -152,7 +152,7 @@ var shaders = Interface.define("shaders", {
 
     float zAxis = a_point[2];
     vec3 p = vec3(a_point);
-    p.z = 1.0;
+    p.z = 0.0;
 
     gl_Position  = clipspace_coordinate( p, u_Scale, u_Resolution );
     gl_PointSize = (a_size + zAxis) * u_Scale;
@@ -189,7 +189,7 @@ var shaders = Interface.define("shaders", {
     vec2 uv = vSpriteStartUV + texcoord * spriteRange;
 
     vec4 color = texture(u_SpriteTexture, uv);
-    color.a *= vAlpha;
+    color.a *= vAlpha+0.001;
     FragColor = color;
 
     // FragColor.rgb *= FragColor.a;
@@ -204,8 +204,9 @@ var Texture = Interface.define("Texture", {
       const gl=context.gl;
       gl.bindTexture(gl.TEXTURE_2D, texture);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
-      gl.generateMipmap(gl.TEXTURE_2D);
-      console.log(context.canvas);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
       return this;
     
    },
@@ -222,7 +223,7 @@ var Texture = Interface.define("Texture", {
    }
  });
 var spriteLayer = (function spriteLayer$(limit, textureData, game) {
-  /* sprite-layer eval.sibilant:94:0 */
+  /* sprite-layer eval.sibilant:104:0 */
 
   uniforms.init(game);
   var id = uniforms.id;
@@ -259,12 +260,12 @@ var AnimatedSprite = Component.define("AnimatedSprite", {
   alpha:1,
   get atlasXMin(  ){ 
     
-      return (this.column * this.system.frameDimensions[0]);
+      return ((this.column * this.system.frameDimensions[0]));
     
    },
   get atlasYMin(  ){ 
     
-      return (this.row * this.system.frameDimensions[1]);
+      return ((this.row * this.system.frameDimensions[1]));
     
    },
   get atlasXMax(  ){ 
@@ -326,11 +327,11 @@ var SpriteAtlas = System.define("SpriteAtlas", {
       dot.sprite.point.x = dot.pos.x;
       dot.sprite.point.y = dot.pos.y;
       dot.sprite.point.z = dot.pos.z;
-      dot.sprite.spriteStartUV.x = (dot.atlasXMin / this.img.width);
-      dot.sprite.spriteStartUV.y = (dot.atlasYMin / this.img.height);
-      dot.sprite.spriteEndUV.x = (dot.atlasXMax / this.img.width);
-      dot.sprite.spriteEndUV.y = (dot.atlasYMax / this.img.height);
-      return dot.sprite.size = (1 * dot.scale);
+      dot.sprite.spriteStartUV.x = ((0.5 + dot.atlasXMin) / this.img.width);
+      dot.sprite.spriteStartUV.y = ((0.5 + dot.atlasYMin) / this.img.height);
+      dot.sprite.spriteEndUV.x = (((0.5 + dot.atlasXMax) - 1) / this.img.width);
+      dot.sprite.spriteEndUV.y = (((0.5 + dot.atlasYMax) - 1) / this.img.height);
+      return dot.sprite.size = (0.5 * (2 + dot.scale));
     
    }
  });

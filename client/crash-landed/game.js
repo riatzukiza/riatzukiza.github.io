@@ -50,7 +50,10 @@ var {
 var { 
   FloorSprites
  } = require("@crash-landed/systems/sprites/floor.js");
-var activeGameSystems = [ Position, FloorSprites, PlayerSprites, Physics, Velocity, Sight, TileVisibility ];
+var { 
+  CliffSprites
+ } = require("@crash-landed/systems/sprites/cliff.js");
+var activeGameSystems = [ Position, Physics, Velocity, TileVisibility, Sight, FloorSprites, CliffSprites, PlayerSprites ];
 var game = create(Game)(config, rendering, activeGameSystems, config.gameSpeed);
 console.log({ 
   PlayerSprites,

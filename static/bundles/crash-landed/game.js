@@ -10595,7 +10595,10 @@ var {
 var { 
   FloorSprites
  } = require("@crash-landed/systems/sprites/floor.js");
-var activeGameSystems = [ Position, FloorSprites, PlayerSprites, Physics, Velocity, Sight, TileVisibility ];
+var { 
+  CliffSprites
+ } = require("@crash-landed/systems/sprites/cliff.js");
+var activeGameSystems = [ Position, Physics, Velocity, TileVisibility, Sight, FloorSprites, CliffSprites, PlayerSprites ];
 var game = create(Game)(config, rendering, activeGameSystems, config.gameSpeed);
 console.log({ 
   PlayerSprites,
@@ -10603,4 +10606,4 @@ console.log({
  });
 exports.game = game;
 exports.activeGameSystems = activeGameSystems;
-},{"@crash-landed/config.js":"@crash-landed/config.js","@crash-landed/rendering.js":"@crash-landed/rendering.js","@crash-landed/systems/sight.js":"@crash-landed/systems/sight.js","@crash-landed/systems/sprites/floor.js":"@crash-landed/systems/sprites/floor.js","@crash-landed/systems/sprites/player.js":"@crash-landed/systems/sprites/player.js","@crash-landed/systems/visibility.js":"@crash-landed/systems/visibility.js","@kit-js/core/js/util":2,"@shared/game.js":"@shared/game.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js","ramda":3}]},{},[]);
+},{"@crash-landed/config.js":"@crash-landed/config.js","@crash-landed/rendering.js":"@crash-landed/rendering.js","@crash-landed/systems/sight.js":"@crash-landed/systems/sight.js","@crash-landed/systems/sprites/cliff.js":"@crash-landed/systems/sprites/cliff.js","@crash-landed/systems/sprites/floor.js":"@crash-landed/systems/sprites/floor.js","@crash-landed/systems/sprites/player.js":"@crash-landed/systems/sprites/player.js","@crash-landed/systems/visibility.js":"@crash-landed/systems/visibility.js","@kit-js/core/js/util":2,"@shared/game.js":"@shared/game.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js","ramda":3}]},{},[]);

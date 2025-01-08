@@ -1,5 +1,5 @@
 (require! (lit Physics) "@shared/systems/physics/system.js"
-          (lit Collision) "@shared/systems/collision.js")
+          )
 
 (define Friction Physics.Force
 
@@ -8,7 +8,6 @@
 
   (def-generic apply (c config)
     (var v c.velocity)
-    (var collision (.get c.system.process.systems Collision c.entity))
     (var physics (.get c.system.process.systems Physics c.entity))
 
     (unless (and (= v.xd 0) (= v.yd 0))

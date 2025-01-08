@@ -55,6 +55,9 @@ var {
   Physics
  } = require("@shared/systems/physics/index.js"),
     { 
+  Friction
+ } = require("@crash-landed/forces.js"),
+    { 
   Position
  } = require("@shared/systems/position.js"),
     { 
@@ -67,6 +70,9 @@ var {
   FloorSprites
  } = require("@crash-landed/systems/sprites/floor.js"),
     { 
+  CliffSprites
+ } = require("@crash-landed/systems/sprites/cliff.js"),
+    { 
   Sight
  } = require("@crash-landed/systems/sight.js"),
     { 
@@ -74,18 +80,26 @@ var {
  } = require("@crash-landed/systems/visibility.js"),
     { 
   EntityGroup
- } = require("@shared/ecs/entity-group.js");
+ } = require("@shared/ecs/entity-group.js"),
+    { 
+  Vector
+ } = require("@shared/vectors.js"),
+    noise = require("@shared/noise.js"),
+    config = require("@crash-landed/config.js");
+console.log(config.dimensions);
 var { 
-  TileGraph
+  TileGraph,
+  TileNode
  } = require("@shared/tiles.js");
 game.start();
-const tiles=TileGraph.spawn(60, [ FloorSprites, TileVisibility ], game);
+const gameScale=128;
+const tiles=TileGraph.spawn(gameScale, [ FloorSprites, CliffSprites, TileVisibility ], game);
 const player=create(EntityGroup)("player", [ Position, PlayerSprites, Physics, Velocity, Sight ], game.ent);
 const p=player.spawn();
 p.positionInterface.x = 300;
 p.positionInterface.y = 300;
 const v=p.velocityInterface.vector;
-p.physicalProperties.scale = 60;
+p.physicalProperties.scale = gameScale;
 p.playerSprite.selectSequence("east");
 const eigthTurn=((Math.PI * 2) / 8);
 const east=0;
@@ -97,19 +111,62 @@ const northWest=(eigthTurn * 5);
 const north=(eigthTurn * 6);
 const northEast=(eigthTurn * 7);
 Position.wraps__QUERY = false;
-v.setLength(60);
+v.setLength(256);
 v.setAngle(east);
 console.log(v.getAngle());
-const directions=[ north, northEast, east, southEast, south, southWest, west, northWest ];
-const directionNames=[ "north", "northEast", "east", "southEast", "south", "southWest", "west", "northWest" ];
+const directions=[ east, southEast, south, southWest, west, northWest, north, northEast ];
+const directionNames=[ "east", "southEast", "south", "southWest", "west", "northWest", "north", "northEast" ];
 var getCardinalDirection = (function getCardinalDirection$(vector) {
-  /* get-cardinal-direction eval.sibilant:66:0 */
+  /* get-cardinal-direction eval.sibilant:73:0 */
 
   const angle=vector.getAngle();
-  return directions[Math.round((angle / eigthTurn))];
+  return directions[(Math.abs(Math.round((angle / eigthTurn))) % 8)];
+});
+var directionActions = Interface.define("directionActions", { 
+  north:[ 0, 1 ],
+  northEast:[ 1, 1 ],
+  east:[ 1, 0 ],
+  southEast:[ 1, -1 ],
+  south:[ 0, -1 ],
+  southWest:[ -1, -1 ],
+  west:[ -1, 0 ],
+  northWest:[ -1, 1 ]
+ });
+var getCardinalDirectionName = (function getCardinalDirectionName$(vector) {
+  /* get-cardinal-direction-name eval.sibilant:90:0 */
+
+  const angle=vector.getAngle();
+  const i=(Math.abs(Math.round((angle / eigthTurn))) % 8);
+  return directionNames[i];
 });
 Sight.registerTileGraph(tiles);
-var i = 2;
+var getTileNoise = (function getTileNoise$(x = this.x, y = this.y, force = 16, v = Vector.spawn(1, 1)) {
+  /* get-tile-noise node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
+
+  v.setAngle((noise.simplex3((x / config.angleZoom / 5), (y / config.angleZoom / 5), (config.noiseZ / 10000)) * Math.PI * 2));
+  const length=noise.simplex3(((x / 50) + 40000), ((x / 50) + 40000), (config.noiseZ / 10000));
+  v.setLength((length * force));
+  return v;
+});
+var getMoveNoise = (function getMoveNoise$(x = this.x, y = this.y, t = this.t, force = 16, v = Vector.spawn(1, 1)) {
+  /* get-move-noise node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
+
+  v.setAngle((noise.simplex3((x / config.angleZoom / 5), (y / config.angleZoom / 5), (t * (config.noiseZ / 10000))) * Math.PI * 2));
+  const length=noise.simplex3(((x / 50) + 40000), ((x / 50) + 40000), (t * (config.noiseZ / 10000)));
+  v.setLength((length * force));
+  return v;
+});
+TileNode.setup = (function TileNode$setup$(x, y) {
+  /* Tile-node.setup eval.sibilant:125:0 */
+
+  const v=getTileNoise(x, y, 256);
+  const x_=(Math.abs(Math.round(v.x)) % 16);
+  const y_=(Math.abs(Math.round(v.y)) % 16);
+  this.entity.floorSprite.selectTile(x_, y_);
+  this.entity.cliffSprite.selectTile(x_, y_);
+  return v.despawn();
+});
+p.physicalProperties.forces = [ Friction ];
 game.events.on("tick", ((t) => {
 	
   (function() {
@@ -118,14 +175,15 @@ game.events.on("tick", ((t) => {
     }
   }).call(this);
   return (function() {
-    if ((t % 180) === 0) {
-      i = ((i + 1) % 8);
-      const directionName=directionNames[i];
-      const directionAngle=directions[i];
-      console.log(p.velocityInterface.vector.getAngle());
+    if ((t % 30) === 0) {
+      const noiseV=getMoveNoise(p.positionInterface.x, p.positionInterface.y, t, gameScale);
+      v.addTo(noiseV);
+      v.setLength(gameScale);
+      noiseV.despawn();
+      const directionName=getCardinalDirectionName(v);
+      const direction=getCardinalDirection(v);
       p.playerSprite.selectSequence(directionName);
-      console.log(p.velocityInterface, directionAngle, directionName, directionNames, directions);
-      return v.setAngle(directionAngle);
+      return v.setAngle(direction);
     }
   }).call(this);
 
@@ -137,7 +195,7 @@ game.events.on("tick", ((t) => {
 }));
 startInterface();
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"@crash-landed/dom.js":"@crash-landed/dom.js","@crash-landed/game.js":"@crash-landed/game.js","@crash-landed/systems/sight.js":"@crash-landed/systems/sight.js","@crash-landed/systems/sprites/floor.js":"@crash-landed/systems/sprites/floor.js","@crash-landed/systems/sprites/player.js":"@crash-landed/systems/sprites/player.js","@crash-landed/systems/visibility.js":"@crash-landed/systems/visibility.js","@kit-js/core/js/util":3,"@kit-js/interface":4,"@shared/ecs/entity-group.js":"@shared/ecs/entity-group.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js","@shared/tiles.js":"@shared/tiles.js","ramda":7}],2:[function(require,module,exports){
+},{"@crash-landed/config.js":"@crash-landed/config.js","@crash-landed/dom.js":"@crash-landed/dom.js","@crash-landed/forces.js":"@crash-landed/forces.js","@crash-landed/game.js":"@crash-landed/game.js","@crash-landed/systems/sight.js":"@crash-landed/systems/sight.js","@crash-landed/systems/sprites/cliff.js":"@crash-landed/systems/sprites/cliff.js","@crash-landed/systems/sprites/floor.js":"@crash-landed/systems/sprites/floor.js","@crash-landed/systems/sprites/player.js":"@crash-landed/systems/sprites/player.js","@crash-landed/systems/visibility.js":"@crash-landed/systems/visibility.js","@kit-js/core/js/util":3,"@kit-js/interface":4,"@shared/ecs/entity-group.js":"@shared/ecs/entity-group.js","@shared/noise.js":"@shared/noise.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js","@shared/tiles.js":"@shared/tiles.js","@shared/vectors.js":"@shared/vectors.js","ramda":7}],2:[function(require,module,exports){
 const create = (object, r) => (...args) => ((r = Object.create(object)), r.init(...args), r);
 const defined = (value) => (!(value === undefined));
 

@@ -4,7 +4,7 @@
 (define Field-of-view Component
   (visible-tiles (.spawn List))
   (gett world-pos this.entity.position-interface)
-  (range 4)
+  (range 8)
   )
 (define Sight System
   (interface Field-of-view)

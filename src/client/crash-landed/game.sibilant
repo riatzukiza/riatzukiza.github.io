@@ -17,9 +17,11 @@
 
 
 (require! (lit Floor-sprites) "@crash-landed/systems/sprites/floor.js")
+(require! (lit Cliff-sprites) "@crash-landed/systems/sprites/cliff.js")
 
 
-(var active-game-systems [Position Floor-sprites Player-sprites Physics Velocity  Sight Tile-visibility])
+(var active-game-systems [Position  Physics Velocity Tile-visibility  Sight  Floor-sprites Cliff-sprites Player-sprites])
+
 
 (var game ((create Game)
            config

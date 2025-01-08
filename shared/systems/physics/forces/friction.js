@@ -15,10 +15,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
 });
 var { 
   Physics
- } = require("@shared/systems/physics/system.js"),
-    { 
-  Collision
- } = require("@shared/systems/collision.js");
+ } = require("@shared/systems/physics/system.js");
 var Friction = Physics.Force.define("Friction", { 
   template:true,
   get config(  ){ 
@@ -29,7 +26,6 @@ var Friction = Physics.Force.define("Friction", {
   apply( c = this.c,config = this.config ){ 
     
       var v = c.velocity;
-      var collision = c.system.process.systems.get(Collision, c.entity);
       var physics = c.system.process.systems.get(Physics, c.entity);
       return (function() {
         if (!((v.xd === 0 && v.yd === 0))) {

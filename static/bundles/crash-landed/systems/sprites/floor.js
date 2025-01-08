@@ -38,7 +38,7 @@ var FloorSprite = AnimatedSprite.define("FloorSprite", {
         if (this.visible__QUERY) {
           return 1;
         } else if (this.explored__QUERY) {
-          return 0.9;
+          return 0.8;
         } else {
           return 0;
         }
@@ -67,11 +67,12 @@ var FloorSprite = AnimatedSprite.define("FloorSprite", {
     
    }
  });
+exports.FloorSprite = FloorSprite;
 var FloorSprites = SpriteAtlas.define("FloorSprites", { 
   interface:FloorSprite,
   frameDimensions:[ 16, 16 ],
-  height:10,
-  width:10,
+  height:16,
+  width:16,
   img:spriteImage
  });
 exports.FloorSprites = FloorSprites;
