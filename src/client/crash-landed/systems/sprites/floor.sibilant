@@ -26,11 +26,11 @@
 (define Floor-sprites Sprite-atlas
   (interface Floor-sprite)
 
-  (frame-dimensions [ 16 16 ])
+  (frame-dimensions [ 32 32 ])
   ;; how many frames vertically
-  (height 16)
+  (height 8)
   ;; how many frames horizontally
-  (width 16)
+  (width 8)
   (img sprite-image))
 
 

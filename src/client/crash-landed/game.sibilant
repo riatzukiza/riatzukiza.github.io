@@ -22,7 +22,6 @@
 
 (var active-game-systems [Position  Physics Velocity Tile-visibility  Sight  Floor-sprites Cliff-sprites Player-sprites])
 
-
 (var game ((create Game)
            config
            rendering

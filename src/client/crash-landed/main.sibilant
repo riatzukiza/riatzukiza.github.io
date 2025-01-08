@@ -127,14 +127,16 @@
   ;; (print v x y (.get-length v) (.get-angle v))
   (const x* (mod (Math.abs (Math.round v.x) ) 16))
   (const y* (mod (Math.abs (Math.round v.y) ) 16))
+
+
   (.select-tile this.entity.floor-sprite
-                x*
-                y*
+                (mod x* 8)
+                (mod y* 8)
                 )
-  (.select-tile this.entity.cliff-sprite
-                x*
-                y*
-                )
+  ;; (.select-tile this.entity.cliff-sprite
+  ;;               x*
+  ;;               y*
+  ;;               )
   (.despawn v))
 
 (set p.physical-properties

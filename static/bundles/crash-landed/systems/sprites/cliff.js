@@ -20,8 +20,8 @@ var {
  } = require("@shared/systems/rendering/sprite-atlas.js");
 const spriteImage=document.getElementById("cliff-sprite");
 var CliffSprite = AnimatedSprite.define("CliffSprite", { 
-  column:1,
-  row:2,
+  column:15,
+  row:15,
   get visible__QUERY(  ){ 
     
       return this.entity.visibleStatus.visible__QUERY;
@@ -69,9 +69,9 @@ var CliffSprite = AnimatedSprite.define("CliffSprite", {
  });
 var CliffSprites = SpriteAtlas.define("CliffSprites", { 
   interface:CliffSprite,
-  frameDimensions:[ 16, 16 ],
-  height:10,
-  width:10,
+  frameDimensions:[ 32, 32 ],
+  height:16,
+  width:16,
   img:spriteImage
  });
 exports.CliffSprites = CliffSprites;

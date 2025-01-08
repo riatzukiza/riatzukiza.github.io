@@ -70,9 +70,9 @@ var FloorSprite = AnimatedSprite.define("FloorSprite", {
 exports.FloorSprite = FloorSprite;
 var FloorSprites = SpriteAtlas.define("FloorSprites", { 
   interface:FloorSprite,
-  frameDimensions:[ 16, 16 ],
-  height:16,
-  width:16,
+  frameDimensions:[ 32, 32 ],
+  height:8,
+  width:8,
   img:spriteImage
  });
 exports.FloorSprites = FloorSprites;

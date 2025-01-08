@@ -1,0 +1,11 @@
+(define Wakefulness Component
+  (gett well-rested (if (> this.rest 100)))
+  (max-rest 110)
+  (rest 0)
+  )
+(define Sleep System
+
+  (def *update-component (c)
+
+    )
+  )

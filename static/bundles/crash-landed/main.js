@@ -162,8 +162,7 @@ TileNode.setup = (function TileNode$setup$(x, y) {
   const v=getTileNoise(x, y, 256);
   const x_=(Math.abs(Math.round(v.x)) % 16);
   const y_=(Math.abs(Math.round(v.y)) % 16);
-  this.entity.floorSprite.selectTile(x_, y_);
-  this.entity.cliffSprite.selectTile(x_, y_);
+  this.entity.floorSprite.selectTile((x_ % 8), (y_ % 8));
   return v.despawn();
 });
 p.physicalProperties.forces = [ Friction ];

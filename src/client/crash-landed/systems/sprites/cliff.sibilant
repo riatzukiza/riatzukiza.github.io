@@ -4,8 +4,8 @@
 
 
 (define Cliff-sprite Animated-sprite
-  (column 1)
-  (row 2)
+  (column 15)
+  (row 15)
   (gett visible? this.entity.visible-status.visible?)
   (gett explored? this.entity.visible-status.explored?)
   (gett alpha (if this.visible? 1
@@ -26,11 +26,11 @@
 (define Cliff-sprites Sprite-atlas
   (interface Cliff-sprite)
 
-  (frame-dimensions [ 16 16 ])
+  (frame-dimensions [ 32 32 ])
   ;; how many frames vertically
-  (height 10)
+  (height 16)
   ;; how many frames horizontally
-  (width 10)
+  (width 16)
   (img sprite-image))
 
 
