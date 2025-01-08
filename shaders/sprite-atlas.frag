@@ -22,9 +22,9 @@ void main() {
   vec2 uv = vSpriteStartUV + texcoord * spriteRange;
 
   vec4 color = texture(u_SpriteTexture, uv);
+  color.a *= vAlpha;
   FragColor = color;
 
-  FragColor.rgb *= FragColor.a;
-  FragColor.a *= vAlpha;
+  // FragColor.rgb *= FragColor.a;
 
 }

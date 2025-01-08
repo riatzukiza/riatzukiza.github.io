@@ -10,7 +10,7 @@
   (gett current-frame this.row)
 
   (sett sequence-index x (assign this.column x))
-  (sett current-frame y (assign this.column y))
+  (sett current-frame y (assign this.row y))
 
   (gett atlas-x-min (* this.sequence-index  (first this.system.frame-dimensions)))
   (gett atlas-y-min (*  this.current-frame (second this.system.frame-dimensions)))

@@ -56,7 +56,7 @@
 
 
 (assign Position.wraps? false)
-(.set-length v 10)
+(.set-length v 60)
 (.set-angle v east)
 (print (.get-angle v))
 
@@ -79,7 +79,12 @@
       (assign i (mod (+ i 1) 8))
       (const direction-name (get direction-names i))
       (const direction-angle (get directions i))
+      (print (.get-angle p.velocity-interface.vector))
       (.select-sequence p.player-sprite direction-name)
+      (print p.velocity-interface direction-angle direction-name
+             direction-names
+             directions
+             )
 
       (.set-angle v direction-angle))
 

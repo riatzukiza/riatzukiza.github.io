@@ -82,6 +82,7 @@
         (.bind-texture gl gl.TEXTURE_2D texture)
         (.texImage2D gl gl.TEXTURE_2D 0 gl.RGBA  gl.RGBA gl.UNSIGNED_BYTE img)
         (.generate-mipmap gl gl.TEXTURE_2D)
+        (print context.canvas)
 
         )
   (gett gl  this.context.gl)
@@ -153,8 +154,11 @@
   (def *prepare ()
     (.enable this.texture))
   (def *update-component (dot)
+
     (assign dot.sprite.alpha dot.alpha)
+
     (set dot.sprite.point
+
          'x dot.pos.x
          'y dot.pos.y
          'z dot.pos.z)

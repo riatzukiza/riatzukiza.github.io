@@ -39,7 +39,7 @@ var PlayerSprite = AnimatedSprite.define("PlayerSprite", {
    },
   set currentFrame( y ){ 
     
-      return this.column = y;
+      return this.row = y;
     
    },
   get atlasXMin(  ){ 

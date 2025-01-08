@@ -9,7 +9,7 @@
   (gett visible? this.entity.visible-status.visible?)
   (gett explored? this.entity.visible-status.explored?)
   (gett alpha (if this.visible? 1
-                  this.explored? 0.5
+                  this.explored? 0.9
                   0))
 
 

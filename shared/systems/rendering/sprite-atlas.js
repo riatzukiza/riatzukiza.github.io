@@ -189,10 +189,10 @@ var shaders = Interface.define("shaders", {
     vec2 uv = vSpriteStartUV + texcoord * spriteRange;
 
     vec4 color = texture(u_SpriteTexture, uv);
+    color.a *= vAlpha;
     FragColor = color;
 
-    FragColor.rgb *= FragColor.a;
-    FragColor.a *= vAlpha;
+    // FragColor.rgb *= FragColor.a;
 
   }
   `
@@ -205,6 +205,7 @@ var Texture = Interface.define("Texture", {
       gl.bindTexture(gl.TEXTURE_2D, texture);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
       gl.generateMipmap(gl.TEXTURE_2D);
+      console.log(context.canvas);
       return this;
     
    },
@@ -221,7 +222,7 @@ var Texture = Interface.define("Texture", {
    }
  });
 var spriteLayer = (function spriteLayer$(limit, textureData, game) {
-  /* sprite-layer eval.sibilant:93:0 */
+  /* sprite-layer eval.sibilant:94:0 */
 
   uniforms.init(game);
   var id = uniforms.id;

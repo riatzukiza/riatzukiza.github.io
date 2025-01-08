@@ -38,7 +38,7 @@ var FloorSprite = AnimatedSprite.define("FloorSprite", {
         if (this.visible__QUERY) {
           return 1;
         } else if (this.explored__QUERY) {
-          return 0.5;
+          return 0.9;
         } else {
           return 0;
         }

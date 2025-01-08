@@ -43,6 +43,7 @@ var Sight = System.define("Sight", {
       const occupiedTile=this.tiles.getClosestFromWorldPos(pos.x, pos.y);
       c.visibleTiles.each(((tile) => {
       	
+        tile.entity.visibleStatus.explored__QUERY = true;
         return tile.entity.visibleStatus.visible__QUERY = false;
       
       }));
@@ -53,8 +54,7 @@ var Sight = System.define("Sight", {
       {
       const visibleTile=this.tiles.get(x, y);;
       c.visibleTiles.push(visibleTile);
-      visibleTile.entity.visibleStatus.visible__QUERY = true;;
-      visibleTile.entity.visibleStatus.explored__QUERY = true;
+      visibleTile.entity.visibleStatus.visible__QUERY = true;
       }
       
       }

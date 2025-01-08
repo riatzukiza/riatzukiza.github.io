@@ -15,6 +15,7 @@
     (const pos c.entity.position-interface)
     (const occupied-tile (.get-closest-from-world-pos this.tiles pos.x pos.y))
     (each c.visible-tiles (tile)
+          (assign tile.entity.visible-status.explored? true)
           (assign tile.entity.visible-status.visible? false))
     (.clear c.visible-tiles)
 
@@ -24,7 +25,7 @@
                 (const visible-tile (.get this.tiles x y))
                 (.push c.visible-tiles visible-tile)
                 (assign visible-tile.entity.visible-status.visible? true)
-                (assign visible-tile.entity.visible-status.explored? true)))
+                ))
     this))
 
 (export Sight)

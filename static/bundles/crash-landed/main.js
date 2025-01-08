@@ -97,7 +97,7 @@ const northWest=(eigthTurn * 5);
 const north=(eigthTurn * 6);
 const northEast=(eigthTurn * 7);
 Position.wraps__QUERY = false;
-v.setLength(10);
+v.setLength(60);
 v.setAngle(east);
 console.log(v.getAngle());
 const directions=[ north, northEast, east, southEast, south, southWest, west, northWest ];
@@ -122,7 +122,9 @@ game.events.on("tick", ((t) => {
       i = ((i + 1) % 8);
       const directionName=directionNames[i];
       const directionAngle=directions[i];
+      console.log(p.velocityInterface.vector.getAngle());
       p.playerSprite.selectSequence(directionName);
+      console.log(p.velocityInterface, directionAngle, directionName, directionNames, directions);
       return v.setAngle(directionAngle);
     }
   }).call(this);
