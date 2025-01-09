@@ -145,10 +145,8 @@ kanban-plugin: board
 	  - [blocked](blocked.md) by backend task
 - [ ] [ground tiles](tasks/ground%20tiles.md)
 - [ ] [metabolism system](tasks/metabolism%20system.md)
-- [ ] [multiple signal fields](tasks/multiple%20signal%20fields.md)
 - [ ] [predator agents](tasks/predator%20agents.md)
 - [ ] [resource mechanics](tasks/resource%20mechanics.md)
-- [ ] [reverse navigation home](tasks/reverse%20navigation%20home.md)
 - [ ] [Building system](tasks/Building%20system.md)
 - [ ] [DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files.](tasks/DevOps%20Sibilant%20transpiler%20should%20create%20less%20noise%20in%20pull%20requests%20when%20acting%20on%20unchanged%20files..md)
 - [ ] [Make old symbiants work](tasks/Make%20old%20symbiants%20work.md)
@@ -179,6 +177,7 @@ kanban-plugin: board
 
 ## Ready
 
+- [ ] [chat app MVP](tasks/chat%20app%20MVP.md)
 - [ ] [github readme](tasks/github%20readme.md)
 	  - The [readme](../readme.md) can be generated from this kanban through simple concatonation.
 - [ ] [move kit fs](tasks/move%20kit%20fs.md)
@@ -204,24 +203,16 @@ kanban-plugin: board
 	  - Create a seperate pipeline for development and production
 - [ ] [Rewrite andy lib in lisp](tasks/Rewrite%20andy%20lib%20in%20lisp.md)
 - [ ] [Enhance document macros](tasks/Enhance%20document%20macros.md)
-- [ ] [multiple factions](tasks/multiple%20factions.md)
 - [ ] [Implement tests for existing shared components.](tasks/Implement%20tests%20for%20existing%20shared%20components..md)
 - [ ] [Mirror board to github](tasks/Mirror%20board%20to%20github.md)
 - [ ] [Update physics engine to increase accuracy and performance](tasks/Update%20physics%20engine%20to%20increase%20accuracy%20and%20performance.md)
 	  - Consolodate position and velocity into physics
 	  - When performing updates, do not mutate the state of the
 	last tick. Use two data structures, and swap them out [each](../docs/Pools/Dynamic/each.md) tick.
-- [ ] [unit system](tasks/unit%20system.md)
-	  - A unit is an abstraction over an entity.
-	  - Entities can be anything in the game
-	  - A unit is a dynamic collection of entities
-	- Like say a weapon, a shield
 - [ ] [deletable entites](tasks/deletable%20entites.md)
 	  - Entities can be deleted from a panel
 - [ ] [placeable entities (rocks, plants, bases)](tasks/placeable%20entities%20(rocks,%20plants,%20bases).md)
-- [ ] [attack system](tasks/attack%20system.md)
 - [ ] [selection box](tasks/selection%20box.md)
-- [ ] [camera system](tasks/camera%20system.md)
 - [ ] [vector field visualization](tasks/vector%20field%20visualization.md)
 - [ ] [Dynamic pools for renderables.](tasks/Dynamic%20pools%20for%20renderables..md)
 - [ ] [a gpu implementation for signal fields and vector math.](tasks/a%20gpu%20implementation%20for%20signal%20fields%20and%20vector%20math..md)
@@ -235,11 +226,20 @@ kanban-plugin: board
 
 ## Todo (5)
 
-- [ ] [chat app MVP](tasks/chat%20app%20MVP.md)
+- [ ] [unit system](tasks/unit%20system.md)
+	  - A unit is an abstraction over an entity.
+	  - Entities can be anything in the game
+	  - A unit is a dynamic collection of entities
+	- Like say a weapon, a shield
+- [ ] [multiple factions](tasks/multiple%20factions.md)
+- [ ] [camera system](tasks/camera%20system.md)
+- [ ] [attack system](tasks/attack%20system.md)
 
 
 ## In Progress (2)
 
+- [ ] [multiple signal fields](tasks/multiple%20signal%20fields.md)
+- [ ] [reverse navigation home](tasks/reverse%20navigation%20home.md)
 
 
 ## In Review (2)
@@ -278,6 +278,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,false,false,false,false,false,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,false,false,true,true,true,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
