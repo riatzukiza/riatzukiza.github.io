@@ -62,8 +62,8 @@ var {
   DocumentRoot
  } = require("@shared/dom.js");
 const rbTree=RedBlackTree.spawn();
-const low=(Math.floor((Math.random() * ( - 9000))) + 9000);
-const high=(low + (Math.floor((Math.random() * ( - 10000))) + 10000));
+const low=Math.floor((Math.random() * 9000));
+const high=(low + Math.floor((Math.random() * 10000)));
 var renderNode = (function renderNode$(node) {
   /* render-node eval.sibilant:28:0 */
 
@@ -119,7 +119,7 @@ const container=createDocumentNode("div", {
 const frame=createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentBody);
 ticker.events.on("tick", (() => {
 	
-  rbTree.root.insert((Math.floor((Math.random() * ( - (low + high)))) + (low + high)));
+  rbTree.root.insert(Math.floor((Math.random() * (low + high))));
   const nodesInRange=rbTree.root.findRange(low, high);
   for (var _node of nodesInRange)
   {

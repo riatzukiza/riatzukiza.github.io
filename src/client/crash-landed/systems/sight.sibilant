@@ -23,6 +23,8 @@
     (for! (x (- occupied-tile.x c.range)) (< x (+ occupied-tile.x c.range) ) (++ x)
           (for! (y (- occupied-tile.y c.range)) (< y (+ occupied-tile.y c.range) ) (++ y)
                 (const visible-tile (.get this.tiles x y))
+                (if (not visible-tile.entity.visible-status.explored?)
+                    (.setup visible-tile))
                 (.push c.visible-tiles visible-tile)
                 (assign visible-tile.entity.visible-status.visible? true)
                 ))

@@ -53,6 +53,11 @@ var Sight = System.define("Sight", {
       for (var y = (occupiedTile.y - c.range);y < (occupiedTile.y + c.range);++(y))
       {
       const visibleTile=this.tiles.get(x, y);;
+      (function() {
+        if (!(visibleTile.entity.visibleStatus.explored__QUERY)) {
+          return visibleTile.setup();
+        }
+      }).call(this);
       c.visibleTiles.push(visibleTile);
       visibleTile.entity.visibleStatus.visible__QUERY = true;
       }

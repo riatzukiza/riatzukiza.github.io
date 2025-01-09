@@ -25,6 +25,7 @@
           (lit Cliff-sprites) "@crash-landed/systems/sprites/cliff.js"
           (lit Sight) "@crash-landed/systems/sight.js"
           (lit Tile-visibility) "@crash-landed/systems/visibility.js"
+          (lit Ground-types) "@crash-landed/systems/floor-type.js"
           (lit Entity-group) "@shared/ecs/entity-group.js"
           (lit Vector) "@shared/vectors.js"
           noise "@shared/noise.js"
@@ -46,7 +47,9 @@
                       Floor-sprites
                       Cliff-sprites
                       Tile-visibility
+                      Ground-types
                       ] game))
+
 (const player ((create Entity-group)"player" [Position Player-sprites Physics Velocity  Sight] game.ent))
 
 (const p (.spawn player))
@@ -127,16 +130,52 @@
   (.set-length v (* length force))
   v)
 
-(def Tile-node.setup (x y)
+(def-generic Tile-node.setup (x y)
   (const v (get-tile-noise x y 256))
   ;; (print v x y (.get-length v) (.get-angle v))
-  (const x* (mod (Math.abs (Math.round v.x) ) 16))
-  (const y* (mod (Math.abs (Math.round v.y) ) 16))
+  (const x* (mod (Math.abs (Math.round v.x) ) 8))
+  (const y* (mod (Math.abs (Math.round v.y) ) 8))
+
+  (define neighbor-types Interface
+    (grass [])
+    (flowery-grass [])
+    (stone [])
+    (broken-stone [])
+    )
+
+  (var options ['grass 'flowery-grass 'stone 'broken-stone])
+  (for-of! neighbor this.edges
+
+           (when neighbor.entity.visible-status.explored?
+             (.push (get neighbor-types neighbor.entity.ground.type) neighbor)
+             (.push options neighbor.entity.ground.type)))
+
+  (when (or (> neighbor-types.stone.length 0)
+            (> neighbor-types.broken-stone.length 0))
+    ;; If there are any stones, it can't be flowery
+    (assign options (.map options (=> (opt) (if (= opt 'flowery-grass)
+                                                'grass
+                                                opt))))
+    )
+  (if (= neighbor-types.stone.length 0)
+      (assign options (.map options (=> (opt) (if (= opt 'broken-stone)
+                                                  'flowery-grass
+                                                  opt
+                                                  )))))
+
+  (print options)
+  (const selected-type (get options (random-int options.length)))
+  (assign this.entity.ground.type selected-type)
+  (const coords [
+
+                 (+ x* this.entity.ground.stats.sprite-coord-min-x)
+                 (+ y* this.entity.ground.stats.sprite-coord-min-y)
+                 ])
 
 
+  (print "sprite coords" coords selected-type)
   (.select-tile this.entity.floor-sprite
-                (mod x* 8)
-                (mod y* 8)
+                (dots coords)
                 )
   ;; (.select-tile this.entity.cliff-sprite
   ;;               x*
@@ -149,12 +188,18 @@
 
 (on game.events 'tick (t)
 
+    (const pos p.position-interface)
     (if (= (mod t 10) 0) (.step p.player-sprite))
     (when (= (mod t 30) 0)
-      (const noise-v (get-move-noise p.position-interface.x p.position-interface.y t
+      (const noise-v (get-move-noise pos.x pos.y t
                                     game-scale))
      (.add-to  v noise-v)
-     (.set-length v game-scale)
+     (.set-length v (* game-scale (get (.get-closest-from-world-pos tiles pos.x pos.y)
+                                       'entity
+                                       'ground
+                                       'stats
+                                       'movement-speed)))
+
      (.despawn noise-v)
 
      (const direction-name (get-cardinal-direction-name v))

@@ -79,6 +79,9 @@ var {
   TileVisibility
  } = require("@crash-landed/systems/visibility.js"),
     { 
+  GroundTypes
+ } = require("@crash-landed/systems/floor-type.js"),
+    { 
   EntityGroup
  } = require("@shared/ecs/entity-group.js"),
     { 
@@ -93,7 +96,7 @@ var {
  } = require("@shared/tiles.js");
 game.start();
 const gameScale=128;
-const tiles=TileGraph.spawn(gameScale, [ FloorSprites, CliffSprites, TileVisibility ], game);
+const tiles=TileGraph.spawn(gameScale, [ FloorSprites, CliffSprites, TileVisibility, GroundTypes ], game);
 const player=create(EntityGroup)("player", [ Position, PlayerSprites, Physics, Velocity, Sight ], game.ent);
 const p=player.spawn();
 p.positionInterface.x = 300;
@@ -117,7 +120,7 @@ console.log(v.getAngle());
 const directions=[ east, southEast, south, southWest, west, northWest, north, northEast ];
 const directionNames=[ "east", "southEast", "south", "southWest", "west", "northWest", "north", "northEast" ];
 var getCardinalDirection = (function getCardinalDirection$(vector) {
-  /* get-cardinal-direction eval.sibilant:78:0 */
+  /* get-cardinal-direction eval.sibilant:81:0 */
 
   const angle=vector.getAngle();
   return directions[(Math.abs(Math.round((angle / eigthTurn))) % 8)];
@@ -133,7 +136,7 @@ var directionActions = Interface.define("directionActions", {
   northWest:[ -1, 1 ]
  });
 var getCardinalDirectionName = (function getCardinalDirectionName$(vector) {
-  /* get-cardinal-direction-name eval.sibilant:95:0 */
+  /* get-cardinal-direction-name eval.sibilant:98:0 */
 
   const angle=vector.getAngle();
   const i=(Math.abs(Math.round((angle / eigthTurn))) % 8);
@@ -156,18 +159,71 @@ var getMoveNoise = (function getMoveNoise$(x = this.x, y = this.y, t = this.t, f
   v.setLength((length * force));
   return v;
 });
-TileNode.setup = (function TileNode$setup$(x, y) {
-  /* Tile-node.setup eval.sibilant:130:0 */
+TileNode.setup = (function TileNode$setup$(x = this.x, y = this.y) {
+  /* Tile-node.setup node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
   const v=getTileNoise(x, y, 256);
-  const x_=(Math.abs(Math.round(v.x)) % 16);
-  const y_=(Math.abs(Math.round(v.y)) % 16);
-  this.entity.floorSprite.selectTile((x_ % 8), (y_ % 8));
+  const x_=(Math.abs(Math.round(v.x)) % 8);
+  const y_=(Math.abs(Math.round(v.y)) % 8);
+  var neighborTypes = Interface.define("neighborTypes", { 
+    grass:[],
+    floweryGrass:[],
+    stone:[],
+    brokenStone:[]
+   });
+  var options = [ "grass", "floweryGrass", "stone", "brokenStone" ];
+  for (var neighbor of this.edges)
+  {
+  (function() {
+    if (neighbor.entity.visibleStatus.explored__QUERY) {
+      neighborTypes[neighbor.entity.ground.type].push(neighbor);
+      return options.push(neighbor.entity.ground.type);
+    }
+  }).call(this)
+  }
+  ;
+  (function() {
+    if ((neighborTypes.stone.length > 0 || neighborTypes.brokenStone.length > 0)) {
+      return options = options.map(((opt) => {
+      	
+        return (function() {
+          if (opt === "floweryGrass") {
+            return "grass";
+          } else {
+            return opt;
+          }
+        }).call(this);
+      
+      }));
+    }
+  }).call(this);
+  (function() {
+    if (neighborTypes.stone.length === 0) {
+      return options = options.map(((opt) => {
+      	
+        return (function() {
+          if (opt === "brokenStone") {
+            return "floweryGrass";
+          } else {
+            return opt;
+          }
+        }).call(this);
+      
+      }));
+    }
+  }).call(this);
+  console.log(options);
+  const selectedType=options[Math.floor((Math.random() * options.length))];
+  this.entity.ground.type = selectedType;
+  const coords=[ (x_ + this.entity.ground.stats.spriteCoordMinX), (y_ + this.entity.ground.stats.spriteCoordMinY) ];
+  console.log("sprite coords", coords, selectedType);
+  this.entity.floorSprite.selectTile(...coords);
   return v.despawn();
 });
 p.physicalProperties.forces = [ Friction ];
 game.events.on("tick", ((t) => {
 	
+  const pos=p.positionInterface;
   (function() {
     if ((t % 10) === 0) {
       return p.playerSprite.step();
@@ -175,9 +231,9 @@ game.events.on("tick", ((t) => {
   }).call(this);
   return (function() {
     if ((t % 30) === 0) {
-      const noiseV=getMoveNoise(p.positionInterface.x, p.positionInterface.y, t, gameScale);
+      const noiseV=getMoveNoise(pos.x, pos.y, t, gameScale);
       v.addTo(noiseV);
-      v.setLength(gameScale);
+      v.setLength((gameScale * tiles.getClosestFromWorldPos(pos.x, pos.y).entity.ground.stats.movementSpeed));
       noiseV.despawn();
       const directionName=getCardinalDirectionName(v);
       const direction=getCardinalDirection(v);
@@ -194,7 +250,7 @@ game.events.on("tick", ((t) => {
 }));
 startInterface();
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"@crash-landed/config.js":"@crash-landed/config.js","@crash-landed/dom.js":"@crash-landed/dom.js","@crash-landed/forces.js":"@crash-landed/forces.js","@crash-landed/game.js":"@crash-landed/game.js","@crash-landed/systems/sight.js":"@crash-landed/systems/sight.js","@crash-landed/systems/sprites/cliff.js":"@crash-landed/systems/sprites/cliff.js","@crash-landed/systems/sprites/floor.js":"@crash-landed/systems/sprites/floor.js","@crash-landed/systems/sprites/player.js":"@crash-landed/systems/sprites/player.js","@crash-landed/systems/visibility.js":"@crash-landed/systems/visibility.js","@kit-js/core/js/util":3,"@kit-js/interface":4,"@shared/ecs/entity-group.js":"@shared/ecs/entity-group.js","@shared/noise.js":"@shared/noise.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js","@shared/tiles.js":"@shared/tiles.js","@shared/vectors.js":"@shared/vectors.js","ramda":7}],2:[function(require,module,exports){
+},{"@crash-landed/config.js":"@crash-landed/config.js","@crash-landed/dom.js":"@crash-landed/dom.js","@crash-landed/forces.js":"@crash-landed/forces.js","@crash-landed/game.js":"@crash-landed/game.js","@crash-landed/systems/floor-type.js":"@crash-landed/systems/floor-type.js","@crash-landed/systems/sight.js":"@crash-landed/systems/sight.js","@crash-landed/systems/sprites/cliff.js":"@crash-landed/systems/sprites/cliff.js","@crash-landed/systems/sprites/floor.js":"@crash-landed/systems/sprites/floor.js","@crash-landed/systems/sprites/player.js":"@crash-landed/systems/sprites/player.js","@crash-landed/systems/visibility.js":"@crash-landed/systems/visibility.js","@kit-js/core/js/util":3,"@kit-js/interface":4,"@shared/ecs/entity-group.js":"@shared/ecs/entity-group.js","@shared/noise.js":"@shared/noise.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js","@shared/tiles.js":"@shared/tiles.js","@shared/vectors.js":"@shared/vectors.js","ramda":7}],2:[function(require,module,exports){
 const create = (object, r) => (...args) => ((r = Object.create(object)), r.init(...args), r);
 const defined = (value) => (!(value === undefined));
 

@@ -9,9 +9,8 @@
   (init (*x *y entity graph )
         (set entity.position-interface
              'x (* this.graph.tile-size *x)
-             'y (* this.graph.tile-size *y)
-             )
-        (.setup this *x *y))
+             'y (* this.graph.tile-size *y)))
+
   (def setup ()
     (throw (new Error "No tile setup function defined")))
   (gett world-pos this.entity.position-interface)
@@ -24,25 +23,24 @@
 
   (gett tile-size this.graph.tile-size)
 
-  (gett north (.get graph this.x this.y))
-  (gett south (.get graph this.x this.y))
-  (gett east  (.get graph this.x this.y))
-  (gett west (.get graph this.x this.y))
+  (gett north (.get this.graph this.x this.y))
+  (gett south (.get this.graph this.x this.y))
+  (gett east  (.get this.graph this.x this.y))
+  (gett west (.get this.graph this.x this.y))
 
-  (gett north-east (.get graph (+ this.x 1) (+ this.y 1)))
-  (gett north-west (.get graph (- this.x 1) (+ this.y 1)))
-  (gett south-east (.get graph (+ this.x 1) (- this.y 1)))
-  (gett south-west (.get graph (- this.x 1) (- this.y 1)))
+  (gett north-east (.get this.graph (+ this.x 1) (+ this.y 1)))
+  (gett north-west (.get this.graph (- this.x 1) (+ this.y 1)))
+  (gett south-east (.get this.graph (+ this.x 1) (- this.y 1)))
+  (gett south-west (.get this.graph (- this.x 1) (- this.y 1)))
   (gett edges [this.north
-                 this.south
-                 this.east
-                 this.west
-                 this.north-east
-                 this.north-west
+               this.south
+               this.east
+               this.west
+               this.north-east
+               this.north-west
+               this.south-east
+               this.south-west]))
 
-                 this.south-east
-                 this.south-west])
-  )
 (export Tile-node)
 (define Tile-graph Spawnable
   (init ((tile-size 30)

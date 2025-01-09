@@ -35,7 +35,6 @@ var TileNode = Spawnable.define("TileNode", {
       this._x = _x;this._y = _y;this.entity = entity;this.graph = graph;
       entity.positionInterface.x = (this.graph.tileSize * _x);
       entity.positionInterface.y = (this.graph.tileSize * _y);
-      this.setup(_x, _y);
       return this;
     
    },
@@ -76,42 +75,42 @@ var TileNode = Spawnable.define("TileNode", {
    },
   get north(  ){ 
     
-      return graph.get(this.x, this.y);
+      return this.graph.get(this.x, this.y);
     
    },
   get south(  ){ 
     
-      return graph.get(this.x, this.y);
+      return this.graph.get(this.x, this.y);
     
    },
   get east(  ){ 
     
-      return graph.get(this.x, this.y);
+      return this.graph.get(this.x, this.y);
     
    },
   get west(  ){ 
     
-      return graph.get(this.x, this.y);
+      return this.graph.get(this.x, this.y);
     
    },
   get northEast(  ){ 
     
-      return graph.get((this.x + 1), (this.y + 1));
+      return this.graph.get((this.x + 1), (this.y + 1));
     
    },
   get northWest(  ){ 
     
-      return graph.get((this.x - 1), (this.y + 1));
+      return this.graph.get((this.x - 1), (this.y + 1));
     
    },
   get southEast(  ){ 
     
-      return graph.get((this.x + 1), (this.y - 1));
+      return this.graph.get((this.x + 1), (this.y - 1));
     
    },
   get southWest(  ){ 
     
-      return graph.get((this.x - 1), (this.y - 1));
+      return this.graph.get((this.x - 1), (this.y - 1));
     
    },
   get edges(  ){ 
