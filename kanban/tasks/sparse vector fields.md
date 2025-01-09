@@ -1,31 +1,15 @@
 # Description
 
-A general description of the task
-## Related Epics
-- [Identify and write useful templates for obsidian](Identify%20and%20write%20useful%20templates%20for%20obsidian.md) 
+
+In order to represent fields in an infinite world, I need an infinite datastructure. A fixed size matrix was not going to work. I've already started work and completed a tile map system to hold meta data in a sparse array implemented as a trie.
+
+The work of this ticket is to create an abstraction to easily set up fields of vectors held in that tile map.
 ## Requirements
 
-- High level expecations
-- Acceptance criteria
-- Definition of [done](../done.md)
+- There is an abstract tile system type for holding vector data
 
 ## Tasks 
 
-- [ ] Somthing that needs to be [done](../done.md) to accomplish this task
-- [ ] Non exhaustive, suggestive
-- [ ] Represents expected high level steps to meet AC
-## Blocked by 
+- Implement abstract type
+- Create at least one working useful example of a field using this type to demonstrated how it is intended to be used.
 
-- Can't be worked on till this task is [done](../done.md)
-- blocking task
-- blocking task
-
-## Blocks
-
-- This task cannot be [done](../done.md) until this one is [done](../done.md).
-- neither can this one
-- or this one
-
-## Relavent links
-
-- [[relavent link]]

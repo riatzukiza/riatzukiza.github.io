@@ -31,4 +31,4 @@ We'll call this done when we have 4 tile types:
 - Broken stone road
 	- Broken stone roads are faster to walk on than grass, but slower than stone. They are also uglier
 - Stone road
-	- Stone roads are the fastest to walk on and they are also beautiful,
+	- Stone roads are the fastest to walk on and they are also beautiful.

@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "kanban/tasks/ground tiles.md",
+                "file": "notes/daily/2025-01-09.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ground tiles"
+              "title": "2025-01-09"
             }
           }
         ]
@@ -223,12 +223,19 @@
   "active": "02ba21013b3ad7f9",
   "lastOpenFiles": [
     "kanban/board.md",
+    "notes/daily/2025-01-09.md",
+    "kanban/tasks/Priority management system.md",
+    "kanban/tasks/Agenda system.md",
+    "kanban/tasks/Map generation.md",
+    "kanban/tasks/Identify and write useful templates for obsidian.md",
+    "kanban/tasks/sparse vector fields.md",
+    "kanban/tasks/multiple signal fields.md",
+    "kanban/tasks/ground tiles.md",
     "kanban/tasks/Mineral Resource.md",
     "kanban/tasks/Building system.md",
     "kanban/tasks/Game Art.md",
     "kanban/tasks/metabolism system.md",
     "kanban/tasks/resource mechanics.md",
-    "kanban/tasks/ground tiles.md",
     "kanban/tasks/night day cycle.md",
     "notes/daily/2025-01-04.md",
     "notes/daily/2025-01-03.md",
@@ -245,13 +252,6 @@
     "Colors.md",
     "src/client/red-black-tree-visualization/main.sibilant",
     "src/client/red-black-tree-visualization",
-    "docs/Shared/datastructures/_Index_of_datastructures.md",
-    "kanban/templates/New Task.md",
-    "kanban/tasks/Audio Design.md",
-    "kanban/tasks/Data structures.md",
-    "kanban/tasks/Make old symbiants work.md",
-    "kanban/tasks/Priority management system.md",
-    "kanban/project.md",
     "static/docs/readme.html",
     "static/docs/_index_of_docs.html",
     "static/docs/shared/_index_of_shared.html",
