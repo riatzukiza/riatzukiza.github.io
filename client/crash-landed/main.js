@@ -160,43 +160,63 @@ var getMoveNoise = (function getMoveNoise$(x = this.x, y = this.y, t = this.t, f
 TileNode.setup = (function TileNode$setup$(x = this.x, y = this.y) {
   /* Tile-node.setup node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
-  const v=getTileNoise(x, y, 256);
-  const x_=(Math.abs(Math.round(v.x)) % 8);
-  const y_=(Math.abs(Math.round(v.y)) % 8);
+  const v=getTileNoise(x, y, 1024);
+  const x_=(Math.abs(Math.round(v.x)) % 4);
+  const y_=(Math.abs(Math.round(v.y)) % 4);
   var neighborTypes = Interface.define("neighborTypes", { 
     grass:[],
     floweryGrass:[],
     stone:[],
     brokenStone:[]
    });
-  var options = [ "grass", "floweryGrass", "stone", "brokenStone" ];
+  var options = [];
+  const neighbors=(new Set());
   for (var neighbor of this.edges)
   {
   (function() {
     if (neighbor.entity.visibleStatus.explored__QUERY) {
       neighborTypes[neighbor.entity.ground.type].push(neighbor);
-      return options.push(neighbor.entity.ground.type);
+      options.push(neighbor.entity.ground.type);
+      neighbors.add(neighbor);
+      for (var neighborsNeighbor of neighbor.edges)
+      {
+      (function() {
+        if ((!(neighbors.has(neighborsNeighbor)) && neighborsNeighbor.entity.visibleStatus.explored__QUERY)) {
+          neighbors.add(neighborsNeighbor);
+          neighborTypes[neighborsNeighbor.entity.ground.type].push(neighborsNeighbor);
+          return options.push(neighborsNeighbor.entity.ground.type);
+        }
+      }).call(this)
+      }
+      ;
+      return null;
     }
   }).call(this)
   }
   ;
+  options = (function() {
+    if (options.length) {
+      return options;
+    } else {
+      return [ "grass", "floweryGrass", "stone", "brokenStone" ];
+    }
+  }).call(this);
   (function() {
-    if ((neighborTypes.stone.length > 0 || neighborTypes.brokenStone.length > 0)) {
+    if (neighborTypes.floweryGrass > 5) {
       return options = options.map(((opt) => {
       	
         return (function() {
-          if (opt === "floweryGrass") {
+          if (opt === "stone") {
             return "grass";
+          } else if (opt === "brokenStone") {
+            return "floweryGrass";
           } else {
             return opt;
           }
         }).call(this);
       
       }));
-    }
-  }).call(this);
-  (function() {
-    if (neighborTypes.stone.length === 0) {
+    } else if (neighborTypes.grass > 5) {
       return options = options.map(((opt) => {
       	
         return (function() {
@@ -208,10 +228,34 @@ TileNode.setup = (function TileNode$setup$(x = this.x, y = this.y) {
         }).call(this);
       
       }));
+    } else if (neighborTypes.stone.length < 2) {
+      return options = options.map(((opt) => {
+      	
+        return (function() {
+          if (opt === "brokenStone") {
+            return "grass";
+          } else {
+            return opt;
+          }
+        }).call(this);
+      
+      }));
+    } else if (neighborTypes.stone.length > 5) {
+      return options = options.map(((opt) => {
+      	
+        return (function() {
+          if (opt === "floweryGrass") {
+            return "brokenStone";
+          } else {
+            return opt;
+          }
+        }).call(this);
+      
+      }));
     }
   }).call(this);
   console.log(options);
-  const selectedType=options[Math.floor((Math.random() * options.length))];
+  const selectedType=options[(Math.round(Math.abs(v.x)) % options.length)];
   this.entity.ground.type = selectedType;
   const coords=[ (x_ + this.entity.ground.stats.spriteCoordMinX), (y_ + this.entity.ground.stats.spriteCoordMinY) ];
   console.log("sprite coords", coords, selectedType);
@@ -229,9 +273,8 @@ game.events.on("tick", ((t) => {
   }).call(this);
   return (function() {
     if ((t % 30) === 0) {
-      const noiseV=getMoveNoise(pos.x, pos.y, t, gameScale);
+      const noiseV=getMoveNoise(pos.x, pos.y, t, (10 * gameScale));
       v.addTo(noiseV);
-      v.setLength((gameScale * tiles.getClosestFromWorldPos(pos.x, pos.y).entity.ground.stats.movementSpeed));
       noiseV.despawn();
       const directionName=getCardinalDirectionName(v);
       const direction=getCardinalDirection(v);

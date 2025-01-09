@@ -11117,11 +11117,11 @@ const maxRockBaseMass=(config.rockMassScalingFactor * config.rockMaxMassFactor);
 const minRockBaseMass=(config.rockMassScalingFactor * config.rockMinMassFactor);
 const maxRockDensity=((config.rockMinSize * maxRockBaseMass) / Math.pow(config.rockMinSize, 3));
 const minRockDensity=((config.rockMaxSize * maxRockBaseMass) / Math.pow(config.rockMaxSize, 3));
-var spawnRock = (function spawnRock$(x_y$1, mass, scale) {
+var spawnRock = (function spawnRock$(x_y$3, mass, scale) {
   /* spawn-rock eval.sibilant:41:0 */
 
-  var x = x_y$1[0],
-      y = x_y$1[1];
+  var x = x_y$3[0],
+      y = x_y$3[1];
 
   console.log("spawning rock");
   var rock = rocks.spawn([ RockSprites, Position, Physics, Collision, Velocity ]);

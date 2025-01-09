@@ -5,7 +5,7 @@
      'size size
      'ui-polling-rate 10
      'trail-resolution 5
-     'angle-zoom 1
+     'angle-zoom 15
      'noise-z 2
      'field-force 28
      'dimensions dim
@@ -25,7 +25,7 @@
      'options-amplitude 10
      'limit-decay false
      'ant-influence 90
-     'friction 0.0001
+     'friction 0.01
      'collision-static 5
      'spawn-static 10
      'spawn-rate 10

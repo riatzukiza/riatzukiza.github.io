@@ -4,7 +4,7 @@
 (define Field-of-view Component
   (visible-tiles (.spawn List))
   (gett world-pos this.entity.position-interface)
-  (range 8)
+  (range 16)
   )
 (define Sight System
   (interface Field-of-view)
@@ -25,6 +25,7 @@
                 (const visible-tile (.get this.tiles x y))
                 (if (not visible-tile.entity.visible-status.explored?)
                     (.setup visible-tile))
+
                 (.push c.visible-tiles visible-tile)
                 (assign visible-tile.entity.visible-status.visible? true)
                 ))

@@ -24,7 +24,7 @@ var {
   Interface
  } = require("@kit-js/interface");
 var GroundType = Spawnable.define("GroundType", { 
-  init( spriteCoordMinX = 0,spriteCoordMinY = 0,spriteCoordMaxX = 7,spriteCoordMaxY = 7,movementSpeed = 0.75 ){ 
+  init( spriteCoordMinX = 0,spriteCoordMinY = 0,spriteCoordMaxX = 3,spriteCoordMaxY = 3,movementSpeed = 0.75 ){ 
     
       this.spriteCoordMinX = spriteCoordMinX;this.spriteCoordMinY = spriteCoordMinY;this.spriteCoordMaxX = spriteCoordMaxX;this.spriteCoordMaxY = spriteCoordMaxY;this.movementSpeed = movementSpeed;
       return this;
@@ -42,10 +42,10 @@ var Ground = Component.define("Ground", {
 var GroundTypes = System.define("GroundTypes", { 
   interface:Ground,
   types:Interface.define("types", { 
-    grass:GroundType.spawn(0, 0, 7, 7, 0.75),
-    stone:GroundType.spawn(0, 7, 15, 7, 1.1),
-    brokenStone:GroundType.spawn(7, 7, 15, 15, 1),
-    floweryGrass:GroundType.spawn(7, 0, 15, 7, 0.7)
+    grass:GroundType.spawn(0, 0, 3, 3, 0.75),
+    stone:GroundType.spawn(0, 3, 7, 3, 1.1),
+    brokenStone:GroundType.spawn(3, 3, 7, 7, 1),
+    floweryGrass:GroundType.spawn(3, 0, 7, 3, 0.7)
    }),
   _updateComponent(  ){ 
     
