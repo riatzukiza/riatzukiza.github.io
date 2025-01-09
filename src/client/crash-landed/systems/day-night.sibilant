@@ -1,0 +1,8 @@
+(define Time-of-day Component)
+(define Day-night System
+  ;; in ticks
+  ;; about 20 minutes if the game is running ideally
+  (day-length (* 60 60 20))
+  (current-time 0);;midnight
+
+  )

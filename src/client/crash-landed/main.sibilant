@@ -41,7 +41,12 @@
 (.start game)
 
 (const game-scale 128)
-(const tiles (.spawn Tile-graph game-scale  [Floor-sprites Cliff-sprites Tile-visibility] game))
+(const tiles (.spawn Tile-graph game-scale
+                     [
+                      Floor-sprites
+                      Cliff-sprites
+                      Tile-visibility
+                      ] game))
 (const player ((create Entity-group)"player" [Position Player-sprites Physics Velocity  Sight] game.ent))
 
 (const p (.spawn player))

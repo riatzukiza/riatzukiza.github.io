@@ -117,7 +117,7 @@ console.log(v.getAngle());
 const directions=[ east, southEast, south, southWest, west, northWest, north, northEast ];
 const directionNames=[ "east", "southEast", "south", "southWest", "west", "northWest", "north", "northEast" ];
 var getCardinalDirection = (function getCardinalDirection$(vector) {
-  /* get-cardinal-direction eval.sibilant:73:0 */
+  /* get-cardinal-direction eval.sibilant:78:0 */
 
   const angle=vector.getAngle();
   return directions[(Math.abs(Math.round((angle / eigthTurn))) % 8)];
@@ -133,7 +133,7 @@ var directionActions = Interface.define("directionActions", {
   northWest:[ -1, 1 ]
  });
 var getCardinalDirectionName = (function getCardinalDirectionName$(vector) {
-  /* get-cardinal-direction-name eval.sibilant:90:0 */
+  /* get-cardinal-direction-name eval.sibilant:95:0 */
 
   const angle=vector.getAngle();
   const i=(Math.abs(Math.round((angle / eigthTurn))) % 8);
@@ -157,7 +157,7 @@ var getMoveNoise = (function getMoveNoise$(x = this.x, y = this.y, t = this.t, f
   return v;
 });
 TileNode.setup = (function TileNode$setup$(x, y) {
-  /* Tile-node.setup eval.sibilant:125:0 */
+  /* Tile-node.setup eval.sibilant:130:0 */
 
   const v=getTileNoise(x, y, 256);
   const x_=(Math.abs(Math.round(v.x)) % 16);
