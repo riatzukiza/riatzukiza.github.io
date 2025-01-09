@@ -94,6 +94,8 @@ kanban-plugin: board
 - [ ] shoot em up
 - [ ] Flight simulator
 - [ ] Spaceship shooter
+- [ ] Item system
+- [ ] Inventory system
 
 
 ## Epics
@@ -143,7 +145,6 @@ kanban-plugin: board
 - [ ] [Find unknown content warnings](tasks/Find%20unknown%20content%20warnings.md)
 - [ ] [paralell processing for each system](tasks/paralell%20processing%20for%20each%20system.md)
 	  - [blocked](blocked.md) by backend task
-- [ ] [ground tiles](tasks/ground%20tiles.md)
 - [ ] [metabolism system](tasks/metabolism%20system.md)
 - [ ] [predator agents](tasks/predator%20agents.md)
 - [ ] [resource mechanics](tasks/resource%20mechanics.md)
@@ -184,13 +185,12 @@ kanban-plugin: board
 - [ ] [Add beautifier and beautifier to pipeline to pipeline](tasks/Add%20beautifier%20and%20beautifier%20to%20pipeline%20to%20pipeline.md)
 	  - Maybe this should be [done](done.md) at the same time as hot reloading? it is at least [blocked](blocked.md) by that task.
 - [ ] [elevation](tasks/elevation.md)
-- [ ] [Sprite sheets](tasks/Sprite%20sheets.md)
-- [ ] [Better sprite rotation](tasks/Better%20sprite%20rotation.md)
 - [ ] [Electron client](tasks/Electron%20client.md)
 - [ ] [Side scroller](tasks/Side%20scroller.md)
 - [ ] [3d gravity using babylon](tasks/3d%20gravity%20using%20babylon.md)
 - [ ] [blog](tasks/blog.md)
 - [ ] [move kit http](tasks/move%20kit%20http.md)
+- [ ] [Better sprite rotation](tasks/Better%20sprite%20rotation.md)
 - [ ] [move kit shell](tasks/move%20kit%20shell.md)
 - [ ] [move kit core](tasks/move%20kit%20core.md)
 - [ ] [move kit html](tasks/move%20kit%20html.md)
@@ -226,30 +226,32 @@ kanban-plugin: board
 
 ## Todo (5)
 
+- [ ] [multiple signal fields](tasks/multiple%20signal%20fields.md)
+- [ ] [reverse navigation home](tasks/reverse%20navigation%20home.md)
 - [ ] [unit system](tasks/unit%20system.md)
 	  - A unit is an abstraction over an entity.
 	  - Entities can be anything in the game
 	  - A unit is a dynamic collection of entities
 	- Like say a weapon, a shield
 - [ ] [multiple factions](tasks/multiple%20factions.md)
-- [ ] [camera system](tasks/camera%20system.md)
 - [ ] [attack system](tasks/attack%20system.md)
 
 
 ## In Progress (2)
 
-- [ ] [multiple signal fields](tasks/multiple%20signal%20fields.md)
-- [ ] [reverse navigation home](tasks/reverse%20navigation%20home.md)
+- [ ] [ground tiles](tasks/ground%20tiles.md)
 
 
 ## In Review (2)
 
-- [ ] [Brain storm new projects](tasks/Brain%20storm%20new%20projects.md)
 
 
 ## Done
 
 **Complete**
+- [x] [Sprite sheets](tasks/Sprite%20sheets.md) ✅ 2025-01-08
+- [x] [Brain storm new projects](tasks/Brain%20storm%20new%20projects.md) ✅ 2025-01-08
+- [x] [camera system](tasks/camera%20system.md) ✅ 2025-01-08
 - [x] [Add a project page to the website](tasks/Add%20a%20project%20page%20to%20the%20website.md) ✅ 2024-12-23
 - [x] [Design theme for website.](tasks/Design%20theme%20for%20website..md) ✅ 2024-12-23
 - [x] [sprites](tasks/sprites.md) ✅ 2024-12-23
