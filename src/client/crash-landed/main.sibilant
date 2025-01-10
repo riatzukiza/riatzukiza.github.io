@@ -103,17 +103,17 @@
 
 (Sight.register-tile-graph tiles)
 
-(def-generic get-tile-noise (x y (force 16) (v (.spawn Vector 1 1)))
+(def-generic get-tile-noise (x y (z config.noise-z) (angle-zoom config.angle-zoom)(force 16) (v (.spawn Vector 1 1)))
   (.set-angle v
-              (* (noise.simplex3 (/ x config.angle-zoom 5)
-                                 (/ y config.angle-zoom 5)
-                                 (/ config.noise-z 10000))
+              (* (noise.simplex3 (/ x angle-zoom 5)
+                                 (/ y angle-zoom 5)
+                                 (/ z 10000))
                  Math.PI 2))
   (const length (noise.simplex3 (+ (/ x 50)
                                    40000)
                                 (+ (/ x 50)
                                    40000)
-                                (/ config.noise-z 10000)))
+                                (/ z 10000)))
   (.set-length v (* length force))
   v)
 (def-generic get-move-noise (x y t (force 16) (v (.spawn Vector 1 1)))
@@ -130,85 +130,39 @@
   (.set-length v (* length force))
   v)
 
+(const visited (new Set))
+(const cell-types ['grass 'flowery-grass  'grass 'flowery-grass  'grass 'flowery-grass  'grass 'flowery-grass 'grass 'grass  'broken-stone 'stone 'stone 'broken-stone])
+;; (const chunk-types ['field 'road-vertical 'road-horizontal 'road-4-way-intersction 'road-3-way-intersection])
+(var next-type 0)
 (def-generic Tile-node.setup (x y)
-  (const v (get-tile-noise x y 1024))
+  (const current-type (get cell-types (Math.floor next-type)))
+  (assign next-type (mod (+ 0.01 next-type) cell-types.length))
+  (var v (get-tile-noise x y ))
+  (var tile this)
+  (var n 0)
+  (until (or (= n 256) (.has visited tile))
+         (++ n)
+         (assign tile.entity.ground.type current-type)
+         (.add visited tile)
+         (assign tile (get tile (get-cardinal-direction-name v)))
+         (.despawn v)
+         (assign v (get-tile-noise tile.x tile.y)))
+
+
   ;; (print v x y (.get-length v) (.get-angle v))
   (const x* (mod (Math.abs (Math.round v.x) ) 4))
   (const y* (mod (Math.abs (Math.round v.y) ) 4))
-
-  (define neighbor-types Interface
-    (grass [])
-    (flowery-grass [])
-    (stone [])
-    (broken-stone [])
-    )
-
-  (var options [])
-  (const neighbors (new Set))
-  (for-of! neighbor this.edges
-
-           (when neighbor.entity.visible-status.explored?
-             (.push (get neighbor-types neighbor.entity.ground.type) neighbor)
-             (.push options neighbor.entity.ground.type)
-             (.add neighbors neighbor)
-             (for-of! neighbors-neighbor neighbor.edges
-
-                      (when (and (not (.has neighbors neighbors-neighbor))
-                                 neighbors-neighbor.entity.visible-status.explored?)
-                        (.add neighbors neighbors-neighbor)
-                        (.push (get neighbor-types neighbors-neighbor.entity.ground.type) neighbors-neighbor)
-                        (.push options neighbors-neighbor.entity.ground.type)))
-             null))
-  (assign options (if options.length
-                      options
-                      [
-                       'grass
-                        'flowery-grass
-                         'stone
-                          'broken-stone
-                           ]
-
-                      ))
-  (if (> neighbor-types.flowery-grass 5)
-      (assign options (.map options (=> (opt) (if (= opt 'stone)
-                                                  'grass
-                                                   (= opt 'broken-stone)
-                                                   'flowery-grass
-
-                                                    opt))))
-
-      (> neighbor-types.grass 5)
-      (assign options (.map options (=> (opt) (if (= opt 'broken-stone)
-                                                   'flowery-grass
-
-                                                    opt))))
-      (< neighbor-types.stone.length 2)
-      (assign options (.map options (=> (opt) (if (= opt 'broken-stone)
-                                                  'grass
-                                                   opt
-                                                   ))))
-      (> neighbor-types.stone.length 5)
-      (assign options (.map options (=> (opt) (if (= opt 'flowery-grass)
-                                                  'broken-stone
-                                                   opt)))))
-
-  (print options)
-  (const selected-type (get options (mod (Math.round (Math.abs v.x)) options.length)))
-  (assign this.entity.ground.type selected-type)
   (const coords [
 
                  (+ x* this.entity.ground.stats.sprite-coord-min-x)
                  (+ y* this.entity.ground.stats.sprite-coord-min-y)
                  ])
 
-  (print "sprite coords" coords selected-type)
   (.select-tile this.entity.floor-sprite
                 (dots coords)
                 )
-  ;; (.select-tile this.entity.cliff-sprite
-  ;;               x*
-  ;;               y*
-  ;;               )
+
+
   (.despawn v))
 
 (set p.physical-properties
@@ -218,9 +172,9 @@
 
     (const pos p.position-interface)
     (if (= (mod t 10) 0) (.step p.player-sprite))
-    (when (= (mod t 30) 0)
+    (when (= (mod t 10) 0)
       (const noise-v (get-move-noise pos.x pos.y t
-                                     (* 10 game-scale)))
+                                     (* 20 game-scale)))
      (.add-to  v noise-v)
 
      (.despawn noise-v)

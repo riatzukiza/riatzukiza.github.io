@@ -76,7 +76,7 @@ var Rendering = PooledSystem.define("Rendering", {
       const self=this;
       this.xOffset = 0;
       this.yOffset = 0;
-      this.zoomLevel = 1;
+      this.zoomLevel = 0.5;
       console.log(self);
       var mouseHeld = false;
       context.canvas.onmousedown = (function context$canvas$onmousedown$(e) {

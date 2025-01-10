@@ -5,8 +5,8 @@
      'size size
      'ui-polling-rate 10
      'trail-resolution 5
-     'angle-zoom 15
-     'noise-z 2
+     'angle-zoom 64
+     'noise-z 32
      'field-force 28
      'dimensions dim
      'columns (Math.ceil (/ (first dim) size))
@@ -25,7 +25,7 @@
      'options-amplitude 10
      'limit-decay false
      'ant-influence 90
-     'friction 0.01
+     'friction 0.1
      'collision-static 5
      'spawn-static 10
      'spawn-rate 10

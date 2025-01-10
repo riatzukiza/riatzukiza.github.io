@@ -143,11 +143,11 @@ var getCardinalDirectionName = (function getCardinalDirectionName$(vector) {
   return directionNames[i];
 });
 Sight.registerTileGraph(tiles);
-var getTileNoise = (function getTileNoise$(x = this.x, y = this.y, force = 16, v = Vector.spawn(1, 1)) {
+var getTileNoise = (function getTileNoise$(x = this.x, y = this.y, z = config.noiseZ, angleZoom = config.angleZoom, force = 16, v = Vector.spawn(1, 1)) {
   /* get-tile-noise node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
-  v.setAngle((noise.simplex3((x / config.angleZoom / 5), (y / config.angleZoom / 5), (config.noiseZ / 10000)) * Math.PI * 2));
-  const length=noise.simplex3(((x / 50) + 40000), ((x / 50) + 40000), (config.noiseZ / 10000));
+  v.setAngle((noise.simplex3((x / angleZoom / 5), (y / angleZoom / 5), (z / 10000)) * Math.PI * 2));
+  const length=noise.simplex3(((x / 50) + 40000), ((x / 50) + 40000), (z / 10000));
   v.setLength((length * force));
   return v;
 });
@@ -159,108 +159,34 @@ var getMoveNoise = (function getMoveNoise$(x = this.x, y = this.y, t = this.t, f
   v.setLength((length * force));
   return v;
 });
+const visited=(new Set());
+const cellTypes=[ "grass", "floweryGrass", "grass", "floweryGrass", "grass", "floweryGrass", "grass", "floweryGrass", "grass", "grass", "brokenStone", "stone", "stone", "brokenStone" ];
+var nextType = 0;
 TileNode.setup = (function TileNode$setup$(x = this.x, y = this.y) {
   /* Tile-node.setup node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
-  const v=getTileNoise(x, y, 1024);
+  const currentType=cellTypes[Math.floor(nextType)];
+  nextType = ((0.01 + nextType) % cellTypes.length);
+  var v = getTileNoise(x, y);
+  var tile = this;
+  var n = 0;
+  (function() {
+    var while$1100 = undefined;
+    while (!((n === 256 || visited.has(tile)))) {
+      while$1100 = (function() {
+        ++(n);
+        tile.entity.ground.type = currentType;
+        visited.add(tile);
+        tile = tile[getCardinalDirectionName(v)];
+        v.despawn();
+        return v = getTileNoise(tile.x, tile.y);
+      }).call(this);
+    };
+    return while$1100;
+  }).call(this);
   const x_=(Math.abs(Math.round(v.x)) % 4);
   const y_=(Math.abs(Math.round(v.y)) % 4);
-  var neighborTypes = Interface.define("neighborTypes", { 
-    grass:[],
-    floweryGrass:[],
-    stone:[],
-    brokenStone:[]
-   });
-  var options = [];
-  const neighbors=(new Set());
-  for (var neighbor of this.edges)
-  {
-  (function() {
-    if (neighbor.entity.visibleStatus.explored__QUERY) {
-      neighborTypes[neighbor.entity.ground.type].push(neighbor);
-      options.push(neighbor.entity.ground.type);
-      neighbors.add(neighbor);
-      for (var neighborsNeighbor of neighbor.edges)
-      {
-      (function() {
-        if ((!(neighbors.has(neighborsNeighbor)) && neighborsNeighbor.entity.visibleStatus.explored__QUERY)) {
-          neighbors.add(neighborsNeighbor);
-          neighborTypes[neighborsNeighbor.entity.ground.type].push(neighborsNeighbor);
-          return options.push(neighborsNeighbor.entity.ground.type);
-        }
-      }).call(this)
-      }
-      ;
-      return null;
-    }
-  }).call(this)
-  }
-  ;
-  options = (function() {
-    if (options.length) {
-      return options;
-    } else {
-      return [ "grass", "floweryGrass", "stone", "brokenStone" ];
-    }
-  }).call(this);
-  (function() {
-    if (neighborTypes.floweryGrass > 5) {
-      return options = options.map(((opt) => {
-      	
-        return (function() {
-          if (opt === "stone") {
-            return "grass";
-          } else if (opt === "brokenStone") {
-            return "floweryGrass";
-          } else {
-            return opt;
-          }
-        }).call(this);
-      
-      }));
-    } else if (neighborTypes.grass > 5) {
-      return options = options.map(((opt) => {
-      	
-        return (function() {
-          if (opt === "brokenStone") {
-            return "floweryGrass";
-          } else {
-            return opt;
-          }
-        }).call(this);
-      
-      }));
-    } else if (neighborTypes.stone.length < 2) {
-      return options = options.map(((opt) => {
-      	
-        return (function() {
-          if (opt === "brokenStone") {
-            return "grass";
-          } else {
-            return opt;
-          }
-        }).call(this);
-      
-      }));
-    } else if (neighborTypes.stone.length > 5) {
-      return options = options.map(((opt) => {
-      	
-        return (function() {
-          if (opt === "floweryGrass") {
-            return "brokenStone";
-          } else {
-            return opt;
-          }
-        }).call(this);
-      
-      }));
-    }
-  }).call(this);
-  console.log(options);
-  const selectedType=options[(Math.round(Math.abs(v.x)) % options.length)];
-  this.entity.ground.type = selectedType;
   const coords=[ (x_ + this.entity.ground.stats.spriteCoordMinX), (y_ + this.entity.ground.stats.spriteCoordMinY) ];
-  console.log("sprite coords", coords, selectedType);
   this.entity.floorSprite.selectTile(...coords);
   return v.despawn();
 });
@@ -274,8 +200,8 @@ game.events.on("tick", ((t) => {
     }
   }).call(this);
   return (function() {
-    if ((t % 30) === 0) {
-      const noiseV=getMoveNoise(pos.x, pos.y, t, (10 * gameScale));
+    if ((t % 10) === 0) {
+      const noiseV=getMoveNoise(pos.x, pos.y, t, (20 * gameScale));
       v.addTo(noiseV);
       noiseV.despawn();
       const directionName=getCardinalDirectionName(v);

@@ -117,6 +117,24 @@ var TileNode = Spawnable.define("TileNode", {
     
       return [ this.north, this.south, this.east, this.west, this.northEast, this.northWest, this.southEast, this.southWest ];
     
+   },
+  traverseArea( f = this.f,n = this.n,d = 0,visited = (new Set()) ){ 
+    
+      f(this, d, n, visited);
+      visited.add(this);
+      if( n > 0 ){ 
+        for (var neighbor of this.edges)
+        {
+        (function() {
+          if (!(visited.has(neighbor))) {
+            return neighbor.traverseArea(f, (n - 1), (d + 1), visited);
+          }
+        }).call(this)
+        }
+        
+       };
+      return this;
+    
    }
  });
 exports.TileNode = TileNode;

@@ -49,7 +49,7 @@
    (const self  this)
    (assign this.x-offset 0)
    (assign this.y-offset 0)
-   (assign this.zoom-level 1.0)
+   (assign this.zoom-level 0.5)
    (print self)
 
    (var mouse-held false)
