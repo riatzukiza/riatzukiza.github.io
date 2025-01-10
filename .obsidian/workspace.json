@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "kanban/tasks/multiple signal fields.md",
+                "file": "notes/daily/2025-01-10.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "multiple signal fields"
+              "title": "2025-01-10"
             }
           }
         ]
@@ -243,27 +243,10 @@
   },
   "active": "36ec7274abfa729c",
   "lastOpenFiles": [
-    "kanban/board.md",
-    "kanban/tasks/ground tiles.md",
-    "kanban/tasks/night day cycle.md",
-    "kanban/tasks/Building system.md",
-    "kanban/tasks/resource mechanics.md",
-    "kanban/tasks/multiple signal fields.md",
-    "kanban/tasks/reverse navigation home.md",
-    "notes/daily/2025-01-04.md",
-    "docs/readme.md",
-    "templates/projects/red-black-tree-visualization.js",
-    "templates/projects/obstacles.js",
-    "templates/projects/index.js",
-    "templates/projects",
-    "static/projects/red-black-tree-visualization.html",
-    "static/projects/obstacles.html",
-    "static/projects/index.html",
-    "static/projects",
-    "static/kanban/templates/_index_of_templates.html",
-    "static/kanban/templates/New Task.html",
-    "notes/daily/_Index_of_daily.md",
     "notes/daily/2025-01-03.md",
+    "notes/daily/2025-01-10.md",
+    "kanban/board.md",
+    "conflict-files-obsidian-git.md",
     "notes/daily/2025-01-02.md",
     "notes/daily/2024-12-27.md",
     "notes/daily/2024-12-24.md",
@@ -278,8 +261,20 @@
     "kanban/tasks/Image editor program.md",
     "kanban/tasks/Graphics.md",
     "kanban/tasks/Governor System.md",
-    "kanban/tasks/Game UI.md",
-    "kanban/tasks/Game Mechanics.md",
+    "kanban/tasks/metabolism system.md",
+    "kanban/tasks/Individual ant neural networks.md",
+    "kanban/tasks/Brain storm new projects.md",
+    "static/docs/readme.html",
+    "static/docs/_index_of_docs.html",
+    "static/docs/shared/_index_of_shared.html",
+    "static/docs/shared/ecs/componentsystem/_index_of_componentsystem.html",
+    "static/docs/shared/ecs/componentsystem/register.html",
+    "static/docs/shared/ecs/component/_index_of_component.html",
+    "static/docs/shared/ecs/component/register.html",
+    "kanban/process.md",
+    "kanban/done.md",
+    "kanban/tasks/move kit fs.md",
+    "kanban/tasks/move kit core.md",
     "Untitled.canvas"
   ]
 }
