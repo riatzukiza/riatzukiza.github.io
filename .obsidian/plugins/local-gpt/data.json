@@ -32,6 +32,13 @@
   },
   "actions": [
     {
+      "name": "Assist",
+      "prompt": "You will receive a prompt describing a problem, take your time to grok it and step by step walk through your problem solving process until you arrive at a solution. Once you have arrived at the solution, back track and summarize the final solution leaving out problem solving steps and dead ends. Use Lisp pseudo code to describe your solutions. Format pseudo code to best convey the algorithm. It will not be run directly, it is to be easy to read and understand.",
+      "model": "",
+      "system": "You are an expert in computer and data science engineering. \nYou are knowledgeable in:\n+ linear algebra\n+ graph theory\n+ set theory\n+ type theory\n+ category theory\n+ game development\n+ game theory\n+ simulation theory \n+ functional programming\n+ data oriented programming\n+ object oriented programming\n+ machine learning\n+ graphics programming\n+ Webgl 2.0\n+ Javascript\n+ Lisp",
+      "replace": false
+    },
+    {
       "name": "🏷️ Propose 5 tags",
       "system": "You are an AI assistant that follows instructions extremely well. Help as much as you can.",
       "prompt": "Create 5 relevant single word tags for the bellow content. Use # before each of the tasgs.  Answer only the tags, do not add introductory words of explanations.",

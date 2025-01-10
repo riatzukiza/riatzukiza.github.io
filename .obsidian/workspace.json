@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "notes/daily/2025-01-10.md",
+                "file": "notes/unique/2025-01-10-08.21.29.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2025-01-10"
+              "title": "2025-01-10-08.21.29"
             }
           }
         ]
@@ -222,8 +222,10 @@
   },
   "active": "02ba21013b3ad7f9",
   "lastOpenFiles": [
-    "notes/daily/2025-01-03.md",
+    "notes/unique/_Index_of_unique.md",
     "notes/daily/2025-01-10.md",
+    "notes/unique/2025-01-10-08.21.29.md",
+    "notes/daily/2025-01-03.md",
     "kanban/board.md",
     "conflict-files-obsidian-git.md",
     "notes/daily/2025-01-02.md",
@@ -256,8 +258,6 @@
     "static/docs/shared/ecs/component/register.html",
     "kanban/process.md",
     "kanban/done.md",
-    "kanban/tasks/move kit fs.md",
-    "kanban/tasks/move kit core.md",
     "Untitled.canvas"
   ]
 }
