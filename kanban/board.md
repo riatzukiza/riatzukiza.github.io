@@ -70,26 +70,14 @@ kanban-plugin: board
 - [ ] poker
 
 
-## Accepted
-
-- [ ] Map generation
-- [ ] Terrain features
-- [ ] Weapon loadout system
-- [ ] [sparse vector fields](tasks/sparse%20vector%20fields.md)
-- [ ] [Individual ant neural networks](tasks/Individual%20ant%20neural%20networks.md)
-- [ ] [neural network for signal field hyerparameter adjustments](tasks/neural%20network%20for%20signal%20field%20hyerparameter%20adjustments.md)
-- [ ] [Question answering system for file system](tasks/Question%20answering%20system%20for%20file%20system.md)
-- [ ] [browser based lisp shell](tasks/browser%20based%20lisp%20shell.md)
-- [ ] [Image editor program](tasks/Image%20editor%20program.md)
-- [ ] [Text editor program](tasks/Text%20editor%20program.md)
-
-
 ## Projects
 
 - [ ] [[Symbiant]]
 - [ ] [[Crash Landed]]
 - [ ] Rim world clone
 - [ ] Tree visualizer
+- [ ] RPG with dynamic NPCs
+- [ ] Colony simulator
 
 
 ## Epics
@@ -122,107 +110,127 @@ kanban-plugin: board
 - [ ] Game design
 
 
-## New
-
-- [ ] [[Implement A algorithim]]
-- [ ] [[sprite generator]]
-- [ ] projectile system
-- [ ] ranged attack system
-- [ ] Implement AVL trees
-- [ ] implement binary heap
-- [ ] Neural network visualization
-- [ ] RPG with dynamic NPCs
-- [ ] Implement Feed Forward Neural network
-- [ ] Implement graph datastructure
-- [ ] In game unit designer
-- [ ] Colony simulator
-- [ ] Dynamic story teller
-- [ ] Random events system
-
-
 ## Ice Box
 
+- [ ] [weather system](tasks/weather%20system.md)
+- [ ] [flying units](tasks/flying%20units.md)
+- [ ] [chat app MVP](tasks/chat%20app%20MVP.md)
 - [ ] [Pure p2p video text chat](tasks/Pure%20p2p%20video%20text%20chat.md)
 - [ ] [peer to peer networking](tasks/peer%20to%20peer%20networking.md)
+- [ ] [Governor System](tasks/Governor%20System.md)
+- [ ] [Add beautifier and beautifier to pipeline to pipeline](tasks/Add%20beautifier%20and%20beautifier%20to%20pipeline%20to%20pipeline.md)
+	  - Maybe this should be [done](done.md) at the same time as hot reloading? it is at least [blocked](blocked.md) by that task.
+- [ ] [Find unknown content warnings](tasks/Find%20unknown%20content%20warnings.md)
+- [ ] [Remove duplicate code included in headers.](tasks/Remove%20duplicate%20code%20included%20in%20headers..md)
+- [ ] [paralell processing for each system](tasks/paralell%20processing%20for%20each%20system.md)
+	  - [blocked](blocked.md) by backend task
+- [ ] [Cull duplicate macros](tasks/Cull%20duplicate%20macros.md)
+- [ ] [Make old algage work](tasks/Make%20old%20algage%20work.md)
 - [ ] Ampibious units
+- [ ] [Implement tests for existing shared components.](tasks/Implement%20tests%20for%20existing%20shared%20components..md)
+- [ ] [DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files.](tasks/DevOps%20Sibilant%20transpiler%20should%20create%20less%20noise%20in%20pull%20requests%20when%20acting%20on%20unchanged%20files..md)
+- [ ] [add game of life to portfolio](tasks/add%20game%20of%20life%20to%20portfolio.md)
+- [ ] [Make old symbiants work](tasks/Make%20old%20symbiants%20work.md)
+- [ ] [move kit fs](tasks/move%20kit%20fs.md)
 - [ ] Process diagram
+- [ ] [github readme](tasks/github%20readme.md)
+	  - The [readme](../readme.md) can be generated from this kanban through simple concatonation.
 - [ ] naval units
 - [ ] worker units
 - [ ] Faction Central building/townsquare
-
-
-## Blocked
-
-- [ ] [sprite lighting](tasks/sprite%20lighting.md)
-- [ ] [shadows](tasks/shadows.md)
-- [ ] [night day cycle](tasks/night%20day%20cycle.md)
-- [ ] [Governor System](tasks/Governor%20System.md)
-- [ ] [flying units](tasks/flying%20units.md)
-- [ ] [Water resource](tasks/Water%20resource.md)
-- [ ] [Mineral Resource](tasks/Mineral%20Resource.md)
-- [ ] [minimap](tasks/minimap.md)
-- [ ] [weather system](tasks/weather%20system.md)
-- [ ] [Toggle coordinate wrap around](tasks/Toggle%20coordinate%20wrap%20around.md)
-- [ ] [BUG Collision doesn't work correctly in some circumstances.](tasks/BUG%20Collision%20doesn't%20work%20correctly%20in%20some%20circumstances..md)
-- [ ] [Remove duplicate code included in headers.](tasks/Remove%20duplicate%20code%20included%20in%20headers..md)
-- [ ] [Cull duplicate macros](tasks/Cull%20duplicate%20macros.md)
-- [ ] [Find unknown content warnings](tasks/Find%20unknown%20content%20warnings.md)
-- [ ] [paralell processing for each system](tasks/paralell%20processing%20for%20each%20system.md)
-	  - [blocked](blocked.md) by backend task
-- [ ] [ground tiles](tasks/ground%20tiles.md)
-- [ ] [metabolism system](tasks/metabolism%20system.md)
-- [ ] [multiple signal fields](tasks/multiple%20signal%20fields.md)
-- [ ] [predator agents](tasks/predator%20agents.md)
-- [ ] [resource mechanics](tasks/resource%20mechanics.md)
-- [ ] [reverse navigation home](tasks/reverse%20navigation%20home.md)
-- [ ] [Building system](tasks/Building%20system.md)
-- [ ] [DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files.](tasks/DevOps%20Sibilant%20transpiler%20should%20create%20less%20noise%20in%20pull%20requests%20when%20acting%20on%20unchanged%20files..md)
-- [ ] [Make old symbiants work](tasks/Make%20old%20symbiants%20work.md)
-
-
-## Breakdown (5)
-
-- [ ] [Priority management system](tasks/Priority%20management%20system.md)
-- [ ] [Order queues](tasks/Order%20queues.md)
-- [ ] [Agenda system](tasks/Agenda%20system.md)
+- [ ] [Side scroller](tasks/Side%20scroller.md)
+- [ ] [SPIKE can we simplify object pools (2 hrs)](tasks/SPIKE%20can%20we%20simplify%20object%20pools%20(2%20hrs).md)
+- [ ] [a gpu implementation for signal fields and vector math.](tasks/a%20gpu%20implementation%20for%20signal%20fields%20and%20vector%20math..md)
+	  - Use tensorflow.js
+- [ ] [simulation backend](tasks/simulation%20backend.md)
+	  - Realizing after adding a toggle for the trail dots that rendering was not what was slowing the sim down
+	We have decided to move this out of the todo backlog, as it will not be as much of a value add as we'd 
+	have liked. The simulation needs more [Optimizations](tasks/Optimizations.md), and we don't currently have a place to host such an intensive backend.
+- [ ] [Commit messages generated by LLM](tasks/Commit%20messages%20generated%20by%20LLM.md)
+- [ ] [3d gravity using babylon](tasks/3d%20gravity%20using%20babylon.md)
+- [ ] [move kit repl](tasks/move%20kit%20repl.md)
+- [ ] [Mirror board to github](tasks/Mirror%20board%20to%20github.md)
+- [ ] [blog](tasks/blog.md)
+- [ ] [file explorer](tasks/file%20explorer.md)
+- [ ] [Enhance document macros](tasks/Enhance%20document%20macros.md)
+- [ ] [move kit html](tasks/move%20kit%20html.md)
+- [ ] [Rewrite andy lib in lisp](tasks/Rewrite%20andy%20lib%20in%20lisp.md)
+- [ ] [move kit core](tasks/move%20kit%20core.md)
+- [ ] [move kit http](tasks/move%20kit%20http.md)
+- [ ] [move kit shell](tasks/move%20kit%20shell.md)
+- [ ] [Electron client](tasks/Electron%20client.md)
+- [ ] [Text editor program](tasks/Text%20editor%20program.md)
+- [ ] [browser based lisp shell](tasks/browser%20based%20lisp%20shell.md)
+- [ ] [neural network for signal field hyerparameter adjustments](tasks/neural%20network%20for%20signal%20field%20hyerparameter%20adjustments.md)
+- [ ] [Question answering system for file system](tasks/Question%20answering%20system%20for%20file%20system.md)
+- [ ] [Image editor program](tasks/Image%20editor%20program.md)
+- [ ] [Individual ant neural networks](tasks/Individual%20ant%20neural%20networks.md)
 - [ ] [Vector based file system search](tasks/Vector%20based%20file%20system%20search.md)
 
 
-## Bugs
+## Blocked (21)
+
+
+
+## New (50)
+
+
+
+## Accepted (21)
+
+- [ ] [metabolism system](tasks/metabolism%20system.md)
+- [ ] [shadows](tasks/shadows.md)
+- [ ] [Mineral Resource](tasks/Mineral%20Resource.md)
+- [ ] [Building system](tasks/Building%20system.md)
+- [ ] [predator agents](tasks/predator%20agents.md)
+- [ ] [minimap](tasks/minimap.md)
+- [ ] [Water resource](tasks/Water%20resource.md)
+- [ ] [resource mechanics](tasks/resource%20mechanics.md)
+- [ ] [ground tiles](tasks/ground%20tiles.md)
+- [ ] [Agenda system](tasks/Agenda%20system.md)
+- [ ] Random events system
+- [ ] Dynamic story teller
+- [ ] projectile system
+- [ ] ranged attack system
+- [ ] Implement AVL trees
+- [ ] Neural network visualization
+- [ ] Implement Feed Forward Neural network
+- [ ] Implement graph datastructure
+- [ ] In game unit designer
+- [ ] [[Weapon loadout system]]
+
+
+## Breakdown (13)
+
+- [ ] [sparse vector fields](tasks/sparse%20vector%20fields.md)
+- [ ] [[Terrain features]]
+- [ ] [[Map generation]]
+- [ ] [[implement binary heap]]
+- [ ] [night day cycle](tasks/night%20day%20cycle.md)
+- [ ] [sprite lighting](tasks/sprite%20lighting.md)
+- [ ] [[Implement A algorithim]]
+- [ ] [Order queues](tasks/Order%20queues.md)
+- [ ] [Priority management system](tasks/Priority%20management%20system.md)
+- [ ] [[sprite generator]]
+- [ ] [Toggle coordinate wrap around](tasks/Toggle%20coordinate%20wrap%20around.md)
+- [ ] [multiple signal fields](tasks/multiple%20signal%20fields.md)
+
+
+## Bugs (8)
 
 - [ ] [BUG Rendering background color setter never seems to work.](tasks/BUG%20Rendering%20background%20color%20setter%20never%20seems%20to%20work..md)
+- [ ] [BUG Collision doesn't work correctly in some circumstances.](tasks/BUG%20Collision%20doesn't%20work%20correctly%20in%20some%20circumstances..md)
 
 
-## Ready
+## Ready (21)
 
-- [ ] [github readme](tasks/github%20readme.md)
-	  - The [readme](../readme.md) can be generated from this kanban through simple concatonation.
-- [ ] [move kit fs](tasks/move%20kit%20fs.md)
-- [ ] [Add beautifier and beautifier to pipeline to pipeline](tasks/Add%20beautifier%20and%20beautifier%20to%20pipeline%20to%20pipeline.md)
-	  - Maybe this should be [done](done.md) at the same time as hot reloading? it is at least [blocked](blocked.md) by that task.
 - [ ] [elevation](tasks/elevation.md)
 - [ ] [Sprite sheets](tasks/Sprite%20sheets.md)
 - [ ] [Better sprite rotation](tasks/Better%20sprite%20rotation.md)
-- [ ] [Electron client](tasks/Electron%20client.md)
-- [ ] [Side scroller](tasks/Side%20scroller.md)
-- [ ] [3d gravity using babylon](tasks/3d%20gravity%20using%20babylon.md)
-- [ ] [blog](tasks/blog.md)
-- [ ] [move kit http](tasks/move%20kit%20http.md)
-- [ ] [move kit shell](tasks/move%20kit%20shell.md)
-- [ ] [move kit core](tasks/move%20kit%20core.md)
-- [ ] [move kit html](tasks/move%20kit%20html.md)
-- [ ] [move kit repl](tasks/move%20kit%20repl.md)
-- [ ] [file explorer](tasks/file%20explorer.md)
-- [ ] [Commit messages generated by LLM](tasks/Commit%20messages%20generated%20by%20LLM.md)
-- [ ] [Make old algage work](tasks/Make%20old%20algage%20work.md)
-- [ ] [add game of life to portfolio](tasks/add%20game%20of%20life%20to%20portfolio.md)
 - [ ] [Hot reload system](tasks/Hot%20reload%20system.md)
 	  - Create a seperate pipeline for development and production
-- [ ] [Rewrite andy lib in lisp](tasks/Rewrite%20andy%20lib%20in%20lisp.md)
-- [ ] [Enhance document macros](tasks/Enhance%20document%20macros.md)
+- [ ] [reverse navigation home](tasks/reverse%20navigation%20home.md)
 - [ ] [multiple factions](tasks/multiple%20factions.md)
-- [ ] [Implement tests for existing shared components.](tasks/Implement%20tests%20for%20existing%20shared%20components..md)
-- [ ] [Mirror board to github](tasks/Mirror%20board%20to%20github.md)
 - [ ] [Update physics engine to increase accuracy and performance](tasks/Update%20physics%20engine%20to%20increase%20accuracy%20and%20performance.md)
 	  - Consolodate position and velocity into physics
 	  - When performing updates, do not mutate the state of the
@@ -240,25 +248,17 @@ kanban-plugin: board
 - [ ] [camera system](tasks/camera%20system.md)
 - [ ] [vector field visualization](tasks/vector%20field%20visualization.md)
 - [ ] [Dynamic pools for renderables.](tasks/Dynamic%20pools%20for%20renderables..md)
-- [ ] [a gpu implementation for signal fields and vector math.](tasks/a%20gpu%20implementation%20for%20signal%20fields%20and%20vector%20math..md)
-	  - Use tensorflow.js
-- [ ] [SPIKE can we simplify object pools (2 hrs)](tasks/SPIKE%20can%20we%20simplify%20object%20pools%20(2%20hrs).md)
-- [ ] [simulation backend](tasks/simulation%20backend.md)
-	  - Realizing after adding a toggle for the trail dots that rendering was not what was slowing the sim down
-	We have decided to move this out of the todo backlog, as it will not be as much of a value add as we'd 
-	have liked. The simulation needs more [Optimizations](tasks/Optimizations.md), and we don't currently have a place to host such an intensive backend.
 
 
-## Todo (5)
-
-- [ ] [chat app MVP](tasks/chat%20app%20MVP.md)
-
-
-## In Progress (2)
+## Todo (8)
 
 
 
-## In Review (2)
+## In Progress (3)
+
+
+
+## In Review (8)
 
 - [ ] [Brain storm new projects](tasks/Brain%20storm%20new%20projects.md)
 
@@ -294,6 +294,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,false,false,false,false,false,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,true,true,true,false,true,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
