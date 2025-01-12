@@ -7,18 +7,20 @@ We'll need example chunks of tiles to generate the world with.
 
 Hand making 3x3 tile chunks isn't working.
 ## Related Epics
-- [Identify and write useful templates for obsidian](../tasks/Identify%20and%20write%20useful%20templates%20for%20obsidian.md) 
+
+- [[Procedural Generation]]
+- [[Game Mechanics]]
 ## Requirements
 
-- High level expecations
-- Acceptance criteria
-- Definition of [done](../done.md)
+- There is a way to represent static world objects like trees and rocks
+- There is a way to represent large multi tile features like cliff faces, roads, and buildings
 
 ## Tasks 
 
-- [ ] Somthing that needs to be [done](../done.md) to accomplish this task
-- [ ] Non exhaustive, suggestive
-- [ ] Represents expected high level steps to meet AC
+- [ ] Implement static objects
+- [ ] implement tile painting dev tool
+- [ ] Implement tile configuration save mechanisim
+
 ## Blocked by 
 
 - Can't be worked on till this task is [done](../done.md)

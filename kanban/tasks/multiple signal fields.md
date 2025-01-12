@@ -11,10 +11,9 @@ We want the agents to mimic this behavior. Agents should be able to use multiple
 - A new field for satiated ants returning home with food
 - A new field for satiated ants looking for food to bring home
 
+## Tasks
+
+- [ ] 
+
 ## Blocked by
 
-- Trail entities
-- [reverse navigation home](reverse%20navigation%20home.md)?
-  - These two tickets may need to be worked on at the same time or merged into one.
-  - Start by working on [reverse navigation home](reverse%20navigation%20home.md) using only the inverse of the existing field.
-  - If agents cannot make it home, the ticket is blocked and we start work on this one.

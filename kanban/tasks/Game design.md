@@ -1,5 +1,5 @@
 
-Using somthing like wave function collapse, generate a world for our agents to interact with. I started an implementation of this but it's gonna need more work and some other features to be implemented first.
+A general description of the task
 ## Related Epics
 - [Identify and write useful templates for obsidian](../tasks/Identify%20and%20write%20useful%20templates%20for%20obsidian.md) 
 ## Requirements

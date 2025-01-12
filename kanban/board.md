@@ -72,6 +72,7 @@ kanban-plugin: board
 
 ## Projects
 
+- [ ] [RTS Game MVP](tasks/RTS%20Game%20MVP.md)
 - [ ] [[Symbiant]]
 - [ ] [[Crash Landed]]
 - [ ] Rim world clone
@@ -80,34 +81,41 @@ kanban-plugin: board
 - [ ] Colony simulator
 
 
-## Epics
+## Inactive Epics
 
-- [ ] [Game Mechanics](tasks/Game%20Mechanics.md)
-- [ ] [Graphics](tasks/Graphics.md)
-- [ ] [Game UI](tasks/Game%20UI.md)
-- [ ] [[Data structures]]
-- [ ] [Game AI](tasks/Game%20AI.md)
-- [ ] [[Game Art]]
-- [ ] [Website Design](tasks/Website%20Design.md)
-- [ ] [devops pipeline](tasks/devops%20pipeline.md)
-- [ ] [RTS Game MVP](tasks/RTS%20Game%20MVP.md)
-- [ ] [[Audio Design]]
-- [ ] [Intelligent movement commands](tasks/Intelligent%20movement%20commands.md)
 - [ ] [Move all outside work into the portfolio git](tasks/Move%20all%20outside%20work%20into%20the%20portfolio%20git.md)
 - [ ] [Import other projects](tasks/Import%20other%20projects.md)
+- [ ] [Natural language information systems](tasks/Natural%20language%20information%20systems.md)
+- [ ] [[Digital Assistants]]
+- [ ] [Conversational language modeling](tasks/Conversational%20language%20modeling.md)
+
+
+## Passive Epics (8)
+
+- [ ] [devops pipeline](tasks/devops%20pipeline.md)
+- [ ] [[Audio Design]]
 - [ ] [Optimizations](tasks/Optimizations.md)
 - [ ] [documentation](tasks/documentation.md)
 	  - Documenting a little bit at a time, especially when we find outselves having to look at older code to use or change it for use with new features.
-- [ ] [Natural language information systems](tasks/Natural%20language%20information%20systems.md)
-- [ ] [Conversational language modeling](tasks/Conversational%20language%20modeling.md)
+- [ ] [[Benchmarking]]
+- [ ] [[Abstractions]]
+- [ ] [[kanban/tasks/Process]]
+
+
+## Active Epics (13)
+
+- [ ] [Intelligent movement commands](tasks/Intelligent%20movement%20commands.md)
+- [ ] [Website Design](tasks/Website%20Design.md)
+- [ ] [[Game Art]]
+- [ ] [Game AI](tasks/Game%20AI.md)
+- [ ] [[Data structures]]
+- [ ] [Game UI](tasks/Game%20UI.md)
+- [ ] [Graphics](tasks/Graphics.md)
 - [ ] [[Procedural Generation]]
-- [ ] Digital Assistants
-- [ ] Benchmarking
-- [ ] Algorithims
-- [ ] Abstractions
-- [ ] Process
-- [ ] World building
-- [ ] Game design
+- [ ] [Game Mechanics](tasks/Game%20Mechanics.md)
+- [ ] [[Algorithims]]
+- [ ] [[World building]]
+- [ ] [[Game design]]
 
 
 ## Ice Box
@@ -174,18 +182,15 @@ kanban-plugin: board
 
 ## New (50)
 
+- [ ] Optional/removable components
 
 
 ## Accepted (21)
 
-- [ ] [metabolism system](tasks/metabolism%20system.md)
 - [ ] [shadows](tasks/shadows.md)
-- [ ] [Mineral Resource](tasks/Mineral%20Resource.md)
 - [ ] [Building system](tasks/Building%20system.md)
-- [ ] [predator agents](tasks/predator%20agents.md)
 - [ ] [minimap](tasks/minimap.md)
 - [ ] [Water resource](tasks/Water%20resource.md)
-- [ ] [resource mechanics](tasks/resource%20mechanics.md)
 - [ ] [ground tiles](tasks/ground%20tiles.md)
 - [ ] [Agenda system](tasks/Agenda%20system.md)
 - [ ] Random events system
@@ -202,18 +207,17 @@ kanban-plugin: board
 
 ## Breakdown (13)
 
-- [ ] [sparse vector fields](tasks/sparse%20vector%20fields.md)
+- [ ] [resource mechanics](tasks/resource%20mechanics.md)
+- [ ] [predator agents](tasks/predator%20agents.md)
+- [ ] [Mineral Resource](tasks/Mineral%20Resource.md)
 - [ ] [[Terrain features]]
 - [ ] [[Map generation]]
 - [ ] [[implement binary heap]]
 - [ ] [night day cycle](tasks/night%20day%20cycle.md)
 - [ ] [sprite lighting](tasks/sprite%20lighting.md)
-- [ ] [[Implement A algorithim]]
 - [ ] [Order queues](tasks/Order%20queues.md)
 - [ ] [Priority management system](tasks/Priority%20management%20system.md)
 - [ ] [[sprite generator]]
-- [ ] [Toggle coordinate wrap around](tasks/Toggle%20coordinate%20wrap%20around.md)
-- [ ] [multiple signal fields](tasks/multiple%20signal%20fields.md)
 
 
 ## Bugs (8)
@@ -224,49 +228,54 @@ kanban-plugin: board
 
 ## Ready (21)
 
+- [ ] [multiple signal fields](tasks/multiple%20signal%20fields.md)
+- [ ] [sparse vector fields](tasks/sparse%20vector%20fields.md)
+- [ ] [metabolism system](tasks/metabolism%20system.md)
 - [ ] [elevation](tasks/elevation.md)
-- [ ] [Sprite sheets](tasks/Sprite%20sheets.md)
 - [ ] [Better sprite rotation](tasks/Better%20sprite%20rotation.md)
-- [ ] [Hot reload system](tasks/Hot%20reload%20system.md)
-	  - Create a seperate pipeline for development and production
-- [ ] [reverse navigation home](tasks/reverse%20navigation%20home.md)
-- [ ] [multiple factions](tasks/multiple%20factions.md)
+- [ ] [deletable entites](tasks/deletable%20entites.md)
+	  - Entities can be deleted from a panel
 - [ ] [Update physics engine to increase accuracy and performance](tasks/Update%20physics%20engine%20to%20increase%20accuracy%20and%20performance.md)
 	  - Consolodate position and velocity into physics
 	  - When performing updates, do not mutate the state of the
 	last tick. Use two data structures, and swap them out [each](../docs/Pools/Dynamic/each.md) tick.
+- [ ] [Hot reload system](tasks/Hot%20reload%20system.md)
+	  - Create a seperate pipeline for development and production
+
+
+## Todo (8)
+
+- [ ] [[Implement A star algorithim]]
+- [ ] [Sprite sheets](tasks/Sprite%20sheets.md)
+- [ ] [multiple factions](tasks/multiple%20factions.md)
+- [ ] [vector field visualization](tasks/vector%20field%20visualization.md)
+- [ ] [selection box](tasks/selection%20box.md)
+- [ ] [placeable entities (rocks, plants, bases)](tasks/placeable%20entities%20(rocks,%20plants,%20bases).md)
+- [ ] [Dynamic pools for renderables.](tasks/Dynamic%20pools%20for%20renderables..md)
+- [ ] [attack system](tasks/attack%20system.md)
+
+
+## In Progress (3)
+
 - [ ] [unit system](tasks/unit%20system.md)
 	  - A unit is an abstraction over an entity.
 	  - Entities can be anything in the game
 	  - A unit is a dynamic collection of entities
 	- Like say a weapon, a shield
-- [ ] [deletable entites](tasks/deletable%20entites.md)
-	  - Entities can be deleted from a panel
-- [ ] [placeable entities (rocks, plants, bases)](tasks/placeable%20entities%20(rocks,%20plants,%20bases).md)
-- [ ] [attack system](tasks/attack%20system.md)
-- [ ] [selection box](tasks/selection%20box.md)
-- [ ] [camera system](tasks/camera%20system.md)
-- [ ] [vector field visualization](tasks/vector%20field%20visualization.md)
-- [ ] [Dynamic pools for renderables.](tasks/Dynamic%20pools%20for%20renderables..md)
-
-
-## Todo (8)
-
-
-
-## In Progress (3)
-
+- [ ] [reverse navigation home](tasks/reverse%20navigation%20home.md)
 
 
 ## In Review (8)
 
-- [ ] [Brain storm new projects](tasks/Brain%20storm%20new%20projects.md)
+- [ ] [Toggle coordinate wrap around](tasks/Toggle%20coordinate%20wrap%20around.md)
+- [ ] [camera system](tasks/camera%20system.md)
 
 
 ## Done
 
 **Complete**
 - [x] [Add a project page to the website](tasks/Add%20a%20project%20page%20to%20the%20website.md) ✅ 2024-12-23
+- [x] [Brain storm new projects](tasks/Brain%20storm%20new%20projects.md) ✅ 2025-01-12
 - [x] [Design theme for website.](tasks/Design%20theme%20for%20website..md) ✅ 2024-12-23
 - [x] [sprites](tasks/sprites.md) ✅ 2024-12-23
 - [x] [Home page](tasks/Home%20page.md) ✅ 2024-12-23
@@ -294,6 +303,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,true,true,true,false,true,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,true,true,true,false,true,false,true,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
