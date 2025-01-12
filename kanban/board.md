@@ -229,8 +229,12 @@ kanban-plugin: board
 - [ ] [resource mechanics](tasks/resource%20mechanics.md)
 - [ ] [multiple signal fields](tasks/multiple%20signal%20fields.md)
 - [ ] [sparse vector fields](tasks/sparse%20vector%20fields.md)
-- [ ] [metabolism system](tasks/metabolism%20system.md)
 - [ ] [elevation](tasks/elevation.md)
+- [ ] [unit system](tasks/unit%20system.md)
+	  - A unit is an abstraction over an entity.
+	  - Entities can be anything in the game
+	  - A unit is a dynamic collection of entities
+	- Like say a weapon, a shield
 - [ ] [Better sprite rotation](tasks/Better%20sprite%20rotation.md)
 - [ ] [deletable entites](tasks/deletable%20entites.md)
 	  - Entities can be deleted from a panel
@@ -244,7 +248,7 @@ kanban-plugin: board
 
 ## Todo (8)
 
-- [ ] [[Implement A star algorithim]]
+- [ ] [metabolism system](tasks/metabolism%20system.md)
 - [ ] [Sprite sheets](tasks/Sprite%20sheets.md)
 - [ ] [multiple factions](tasks/multiple%20factions.md)
 - [ ] [vector field visualization](tasks/vector%20field%20visualization.md)
@@ -256,16 +260,12 @@ kanban-plugin: board
 
 ## In Progress (3)
 
-- [ ] [unit system](tasks/unit%20system.md)
-	  - A unit is an abstraction over an entity.
-	  - Entities can be anything in the game
-	  - A unit is a dynamic collection of entities
-	- Like say a weapon, a shield
 - [ ] [reverse navigation home](tasks/reverse%20navigation%20home.md)
 
 
 ## In Review (8)
 
+- [ ] [[Implement A star algorithim]]
 - [ ] [ground tiles](tasks/ground%20tiles.md)
 - [ ] [Toggle coordinate wrap around](tasks/Toggle%20coordinate%20wrap%20around.md)
 - [ ] [camera system](tasks/camera%20system.md)
