@@ -26,6 +26,6 @@ The fastest route is no longer the fastest when everyone is taking it.
 
 ## Tasks 
 
-- [ ] Implement baseline path finding
+- [x] Implement baseline path finding ✅ 2025-01-12
 - [ ] refine path finding for efficiency, ease of use, and interaction with other systems
 - [ ] Add heuristic system

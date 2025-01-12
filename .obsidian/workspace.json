@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "kanban/tasks/Order queues.md",
+                "file": "kanban/tasks/Implement A star algorithim.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Order queues"
+              "title": "Implement A star algorithim"
             }
           }
         ]
@@ -294,18 +294,22 @@
       }
     ]
   },
-  "active": "02ba21013b3ad7f9",
+  "active": "968501225dce5723",
   "lastOpenFiles": [
-    "kanban/board.md",
-    "kanban/tasks/vector field visualization.md",
     "kanban/tasks/Implement A star algorithim.md",
+    "kanban/board.md",
+    "kanban/tasks/ground tiles.md",
+    "kanban/tasks/implement binary heap.md",
+    "kanban/tasks/Mineral Resource.md",
+    "kanban/tasks/resource mechanics.md",
+    "kanban/tasks/Order queues.md",
+    "kanban/tasks/vector field visualization.md",
     "kanban/tasks/Audio Design.md",
     "kanban/tasks/3d gravity using babylon.md",
     "Entity inspector.md",
     "kanban/tasks/multiple signal fields.md",
     "kanban/tasks/Terrain features.md",
     "kanban/tasks/sparse vector fields.md",
-    "kanban/tasks/implement binary heap.md",
     "kanban/tasks/metabolism system.md",
     "kanban/tasks/Map generation.md",
     "kanban/tasks/Toggle coordinate wrap around.md",
@@ -318,10 +322,6 @@
     "kanban/tasks/Algorithims.md",
     "notes/daily/2025-01-12.md",
     "kanban/tasks/Better sprite rotation.md",
-    "kanban/tasks/elevation.md",
-    "kanban/tasks/Water resource.md",
-    "kanban/tasks/sprite lighting.md",
-    "kanban/tasks/shadows.md",
     "notes/unique",
     "notes/daily",
     "notes",

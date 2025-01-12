@@ -185,49 +185,48 @@ kanban-plugin: board
 - [ ] Optional/removable components
 
 
-## Accepted (21)
-
-- [ ] [shadows](tasks/shadows.md)
-- [ ] [Building system](tasks/Building%20system.md)
-- [ ] [minimap](tasks/minimap.md)
-- [ ] [Water resource](tasks/Water%20resource.md)
-- [ ] [ground tiles](tasks/ground%20tiles.md)
-- [ ] [Agenda system](tasks/Agenda%20system.md)
-- [ ] Random events system
-- [ ] Dynamic story teller
-- [ ] projectile system
-- [ ] ranged attack system
-- [ ] Implement AVL trees
-- [ ] Neural network visualization
-- [ ] Implement Feed Forward Neural network
-- [ ] Implement graph datastructure
-- [ ] In game unit designer
-- [ ] [[Weapon loadout system]]
-
-
-## Breakdown (13)
-
-- [ ] [resource mechanics](tasks/resource%20mechanics.md)
-- [ ] [predator agents](tasks/predator%20agents.md)
-- [ ] [Mineral Resource](tasks/Mineral%20Resource.md)
-- [ ] [[Terrain features]]
-- [ ] [[Map generation]]
-- [ ] [[implement binary heap]]
-- [ ] [night day cycle](tasks/night%20day%20cycle.md)
-- [ ] [sprite lighting](tasks/sprite%20lighting.md)
-- [ ] [Order queues](tasks/Order%20queues.md)
-- [ ] [Priority management system](tasks/Priority%20management%20system.md)
-- [ ] [[sprite generator]]
-
-
 ## Bugs (8)
 
 - [ ] [BUG Rendering background color setter never seems to work.](tasks/BUG%20Rendering%20background%20color%20setter%20never%20seems%20to%20work..md)
 - [ ] [BUG Collision doesn't work correctly in some circumstances.](tasks/BUG%20Collision%20doesn't%20work%20correctly%20in%20some%20circumstances..md)
 
 
+## Accepted (21)
+
+- [ ] ranged attack system
+- [ ] projectile system
+- [ ] [Water resource](tasks/Water%20resource.md)
+- [ ] [minimap](tasks/minimap.md)
+- [ ] In game unit designer
+- [ ] [[Weapon loadout system]]
+- [ ] [shadows](tasks/shadows.md)
+- [ ] [Agenda system](tasks/Agenda%20system.md)
+- [ ] Implement graph datastructure
+- [ ] Random events system
+- [ ] Dynamic story teller
+- [ ] Implement AVL trees
+- [ ] Implement Feed Forward Neural network
+- [ ] Neural network visualization
+
+
+## Breakdown (13)
+
+- [ ] [[Map generation]]
+- [ ] [Building system](tasks/Building%20system.md)
+- [ ] [[Terrain features]]
+- [ ] [Mineral Resource](tasks/Mineral%20Resource.md)
+- [ ] [night day cycle](tasks/night%20day%20cycle.md)
+- [ ] [Priority management system](tasks/Priority%20management%20system.md)
+- [ ] [predator agents](tasks/predator%20agents.md)
+- [ ] [sprite lighting](tasks/sprite%20lighting.md)
+- [ ] [[sprite generator]]
+
+
 ## Ready (21)
 
+- [ ] [[implement binary heap]]
+- [ ] [Order queues](tasks/Order%20queues.md)
+- [ ] [resource mechanics](tasks/resource%20mechanics.md)
 - [ ] [multiple signal fields](tasks/multiple%20signal%20fields.md)
 - [ ] [sparse vector fields](tasks/sparse%20vector%20fields.md)
 - [ ] [metabolism system](tasks/metabolism%20system.md)
@@ -267,6 +266,7 @@ kanban-plugin: board
 
 ## In Review (8)
 
+- [ ] [ground tiles](tasks/ground%20tiles.md)
 - [ ] [Toggle coordinate wrap around](tasks/Toggle%20coordinate%20wrap%20around.md)
 - [ ] [camera system](tasks/camera%20system.md)
 
@@ -303,6 +303,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,true,true,true,false,true,false,true,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,true,true,true,false,true,false,false,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
