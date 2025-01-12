@@ -6,94 +6,105 @@ kanban-plugin: board
 
 ## New
 
-- [ ] [peer to peer networking](tasks/peer%20to%20peer%20networking.md)
-- [ ] [Pure p2p video text chat](tasks/Pure%20p2p%20video%20text%20chat.md)
-- [ ] [sparse vector fields](tasks/sparse%20vector%20fields.md)
-- [ ] Map generation
-- [ ] Terrain features
-- [ ] Faction Central building/townsquare
-- [ ] worker units
-- [ ] Weapon loadout system
-- [ ] In game unit designer
-- [ ] AI avatar video chat
-- [ ] Solar system level strategy game
-- [ ] Galactic level strategy game
-- [ ] planetary level strategy game
-- [ ] City builder
-- [ ] Tactical top down
-- [ ] Rim world clone
-- [ ] RPG with dynamic NPCs
-- [ ] Top down space tactical
-- [ ] Evolution
-- [ ] WWIII
-- [ ] War of the worlds
-- [ ] Colony simulator
-- [ ] Sims
-- [ ] Kanban board
-- [ ] Personal assistant
-- [ ] Warframe clone
-- [ ] Budget manager
-- [ ] Programming assistant
-- [ ] Web crawler
-- [ ] Prompt generator
-- [ ] Economy simulator
-- [ ] Space fps
-- [ ] Squad based top down
-- [ ] Smart Moba
-- [ ] Protein builder
-- [ ] Story writer
-- [ ] 3d Model generator
+- [ ] [[Implement A algorithim]]
 - [ ] sprite generator
-- [ ] Entity Linker
-- [ ] Tag generator
-- [ ] Inteligent calendar
-- [ ] Implement A* algorithim
-- [ ] implement binary heap
-- [ ] Implement AVL trees
-- [ ] Implement graph datastructure
-- [ ] Implement Feed Forward Neural network
-- [ ] Neural network visualization
-- [ ] Music composition program
-- [ ] Warframe Celpelon
-- [ ] Ancient warfare RTS
-- [ ] Medieval warfare RTS
-- [ ] Modern warfare rts
-- [ ] Reinecaince warfare
-- [ ] Zombie survival
-- [ ] Voxels
-- [ ] Crafting survival
-- [ ] Mining game
-- [ ] naval units
-- [ ] Ampibious units
-- [ ] ranged attack system
 - [ ] projectile system
+- [ ] ranged attack system
+- [ ] Implement AVL trees
+- [ ] implement binary heap
+- [ ] Neural network visualization
+- [ ] RPG with dynamic NPCs
+- [ ] Implement Feed Forward Neural network
+- [ ] Implement graph datastructure
+- [ ] In game unit designer
+- [ ] Colony simulator
 - [ ] Dynamic story teller
 - [ ] Random events system
-- [ ] Research assistant
-- [ ] Digital tutor
-- [ ] Language model benchmarks
+
+
+## Ice Box
+
+- [ ] [Pure p2p video text chat](tasks/Pure%20p2p%20video%20text%20chat.md)
+- [ ] [peer to peer networking](tasks/peer%20to%20peer%20networking.md)
+- [ ] Ampibious units
 - [ ] Process diagram
-- [ ] Post apocolypse survival game
-- [ ] High fantasy strategy game
-- [ ] High fantasy RPG
-- [ ] High fantasy city buiilder
-- [ ] Fact checker
-- [ ] Stream assistant
-- [ ] AI Imposter
-- [ ] AI Mafia
-- [ ] poker
-- [ ] trading card game
+- [ ] naval units
+- [ ] worker units
+- [ ] Faction Central building/townsquare
+
+
+## Project ideas
+
+- [ ] Personal assistant
+- [ ] Music composition program
 - [ ] black jack
-- [ ] chess
-- [ ] checkers
-- [ ] astrology chart
+- [ ] AI Mafia
+- [ ] High fantasy RPG
+- [ ] Smart Moba
+- [ ] Solar system level strategy game
+- [ ] War of the worlds
+- [ ] Evolution
+- [ ] Galactic level strategy game
+- [ ] Top down space tactical
+- [ ] WWIII
+- [ ] Kanban board
+- [ ] Sims
+- [ ] Budget manager
 - [ ] star map
 - [ ] Ai Vtuber avatar
 - [ ] Horror game
 - [ ] Tower defense
 - [ ] shoot em up
 - [ ] Flight simulator
+- [ ] AI avatar video chat
+- [ ] City builder
+- [ ] Warframe clone
+- [ ] Tactical top down
+- [ ] planetary level strategy game
+- [ ] Prompt generator
+- [ ] Programming assistant
+- [ ] Economy simulator
+- [ ] Space fps
+- [ ] Squad based top down
+- [ ] Protein builder
+- [ ] 3d Model generator
+- [ ] Story writer
+- [ ] Tag generator
+- [ ] Entity Linker
+- [ ] High fantasy strategy game
+- [ ] Reinecaince warfare
+- [ ] Zombie survival
+- [ ] Digital tutor
+- [ ] Mining game
+- [ ] Crafting survival
+- [ ] Language model benchmarks
+- [ ] Post apocolypse survival game
+- [ ] Fact checker
+- [ ] High fantasy city buiilder
+- [ ] Stream assistant
+- [ ] AI Imposter
+- [ ] trading card game
 - [ ] Spaceship shooter
+- [ ] chess
+- [ ] checkers
+- [ ] Inteligent calendar
+- [ ] astrology chart
+- [ ] Web crawler
+- [ ] Ancient warfare RTS
+- [ ] Warframe Celpelon
+- [ ] Medieval warfare RTS
+- [ ] Modern warfare rts
+- [ ] Voxels
+- [ ] Research assistant
+- [ ] poker
+
+
+## Projects
+
+- [ ] [[Symbiant]]
+- [ ] [[Crash Landed]]
+- [ ] Rim world clone
+- [ ] Tree visualizer
 
 
 ## Epics
@@ -156,6 +167,10 @@ kanban-plugin: board
 
 ## Accepted
 
+- [ ] Map generation
+- [ ] Terrain features
+- [ ] Weapon loadout system
+- [ ] [sparse vector fields](tasks/sparse%20vector%20fields.md)
 - [ ] [Individual ant neural networks](tasks/Individual%20ant%20neural%20networks.md)
 - [ ] [neural network for signal field hyerparameter adjustments](tasks/neural%20network%20for%20signal%20field%20hyerparameter%20adjustments.md)
 - [ ] [Question answering system for file system](tasks/Question%20answering%20system%20for%20file%20system.md)
@@ -278,6 +293,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,false,false,false,false,false,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,true,true,false,false,false,false,false,false,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
