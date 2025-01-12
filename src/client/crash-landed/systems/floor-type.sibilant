@@ -13,7 +13,7 @@
          (movement-speed 0.75)) ))
 
 (define Ground Component
-  (type 'grass)
+  (type null)
   (gett stats (get this.system 'types this.type)))
 
 (define Ground-types System

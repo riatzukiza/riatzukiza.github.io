@@ -27,7 +27,8 @@ var FieldOfView = Component.define("FieldOfView", {
       return this.entity.positionInterface;
     
    },
-  range:16
+  range:16,
+  collapseRange:64
  });
 var Sight = System.define("Sight", { 
   interface:FieldOfView,
@@ -47,16 +48,25 @@ var Sight = System.define("Sight", {
       
       }));
       c.visibleTiles.clear();
+      for (var x = (occupiedTile.x - c.collapseRange);x < (occupiedTile.x + c.collapseRange);++(x))
+      {
+      for (var y = (occupiedTile.y - c.collapseRange);y < (occupiedTile.y + c.collapseRange);++(y))
+      {
+      const tile=this.tiles.get(x, y);;
+      (function() {
+        if (!(tile.entity.ground.type)) {
+          return tile.setup();
+        }
+      }).call(this)
+      }
+      
+      }
+      ;
       for (var x = (occupiedTile.x - c.range);x < (occupiedTile.x + c.range);++(x))
       {
       for (var y = (occupiedTile.y - c.range);y < (occupiedTile.y + c.range);++(y))
       {
       const visibleTile=this.tiles.get(x, y);;
-      (function() {
-        if (!(visibleTile.entity.visibleStatus.explored__QUERY)) {
-          return visibleTile.setup();
-        }
-      }).call(this);
       c.visibleTiles.push(visibleTile);
       visibleTile.entity.visibleStatus.visible__QUERY = true;
       }

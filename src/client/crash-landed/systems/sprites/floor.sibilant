@@ -24,6 +24,7 @@
 (export Floor-sprite)
 
 (define Floor-sprites Sprite-atlas
+  (max-sprites 1000000)
   (interface Floor-sprite)
 
   (frame-dimensions [ 32 32 ])

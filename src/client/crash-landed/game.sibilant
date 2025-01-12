@@ -12,6 +12,7 @@
           (lit Sight) "@crash-landed/systems/sight.js"
           (lit Ground-types) "@crash-landed/systems/floor-type.js"
           (lit Tile-visibility) "@crash-landed/systems/visibility.js"
+          (lit Path-finding) "@crash-landed/systems/path-finding.js"
           config "@crash-landed/config.js"
           )
 
@@ -20,8 +21,9 @@
 (require! (lit Floor-sprites) "@crash-landed/systems/sprites/floor.js")
 (require! (lit Cliff-sprites) "@crash-landed/systems/sprites/cliff.js")
 
+(var active-game-systems [Position  Physics Velocity Tile-visibility  Sight  Floor-sprites Cliff-sprites Player-sprites Ground-types Path-finding
+                                    ])
 
-(var active-game-systems [Position  Physics Velocity Tile-visibility  Sight  Floor-sprites Cliff-sprites Player-sprites Ground-types])
 
 
 (var game ((create Game)

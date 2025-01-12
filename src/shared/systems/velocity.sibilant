@@ -40,6 +40,7 @@
 (define Velocity System
 
   (interface Velocity-interface)
+  (real-time? true)
   (def *update-component (m)
 
     (var p m.pos (lit xd yd) m)
@@ -53,8 +54,12 @@
       (assign m.moved true)
 
       (.emit this.game.events 'move m)
-      (set p
-           'x (+ p.x (* xd (/ this.game.ticker.elapsed 1000)))
-           'y (+ p.y (* yd (/ this.game.ticker.elapsed 1000)))))))
+      (if this.real-time?
+          (set p
+               'x (+ p.x (* xd (/ this.game.ticker.elapsed 1000)))
+               'y (+ p.y (* yd (/ this.game.ticker.elapsed 1000))))
+          (set p
+               'x (+ p.x xd)
+               'y (+ p.y yd))))))
 
 (export Velocity)

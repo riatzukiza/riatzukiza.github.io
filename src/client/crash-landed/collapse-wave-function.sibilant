@@ -1,0 +1,62 @@
+(define Possible-state Interface
+
+  (init (configuration
+         (collapsed-state 'grassy-flowers)
+         (is-possible? true)
+         (weight 0)))
+  (def-generic test (tile)
+    (.every chunk-type (=> (tile-type direction)
+                           (if (= direction 'center)
+                               (set possibility
+                                    'collapsed-state tile-type
+                                    'weight (+ possibility.weight
+                                               (* chunk-type.weight
+                                                  (get base-weights tile-type))))
+                               (= (get tile direction 'entity 'ground 'type)
+                                  tile-type)
+                               (incr-by possibility.weight
+                                        (* chunk-type.weight
+                                           (get base-weights tile-type)))
+                               (!= (get tile direction 'entity 'ground 'type)
+                                   tile-type)
+                               false)))))
+(def-generic Tile-node.collapse-wave-function ()
+  (const possible-states [])
+  (for-of! chunk-type Tile-chunk.chunks
+           (const possibility ((create Possible-state)
+                               configuration))
+           (if! (.test possibility this)
+                (.push possible-states possibility)))
+  (print possible-states)
+  (define choices Interface
+    (grass 0)
+    (stone 0)
+    (flowery-grass 0)
+    )
+
+  (if (= possible-states.length 1)
+      (first possible-states)
+      (= possible-states.length 0)
+      (return false)
+      (> possible-states.length 1)
+      (do
+       (var result null)
+       (for-of! state possible-states
+                (const unconfigured-neigbors [])
+                (const is-valid?
+                       (.every state.configuration
+                               (=> (tile-type direction)
+                                   (const neighbor (get this direction ))
+                                   (if (not neighbor.entity.ground.type)
+                                       (do (.push unconfigured-neigbors neighbor)
+                                           (assign neighbor.entity.ground.type tile-type)
+                                         (const collapsed-state (neighbor.collapse-wave-function))
+                                        collapsed-state)
+                                       true))))
+                (for-of! neighbor unconfigured-neigbors
+                         (assign neighbor.entity.ground.type null))
+                (if! is-valid?
+                     (assign result state)
+                     (break)
+                     ))
+        (return result))))

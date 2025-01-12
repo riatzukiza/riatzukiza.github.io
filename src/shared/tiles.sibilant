@@ -23,10 +23,10 @@
 
   (gett tile-size this.graph.tile-size)
 
-  (gett north (.get this.graph this.x this.y))
-  (gett south (.get this.graph this.x this.y))
-  (gett east  (.get this.graph this.x this.y))
-  (gett west (.get this.graph this.x this.y))
+  (gett north (.get this.graph this.x (+ this.y 1)))
+  (gett south (.get this.graph this.x (- this.y 1)))
+  (gett east  (.get this.graph (+ this.x 1) this.y))
+  (gett west (.get this.graph (- this.x 1) this.y))
 
   (gett north-east (.get this.graph (+ this.x 1) (+ this.y 1)))
   (gett north-west (.get this.graph (- this.x 1) (+ this.y 1)))
@@ -39,7 +39,8 @@
                this.north-east
                this.north-west
                this.south-east
-               this.south-west])
+               this.south-west
+               ])
   (def-generic traverse-area (f n (d 0) (visited (new Set)))
     (f this d n visited)
     (.add visited this)

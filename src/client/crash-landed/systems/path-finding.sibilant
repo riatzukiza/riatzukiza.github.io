@@ -1,0 +1,228 @@
+(require! (lit Spawnable) "@shared/data-structures/spawnable.js"
+          (lit List) "@shared/data-structures/list.js"
+          (lit Vector) "@shared/vectors.js"
+          (lit System Component) "@shared/ecs.js"
+          )
+(def remove-from-array (el array)
+  (const index (.index-of array el))
+  (if (> index -1)
+      (.splice array index 1)))
+(def calculate-distance-cost (start end)
+  ;; (const x-dist (Math.abs (- start.x end.x)))
+  ;; (const y-dist (Math.abs (- start.y end.y)))
+  ;; (const remaining (Math.abs (- x-dist y-dist)))
+
+  (const start-v (.spawn Vector start.x start.y))
+  (const end-v (.spawn Vector end.x end.y))
+
+  (const distance (start-v.distance-to end-v))
+  (const d-length (Math.round (.get-length distance)))
+  (.despawn start-v)
+  (.despawn end-v)
+  (* (if end.entity.visible-status.explored?
+         (* 2 (/ 1
+
+                 end.entity.ground.stats.movement-speed
+                 ))
+         1)
+     d-length
+     ))
+
+(const MOVE_STRAIGHT_COST 10)
+(const MOVE_DIAGONAL_COST 14)
+
+(define Path-node Spawnable
+  (init (tile start end (parent null))
+        (if (= tile end)
+            )
+        (assign this.*h-cost (calculate-distance-cost
+                              tile
+                              end))
+        (if (isNaN this.*h-cost)
+            (throw (new Error "Got a non number h cost"))
+            )
+        )
+  (parent null)
+  (tile null)
+  (next null)
+  (gett g-cost
+
+        (if (= this.parent this)
+            (throw (new Error "TIme traveler detected, cannot be own parent.")))
+        (if (= this.tile this.start)
+            0
+            (not this.parent)
+            (Math.round (/ Number.MAX_SAFE_INTEGER 2))
+            ;; A hack to be lazy, we can probably make this saame behavior more efficient using a memoized version of
+            ;; the distance cost function.
+            (+ this.parent.g-cost (calculate-distance-cost
+                                   this.parent.tile
+                                   this.tile
+                                   ))))
+  (gett f-cost (+ this.g-cost this.h-cost))
+  (gett h-cost this.*h-cost)
+  (gett path-to
+        (var path (.spawn List))
+        (var node this)
+        (while node
+          (.unshift path node)
+          (assign node node.parent)
+          path))
+  (def clear ()
+    (set this 'parent null
+         'tile null
+         'next null
+         'start null
+         'end null
+         '*h-cost null
+         )
+    )
+  )
+
+(define Current-path Component
+  (start null)
+  (end null)
+  (current-node null)
+  (gett next-node this.current-node.next)
+  (node-list null)
+  (gett pos this.entity.position-interface)
+  (gett vel this.entity.velocity-interface)
+  )
+
+(define Path-finding System
+  (interface Current-path)
+  (tiles null)
+
+  (open []);; optimize later with a heap, or at least a binary search tree.
+  (closed (new Set))
+  (current-node null)
+  (active-nodes (new Map))
+  (gett next-open-node
+        ;; if this was a heap it'd just be a call to "get-min"
+        (.reduce this.open
+                 (=> (current-best node)
+                     (if (< node.f-cost current-best.f-cost)
+                         node
+                         current-best))
+                 (first this.open)))
+
+  (def *prepare ()
+    (assign this.open.length 0)
+    (.clear this.closed)
+    null
+    )
+  (def *update-component (c)
+    ;; If it has an assigned starting and end point, but is not assign
+    ;; a location with in the path, it does not have a path, and it needs one.
+    (if! (and (!= c.start null) (!= c.end null) (= c.start c.end))
+        (assign c.start null c.end null
+                c.current-node null))
+    (when c.current-node
+      (const pos c.pos)
+      (const vel c.vel.vector)
+      (const occupied-tile (.get-closest-from-world-pos this.tiles pos.x pos.y))
+      ;; (print occupied-tile c.current-node.item.tile c.next-node.item.tile)
+
+      (if (= occupied-tile c.current-node.item.tile)
+          (do
+
+           (const pos-v (.spawn Vector pos.x pos.y))
+            (const tile-pos-v (.spawn Vector
+                                      c.next-node.item.tile.world-pos.x
+                                      c.next-node.item.tile.world-pos.y))
+            (const d (.distance-to  tile-pos-v pos-v))
+            (.set-length vel 64)
+            (.set-angle vel (.get-angle d))
+            (.despawn d)
+            (.despawn pos-v)
+            (.despawn tile-pos-v)
+            )
+          (= occupied-tile c.end)
+          (do (print "found end")
+              (.set-length vel 0)
+
+            (for-of! [tile node] this.active-nodes
+                     (.delete this.active-nodes tile)
+                     (.despawn node))
+
+            (.despawn c.node-list)
+            ;; (.clear this.active-nodes)
+            (assign c.current-node null
+                    c.start null
+                    c.end null
+                    c.node-list null
+                    ))
+          (= occupied-tile c.next-node.item.tile)
+          (do
+            (assign c.current-node c.next-node)
+            (const pos-v (.spawn Vector pos.x pos.y))
+            (const tile-pos-v (.spawn Vector
+                                      c.next-node.item.tile.world-pos.x
+                                      c.next-node.item.tile.world-pos.y))
+            (const d (.distance-to  tile-pos-v pos-v))
+
+            (.set-length vel 64)
+            (.set-angle vel (.get-angle d))
+            (.despawn pos-v)
+            (.despawn tile-pos-v)
+            (.despawn d))
+          
+          ;; (do (print "gone off path, recalculating" c occupied-tile c.next-node.item.tile)
+          ;;     (each c.node-list (value)
+          ;;           (.delete this.active-nodes value.tile))
+          ;;   (.clear c.node-list)
+          ;;   (assign c.current-node null
+          ;;           c.start occupied-tile))
+          ))
+
+    
+
+    (when (and c.start c.end (not c.current-node) )
+
+      
+
+      (assign this.open.length 0)
+      (.clear this.closed)
+      (const starting-node (remember this.active-nodes
+                                     c.start
+                                     (.spawn Path-node c.start
+                                             c.start
+                                             c.end)))
+
+      (.push this.open starting-node)
+      (while this.open.length
+        (const current-node this.next-open-node)
+        (if (= current-node.tile c.end)
+            (do 
+                (assign c.node-list current-node.path-to)
+                (assign c.current-node c.node-list.head)
+              (assign this.open.length 0))
+            (do (remove-from-array  current-node this.open)
+                (.add this.closed current-node.tile )
+              (for-of! neighbor current-node.tile.edges
+                       (if! (.has this.closed neighbor)
+                            continue)
+                       (const neighbor-node
+                              (remember this.active-nodes
+                                        neighbor
+                                        (.spawn Path-node neighbor
+                                                c.start
+                                                c.end)))
+
+
+                       
+                       (when (< (+ current-node.g-cost
+                                   (calculate-distance-cost
+                                    current-node.tile
+                                    neighbor-node.tile))
+                                neighbor-node.g-cost)
+                         (assign neighbor-node.parent current-node)
+                         (if (not (.includes this.open neighbor-node))
+                             (.push this.open neighbor-node))))
+
+              null)))
+      )
+    ))
+
+(export Path-finding)
+(export Current-path)

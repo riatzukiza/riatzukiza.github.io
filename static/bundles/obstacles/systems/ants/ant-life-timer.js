@@ -62,7 +62,7 @@ var AntLife = TimeLimit.define("AntLife", {
           return this.views.get("view");
         } else {
           var r = (function() {
-            /* eval.sibilant:11:23 */
+            /* eval.sibilant:13:23 */
           
             return createDocumentNode("div", {
               'className': "panel",

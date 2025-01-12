@@ -75,22 +75,22 @@ var TileNode = Spawnable.define("TileNode", {
    },
   get north(  ){ 
     
-      return this.graph.get(this.x, this.y);
+      return this.graph.get(this.x, (this.y + 1));
     
    },
   get south(  ){ 
     
-      return this.graph.get(this.x, this.y);
+      return this.graph.get(this.x, (this.y - 1));
     
    },
   get east(  ){ 
     
-      return this.graph.get(this.x, this.y);
+      return this.graph.get((this.x + 1), this.y);
     
    },
   get west(  ){ 
     
-      return this.graph.get(this.x, this.y);
+      return this.graph.get((this.x - 1), this.y);
     
    },
   get northEast(  ){ 

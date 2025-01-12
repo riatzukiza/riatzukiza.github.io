@@ -25,7 +25,7 @@
      'options-amplitude 10
      'limit-decay false
      'ant-influence 90
-     'friction 0.1
+     'friction 0.01
      'collision-static 5
      'spawn-static 10
      'spawn-rate 10

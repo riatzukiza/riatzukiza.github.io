@@ -27,6 +27,7 @@
   )
 
 (define Player-sprites Sprite-atlas
+  (max-sprites 1)
   (id 0)
   (interface Player-sprite)
 

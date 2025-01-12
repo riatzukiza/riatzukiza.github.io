@@ -90,6 +90,7 @@ var VelocityInterface = Component.define("VelocityInterface", {
 exports.VelocityInterface = VelocityInterface;
 var Velocity = System.define("Velocity", { 
   interface:VelocityInterface,
+  realTime__QUERY:true,
   _updateComponent( m ){ 
     
       var p = m.pos,
@@ -104,8 +105,15 @@ var Velocity = System.define("Velocity", {
           m.priorY = p.y;
           m.moved = true;
           this.game.events.emit("move", m);
-          p.x = (p.x + (xd * (this.game.ticker.elapsed / 1000)));
-          return p.y = (p.y + (yd * (this.game.ticker.elapsed / 1000)));
+          return (function() {
+            if (this.realTime__QUERY) {
+              p.x = (p.x + (xd * (this.game.ticker.elapsed / 1000)));
+              return p.y = (p.y + (yd * (this.game.ticker.elapsed / 1000)));
+            } else {
+              p.x = (p.x + xd);
+              return p.y = (p.y + yd);
+            }
+          }).call(this);
         }
       }).call(this);
     

@@ -10707,7 +10707,7 @@ var Vector = Spawnable.define("Vector", {
    },
   sub( v ){ 
     
-      return Vector.spawn((this.x + v.x), (this.y + v.y));
+      return Vector.spawn((this.x - v.x), (this.y - v.y));
     
    },
   subFrom( v ){ 

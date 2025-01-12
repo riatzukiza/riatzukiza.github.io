@@ -10638,7 +10638,7 @@ var GroundType = Spawnable.define("GroundType", {
    }
  });
 var Ground = Component.define("Ground", { 
-  type:"grass",
+  type:null,
   get stats(  ){ 
     
       return this.system.types[this.type];

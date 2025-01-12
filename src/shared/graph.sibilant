@@ -1,6 +1,12 @@
 (define Graph Spawnable
   (gett edges this.*edges)
   (gett nodes this.*nodes)
+  (init ((nodes [])
+         (edges [])))
+  (def traverse (fsa))
+
+
   )
 (define Node Spawnable)
-(define Edge Spawnable)
+(define Edge Spawnable
+  (init (left right)))

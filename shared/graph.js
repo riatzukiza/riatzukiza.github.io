@@ -23,11 +23,25 @@ var Graph = Spawnable.define("Graph", {
     
       return this._nodes;
     
+   },
+  init( nodes = [],edges = [] ){ 
+    
+      this.nodes = nodes;this.edges = edges;
+      return this;
+    
+   },
+  traverse( fsa ){ 
+    
    }
  });
 var Node = Spawnable.define("Node", { 
   
  });
 var Edge = Spawnable.define("Edge", { 
-  
+  init( left = this.left,right = this.right ){ 
+    
+      this.left = left;this.right = right;
+      return this;
+    
+   }
  });

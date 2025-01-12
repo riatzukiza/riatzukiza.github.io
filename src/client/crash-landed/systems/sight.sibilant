@@ -5,6 +5,7 @@
   (visible-tiles (.spawn List))
   (gett world-pos this.entity.position-interface)
   (range 16)
+  (collapse-range 64)
   )
 (define Sight System
   (interface Field-of-view)
@@ -18,13 +19,15 @@
           (assign tile.entity.visible-status.explored? true)
           (assign tile.entity.visible-status.visible? false))
     (.clear c.visible-tiles)
-
+    (for! (x (- occupied-tile.x c.collapse-range)) (< x (+ occupied-tile.x c.collapse-range) ) (++ x)
+          (for! (y (- occupied-tile.y c.collapse-range)) (< y (+ occupied-tile.y c.collapse-range) ) (++ y)
+                (const tile (.get this.tiles x y))
+                (if (not tile.entity.ground.type)
+                    (.setup tile))))
 
     (for! (x (- occupied-tile.x c.range)) (< x (+ occupied-tile.x c.range) ) (++ x)
           (for! (y (- occupied-tile.y c.range)) (< y (+ occupied-tile.y c.range) ) (++ y)
                 (const visible-tile (.get this.tiles x y))
-                (if (not visible-tile.entity.visible-status.explored?)
-                    (.setup visible-tile))
 
                 (.push c.visible-tiles visible-tile)
                 (assign visible-tile.entity.visible-status.visible? true)

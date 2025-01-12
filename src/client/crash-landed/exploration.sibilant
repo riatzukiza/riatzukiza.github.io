@@ -1,0 +1,25 @@
+(on game.events 'tick (t)
+
+    (const pos p.position-interface)
+    (if (= (mod t 10) 0) (.step p.player-sprite))
+    ;; (print 'tick t pos.vector v p.current-path)
+    ;; (unless p.current-path.node-list
+    ;;   (const noise-v (get-move-noise pos.x pos.y t (* 1.0 game-scale)))
+    ;;   (const new-x (+ pos.x (*  200 noise-v.x)))
+    ;;   (const new-y (+ pos.y (*  200 noise-v.y)))
+
+    ;;   (.despawn noise-v)
+    ;;   (assign p.current-path.start
+    ;;           (.get-closest-from-world-pos tiles pos.x pos.y))
+    ;;   (assign p.current-path.end
+    ;;           (.get-closest-from-world-pos tiles new-x new-y))
+
+    ;;   (print "finding new path"
+    ;;          p.current-path.start
+    ;;          p.current-path.end)
+    ;;   )
+    (const direction-name (get-cardinal-direction-name v))
+    (.select-sequence p.player-sprite direction-name)
+
+
+    )

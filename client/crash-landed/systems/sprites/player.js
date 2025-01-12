@@ -78,6 +78,7 @@ var PlayerSprite = AnimatedSprite.define("PlayerSprite", {
    }
  });
 var PlayerSprites = SpriteAtlas.define("PlayerSprites", { 
+  maxSprites:1,
   id:0,
   interface:PlayerSprite,
   sequenceMap:{ 

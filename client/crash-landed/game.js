@@ -49,6 +49,9 @@ var {
     { 
   TileVisibility
  } = require("@crash-landed/systems/visibility.js"),
+    { 
+  PathFinding
+ } = require("@crash-landed/systems/path-finding.js"),
     config = require("@crash-landed/config.js");
 var { 
   FloorSprites
@@ -56,7 +59,7 @@ var {
 var { 
   CliffSprites
  } = require("@crash-landed/systems/sprites/cliff.js");
-var activeGameSystems = [ Position, Physics, Velocity, TileVisibility, Sight, FloorSprites, CliffSprites, PlayerSprites, GroundTypes ];
+var activeGameSystems = [ Position, Physics, Velocity, TileVisibility, Sight, FloorSprites, CliffSprites, PlayerSprites, GroundTypes, PathFinding ];
 var game = create(Game)(config, rendering, activeGameSystems, config.gameSpeed);
 console.log({ 
   PlayerSprites,

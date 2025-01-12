@@ -69,6 +69,7 @@ var FloorSprite = AnimatedSprite.define("FloorSprite", {
  });
 exports.FloorSprite = FloorSprite;
 var FloorSprites = SpriteAtlas.define("FloorSprites", { 
+  maxSprites:1000000,
   interface:FloorSprite,
   frameDimensions:[ 32, 32 ],
   height:8,
