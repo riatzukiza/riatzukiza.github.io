@@ -1,19 +1,27 @@
 
 Using somthing like wave function collapse, generate a world for our agents to interact with. I started an implementation of this but it's gonna need more work and some other features to be implemented first.
 ## Related Epics
-- [Identify and write useful templates for obsidian](../tasks/Identify%20and%20write%20useful%20templates%20for%20obsidian.md) 
+
+- [[Procedural Generation]]
+- [[Game Mechanics]]
 ## Requirements
 
-- High level expecations
-- Acceptance criteria
-- Definition of [done](../done.md)
+- There is a map generator that creates the same map consistantly given a starting seed.
+- The map generated is believable and consistant
+- There are several seed chunks set up for generation
+	- Cross roads
+	- Abandoned structure
+	- Forest
+	- meadow
+	- etc
 
 ## Tasks 
 
-- [ ] Somthing that needs to be [done](../done.md) to accomplish this task
-- [ ] Non exhaustive, suggestive
-- [ ] Represents expected high level steps to meet AC
+- [ ] Implement basic wave function collapse
+- [ ] Describe several seed chunks
+
 ## Blocked by 
+
 
 - Can't be worked on till this task is [done](../done.md)
 - blocking task

@@ -211,7 +211,6 @@ kanban-plugin: board
 
 ## Breakdown (13)
 
-- [ ] [[Map generation]]
 - [ ] [Building system](tasks/Building%20system.md)
 - [ ] [[Terrain features]]
 - [ ] [Mineral Resource](tasks/Mineral%20Resource.md)
@@ -224,6 +223,7 @@ kanban-plugin: board
 
 ## Ready (21)
 
+- [ ] [[Map generation]]
 - [ ] [[implement binary heap]]
 - [ ] [Order queues](tasks/Order%20queues.md)
 - [ ] [resource mechanics](tasks/resource%20mechanics.md)
@@ -248,18 +248,18 @@ kanban-plugin: board
 
 ## Todo (8)
 
-- [ ] [metabolism system](tasks/metabolism%20system.md)
 - [ ] [Sprite sheets](tasks/Sprite%20sheets.md)
 - [ ] [multiple factions](tasks/multiple%20factions.md)
 - [ ] [vector field visualization](tasks/vector%20field%20visualization.md)
 - [ ] [selection box](tasks/selection%20box.md)
-- [ ] [placeable entities (rocks, plants, bases)](tasks/placeable%20entities%20(rocks,%20plants,%20bases).md)
 - [ ] [Dynamic pools for renderables.](tasks/Dynamic%20pools%20for%20renderables..md)
 - [ ] [attack system](tasks/attack%20system.md)
 
 
 ## In Progress (3)
 
+- [ ] [metabolism system](tasks/metabolism%20system.md)
+- [ ] [placeable entities (rocks, plants, bases)](tasks/placeable%20entities%20(rocks,%20plants,%20bases).md)
 - [ ] [reverse navigation home](tasks/reverse%20navigation%20home.md)
 
 
