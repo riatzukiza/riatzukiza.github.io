@@ -1,35 +1,8 @@
 ---
+
 kanban-plugin: board
+
 ---
-
-## New
-
-- [ ] [[Implement A algorithim]]
-- [ ] sprite generator
-- [ ] projectile system
-- [ ] ranged attack system
-- [ ] Implement AVL trees
-- [ ] implement binary heap
-- [ ] Neural network visualization
-- [ ] RPG with dynamic NPCs
-- [ ] Implement Feed Forward Neural network
-- [ ] Implement graph datastructure
-- [ ] In game unit designer
-- [ ] Colony simulator
-- [ ] Dynamic story teller
-- [ ] Random events system
-
-
-## Ice Box
-
-- [ ] [Pure p2p video text chat](tasks/Pure%20p2p%20video%20text%20chat.md)
-- [ ] [peer to peer networking](tasks/peer%20to%20peer%20networking.md)
-- [ ] Ampibious units
-- [ ] Process diagram
-- [ ] naval units
-- [ ] worker units
-- [ ] Faction Central building/townsquare
-
 
 ## Project ideas
 
@@ -97,6 +70,20 @@ kanban-plugin: board
 - [ ] poker
 
 
+## Accepted
+
+- [ ] Map generation
+- [ ] Terrain features
+- [ ] Weapon loadout system
+- [ ] [sparse vector fields](tasks/sparse%20vector%20fields.md)
+- [ ] [Individual ant neural networks](tasks/Individual%20ant%20neural%20networks.md)
+- [ ] [neural network for signal field hyerparameter adjustments](tasks/neural%20network%20for%20signal%20field%20hyerparameter%20adjustments.md)
+- [ ] [Question answering system for file system](tasks/Question%20answering%20system%20for%20file%20system.md)
+- [ ] [browser based lisp shell](tasks/browser%20based%20lisp%20shell.md)
+- [ ] [Image editor program](tasks/Image%20editor%20program.md)
+- [ ] [Text editor program](tasks/Text%20editor%20program.md)
+
+
 ## Projects
 
 - [ ] [[Symbiant]]
@@ -107,24 +94,25 @@ kanban-plugin: board
 
 ## Epics
 
+- [ ] [Game Mechanics](tasks/Game%20Mechanics.md)
+- [ ] [Graphics](tasks/Graphics.md)
+- [ ] [Game UI](tasks/Game%20UI.md)
+- [ ] [[Data structures]]
+- [ ] [Game AI](tasks/Game%20AI.md)
+- [ ] [[Game Art]]
+- [ ] [Website Design](tasks/Website%20Design.md)
 - [ ] [devops pipeline](tasks/devops%20pipeline.md)
 - [ ] [RTS Game MVP](tasks/RTS%20Game%20MVP.md)
+- [ ] [[Audio Design]]
 - [ ] [Intelligent movement commands](tasks/Intelligent%20movement%20commands.md)
 - [ ] [Move all outside work into the portfolio git](tasks/Move%20all%20outside%20work%20into%20the%20portfolio%20git.md)
 - [ ] [Import other projects](tasks/Import%20other%20projects.md)
 - [ ] [Optimizations](tasks/Optimizations.md)
-- [ ] [Game Mechanics](tasks/Game%20Mechanics.md)
 - [ ] [documentation](tasks/documentation.md)
 	  - Documenting a little bit at a time, especially when we find outselves having to look at older code to use or change it for use with new features.
-- [ ] [Graphics](tasks/Graphics.md)
-- [ ] [Website Design](tasks/Website%20Design.md)
-- [ ] [Game UI](tasks/Game%20UI.md)
-- [ ] [Game AI](tasks/Game%20AI.md)
 - [ ] [Natural language information systems](tasks/Natural%20language%20information%20systems.md)
 - [ ] [Conversational language modeling](tasks/Conversational%20language%20modeling.md)
-- [ ] [[Data structures]]
-- [ ] [[Game Art]]
-- [ ] [[Audio Design]]
+- [ ] [[Procedural Generation]]
 - [ ] Digital Assistants
 - [ ] Benchmarking
 - [ ] Algorithims
@@ -134,18 +122,47 @@ kanban-plugin: board
 - [ ] Game design
 
 
+## New
+
+- [ ] [[Implement A algorithim]]
+- [ ] [[sprite generator]]
+- [ ] projectile system
+- [ ] ranged attack system
+- [ ] Implement AVL trees
+- [ ] implement binary heap
+- [ ] Neural network visualization
+- [ ] RPG with dynamic NPCs
+- [ ] Implement Feed Forward Neural network
+- [ ] Implement graph datastructure
+- [ ] In game unit designer
+- [ ] Colony simulator
+- [ ] Dynamic story teller
+- [ ] Random events system
+
+
+## Ice Box
+
+- [ ] [Pure p2p video text chat](tasks/Pure%20p2p%20video%20text%20chat.md)
+- [ ] [peer to peer networking](tasks/peer%20to%20peer%20networking.md)
+- [ ] Ampibious units
+- [ ] Process diagram
+- [ ] naval units
+- [ ] worker units
+- [ ] Faction Central building/townsquare
+
+
 ## Blocked
 
-- [ ] [Governor System](tasks/Governor%20System.md)
+- [ ] [sprite lighting](tasks/sprite%20lighting.md)
 - [ ] [shadows](tasks/shadows.md)
 - [ ] [night day cycle](tasks/night%20day%20cycle.md)
+- [ ] [Governor System](tasks/Governor%20System.md)
 - [ ] [flying units](tasks/flying%20units.md)
 - [ ] [Water resource](tasks/Water%20resource.md)
 - [ ] [Mineral Resource](tasks/Mineral%20Resource.md)
 - [ ] [minimap](tasks/minimap.md)
 - [ ] [weather system](tasks/weather%20system.md)
 - [ ] [Toggle coordinate wrap around](tasks/Toggle%20coordinate%20wrap%20around.md)
-- [ ] [sprite lighting](tasks/sprite%20lighting.md)
 - [ ] [BUG Collision doesn't work correctly in some circumstances.](tasks/BUG%20Collision%20doesn't%20work%20correctly%20in%20some%20circumstances..md)
 - [ ] [Remove duplicate code included in headers.](tasks/Remove%20duplicate%20code%20included%20in%20headers..md)
 - [ ] [Cull duplicate macros](tasks/Cull%20duplicate%20macros.md)
@@ -161,20 +178,6 @@ kanban-plugin: board
 - [ ] [Building system](tasks/Building%20system.md)
 - [ ] [DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files.](tasks/DevOps%20Sibilant%20transpiler%20should%20create%20less%20noise%20in%20pull%20requests%20when%20acting%20on%20unchanged%20files..md)
 - [ ] [Make old symbiants work](tasks/Make%20old%20symbiants%20work.md)
-
-
-## Accepted
-
-- [ ] Map generation
-- [ ] Terrain features
-- [ ] Weapon loadout system
-- [ ] [sparse vector fields](tasks/sparse%20vector%20fields.md)
-- [ ] [Individual ant neural networks](tasks/Individual%20ant%20neural%20networks.md)
-- [ ] [neural network for signal field hyerparameter adjustments](tasks/neural%20network%20for%20signal%20field%20hyerparameter%20adjustments.md)
-- [ ] [Question answering system for file system](tasks/Question%20answering%20system%20for%20file%20system.md)
-- [ ] [browser based lisp shell](tasks/browser%20based%20lisp%20shell.md)
-- [ ] [Image editor program](tasks/Image%20editor%20program.md)
-- [ ] [Text editor program](tasks/Text%20editor%20program.md)
 
 
 ## Breakdown (5)
@@ -291,6 +294,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,true,true,false,false,false,false,false,false,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,false,false,false,false,false,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%

@@ -4,6 +4,7 @@
  [[Colors|Colors]]
  [[dev/_Index_of_dev|_Index_of_dev]]
  [[docs/_Index_of_docs|_Index_of_docs]]
+ [[Entity inspector|Entity inspector]]
  [[hack/_Index_of_hack|_Index_of_hack]]
  [[inc/_Index_of_inc|_Index_of_inc]]
  [[index.html|index.html]]
