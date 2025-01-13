@@ -1,0 +1,15 @@
+(define Item-interface Component
+  (type "food") ;; only type of item right now.
+  (calories 100)
+  (container null)
+  (def store (container)
+    (if (.add container.entity.container this.entity)
+        (assign this.container container)
+        false))
+  (def consume (entity)
+    (entity.needs.eat this))
+  (def clear ()
+    (when this.container
+        (.remove this.container this.entity)
+        (assign this.container null))))
+(define Item System)

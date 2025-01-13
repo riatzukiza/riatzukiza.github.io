@@ -14,7 +14,4 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   
   }));
 });
-var Hunger = System.define("Hunger", { 
-  
- });
 },{}]},{},[]);

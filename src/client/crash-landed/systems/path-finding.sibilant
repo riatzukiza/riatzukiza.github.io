@@ -137,7 +137,8 @@
             (.despawn pos-v)
             (.despawn tile-pos-v)
             )
-          (= occupied-tile c.end)
+          (or (= occupied-tile c.end)
+              (!= c.end c.current-node.item.end))
           (do (print "found end")
               (.set-length vel 0)
 

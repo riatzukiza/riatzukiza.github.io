@@ -109,15 +109,15 @@ var PathNode = Spawnable.define("PathNode", {
       var path = List.spawn();
       var node = this;
       return (function() {
-        var while$576 = undefined;
+        var while$675 = undefined;
         while (node) {
-          while$576 = (function() {
+          while$675 = (function() {
             path.unshift(node);
             node = node.parent;
             return path;
           }).call(this);
         };
-        return while$576;
+        return while$675;
       }).call(this);
     
    },
@@ -204,7 +204,7 @@ var PathFinding = System.define("PathFinding", {
               d.despawn();
               posV.despawn();
               return tilePosV.despawn();
-            } else if (occupiedTile === c.end) {
+            } else if ((occupiedTile === c.end || c.end !== c.currentNode.item.end)) {
               console.log("found end");
               vel.setLength(0);
               for (var [ tile, node ] of this.activeNodes)
@@ -251,9 +251,9 @@ var PathFinding = System.define("PathFinding", {
           }).call(this);
           this.open.push(startingNode);
           return (function() {
-            var while$577 = undefined;
+            var while$676 = undefined;
             while (this.open.length) {
-              while$577 = (function() {
+              while$676 = (function() {
                 const currentNode=this.nextOpenNode;
                 return (function() {
                   if (currentNode.tile === c.end) {
@@ -298,7 +298,7 @@ var PathFinding = System.define("PathFinding", {
                 }).call(this);
               }).call(this);
             };
-            return while$577;
+            return while$676;
           }).call(this);
         }
       }).call(this);

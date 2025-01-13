@@ -1,0 +1,37 @@
+(require! (lit System Component) "@shared/ecs.js"
+          (lit List) "@shared/data-structures/list.js")
+(define Container Component
+  (item-limit 1)
+  (objects null)
+  (def add (entity)
+    (if  (and object.item-interface
+              (> this.item-limit this.objects.length)
+              ) ;; the only objects right now are items.
+         (.push this.objects entity)
+         false))
+
+  (def has-type (type)
+    (and this.objects.head
+         (= this.objects.head.item.type type)))
+
+  (def has (entity)
+    (= this.objects.head.item entity) ;; simple implementation for the single object  container.
+    )
+  (def remove (entity)
+    (.remove this.objects entity))
+
+  (def clear ()
+    ;; for now, if this container is destroyed/despawned, the item will be too
+    (.despawn this.objects.head.item)
+    (.despawn this.objects))
+  (def register () (assign this.objects (.spawn List))))
+
+(define Containers System
+  (interface Container)
+  (def *update-all ()
+    ;; nothing to see here.
+    )
+  (def *update-component ()
+    ;; nothing to do here for now.
+    )
+  )

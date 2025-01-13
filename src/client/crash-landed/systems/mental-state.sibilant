@@ -1,0 +1,45 @@
+(define Mind-state Component
+  (gett needs this.entity.needs)
+  (gett hunger this.needs.hunger-efficiency-modifier)
+  (gett is-hungry? this.needs.is-hungry?)
+  (gett is-tired? this.needs.is-tired?)
+
+  (gett tiredness this.needs.sleep-efficiency-modifier)
+  (gett threat 0) ;; no enemies implemented yet.
+  (gett tile (.get-from-world-pos this.entity.current-path.system.tiles
+                                  this.pos.x
+                                  this.pos.y))
+  (gett pos this.entity.position-interface)
+  (gett explorative (/ 1
+                       (+ this.hunger this.tiredness) ;; desire to explore is inversly proportionate the sum of needs.
+                       ))
+  (sett target t
+        (assign this.entity.current-path.start this.tile)
+        (assign this.entity.current-path.end
+                (.get-from-world-pos this.tile.graph
+                                     t.position-interface.x
+                                     t.position-interface.y)))
+  (gett target this.entity.current-path.end)
+  (gett visible-tiles this.entity.field-of-view.visible-tiles)
+  (known-food-items (.spawn Red-black-tree)))
+
+(define Mental-state System
+  (def *update-component (c)
+    (.each c.visible-tiles (tile)
+           (if (= tile.entity.container.object.type "food")
+               (.set this.known-food-items (+ tile.world-pos.x tile.world-pos.y)
+                     tile.entity.container.objects.first ;; currently the only containers are tiles, and tiles can have at most 1 object.
+                     )))
+    (if (and c.is-tired? (not c.is-hungry?))
+        (assign c.needs.is-resting? true)
+        (and c.needs.is-resting? c.needs.is-starving?)
+        (assign c.needs.is-resting? false)
+        (and c.is-hungry? (not c.is-resting?))
+        (if (c.tile.container.has-type 'food)
+            (c.tile.container.first.consume c.entity)
+            (and (not (c.target.container.has-type 'food))
+                 (not c.target.visible-status.explored?)
+                 c.known-food-items.size)
+            (do (const items (.search c.known-food-items (+ c.pos.x c.pos.y)))
+                (if items.head)
+              )))))
