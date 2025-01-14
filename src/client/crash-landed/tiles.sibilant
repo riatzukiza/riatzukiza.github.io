@@ -4,6 +4,7 @@
           (lit Ground-types) "@crash-landed/systems/floor-type.js"
           (lit Containers) "@crash-landed/systems/containers.js"
           config "@crash-landed/config.js"
+          game "@crash-landed/game.js"
           )
 
 (const game-scale config.game-scale)

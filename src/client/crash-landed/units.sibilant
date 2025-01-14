@@ -22,7 +22,9 @@
           (lit Trie) "@shared/data-structures/trees/trie.js"
           noise "@shared/noise.js"
           config "@crash-landed/config.js"
+          (lit game) "@crash-landed/game.js"
           )
+(print "game" game)
 (assign Unit-group.game game)
 (define Item-unit Unit-instance
   (gett data this.entity.item-interface)
@@ -50,6 +52,7 @@
 (export Player-unit)
 
 (define Player Unit-group
+
   (template false)
   (interface Player-unit)
   (group-name 'player)
@@ -58,6 +61,6 @@
 
 (const player (.spawn Player))
 
-(assign p.pos.x 0)
-(assign p.pos.y 0)
+(assign player.pos.x 0)
+(assign player.pos.y 0)
 (export player)

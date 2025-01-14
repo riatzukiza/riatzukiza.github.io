@@ -80,5 +80,7 @@ console.log({
   PlayerSprites,
   FloorSprites
  });
+console.log("this is a game", game);
+console.log("and these are it's entities", game.ent);
 exports.game = game;
 exports.activeGameSystems = activeGameSystems;

@@ -59,13 +59,18 @@ This may change as these are to be used instead of entity groups for the most pa
          game
          (components (.flat [types this.base-components]))
          (group ((create Entity-group)
-                 (+ name "Unit")
+                 (+ group-name "Unit")
                  components
-                 game.ent))
-         ))
+                 game.ent)))
+
+        (print "hi there" game.ent this.group game)
+        )
   (def build ()
+    (print "I build" this)
     (if (not this.template)
-        (.init this)
+        (do (.init this)
+            (print "and I built")
+            )
         )
     )
   (def spawn (...args)

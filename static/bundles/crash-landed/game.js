@@ -10625,6 +10625,8 @@ console.log({
   PlayerSprites,
   FloorSprites
  });
+console.log("this is a game", game);
+console.log("and these are it's entities", game.ent);
 exports.game = game;
 exports.activeGameSystems = activeGameSystems;
 },{"@crash-landed/config.js":"@crash-landed/config.js","@crash-landed/rendering.js":"@crash-landed/rendering.js","@crash-landed/systems/containers.js":"@crash-landed/systems/containers.js","@crash-landed/systems/floor-type.js":"@crash-landed/systems/floor-type.js","@crash-landed/systems/item.js":"@crash-landed/systems/item.js","@crash-landed/systems/mental-state.js":"@crash-landed/systems/mental-state.js","@crash-landed/systems/metabolisim.js":"@crash-landed/systems/metabolisim.js","@crash-landed/systems/path-finding.js":"@crash-landed/systems/path-finding.js","@crash-landed/systems/sight.js":"@crash-landed/systems/sight.js","@crash-landed/systems/sprites/basic-props.js":"@crash-landed/systems/sprites/basic-props.js","@crash-landed/systems/sprites/cliff.js":"@crash-landed/systems/sprites/cliff.js","@crash-landed/systems/sprites/floor.js":"@crash-landed/systems/sprites/floor.js","@crash-landed/systems/sprites/player.js":"@crash-landed/systems/sprites/player.js","@crash-landed/systems/visibility.js":"@crash-landed/systems/visibility.js","@kit-js/core/js/util":2,"@shared/game.js":"@shared/game.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js","ramda":3}]},{},[]);

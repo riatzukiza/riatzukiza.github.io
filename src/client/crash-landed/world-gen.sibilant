@@ -58,6 +58,7 @@
           (lit Unit-group Unit-instance) "@shared/units.js"
           (lit Vector) "@shared/vectors.js"
           (lit Trie) "@shared/data-structures/trees/trie.js"
+          (lit Spawnable) "@shared/data-structures/spawnable.js"
           noise "@shared/noise.js"
           )
 
@@ -435,14 +436,15 @@
   )
 (define Super-position-distrobution Probability-distrobution
   (init (super-position))
-  (cached grass (.get-likelyhood-of-state this.super-position 'grass))
-  (cached stone (.get-likelyhood-of-state this.super-position 'stone))
-  (cached flowery-grass (.get-likelyhood-of-state this.super-position 'flowery-grass))
+  (gett grass (.get-likelyhood-of-state this.super-position 'grass))
+  (gett stone (.get-likelyhood-of-state this.super-position 'stone))
+  (gett flowery-grass (.get-likelyhood-of-state this.super-position 'flowery-grass))
   (def clear ()
     (assign this.super-position null)
-    (clear-cache this grass)
-    (clear-cache this stone)
-    (clear-cache this stone)))
+    ;; (clear-cache this grass)
+    ;; (clear-cache this stone)
+    ;; (clear-cache this stone)
+    ))
 
 (define Base-distrobution Probability-distrobution
   (cached total-weight (summate this.weights))
@@ -482,8 +484,19 @@
   (gett stone (/ this.stone-instances this.total-instances))
   (gett flowery-grass (/ this.flowery-grass-instances this.total-instances)))
 (define Expected-likelyhood-given-current-state Probability-distrobution
-  (gett grass (/ Base-distrobution.grass Current-distrobution.grass 1))
-  )
+  (base Base-distrobution)
+  (burrent Current-distrobution)
+
+  (gett B [this.base.grass this.base.stone this.base.flowery-grass])
+  (gett C [this.base.grass this.base.stone this.base.flowery-grass])
+  (gett E (map this.B (Bn i) (/ Bn (get this.C i))))
+  (gett total-e (summate this.E))
+  (gett grass-e (first this.E))
+  (gett stone-e (second this.E))
+  (gett flowery-grass-e (third this.E))
+  (gett grass (/ this.grass-e this.total-e))
+  (gett stone (/ this.stone-e this.total-e))
+  (gett flowery-grass (/ this.flowery-grass-e this.total-e)))
 
 
 (define Super-position Spawnable
@@ -493,18 +506,36 @@
                             this
                             chunk-type)))))
 
-  (cached weights
-          (.eliminate-invalid-states this)
-          (map this.possible-states (state)
-               state.weight))
-  (cached total-weight (summate this.weights))
-  (cached entropy (calculate-entropy this.weights))
+  (gett state this.cell.entity.ground.type)
+  (sett state s (assign this.cell.entity.ground.type s))
+  (gett weights
+        ;; (.eliminate-invalid-states this)
+        ;; (map this.possible-states (state)
+        ;;      state.weight)
+
+        (map this.valid-states (state)
+             state.weight)
+
+        )
+  (gett total-weight (summate this.weights))
+  (gett entropy (calculate-entropy this.weights))
   (cached probability-distrobution (.spawn Super-position-distrobution this))
+  (cached neighbors (map this.tile.edges (neighbor)
+                         (.spawn Super-position cell)))
+  (gett valid-states (.get-valid-states this))
+  (gett collapsed-neighbors
+        (filter this.neighbors (super-position)
+                super-position.state))
+
+  (gett uncollapsed-neighbors
+        (sort (filter this.neighbors (super-position)
+                 (not super-position.state)) (a b)
+              (- b.entropy a.entropy)))
 
   (def clear ()
-    (clear-cache this weights)
-    (clear-cache this total-weight)
-    (clear-cache this entropy)
+    ;; (clear-cache this weights)
+    ;; (clear-cache this total-weight)
+    ;; (clear-cache this entropy)
     (clear-cache this probability-distrobution)
     (each this.possible-states (state)
           (.despawn state))
@@ -518,25 +549,38 @@
   (def-generic collapse ((depth 0)
                          (max-depth 2)
                          cell
-                         possible-states)
-    (if! cell.entity.ground.type (return cell.entity.ground.type))
-    (assign cell.entity.ground.type
-            (if (= possible-states 1)
-                (get (first possible-states) 'collapsed-state)
-                (= possible-states 0)
-                (.sampe-inverse current-distrobution)
+                         )
+    (if! this.state (return ))
+    (assign this.state
+            (if (= this.valid-states.length 1)
+                (get (first this.valid-states) 'collapsed-state)
+                (or (>= depth max-depth)
+                    (= this.valid-states.length 0))
+                (.sample Expected-likelyhood-given-current-state)
+                (do (const temp [])
+                    (var new-state null)
+                    (for-of! neighbor this.uncollapsed-neighbors
+                             (.push temp neighbor)
+                             (.collapse neighbor (+ depth 1) max-depth)
+                             (if! (= this.valid-states.length 1)
+                                  (assign new-state  (first this.valid-states))
+                                  break)
+                             (if! (= this.valid-states.length 0)
+                                  (assign temp.state null)))
 
-                ))
-    )
+                  (for-of! neighbor temp
+                           (assign neighbor.state null))
+                  (if (not new-state)
+                      (.sample this.probability-distrobution)
+                      (return new-state))))))
   (def calculate-entropy ()
-    (if (not this.validated?) (.eliminate-invalid-states))
-    (assign  this.total-weight (reduce this.possible-states 0 (weight state)
-                                       (+ weight (.calculate-weight state))))
-    (assign this.possible-states (.sort ))
-    )
+    (assign  this.total-weight
+             (reduce this.valid-states 0 (weight state)
+                     (+ weight (.calculate-weight state)))))
 
   (def get-valid-states ()
     (filter this.possible-states (state) (.is-valid? state this.cell)))
+
   (def eliminate-invalid-states ()
     (unless this.validated?
       (assign this.possible-states (.get-valid-states this))
@@ -544,63 +588,9 @@
 
 
 (def-generic Tile-node.collapse-wave-function ( (depth 0) (max-depth 2))
-  (const possible-states [])
-  ;; (print (lit max-depth))
-  (for-of! chunk-type Tile-chunk.chunks
-           (const possibility ((create Possible-state)
-                               chunk-type))
-           (if! (.test possibility this)
-                ;; (if (not possibility.collapsed-state) (throw (new Error "Collapsed to null")))
-                ;; (if (> 10 possibility.weight) (throw (new Error "Collapsed improbable state")))
-
-                ;; (print possibility.weight possibility.collapsed-state)
-
-                (.push possible-states possibility))
-           
-           )
-  (define choices Interface
-    (grass 0)
-    (stone 0)
-    (flowery-grass 0)
-    )
-
-  (if (= possible-states.length 1)
-      (first possible-states)
-      (= possible-states.length 0)
-      (return false)
-      (and (> possible-states.length 1)
-           (!= max-depth depth))
-      (do
-       (var result null)
-       (for-of! state possible-states
-                (const unconfigured-neigbors [])
-                (const is-valid?
-                       (.every state.configuration
-                               (=> (tile-type direction)
-                                   (const neighbor (get this direction ))
-                                   (if (= direction 'center)
-                                       true
-                                       (not neighbor.entity.ground.type)
-                                       (do (.push unconfigured-neigbors neighbor)
-                                         (const collapsed-state (neighbor.collapse-wave-function (+ depth 1)))
-                                        collapsed-state)
-                                       true))))
-                (for-of! neighbor unconfigured-neigbors
-                         (assign neighbor.entity.ground.type null))
-                (if! is-valid?
-                     (assign result state)
-                     break
-                     ))
-        (return result))
-      (do
-       (.reduce possible-states (=> (most-likely state)
-                                    (incr-by (get choices state.collapsed-state)
-                                             state.weight
-                                             )
-                                    (if (> (get choices state.collapsed-state)
-                                           (get choices most-likely.collapsed-state))
-                                        state
-                                        most-likely))))))
+  (const super-position (.spawn Super-position this))
+  (.collapse super-position)
+  (.despawn super-position))
 (def-generic Tile-node.setup (x y)
   (const v (get-tile-noise x y))
 
@@ -615,18 +605,7 @@
                          'type tile-type)))
         )
       (not this.entity.ground.type)
-      (do
-
-       (const collapsed-state (.collapse-wave-function this))
-       (const choice (if collapsed-state
-                         collapsed-state.collapsed-state
-                         ;; 'grass
-                         'flowery-grass
-                         ;; (get ['flowery-grass 'grass 'stone 'grass 'grass 'grass 'grass]
-                         ;;      (random-int 7)
-                         ;;      )
-                         ))
-        (assign this.entity.ground.type choice)))
+      (.collapse-wave-function this))
 
 
   (when (and (> (+ v.x v.y) 16)
@@ -654,8 +633,7 @@
                  ])
 
   (.select-tile this.entity.floor-sprite
-                (dots coords)
-                )
+                (dots coords))
 
 
   (.despawn v))

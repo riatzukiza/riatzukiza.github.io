@@ -127,54 +127,54 @@
           (do
 
            (const pos-v (.spawn Vector pos.x pos.y))
-            (const tile-pos-v (.spawn Vector
-                                      c.next-node.item.tile.world-pos.x
-                                      c.next-node.item.tile.world-pos.y))
+           (const tile-pos-v (.spawn Vector
+                                     c.next-node.item.tile.world-pos.x
+                                     c.next-node.item.tile.world-pos.y))
             (const d (.distance-to  tile-pos-v pos-v))
             (.set-length vel (* occupied-tile.entity.ground.movement-speed)
-            (.set-angle vel (.get-angle d))
-            (.despawn d)
-            (.despawn pos-v)
-            (.despawn tile-pos-v)
-            )
-          (or (= occupied-tile c.end)
-              (!= c.end c.current-node.item.end))
-          (do (print "found end")
-              (.set-length vel 0)
+                         (.set-angle vel (.get-angle d))
+                         (.despawn d)
+                         (.despawn pos-v)
+                         (.despawn tile-pos-v)
+                         ))
+            (or (= occupied-tile c.end)
+                (!= c.end c.current-node.item.end))
+            (do (print "found end")
+                (.set-length vel 0)
 
-            (for-of! [tile node] this.active-nodes
-                     (.delete this.active-nodes tile)
-                     (.despawn node))
+              (for-of! [tile node] this.active-nodes
+                       (.delete this.active-nodes tile)
+                       (.despawn node))
 
-            (.despawn c.node-list)
-            ;; (.clear this.active-nodes)
-            (assign c.current-node null
-                    c.start null
-                    c.end null
-                    c.node-list null
-                    ))
-          (= occupied-tile c.next-node.item.tile)
-          (do
-            (assign c.current-node c.next-node)
-            (const pos-v (.spawn Vector pos.x pos.y))
-            (const tile-pos-v (.spawn Vector
-                                      c.next-node.item.tile.world-pos.x
-                                      c.next-node.item.tile.world-pos.y))
-            (const d (.distance-to  tile-pos-v pos-v))
+              (.despawn c.node-list)
+              ;; (.clear this.active-nodes)
+              (assign c.current-node null
+                      c.start null
+                      c.end null
+                      c.node-list null
+                      ))
+            (= occupied-tile c.next-node.item.tile)
+            (do
+             (assign c.current-node c.next-node)
+             (const pos-v (.spawn Vector pos.x pos.y))
+              (const tile-pos-v (.spawn Vector
+                                        c.next-node.item.tile.world-pos.x
+                                        c.next-node.item.tile.world-pos.y))
+              (const d (.distance-to  tile-pos-v pos-v))
 
-            (.set-length vel 64)
-            (.set-angle vel (.get-angle d))
-            (.despawn pos-v)
-            (.despawn tile-pos-v)
-            (.despawn d))
-          
-          ;; (do (print "gone off path, recalculating" c occupied-tile c.next-node.item.tile)
-          ;;     (each c.node-list (value)
-          ;;           (.delete this.active-nodes value.tile))
-          ;;   (.clear c.node-list)
-          ;;   (assign c.current-node null
-          ;;           c.start occupied-tile))
-          ))
+              (.set-length vel 64)
+              (.set-angle vel (.get-angle d))
+              (.despawn pos-v)
+              (.despawn tile-pos-v)
+              (.despawn d))
+            
+            ;; (do (print "gone off path, recalculating" c occupied-tile c.next-node.item.tile)
+            ;;     (each c.node-list (value)
+            ;;           (.delete this.active-nodes value.tile))
+            ;;   (.clear c.node-list)
+            ;;   (assign c.current-node null
+            ;;           c.start occupied-tile))
+            ))
 
     
 
@@ -221,9 +221,6 @@
                          (if (not (.includes this.open neighbor-node))
                              (.push this.open neighbor-node))))
 
-              null)))
-      )
-    ))
-
+              null))))))
 (export Path-finding)
 (export Current-path)

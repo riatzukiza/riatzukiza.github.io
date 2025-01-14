@@ -43,6 +43,8 @@
 
 (print (lit Player-sprites Floor-sprites))
 
+(print "this is a game" game)
+(print "and these are it's entities" game.ent)
 
 (export game)
 (export active-game-systems)

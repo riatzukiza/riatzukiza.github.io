@@ -109,15 +109,15 @@ var PathNode = Spawnable.define("PathNode", {
       var path = List.spawn();
       var node = this;
       return (function() {
-        var while$150 = undefined;
+        var while$226 = undefined;
         while (node) {
-          while$150 = (function() {
+          while$226 = (function() {
             path.unshift(node);
             node = node.parent;
             return path;
           }).call(this);
         };
-        return while$150;
+        return while$226;
       }).call(this);
     
    },
@@ -199,11 +199,7 @@ var PathFinding = System.define("PathFinding", {
               const posV=Vector.spawn(pos.x, pos.y);
               const tilePosV=Vector.spawn(c.nextNode.item.tile.worldPos.x, c.nextNode.item.tile.worldPos.y);
               const d=tilePosV.distanceTo(posV);
-              vel.setLength(64);
-              vel.setAngle(d.getAngle());
-              d.despawn();
-              posV.despawn();
-              return tilePosV.despawn();
+              return vel.setLength((occupiedTile.entity.ground.movementSpeed), vel.setAngle(d.getAngle()), d.despawn(), posV.despawn(), tilePosV.despawn());
             } else if ((occupiedTile === c.end || c.end !== c.currentNode.item.end)) {
               console.log("found end");
               vel.setLength(0);
@@ -251,9 +247,9 @@ var PathFinding = System.define("PathFinding", {
           }).call(this);
           this.open.push(startingNode);
           return (function() {
-            var while$151 = undefined;
+            var while$227 = undefined;
             while (this.open.length) {
-              while$151 = (function() {
+              while$227 = (function() {
                 const currentNode=this.nextOpenNode;
                 return (function() {
                   if (currentNode.tile === c.end) {
@@ -298,7 +294,7 @@ var PathFinding = System.define("PathFinding", {
                 }).call(this);
               }).call(this);
             };
-            return while$151;
+            return while$227;
           }).call(this);
         }
       }).call(this);

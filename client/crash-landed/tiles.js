@@ -13,24 +13,26 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   
   }));
 });
-var Floor = TileComponent.define("Floor", { 
-  
- });
-var Flooring = TileSystem.define("Flooring", { 
-  types:[ "dirt", "rock", "grass" ],
-  interface:Floor
- });
-var TileSprite = Sprite.define("TileSprite", { 
-  
- });
-var TileSprites = Sprites.define("TileSprites", { 
-  interface:TileSprite
- });
-var TileComponent = Component.define("TileComponent", { 
-  
- });
-var TileSystem = System.define("TileSystem", { 
-  interface:TileData
- });
-const tileSystems=[ Flooring, FloorSprite, Contents, Visibility, Temperature, Traversability, MovementSignals, MemoryLabels, Beauty ];
-const tiles=TileGraph.spawn(tileSystems);
+var { 
+  TileGraph,
+  TileNode
+ } = require("@shared/tiles.js"),
+    { 
+  FloorSprites
+ } = require("@crash-landed/systems/sprites/floor.js"),
+    { 
+  TileVisibility
+ } = require("@crash-landed/systems/visibility.js"),
+    { 
+  GroundTypes
+ } = require("@crash-landed/systems/floor-type.js"),
+    { 
+  Containers
+ } = require("@crash-landed/systems/containers.js"),
+    config = require("@crash-landed/config.js"),
+    game = require("@crash-landed/game.js");
+const gameScale=config.gameScale;
+const tileSystems=[ FloorSprites, TileVisibility, GroundTypes, Containers ];
+const tiles=TileGraph.spawn(gameScale, tileSystems, game);
+exports.tiles = tiles;
+exports.tileSystems = tileSystems;

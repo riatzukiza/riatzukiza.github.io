@@ -76,17 +76,20 @@ var UnitGroup = Interface.define("UnitGroup", {
   baseComponents:[ Position, Physics ],
   interface:UnitInstance,
   template:true,
-  init( groupName = this.groupName,types = this.types,game = this.game,components = [ types, this.baseComponents ].flat(),group = create(EntityGroup)((name + "Unit"), components, game.ent) ){ 
+  init( groupName = this.groupName,types = this.types,game = this.game,components = [ types, this.baseComponents ].flat(),group = create(EntityGroup)((groupName + "Unit"), components, game.ent) ){ 
     
       this.groupName = groupName;this.types = types;this.game = game;this.components = components;this.group = group;
+      console.log("hi there", game.ent, this.group, game);
       return this;
     
    },
   build(  ){ 
     
+      console.log("I build", this);
       return (function() {
         if (!(this.template)) {
-          return this.init();
+          this.init();
+          return console.log("and I built");
         }
       }).call(this);
     

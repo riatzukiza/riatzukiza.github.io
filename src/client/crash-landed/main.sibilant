@@ -17,7 +17,7 @@
 (require! (lit start-interface) "@crash-landed/dom.js"
           (lit Position) "@shared/systems/position.js"
           (lit Sight) "@crash-landed/systems/sight.js"
-          (lit  player) "@shared/units.js"
+          (lit  player) "@crash-landed/units.js"
           (lit get-cardinal-direction-name) "@crash-landed/directions.js"
           (lit generate-main-road) "@crash-landed/world-gen.js"
           (lit tiles) "@crash-landed/tiles.js"
