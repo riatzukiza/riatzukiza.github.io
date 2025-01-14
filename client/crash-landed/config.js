@@ -39,6 +39,7 @@ module.exports.optionsAmplitude = 10;
 module.exports.limitDecay = false;
 module.exports.antInfluence = 90;
 module.exports.friction = 0.01;
+module.exports.gameScale = 128;
 module.exports.collisionStatic = 5;
 module.exports.spawnStatic = 10;
 module.exports.spawnRate = 10;

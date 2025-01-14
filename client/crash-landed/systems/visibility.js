@@ -21,11 +21,67 @@ var {
   List
  } = require("@shared/data-structures/list.js");
 var VisibleStatus = Component.define("VisibleStatus", { 
-  visible__QUERY:false,
-  explored__QUERY:false
+  _visible__QUERY:false,
+  _explored__QUERY:false,
+  get visible__QUERY(  ){ 
+    
+      return this._visible__QUERY;
+    
+   },
+  get explored__QUERY(  ){ 
+    
+      return this._explored__QUERY;
+    
+   },
+  set visible__QUERY( v ){ 
+    
+      this._visible__QUERY = v;
+      this.sprite.redraw();
+      return this.entity.container.objects.each(((o) => {
+      	
+        return o.entity.components.each(((c) => {
+        	
+          return (function() {
+            if (c.redraw) {
+              return c.redraw();
+            }
+          }).call(this);
+        
+        }));
+      
+      }));
+    
+   },
+  set explored__QUERY( e ){ 
+    
+      this._explored__QUERY = e;
+      this.sprite.redraw();
+      return this.entity.container.objects.each(((o) => {
+      	
+        return o.entity.components.each(((c) => {
+        	
+          return (function() {
+            if (c.redraw) {
+              return c.redraw();
+            }
+          }).call(this);
+        
+        }));
+      
+      }));
+    
+   },
+  get sprite(  ){ 
+    
+      return this.entity.floorSprite;
+    
+   }
  });
 var TileVisibility = System.define("TileVisibility", { 
   interface:VisibleStatus,
+  _updateAll(  ){ 
+    
+   },
   _updateComponent( c ){ 
     
    }

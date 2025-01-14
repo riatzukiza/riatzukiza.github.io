@@ -1,0 +1,661 @@
+(namespace crash-landed)
+
+(include "kit/header" )
+(import-namespace kit)
+
+(include "kit-interface/header" )
+(import-namespace interface)
+
+(include "../../../inc/rand.sibilant")
+(include "../../../inc/misc.sibilant")
+(include "../../../inc/docs.sibilant")
+(import-namespace docs)
+
+(set global 'mixin mixin 'create create)
+(def-lit-macro cached (name ...rest)
+  `(gett @name (if (get this (quote (quote @['* name])))
+                   (get this (quote (quote @['* name])))
+                   (set this (quote (quote @['* name]))
+                        (scoped ...@rest)))))
+(macro clear-cache (obj name)
+       `(if (get @obj (quote (quote @['* name])))
+            (if (get @obj (quote (quote @['* name]))
+                     'spawn)
+                (.despawn (get @obj (quote (quote @['* name]))))
+                (set @obj (quote (quote @['* name]))
+                     null))))
+(def-lit-macro expects (name)
+  `(gett @name
+         (throw (new Type-error (+ this.name "expects a definition of" (quote @name))))))
+
+(macro every (array args ...rest) `(.every @array (=> @args ...@rest)))
+
+(macro reduce (array initial-value args ...rest) `(.reduce @array (=> @args ...@rest)
+                                                           @initial-value))
+
+(macro filter (array args ...rest) `(.filter @array (=> @args) ...@rest))
+
+(require! (lit game active-game-systems ) "@crash-landed/game.js")
+(require! (lit start-interface) "@crash-landed/dom.js"
+
+          (lit Physics) "@shared/systems/physics/index.js"
+          (lit Friction) "@crash-landed/forces.js"
+          (lit Position) "@shared/systems/position.js"
+          (lit Velocity) "@shared/systems/velocity.js"
+          (lit Player-sprites) "@crash-landed/systems/sprites/player.js"
+          (lit Floor-sprites) "@crash-landed/systems/sprites/floor.js"
+          (lit Props-sprites) "@crash-landed/systems/sprites/basic-props.js"
+          ;; (lit Cliff-sprites) "@crash-landed/systems/sprites/cliff.js"
+          (lit Sight) "@crash-landed/systems/sight.js"
+          (lit Tile-visibility) "@crash-landed/systems/visibility.js"
+          (lit Path-finding) "@crash-landed/systems/path-finding.js"
+          (lit Ground-types) "@crash-landed/systems/floor-type.js"
+          (lit Metabolisim) "@crash-landed/systems/metabolisim.js"
+          (lit Containers) "@crash-landed/systems/containers.js"
+          (lit Mental-state) "@crash-landed/systems/mental-state.js"
+          (lit Item) "@crash-landed/systems/item.js"
+          (lit Entity-group) "@shared/ecs/entity-group.js"
+          (lit Unit-group Unit-instance) "@shared/units.js"
+          (lit Vector) "@shared/vectors.js"
+          (lit Trie) "@shared/data-structures/trees/trie.js"
+          noise "@shared/noise.js"
+          )
+
+(require! (lit Tile-graph Tile-node) "@shared/tiles.js")
+
+(define Tile-chunk Interface
+  (directions [['north-west 0]
+               ['north 1]
+               ['north-east 2]
+               ['west 3]
+               ['center 4]
+               ['east 5]
+               ['south-west 6]
+               ['south 7]
+               ['south-east 8]])
+  (chunks [])
+  (weight 1)
+  (define indexes Interface
+    (north-west 0)
+    (north 1)
+    (north-east 2)
+    (west 3)
+    (center 4)
+    (east 5)
+    (south-west 6)
+    (south 7)
+    (south-east 8))
+
+  (init ((data []) (weight 1)) (.push this.chunks this))
+
+  (def create (weight (dots data)) ((create Tile-chunk) data weight))
+  (def get (direction) (get this.data (get this.indexes direction)))
+
+  (def-generic each (f data directions)
+    (each directions (dir i)
+          (f (get data (second dir)) (first dir) i)))
+  (def-generic reduce (f  initial-value  data directions)
+    (reduce data initial-value (acc val)
+            (f acc (get data (second dir)) (first dir) i))
+    )
+  (def-generic every (f data directions)
+    (.every directions (=> (dir i)
+                           (f (get data (second dir)) (first dir) i)))))
+
+(const road-weight 1.0)
+(const turn-weight 0.1)
+(const adjacent-stone-weight -10)
+(const paralell-horizontal-roads (.create Tile-chunk adjacent-stone-weight
+                               'stone 'stone 'stone
+                               'grass 'grass 'grass
+                               'stone 'stone 'stone))
+(const paralell-vertical-roads (.create Tile-chunk adjacent-stone-weight
+                                        'stone 'grass 'stone
+                                        'stone 'grass 'stone
+                                        'stone 'grass 'stone
+                                          ))
+(const full-stone (.create Tile-chunk adjacent-stone-weight
+                                        'stone 'stone 'stone
+                                        'stone 'stone 'stone
+                                        'stone 'stone 'stone
+                                        ))
+(const horizontal-road
+       (.create Tile-chunk road-weight
+                'grass 'grass 'grass
+                'stone 'stone 'stone
+                'grass 'grass 'grass))
+
+(const grass-below-road (.create Tile-chunk road-weight
+                                 'stone 'stone 'stone
+                                 'grass 'grass 'grass
+                                 'grass 'grass 'grass))
+(const grass-above-road (.create Tile-chunk road-weight
+                                 'grass 'grass 'grass
+                                 'grass 'grass 'grass
+                                 'stone 'stone 'stone))
+
+(const flowers-below-road ((create Tile-chunk)
+  [
+   'stone 'stone 'stone
+   'grass 'grass 'grass
+   'flowery-grass 'flowery-grass 'flowery-grass
+   ]))
+(assign flowers-below-road.weight road-weight)
+(const flowers-above-road ((create Tile-chunk)
+  [
+   'flowery-grass 'flowery-grass 'flowery-grass
+   'grass 'grass 'grass
+   'stone 'stone 'stone
+   ]))
+(assign flowers-above-road.weight road-weight)
+
+
+(const vertical-road
+       ((create Tile-chunk)
+        [
+          'grass 'stone 'grass
+          'grass 'stone 'grass
+          'grass 'stone 'grass
+           ]))
+(assign vertical-road.weight road-weight)
+(const grass-on-right-of-road ((create Tile-chunk)
+  [
+   'stone 'grass  'grass
+   'stone 'grass  'grass
+   'stone 'grass  'grass
+   ]))
+(assign grass-on-right-of-road.weight road-weight)
+
+(const grass-on-left-of-road ((create Tile-chunk)
+  [
+   'grass  'grass  'stone
+   'grass  'grass  'stone
+   'grass  'grass  'stone
+   ]))
+
+(assign grass-on-left-of-road.weight road-weight)
+
+(const flowers-on-right-of-road ((create Tile-chunk)
+  [
+   'stone 'grass  'flowery-grass
+   'stone 'grass  'flowery-grass
+   'stone 'grass  'flowery-grass
+   ]))
+(assign flowers-on-right-of-road.weight road-weight)
+
+(const flowers-on-left-of-road ((create Tile-chunk)
+  [
+   'flowery-grass  'grass  'stone
+   'flowery-grass  'grass  'stone
+   'flowery-grass  'grass  'stone
+   ]))
+
+(assign flowers-on-left-of-road.weight road-weight)
+
+(const left-diagonal-road
+       (.create Tile-chunk
+                'stone 'grass 'grass
+                'grass 'stone 'grass
+                'grass 'grass 'stone
+                road-weight
+                ))
+(const right-diagonal-road
+       (.create Tile-chunk
+                'grass 'grass 'stone
+                'grass 'stone 'grass
+                'stone 'grass 'grass
+                road-weight
+                ))
+
+
+(const cross-roads
+       ((create Tile-chunk)
+        [ 'grass 'stone 'grass
+           'stone 'stone 'stone
+           'grass 'stone 'grass ]))
+(assign cross-roads.weight 0.1)
+
+
+(const north-east-turn ((create Tile-chunk)
+                        [  'grass 'grass 'grass
+                           'grass 'stone 'stone
+                           'grass 'stone 'grass]))
+(assign north-east-turn.weight turn-weight)
+
+(const wide-north-east-turn ((create Tile-chunk) [ 
+                                                  'stone 'stone 'stone
+                                                  'stone 'grass 'grass
+                                                  'stone 'grass 'grass]))
+
+(assign wide-north-east-turn.weight turn-weight)
+
+(const north-west-turn ((create Tile-chunk) [ 
+                                             'grass 'grass 'grass
+                                             'stone 'stone 'grass
+                                             'grass 'stone 'grass]))
+
+(assign north-west-turn.weight turn-weight)
+
+(const wide-north-west-turn ((create Tile-chunk) [ 
+                                                  'stone 'stone 'stone
+                                                  'grass 'grass 'stone
+                                                  'grass 'grass 'stone]))
+
+(assign wide-north-west-turn.weight turn-weight)
+((create Tile-chunk) [ 
+                      'grass 'grass 'grass
+                      'stone 'stone 'grass
+                      'stone 'stone 'grass])
+
+(const south-west-turn ((create Tile-chunk) [ 
+                                             'grass 'stone 'grass
+                                             'stone 'stone 'grass
+                                              'grass 'grass 'grass]))
+
+
+(assign south-west-turn.weight turn-weight)
+(const wide-south-west-turn ((create Tile-chunk) [
+                                             'grass 'grass 'stone
+                                             'grass 'grass 'stone
+                                             'stone 'stone 'stone]))
+(assign wide-south-west-turn.weight turn-weight)
+(const lone-stone-weight -1)
+(.create Tile-chunk lone-stone-weight
+         'grass 'grass 'grass
+         'grass 'stone 'grass
+         'grass 'grass 'grass)
+(.create Tile-chunk lone-stone-weight
+         'grass 'stone 'grass
+         'grass 'grass 'grass
+         'grass 'grass 'grass)
+(.create Tile-chunk lone-stone-weight
+         'stone 'grass 'grass
+         'grass 'grass 'grass
+         'grass 'grass 'grass)
+(.create Tile-chunk lone-stone-weight
+         'grass 'grass 'grass
+         'stone 'grass 'grass
+         'grass 'grass 'grass)
+(.create Tile-chunk lone-stone-weight
+         'grass 'grass 'grass
+         'grass 'grass 'grass
+         'stone 'grass 'grass)
+(.create Tile-chunk lone-stone-weight
+         'grass 'grass 'grass
+         'grass 'grass 'grass
+         'grass 'stone 'grass)
+(.create Tile-chunk lone-stone-weight
+         'grass 'grass 'grass
+         'grass 'grass 'grass
+         'grass 'grasss 'stone)
+(.create Tile-chunk lone-stone-weight
+         'grass 'grass 'grass
+         'grass 'grass 'stone
+         'grass 'grasss 'grass)
+(.create Tile-chunk lone-stone-weight
+         'grass 'grass 'stone
+         'grass 'grass 'grass
+         'grass 'grasss 'grass)
+(const road-end-stone-weight -1)
+(.create Tile-chunk  road-end-stone-weight
+         'grass 'stone 'grass
+         'grass 'stone 'grass
+         'grass 'grass 'grass)
+(.create Tile-chunk  road-end-stone-weight
+         'grass 'grass 'grass
+         'grass 'stone 'grass
+         'grass 'stone 'grass)
+
+(.create Tile-chunk  road-end-stone-weight
+         'grass 'grass 'grass
+         'stone 'stone 'grass
+         'grass 'grass 'grass)
+(.create Tile-chunk  road-end-stone-weight
+         'grass 'grass 'grass
+         'grass 'stone 'stone
+         'grass 'grass 'grass)
+
+(def generate-main-road ()
+  (var tile (.get tiles 0 0))
+  (var i 0)
+  (print tile.entity.ground.type)
+  (while (and (< i 256) (!= tile.entity.ground.type 'stone))
+         (incr i)
+
+         (assign tile.entity.ground.type 'stone)
+         (const v (get-tile-noise tile.x tile.y ))
+         (const direction (get-cardinal-direction-name v) )
+         (.despawn v)
+
+         (assign tile (get tile direction))
+
+         (print v direction tile tile.entity.ground.type)
+         ))
+
+(const south-east-turn (.create Tile-chunk
+                                'grass 'stone 'grass
+                                'grass 'stone 'stone
+                                'grass 'grass 'grass))
+(assign south-east-turn.weight turn-weight)
+
+(const field (.create Tile-chunk 1.1
+                      'grass 'grass 'grass
+                      'grass 'grass 'grass
+                      'grass 'grass 'grass))
+
+(assign field.weight 1.1)
+(const meadow (.create Tile-chunk 1.1
+                       'flowery-grass 'flowery-grass 'flowery-grass
+                       'flowery-grass 'flowery-grass  'flowery-grass
+                       'flowery-grass 'flowery-grass 'flowery-grass))
+
+(const grassy-meadow
+       (.create Tile-chunk
+               'grass 'flowery-grass 'grass
+               'flowery-grass 'grass 'flowery-grass
+               'grass 'flowery-grass 'grass))
+(const other-grassy-meadow (.create Tile-chunk 1.1
+                                    'flowery-grass 'grass 'flowery-grass
+                                    'grass 'flowery-grass 'grass
+                                    'flowery-grass 'grass 'flowery-grass))
+
+(const lone-flower (.create Tile-chunk 2.1
+                            'grass 'grass 'grass
+                            'grass 'flowery-grass 'grass
+                            'grass 'grass 'grass))
+
+
+
+
+
+(var next-type 0)
+(var is-first-tile? true)
+
+(define base-weights Interface
+  (grass 10)
+  (stone 1)
+  (flowery-grass 3))
+
+
+(def entropy (weights)
+  (const sum-of-weights (summate weights))
+  (const sum-of-log-weights
+         (reduce weights 0 (sum weight)
+                 (+ sum (* weight (Math.log weight)))))
+  (- (Math.log sum-of-weights)
+     (/ sum-of-log-weights sum-of-weights)))
+(define Possible-state Spawnable
+
+  (init (super-position configuration (is-possible? true)))
+
+  (gett collapsed-state (.get this.configuration 'center))
+  (gett tile this.super-position.tile)
+
+  (cached likely-hood (/ this.super-position.total-weight this.weight))
+  (cached weight (.calculate-weight this))
+
+  (def calculate-weight ()
+    (reduce this.configuration 0 ( weight tile-type direction )
+            (+ weight (* configuration.weight (get base-weights tile-type)))))
+
+  (def-generic is-valid? (tile configuration)
+    (every configuration (tile-type direction)
+           (or (= direction 'center)
+               (= (get tile direction 'entity 'ground 'type)
+                  tile-type)
+               (not (get tile direction 'entity 'ground 'type))))))
+
+
+
+
+
+(define Probability-distrobution Spawnable
+
+  (expects grass)
+  (expects stone)
+  (expects flowery-grass)
+
+  (def sample-inverse ()
+    (var r (Math.random))
+    (var s 0)
+    (var i 0)
+    (for-of! type-name ['grass 'stone 'flowery-grass]
+             (incr-by s (- 1 (get this type-name)))
+             (if! (> s r) (return type-name)))
+    (throw (new Error "You screwed up your math, these probabilities don't add up to 1.")))
+  (def sample ()
+    (var r (Math.random))
+    (var s 0)
+    (var i 0)
+    (for-of! type-name ['grass 'stone 'flowery-grass]
+             (incr-by s (get this type-name))
+             (if! (> s r) (return type-name)))
+    (throw (new Error "You screwed up your math, these probabilities don't add up to 1.")))
+  (def clear () (set this 'grass 0 'stone 0 'flowery-grass 0))
+  )
+(define Super-position-distrobution Probability-distrobution
+  (init (super-position))
+  (cached grass (.get-likelyhood-of-state this.super-position 'grass))
+  (cached stone (.get-likelyhood-of-state this.super-position 'stone))
+  (cached flowery-grass (.get-likelyhood-of-state this.super-position 'flowery-grass))
+  (def clear ()
+    (assign this.super-position null)
+    (clear-cache this grass)
+    (clear-cache this stone)
+    (clear-cache this stone)))
+
+(define Base-distrobution Probability-distrobution
+  (cached total-weight (summate this.weights))
+  (cached weights (map this.states (state)
+                       state.weight))
+  (cached states (map Tile-chunk.chunks (chunk-type)
+                      (.spawn Possible-state this chunk-type)))
+  (cached grass (/ (reduce this.states 0 (weight state)
+                           (if (= state.collapsed-state 'grass)
+                               (+ weight state.weight)
+                               weight))
+                   this.total-weight))
+  (cached stone (/ (reduce this.states 0 (weight state)
+                           (if (= state.collapsed-state 'stone)
+                               (+ weight state.weight)
+                               weight))
+                   this.total-weight))
+  (cached  flowery-grass (/ (reduce this.states 0 (weight state)
+                                    (if (= state.collapsed-state 'flowery-grass)
+                                        (+ weight state.weight)
+                                        weight))
+                            this.total-weight)))
+(define Current-distrobution Probability-distrobution
+
+  (grass-instances 0)
+  (stone-instances 0)
+  (flowery-grass-instances 0)
+
+  (cached base-grass Base-distrobution.grass)
+  (cached base-stone Base-distrobution.stone)
+  (cached base-flowery-grass Base-distrobution.flowery-grass)
+
+  (gett total-instances (+ this.grass-instances
+                           this.stone-instances
+                           this.flowery-grass-instances))
+  (gett grass (/ this.grass-instances this.total-instances))
+  (gett stone (/ this.stone-instances this.total-instances))
+  (gett flowery-grass (/ this.flowery-grass-instances this.total-instances)))
+(define Expected-likelyhood-given-current-state Probability-distrobution
+  (gett grass (/ Base-distrobution.grass Current-distrobution.grass 1))
+  )
+
+
+(define Super-position Spawnable
+  (init (cell (possible-states
+               (map Tile-chunk.chunks (chunk-type)
+                    (.spawn Possible-state
+                            this
+                            chunk-type)))))
+
+  (cached weights
+          (.eliminate-invalid-states this)
+          (map this.possible-states (state)
+               state.weight))
+  (cached total-weight (summate this.weights))
+  (cached entropy (calculate-entropy this.weights))
+  (cached probability-distrobution (.spawn Super-position-distrobution this))
+
+  (def clear ()
+    (clear-cache this weights)
+    (clear-cache this total-weight)
+    (clear-cache this entropy)
+    (clear-cache this probability-distrobution)
+    (each this.possible-states (state)
+          (.despawn state))
+    (set this 'cell null
+         'possible-states null))
+
+  (def get-likely-hood-of-state (tile-type)
+    (/ this.total-weight (reduce this.possible-states 0 (type-weight state)
+                                 (if (= state.collapsed-state tile-type)
+                                     (+ type-weight state.weight)))))
+  (def-generic collapse ((depth 0)
+                         (max-depth 2)
+                         cell
+                         possible-states)
+    (if! cell.entity.ground.type (return cell.entity.ground.type))
+    (assign cell.entity.ground.type
+            (if (= possible-states 1)
+                (get (first possible-states) 'collapsed-state)
+                (= possible-states 0)
+                (.sampe-inverse current-distrobution)
+
+                ))
+    )
+  (def calculate-entropy ()
+    (if (not this.validated?) (.eliminate-invalid-states))
+    (assign  this.total-weight (reduce this.possible-states 0 (weight state)
+                                       (+ weight (.calculate-weight state))))
+    (assign this.possible-states (.sort ))
+    )
+
+  (def get-valid-states ()
+    (filter this.possible-states (state) (.is-valid? state this.cell)))
+  (def eliminate-invalid-states ()
+    (unless this.validated?
+      (assign this.possible-states (.get-valid-states this))
+      (assign this.validated? true))))
+
+
+(def-generic Tile-node.collapse-wave-function ( (depth 0) (max-depth 2))
+  (const possible-states [])
+  ;; (print (lit max-depth))
+  (for-of! chunk-type Tile-chunk.chunks
+           (const possibility ((create Possible-state)
+                               chunk-type))
+           (if! (.test possibility this)
+                ;; (if (not possibility.collapsed-state) (throw (new Error "Collapsed to null")))
+                ;; (if (> 10 possibility.weight) (throw (new Error "Collapsed improbable state")))
+
+                ;; (print possibility.weight possibility.collapsed-state)
+
+                (.push possible-states possibility))
+           
+           )
+  (define choices Interface
+    (grass 0)
+    (stone 0)
+    (flowery-grass 0)
+    )
+
+  (if (= possible-states.length 1)
+      (first possible-states)
+      (= possible-states.length 0)
+      (return false)
+      (and (> possible-states.length 1)
+           (!= max-depth depth))
+      (do
+       (var result null)
+       (for-of! state possible-states
+                (const unconfigured-neigbors [])
+                (const is-valid?
+                       (.every state.configuration
+                               (=> (tile-type direction)
+                                   (const neighbor (get this direction ))
+                                   (if (= direction 'center)
+                                       true
+                                       (not neighbor.entity.ground.type)
+                                       (do (.push unconfigured-neigbors neighbor)
+                                         (const collapsed-state (neighbor.collapse-wave-function (+ depth 1)))
+                                        collapsed-state)
+                                       true))))
+                (for-of! neighbor unconfigured-neigbors
+                         (assign neighbor.entity.ground.type null))
+                (if! is-valid?
+                     (assign result state)
+                     break
+                     ))
+        (return result))
+      (do
+       (.reduce possible-states (=> (most-likely state)
+                                    (incr-by (get choices state.collapsed-state)
+                                             state.weight
+                                             )
+                                    (if (> (get choices state.collapsed-state)
+                                           (get choices most-likely.collapsed-state))
+                                        state
+                                        most-likely))))))
+(def-generic Tile-node.setup (x y)
+  (const v (get-tile-noise x y))
+
+  ;; seed the options
+  (if is-first-tile?
+      (do (assign is-first-tile? false)
+          (each cross-roads (tile-type direction)
+                (print "initializing first chunk" tile-type direction)
+                (if (= direction 'center)
+                    (assign this.entity.ground.type tile-type)
+                    (set (get this direction 'entity 'ground)
+                         'type tile-type)))
+        )
+      (not this.entity.ground.type)
+      (do
+
+       (const collapsed-state (.collapse-wave-function this))
+       (const choice (if collapsed-state
+                         collapsed-state.collapsed-state
+                         ;; 'grass
+                         'flowery-grass
+                         ;; (get ['flowery-grass 'grass 'stone 'grass 'grass 'grass 'grass]
+                         ;;      (random-int 7)
+                         ;;      )
+                         ))
+        (assign this.entity.ground.type choice)))
+
+
+  (when (and (> (+ v.x v.y) 16)
+           (= this.entity.ground.type 'flowery-grass))
+    (const item (.spawn Item-group))
+    (assign item.physics.scale game-scale)
+    ;; (print "spawning food" this item)
+    (const tile-container this.entity.container)
+    (set item.pos
+         'x this.world-pos.x
+         'y this.world-pos.y)
+    (.add tile-container item.entity))
+
+  
+  (const ground-stats this.entity.ground.stats)
+  (const x* (mod (Math.abs (Math.round v.x) ) (- ground-stats.sprite-coord-max-x
+                                                 ground-stats.sprite-coord-min-x)))
+  (const y* (mod (Math.abs (Math.round v.y) ) (- ground-stats.sprite-coord-max-y
+                                                 ground-stats.sprite-coord-min-y  )))
+
+  ;; (const x* 2)
+  ;; (const y* 2)
+  (const coords [(+ x* this.entity.ground.stats.sprite-coord-min-x)
+                 (+ y* this.entity.ground.stats.sprite-coord-min-y)
+                 ])
+
+  (.select-tile this.entity.floor-sprite
+                (dots coords)
+                )
+
+
+  (.despawn v))

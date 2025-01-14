@@ -24,20 +24,36 @@ var {
 var Container = Component.define("Container", { 
   itemLimit:1,
   objects:null,
+  get tile(  ){ 
+    
+      return this.system.game.tiles.getClosestFromWorldPos(this.entity.positionInterface.x, this.entity.positionInterface.y);
+    
+   },
+  get visible__QUERY(  ){ 
+    
+      return this.tile.entity.visibleStatus.visible__QUERY;
+    
+   },
+  get explored__QUERY(  ){ 
+    
+      return this.tile.entity.visibleStatus.explored__QUERY;
+    
+   },
   add( entity ){ 
     
       return (function() {
-        if ((object.itemInterface && this.itemLimit > this.objects.length)) {
-          return this.objects.push(entity);
+        if ((entity.itemInterface && this.itemLimit > this.objects.length)) {
+          this.objects.push(entity);
+          return entity.itemInterface.container = this;
         } else {
-          return false;
+          throw (new Error("Container cannot store any more items"))
         }
       }).call(this);
     
    },
   hasType( type ){ 
     
-      return (this.objects.head && this.objects.head.item.type === type);
+      return (this.objects.head && this.objects.head.item.itemInterface.type === type);
     
    },
   has( entity ){ 
@@ -62,6 +78,7 @@ var Container = Component.define("Container", {
     
    }
  });
+exports.Container = Container;
 var Containers = System.define("Containers", { 
   interface:Container,
   _updateAll(  ){ 
@@ -71,4 +88,5 @@ var Containers = System.define("Containers", {
     
    }
  });
+exports.Containers = Containers;
 },{"@shared/data-structures/list.js":"@shared/data-structures/list.js","@shared/ecs.js":"@shared/ecs.js"}]},{},[]);

@@ -10853,17 +10853,42 @@ var AnimatedSprite = Component.define("AnimatedSprite", {
       return this.sprite.point;
     
    },
+  _column:0,
+  _row:0,
+  _alpha:1,
   get column(  ){ 
     
-      throw (new Error("no current frame defined"))
+      return this._column;
     
    },
   get row(  ){ 
     
-      throw (new Error("No sequence index defined"))
+      return this._row;
     
    },
-  alpha:1,
+  set column( c ){ 
+    
+      this._column = c;
+      return this.system.queue.push(this);
+    
+   },
+  set row( r ){ 
+    
+      this._row = r;
+      return this.system.queue.push(this);
+    
+   },
+  get alpha(  ){ 
+    
+      return this._alpha;
+    
+   },
+  set alpha( a ){ 
+    
+      this._alpha = a;
+      return this.system.queue.push(this);
+    
+   },
   get atlasXMin(  ){ 
     
       return ((this.column * this.system.frameDimensions[0]));
@@ -10893,6 +10918,11 @@ var AnimatedSprite = Component.define("AnimatedSprite", {
       }).call(this);
     
    },
+  redraw(  ){ 
+    
+      return this.system.queue.push(this);
+    
+   },
   _clear(  ){ 
     
       this.point.x = 0;
@@ -10907,6 +10937,7 @@ var SpriteAtlas = System.define("SpriteAtlas", {
   maxSprites:100000,
   register(  ){ 
     
+      this.queue = [];
       return this.sprites = spriteLayer(this.maxSprites, this.img, this.game);
     
    },
@@ -10914,6 +10945,7 @@ var SpriteAtlas = System.define("SpriteAtlas", {
   spawn( entity ){ 
     
       var c = System.spawn.call(this, entity);
+      this.queue.push(c);
       return c;
     
    },
@@ -10925,6 +10957,20 @@ var SpriteAtlas = System.define("SpriteAtlas", {
   _prepare(  ){ 
     
       return this.texture.enable();
+    
+   },
+  _updateAll(  ){ 
+    
+      this.prepare();
+      return (function() {
+        var while$587 = undefined;
+        while (this.queue.length) {
+          while$587 = (function() {
+            return this._updateComponent(this.queue.pop());
+          }).call(this);
+        };
+        return while$587;
+      }).call(this);
     
    },
   _updateComponent( dot ){ 

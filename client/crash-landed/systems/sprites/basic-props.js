@@ -19,16 +19,21 @@ var {
  } = require("@shared/systems/rendering/sprite-atlas.js");
 const spriteImage=document.getElementById("props-sprite");
 var PropsSprite = AnimatedSprite.define("PropsSprite", { 
-  column:0,
-  row:0,
+  _column:4,
+  _row:3,
+  get container(  ){ 
+    
+      return this.entity.itemInterface.container;
+    
+   },
   get visible__QUERY(  ){ 
     
-      return this.entity.visibleStatus.visible__QUERY;
+      return this.container.visible__QUERY;
     
    },
   get explored__QUERY(  ){ 
     
-      return this.entity.visibleStatus.explored__QUERY;
+      return this.container.explored__QUERY;
     
    },
   get alpha(  ){ 
@@ -61,13 +66,13 @@ var PropsSprite = AnimatedSprite.define("PropsSprite", {
     
    }
  });
-exports.FloorSprite = FloorSprite;
+exports.PropsSprite = PropsSprite;
 var PropsSprites = SpriteAtlas.define("PropsSprites", { 
   maxSprites:100000,
-  interface:FloorSprite,
+  interface:PropsSprite,
   frameDimensions:[ 16, 16 ],
   height:12,
   width:7,
   img:spriteImage
  });
-exports.FloorSprites = FloorSprites;
+exports.PropsSprites = PropsSprites;

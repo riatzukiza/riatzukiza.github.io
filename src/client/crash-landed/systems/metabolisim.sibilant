@@ -1,4 +1,5 @@
-
+(require! (lit System Component) "@shared/ecs.js"
+          (lit List) "@shared/data-structures/list.js")
 (define Needs Component
   (calories-stored 2000) ;; negative calories 
   (calories-max 5000)
@@ -11,10 +12,13 @@
   (starvation-threshold 500) ;; thought of like stored fat
   (health 1000)
   (def eat (item)
-    (assign calories-stored (Math.min (+ this.calories-stored
-                                         item.item-interface.calories)
+    (assign this.calories-stored (Math.min (+ this.calories-stored
+                                         item.calories)
                                       this.calories-max))
-    (.despawn item)
+
+    (print "mmmm food" this item)
+    (.remove item.container.objects item.entity)
+    (.despawn item.unit.group item.unit)
     )
   (is-resting? false)
   (gett rest-efficiency 1) ;; will be changed after we add beds etc.
@@ -34,15 +38,15 @@
   (gett hunger-efficiency-modifier
         (/
          this.hunger-threshold
-         (Math.max this.stored-calories
-                   this.starvation-threshold
+         (Math.max this.calories-stored
+                   (* 5 this.starvation-threshold)
                    )))
   (gett sleep-efficiency-modifier
         (/ this.partial-sleep-deprivation-threshold
            (Math.max this.rest
-                     this.total-sleep-deprivation-threshold)))
+                     (* 2 this.total-sleep-deprivation-threshold))))
   ;; starting effiency would be 40hrs / 48 hrs
-  (gett activity-level (if is-resting? 1 11))
+  (gett activity-level (if this.is-resting? 1 4))
   (gett metabolic-efficiency
         ;; calories burned per unit of work
         ;; one unit of work is 1 tile of unmodified movement
@@ -57,18 +61,21 @@
   ;; negative rest means sleep debt
   ;; sleep debt decreases metabolic efficiency
   )
+(export Needs)
 (define Metabolisim System
-  (interface Calories)
+  (interface Needs)
   (def *update-component (c)
     (if c.is-resting?
         (do (incr-by c.rest c.rest-efficiency)
          (if (>= c.rest c.max-rest)
              (assign c.is-resting? false)))
         (decr c.rest))
-    (decr-by c.calories c.metabolic-efficiency)
+    (assign c.calories-stored (- c.calories-stored c.metabolic-efficiency))
     (if c.is-dieing?
-        (decr-by c.health (* 0.1 c.metabolic-efficiency)))
+        (assign c.health (- c.health (* 0.1 c.metabolic-efficiency))))
     (if (<= c.health 0)
+        (print "I died")
         ;; dead
         )
     ))
+(export Metabolisim)

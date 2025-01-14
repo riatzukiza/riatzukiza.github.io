@@ -14,6 +14,13 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   
   }));
 });
+var { 
+  System,
+  Component
+ } = require("@shared/ecs.js"),
+    { 
+  List
+ } = require("@shared/data-structures/list.js");
 var Needs = Component.define("Needs", { 
   caloriesStored:2000,
   caloriesMax:5000,
@@ -27,8 +34,10 @@ var Needs = Component.define("Needs", {
   health:1000,
   eat( item ){ 
     
-      caloriesStored = Math.min((this.caloriesStored + item.itemInterface.calories), this.caloriesMax);
-      return item.despawn();
+      this.caloriesStored = Math.min((this.caloriesStored + item.calories), this.caloriesMax);
+      console.log("mmmm food", this, item);
+      item.container.objects.remove(item.entity);
+      return item.unit.group.despawn(item.unit);
     
    },
   isResting__QUERY:false,
@@ -74,21 +83,21 @@ var Needs = Component.define("Needs", {
    },
   get hungerEfficiencyModifier(  ){ 
     
-      return (this.hungerThreshold / Math.max(this.storedCalories, this.starvationThreshold));
+      return (this.hungerThreshold / Math.max(this.caloriesStored, (5 * this.starvationThreshold)));
     
    },
   get sleepEfficiencyModifier(  ){ 
     
-      return (this.partialSleepDeprivationThreshold / Math.max(this.rest, this.totalSleepDeprivationThreshold));
+      return (this.partialSleepDeprivationThreshold / Math.max(this.rest, (2 * this.totalSleepDeprivationThreshold)));
     
    },
   get activityLevel(  ){ 
     
       return (function() {
-        if (isResting__QUERY) {
+        if (this.isResting__QUERY) {
           return 1;
         } else {
-          return 11;
+          return 4;
         }
       }).call(this);
     
@@ -99,8 +108,9 @@ var Needs = Component.define("Needs", {
     
    }
  });
+exports.Needs = Needs;
 var Metabolisim = System.define("Metabolisim", { 
-  interface:Calories,
+  interface:Needs,
   _updateComponent( c ){ 
     
       (function() {
@@ -115,18 +125,19 @@ var Metabolisim = System.define("Metabolisim", {
           return ((c.rest)--);
         }
       }).call(this);
-      decrBy(c.calories, c.metabolicEfficiency);
+      c.caloriesStored = (c.caloriesStored - c.metabolicEfficiency);
       (function() {
         if (c.isDieing__QUERY) {
-          return decrBy(c.health, (0.1 * c.metabolicEfficiency));
+          return c.health = (c.health - (0.1 * c.metabolicEfficiency));
         }
       }).call(this);
       return (function() {
-        {
-          return c.health <= 0;
+        if (c.health <= 0) {
+          return console.log("I died");
         }
       }).call(this);
     
    }
  });
-},{}]},{},[]);
+exports.Metabolisim = Metabolisim;
+},{"@shared/data-structures/list.js":"@shared/data-structures/list.js","@shared/ecs.js":"@shared/ecs.js"}]},{},[]);

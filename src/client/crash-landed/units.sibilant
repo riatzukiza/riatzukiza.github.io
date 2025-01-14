@@ -1,0 +1,63 @@
+(require! (lit start-interface) "@crash-landed/dom.js"
+
+          (lit Physics) "@shared/systems/physics/index.js"
+          (lit Friction) "@crash-landed/forces.js"
+          (lit Position) "@shared/systems/position.js"
+          (lit Velocity) "@shared/systems/velocity.js"
+          (lit Player-sprites) "@crash-landed/systems/sprites/player.js"
+          (lit Floor-sprites) "@crash-landed/systems/sprites/floor.js"
+          (lit Props-sprites) "@crash-landed/systems/sprites/basic-props.js"
+          ;; (lit Cliff-sprites) "@crash-landed/systems/sprites/cliff.js"
+          (lit Sight) "@crash-landed/systems/sight.js"
+          (lit Tile-visibility) "@crash-landed/systems/visibility.js"
+          (lit Path-finding) "@crash-landed/systems/path-finding.js"
+          (lit Ground-types) "@crash-landed/systems/floor-type.js"
+          (lit Metabolisim) "@crash-landed/systems/metabolisim.js"
+          (lit Containers) "@crash-landed/systems/containers.js"
+          (lit Mental-state) "@crash-landed/systems/mental-state.js"
+          (lit Item) "@crash-landed/systems/item.js"
+          (lit Entity-group) "@shared/ecs/entity-group.js"
+          (lit Unit-group Unit-instance) "@shared/units.js"
+          (lit Vector) "@shared/vectors.js"
+          (lit Trie) "@shared/data-structures/trees/trie.js"
+          noise "@shared/noise.js"
+          config "@crash-landed/config.js"
+          )
+(assign Unit-group.game game)
+(define Item-unit Unit-instance
+  (gett data this.entity.item-interface)
+  (gett container this.data.container)
+  (def consume (entity)
+    (.consume this.data entity)))
+(export Item-unit)
+
+(define Item-group Unit-group
+  (interface Item-unit)
+  (template false)
+  (group-name 'item)
+  (types [Props-sprites Item ]))
+(export Item-group)
+
+(define Player-unit Unit-instance
+  (gett sprite this.entity.player-sprite)
+  (gett pathing this.entity-current-path)
+  (gett mind-state this.entity.mind-state)
+  (gett needs this.entity.needs)
+  (gett los this.entity.line-of-sight)
+  (gett velocity this.entity.velocity-interface)
+  (def eat (item)
+    (.eat this.needs item)))
+(export Player-unit)
+
+(define Player Unit-group
+  (template false)
+  (interface Player-unit)
+  (group-name 'player)
+  (types [Player-sprites Velocity Sight Path-finding Metabolisim Mental-state]))
+(export Player)
+
+(const player (.spawn Player))
+
+(assign p.pos.x 0)
+(assign p.pos.y 0)
+(export player)

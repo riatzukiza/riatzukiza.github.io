@@ -97,7 +97,7 @@ Entity.clear = (function Entity$clear$() {
     return c.entity = null;
   
   }));
-  this.components = [];
+  this.components.length = 0;
   return this.id = null;
 });
 exports.Entity = Entity;

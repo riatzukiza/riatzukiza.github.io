@@ -4,8 +4,6 @@
 
 
 (define Player-sprite Animated-sprite
-  (column 0)
-  (row 0)
   (gett sequence-index this.column)
   (gett current-frame this.row)
 

@@ -13,12 +13,24 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   
   }));
 });
+var { 
+  System,
+  Component
+ } = require("@shared/ecs.js"),
+    { 
+  List
+ } = require("@shared/data-structures/list.js");
 var ItemInterface = Component.define("ItemInterface", { 
   type:"food",
-  calories:100,
+  calories:500,
   container:null,
   store( container ){ 
     
+      (function() {
+        if (this.container) {
+          throw (new Error("An item must first be removed from its container to store it in another."))
+        }
+      }).call(this);
       return (function() {
         if (container.entity.container.add(this.entity)) {
           return this.container = container;
@@ -44,6 +56,11 @@ var ItemInterface = Component.define("ItemInterface", {
     
    }
  });
+exports.ItemInterface = ItemInterface;
 var Item = System.define("Item", { 
-  
+  interface:ItemInterface,
+  _updateComponent(  ){ 
+    
+   }
  });
+exports.Item = Item;

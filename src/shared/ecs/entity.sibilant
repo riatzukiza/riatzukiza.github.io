@@ -41,7 +41,7 @@
         (.release c.system c)
         (assign c.entity null)
         )
-  (assign this.components [])
+  (assign this.components.length 0)
   (assign this.id null))
 
 (export Entity)

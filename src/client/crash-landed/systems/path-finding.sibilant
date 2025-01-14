@@ -131,7 +131,7 @@
                                       c.next-node.item.tile.world-pos.x
                                       c.next-node.item.tile.world-pos.y))
             (const d (.distance-to  tile-pos-v pos-v))
-            (.set-length vel 64)
+            (.set-length vel (* occupied-tile.entity.ground.movement-speed)
             (.set-angle vel (.get-angle d))
             (.despawn d)
             (.despawn pos-v)

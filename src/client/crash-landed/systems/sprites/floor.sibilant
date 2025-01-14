@@ -4,8 +4,6 @@
 
 
 (define Floor-sprite Animated-sprite
-  (column 0)
-  (row 0)
   (gett visible? this.entity.visible-status.visible?)
   (gett explored? this.entity.visible-status.explored?)
   (gett alpha (if this.visible? 1

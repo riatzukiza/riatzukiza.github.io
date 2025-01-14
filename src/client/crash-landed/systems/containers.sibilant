@@ -3,16 +3,22 @@
 (define Container Component
   (item-limit 1)
   (objects null)
+  (gett tile (.get-closest-from-world-pos this.system.game.tiles
+                                  this.entity.position-interface.x
+                                  this.entity.position-interface.y))
+  (gett visible? this.tile.entity.visible-status.visible?)
+  (gett explored? this.tile.entity.visible-status.explored?)
   (def add (entity)
-    (if  (and object.item-interface
+    (if  (and entity.item-interface
               (> this.item-limit this.objects.length)
               ) ;; the only objects right now are items.
-         (.push this.objects entity)
-         false))
+         (do (.push this.objects entity)
+             (assign entity.item-interface.container this))
+         (throw (new Error "Container cannot store any more items"))))
 
   (def has-type (type)
     (and this.objects.head
-         (= this.objects.head.item.type type)))
+         (= this.objects.head.item.item-interface.type type)))
 
   (def has (entity)
     (= this.objects.head.item entity) ;; simple implementation for the single object  container.
@@ -25,6 +31,7 @@
     (.despawn this.objects.head.item)
     (.despawn this.objects))
   (def register () (assign this.objects (.spawn List))))
+(export Container)
 
 (define Containers System
   (interface Container)
@@ -35,3 +42,5 @@
     ;; nothing to do here for now.
     )
   )
+
+(export Containers)

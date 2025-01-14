@@ -35,6 +35,9 @@ var {
   PlayerSprites
  } = require("@crash-landed/systems/sprites/player.js"),
     { 
+  PropsSprites
+ } = require("@crash-landed/systems/sprites/basic-props.js"),
+    { 
   rendering
  } = require("@crash-landed/rendering.js"),
     { 
@@ -52,6 +55,18 @@ var {
     { 
   PathFinding
  } = require("@crash-landed/systems/path-finding.js"),
+    { 
+  Metabolisim
+ } = require("@crash-landed/systems/metabolisim.js"),
+    { 
+  Containers
+ } = require("@crash-landed/systems/containers.js"),
+    { 
+  MentalState
+ } = require("@crash-landed/systems/mental-state.js"),
+    { 
+  Item
+ } = require("@crash-landed/systems/item.js"),
     config = require("@crash-landed/config.js");
 var { 
   FloorSprites
@@ -59,7 +74,7 @@ var {
 var { 
   CliffSprites
  } = require("@crash-landed/systems/sprites/cliff.js");
-var activeGameSystems = [ Position, Physics, Velocity, TileVisibility, Sight, FloorSprites, CliffSprites, PlayerSprites, GroundTypes, PathFinding ];
+var activeGameSystems = [ Position, Physics, Velocity, TileVisibility, Sight, FloorSprites, CliffSprites, PlayerSprites, PropsSprites, GroundTypes, PathFinding, Metabolisim, Containers, MentalState, Item ];
 var game = create(Game)(config, rendering, activeGameSystems, config.gameSpeed);
 console.log({ 
   PlayerSprites,

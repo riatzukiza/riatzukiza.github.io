@@ -132,9 +132,21 @@
   (gett pos this.entity.position-interface)
   (gett scale this.entity.physical-properties.scale)
   (gett point this.sprite.point)
-  (gett column (throw (new Error "no current frame defined")))
-  (gett row (throw (new Error "No sequence index defined")))
-  (alpha 1)
+  (*column 0)
+  (*row 0)
+  (*alpha 1)
+  (gett column this.*column)
+  (gett row this.*row)
+  (sett column c (assign this.*column c)
+        (.push this.system.queue this))
+  (sett row r (assign this.*row r)
+        (.push this.system.queue this))
+  ;; (gett column (throw (new Error "no current frame defined")))
+  ;; (gett row (throw (new Error "No sequence index defined")))
+  (gett alpha this.*alpha)
+  (sett alpha a
+        (assign this.*alpha a)
+        (.push this.system.queue this))
 
   (gett atlas-x-min (+ ;; 0.5
                        (* this.column  (first this.system.frame-dimensions))))
@@ -146,6 +158,8 @@
                        this.atlas-y-min (second this.system.frame-dimensions)) )
 
   (def register () (unless this.sprite (assign this.sprite (.spawn this.system.sprites))))
+  (def redraw ()
+    (.push this.system.queue this))
 
 
   (def *clear ()
@@ -160,17 +174,23 @@
   (max-sprites 100000)
   ;; (gett img (throw (new Error "no image defined for sprite system")))
   (def register ()
+    (assign this.queue [])
     (assign this.sprites (sprite-layer this.max-sprites this.img this.game)))
 
   (interface Animated-sprite)
 
   (def spawn (entity )
     (var c (.call System.spawn this entity ))
+    (.push this.queue c)
     c)
 
   (gett texture this.sprites.texture)
   (def *prepare ()
     (.enable this.texture))
+  (def *update-all ()
+    (.prepare this)
+    (while this.queue.length
+      (.*update-component this (.pop this.queue))))
   (def *update-component (dot)
     (assign dot.sprite.alpha dot.alpha)
     (set dot.sprite.point

@@ -20,8 +20,6 @@ var {
  } = require("@shared/systems/rendering/sprite-atlas.js");
 const spriteImage=document.getElementById("player-sprite");
 var PlayerSprite = AnimatedSprite.define("PlayerSprite", { 
-  column:0,
-  row:0,
   get sequenceIndex(  ){ 
     
       return this.column;

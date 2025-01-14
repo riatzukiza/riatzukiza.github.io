@@ -13,6 +13,29 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   
   }));
 });
+var { 
+  System,
+  Component
+ } = require("@shared/ecs.js"),
+    { 
+  List
+ } = require("@shared/data-structures/list.js"),
+    { 
+  RedBlackTree
+ } = require("@shared/data-structures/trees/red-black-tree.js"),
+    { 
+  Vector
+ } = require("@shared/vectors.js"),
+    noise = require("@shared/noise.js"),
+    config = require("@crash-landed/config.js");
+var getMoveNoise = (function getMoveNoise$(x = this.x, y = this.y, t = this.t, force = 16, v = Vector.spawn(1, 1)) {
+  /* get-move-noise node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
+
+  v.setAngle((noise.simplex3((x / config.angleZoom / 5), (y / config.angleZoom / 5), (t * (config.noiseZ / 10000))) * Math.PI * 2));
+  const length=noise.simplex3(((x / 50) + 40000), ((x / 50) + 40000), (t * (config.noiseZ / 10000)));
+  v.setLength((length * force));
+  return v;
+});
 var MindState = Component.define("MindState", { 
   get needs(  ){ 
     
@@ -46,7 +69,7 @@ var MindState = Component.define("MindState", {
    },
   get tile(  ){ 
     
-      return this.entity.currentPath.system.tiles.getFromWorldPos(this.pos.x, this.pos.y);
+      return this.entity.currentPath.system.tiles.getClosestFromWorldPos(this.pos.x, this.pos.y);
     
    },
   get pos(  ){ 
@@ -62,7 +85,7 @@ var MindState = Component.define("MindState", {
   set target( t ){ 
     
       this.entity.currentPath.start = this.tile;
-      return this.entity.currentPath.end = this.tile.graph.getFromWorldPos(t.positionInterface.x, t.positionInterface.y);
+      return this.entity.currentPath.end = t;
     
    },
   get target(  ){ 
@@ -75,36 +98,80 @@ var MindState = Component.define("MindState", {
       return this.entity.fieldOfView.visibleTiles;
     
    },
+  food:(new Set()),
   knownFoodItems:RedBlackTree.spawn()
  });
+exports.MindState = MindState;
 var MentalState = System.define("MentalState", { 
+  interface:MindState,
   _updateComponent( c ){ 
     
-      c.visibleTiles.each(tile(), (function() {
-        if (tile.entity.container.object.type === "food") {
-          return this.knownFoodItems.set((tile.worldPos.x + tile.worldPos.y), tile.entity.container.objects.first);
-        }
-      }).call(this));
+      c.visibleTiles.each(((tile) => {
+      	
+        return (function() {
+          if ((tile.entity.container.objects.head && !(c.food.has(tile.entity.container.objects.head.item.itemInterface)) && tile.entity.container.objects.head.item.itemInterface.type === "food")) {
+            c.food.add(tile.entity.container.objects.head.item.itemInterface);
+            return c.knownFoodItems.set(("" + tile.worldPos.x + tile.worldPos.y), tile);
+          }
+        }).call(this);
+      
+      }));
       return (function() {
-        if ((c.isTired__QUERY && !(c.isHungry__QUERY))) {
-          return c.needs.isResting__QUERY = true;
+        if ((c.isTired__QUERY && !(c.isHungry__QUERY) && !(c.needs.isResting__QUERY))) {
+          c.needs.isResting__QUERY = true;
+          c.entity.velocityInterface.vector.setLength(0);
+          c.target = null;
+          return console.log("I'm tired, it's time to rest", c);
         } else if ((c.needs.isResting__QUERY && c.needs.isStarving__QUERY)) {
-          return c.needs.isResting__QUERY = false;
+          c.needs.isResting__QUERY = false;
+          return console.log("i'm starving, I have to wake up.", c);
         } else if ((c.isHungry__QUERY && !(c.isResting__QUERY))) {
+          c.knownFoodItems = c.knownFoodItems.root;
           return (function() {
-            if (c.tile.container.hasType("food")) {
-              return c.tile.container.first.consume(c.entity);
-            } else if ((!(c.target.container.hasType("food")) && !(c.target.visibleStatus.explored__QUERY) && c.knownFoodItems.size)) {
-              const items=c.knownFoodItems.search((c.pos.x + c.pos.y));
+            if (c.tile.entity.container.hasType("food")) {
+              console.log("I'm hungry, and there's food right here", c);
+              return c.tile.entity.container.objects.head.item.itemInterface.consume(c.entity);
+            } else if ((!(c.tile.entity.container.hasType("food")) && !(c.target))) {
+              console.log("I'm hungry and I know where food is");
+              const key=(c.pos.x + c.pos.y);
+              const items=c.knownFoodItems.search(key);
               return (function() {
-                {
-                  return items.head;
+                if (items.values.head) {
+                  c.target = items.values.head.item;
+                  return c.knownFoodItems.remove(key, items.values.head.item);
                 }
               }).call(this);
             }
+          }).call(this);
+        } else if (!(c.needs.isResting__QUERY)) {
+          var newX = c.entity.positionInterface.x,
+              newY = c.entity.positionInterface.y;
+          const searchLimit=10;
+          var i = 0;
+          return (function() {
+            var while$603 = undefined;
+            while (!((c.entity.currentPath.end || i > searchLimit))) {
+              while$603 = (function() {
+                const noiseV=getMoveNoise(newX, newY, this.game.ticker.ticks, (1 * config.gameScale));
+                ((i)++);
+                newX = (newX + (20 * noiseV.x));
+                newY = (newY + (20 * noiseV.y));
+                const tiles=c.tile.graph;
+                const possibleEnd=tiles.getClosestFromWorldPos(newX, newY);
+                (function() {
+                  if (!((possibleEnd.entity.visibleStatus.explored__QUERY))) {
+                    c.entity.currentPath.start = tiles.getClosestFromWorldPos(c.entity.positionInterface.x, c.entity.positionInterface.y);
+                    return c.entity.currentPath.end = possibleEnd;
+                  }
+                }).call(this);
+                return noiseV.despawn();
+              }).call(this);
+            };
+            return while$603;
           }).call(this);
         }
       }).call(this);
     
    }
  });
+exports.MentalState = MentalState;

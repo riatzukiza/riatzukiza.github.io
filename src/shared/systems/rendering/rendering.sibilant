@@ -49,8 +49,7 @@
    (const self  this)
    (assign this.x-offset 0)
    (assign this.y-offset 0)
-   (assign this.zoom-level 0.5)
-   (print self)
+   (assign this.zoom-level 0.2)
 
    (var mouse-held false)
    (def context.canvas.onmousedown (e)
@@ -63,7 +62,6 @@
    (def context.canvas.onmousemove (e)
      (.prevent-default e)
      (when mouse-held
-       (print "moved when held")
        ;; (assign self.x-offset (+ self.x-offset (*  2 e.movement-x (/ 1 self.zoom-level))))
        ;; (assign self.y-offset (+ self.y-offset (*  2 e.movement-y (/ 1 self.zoom-level))))
 
@@ -73,8 +71,6 @@
      )
    (def  context.canvas.onwheel (e)
      (.prevent-default e)
-     (print e.offset-x e.offset-y)
-     (print self)
 
      (const old-scale (/ 1 self.zoom-level))
 

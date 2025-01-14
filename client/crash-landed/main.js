@@ -68,8 +68,8 @@ var {
   FloorSprites
  } = require("@crash-landed/systems/sprites/floor.js"),
     { 
-  CliffSprites
- } = require("@crash-landed/systems/sprites/cliff.js"),
+  PropsSprites
+ } = require("@crash-landed/systems/sprites/basic-props.js"),
     { 
   Sight
  } = require("@crash-landed/systems/sight.js"),
@@ -83,8 +83,24 @@ var {
   GroundTypes
  } = require("@crash-landed/systems/floor-type.js"),
     { 
+  Metabolisim
+ } = require("@crash-landed/systems/metabolisim.js"),
+    { 
+  Containers
+ } = require("@crash-landed/systems/containers.js"),
+    { 
+  MentalState
+ } = require("@crash-landed/systems/mental-state.js"),
+    { 
+  Item
+ } = require("@crash-landed/systems/item.js"),
+    { 
   EntityGroup
  } = require("@shared/ecs/entity-group.js"),
+    { 
+  UnitGroup,
+  UnitInstance
+ } = require("@shared/units.js"),
     { 
   Vector
  } = require("@shared/vectors.js"),
@@ -100,15 +116,81 @@ var {
  } = require("@shared/tiles.js");
 Velocity.realTime__QUERY = false;
 game.start();
-const gameScale=128;
-const tiles=TileGraph.spawn(gameScale, [ FloorSprites, CliffSprites, TileVisibility, GroundTypes ], game);
-const player=create(EntityGroup)("player", [ Position, PlayerSprites, Physics, Velocity, Sight, PathFinding ], game.ent);
-const p=player.spawn();
-p.positionInterface.x = 300;
-p.positionInterface.y = 300;
-const v=p.velocityInterface.vector;
-p.physicalProperties.scale = gameScale;
-p.playerSprite.selectSequence("east");
+const gameScale=config.gameScale;
+const tiles=TileGraph.spawn(gameScale, [ FloorSprites, TileVisibility, GroundTypes, Containers ], game);
+UnitGroup.game = game;
+var ItemUnit = UnitInstance.define("ItemUnit", { 
+  get data(  ){ 
+    
+      return this.entity.itemInterface;
+    
+   },
+  get container(  ){ 
+    
+      return this.data.container;
+    
+   },
+  consume( entity ){ 
+    
+      return this.data.consume(entity);
+    
+   }
+ });
+var ItemGroup = UnitGroup.define("ItemGroup", { 
+  interface:ItemUnit,
+  template:false,
+  groupName:"item",
+  types:[ PropsSprites, Item ]
+ });
+var PlayerUnit = UnitInstance.define("PlayerUnit", { 
+  get sprite(  ){ 
+    
+      return this.entity.playerSprite;
+    
+   },
+  get pathing(  ){ 
+    
+      return this.entityCurrentPath;
+    
+   },
+  get mindState(  ){ 
+    
+      return this.entity.mindState;
+    
+   },
+  get needs(  ){ 
+    
+      return this.entity.needs;
+    
+   },
+  get los(  ){ 
+    
+      return this.entity.lineOfSight;
+    
+   },
+  get velocity(  ){ 
+    
+      return this.entity.velocityInterface;
+    
+   },
+  eat( item ){ 
+    
+      return this.needs.eat(item);
+    
+   }
+ });
+var Player = UnitGroup.define("Player", { 
+  template:false,
+  interface:PlayerUnit,
+  groupName:"player",
+  types:[ PlayerSprites, Velocity, Sight, PathFinding, Metabolisim, MentalState ]
+ });
+const p=Player.spawn();
+p.pos.x = 0;
+p.pos.y = 0;
+const v=p.velocity.vector;
+p.physics.scale = gameScale;
+p.sprite.selectSequence("east");
 const eigthTurn=((Math.PI * 2) / 8);
 const east=0;
 const southEast=eigthTurn;
@@ -123,7 +205,7 @@ console.log(v.getAngle());
 const directions=[ east, southEast, south, southWest, west, northWest, north, northEast ];
 const directionNames=[ "east", "southEast", "south", "southWest", "west", "northWest", "north", "northEast" ];
 var getCardinalDirection = (function getCardinalDirection$(vector) {
-  /* get-cardinal-direction eval.sibilant:85:0 */
+  /* get-cardinal-direction eval.sibilant:122:0 */
 
   const angle=vector.getAngle();
   return directions[(Math.abs(Math.round((angle / eigthTurn))) % 8)];
@@ -139,13 +221,14 @@ var directionActions = Interface.define("directionActions", {
   northWest:[ -1, 1 ]
  });
 var getCardinalDirectionName = (function getCardinalDirectionName$(vector) {
-  /* get-cardinal-direction-name eval.sibilant:102:0 */
+  /* get-cardinal-direction-name eval.sibilant:139:0 */
 
   const angle=vector.getAngle();
   const i=(Math.abs(Math.round((angle / eigthTurn))) % 8);
   return directionNames[i];
 });
 Sight.registerTileGraph(tiles);
+game.tiles = tiles;
 var getTileNoise = (function getTileNoise$(x = this.x, y = this.y, z = config.noiseZ, angleZoom = config.angleZoom, force = 16, v = Vector.spawn(1, 1)) {
   /* get-tile-noise node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
@@ -241,6 +324,8 @@ const flowersOnRightOfRoad=create(TileChunk)([ "stone", "grass", "floweryGrass",
 flowersOnRightOfRoad.weight = roadWeight;
 const flowersOnLeftOfRoad=create(TileChunk)([ "floweryGrass", "grass", "stone", "floweryGrass", "grass", "stone", "floweryGrass", "grass", "stone" ]);
 flowersOnLeftOfRoad.weight = roadWeight;
+const leftDiagonalRoad=TileChunk.create("stone", "grass", "grass", "grass", "stone", "grass", "grass", "grass", "stone", roadWeight);
+const rightDiagonalRoad=TileChunk.create("grass", "grass", "stone", "grass", "stone", "grass", "stone", "grass", "grass", roadWeight);
 const crossRoads=create(TileChunk)([ "grass", "stone", "grass", "stone", "stone", "stone", "grass", "stone", "grass" ]);
 crossRoads.weight = 0.1;
 const northEastTurn=create(TileChunk)([ "grass", "grass", "grass", "grass", "stone", "stone", "grass", "stone", "grass" ]);
@@ -271,6 +356,28 @@ TileChunk.create(roadEndStoneWeight, "grass", "stone", "grass", "grass", "stone"
 TileChunk.create(roadEndStoneWeight, "grass", "grass", "grass", "grass", "stone", "grass", "grass", "stone", "grass");
 TileChunk.create(roadEndStoneWeight, "grass", "grass", "grass", "stone", "stone", "grass", "grass", "grass", "grass");
 TileChunk.create(roadEndStoneWeight, "grass", "grass", "grass", "grass", "stone", "stone", "grass", "grass", "grass");
+var generateMainRoad = (function generateMainRoad$() {
+  /* generate-main-road eval.sibilant:576:0 */
+
+  var tile = tiles.get(0, 0);
+  var i = 0;
+  console.log(tile.entity.ground.type);
+  return (function() {
+    var while$737 = undefined;
+    while ((i < 256 && tile.entity.ground.type !== "stone")) {
+      while$737 = (function() {
+        ((i)++);
+        tile.entity.ground.type = "stone";
+        const v=getTileNoise(tile.x, tile.y);
+        const direction=getCardinalDirectionName(v);
+        v.despawn();
+        tile = tile[direction];
+        return console.log(v, direction, tile, tile.entity.ground.type);
+      }).call(this);
+    };
+    return while$737;
+  }).call(this);
+});
 const southEastTurn=create(TileChunk)([ "grass", "stone", "grass", "grass", "stone", "stone", "grass", "grass", "grass" ]);
 southEastTurn.weight = turnWeight;
 const field=create(TileChunk)([ "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass" ]);
@@ -292,7 +399,7 @@ var baseWeights = Interface.define("baseWeights", {
  });
 const weights=Trie.spawn();
 var getTileWeight = (function getTileWeight$(baseWeight, tileType) {
-  /* get-tile-weight eval.sibilant:607:0 */
+  /* get-tile-weight eval.sibilant:665:0 */
 
   
 });
@@ -426,49 +533,35 @@ TileNode.setup = (function TileNode$setup$(x = this.x, y = this.y) {
       return this.entity.ground.type = choice;
     }
   }).call(this);
-  const x_=(Math.abs(Math.round(v.x)) % 4);
-  const y_=(Math.abs(Math.round(v.y)) % 4);
+  (function() {
+    if (((v.x + v.y) > 16 && this.entity.ground.type === "floweryGrass")) {
+      const item=ItemGroup.spawn();
+      item.physics.scale = gameScale;
+      const tileContainer=this.entity.container;
+      item.pos.x = this.worldPos.x;
+      item.pos.y = this.worldPos.y;
+      return tileContainer.add(item.entity);
+    }
+  }).call(this);
+  const groundStats=this.entity.ground.stats;
+  const x_=(Math.abs(Math.round(v.x)) % (groundStats.spriteCoordMaxX - groundStats.spriteCoordMinX));
+  const y_=(Math.abs(Math.round(v.y)) % (groundStats.spriteCoordMaxY - groundStats.spriteCoordMinY));
   const coords=[ (x_ + this.entity.ground.stats.spriteCoordMinX), (y_ + this.entity.ground.stats.spriteCoordMinY) ];
   this.entity.floorSprite.selectTile(...coords);
   return v.despawn();
 });
-p.physicalProperties.forces = [];
+p.physics.forces = [];
 PathFinding.tiles = tiles;
+generateMainRoad();
 game.events.on("tick", ((t) => {
 	
-  const pos=p.positionInterface;
   (function() {
     if ((t % 10) === 0) {
-      return p.playerSprite.step();
-    }
-  }).call(this);
-  (function() {
-    if (!(p.currentPath.nodeList)) {
-      var newX = pos.x;
-      var newY = pos.y;
-      return (function() {
-        var while$586 = undefined;
-        while (!(p.currentPath.end)) {
-          while$586 = (function() {
-            const noiseV=getMoveNoise(pos.x, pos.y, t, (1 * gameScale));
-            newX = (newX + (20 * noiseV.x));
-            newY = (newY + (20 * noiseV.y));
-            const possibleEnd=tiles.getClosestFromWorldPos(newX, newY);
-            (function() {
-              if (!(possibleEnd.entity.visibleStatus.explored__QUERY)) {
-                p.currentPath.start = tiles.getClosestFromWorldPos(pos.x, pos.y);
-                return p.currentPath.end = possibleEnd;
-              }
-            }).call(this);
-            return noiseV.despawn();
-          }).call(this);
-        };
-        return while$586;
-      }).call(this);
+      return p.sprite.step();
     }
   }).call(this);
   const directionName=getCardinalDirectionName(v);
-  return p.playerSprite.selectSequence(directionName);
+  return p.sprite.selectSequence(directionName);
 
 })).once("error", ((err) => {
 	

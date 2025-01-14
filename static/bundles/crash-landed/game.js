@@ -10580,6 +10580,9 @@ var {
   PlayerSprites
  } = require("@crash-landed/systems/sprites/player.js"),
     { 
+  PropsSprites
+ } = require("@crash-landed/systems/sprites/basic-props.js"),
+    { 
   rendering
  } = require("@crash-landed/rendering.js"),
     { 
@@ -10597,6 +10600,18 @@ var {
     { 
   PathFinding
  } = require("@crash-landed/systems/path-finding.js"),
+    { 
+  Metabolisim
+ } = require("@crash-landed/systems/metabolisim.js"),
+    { 
+  Containers
+ } = require("@crash-landed/systems/containers.js"),
+    { 
+  MentalState
+ } = require("@crash-landed/systems/mental-state.js"),
+    { 
+  Item
+ } = require("@crash-landed/systems/item.js"),
     config = require("@crash-landed/config.js");
 var { 
   FloorSprites
@@ -10604,7 +10619,7 @@ var {
 var { 
   CliffSprites
  } = require("@crash-landed/systems/sprites/cliff.js");
-var activeGameSystems = [ Position, Physics, Velocity, TileVisibility, Sight, FloorSprites, CliffSprites, PlayerSprites, GroundTypes, PathFinding ];
+var activeGameSystems = [ Position, Physics, Velocity, TileVisibility, Sight, FloorSprites, CliffSprites, PlayerSprites, PropsSprites, GroundTypes, PathFinding, Metabolisim, Containers, MentalState, Item ];
 var game = create(Game)(config, rendering, activeGameSystems, config.gameSpeed);
 console.log({ 
   PlayerSprites,
@@ -10612,4 +10627,4 @@ console.log({
  });
 exports.game = game;
 exports.activeGameSystems = activeGameSystems;
-},{"@crash-landed/config.js":"@crash-landed/config.js","@crash-landed/rendering.js":"@crash-landed/rendering.js","@crash-landed/systems/floor-type.js":"@crash-landed/systems/floor-type.js","@crash-landed/systems/path-finding.js":"@crash-landed/systems/path-finding.js","@crash-landed/systems/sight.js":"@crash-landed/systems/sight.js","@crash-landed/systems/sprites/cliff.js":"@crash-landed/systems/sprites/cliff.js","@crash-landed/systems/sprites/floor.js":"@crash-landed/systems/sprites/floor.js","@crash-landed/systems/sprites/player.js":"@crash-landed/systems/sprites/player.js","@crash-landed/systems/visibility.js":"@crash-landed/systems/visibility.js","@kit-js/core/js/util":2,"@shared/game.js":"@shared/game.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js","ramda":3}]},{},[]);
+},{"@crash-landed/config.js":"@crash-landed/config.js","@crash-landed/rendering.js":"@crash-landed/rendering.js","@crash-landed/systems/containers.js":"@crash-landed/systems/containers.js","@crash-landed/systems/floor-type.js":"@crash-landed/systems/floor-type.js","@crash-landed/systems/item.js":"@crash-landed/systems/item.js","@crash-landed/systems/mental-state.js":"@crash-landed/systems/mental-state.js","@crash-landed/systems/metabolisim.js":"@crash-landed/systems/metabolisim.js","@crash-landed/systems/path-finding.js":"@crash-landed/systems/path-finding.js","@crash-landed/systems/sight.js":"@crash-landed/systems/sight.js","@crash-landed/systems/sprites/basic-props.js":"@crash-landed/systems/sprites/basic-props.js","@crash-landed/systems/sprites/cliff.js":"@crash-landed/systems/sprites/cliff.js","@crash-landed/systems/sprites/floor.js":"@crash-landed/systems/sprites/floor.js","@crash-landed/systems/sprites/player.js":"@crash-landed/systems/sprites/player.js","@crash-landed/systems/visibility.js":"@crash-landed/systems/visibility.js","@kit-js/core/js/util":2,"@shared/game.js":"@shared/game.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js","ramda":3}]},{},[]);

@@ -19,8 +19,6 @@ var {
  } = require("@shared/systems/rendering/sprite-atlas.js");
 const spriteImage=document.getElementById("grass-sprite");
 var FloorSprite = AnimatedSprite.define("FloorSprite", { 
-  column:0,
-  row:0,
   get visible__QUERY(  ){ 
     
       return this.entity.visibleStatus.visible__QUERY;

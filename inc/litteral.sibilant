@@ -6,3 +6,9 @@
                `(property @name
                           (.define @parent (quote @name)
                                    (lit ...@body))))
+
+(def-lit-macro cached (name ...rest)
+  `(gett @name (if (get this (quote (quote @['* name])))
+                   (get this (quote (quote @['* name])))
+                   (set this (quote (quote @['* name]))
+                        (scoped ...@rest)))))

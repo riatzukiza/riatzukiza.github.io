@@ -53,4 +53,8 @@ create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(H
   'id': "cliff-sprite",
   'src': "/sprites/Pixel_art_top_down_basic_v1.1.2/TX_Tileset_Wall.png",
   'hidden': "true"
+}, []), create(HtmlElement)("img", {
+  'id': "props-sprite",
+  'src': "/sprites/Cute_Fantasy_Free/Outdoor_decoration/Outdoor_Decor_Free.png",
+  'hidden': "true"
 }, []) ]), create(HtmlElement)("script", { 'src': "/bundles/crash-landed/main.js" }, []) ]);

@@ -4,25 +4,26 @@
 
 
 (define Props-sprite Animated-sprite
-  (column 0)
-  (row 0)
-  (gett visible? this.entity.visible-status.visible?)
-  (gett explored? this.entity.visible-status.explored?)
+  (*column 4)
+  (*row 3)
+  (gett container this.entity.item-interface.container)
+  (gett visible? this.container.visible?)
+  (gett explored? this.container.explored?)
   (gett alpha (if this.visible? 1
                   this.explored? 0.8
                   0))
-
+  ;; (alpha 1)
 
   (def select-tile (x y)
     (if (>= x this.width) (throw (new RangeError "Column selection out of range")))
     (if (>= y this.height) (throw (new RangeError "Row selection out of range")))
     (assign this.column x)
     (assign this.row y)))
-(export Floor-sprite)
+(export Props-sprite)
 
 (define Props-sprites Sprite-atlas
   (max-sprites 100000)
-  (interface Floor-sprite)
+  (interface Props-sprite)
 
   (frame-dimensions [ 16 16 ])
   ;; how many frames vertically
@@ -32,4 +33,4 @@
   (img sprite-image))
 
 
-(export Floor-sprites)
+(export Props-sprites)
