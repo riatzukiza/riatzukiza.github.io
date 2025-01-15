@@ -26,9 +26,10 @@ var {
     { 
   System,
   Component
- } = require("@shared/ecs.js");
+ } = require("@shared/ecs.js"),
+    config = require("@crash-landed/config.js");
 var removeFromArray = (function removeFromArray$(el, array) {
-  /* remove-from-array eval.sibilant:6:0 */
+  /* remove-from-array eval.sibilant:8:0 */
 
   const index=array.indexOf(el);
   return (function() {
@@ -38,7 +39,7 @@ var removeFromArray = (function removeFromArray$(el, array) {
   }).call(this);
 });
 var calculateDistanceCost = (function calculateDistanceCost$(start, end) {
-  /* calculate-distance-cost eval.sibilant:10:0 */
+  /* calculate-distance-cost eval.sibilant:12:0 */
 
   const startV=Vector.spawn(start.x, start.y);
   const endV=Vector.spawn(end.x, end.y);
@@ -110,15 +111,15 @@ var PathNode = Spawnable.define("PathNode", {
       var path = List.spawn();
       var node = this;
       return (function() {
-        var while$226 = undefined;
+        var while$432 = undefined;
         while (node) {
-          while$226 = (function() {
+          while$432 = (function() {
             path.unshift(node);
             node = node.parent;
             return path;
           }).call(this);
         };
-        return while$226;
+        return while$432;
       }).call(this);
     
    },
@@ -200,7 +201,11 @@ var PathFinding = System.define("PathFinding", {
               const posV=Vector.spawn(pos.x, pos.y);
               const tilePosV=Vector.spawn(c.nextNode.item.tile.worldPos.x, c.nextNode.item.tile.worldPos.y);
               const d=tilePosV.distanceTo(posV);
-              return vel.setLength((occupiedTile.entity.ground.movementSpeed), vel.setAngle(d.getAngle()), d.despawn(), posV.despawn(), tilePosV.despawn());
+              vel.setLength((occupiedTile.entity.ground.stats.movementSpeed * (0.5 * config.gameScale)));
+              vel.setAngle(d.getAngle());
+              d.despawn();
+              posV.despawn();
+              return tilePosV.despawn();
             } else if ((occupiedTile === c.end || c.end !== c.currentNode.item.end)) {
               console.log("found end");
               vel.setLength(0);
@@ -248,9 +253,9 @@ var PathFinding = System.define("PathFinding", {
           }).call(this);
           this.open.push(startingNode);
           return (function() {
-            var while$227 = undefined;
+            var while$433 = undefined;
             while (this.open.length) {
-              while$227 = (function() {
+              while$433 = (function() {
                 const currentNode=this.nextOpenNode;
                 return (function() {
                   if (currentNode.tile === c.end) {
@@ -295,7 +300,7 @@ var PathFinding = System.define("PathFinding", {
                 }).call(this);
               }).call(this);
             };
-            return while$227;
+            return while$433;
           }).call(this);
         }
       }).call(this);
@@ -304,4 +309,4 @@ var PathFinding = System.define("PathFinding", {
  });
 exports.PathFinding = PathFinding;
 exports.CurrentPath = CurrentPath;
-},{"@shared/data-structures/list.js":"@shared/data-structures/list.js","@shared/data-structures/spawnable.js":"@shared/data-structures/spawnable.js","@shared/ecs.js":"@shared/ecs.js","@shared/vectors.js":"@shared/vectors.js"}]},{},[]);
+},{"@crash-landed/config.js":"@crash-landed/config.js","@shared/data-structures/list.js":"@shared/data-structures/list.js","@shared/data-structures/spawnable.js":"@shared/data-structures/spawnable.js","@shared/ecs.js":"@shared/ecs.js","@shared/vectors.js":"@shared/vectors.js"}]},{},[]);

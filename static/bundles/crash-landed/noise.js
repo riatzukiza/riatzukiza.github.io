@@ -14,6 +14,11 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   
   }));
 });
+var { 
+  Vector
+ } = require("@shared/vectors.js"),
+    config = require("@crash-landed/config.js"),
+    noise = require("@shared/noise.js");
 var getTileNoise = (function getTileNoise$(x = this.x, y = this.y, z = config.noiseZ, angleZoom = config.angleZoom, force = 16, v = Vector.spawn(1, 1)) {
   /* get-tile-noise node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
@@ -22,6 +27,7 @@ var getTileNoise = (function getTileNoise$(x = this.x, y = this.y, z = config.no
   v.setLength((length * force));
   return v;
 });
+exports.getTileNoise = getTileNoise;
 var getMoveNoise = (function getMoveNoise$(x = this.x, y = this.y, t = this.t, force = 16, v = Vector.spawn(1, 1)) {
   /* get-move-noise node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
@@ -30,4 +36,5 @@ var getMoveNoise = (function getMoveNoise$(x = this.x, y = this.y, t = this.t, f
   v.setLength((length * force));
   return v;
 });
-},{}]},{},[]);
+exports.getMoveNoise = getMoveNoise;
+},{"@crash-landed/config.js":"@crash-landed/config.js","@shared/noise.js":"@shared/noise.js","@shared/vectors.js":"@shared/vectors.js"}]},{},[]);

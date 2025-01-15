@@ -28,7 +28,7 @@ var FieldOfView = Component.define("FieldOfView", {
     
    },
   range:16,
-  collapseRange:64
+  collapseRange:32
  });
 var Sight = System.define("Sight", { 
   interface:FieldOfView,

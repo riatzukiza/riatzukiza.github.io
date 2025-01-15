@@ -1,16 +1,21 @@
 (var total1 (+ (/ 1 0.1 0.2) (/ 1 0.7 0.6) (/ 1 0.2 0.2)))
 (var total2 (+ (/ 1 0.2 0.1) (/ 1 0.6 0.7) (/ 1 0.2 0.2)))
 
-(var b [ 0.1 0.7 0.2])
+(var b [ 0.6436939066183194 0.04785080326655513 0.30845529011512557])
 (var [b1 b2 b3] b)
 
-(var c [ 0.2 0.6 0.2])
+(var c [ 0.49547325102880657 0.16707818930041152 0.3374485596707819])
 (var [c1 c2 c3] c)
 
 (var e (.map b (lambda (v i) (/ v (get c i)))))
 (var [e1 e2 e3] e)
 
+(var corrected (.map e (lambda (v i)
+                         (* v (get b i)))))
+
 (var total-e (.reduce e (lambda (r v) (+ r v)) 0))
+
+(var total-corrected (.reduce corrected (lambda (r v) (+ r v)) 0))
 (/ e1 total-e)
 
 (/ e2 total-e)
@@ -18,3 +23,8 @@
 
 
 (+ (/ e1 total-e) (/ e2 total-e) (/ e3 total-e))
+
+
+{type: 'grass', current: 0.49547325102880657, base: 0.6436939066183194, expected: 0.5197371502232102}
+{type: 'stone', current: 0.16707818930041152, base: 0.04785080326655513, expected: 0.11457610352477059}
+{type: 'flowers', current: 0.3374485596707819, base: 0.30845529011512557, expected: 0.3656867462520192}

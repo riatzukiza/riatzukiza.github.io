@@ -30,8 +30,10 @@ var {
     { 
   Containers
  } = require("@crash-landed/systems/containers.js"),
-    config = require("@crash-landed/config.js"),
-    game = require("@crash-landed/game.js");
+    { 
+  game
+ } = require("@crash-landed/game.js"),
+    config = require("@crash-landed/config.js");
 const gameScale=config.gameScale;
 const tileSystems=[ FloorSprites, TileVisibility, GroundTypes, Containers ];
 const tiles=TileGraph.spawn(gameScale, tileSystems, game);

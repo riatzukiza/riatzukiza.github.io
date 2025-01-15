@@ -2,6 +2,8 @@
           (lit List) "@shared/data-structures/list.js"
           (lit Vector) "@shared/vectors.js"
           (lit System Component) "@shared/ecs.js"
+          config "@crash-landed/config.js"
+
           )
 (def remove-from-array (el array)
   (const index (.index-of array el))
@@ -131,19 +133,19 @@
                                      c.next-node.item.tile.world-pos.x
                                      c.next-node.item.tile.world-pos.y))
             (const d (.distance-to  tile-pos-v pos-v))
-            (.set-length vel (* occupied-tile.entity.ground.movement-speed)
-                         (.set-angle vel (.get-angle d))
-                         (.despawn d)
-                         (.despawn pos-v)
-                         (.despawn tile-pos-v)
-                         ))
-            (or (= occupied-tile c.end)
-                (!= c.end c.current-node.item.end))
-            (do (print "found end")
-                (.set-length vel 0)
+            (.set-length vel (* occupied-tile.entity.ground.stats.movement-speed  (* 0.5 config.game-scale)))
+            (.set-angle vel (.get-angle d))
+            (.despawn d)
+            (.despawn pos-v)
+            (.despawn tile-pos-v)
+            )
+          (or (= occupied-tile c.end)
+              (!= c.end c.current-node.item.end))
+          (do (print "found end")
+              (.set-length vel 0)
 
-              (for-of! [tile node] this.active-nodes
-                       (.delete this.active-nodes tile)
+            (for-of! [tile node] this.active-nodes
+                     (.delete this.active-nodes tile)
                        (.despawn node))
 
               (.despawn c.node-list)

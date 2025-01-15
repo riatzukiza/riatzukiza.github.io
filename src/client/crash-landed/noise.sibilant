@@ -1,4 +1,7 @@
-
+(require! (lit Vector) "@shared/vectors.js"
+          config "@crash-landed/config.js"
+          noise "@shared/noise.js"
+          )
 (def-generic get-tile-noise (x y (z config.noise-z) (angle-zoom config.angle-zoom)(force 16) (v (.spawn Vector 1 1)))
   (.set-angle v
               (* (noise.simplex3 (/ x angle-zoom 5)
@@ -12,6 +15,7 @@
                                 (/ z 10000)))
   (.set-length v (* length force))
   v)
+(export get-tile-noise)
 (def-generic get-move-noise (x y t (force 16) (v (.spawn Vector 1 1)))
   (.set-angle v
               (* (noise.simplex3 (/ x config.angle-zoom 5)
@@ -25,3 +29,4 @@
                                 (* t (/ config.noise-z 10000))))
   (.set-length v (* length force))
   v)
+(export get-move-noise)

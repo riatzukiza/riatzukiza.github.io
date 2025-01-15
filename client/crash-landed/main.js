@@ -67,11 +67,18 @@ var {
     { 
   tiles
  } = require("@crash-landed/tiles.js"),
+    { 
+  PathFinding
+ } = require("@crash-landed/systems/path-finding.js"),
+    { 
+  Velocity
+ } = require("@shared/systems/velocity.js"),
     noise = require("@shared/noise.js"),
     config = require("@crash-landed/config.js");
 const p=player;
 const v=p.velocity.vector;
-p.physics.scale = gameScale;
+const gameScale=config.gameScale;
+p.physics.scale = config.gameScale;
 p.physics.forces = [];
 game.tiles = tiles;
 PathFinding.tiles = tiles;
@@ -79,7 +86,6 @@ Velocity.realTime__QUERY = false;
 Position.wraps__QUERY = false;
 Sight.registerTileGraph(tiles);
 p.sprite.selectSequence("east");
-generateMainRoad();
 game.start();
 game.events.on("tick", ((t) => {
 	

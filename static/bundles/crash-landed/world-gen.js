@@ -10713,6 +10713,9 @@ var {
   UnitInstance
  } = require("@shared/units.js"),
     { 
+  ItemGroup
+ } = require("@crash-landed/units.js"),
+    { 
   Vector
  } = require("@shared/vectors.js"),
     { 
@@ -10721,7 +10724,21 @@ var {
     { 
   Spawnable
  } = require("@shared/data-structures/spawnable.js"),
-    noise = require("@shared/noise.js");
+    { 
+  getTileNoise
+ } = require("@crash-landed/noise.js"),
+    { 
+  summate
+ } = require("@shared/math/math.js"),
+    noise = require("@shared/noise.js"),
+    { 
+  getCardinalDirection,
+  getCardinalDirectionName
+ } = require("@crash-landed/directions.js"),
+    { 
+  tiles
+ } = require("@crash-landed/tiles.js"),
+    config = require("@crash-landed/config.js");
 var { 
   TileGraph,
   TileNode
@@ -10769,7 +10786,7 @@ var TileChunk = Interface.define("TileChunk", {
    },
   reduce( f = this.f,initialValue = this.initialValue,data = this.data,directions = this.directions ){ 
     
-      return data.reduce(((acc, val) => {
+      return directions.reduce(((acc, dir, i) => {
       	
         return f(acc, data[dir[1]], dir[0], i);
       
@@ -10786,100 +10803,61 @@ var TileChunk = Interface.define("TileChunk", {
     
    }
  });
-const roadWeight=1;
-const turnWeight=0.1;
-const adjacentStoneWeight=-10;
-const paralellHorizontalRoads=TileChunk.create(adjacentStoneWeight, "stone", "stone", "stone", "grass", "grass", "grass", "stone", "stone", "stone");
-const paralellVerticalRoads=TileChunk.create(adjacentStoneWeight, "stone", "grass", "stone", "stone", "grass", "stone", "stone", "grass", "stone");
-const fullStone=TileChunk.create(adjacentStoneWeight, "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone");
+const roadWeight=10;
+const turnWeight=1e-8;
+const crossRoadsWeight=turnWeight;
 const horizontalRoad=TileChunk.create(roadWeight, "grass", "grass", "grass", "stone", "stone", "stone", "grass", "grass", "grass");
-const grassBelowRoad=TileChunk.create(roadWeight, "stone", "stone", "stone", "grass", "grass", "grass", "grass", "grass", "grass");
-const grassAboveRoad=TileChunk.create(roadWeight, "grass", "grass", "grass", "grass", "grass", "grass", "stone", "stone", "stone");
-const flowersBelowRoad=create(TileChunk)([ "stone", "stone", "stone", "grass", "grass", "grass", "floweryGrass", "floweryGrass", "floweryGrass" ]);
-flowersBelowRoad.weight = roadWeight;
-const flowersAboveRoad=create(TileChunk)([ "floweryGrass", "floweryGrass", "floweryGrass", "grass", "grass", "grass", "stone", "stone", "stone" ]);
-flowersAboveRoad.weight = roadWeight;
 const verticalRoad=create(TileChunk)([ "grass", "stone", "grass", "grass", "stone", "grass", "grass", "stone", "grass" ]);
 verticalRoad.weight = roadWeight;
-const grassOnRightOfRoad=create(TileChunk)([ "stone", "grass", "grass", "stone", "grass", "grass", "stone", "grass", "grass" ]);
-grassOnRightOfRoad.weight = roadWeight;
-const grassOnLeftOfRoad=create(TileChunk)([ "grass", "grass", "stone", "grass", "grass", "stone", "grass", "grass", "stone" ]);
-grassOnLeftOfRoad.weight = roadWeight;
-const flowersOnRightOfRoad=create(TileChunk)([ "stone", "grass", "floweryGrass", "stone", "grass", "floweryGrass", "stone", "grass", "floweryGrass" ]);
-flowersOnRightOfRoad.weight = roadWeight;
-const flowersOnLeftOfRoad=create(TileChunk)([ "floweryGrass", "grass", "stone", "floweryGrass", "grass", "stone", "floweryGrass", "grass", "stone" ]);
-flowersOnLeftOfRoad.weight = roadWeight;
-const leftDiagonalRoad=TileChunk.create("stone", "grass", "grass", "grass", "stone", "grass", "grass", "grass", "stone", roadWeight);
-const rightDiagonalRoad=TileChunk.create("grass", "grass", "stone", "grass", "stone", "grass", "stone", "grass", "grass", roadWeight);
+const leftDiagonalRoad=TileChunk.create(turnWeight, "stone", "grass", "grass", "grass", "stone", "grass", "grass", "grass", "stone");
+const rightDiagonalRoad=TileChunk.create(turnWeight, "grass", "grass", "stone", "grass", "stone", "grass", "stone", "grass", "grass");
 const crossRoads=create(TileChunk)([ "grass", "stone", "grass", "stone", "stone", "stone", "grass", "stone", "grass" ]);
-crossRoads.weight = 0.1;
+crossRoads.weight = crossRoadsWeight;
 const northEastTurn=create(TileChunk)([ "grass", "grass", "grass", "grass", "stone", "stone", "grass", "stone", "grass" ]);
 northEastTurn.weight = turnWeight;
-const wideNorthEastTurn=create(TileChunk)([ "stone", "stone", "stone", "stone", "grass", "grass", "stone", "grass", "grass" ]);
-wideNorthEastTurn.weight = turnWeight;
 const northWestTurn=create(TileChunk)([ "grass", "grass", "grass", "stone", "stone", "grass", "grass", "stone", "grass" ]);
 northWestTurn.weight = turnWeight;
-const wideNorthWestTurn=create(TileChunk)([ "stone", "stone", "stone", "grass", "grass", "stone", "grass", "grass", "stone" ]);
-wideNorthWestTurn.weight = turnWeight;
 create(TileChunk)([ "grass", "grass", "grass", "stone", "stone", "grass", "stone", "stone", "grass" ]);
 const southWestTurn=create(TileChunk)([ "grass", "stone", "grass", "stone", "stone", "grass", "grass", "grass", "grass" ]);
 southWestTurn.weight = turnWeight;
-const wideSouthWestTurn=create(TileChunk)([ "grass", "grass", "stone", "grass", "grass", "stone", "stone", "stone", "stone" ]);
-wideSouthWestTurn.weight = turnWeight;
-const loneStoneWeight=-1;
-TileChunk.create(loneStoneWeight, "grass", "grass", "grass", "grass", "stone", "grass", "grass", "grass", "grass");
-TileChunk.create(loneStoneWeight, "grass", "stone", "grass", "grass", "grass", "grass", "grass", "grass", "grass");
-TileChunk.create(loneStoneWeight, "stone", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass");
-TileChunk.create(loneStoneWeight, "grass", "grass", "grass", "stone", "grass", "grass", "grass", "grass", "grass");
-TileChunk.create(loneStoneWeight, "grass", "grass", "grass", "grass", "grass", "grass", "stone", "grass", "grass");
-TileChunk.create(loneStoneWeight, "grass", "grass", "grass", "grass", "grass", "grass", "grass", "stone", "grass");
-TileChunk.create(loneStoneWeight, "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grasss", "stone");
-TileChunk.create(loneStoneWeight, "grass", "grass", "grass", "grass", "grass", "stone", "grass", "grasss", "grass");
-TileChunk.create(loneStoneWeight, "grass", "grass", "stone", "grass", "grass", "grass", "grass", "grasss", "grass");
-const roadEndStoneWeight=-1;
-TileChunk.create(roadEndStoneWeight, "grass", "stone", "grass", "grass", "stone", "grass", "grass", "grass", "grass");
-TileChunk.create(roadEndStoneWeight, "grass", "grass", "grass", "grass", "stone", "grass", "grass", "stone", "grass");
-TileChunk.create(roadEndStoneWeight, "grass", "grass", "grass", "stone", "stone", "grass", "grass", "grass", "grass");
-TileChunk.create(roadEndStoneWeight, "grass", "grass", "grass", "grass", "stone", "stone", "grass", "grass", "grass");
 var generateMainRoad = (function generateMainRoad$() {
-  /* generate-main-road eval.sibilant:314:0 */
+  /* generate-main-road eval.sibilant:338:0 */
 
   var tile = tiles.get(0, 0);
   var i = 0;
   console.log(tile.entity.ground.type);
   return (function() {
-    var while$230 = undefined;
+    var while$764 = undefined;
     while ((i < 256 && tile.entity.ground.type !== "stone")) {
-      while$230 = (function() {
+      while$764 = (function() {
         ((i)++);
         tile.entity.ground.type = "stone";
         const v=getTileNoise(tile.x, tile.y);
         const direction=getCardinalDirectionName(v);
-        v.despawn();
+        console.log(v, direction, tile, tile.entity, tile.entity.ground, tile.entity.ground.type);
         tile = tile[direction];
-        return console.log(v, direction, tile, tile.entity.ground.type);
+        return v.despawn();
       }).call(this);
     };
-    return while$230;
+    return while$764;
   }).call(this);
 });
-const southEastTurn=TileChunk.create("grass", "stone", "grass", "grass", "stone", "stone", "grass", "grass", "grass");
-southEastTurn.weight = turnWeight;
-const field=TileChunk.create(1.1, "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass");
-field.weight = 1.1;
-const meadow=TileChunk.create(1.1, "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass");
-const grassyMeadow=TileChunk.create("grass", "floweryGrass", "grass", "floweryGrass", "grass", "floweryGrass", "grass", "floweryGrass", "grass");
-const otherGrassyMeadow=TileChunk.create(1.1, "floweryGrass", "grass", "floweryGrass", "grass", "floweryGrass", "grass", "floweryGrass", "grass", "floweryGrass");
-const loneFlower=TileChunk.create(2.1, "grass", "grass", "grass", "grass", "floweryGrass", "grass", "grass", "grass", "grass");
+exports.generateMainRoad = generateMainRoad;
+const southEastTurn=TileChunk.create(roadWeight, "grass", "stone", "grass", "grass", "stone", "stone", "grass", "grass", "grass");
+const field=TileChunk.create(15.1, "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass");
+const meadow=TileChunk.create(5.1, "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass");
+const grassyMeadow=TileChunk.create(5, "grass", "floweryGrass", "grass", "floweryGrass", "grass", "floweryGrass", "grass", "floweryGrass", "grass");
+const otherGrassyMeadow=TileChunk.create(5.1, "floweryGrass", "grass", "floweryGrass", "grass", "floweryGrass", "grass", "floweryGrass", "grass", "floweryGrass");
+const loneFlower=TileChunk.create(0.1, "grass", "grass", "grass", "grass", "floweryGrass", "grass", "grass", "grass", "grass");
 var nextType = 0;
 var isFirstTile__QUERY = true;
 var baseWeights = Interface.define("baseWeights", { 
-  grass:10,
+  grass:100,
   stone:1,
-  floweryGrass:3
+  floweryGrass:100
  });
-var entropy = (function entropy$(weights) {
-  /* entropy eval.sibilant:376:0 */
+var calculateEntropy = (function calculateEntropy$(weights) {
+  /* calculate-entropy eval.sibilant:402:0 */
 
   const sumOfWeights=summate(weights);
   const sumOfLogWeights=weights.reduce(((sum, weight) => {
@@ -10906,13 +10884,13 @@ var PossibleState = Spawnable.define("PossibleState", {
       return this.superPosition.tile;
     
    },
-  get likelyHood(  ){ 
+  get likelyhood(  ){ 
     
       return (function() {
-        if (this._likelyHood) {
-          return this._likelyHood;
+        if (this._likelyhood) {
+          return this._likelyhood;
         } else {
-          return this._likelyHood = (function() {
+          return this._likelyhood = (function() {
             /* eval.sibilant:19:24 */
           
             return (this.superPosition.totalWeight / this.weight);
@@ -10936,9 +10914,47 @@ var PossibleState = Spawnable.define("PossibleState", {
       }).call(this);
     
    },
-  calculateWeight(  ){ 
+  clear(  ){ 
     
-      return this.configuration.reduce(((weight, tileType, direction) => {
+      (function() {
+        if (this._weight) {
+          (function() {
+            if (this._weight.spawn) {
+              return this._weight.despawn();
+            } else if ((this._weight[0] && this._weight[0].spawn)) {
+              return this._weight.each(((el) => {
+              	
+                return el.despawn();
+              
+              }));
+            }
+          }).call(this);
+          return this._weight = null;
+        }
+      }).call(this);
+      (function() {
+        if (this._likelyhood) {
+          (function() {
+            if (this._likelyhood.spawn) {
+              return this._likelyhood.despawn();
+            } else if ((this._likelyhood[0] && this._likelyhood[0].spawn)) {
+              return this._likelyhood.each(((el) => {
+              	
+                return el.despawn();
+              
+              }));
+            }
+          }).call(this);
+          return this._likelyhood = null;
+        }
+      }).call(this);
+      this.superPosition = null;
+      return this.configuration = null;
+    
+   },
+  calculateWeight( configuration = this.configuration ){ 
+    
+      return configuration.reduce(((weight, tileType, direction) => {
       	
         return (weight + (configuration.weight * baseWeights[tileType]));
       
@@ -11066,7 +11082,7 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
           
             return this.states.map(((state) => {
             	
-              return state.weight;
+              return (state.weight * baseWeights[state.collapsedState]);
             
             }));
           }).call(this);
@@ -11106,7 +11122,7 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
             	
               return (function() {
                 if (state.collapsedState === "grass") {
-                  return (weight + state.weight);
+                  return (weight + (state.weight * baseWeights[state.collapsedState]));
                 } else {
                   return weight;
                 }
@@ -11131,7 +11147,7 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
             	
               return (function() {
                 if (state.collapsedState === "stone") {
-                  return (weight + state.weight);
+                  return (weight + (state.weight * baseWeights[state.collapsedState]));
                 } else {
                   return weight;
                 }
@@ -11156,7 +11172,7 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
             	
               return (function() {
                 if (state.collapsedState === "floweryGrass") {
-                  return (weight + state.weight);
+                  return (weight + (state.weight * baseWeights[state.collapsedState]));
                 } else {
                   return weight;
                 }
@@ -11167,57 +11183,112 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
         }
       }).call(this);
     
+   },
+  clear(  ){ 
+    
+      (function() {
+        if (this._totalWeight) {
+          (function() {
+            if (this._totalWeight.spawn) {
+              return this._totalWeight.despawn();
+            } else if ((this._totalWeight[0] && this._totalWeight[0].spawn)) {
+              return this._totalWeight.each(((el) => {
+              	
+                return el.despawn();
+              
+              }));
+            }
+          }).call(this);
+          return this._totalWeight = null;
+        }
+      }).call(this);
+      (function() {
+        if (this._weights) {
+          (function() {
+            if (this._weights.spawn) {
+              return this._weights.despawn();
+            } else if ((this._weights[0] && this._weights[0].spawn)) {
+              return this._weights.each(((el) => {
+              	
+                return el.despawn();
+              
+              }));
+            }
+          }).call(this);
+          return this._weights = null;
+        }
+      }).call(this);
+      (function() {
+        if (this._states) {
+          (function() {
+            if (this._states.spawn) {
+              return this._states.despawn();
+            } else if ((this._states[0] && this._states[0].spawn)) {
+              return this._states.each(((el) => {
+              	
+                return el.despawn();
+              
+              }));
+            }
+          }).call(this);
+          return this._states = null;
+        }
+      }).call(this);
+      (function() {
+        if (this._grass) {
+          (function() {
+            if (this._grass.spawn) {
+              return this._grass.despawn();
+            } else if ((this._grass[0] && this._grass[0].spawn)) {
+              return this._grass.each(((el) => {
+              	
+                return el.despawn();
+              
+              }));
+            }
+          }).call(this);
+          return this._grass = null;
+        }
+      }).call(this);
+      (function() {
+        if (this._stone) {
+          (function() {
+            if (this._stone.spawn) {
+              return this._stone.despawn();
+            } else if ((this._stone[0] && this._stone[0].spawn)) {
+              return this._stone.each(((el) => {
+              	
+                return el.despawn();
+              
+              }));
+            }
+          }).call(this);
+          return this._stone = null;
+        }
+      }).call(this);
+      return (function() {
+        if (this._floweryGrass) {
+          (function() {
+            if (this._floweryGrass.spawn) {
+              return this._floweryGrass.despawn();
+            } else if ((this._floweryGrass[0] && this._floweryGrass[0].spawn)) {
+              return this._floweryGrass.each(((el) => {
+              	
+                return el.despawn();
+              
+              }));
+            }
+          }).call(this);
+          return this._floweryGrass = null;
+        }
+      }).call(this);
+    
    }
  });
 var CurrentDistrobution = ProbabilityDistrobution.define("CurrentDistrobution", { 
   grassInstances:0,
   stoneInstances:0,
   floweryGrassInstances:0,
-  get baseGrass(  ){ 
-    
-      return (function() {
-        if (this._baseGrass) {
-          return this._baseGrass;
-        } else {
-          return this._baseGrass = (function() {
-            /* eval.sibilant:19:24 */
-          
-            return BaseDistrobution.grass;
-          }).call(this);
-        }
-      }).call(this);
-    
-   },
-  get baseStone(  ){ 
-    
-      return (function() {
-        if (this._baseStone) {
-          return this._baseStone;
-        } else {
-          return this._baseStone = (function() {
-            /* eval.sibilant:19:24 */
-          
-            return BaseDistrobution.stone;
-          }).call(this);
-        }
-      }).call(this);
-    
-   },
-  get baseFloweryGrass(  ){ 
-    
-      return (function() {
-        if (this._baseFloweryGrass) {
-          return this._baseFloweryGrass;
-        } else {
-          return this._baseFloweryGrass = (function() {
-            /* eval.sibilant:19:24 */
-          
-            return BaseDistrobution.floweryGrass;
-          }).call(this);
-        }
-      }).call(this);
-    
-   },
   get totalInstances(  ){ 
     
       return (this.grassInstances + this.stoneInstances + this.floweryGrassInstances);
@@ -11241,7 +11312,7 @@ var CurrentDistrobution = ProbabilityDistrobution.define("CurrentDistrobution", 
  });
 var ExpectedLikelyhoodGivenCurrentState = ProbabilityDistrobution.define("ExpectedLikelyhoodGivenCurrentState", { 
   base:BaseDistrobution,
-  burrent:CurrentDistrobution,
+  current:CurrentDistrobution,
   get B(  ){ 
     
       return [ this.base.grass, this.base.stone, this.base.floweryGrass ];
@@ -11249,7 +11320,7 @@ var ExpectedLikelyhoodGivenCurrentState = ProbabilityDistrobution.define("Expect
    },
   get C(  ){ 
     
-      return [ this.base.grass, this.base.stone, this.base.floweryGrass ];
+      return [ (this.current.grass || this.base.grass), (this.current.stone || this.base.stone), (this.current.floweryGrass || this.base.floweryGrass) ];
     
    },
   get E(  ){ 
@@ -11261,39 +11332,48 @@ var ExpectedLikelyhoodGivenCurrentState = ProbabilityDistrobution.define("Expect
       }));
     
    },
-  get totalE(  ){ 
+  get corrected(  ){ 
     
-      return summate(this.E);
-    
-   },
-  get grassE(  ){ 
-    
-      return this.E[0];
-    
-   },
-  get stoneE(  ){ 
-    
-      return this.E[1];
+      return this.E.map(((En, i) => {
+      	
+        return (En * this.B[i]);
+      
+      }));
     
    },
-  get floweryGrassE(  ){ 
+  get totalCorrected(  ){ 
     
-      return this.E[2];
+      return summate(this.corrected);
+    
+   },
+  get grassCorrection(  ){ 
+    
+      return this.corrected[0];
+    
+   },
+  get stoneCorrection(  ){ 
+    
+      return this.corrected[1];
+    
+   },
+  get floweryGrassCorrection(  ){ 
+    
+      return this.corrected[2];
     
    },
   get grass(  ){ 
     
-      return (this.grassE / this.totalE);
+      return (this.grassCorrection / this.totalCorrected);
     
    },
   get stone(  ){ 
     
-      return (this.stoneE / this.totalE);
+      return (this.stoneCorrection / this.totalCorrected);
     
    },
   get floweryGrass(  ){ 
     
-      return (this.floweryGrassE / this.totalE);
+      return (this.floweryGrassCorrection / this.totalCorrected);
     
    }
  });
@@ -11334,7 +11414,13 @@ var SuperPosition = Spawnable.define("SuperPosition", {
    },
   get entropy(  ){ 
     
-      return calculateEntropy(this.weights);
+      const e=calculateEntropy(this.weights);
+      (function() {
+        if (isNaN(e)) {
+          throw (new Error("entropy is NaN"))
+        }
+      }).call(this);
+      return e;
     
    },
   get probabilityDistrobution(  ){ 
@@ -11361,9 +11447,9 @@ var SuperPosition = Spawnable.define("SuperPosition", {
           return this._neighbors = (function() {
             /* eval.sibilant:19:24 */
           
-            return this.tile.edges.map(((neighbor) => {
+            return this.cell.edges.map(((neighbor) => {
             	
-              return SuperPosition.spawn(cell);
+              return SuperPosition.spawn(neighbor);
             
             }));
           }).call(this);
@@ -11380,31 +11466,56 @@ var SuperPosition = Spawnable.define("SuperPosition", {
     
       return this.neighbors.filter(((superPosition) => {
       	
-        
+        return superPosition.state;
       
-      }), superPosition.state);
+      }));
     
    },
   get uncollapsedNeighbors(  ){ 
     
-      return sort(this.neighbors.filter(((superPosition) => {
+      return this.neighbors.filter(((superPosition) => {
       	
-        
+        return (superPosition.validStates.length && !(superPosition.state));
       
-      }), !(superPosition.state)), a(b), (b.entropy - a.entropy));
+      })).sort(((a, b) => {
+      	
+        return (b.entropy - a.entropy);
+      
+      }));
     
    },
   clear(  ){ 
     
       (function() {
         if (this._probabilityDistrobution) {
-          return (function() {
+          (function() {
             if (this._probabilityDistrobution.spawn) {
               return this._probabilityDistrobution.despawn();
-            } else {
-              return this._probabilityDistrobution = null;
+            } else if ((this._probabilityDistrobution[0] && this._probabilityDistrobution[0].spawn)) {
+              return this._probabilityDistrobution.each(((el) => {
+              	
+                return el.despawn();
+              
+              }));
             }
           }).call(this);
+          return this._probabilityDistrobution = null;
+        }
+      }).call(this);
+      (function() {
+        if (this._neighbors) {
+          (function() {
+            if (this._neighbors.spawn) {
+              return this._neighbors.despawn();
+            } else if ((this._neighbors[0] && this._neighbors[0].spawn)) {
+              return this._neighbors.each(((el) => {
+              	
+                return el.despawn();
+              
+              }));
+            }
+          }).call(this);
+          return this._neighbors = null;
         }
       }).call(this);
       this.possibleStates.each(((state) => {
@@ -11416,38 +11527,51 @@ var SuperPosition = Spawnable.define("SuperPosition", {
       return this.possibleStates = null;
     
    },
-  getLikelyHoodOfState( tileType ){ 
+  getValidStates(  ){ 
     
-      return (this.totalWeight / this.possibleStates.reduce(((typeWeight, state) => {
+      return this.possibleStates.filter(((state) => {
+      	
+        return state.isValid__QUERY(this.cell);
+      
+      }));
+    
+   },
+  getLikelyhoodOfState( tileType ){ 
+    
+      return (this.validStates.reduce(((typeWeight, state) => {
       	
         return (function() {
           if (state.collapsedState === tileType) {
             return (typeWeight + state.weight);
+          } else {
+            return typeWeight;
           }
         }).call(this);
       
-      }), 0));
+      }), 0) / this.totalWeight);
     
    },
-  collapse( depth = 0,maxDepth = 2,cell = this.cell ){ 
+  collapse( testing = false,depth = 0,maxDepth = 3,cell = this.cell ){ 
     
       if( this.state ){ 
         return ;
        };
-      return this.state = (function() {
+      this.state = (function() {
         if (this.validStates.length === 1) {
           return this.validStates[0].collapsedState;
-        } else if ((depth >= maxDepth || this.validStates.length === 0)) {
+        } else if (this.validStates.length === 0) {
           return ExpectedLikelyhoodGivenCurrentState.sample();
+        } else if (depth >= maxDepth) {
+          return this.probabilityDistrobution.sample();
         } else {
           const temp=[];
           var newState = null;
           for (var neighbor of this.uncollapsedNeighbors)
           {
           temp.push(neighbor);
-          neighbor.collapse((depth + 1), maxDepth);
+          neighbor.collapse(true, (depth + 1), maxDepth);
           if( this.validStates.length === 1 ){ 
-            newState = this.validStates[0];;
+            newState = this.validStates[0].state;;
             break
            };
           if( this.validStates.length === 0 ){ 
@@ -11469,71 +11593,37 @@ var SuperPosition = Spawnable.define("SuperPosition", {
           }).call(this);
         }
       }).call(this);
-    
-   },
-  calculateEntropy(  ){ 
-    
-      return this.totalWeight = this.validStates.reduce(((weight, state) => {
-      	
-        return (weight + state.calculateWeight());
-      
-      }), 0);
-    
-   },
-  getValidStates(  ){ 
-    
-      return this.possibleStates.filter(((state) => {
-      	
-        
-      
-      }), state.isValid__QUERY(this.cell));
-    
-   },
-  eliminateInvalidStates(  ){ 
-    
       return (function() {
-        if (!(this.validated__QUERY)) {
-          this.possibleStates = this.getValidStates();
-          return this.validated__QUERY = true;
+        if (!(testing)) {
+          return ((CurrentDistrobution[(this.state + "Instances")])++);
         }
       }).call(this);
     
    }
  });
+var collapsedTiles = 0;
 TileNode.collapseWaveFunction = (function TileNode$collapseWaveFunction$(depth = 0, maxDepth = 2) {
   /* Tile-node.collapse-wave-function node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
   const superPosition=SuperPosition.spawn(this);
   superPosition.collapse();
+  ((collapsedTiles)++);
+  (function() {
+    if (CurrentDistrobution.totalInstances !== collapsedTiles) {
+      throw (new Error("more tiles counted in distrobution than have collapsed"))
+    }
+  }).call(this);
   return superPosition.despawn();
 });
 TileNode.setup = (function TileNode$setup$(x = this.x, y = this.y) {
   /* Tile-node.setup node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
   const v=getTileNoise(x, y);
-  (function() {
-    if (isFirstTile__QUERY) {
-      isFirstTile__QUERY = false;
-      return crossRoads.each(((tileType, direction) => {
-      	
-        console.log("initializing first chunk", tileType, direction);
-        return (function() {
-          if (direction === "center") {
-            return this.entity.ground.type = tileType;
-          } else {
-            return this[direction].entity.ground.type = tileType;
-          }
-        }).call(this);
-      
-      }));
-    } else if (!(this.entity.ground.type)) {
-      return this.collapseWaveFunction();
-    }
-  }).call(this);
+  this.collapseWaveFunction();
   (function() {
     if (((v.x + v.y) > 16 && this.entity.ground.type === "floweryGrass")) {
       const item=ItemGroup.spawn();
-      item.physics.scale = gameScale;
+      item.physics.scale = config.gameScale;
       const tileContainer=this.entity.container;
       item.pos.x = this.worldPos.x;
       item.pos.y = this.worldPos.y;
@@ -11548,4 +11638,4 @@ TileNode.setup = (function TileNode$setup$(x = this.x, y = this.y) {
   return v.despawn();
 });
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"@crash-landed/dom.js":"@crash-landed/dom.js","@crash-landed/forces.js":"@crash-landed/forces.js","@crash-landed/game.js":"@crash-landed/game.js","@crash-landed/systems/containers.js":"@crash-landed/systems/containers.js","@crash-landed/systems/floor-type.js":"@crash-landed/systems/floor-type.js","@crash-landed/systems/item.js":"@crash-landed/systems/item.js","@crash-landed/systems/mental-state.js":"@crash-landed/systems/mental-state.js","@crash-landed/systems/metabolisim.js":"@crash-landed/systems/metabolisim.js","@crash-landed/systems/path-finding.js":"@crash-landed/systems/path-finding.js","@crash-landed/systems/sight.js":"@crash-landed/systems/sight.js","@crash-landed/systems/sprites/basic-props.js":"@crash-landed/systems/sprites/basic-props.js","@crash-landed/systems/sprites/floor.js":"@crash-landed/systems/sprites/floor.js","@crash-landed/systems/sprites/player.js":"@crash-landed/systems/sprites/player.js","@crash-landed/systems/visibility.js":"@crash-landed/systems/visibility.js","@kit-js/core/js/util":2,"@kit-js/interface":3,"@shared/data-structures/spawnable.js":"@shared/data-structures/spawnable.js","@shared/data-structures/trees/trie.js":"@shared/data-structures/trees/trie.js","@shared/ecs/entity-group.js":"@shared/ecs/entity-group.js","@shared/noise.js":"@shared/noise.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js","@shared/tiles.js":"@shared/tiles.js","@shared/units.js":"@shared/units.js","@shared/vectors.js":"@shared/vectors.js","ramda":6}]},{},[]);
+},{"@crash-landed/config.js":"@crash-landed/config.js","@crash-landed/directions.js":"@crash-landed/directions.js","@crash-landed/dom.js":"@crash-landed/dom.js","@crash-landed/forces.js":"@crash-landed/forces.js","@crash-landed/game.js":"@crash-landed/game.js","@crash-landed/noise.js":"@crash-landed/noise.js","@crash-landed/systems/containers.js":"@crash-landed/systems/containers.js","@crash-landed/systems/floor-type.js":"@crash-landed/systems/floor-type.js","@crash-landed/systems/item.js":"@crash-landed/systems/item.js","@crash-landed/systems/mental-state.js":"@crash-landed/systems/mental-state.js","@crash-landed/systems/metabolisim.js":"@crash-landed/systems/metabolisim.js","@crash-landed/systems/path-finding.js":"@crash-landed/systems/path-finding.js","@crash-landed/systems/sight.js":"@crash-landed/systems/sight.js","@crash-landed/systems/sprites/basic-props.js":"@crash-landed/systems/sprites/basic-props.js","@crash-landed/systems/sprites/floor.js":"@crash-landed/systems/sprites/floor.js","@crash-landed/systems/sprites/player.js":"@crash-landed/systems/sprites/player.js","@crash-landed/systems/visibility.js":"@crash-landed/systems/visibility.js","@crash-landed/tiles.js":"@crash-landed/tiles.js","@crash-landed/units.js":"@crash-landed/units.js","@kit-js/core/js/util":2,"@kit-js/interface":3,"@shared/data-structures/spawnable.js":"@shared/data-structures/spawnable.js","@shared/data-structures/trees/trie.js":"@shared/data-structures/trees/trie.js","@shared/ecs/entity-group.js":"@shared/ecs/entity-group.js","@shared/math/math.js":"@shared/math/math.js","@shared/noise.js":"@shared/noise.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js","@shared/tiles.js":"@shared/tiles.js","@shared/units.js":"@shared/units.js","@shared/vectors.js":"@shared/vectors.js","ramda":6}]},{},[]);

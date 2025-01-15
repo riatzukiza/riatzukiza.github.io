@@ -56,11 +56,11 @@ var clearAnts = (function clearAnts$() {
 
   return ants.clear();
 });
-var spawnAnt = (function spawnAnt$(x_y$1, home, startingLife) {
+var spawnAnt = (function spawnAnt$(x_y$3, home, startingLife) {
   /* spawn-ant eval.sibilant:30:0 */
 
-  var x = x_y$1[0],
-      y = x_y$1[1];
+  var x = x_y$3[0],
+      y = x_y$3[1];
 
   var ant = ants.spawn();
   game.systems.get(Position, ant).x = x;

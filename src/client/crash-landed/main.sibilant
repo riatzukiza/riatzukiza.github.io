@@ -21,13 +21,16 @@
           (lit get-cardinal-direction-name) "@crash-landed/directions.js"
           (lit generate-main-road) "@crash-landed/world-gen.js"
           (lit tiles) "@crash-landed/tiles.js"
+          (lit Path-finding) "@crash-landed/systems/path-finding.js"
+          (lit Velocity) "@shared/systems/velocity.js"
           noise "@shared/noise.js"
           config "@crash-landed/config.js")
 
 (const p player)
 (const v p.velocity.vector)
 
-(assign p.physics.scale game-scale)
+(const game-scale config.game-scale)
+(assign p.physics.scale config.game-scale)
 (set p.physics 'forces [])
 
 (assign game.tiles tiles)
@@ -39,7 +42,7 @@
 
 (Sight.register-tile-graph tiles)
 (.select-sequence p.sprite "east")
-(generate-main-road)
+;; (generate-main-road)
 
 (.start game)
 

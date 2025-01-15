@@ -43,7 +43,7 @@ var GroundTypes = System.define("GroundTypes", {
   interface:Ground,
   types:Interface.define("types", { 
     grass:GroundType.spawn(0, 0, 3, 3, 0.75),
-    stone:GroundType.spawn(0, 3, 7, 3, 1.1),
+    stone:GroundType.spawn(0, 3, 3, 7, 1.1),
     brokenStone:GroundType.spawn(3, 3, 7, 7, 1),
     floweryGrass:GroundType.spawn(3, 0, 7, 3, 0.7)
    }),

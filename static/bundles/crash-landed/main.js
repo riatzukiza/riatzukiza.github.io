@@ -69,11 +69,18 @@ var {
     { 
   tiles
  } = require("@crash-landed/tiles.js"),
+    { 
+  PathFinding
+ } = require("@crash-landed/systems/path-finding.js"),
+    { 
+  Velocity
+ } = require("@shared/systems/velocity.js"),
     noise = require("@shared/noise.js"),
     config = require("@crash-landed/config.js");
 const p=player;
 const v=p.velocity.vector;
-p.physics.scale = gameScale;
+const gameScale=config.gameScale;
+p.physics.scale = config.gameScale;
 p.physics.forces = [];
 game.tiles = tiles;
 PathFinding.tiles = tiles;
@@ -81,7 +88,6 @@ Velocity.realTime__QUERY = false;
 Position.wraps__QUERY = false;
 Sight.registerTileGraph(tiles);
 p.sprite.selectSequence("east");
-generateMainRoad();
 game.start();
 game.events.on("tick", ((t) => {
 	
@@ -101,7 +107,7 @@ game.events.on("tick", ((t) => {
 }));
 startInterface();
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"@crash-landed/config.js":"@crash-landed/config.js","@crash-landed/directions.js":"@crash-landed/directions.js","@crash-landed/dom.js":"@crash-landed/dom.js","@crash-landed/game.js":"@crash-landed/game.js","@crash-landed/systems/sight.js":"@crash-landed/systems/sight.js","@crash-landed/tiles.js":"@crash-landed/tiles.js","@crash-landed/units.js":"@crash-landed/units.js","@crash-landed/world-gen.js":"@crash-landed/world-gen.js","@kit-js/core/js/util":3,"@kit-js/interface":4,"@shared/noise.js":"@shared/noise.js","@shared/systems/position.js":"@shared/systems/position.js","ramda":7}],2:[function(require,module,exports){
+},{"@crash-landed/config.js":"@crash-landed/config.js","@crash-landed/directions.js":"@crash-landed/directions.js","@crash-landed/dom.js":"@crash-landed/dom.js","@crash-landed/game.js":"@crash-landed/game.js","@crash-landed/systems/path-finding.js":"@crash-landed/systems/path-finding.js","@crash-landed/systems/sight.js":"@crash-landed/systems/sight.js","@crash-landed/tiles.js":"@crash-landed/tiles.js","@crash-landed/units.js":"@crash-landed/units.js","@crash-landed/world-gen.js":"@crash-landed/world-gen.js","@kit-js/core/js/util":3,"@kit-js/interface":4,"@shared/noise.js":"@shared/noise.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js","ramda":7}],2:[function(require,module,exports){
 const create = (object, r) => (...args) => ((r = Object.create(object)), r.init(...args), r);
 const defined = (value) => (!(value === undefined));
 
