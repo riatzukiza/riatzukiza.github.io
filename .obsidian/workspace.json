@@ -107,8 +107,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "cb509b7f274d7b5e",
@@ -226,7 +225,8 @@
       "obsidian-git:Open Git source control": false,
       "githobs:Manage a github issue": false,
       "webpage-html-export:Export Vault to HTML": false,
-      "obisidian-note-linker:Note Linker": false
+      "obisidian-note-linker:Note Linker": false,
+      "card-board:CardBoard": false
     }
   },
   "floating": {
@@ -247,12 +247,12 @@
                 "state": {
                   "type": "markdown",
                   "state": {
-                    "file": "kanban/tasks/Implement A star algorithim.md",
+                    "file": "kanban/tasks/Sprite sheets.md",
                     "mode": "source",
                     "source": false
                   },
                   "icon": "lucide-file",
-                  "title": "Implement A star algorithim"
+                  "title": "Sprite sheets"
                 }
               }
             ]
@@ -301,14 +301,18 @@
       }
     ]
   },
-  "active": "968501225dce5723",
+  "active": "a92ab7efc8193530",
   "lastOpenFiles": [
-    "kanban/board.md",
     "notes/daily/2025-01-15.md",
+    "kanban/tasks/Sprite sheets.md",
+    "kanban/board.md",
+    "kanban/tasks/sprite generator.md",
+    "kanban/tasks/predator agents.md",
+    "kanban/tasks/Building system.md",
     "kanban/tasks/reverse navigation home.md",
     "kanban/tasks/Map generation.md",
-    "kanban/tasks/multiple signal fields.md",
     "kanban/tasks/Implement A star algorithim.md",
+    "kanban/tasks/multiple signal fields.md",
     "kanban/tasks/ground tiles.md",
     "kanban/tasks/implement binary heap.md",
     "kanban/tasks/Mineral Resource.md",
@@ -325,10 +329,6 @@
     "kanban/tasks/Process.md",
     "kanban/tasks/Digital Assistants.md",
     "kanban/tasks/World building.md",
-    "kanban/tasks/Game design.md",
-    "kanban/tasks/Benchmarking.md",
-    "kanban/tasks/Abstractions.md",
-    "kanban/tasks/Algorithims.md",
     "notes/unique",
     "notes/daily",
     "notes",

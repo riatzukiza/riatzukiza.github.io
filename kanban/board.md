@@ -195,9 +195,10 @@ kanban-plugin: board
 
 - [ ] ranged attack system
 - [ ] projectile system
-- [ ] [Water resource](tasks/Water%20resource.md)
 - [ ] [minimap](tasks/minimap.md)
 - [ ] In game unit designer
+- [ ] [sprite lighting](tasks/sprite%20lighting.md)
+- [ ] [[sprite generator]]
 - [ ] [[Weapon loadout system]]
 - [ ] [shadows](tasks/shadows.md)
 - [ ] [Agenda system](tasks/Agenda%20system.md)
@@ -211,69 +212,68 @@ kanban-plugin: board
 
 ## Breakdown (13)
 
-- [ ] [Building system](tasks/Building%20system.md)
-- [ ] [[Terrain features]]
 - [ ] [Mineral Resource](tasks/Mineral%20Resource.md)
 - [ ] [night day cycle](tasks/night%20day%20cycle.md)
+- [ ] [[Terrain features]]
+- [ ] [Building system](tasks/Building%20system.md)
 - [ ] [Priority management system](tasks/Priority%20management%20system.md)
-- [ ] [predator agents](tasks/predator%20agents.md)
-- [ ] [sprite lighting](tasks/sprite%20lighting.md)
-- [ ] [[sprite generator]]
+- [ ] [Water resource](tasks/Water%20resource.md)
 
 
 ## Ready (21)
 
-- [ ] [[Map generation]]
-- [ ] [[implement binary heap]]
-- [ ] [Order queues](tasks/Order%20queues.md)
-- [ ] [resource mechanics](tasks/resource%20mechanics.md)
-- [ ] [multiple signal fields](tasks/multiple%20signal%20fields.md)
-- [ ] [sparse vector fields](tasks/sparse%20vector%20fields.md)
+- [ ] [multiple factions](tasks/multiple%20factions.md)
+- [ ] [Dynamic pools for renderables.](tasks/Dynamic%20pools%20for%20renderables..md)
+- [ ] [attack system](tasks/attack%20system.md)
 - [ ] [elevation](tasks/elevation.md)
-- [ ] [unit system](tasks/unit%20system.md)
-	  - A unit is an abstraction over an entity.
-	  - Entities can be anything in the game
-	  - A unit is a dynamic collection of entities
-	- Like say a weapon, a shield
-- [ ] [Better sprite rotation](tasks/Better%20sprite%20rotation.md)
 - [ ] [deletable entites](tasks/deletable%20entites.md)
 	  - Entities can be deleted from a panel
 - [ ] [Update physics engine to increase accuracy and performance](tasks/Update%20physics%20engine%20to%20increase%20accuracy%20and%20performance.md)
 	  - Consolodate position and velocity into physics
 	  - When performing updates, do not mutate the state of the
 	last tick. Use two data structures, and swap them out [each](../docs/Pools/Dynamic/each.md) tick.
+- [ ] [predator agents](tasks/predator%20agents.md)
 - [ ] [Hot reload system](tasks/Hot%20reload%20system.md)
 	  - Create a seperate pipeline for development and production
 
 
 ## Todo (8)
 
-- [ ] [Sprite sheets](tasks/Sprite%20sheets.md)
-- [ ] [multiple factions](tasks/multiple%20factions.md)
+- [ ] [resource mechanics](tasks/resource%20mechanics.md)
+- [ ] [placeable entities (rocks, plants, bases)](tasks/placeable%20entities%20(rocks,%20plants,%20bases).md)
+- [ ] [sparse vector fields](tasks/sparse%20vector%20fields.md)
 - [ ] [vector field visualization](tasks/vector%20field%20visualization.md)
+- [ ] [Better sprite rotation](tasks/Better%20sprite%20rotation.md)
+- [ ] [Order queues](tasks/Order%20queues.md)
 - [ ] [selection box](tasks/selection%20box.md)
-- [ ] [Dynamic pools for renderables.](tasks/Dynamic%20pools%20for%20renderables..md)
-- [ ] [attack system](tasks/attack%20system.md)
 
 
 ## In Progress (3)
 
-- [ ] [metabolism system](tasks/metabolism%20system.md)
-- [ ] [placeable entities (rocks, plants, bases)](tasks/placeable%20entities%20(rocks,%20plants,%20bases).md)
+- [ ] [[implement binary heap]]
 - [ ] [reverse navigation home](tasks/reverse%20navigation%20home.md)
+- [ ] [multiple signal fields](tasks/multiple%20signal%20fields.md)
 
 
 ## In Review (8)
 
-- [ ] [[Implement A star algorithim]]
-- [ ] [ground tiles](tasks/ground%20tiles.md)
-- [ ] [Toggle coordinate wrap around](tasks/Toggle%20coordinate%20wrap%20around.md)
-- [ ] [camera system](tasks/camera%20system.md)
+- [ ] [unit system](tasks/unit%20system.md)
+	  - A unit is an abstraction over an entity.
+	  - Entities can be anything in the game
+	  - A unit is a dynamic collection of entities
+	- Like say a weapon, a shield
 
 
 ## Done
 
 **Complete**
+- [x] [[Map generation]] ✅ 2025-01-15
+- [x] [metabolism system](tasks/metabolism%20system.md) ✅ 2025-01-15
+- [x] [[Implement A star algorithim]] ✅ 2025-01-15
+- [x] [Sprite sheets](tasks/Sprite%20sheets.md) ✅ 2025-01-15
+- [x] [Toggle coordinate wrap around](tasks/Toggle%20coordinate%20wrap%20around.md) ✅ 2025-01-15
+- [x] [camera system](tasks/camera%20system.md) ✅ 2025-01-15
+- [x] [ground tiles](tasks/ground%20tiles.md) ✅ 2025-01-15
 - [x] [Add a project page to the website](tasks/Add%20a%20project%20page%20to%20the%20website.md) ✅ 2024-12-23
 - [x] [Brain storm new projects](tasks/Brain%20storm%20new%20projects.md) ✅ 2025-01-12
 - [x] [Design theme for website.](tasks/Design%20theme%20for%20website..md) ✅ 2024-12-23
