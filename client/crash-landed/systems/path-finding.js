@@ -195,15 +195,15 @@ var PathNode = Spawnable.define("PathNode", {
       var path = List.spawn();
       var node = this;
       return (function() {
-        var while$405 = undefined;
+        var while$414 = undefined;
         while (node) {
-          while$405 = (function() {
+          while$414 = (function() {
             path.unshift(node);
             node = node.parent;
             return path;
           }).call(this);
         };
-        return while$405;
+        return while$414;
       }).call(this);
     
    },
@@ -319,9 +319,9 @@ var PathFinding = System.define("PathFinding", {
           }).call(this);
           c.open.insert(startingNode);
           return (function() {
-            var while$406 = undefined;
+            var while$415 = undefined;
             while (c.open.root) {
-              while$406 = (function() {
+              while$415 = (function() {
                 const currentNode=c.nextOpenNode;
                 return (function() {
                   if (currentNode.tile === c.end) {
@@ -366,7 +366,7 @@ var PathFinding = System.define("PathFinding", {
                 }).call(this);
               }).call(this);
             };
-            return while$406;
+            return while$415;
           }).call(this);
         }
       }).call(this);
