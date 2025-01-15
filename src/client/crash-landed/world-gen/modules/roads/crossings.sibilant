@@ -1,0 +1,8 @@
+(require! (lit cross-road-weight) "@crash-landed/world-gen/modules/roads/weights.js")
+(const cross-roads
+       (.create Tile-chunk cross-roads-weight
+                'grass 'stone 'grass
+                'stone 'stone 'stone
+                'grass 'stone 'grass ))
+
+(export cross-roads)

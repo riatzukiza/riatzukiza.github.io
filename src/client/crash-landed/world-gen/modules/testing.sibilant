@@ -1,0 +1,158 @@
+
+;; (const adjacent-stone-weight -10)
+;; (const paralell-horizontal-roads (.create Tile-chunk adjacent-stone-weight
+;;                                'stone 'stone 'stone
+;;                                'grass 'grass 'grass
+;;                                'stone 'stone 'stone))
+;; (const paralell-vertical-roads (.create Tile-chunk adjacent-stone-weight
+;;                                         'stone 'grass 'stone
+;;                                         'stone 'grass 'stone
+;;                                         'stone 'grass 'stone
+;;                                           ))
+;; (const full-stone (.create Tile-chunk adjacent-stone-weight
+;;                                         'stone 'stone 'stone
+;;                                         'stone 'stone 'stone
+;;                                         'stone 'stone 'stone
+;;                                         ))
+
+;; (const grass-below-road (.create Tile-chunk road-weight
+;;                                  'stone 'stone 'stone
+;;                                  'grass 'grass 'grass
+;;                                  'grass 'grass 'grass))
+;; (const grass-above-road (.create Tile-chunk road-weight
+;;                                  'grass 'grass 'grass
+;;                                  'grass 'grass 'grass
+;;                                  'stone 'stone 'stone))
+
+;; (const flowers-below-road ((create Tile-chunk)
+;;   [
+;;    'stone 'stone 'stone
+;;    'grass 'grass 'grass
+;;    'flowery-grass 'flowery-grass 'flowery-grass
+;;    ]))
+;; (assign flowers-below-road.weight road-weight)
+;; (const flowers-above-road ((create Tile-chunk)
+;;   [
+;;    'flowery-grass 'flowery-grass 'flowery-grass
+;;    'grass 'grass 'grass
+;;    'stone 'stone 'stone
+;;    ]))
+;; (assign flowers-above-road.weight road-weight)
+
+
+;; (const grass-on-right-of-road ((create Tile-chunk)
+;;   [
+;;    'stone 'grass  'grass
+;;    'stone 'grass  'grass
+;;    'stone 'grass  'grass
+;;    ]))
+;; (assign grass-on-right-of-road.weight road-weight)
+
+;; (const grass-on-left-of-road ((create Tile-chunk)
+;;   [
+;;    'grass  'grass  'stone
+;;    'grass  'grass  'stone
+;;    'grass  'grass  'stone
+;;    ]))
+
+;; (assign grass-on-left-of-road.weight road-weight)
+
+;; (const flowers-on-right-of-road ((create Tile-chunk)
+;;   [
+;;    'stone 'grass  'flowery-grass
+;;    'stone 'grass  'flowery-grass
+;;    'stone 'grass  'flowery-grass
+;;    ]))
+;; (assign flowers-on-right-of-road.weight road-weight)
+
+;; (const flowers-on-left-of-road ((create Tile-chunk)
+;;   [
+;;    'flowery-grass  'grass  'stone
+;;    'flowery-grass  'grass  'stone
+;;    'flowery-grass  'grass  'stone
+;;    ]))
+
+;; (assign flowers-on-left-of-road.weight road-weight)
+
+
+;; (const wide-north-east-turn ((create Tile-chunk) [ 
+;;                                                   'stone 'stone 'stone
+;;                                                   'stone 'grass 'grass
+;;                                                   'stone 'grass 'grass]))
+
+;; (assign wide-north-east-turn.weight turn-weight)
+
+
+;; (const wide-north-west-turn ((create Tile-chunk) [ 
+;;                                                   'stone 'stone 'stone
+;;                                                   'grass 'grass 'stone
+;;                                                   'grass 'grass 'stone]))
+
+;; (assign wide-north-west-turn.weight turn-weight)
+
+
+;; (const wide-south-west-turn ((create Tile-chunk) [
+;;                                              'grass 'grass 'stone
+;;                                              'grass 'grass 'stone
+;;                                              'stone 'stone 'stone]))
+;; (assign wide-south-west-turn.weight turn-weight)
+;; (const lone-stone-weight -1)
+;; (.create Tile-chunk lone-stone-weight
+;;          'grass 'grass 'grass
+;;          'grass 'stone 'grass
+;;          'grass 'grass 'grass)
+;; (.create Tile-chunk lone-stone-weight
+;;          'grass 'stone 'grass
+;;          'grass 'grass 'grass
+;;          'grass 'grass 'grass)
+;; (.create Tile-chunk lone-stone-weight
+;;          'stone 'grass 'grass
+;;          'grass 'grass 'grass
+;;          'grass 'grass 'grass)
+;; (.create Tile-chunk lone-stone-weight
+;;          'grass 'grass 'grass
+;;          'stone 'grass 'grass
+;;          'grass 'grass 'grass)
+;; (.create Tile-chunk lone-stone-weight
+;;          'grass 'grass 'grass
+;;          'grass 'grass 'grass
+;;          'stone 'grass 'grass)
+;; (.create Tile-chunk lone-stone-weight
+;;          'grass 'grass 'grass
+;;          'grass 'grass 'grass
+;;          'grass 'stone 'grass)
+;; (.create Tile-chunk lone-stone-weight
+;;          'grass 'grass 'grass
+;;          'grass 'grass 'grass
+;;          'grass 'grasss 'stone)
+;; (.create Tile-chunk lone-stone-weight
+;;          'grass 'grass 'grass
+;;          'grass 'grass 'stone
+;;          'grass 'grasss 'grass)
+;; (.create Tile-chunk lone-stone-weight
+;;          'grass 'grass 'stone
+;;          'grass 'grass 'grass
+;;          'grass 'grasss 'grass)
+;; (const road-end-stone-weight -1)
+;; (.create Tile-chunk  road-end-stone-weight
+;;          'grass 'stone 'grass
+;;          'grass 'stone 'grass
+;;          'grass 'grass 'grass)
+;; (.create Tile-chunk  road-end-stone-weight
+;;          'grass 'grass 'grass
+;;          'grass 'stone 'grass
+;;          'grass 'stone 'grass)
+
+;; (.create Tile-chunk  road-end-stone-weight
+;;          'grass 'grass 'grass
+;;          'stone 'stone 'grass
+;;          'grass 'grass 'grass)
+;; (.create Tile-chunk  road-end-stone-weight
+;;          'grass 'grass 'grass
+;;          'grass 'stone 'stone
+;;          'grass 'grass 'grass)
+
+;; (const stone-square-bottom-left (.create Tile-chunk  1
+;;                                          'grass 'grass 'grass
+;;                                          'stone 'stone 'grass
+;;                                          'stone 'stone 'grass))
