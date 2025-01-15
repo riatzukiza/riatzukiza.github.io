@@ -226,10 +226,7 @@
       "obsidian-git:Open Git source control": false,
       "githobs:Manage a github issue": false,
       "webpage-html-export:Export Vault to HTML": false,
-      "obisidian-note-linker:Note Linker": false,
-      "smart-connections:Open: View Smart Connections": false,
-      "smart-connections:Open: Smart Chat Conversation": false,
-      "card-board:CardBoard": false
+      "obisidian-note-linker:Note Linker": false
     }
   },
   "floating": {
@@ -281,43 +278,23 @@
                 "id": "968501225dce5723",
                 "type": "leaf",
                 "state": {
-                  "type": "kanban",
+                  "type": "markdown",
                   "state": {
-                    "file": "kanban/board.md",
-                    "kanbanViewState": {
-                      "kanban-plugin": "board",
-                      "list-collapse": [
-                        true,
-                        true,
-                        true,
-                        true,
-                        true,
-                        true,
-                        true,
-                        false,
-                        true,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        null,
-                        false
-                      ]
-                    }
+                    "file": "notes/daily/2025-01-15.md",
+                    "mode": "source",
+                    "source": false
                   },
-                  "icon": "lucide-trello",
-                  "title": "board"
+                  "icon": "lucide-file",
+                  "title": "2025-01-15"
                 }
               }
             ]
           }
         ],
         "direction": "vertical",
-        "x": 21,
+        "x": 20,
         "y": 20,
-        "width": 1493,
+        "width": 1498,
         "height": 896,
         "maximize": false,
         "zoom": 0
@@ -326,8 +303,9 @@
   },
   "active": "968501225dce5723",
   "lastOpenFiles": [
-    "kanban/tasks/reverse navigation home.md",
     "kanban/board.md",
+    "notes/daily/2025-01-15.md",
+    "kanban/tasks/reverse navigation home.md",
     "kanban/tasks/Map generation.md",
     "kanban/tasks/multiple signal fields.md",
     "kanban/tasks/Implement A star algorithim.md",
@@ -351,7 +329,6 @@
     "kanban/tasks/Benchmarking.md",
     "kanban/tasks/Abstractions.md",
     "kanban/tasks/Algorithims.md",
-    "notes/daily/2025-01-12.md",
     "notes/unique",
     "notes/daily",
     "notes",
