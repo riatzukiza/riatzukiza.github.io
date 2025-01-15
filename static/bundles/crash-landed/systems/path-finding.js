@@ -58,6 +58,7 @@ var calculateDistanceCost = (function calculateDistanceCost$(start, end) {
 const MOVE_STRAIGHT_COST=10;
 const MOVE_DIAGONAL_COST=14;
 var PathNode = Spawnable.define("PathNode", { 
+  mixin:[ Heapable ],
   init( tile = this.tile,start = this.start,end = this.end,parent = null ){ 
     
       this.tile = tile;this.start = start;this.end = end;this.parent = parent;
@@ -75,30 +76,95 @@ var PathNode = Spawnable.define("PathNode", {
       return this;
     
    },
-  parent:null,
+  _parent:null,
+  get parent(  ){ 
+    
+      return this._parent;
+    
+   },
+  set parent( v ){ 
+    
+      return (function() {
+        if (v !== this._parent) {
+          (function() {
+            if (this._gCost) {
+              (function() {
+                if (this._gCost.spawn) {
+                  return this._gCost.despawn();
+                } else if ((this._gCost[0] && this._gCost[0].spawn)) {
+                  return this._gCost.each(((el) => {
+                  	
+                    return el.despawn();
+                  
+                  }));
+                }
+              }).call(this);
+              return this._gCost = null;
+            }
+          }).call(this);
+          return (function() {
+            if (this._fCost) {
+              (function() {
+                if (this._fCost.spawn) {
+                  return this._fCost.despawn();
+                } else if ((this._fCost[0] && this._fCost[0].spawn)) {
+                  return this._fCost.each(((el) => {
+                  	
+                    return el.despawn();
+                  
+                  }));
+                }
+              }).call(this);
+              return this._fCost = null;
+            }
+          }).call(this);
+        }
+      }).call(this);
+    
+   },
   tile:null,
   next:null,
   get gCost(  ){ 
     
-      (function() {
-        if (this.parent === this) {
-          throw (new Error("TIme traveler detected, cannot be own parent."))
-        }
-      }).call(this);
       return (function() {
-        if (this.tile === this.start) {
-          return 0;
-        } else if (!(this.parent)) {
-          return Math.round((Number.MAX_SAFE_INTEGER / 2));
+        if (this._gCost) {
+          return this._gCost;
         } else {
-          return (this.parent.gCost + calculateDistanceCost(this.parent.tile, this.tile));
+          return this._gCost = (function() {
+            /* eval.sibilant:19:24 */
+          
+            (function() {
+              if (this.parent === this) {
+                throw (new Error("TIme traveler detected, cannot be own parent."))
+              }
+            }).call(this);
+            return (function() {
+              if (this.tile === this.start) {
+                return 0;
+              } else if (!(this.parent)) {
+                return Math.round((Number.MAX_SAFE_INTEGER / 2));
+              } else {
+                return (this.parent.gCost + calculateDistanceCost(this.parent.tile, this.tile));
+              }
+            }).call(this);
+          }).call(this);
         }
       }).call(this);
     
    },
   get fCost(  ){ 
     
-      return (this.gCost + this.hCost);
+      return (function() {
+        if (this._fCost) {
+          return this._fCost;
+        } else {
+          return this._fCost = (function() {
+            /* eval.sibilant:19:24 */
+          
+            return (this.gCost + this.hCost);
+          }).call(this);
+        }
+      }).call(this);
     
    },
   get hCost(  ){ 
@@ -106,20 +172,39 @@ var PathNode = Spawnable.define("PathNode", {
       return this._hCost;
     
    },
+  compareTo( node ){ 
+    
+      return (function() {
+        if (this.fCost > node.fCost) {
+          return 1;
+        } else if (this.fCost === node.fCost) {
+          return (function() {
+            if (this.hCost > node.hCost) {
+              return 1;
+            } else {
+              return -1;
+            }
+          }).call(this);
+        } else {
+          return -1;
+        }
+      }).call(this);
+    
+   },
   get pathTo(  ){ 
     
       var path = List.spawn();
       var node = this;
       return (function() {
-        var while$432 = undefined;
+        var while$405 = undefined;
         while (node) {
-          while$432 = (function() {
+          while$405 = (function() {
             path.unshift(node);
             node = node.parent;
             return path;
           }).call(this);
         };
-        return while$432;
+        return while$405;
       }).call(this);
     
    },
@@ -153,37 +238,20 @@ var CurrentPath = Component.define("CurrentPath", {
     
       return this.entity.velocityInterface;
     
-   }
- });
-var PathFinding = System.define("PathFinding", { 
-  interface:CurrentPath,
-  tiles:null,
-  open:[],
+   },
+  open:BinaryHeap.spawn(),
   closed:(new Set()),
   currentNode:null,
   activeNodes:(new Map()),
   get nextOpenNode(  ){ 
     
-      return this.open.reduce(((currentBest, node) => {
-      	
-        return (function() {
-          if (node.fCost < currentBest.fCost) {
-            return node;
-          } else {
-            return currentBest;
-          }
-        }).call(this);
-      
-      }), this.open[0]);
+      return this.open.getMin();
     
-   },
-  _prepare(  ){ 
-    
-      this.open.length = 0;
-      this.closed.clear();
-      return null;
-    
-   },
+   }
+ });
+var PathFinding = System.define("PathFinding", { 
+  interface:CurrentPath,
+  tiles:null,
   _updateComponent( c ){ 
     
       if( (c.start !== null && c.end !== null && c.start === c.end) ){ 
@@ -209,9 +277,9 @@ var PathFinding = System.define("PathFinding", {
             } else if ((occupiedTile === c.end || c.end !== c.currentNode.item.end)) {
               console.log("found end");
               vel.setLength(0);
-              for (var [ tile, node ] of this.activeNodes)
+              for (var [ tile, node ] of c.activeNodes)
               {
-              this.activeNodes.delete(tile);
+              c.activeNodes.delete(tile);
               node.despawn()
               }
               ;
@@ -236,50 +304,49 @@ var PathFinding = System.define("PathFinding", {
       }).call(this);
       return (function() {
         if ((c.start && c.end && !(c.currentNode))) {
-          this.open.length = 0;
-          this.closed.clear();
+          c.closed.clear();
           const startingNode=(function() {
-            if (this.activeNodes.has(c.start)) {
-              return this.activeNodes.get(c.start);
+            if (c.activeNodes.has(c.start)) {
+              return c.activeNodes.get(c.start);
             } else {
               var r = (function() {
                 /* inc/misc.sibilant:1:689 */
               
-                return PathNode.spawn(c.start, c.start, c.end);
+                return PathNode.spawn(c.start, c.start, c.end, c.open);
               }).call(this);
-              this.activeNodes.set(c.start, r);
+              c.activeNodes.set(c.start, r);
               return r;
             }
           }).call(this);
-          this.open.push(startingNode);
+          c.open.insert(startingNode);
           return (function() {
-            var while$433 = undefined;
-            while (this.open.length) {
-              while$433 = (function() {
-                const currentNode=this.nextOpenNode;
+            var while$406 = undefined;
+            while (c.open.root) {
+              while$406 = (function() {
+                const currentNode=c.nextOpenNode;
                 return (function() {
                   if (currentNode.tile === c.end) {
                     c.nodeList = currentNode.pathTo;
                     c.currentNode = c.nodeList.head;
-                    return this.open.length = 0;
+                    return c.open.clear();
                   } else {
-                    removeFromArray(currentNode, this.open);
-                    this.closed.add(currentNode.tile);
+                    removeFromArray(currentNode, c.open);
+                    c.closed.add(currentNode.tile);
                     for (var neighbor of currentNode.tile.edges)
                     {
-                    if( this.closed.has(neighbor) ){ 
+                    if( c.closed.has(neighbor) ){ 
                       continue
                      };
                     const neighborNode=(function() {
-                      if (this.activeNodes.has(neighbor)) {
-                        return this.activeNodes.get(neighbor);
+                      if (c.activeNodes.has(neighbor)) {
+                        return c.activeNodes.get(neighbor);
                       } else {
                         var r = (function() {
                           /* inc/misc.sibilant:1:689 */
                         
                           return PathNode.spawn(neighbor, c.start, c.end);
                         }).call(this);
-                        this.activeNodes.set(neighbor, r);
+                        c.activeNodes.set(neighbor, r);
                         return r;
                       }
                     }).call(this);;
@@ -287,8 +354,8 @@ var PathFinding = System.define("PathFinding", {
                       if ((currentNode.gCost + calculateDistanceCost(currentNode.tile, neighborNode.tile)) < neighborNode.gCost) {
                         neighborNode.parent = currentNode;
                         return (function() {
-                          if (!(this.open.includes(neighborNode))) {
-                            return this.open.push(neighborNode);
+                          if (!(c.open.includes(neighborNode))) {
+                            return c.open.insert(neighborNode);
                           }
                         }).call(this);
                       }
@@ -300,7 +367,7 @@ var PathFinding = System.define("PathFinding", {
                 }).call(this);
               }).call(this);
             };
-            return while$433;
+            return while$406;
           }).call(this);
         }
       }).call(this);
