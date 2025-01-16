@@ -24,7 +24,9 @@
           (lit Path-finding) "@crash-landed/systems/path-finding.js"
           (lit Velocity) "@shared/systems/velocity.js"
           noise "@shared/noise.js"
-          config "@crash-landed/config.js")
+          config "@crash-landed/config.js"
+          world-gen "@crash-landed/world-gen.js"
+          )
 
 (const p player)
 (const v p.velocity.vector)

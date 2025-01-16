@@ -14,4 +14,8 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   
   }));
 });
-},{}]},{},[]);
+var roads = require("@crash-landed/world-gen/modules/roads.js"),
+    fields = require("@crash-landed/world-gen/modules/fields.js");
+exports.roads = roads;
+exports.fields = fields;
+},{"@crash-landed/world-gen/modules/fields.js":"@crash-landed/world-gen/modules/fields.js","@crash-landed/world-gen/modules/roads.js":"@crash-landed/world-gen/modules/roads.js"}]},{},[]);

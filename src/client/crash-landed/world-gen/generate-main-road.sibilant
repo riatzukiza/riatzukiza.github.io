@@ -1,0 +1,20 @@
+(def generate-main-road ()
+  (var tile (.get tiles 0 0))
+  (var i 0)
+  (print tile.entity.ground.type)
+  (while (and (< i 256) (!= tile.entity.ground.type 'stone))
+         (incr i)
+
+         (assign tile.entity.ground.type 'stone)
+         (const v (get-tile-noise tile.x tile.y ))
+         (const direction (get-cardinal-direction-name v) )
+
+         (print v direction tile
+                tile.entity
+                tile.entity.ground
+                tile.entity.ground.type)
+
+         (assign tile (get tile direction))
+
+         (.despawn v)))
+(export generate-main-road)

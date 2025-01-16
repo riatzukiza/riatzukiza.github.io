@@ -14,8 +14,28 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   
   }));
 });
+var { 
+  Spawnable
+ } = require("@shared/data-structures/spawnable.js"),
+    { 
+  baseWeights
+ } = require("@crash-landed/world-gen/base-weights.js"),
+    { 
+  SuperPositionDistrobution,
+  ExpectedLikelyhoodGivenCurrentState,
+  CurrentDistrobution
+ } = require("@crash-landed/world-gen/probabilities.js"),
+    { 
+  TerrainModule
+ } = require("@crash-landed/world-gen/terrain-module.js"),
+    { 
+  PossibleState
+ } = require("@crash-landed/world-gen/possible-state.js"),
+    { 
+  summate
+ } = require("@shared/math/math.js");
 var calculateEntropy = (function calculateEntropy$(weights) {
-  /* calculate-entropy eval.sibilant:1:206 */
+  /* calculate-entropy eval.sibilant:14:0 */
 
   const sumOfWeights=summate(weights);
   const sumOfLogWeights=weights.reduce(((sum, weight) => {
@@ -25,112 +45,8 @@ var calculateEntropy = (function calculateEntropy$(weights) {
   }), 0);
   return (Math.log(sumOfWeights) - (sumOfLogWeights / sumOfWeights));
 });
-var PossibleState = Spawnable.define("PossibleState", { 
-  init( superPosition = this.superPosition,configuration = this.configuration,isPossible__QUERY = true ){ 
-    
-      this.superPosition = superPosition;this.configuration = configuration;this.isPossible__QUERY = isPossible__QUERY;
-      return this;
-    
-   },
-  get collapsedState(  ){ 
-    
-      return this.configuration.get("center");
-    
-   },
-  get tile(  ){ 
-    
-      return this.superPosition.tile;
-    
-   },
-  get likelyhood(  ){ 
-    
-      return (function() {
-        if (this._likelyhood) {
-          return this._likelyhood;
-        } else {
-          return this._likelyhood = (function() {
-            /* eval.sibilant:19:24 */
-          
-            return (this.superPosition.totalWeight / this.weight);
-          }).call(this);
-        }
-      }).call(this);
-    
-   },
-  get weight(  ){ 
-    
-      return (function() {
-        if (this._weight) {
-          return this._weight;
-        } else {
-          return this._weight = (function() {
-            /* eval.sibilant:19:24 */
-          
-            return this.calculateWeight();
-          }).call(this);
-        }
-      }).call(this);
-    
-   },
-  clear(  ){ 
-    
-      (function() {
-        if (this._weight) {
-          (function() {
-            if (this._weight.spawn) {
-              return this._weight.despawn();
-            } else if ((this._weight[0] && this._weight[0].spawn)) {
-              return this._weight.each(((el) => {
-              	
-                return el.despawn();
-              
-              }));
-            }
-          }).call(this);
-          return this._weight = null;
-        }
-      }).call(this);
-      (function() {
-        if (this._likelyhood) {
-          (function() {
-            if (this._likelyhood.spawn) {
-              return this._likelyhood.despawn();
-            } else if ((this._likelyhood[0] && this._likelyhood[0].spawn)) {
-              return this._likelyhood.each(((el) => {
-              	
-                return el.despawn();
-              
-              }));
-            }
-          }).call(this);
-          return this._likelyhood = null;
-        }
-      }).call(this);
-      this.superPosition = null;
-      return this.configuration = null;
-    
-   },
-  calculateWeight( configuration = this.configuration ){ 
-    
-      return configuration.reduce(((weight, tileType, direction) => {
-      	
-        return (weight + (configuration.weight * baseWeights[tileType]));
-      
-      }), 0);
-    
-   },
-  isValid__QUERY( tile = this.tile,configuration = this.configuration ){ 
-    
-      return configuration.every(((tileType, direction) => {
-      	
-        return (direction === "center" || tile[direction].entity.ground.type === tileType || !(tile[direction].entity.ground.type));
-      
-      }));
-    
-   }
- });
 var SuperPosition = Spawnable.define("SuperPosition", { 
-  init( cell = this.cell,possibleStates = TileChunk.chunks.map(((chunkType) => {
+  init( cell = this.cell,possibleStates = TerrainModule.modules.map(((chunkType) => {
   	
     return PossibleState.spawn(this, chunkType);
   
@@ -182,7 +98,7 @@ var SuperPosition = Spawnable.define("SuperPosition", {
           return this._probabilityDistrobution;
         } else {
           return this._probabilityDistrobution = (function() {
-            /* eval.sibilant:19:24 */
+            /* inc/misc.sibilant:1:3415 */
           
             return SuperPositionDistrobution.spawn(this);
           }).call(this);
@@ -197,7 +113,7 @@ var SuperPosition = Spawnable.define("SuperPosition", {
           return this._neighbors;
         } else {
           return this._neighbors = (function() {
-            /* eval.sibilant:19:24 */
+            /* inc/misc.sibilant:1:3415 */
           
             return this.cell.edges.map(((neighbor) => {
             	
@@ -353,4 +269,5 @@ var SuperPosition = Spawnable.define("SuperPosition", {
     
    }
  });
-},{}]},{},[]);
+exports.SuperPosition = SuperPosition;
+},{"@crash-landed/world-gen/base-weights.js":"@crash-landed/world-gen/base-weights.js","@crash-landed/world-gen/possible-state.js":"@crash-landed/world-gen/possible-state.js","@crash-landed/world-gen/probabilities.js":"@crash-landed/world-gen/probabilities.js","@crash-landed/world-gen/terrain-module.js":"@crash-landed/world-gen/terrain-module.js","@shared/data-structures/spawnable.js":"@shared/data-structures/spawnable.js","@shared/math/math.js":"@shared/math/math.js"}]},{},[]);

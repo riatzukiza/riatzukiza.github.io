@@ -26,9 +26,13 @@ var {
   System,
   Component
  } = require("@shared/ecs.js"),
+    { 
+  Heapable,
+  BinaryHeap
+ } = require("@shared/data-structures/trees/binary-heap.js"),
     config = require("@crash-landed/config.js");
 var removeFromArray = (function removeFromArray$(el, array) {
-  /* remove-from-array eval.sibilant:8:0 */
+  /* remove-from-array eval.sibilant:9:0 */
 
   const index=array.indexOf(el);
   return (function() {
@@ -38,7 +42,7 @@ var removeFromArray = (function removeFromArray$(el, array) {
   }).call(this);
 });
 var calculateDistanceCost = (function calculateDistanceCost$(start, end) {
-  /* calculate-distance-cost eval.sibilant:12:0 */
+  /* calculate-distance-cost eval.sibilant:13:0 */
 
   const startV=Vector.spawn(start.x, start.y);
   const endV=Vector.spawn(end.x, end.y);
@@ -56,11 +60,15 @@ var calculateDistanceCost = (function calculateDistanceCost$(start, end) {
 });
 const MOVE_STRAIGHT_COST=10;
 const MOVE_DIAGONAL_COST=14;
-var PathNode = Spawnable.define("PathNode", { 
-  mixin:[ Heapable ],
-  init( tile = this.tile,start = this.start,end = this.end,parent = null ){ 
+var PathNode = Heapable.define("PathNode", { 
+  get heap(  ){ 
     
-      this.tile = tile;this.start = start;this.end = end;this.parent = parent;
+      return this._heap.heap;
+    
+   },
+  init( tile = this.tile,start = this.start,end = this.end,_heap = this._heap ){ 
+    
+      this.tile = tile;this.start = start;this.end = end;this._heap = _heap;
       (function() {
         {
           return tile === end;
@@ -76,6 +84,19 @@ var PathNode = Spawnable.define("PathNode", {
     
    },
   _parent:null,
+  get index(  ){ 
+    
+      return this._index;
+    
+   },
+  set index( v ){ 
+    
+      if( isNaN(v) ){ 
+        throw (new Error("assigning NaN to index"))
+       };
+      return this._index = v;
+    
+   },
   get parent(  ){ 
     
       return this._parent;
@@ -83,42 +104,44 @@ var PathNode = Spawnable.define("PathNode", {
    },
   set parent( v ){ 
     
-      return (function() {
-        if (v !== this._parent) {
+      (function() {
+        if (this._gCost) {
           (function() {
-            if (this._gCost) {
-              (function() {
-                if (this._gCost.spawn) {
-                  return this._gCost.despawn();
-                } else if ((this._gCost[0] && this._gCost[0].spawn)) {
-                  return this._gCost.each(((el) => {
-                  	
-                    return el.despawn();
-                  
-                  }));
-                }
-              }).call(this);
-              return this._gCost = null;
+            if (this._gCost.spawn) {
+              return this._gCost.despawn();
+            } else if ((this._gCost[0] && this._gCost[0].spawn)) {
+              return this._gCost.each(((el) => {
+              	
+                return el.despawn();
+              
+              }));
             }
           }).call(this);
-          return (function() {
-            if (this._fCost) {
-              (function() {
-                if (this._fCost.spawn) {
-                  return this._fCost.despawn();
-                } else if ((this._fCost[0] && this._fCost[0].spawn)) {
-                  return this._fCost.each(((el) => {
-                  	
-                    return el.despawn();
-                  
-                  }));
-                }
-              }).call(this);
-              return this._fCost = null;
-            }
-          }).call(this);
+          return this._gCost = null;
         }
       }).call(this);
+      (function() {
+        if (this._fCost) {
+          (function() {
+            if (this._fCost.spawn) {
+              return this._fCost.despawn();
+            } else if ((this._fCost[0] && this._fCost[0].spawn)) {
+              return this._fCost.each(((el) => {
+              	
+                return el.despawn();
+              
+              }));
+            }
+          }).call(this);
+          return this._fCost = null;
+        }
+      }).call(this);
+      (function() {
+        if (this._parent) {
+          return BinaryHeap.updateByIndex(this.index, this.heap);
+        }
+      }).call(this);
+      return this._parent = v;
     
    },
   tile:null,
@@ -130,7 +153,7 @@ var PathNode = Spawnable.define("PathNode", {
           return this._gCost;
         } else {
           return this._gCost = (function() {
-            /* eval.sibilant:19:24 */
+            /* inc/misc.sibilant:1:3415 */
           
             (function() {
               if (this.parent === this) {
@@ -158,7 +181,7 @@ var PathNode = Spawnable.define("PathNode", {
           return this._fCost;
         } else {
           return this._fCost = (function() {
-            /* eval.sibilant:19:24 */
+            /* inc/misc.sibilant:1:3415 */
           
             return (this.gCost + this.hCost);
           }).call(this);
@@ -195,26 +218,58 @@ var PathNode = Spawnable.define("PathNode", {
       var path = List.spawn();
       var node = this;
       return (function() {
-        var while$414 = undefined;
+        var while$441 = undefined;
         while (node) {
-          while$414 = (function() {
+          while$441 = (function() {
             path.unshift(node);
             node = node.parent;
             return path;
           }).call(this);
         };
-        return while$414;
+        return while$441;
       }).call(this);
     
    },
   clear(  ){ 
     
-      this.parent = null;
+      (function() {
+        if (this._fCost) {
+          (function() {
+            if (this._fCost.spawn) {
+              return this._fCost.despawn();
+            } else if ((this._fCost[0] && this._fCost[0].spawn)) {
+              return this._fCost.each(((el) => {
+              	
+                return el.despawn();
+              
+              }));
+            }
+          }).call(this);
+          return this._fCost = null;
+        }
+      }).call(this);
+      (function() {
+        if (this._gCost) {
+          (function() {
+            if (this._gCost.spawn) {
+              return this._gCost.despawn();
+            } else if ((this._gCost[0] && this._gCost[0].spawn)) {
+              return this._gCost.each(((el) => {
+              	
+                return el.despawn();
+              
+              }));
+            }
+          }).call(this);
+          return this._gCost = null;
+        }
+      }).call(this);
+      this._parent = null;
       this.tile = null;
       this.next = null;
       this.start = null;
       this.end = null;
-      return this._hCost = null;
+      return this._index = null;
     
    }
  });
@@ -244,7 +299,7 @@ var CurrentPath = Component.define("CurrentPath", {
   activeNodes:(new Map()),
   get nextOpenNode(  ){ 
     
-      return this.open.getMin();
+      return this.open.extractMin();
     
    }
  });
@@ -319,9 +374,9 @@ var PathFinding = System.define("PathFinding", {
           }).call(this);
           c.open.insert(startingNode);
           return (function() {
-            var while$415 = undefined;
+            var while$442 = undefined;
             while (c.open.root) {
-              while$415 = (function() {
+              while$442 = (function() {
                 const currentNode=c.nextOpenNode;
                 return (function() {
                   if (currentNode.tile === c.end) {
@@ -329,7 +384,6 @@ var PathFinding = System.define("PathFinding", {
                     c.currentNode = c.nodeList.head;
                     return c.open.clear();
                   } else {
-                    removeFromArray(currentNode, c.open);
                     c.closed.add(currentNode.tile);
                     for (var neighbor of currentNode.tile.edges)
                     {
@@ -343,7 +397,7 @@ var PathFinding = System.define("PathFinding", {
                         var r = (function() {
                           /* inc/misc.sibilant:1:689 */
                         
-                          return PathNode.spawn(neighbor, c.start, c.end);
+                          return PathNode.spawn(neighbor, c.start, c.end, c.open);
                         }).call(this);
                         c.activeNodes.set(neighbor, r);
                         return r;
@@ -366,7 +420,7 @@ var PathFinding = System.define("PathFinding", {
                 }).call(this);
               }).call(this);
             };
-            return while$415;
+            return while$442;
           }).call(this);
         }
       }).call(this);

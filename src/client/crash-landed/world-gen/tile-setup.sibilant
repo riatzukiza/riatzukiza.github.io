@@ -1,5 +1,16 @@
+(require! (lit Super-position) "@crash-landed/world-gen/super-position.js"
+          (lit Tile-node ) "@shared/tiles.js"
+          (lit get-tile-noise) "@crash-landed/noise.js"
 
+          (lit Super-position-distrobution
+               Expected-likelyhood-given-current-state
+               Current-distrobution)
+          "@crash-landed/world-gen/probabilities.js"
+          (lit Item-group) "@crash-landed/units.js"
+          config "@crash-landed/config.js"
+          )
 (var collapsed-tiles 0)
+
 (def-generic Tile-node.collapse-wave-function ( (depth 0) (max-depth 2))
 
   (const super-position (.spawn Super-position this))
@@ -19,9 +30,9 @@
   ;;        )
   (incr collapsed-tiles)
   (if (!= Current-distrobution.total-instances collapsed-tiles)
-      (throw (new Error "more tiles counted in distrobution than have collapsed"))
-      )
+      (throw (new Error "more tiles counted in distrobution than have collapsed")))
   (.despawn super-position))
+
 (def-generic Tile-node.setup (x y)
   (const v (get-tile-noise x y))
 
@@ -56,9 +67,9 @@
 
   
   (const ground-stats this.entity.ground.stats)
-  (const x* (mod (Math.abs (Math.round v.x) ) (- ground-stats.sprite-coord-max-x
+  (const x* (mod (Math.abs (Math.round (* this.x v.x)) ) (- ground-stats.sprite-coord-max-x
                                                  ground-stats.sprite-coord-min-x)))
-  (const y* (mod (Math.abs (Math.round v.y) ) (- ground-stats.sprite-coord-max-y
+  (const y* (mod (Math.abs (Math.round (* this.y v.y)) ) (- ground-stats.sprite-coord-max-y
                                                  ground-stats.sprite-coord-min-y  )))
 
   ;; (const x* 1)

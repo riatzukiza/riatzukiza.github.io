@@ -5,7 +5,7 @@
   (visible-tiles (.spawn List))
   (gett world-pos this.entity.position-interface)
   (range 16)
-  (collapse-range 32)
+  (collapse-range 64)
   )
 (define Sight System
   (interface Field-of-view)

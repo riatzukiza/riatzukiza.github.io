@@ -47,7 +47,7 @@ var Tensor = Interface.define("Tensor", {
     
       "perform a kernel filter convolution of two tensors of the same rank '";
       return (function(m) {
-        /* inc/misc.sibilant:1:798 */
+        /* eval.sibilant:1:489 */
       
         for (var x = 0;x < width;++(x))
         {
@@ -120,7 +120,7 @@ var Tensor = Interface.define("Tensor", {
       return (function() {
         if (A.width === B.height) {
           return (function(m) {
-            /* inc/misc.sibilant:1:798 */
+            /* eval.sibilant:1:489 */
           
             for (var r = 0;r < A.width;++(r))
             {
@@ -162,7 +162,7 @@ var Tensor = Interface.define("Tensor", {
     
       "standard itterative operator, takes a produces a new Matrix from the successive\n"+"application of that function to every element of the input matrix";
       return (function(r) {
-        /* inc/misc.sibilant:1:798 */
+        /* eval.sibilant:1:489 */
       
         m.each(((v, x, y, m) => {
         	

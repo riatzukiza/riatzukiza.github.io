@@ -76,7 +76,8 @@ var {
   Velocity
  } = require("@shared/systems/velocity.js"),
     noise = require("@shared/noise.js"),
-    config = require("@crash-landed/config.js");
+    config = require("@crash-landed/config.js"),
+    worldGen = require("@crash-landed/world-gen.js");
 const p=player;
 const v=p.velocity.vector;
 const gameScale=config.gameScale;

@@ -14,14 +14,17 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   
   }));
 });
-const field=TileChunk.create(15.1, "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass");
+var { 
+  TerrainModule
+ } = require("@crash-landed/world-gen/terrain-module.js");
+const field=TerrainModule.create(15.1, "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass");
 exports.field = field;
-const meadow=TileChunk.create(5.1, "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass");
+const meadow=TerrainModule.create(5.1, "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass", "floweryGrass");
 exports.meadow = meadow;
-const grassyMeadow=TileChunk.create(5, "grass", "floweryGrass", "grass", "floweryGrass", "grass", "floweryGrass", "grass", "floweryGrass", "grass");
+const grassyMeadow=TerrainModule.create(5, "grass", "floweryGrass", "grass", "floweryGrass", "grass", "floweryGrass", "grass", "floweryGrass", "grass");
 exports.grassyMeadow = grassyMeadow;
-const otherGrassyMeadow=TileChunk.create(5.1, "floweryGrass", "grass", "floweryGrass", "grass", "floweryGrass", "grass", "floweryGrass", "grass", "floweryGrass");
+const otherGrassyMeadow=TerrainModule.create(5.1, "floweryGrass", "grass", "floweryGrass", "grass", "floweryGrass", "grass", "floweryGrass", "grass", "floweryGrass");
 exports.otherGrassyMeadow = otherGrassyMeadow;
-const loneFlower=TileChunk.create(0.1, "grass", "grass", "grass", "grass", "floweryGrass", "grass", "grass", "grass", "grass");
+const loneFlower=TerrainModule.create(0.1, "grass", "grass", "grass", "grass", "floweryGrass", "grass", "grass", "grass", "grass");
 exports.loneFlower = loneFlower;
-},{}]},{},[]);
+},{"@crash-landed/world-gen/terrain-module.js":"@crash-landed/world-gen/terrain-module.js"}]},{},[]);

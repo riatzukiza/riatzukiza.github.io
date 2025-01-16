@@ -3,126 +3,18 @@
 (include "kit/header" )
 (import-namespace kit)
 
-(include "kit-interface/header" )
-(import-namespace interface)
+(require! (lit Super-position) "@crash-landed/world-gen/super-position.js"
+          (lit Possible-state) "@crash-landed/world-gen/possible-state.js"
+          (lit Terrain-module) "@crash-landed/world-gen/terrain-module.js"
+          (lit base-weights) "@crash-landed/world-gen/base-weights.js"
+          probabilities "@crash-landed/world-gen/probabilities.js"
+          modules "@crash-landed/world-gen/modules.js")
 
-(include "../../../inc/rand.sibilant")
-(include "../../../inc/misc.sibilant")
-(include "../../../inc/docs.sibilant")
-(import-namespace docs)
-
-(set global 'mixin mixin 'create create)
-(def-lit-macro cached (name ...rest)
-  `(gett @name (if (get this (quote (quote @['* name])))
-                   (get this (quote (quote @['* name])))
-                   (set this (quote (quote @['* name]))
-                        (scoped ...@rest)))))
-(macro clear-cache (obj name)
-       `(when (get @obj (quote (quote @['* name])))
-          (if (get @obj (quote (quote @['* name]))
-                   'spawn)
-              (.despawn (get @obj (quote (quote @['* name]))))
-              (and (first (get @obj (quote (quote @['* name]))))
-                   (get (first (get @obj (quote (quote @['* name]))))
-                        'spawn))
-              ;; When this file works, we need to optimize the initial cached lit macro to consider array items that might need to be cached.
-              ;; it should check if there is an array, then if the array is empty.
-              (each (get @obj (quote (quote @['* name]))) (el)
-                    (.despawn el)))
-          (set @obj (quote (quote @['* name]))
-               null)))
-(def-lit-macro expects (name)
-  `(gett @name
-         (throw (new Type-error (+ this.name "expects a definition of" (quote @name))))))
-
-(macro every (array args ...rest) `(.every @array (=> @args ...@rest)))
-
-(macro reduce (array initial-value args ...rest) `(.reduce @array (=> @args ...@rest)
-                                                           @initial-value))
-
-(macro filter (array args ...rest) `(.filter @array (=> @args ...@rest) ))
-(macro sort (array args ...rest) `(.sort @array (=> @args ...@rest) ))
-
-(require! (lit game active-game-systems ) "@crash-landed/game.js")
-(require! (lit start-interface) "@crash-landed/dom.js"
-
-          (lit Physics) "@shared/systems/physics/index.js"
-          (lit Friction) "@crash-landed/forces.js"
-          (lit Position) "@shared/systems/position.js"
-          (lit Velocity) "@shared/systems/velocity.js"
-          (lit Player-sprites) "@crash-landed/systems/sprites/player.js"
-          (lit Floor-sprites) "@crash-landed/systems/sprites/floor.js"
-          (lit Props-sprites) "@crash-landed/systems/sprites/basic-props.js"
-          ;; (lit Cliff-sprites) "@crash-landed/systems/sprites/cliff.js"
-          (lit Sight) "@crash-landed/systems/sight.js"
-          (lit Tile-visibility) "@crash-landed/systems/visibility.js"
-          (lit Path-finding) "@crash-landed/systems/path-finding.js"
-          (lit Ground-types) "@crash-landed/systems/floor-type.js"
-          (lit Metabolisim) "@crash-landed/systems/metabolisim.js"
-          (lit Containers) "@crash-landed/systems/containers.js"
-          (lit Mental-state) "@crash-landed/systems/mental-state.js"
-          (lit Item) "@crash-landed/systems/item.js"
-          (lit Entity-group) "@shared/ecs/entity-group.js"
-          (lit Unit-group Unit-instance) "@shared/units.js"
-          (lit Item-group) "@crash-landed/units.js"
-          (lit Vector) "@shared/vectors.js"
-          (lit Trie) "@shared/data-structures/trees/trie.js"
-          (lit Spawnable) "@shared/data-structures/spawnable.js"
-          (lit get-tile-noise) "@crash-landed/noise.js"
-          (lit summate) "@shared/math/math.js"
-          noise "@shared/noise.js"
-          (lit get-cardinal-direction get-cardinal-direction-name) "@crash-landed/directions.js"
-
-          (lit tiles ) "@crash-landed/tiles.js"
-          config "@crash-landed/config.js"
-          )
-
-(require! (lit Tile-graph Tile-node) "@shared/tiles.js")
-
-
-
-
-(def generate-main-road ()
-  (var tile (.get tiles 0 0))
-  (var i 0)
-  (print tile.entity.ground.type)
-  (while (and (< i 256) (!= tile.entity.ground.type 'stone))
-         (incr i)
-
-         (assign tile.entity.ground.type 'stone)
-         (const v (get-tile-noise tile.x tile.y ))
-         (const direction (get-cardinal-direction-name v) )
-
-         (print v direction tile
-                tile.entity
-                tile.entity.ground
-                tile.entity.ground.type)
-
-         (assign tile (get tile direction))
-
-         (.despawn v)))
-(export generate-main-road)
-
-
-
-
-
-(var next-type 0)
-(var is-first-tile? true)
-
-(define base-weights Interface
-  (grass 100)
-  (stone 1)
-  (flowery-grass 100))
-
-
-
-
-
-
-
-
-
-
-
-
+(require "@crash-landed/world-gen/tile-setup.js")
+(export Super-position)
+(export Possible-state)
+(export Terrain-module)
+(export Terrain-module)
+(export base-weights)
+(export probabilities)
+(export modules)

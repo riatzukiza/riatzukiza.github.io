@@ -1,3 +1,5 @@
+(include "kit-interface/header" )
+(import-namespace interface)
 (define Terrain-module Interface
   (directions [['north-west 0]
                ['north 1]
@@ -8,8 +10,11 @@
                ['south-west 6]
                ['south 7]
                ['south-east 8]])
-  (chunks [])
+  (modules [])
+  (gett chunks this.modules)
+
   (weight 1)
+
   (define indexes Interface
     (north-west 0)
     (north 1)
@@ -23,7 +28,7 @@
 
   (init ((data []) (weight 1)) (.push this.chunks this))
 
-  (def create (weight (dots data)) ((create Tile-chunk) data weight))
+  (def create (weight (dots data)) ((create Terrain-module) data weight))
   (def get (direction) (get this.data (get this.indexes direction)))
 
   (def-generic each (f data directions)
@@ -39,3 +44,4 @@
   (def-generic every (f data directions)
     (every directions  (dir i)
            (f (get data (second dir)) (first dir) i))))
+(export Terrain-module)

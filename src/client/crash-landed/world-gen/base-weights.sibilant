@@ -1,0 +1,8 @@
+(include "kit-interface/header" )
+(import-namespace interface)
+
+(define base-weights Interface
+  (grass 20)
+  (stone 0.1)
+  (flowery-grass 2))
+(export base-weights)

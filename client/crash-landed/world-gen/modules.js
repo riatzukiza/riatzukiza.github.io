@@ -13,3 +13,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   
   }));
 });
+var roads = require("@crash-landed/world-gen/modules/roads.js"),
+    fields = require("@crash-landed/world-gen/modules/fields.js");
+exports.roads = roads;
+exports.fields = fields;

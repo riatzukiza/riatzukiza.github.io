@@ -26,7 +26,24 @@ var {
  } = require("@shared/data-structures/trees/red-black-tree.js"),
     config = require("@crash-landed/config.js");
 var TimeLimit = Component.define("TimeLimit", { 
-  docString:"Crash-Landed.systems.Time-limit",
+  docString:`
+  Crash-Landed/systems/Time-limit.md
+
+  # Crash-Landed.systems.Time-limit
+
+  ## arguments
+
+  Inherits shared.ecs.Component arguments
+
+  ## description
+
+  Sets somthing to happen at a given time.
+  Requires a 
+  \`duration\`
+  and
+  \`callback\``
+
+  ,
   addToTree(  ){ 
     
       return (function() {
@@ -109,7 +126,20 @@ var TimeLimit = Component.define("TimeLimit", {
  });
 exports.TimeLimit = TimeLimit;
 var Timer = System.define("Timer", { 
-  docString:"Crash-Landed.systems.Timer",
+  docString:`
+  Crash-Landed/systems/Timer.md
+
+  # Crash-Landed.systems.Timer
+
+  ## arguments
+
+  Inherits from shared.ecs.ComponentSystem
+
+  ## description
+
+  Allows timed events to occur for entities with time limit components`
+
+  ,
   get defaultDuration(  ){ 
     
       return 5000;

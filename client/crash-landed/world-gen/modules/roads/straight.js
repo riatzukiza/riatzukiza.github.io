@@ -14,13 +14,17 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   }));
 });
 var { 
-  roadWeight
+  roadWeight,
+  turnWeight
  } = require("@crash-landed/world-gen/modules/roads/weights.js");
-const horizontalRoad=TileChunk.create(roadWeight, "grass", "grass", "grass", "stone", "stone", "stone", "grass", "grass", "grass");
+var { 
+  TerrainModule
+ } = require("@crash-landed/world-gen/terrain-module.js");
+const horizontalRoad=TerrainModule.create(roadWeight, "grass", "grass", "grass", "stone", "stone", "stone", "grass", "grass", "grass");
 exports.horizontalRoad = horizontalRoad;
-const verticalRoad=TileChunk.create(roadWeight, "grass", "stone", "grass", "grass", "stone", "grass", "grass", "stone", "grass");
+const verticalRoad=TerrainModule.create(roadWeight, "grass", "stone", "grass", "grass", "stone", "grass", "grass", "stone", "grass");
 exports.verticalRoad = verticalRoad;
-const leftDiagonalRoad=TileChunk.create(turnWeight, "stone", "grass", "grass", "grass", "stone", "grass", "grass", "grass", "stone");
+const leftDiagonalRoad=TerrainModule.create(roadWeight, "stone", "grass", "grass", "grass", "stone", "grass", "grass", "grass", "stone");
 exports.leftDiagonalRoad = leftDiagonalRoad;
-const rightDiagonalRoad=TileChunk.create(turnWeight, "grass", "grass", "stone", "grass", "stone", "grass", "stone", "grass", "grass");
+const rightDiagonalRoad=TerrainModule.create(roadWeight, "grass", "grass", "stone", "grass", "stone", "grass", "stone", "grass", "grass");
 exports.rightDiagonalRoad = rightDiagonalRoad;

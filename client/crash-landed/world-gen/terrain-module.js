@@ -13,9 +13,17 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   
   }));
 });
+var { 
+  Interface
+ } = require("@kit-js/interface");
 var TerrainModule = Interface.define("TerrainModule", { 
   directions:[ [ "northWest", 0 ], [ "north", 1 ], [ "northEast", 2 ], [ "west", 3 ], [ "center", 4 ], [ "east", 5 ], [ "southWest", 6 ], [ "south", 7 ], [ "southEast", 8 ] ],
-  chunks:[],
+  modules:[],
+  get chunks(  ){ 
+    
+      return this.modules;
+    
+   },
   weight:1,
   indexes:Interface.define("indexes", { 
     northWest:0,
@@ -37,7 +45,7 @@ var TerrainModule = Interface.define("TerrainModule", {
    },
   create( weight,...data ){ 
     
-      return create(TileChunk)(data, weight);
+      return create(TerrainModule)(data, weight);
     
    },
   get( direction ){ 
@@ -73,3 +81,4 @@ var TerrainModule = Interface.define("TerrainModule", {
     
    }
  });
+exports.TerrainModule = TerrainModule;

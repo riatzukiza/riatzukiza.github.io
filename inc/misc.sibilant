@@ -94,3 +94,34 @@
 (macro while! (cond ...body)
         `(state while @cond  ...@(interleave ";\n" body))
         )
+
+(def-lit-macro cached (name ...rest)
+  `(gett @name (if (get this (quote (quote @['* name])))
+                   (get this (quote (quote @['* name])))
+                   (set this (quote (quote @['* name]))
+                        (scoped ...@rest)))))
+(macro clear-cache (obj name)
+       `(when (get @obj (quote (quote @['* name])))
+          (if (get @obj (quote (quote @['* name]))
+                   'spawn)
+              (.despawn (get @obj (quote (quote @['* name]))))
+              (and (first (get @obj (quote (quote @['* name]))))
+                   (get (first (get @obj (quote (quote @['* name]))))
+                        'spawn))
+              ;; When this file works, we need to optimize the initial cached lit macro to consider array items that might need to be cached.
+              ;; it should check if there is an array, then if the array is empty.
+              (each (get @obj (quote (quote @['* name]))) (el)
+                    (.despawn el)))
+          (set @obj (quote (quote @['* name]))
+               null)))
+(def-lit-macro expects (name)
+  `(gett @name
+         (throw (new Type-error (+ this.name " expects a definition of " (quote @name))))))
+
+(macro every (array args ...rest) `(.every @array (=> @args ...@rest)))
+
+(macro reduce (array initial-value args ...rest) `(.reduce @array (=> @args ...@rest)
+                                                           @initial-value))
+
+(macro filter (array args ...rest) `(.filter @array (=> @args ...@rest) ))
+(macro sort (array args ...rest) `(.sort @array (=> @args ...@rest) ))

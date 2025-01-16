@@ -1,6 +1,8 @@
-(require! (lit road-weight) "@crash-landed/world-gen/modules/roads/weights.js")
+(require! (lit road-weight turn-weight) "@crash-landed/world-gen/modules/roads/weights.js")
+
+(require! (lit Terrain-module) "@crash-landed/world-gen/terrain-module.js")
 (const horizontal-road
-       (.create Tile-chunk road-weight
+       (.create Terrain-module road-weight
                 'grass 'grass 'grass
                 'stone 'stone 'stone
                 'grass 'grass 'grass))
@@ -9,7 +11,7 @@
 (export horizontal-road)
 
 (const vertical-road
-       (.create Tile-chunk road-weight
+       (.create Terrain-module road-weight
                 'grass 'stone 'grass
                 'grass 'stone 'grass
                 'grass 'stone 'grass
@@ -17,17 +19,17 @@
 (export vertical-road)
 
 (const left-diagonal-road
-       (.create Tile-chunk
+       (.create Terrain-module
 
-                turn-weight
+                road-weight
                 'stone 'grass 'grass
                 'grass 'stone 'grass
                 'grass 'grass 'stone
                 ))
 (export left-diagonal-road)
 (const right-diagonal-road
-       (.create Tile-chunk
-                turn-weight
+       (.create Terrain-module
+                road-weight
                 'grass 'grass 'stone
                 'grass 'stone 'grass
                 'stone 'grass 'grass))

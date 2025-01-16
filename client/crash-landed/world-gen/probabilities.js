@@ -13,6 +13,21 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   
   }));
 });
+var { 
+  Spawnable
+ } = require("@shared/data-structures/spawnable.js"),
+    { 
+  TerrainModule
+ } = require("@crash-landed/world-gen/terrain-module.js"),
+    { 
+  PossibleState
+ } = require("@crash-landed/world-gen/possible-state.js"),
+    { 
+  baseWeights
+ } = require("@crash-landed/world-gen/base-weights.js"),
+    { 
+  summate
+ } = require("@shared/math/math.js");
 var ProbabilityDistrobution = Spawnable.define("ProbabilityDistrobution", { 
   get grass(  ){ 
     
@@ -69,6 +84,7 @@ var ProbabilityDistrobution = Spawnable.define("ProbabilityDistrobution", {
     
    }
  });
+exports.ProbabilityDistrobution = ProbabilityDistrobution;
 var SuperPositionDistrobution = ProbabilityDistrobution.define("SuperPositionDistrobution", { 
   init( superPosition = this.superPosition ){ 
     
@@ -97,6 +113,7 @@ var SuperPositionDistrobution = ProbabilityDistrobution.define("SuperPositionDis
     
    }
  });
+exports.SuperPositionDistrobution = SuperPositionDistrobution;
 var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", { 
   get totalWeight(  ){ 
     
@@ -105,7 +122,7 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
           return this._totalWeight;
         } else {
           return this._totalWeight = (function() {
-            /* eval.sibilant:19:24 */
+            /* inc/misc.sibilant:1:3415 */
           
             return summate(this.weights);
           }).call(this);
@@ -120,7 +137,7 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
           return this._weights;
         } else {
           return this._weights = (function() {
-            /* eval.sibilant:19:24 */
+            /* inc/misc.sibilant:1:3415 */
           
             return this.states.map(((state) => {
             	
@@ -139,9 +156,9 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
           return this._states;
         } else {
           return this._states = (function() {
-            /* eval.sibilant:19:24 */
+            /* inc/misc.sibilant:1:3415 */
           
-            return TileChunk.chunks.map(((chunkType) => {
+            return TerrainModule.modules.map(((chunkType) => {
             	
               return PossibleState.spawn(this, chunkType);
             
@@ -158,7 +175,7 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
           return this._grass;
         } else {
           return this._grass = (function() {
-            /* eval.sibilant:19:24 */
+            /* inc/misc.sibilant:1:3415 */
           
             return (this.states.reduce(((weight, state) => {
             	
@@ -183,7 +200,7 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
           return this._stone;
         } else {
           return this._stone = (function() {
-            /* eval.sibilant:19:24 */
+            /* inc/misc.sibilant:1:3415 */
           
             return (this.states.reduce(((weight, state) => {
             	
@@ -208,7 +225,7 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
           return this._floweryGrass;
         } else {
           return this._floweryGrass = (function() {
-            /* eval.sibilant:19:24 */
+            /* inc/misc.sibilant:1:3415 */
           
             return (this.states.reduce(((weight, state) => {
             	
@@ -327,6 +344,7 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
     
    }
  });
+exports.BaseDistrobution = BaseDistrobution;
 var CurrentDistrobution = ProbabilityDistrobution.define("CurrentDistrobution", { 
   grassInstances:0,
   stoneInstances:0,
@@ -352,6 +370,7 @@ var CurrentDistrobution = ProbabilityDistrobution.define("CurrentDistrobution", 
     
    }
  });
+exports.CurrentDistrobution = CurrentDistrobution;
 var ExpectedLikelyhoodGivenCurrentState = ProbabilityDistrobution.define("ExpectedLikelyhoodGivenCurrentState", { 
   base:BaseDistrobution,
   current:CurrentDistrobution,
@@ -419,3 +438,4 @@ var ExpectedLikelyhoodGivenCurrentState = ProbabilityDistrobution.define("Expect
     
    }
  });
+exports.ExpectedLikelyhoodGivenCurrentState = ExpectedLikelyhoodGivenCurrentState;

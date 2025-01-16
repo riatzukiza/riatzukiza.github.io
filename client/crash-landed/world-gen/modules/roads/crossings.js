@@ -16,5 +16,8 @@ Object.prototype.each = (function Object$prototype$each$(f) {
 var { 
   crossRoadWeight
  } = require("@crash-landed/world-gen/modules/roads/weights.js");
-const crossRoads=TileChunk.create(crossRoadsWeight, "grass", "stone", "grass", "stone", "stone", "stone", "grass", "stone", "grass");
+var { 
+  TerrainModule
+ } = require("@crash-landed/world-gen/terrain-module.js");
+const crossRoads=TerrainModule.create(crossRoadsWeight, "grass", "stone", "grass", "stone", "stone", "stone", "grass", "stone", "grass");
 exports.crossRoads = crossRoads;

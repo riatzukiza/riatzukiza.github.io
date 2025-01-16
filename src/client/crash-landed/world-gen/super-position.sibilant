@@ -1,3 +1,16 @@
+(require! (lit Spawnable) "@shared/data-structures/spawnable.js"
+          (lit base-weights) "@crash-landed/world-gen/base-weights.js"
+
+          (lit Super-position-distrobution
+               Expected-likelyhood-given-current-state
+               Current-distrobution)
+          "@crash-landed/world-gen/probabilities.js"
+          (lit Terrain-module) "@crash-landed/world-gen/terrain-module.js"
+          (lit Possible-state) "@crash-landed/world-gen/possible-state.js"
+          (lit summate) "@shared/math/math.js"
+
+
+          )
 (def calculate-entropy (weights)
   ;; (print "calculating" weights)
   (const sum-of-weights (summate weights))
@@ -6,35 +19,10 @@
                  (+ sum (* weight (Math.log weight)))))
   (- (Math.log sum-of-weights)
      (/ sum-of-log-weights sum-of-weights)))
-(define Possible-state Spawnable
 
-  (init (super-position configuration (is-possible? true)))
-
-  (gett collapsed-state (.get this.configuration 'center))
-  (gett tile this.super-position.tile)
-
-  (cached likelyhood (/ this.super-position.total-weight this.weight))
-  (cached weight (.calculate-weight this))
-
-  (def clear ()
-    (clear-cache this weight)
-    (clear-cache this likelyhood)
-    (assign this.super-position null
-            this.configuration null))
-  (def-generic calculate-weight (configuration)
-    (reduce configuration 0 ( weight tile-type direction )
-            (+ weight (* configuration.weight
-                         (get base-weights tile-type)))))
-
-  (def-generic is-valid? (tile configuration)
-    (every configuration (tile-type direction)
-           (or (= direction 'center)
-               (= (get tile direction 'entity 'ground 'type)
-                  tile-type)
-               (not (get tile direction 'entity 'ground 'type))))))
 (define Super-position Spawnable
   (init (cell (possible-states
-               (map Tile-chunk.chunks (chunk-type)
+               (map Terrain-module.modules (chunk-type)
                     (.spawn Possible-state
                             this
                             chunk-type)))))
@@ -131,3 +119,4 @@
   ;;     (assign this.possible-states (.get-valid-states this))
   ;;     (assign this.validated? true)))
   )
+(export Super-position)

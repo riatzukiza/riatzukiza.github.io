@@ -14,6 +14,9 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   
   }));
 });
+var { 
+  Spawnable
+ } = require("@shared/data-structures/spawnable.js");
 var Heapable = Spawnable.define("Heapable", { 
   get heap(  ){ 
     
@@ -82,20 +85,38 @@ var Heapable = Spawnable.define("Heapable", {
     
    }
  });
+exports.Heapable = Heapable;
 var BinaryHeap = Heapable.define("BinaryHeap", { 
   interface:Heapable,
-  priority:0,
-  init( priority = this.priority,heap = (this.heap || []) ){ 
+  get heap(  ){ 
     
-      this.priority = priority;this.heap = heap;
-      this.insert(this);
+      return this._heap;
+    
+   },
+  get index(  ){ 
+    
+      return this._index;
+    
+   },
+  set index( v ){ 
+    
+      return this._index = v;
+    
+   },
+  init( _heap = [] ){ 
+    
+      this._heap = _heap;
       return this;
     
    },
   clear(  ){ 
     
-      this.priority = null;
       return this.heap.length = 0;
+    
+   },
+  includes( heapable = this.heapable,heap = this.heap ){ 
+    
+      return heapable === heap[heapable.index];
     
    },
   getMin(  ){ 
@@ -103,18 +124,10 @@ var BinaryHeap = Heapable.define("BinaryHeap", {
       return this.root;
     
    },
-  updateByIndex( newPriority = this.newPriority,index = this.index,heap = this.heap ){ 
+  updateByIndex( index = this.index,heap = this.heap ){ 
     
-      const oldPriority=heap[index].priority;
-      heap[index] = "_priority";
-      heap[newPriority] = undefined;
-      return (function() {
-        if (newPriority < oldPriority) {
-          return this._siftUp(index);
-        } else {
-          return this._siftDown(index);
-        }
-      }).call(this);
+      const node=heap[index];
+      return this._siftUp(index, node.parentIndex, heap);
     
    },
   extractMin( minVal = this.minVal,heap = this.heap ){ 
@@ -122,12 +135,14 @@ var BinaryHeap = Heapable.define("BinaryHeap", {
       if( !(heap.length) ){ 
         return null;
        };
-      var last = heap.slice(-1)[0],
-          j = undefined;
-      heap[0] = last;
+      var newRoot = heap.slice(-1)[0];
+      heap[0] = newRoot;
       heap.slice(-1)[0] = minVal;
+      newRoot.index = 0;
+      minVal.index = null;
       heap.pop();
-      return this._siftDown(0);
+      this._siftDown(0, newRoot.leftIndex, newRoot.rightIndex);
+      return minVal;
     
    },
   insert( heapable = this.heapable,heap = this.heap ){ 
@@ -146,31 +161,31 @@ var BinaryHeap = Heapable.define("BinaryHeap", {
   _siftUp( index = this.index,parentIndex = this.parentIndex,heap = this.heap ){ 
     
       return (function() {
-        var while$393 = undefined;
-        while ((index !== 0 && heap[index].compareTo(heap[parentIndex]) === 1)) {
-          while$393 = (function() {
+        var while$501 = undefined;
+        while ((index !== 0 && heap[index].compareTo(heap[parentIndex]) === -1)) {
+          while$501 = (function() {
             const currentNode=heap[index];
             currentNode.index = parentIndex;
             const parentNode=heap[parentIndex];
-            parentNode = currentIndex;
+            parentNode.index = index;
             heap[index] = parentNode;
             heap[parentIndex] = currentNode;
             index = parentIndex;
             return parentIndex = heap[index].parentIndex;
           }).call(this);
         };
-        return while$393;
+        return while$501;
       }).call(this);
     
    },
   _siftDown( index = this.index,leftIndex = this.leftIndex,rightIndex = this.rightIndex,heap = this.heap ){ 
     
       return (function() {
-        var while$394 = undefined;
-        while (((leftIndex < heap.length && heap[index].compareTo(heap[leftIndex]) === 1) || (leftIndex < heap.length && heap[index].compareTo(heap[leftIndex]) === 1))) {
-          while$394 = (function() {
+        var while$502 = undefined;
+        while (((leftIndex < heap.length && heap[index].compareTo(heap[leftIndex]) === 1) || (rightIndex < heap.length && heap[index].compareTo(heap[rightIndex]) === 1))) {
+          while$502 = (function() {
             const smallestChildIndex=(function() {
-              if ((rightIndex >= heap.length || heap[leftIndex].priority.compareTo(heap[rightIndex].priority) === -1)) {
+              if ((rightIndex >= heap.length || heap[leftIndex].compareTo(heap[rightIndex]) === -1)) {
                 return leftIndex;
               } else {
                 return rightIndex;
@@ -187,9 +202,10 @@ var BinaryHeap = Heapable.define("BinaryHeap", {
             return rightIndex = smallestNode.rightIndex;
           }).call(this);
         };
-        return while$394;
+        return while$502;
       }).call(this);
     
    }
  });
-},{}]},{},[]);
+exports.BinaryHeap = BinaryHeap;
+},{"@shared/data-structures/spawnable.js":"@shared/data-structures/spawnable.js"}]},{},[]);

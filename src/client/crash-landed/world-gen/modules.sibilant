@@ -1,0 +1,6 @@
+(require! roads "@crash-landed/world-gen/modules/roads.js"
+          fields "@crash-landed/world-gen/modules/fields.js")
+
+
+(export roads)
+(export fields)

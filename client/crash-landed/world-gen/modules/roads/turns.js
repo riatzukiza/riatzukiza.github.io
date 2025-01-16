@@ -14,13 +14,16 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   }));
 });
 var { 
-  crossRoadWeight
+  turnWeight
  } = require("@crash-landed/world-gen/modules/roads/weights.js");
-const northEastTurn=TileChunk.create(turnWeight, "grass", "grass", "grass", "grass", "stone", "stone", "grass", "stone", "grass");
+var { 
+  TerrainModule
+ } = require("@crash-landed/world-gen/terrain-module.js");
+const northEastTurn=TerrainModule.create(turnWeight, "grass", "grass", "grass", "grass", "stone", "stone", "grass", "stone", "grass");
 exports.northEastTurn = northEastTurn;
-const northWestTurn=TileChunk.create(turnWeight, "grass", "grass", "grass", "stone", "stone", "grass", "grass", "stone", "grass");
+const northWestTurn=TerrainModule.create(turnWeight, "grass", "grass", "grass", "stone", "stone", "grass", "grass", "stone", "grass");
 exports.northWestTurn = northWestTurn;
-const southWestTurn=TileChunk.create(turnWeight, "grass", "stone", "grass", "stone", "stone", "grass", "grass", "grass", "grass");
+const southWestTurn=TerrainModule.create(turnWeight, "grass", "stone", "grass", "stone", "stone", "grass", "grass", "grass", "grass");
 exports.southWestTurn = southWestTurn;
-const southEastTurn=TileChunk.create(roadWeight, "grass", "stone", "grass", "grass", "stone", "stone", "grass", "grass", "grass");
+const southEastTurn=TerrainModule.create(turnWeight, "grass", "stone", "grass", "grass", "stone", "stone", "grass", "grass", "grass");
 exports.southEastTurn = southEastTurn;

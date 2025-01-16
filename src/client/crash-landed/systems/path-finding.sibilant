@@ -2,6 +2,7 @@
           (lit List) "@shared/data-structures/list.js"
           (lit Vector) "@shared/vectors.js"
           (lit System Component) "@shared/ecs.js"
+          (lit Heapable Binary-heap) "@shared/data-structures/trees/binary-heap.js"
           config "@crash-landed/config.js"
 
           )
@@ -33,9 +34,10 @@
 (const MOVE_STRAIGHT_COST 10)
 (const MOVE_DIAGONAL_COST 14)
 
-(define Path-node Spawnable
-  (mixin [Heapable])
-  (init (tile start end (parent null))
+(define Path-node Heapable
+  (gett heap this.*heap.heap)
+  (init (tile start end
+              *heap)
         (if (= tile end))
         (assign this.*h-cost (calculate-distance-cost
                               tile
@@ -43,11 +45,17 @@
         (if (isNaN this.*h-cost)
             (throw (new Error "Got a non number h cost"))))
   (*parent null)
+  (gett index this.*index)
+  (sett index v (if! (isNaN v)
+                    (throw (new Error "assigning NaN to index")))
+        (assign this.*index v))
+
   (gett parent this.*parent)
-  (sett parent v (when (!= v this.*parent)
-                   (clear-cache this g-cost)
-                   (clear-cache this f-cost)
-                   ))
+  (sett parent v
+        (clear-cache this g-cost)
+        (clear-cache this f-cost)
+        (if this.*parent (.update-by-index Binary-heap this.index this.heap))
+        (assign this.*parent v))
   (tile null)
   (next null)
   (cached g-cost
@@ -80,15 +88,14 @@
           (assign node node.parent)
           path))
   (def clear ()
-    (set this 'parent null
+    (clear-cache this f-cost)
+    (clear-cache this g-cost)
+    (set this '*parent null
          'tile null
          'next null
          'start null
          'end null
-         '*h-cost null
-         )
-    )
-  )
+         '*index null)))
 
 (define Current-path Component
   (start null)
@@ -103,7 +110,7 @@
   (closed (new Set))
   (current-node null)
   (active-nodes (new Map))
-  (gett next-open-node (.get-min this.open))
+  (gett next-open-node (.extract-min this.open))
   )
 
 (define Path-finding System
@@ -187,7 +194,8 @@
                                      (.spawn Path-node c.start
                                              c.start
                                              c.end
-                                             c.open)))
+                                             c.open
+                                             )))
 
       (.insert c.open starting-node)
       (while c.open.root
@@ -196,8 +204,7 @@
             (do (assign c.node-list current-node.path-to)
                 (assign c.current-node c.node-list.head)
               (.clear c.open))
-            (do (remove-from-array  current-node c.open)
-                (.add c.closed current-node.tile )
+            (do (.add c.closed current-node.tile )
               (for-of! neighbor current-node.tile.edges
                        (if! (.has c.closed neighbor)
                             continue)
@@ -206,7 +213,8 @@
                                         neighbor
                                         (.spawn Path-node neighbor
                                                 c.start
-                                                c.end)))
+                                                c.end
+                                                c.open)))
 
 
                        

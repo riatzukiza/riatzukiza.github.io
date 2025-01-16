@@ -1,3 +1,10 @@
+(require! (lit Spawnable) "@shared/data-structures/spawnable.js"
+          (lit Terrain-module) "@crash-landed/world-gen/terrain-module.js"
+          (lit Possible-state) "@crash-landed/world-gen/possible-state.js"
+          (lit base-weights) "@crash-landed/world-gen/base-weights.js"
+
+          (lit summate) "@shared/math/math.js"
+          )
 (define Probability-distrobution Spawnable
 
   (expects grass)
@@ -21,18 +28,20 @@
              (if! (> s r) (return type-name)))
     (throw (new Error "You screwed up your math, these probabilities don't add up to 1.")))
   (def clear () (set this 'grass 0 'stone 0 'flowery-grass 0)))
+(export Probability-distrobution)
 (define Super-position-distrobution Probability-distrobution
   (init (super-position))
   (gett grass (.get-likelyhood-of-state this.super-position 'grass))
   (gett stone (.get-likelyhood-of-state this.super-position 'stone))
   (gett flowery-grass (.get-likelyhood-of-state this.super-position 'flowery-grass))
   (def clear () (assign this.super-position null)))
+(export Super-position-distrobution)
 
 (define Base-distrobution Probability-distrobution
   (cached total-weight (summate this.weights))
   (cached weights (map this.states (state)
                        (* state.weight (get base-weights state.collapsed-state))))
-  (cached states (map Tile-chunk.chunks (chunk-type)
+  (cached states (map Terrain-module.modules (chunk-type)
                       (.spawn Possible-state this chunk-type)))
   (cached grass (/ (reduce this.states 0 (weight state)
                            (if (= state.collapsed-state 'grass)
@@ -56,6 +65,7 @@
     (clear-cache this grass)
     (clear-cache this stone)
     (clear-cache this flowery-grass)))
+(export Base-distrobution)
 
 (define Current-distrobution Probability-distrobution
 
@@ -69,6 +79,7 @@
   (gett grass (/ this.grass-instances this.total-instances))
   (gett stone (/ this.stone-instances this.total-instances))
   (gett flowery-grass (/ this.flowery-grass-instances this.total-instances)))
+(export Current-distrobution)
 
 (define Expected-likelyhood-given-current-state Probability-distrobution
   (base Base-distrobution)
@@ -91,4 +102,5 @@
   (gett grass (/ this.grass-correction this.total-corrected))
   (gett stone (/ this.stone-correction this.total-corrected))
   (gett flowery-grass (/ this.flowery-grass-correction this.total-corrected)))
+(export Expected-likelyhood-given-current-state)
 
