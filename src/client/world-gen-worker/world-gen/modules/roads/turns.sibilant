@@ -1,0 +1,34 @@
+
+(require! (lit turn-weight) "@crash-landed/world-gen/modules/roads/weights.js")
+
+(require! (lit Terrain-module) "@crash-landed/world-gen/terrain-module.js")
+
+
+(const north-east-turn (.create Terrain-module turn-weight
+                                'grass 'grass 'grass
+                                'grass 'stone 'stone
+                                'grass 'stone 'grass))
+(export north-east-turn)
+
+
+(const north-west-turn (.create Terrain-module turn-weight 
+                                'grass 'grass 'grass
+                                'stone 'stone 'grass
+                                'grass 'stone 'grass))
+(export north-west-turn)
+
+
+
+(const south-west-turn (.create Terrain-module  turn-weight
+                                'grass 'stone 'grass
+                                'stone 'stone 'grass
+                                'grass 'grass 'grass))
+(export south-west-turn)
+
+
+
+(const south-east-turn (.create Terrain-module turn-weight
+                                'grass 'stone 'grass
+                                'grass 'stone 'stone
+                                'grass 'grass 'grass))
+(export south-east-turn)

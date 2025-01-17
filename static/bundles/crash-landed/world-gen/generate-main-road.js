@@ -21,9 +21,9 @@ var generateMainRoad = (function generateMainRoad$() {
   var i = 0;
   console.log(tile.entity.ground.type);
   return (function() {
-    var while$217 = undefined;
+    var while$171 = undefined;
     while ((i < 256 && tile.entity.ground.type !== "stone")) {
-      while$217 = (function() {
+      while$171 = (function() {
         ((i)++);
         tile.entity.ground.type = "stone";
         const v=getTileNoise(tile.x, tile.y);
@@ -33,7 +33,7 @@ var generateMainRoad = (function generateMainRoad$() {
         return v.despawn();
       }).call(this);
     };
-    return while$217;
+    return while$171;
   }).call(this);
 });
 exports.generateMainRoad = generateMainRoad;

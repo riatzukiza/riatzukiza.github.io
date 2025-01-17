@@ -38,11 +38,6 @@ TileNode.collapseWaveFunction = (function TileNode$collapseWaveFunction$(depth =
   const superPosition=SuperPosition.spawn(this);
   superPosition.collapse();
   ((collapsedTiles)++);
-  (function() {
-    if (CurrentDistrobution.totalInstances !== collapsedTiles) {
-      throw (new Error("more tiles counted in distrobution than have collapsed"))
-    }
-  }).call(this);
   return superPosition.despawn();
 });
 TileNode.setup = (function TileNode$setup$(x = this.x, y = this.y) {

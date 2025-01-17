@@ -41,21 +41,15 @@
                this.south-east
                this.south-west
                ])
-  (def-generic traverse-area (f n (d 0) (visited (new Set)))
-    (f this d n visited)
+  (def-generic traverse-area (f n  (visited (new Set)))
     (.add visited this)
-    (if! (> n 0)
-        (for-of! neighbor this.edges
-                 (if (not (.has visited neighbor))
-                     (.traverse-area neighbor f
-                                     (- n 1)
-                                     (+ d 1)
-                                     visited)))
-        )
+    (for! (x (- this.x n)) (< x (+ this.x n) ) (++ x)
+          (for! (y (- this.y n)) (< y (+ this.y n) ) (++ y)
+                (const tile (.get this.graph x y))
+                (f tile x y)
+                ))
 
-    
-    this
-    ))
+    this))
 
 (export Tile-node)
 (define Tile-graph Spawnable

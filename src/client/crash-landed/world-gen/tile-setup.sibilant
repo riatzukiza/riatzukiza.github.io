@@ -29,9 +29,8 @@
   ;;             (expected Expected-likelyhood-given-current-state.flowery-grass))
   ;;        )
   (incr collapsed-tiles)
-  (if (!= Current-distrobution.total-instances collapsed-tiles)
-      (throw (new Error "more tiles counted in distrobution than have collapsed")))
-  (.despawn super-position))
+  (.despawn super-position)
+  )
 
 (def-generic Tile-node.setup (x y)
   (const v (get-tile-noise x y))

@@ -22,6 +22,9 @@ var {
  } = require("@shared/data-structures/list.js");
 var FieldOfView = Component.define("FieldOfView", { 
   visibleTiles:List.spawn(),
+  unloadedTiles:List.spawn(),
+  loadingTiles:(new Set()),
+  visibleUnloadedTiles:List.spawn(),
   get worldPos(  ){ 
     
       return this.entity.positionInterface;
@@ -48,14 +51,17 @@ var Sight = System.define("Sight", {
       
       }));
       c.visibleTiles.clear();
+      c.unloadedTiles.clear();
+      c.loadingVisibleTiles = false;
       for (var x = (occupiedTile.x - c.collapseRange);x < (occupiedTile.x + c.collapseRange);++(x))
       {
       for (var y = (occupiedTile.y - c.collapseRange);y < (occupiedTile.y + c.collapseRange);++(y))
       {
       const tile=this.tiles.get(x, y);;
       (function() {
-        if (!(tile.entity.ground.type)) {
-          return tile.setup();
+        if ((!(c.loadingTiles.has(tile)) && !(tile.entity.ground.type))) {
+          c.loadingTiles.add(tile);
+          return c.unloadedTiles.push(tile);
         }
       }).call(this)
       }
@@ -67,6 +73,11 @@ var Sight = System.define("Sight", {
       for (var y = (occupiedTile.y - c.range);y < (occupiedTile.y + c.range);++(y))
       {
       const visibleTile=this.tiles.get(x, y);;
+      (function() {
+        if (c.loadingTiles.has(visibleTile)) {
+          return c.loadingVisibleTiles = true;
+        }
+      }).call(this);
       c.visibleTiles.push(visibleTile);
       visibleTile.entity.visibleStatus.visible__QUERY = true;
       }

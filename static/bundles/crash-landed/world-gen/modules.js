@@ -15,7 +15,8 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   }));
 });
 var roads = require("@crash-landed/world-gen/modules/roads.js"),
-    fields = require("@crash-landed/world-gen/modules/fields.js");
+    fields = require("@crash-landed/world-gen/modules/fields.js"),
+    exclusions = require("@crash-landed/world-gen/modules/exclusions.js");
 exports.roads = roads;
 exports.fields = fields;
-},{"@crash-landed/world-gen/modules/fields.js":"@crash-landed/world-gen/modules/fields.js","@crash-landed/world-gen/modules/roads.js":"@crash-landed/world-gen/modules/roads.js"}]},{},[]);
+},{"@crash-landed/world-gen/modules/exclusions.js":"@crash-landed/world-gen/modules/exclusions.js","@crash-landed/world-gen/modules/fields.js":"@crash-landed/world-gen/modules/fields.js","@crash-landed/world-gen/modules/roads.js":"@crash-landed/world-gen/modules/roads.js"}]},{},[]);

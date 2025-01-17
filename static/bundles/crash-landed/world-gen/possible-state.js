@@ -34,7 +34,7 @@ var PossibleState = Spawnable.define("PossibleState", {
    },
   get tile(  ){ 
     
-      return this.superPosition.tile;
+      return this.superPosition.cell;
     
    },
   get likelyhood(  ){ 
@@ -116,9 +116,12 @@ var PossibleState = Spawnable.define("PossibleState", {
    },
   isValid__QUERY( tile = this.tile,configuration = this.configuration ){ 
     
+      if( !(this.weight) ){ 
+        return false;
+       };
       return configuration.every(((tileType, direction) => {
       	
-        return (direction === "center" || tile[direction].entity.ground.type === tileType || !(tile[direction].entity.ground.type));
+        return (direction === "center" || tile[direction].type === tileType || !(tile[direction].type));
       
       }));
     

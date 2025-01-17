@@ -8,7 +8,8 @@
           (lit Terrain-module) "@crash-landed/world-gen/terrain-module.js"
           (lit base-weights) "@crash-landed/world-gen/base-weights.js"
           probabilities "@crash-landed/world-gen/probabilities.js"
-          modules "@crash-landed/world-gen/modules.js")
+          modules "@crash-landed/world-gen/modules.js"
+          )
 
 (require "@crash-landed/world-gen/tile-setup.js")
 (export Super-position)

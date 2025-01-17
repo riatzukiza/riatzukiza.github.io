@@ -129,7 +129,7 @@ var PlayerUnit = UnitInstance.define("PlayerUnit", {
    },
   get los(  ){ 
     
-      return this.entity.lineOfSight;
+      return this.entity.fieldOfView;
     
    },
   get velocity(  ){ 

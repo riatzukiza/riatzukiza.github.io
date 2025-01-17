@@ -1,0 +1,66 @@
+(require! (lit Thread) "@shared/worker.js"
+
+          )
+(define Tile-generator Thread
+  (code `((->
+
+           (var loader null)
+           (def self.onmessage (m)
+             (if (= m.data.type "load")
+                 (do
+                  (import-scripts ...m.data.scripts)
+
+                  (require "@crash-landed/hack.js")
+                   (require! (lit Tile-loader) "@crash-landed/world-gen/tile-loader.js"
+
+                             modules "@crash-landed/world-gen/modules.js")
+                   (assign loader (.spawn Tile-loader))
+
+                   (.post-message self (lit (type "done") (message "done loading"))))
+                 (= m.data.type "tile")
+                 (do
+                  (require!
+
+                   (lit Super-position) "@crash-landed/world-gen/super-position.js"
+                   )
+                  (const tile (.get loader m.data.x m.data.y))
+
+                     (const s (.spawn Super-position tile))
+                   (.collapse s)
+                   (.despawn s)
+                   (.post-message self (lit (type 'collapsed-tile)
+                                            (tile tile.data)))
+
+                   )
+
+                 (= m.data.type "tiles")
+                 (do
+                  (require!
+
+                   (lit Super-position) "@crash-landed/world-gen/super-position.js"
+                   )
+                  (.post-message
+                   self
+                   (lit (type 'collapsed-tiles)
+                        (tiles (map m.data.tiles (t)
+                                    (const tile (.get loader t.x t.y))
+
+                                    (const s (.spawn Super-position tile))
+                                    (.collapse s)
+                                    (.despawn s)
+                                    tile.data
+                                    ))))))))))
+  (def load ()
+    (.send this (lit (type "load")
+                     (scripts window.*worker-scripts)))
+    )
+  (def get-tile (x y)
+    (.send this (lit (type "tile")
+                     x y)))
+  (def get-tiles (tiles)
+    (.send this (lit (type "tiles")
+                     tiles)))
+  )
+
+(export Tile-generator)
+

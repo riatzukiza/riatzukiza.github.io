@@ -51,7 +51,7 @@ var calculateDistanceCost = (function calculateDistanceCost$(start, end) {
   startV.despawn();
   endV.despawn();
   return ((function() {
-    if (end.entity.visibleStatus.explored__QUERY) {
+    if ((end.entity.visibleStatus.explored__QUERY && end.entity.ground.stats)) {
       return (2 * (1 / end.entity.ground.stats.movementSpeed));
     } else {
       return 1;
@@ -218,15 +218,15 @@ var PathNode = Heapable.define("PathNode", {
       var path = List.spawn();
       var node = this;
       return (function() {
-        var while$441 = undefined;
+        var while$361 = undefined;
         while (node) {
-          while$441 = (function() {
+          while$361 = (function() {
             path.unshift(node);
             node = node.parent;
             return path;
           }).call(this);
         };
-        return while$441;
+        return while$361;
       }).call(this);
     
    },
@@ -323,7 +323,7 @@ var PathFinding = System.define("PathFinding", {
               const posV=Vector.spawn(pos.x, pos.y);
               const tilePosV=Vector.spawn(c.nextNode.item.tile.worldPos.x, c.nextNode.item.tile.worldPos.y);
               const d=tilePosV.distanceTo(posV);
-              vel.setLength((occupiedTile.entity.ground.stats.movementSpeed * (0.5 * config.gameScale)));
+              vel.setLength((occupiedTile.entity.ground.stats.movementSpeed * (0.1 * config.gameScale)));
               vel.setAngle(d.getAngle());
               d.despawn();
               posV.despawn();
@@ -374,9 +374,9 @@ var PathFinding = System.define("PathFinding", {
           }).call(this);
           c.open.insert(startingNode);
           return (function() {
-            var while$442 = undefined;
+            var while$362 = undefined;
             while (c.open.root) {
-              while$442 = (function() {
+              while$362 = (function() {
                 const currentNode=c.nextOpenNode;
                 return (function() {
                   if (currentNode.tile === c.end) {
@@ -420,7 +420,7 @@ var PathFinding = System.define("PathFinding", {
                 }).call(this);
               }).call(this);
             };
-            return while$442;
+            return while$362;
           }).call(this);
         }
       }).call(this);

@@ -1,2 +1,48 @@
-(define Worker Spawnable
-  (init ))
+(require! (lit Spawnable) "@shared/data-structures/spawnable.js"
+          (lit Event-emitter) "kit-events")
+(define Web-worker Spawnable
+
+  (init ((events ((create Event-emitter)))))
+  (cached worker (new Worker this.url))
+  (expects url)
+
+  (def clear ()
+    (clear-cache this blob)
+    (clear-cache this worker)
+    (assign this.code null))
+  (def start ()
+    (const self this)
+    (def this.worker.onmessage (m)
+      (.emit self.events 'message m.data))
+    (def this.worker.onerror (e)
+      (.emit self.events 'error e.message))
+    (.emit self.events 'start)
+    )
+
+  (def *send (data) (.post-message this.worker data))
+  (expects send)
+  )
+(export Worker)
+(define Inline-worker Web-worker
+  (expects code)
+  (cached url  (window.URL.create-objectURL this.blob))
+  (cached blob (new Blob [this.code] (lit (type "text/javascript")))))
+(export Inline-worker)
+
+(define Thread Inline-worker
+  (init (code (promise (Promise.resolve)))
+        (.call Web-worker.init this))
+  (def send (data)
+    (assign this.promise
+            (then this.promise  _
+                  (print "sending message" data)
+                  (.*send this data)
+                  (make-promise 
+                   (.once this.events 'message
+                          (=> (data)
+                              (resolve data)))
+                   (.once this.events 'error
+                          (=> (message)
+                              (reject message))))))))
+
+(export Thread)

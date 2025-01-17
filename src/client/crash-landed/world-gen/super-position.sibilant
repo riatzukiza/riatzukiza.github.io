@@ -27,24 +27,31 @@
                             this
                             chunk-type)))))
 
-  (gett state this.cell.entity.ground.type)
-  (sett state s (assign this.cell.entity.ground.type s))
+
+  (gett state this.cell.type)
+  (sett state v (assign this.cell.type v))
+
   (gett weights
-        ;; (.eliminate-invalid-states this)
-        ;; (map this.possible-states (state)
-        ;;      state.weight)
-
         (map this.valid-states (state)
-             state.weight)
-
-        )
+             state.weight))
   (gett total-weight (summate this.weights))
   (gett entropy (const e (calculate-entropy this.weights))
         (if (isNaN e)
             (throw (new Error "entropy is NaN")))
         e)
   (cached probability-distrobution (.spawn Super-position-distrobution this))
-  (cached neighbors (map this.cell.edges (neighbor)
+  (gett edges
+        (const tile this.cell)
+        [tile.north
+         tile.south
+         tile.east
+         tile.west
+         tile.north-east
+         tile.north-west
+         tile.south-east
+         tile.south-west]
+        )
+  (cached neighbors (map this.edges (neighbor)
                          (.spawn Super-position neighbor)))
   (gett valid-states (.get-valid-states this))
   (gett collapsed-neighbors

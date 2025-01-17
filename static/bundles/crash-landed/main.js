@@ -75,9 +75,14 @@ var {
     { 
   Velocity
  } = require("@shared/systems/velocity.js"),
+    { 
+  getTileNoise
+ } = require("@crash-landed/noise.js"),
+    { 
+  ItemGroup
+ } = require("@crash-landed/units.js"),
     noise = require("@shared/noise.js"),
-    config = require("@crash-landed/config.js"),
-    worldGen = require("@crash-landed/world-gen.js");
+    config = require("@crash-landed/config.js");
 const p=player;
 const v=p.velocity.vector;
 const gameScale=config.gameScale;
@@ -89,26 +94,107 @@ Velocity.realTime__QUERY = false;
 Position.wraps__QUERY = false;
 Sight.registerTileGraph(tiles);
 p.sprite.selectSequence("east");
-game.start();
-game.events.on("tick", ((t) => {
-	
+var { 
+  TileGenerator
+ } = require("@crash-landed/world-gen/worker.js");
+const generator=TileGenerator.spawn();
+var setupTile = (function setupTile$(tileData) {
+  /* setup-tile eval.sibilant:71:0 */
+
+  const tile=tiles.get(tileData.x, tileData.y);
+  tile.entity.ground.type = tileData.type;
+  const v=getTileNoise(tile.x, tile.y);
   (function() {
-    if ((t % 10) === 0) {
-      return p.sprite.step();
+    if (((v.x + v.y) > 16 && tile.entity.ground.type === "floweryGrass")) {
+      const item=ItemGroup.spawn();
+      item.physics.scale = config.gameScale;
+      const tileContainer=tile.entity.container;
+      item.pos.x = tile.worldPos.x;
+      item.pos.y = tile.worldPos.y;
+      return tileContainer.add(item.entity);
     }
   }).call(this);
-  const directionName=getCardinalDirectionName(v);
-  return p.sprite.selectSequence(directionName);
-
-})).once("error", ((err) => {
+  const groundStats=tile.entity.ground.stats;
+  const x_=(Math.abs(Math.round((tile.x * v.x))) % (groundStats.spriteCoordMaxX - groundStats.spriteCoordMinX));
+  const y_=(Math.abs(Math.round((tile.y * v.y))) % (groundStats.spriteCoordMaxY - groundStats.spriteCoordMinY));
+  const coords=[ (x_ + tile.entity.ground.stats.spriteCoordMinX), (y_ + tile.entity.ground.stats.spriteCoordMinY) ];
+  return tile.entity.floorSprite.selectTile(...coords);
+});
+generator.start();
+generator.load().then(((nil) => {
 	
-  console.log("error on", "tick", "of", "game.events", "given", "t()");
-  return console.log(err);
+  const initialTiles=[];
+  tiles.get(0, 0).traverseArea(((tile) => {
+  	
+    return initialTiles.push({ 
+      x:tile.x,
+      y:tile.y
+     });
+  
+  }), 64);
+  return generator.getTiles(initialTiles);
+
+})).then(((initialTiles) => {
+	
+  initialTiles.tiles.each(((data) => {
+  	
+    return setupTile(data);
+  
+  }));
+  game.start();
+  return game.events.on("tick", ((t) => {
+  	
+    (function() {
+      if ((t % 10) === 0) {
+        return p.sprite.step();
+      }
+    }).call(this);
+    const directionName=getCardinalDirectionName(v);
+    (function() {
+      if (p.los) {
+        const safeTiles=[];
+        p.los.unloadedTiles.each(((tile) => {
+        	
+          return (function() {
+            if (!(tile.sent__QUERY)) {
+              safeTiles.push({ 
+                x:tile.x,
+                y:tile.y
+               });
+              return tile.sent__QUERY = true;
+            }
+          }).call(this);
+        
+        }));
+        return (function() {
+          if (safeTiles.length) {
+            return generator.getTiles(safeTiles).then(((data) => {
+            	
+              return data.tiles.each(((tileData) => {
+              	
+                p.los.loadingTiles.delete(tiles.get(tileData.x, tileData.y));
+                return setupTile(tileData);
+              
+              }));
+            
+            }));
+          }
+        }).call(this);
+      }
+    }).call(this);
+    return p.sprite.selectSequence(directionName);
+  
+  })).once("error", ((err) => {
+  	
+    console.log("error on", "tick", "of", "game.events", "given", "t()");
+    return console.log(err);
+  
+  }));
 
 }));
 startInterface();
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"@crash-landed/config.js":"@crash-landed/config.js","@crash-landed/directions.js":"@crash-landed/directions.js","@crash-landed/dom.js":"@crash-landed/dom.js","@crash-landed/game.js":"@crash-landed/game.js","@crash-landed/systems/path-finding.js":"@crash-landed/systems/path-finding.js","@crash-landed/systems/sight.js":"@crash-landed/systems/sight.js","@crash-landed/tiles.js":"@crash-landed/tiles.js","@crash-landed/units.js":"@crash-landed/units.js","@crash-landed/world-gen.js":"@crash-landed/world-gen.js","@kit-js/core/js/util":3,"@kit-js/interface":4,"@shared/noise.js":"@shared/noise.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js","ramda":7}],2:[function(require,module,exports){
+},{"@crash-landed/config.js":"@crash-landed/config.js","@crash-landed/directions.js":"@crash-landed/directions.js","@crash-landed/dom.js":"@crash-landed/dom.js","@crash-landed/game.js":"@crash-landed/game.js","@crash-landed/noise.js":"@crash-landed/noise.js","@crash-landed/systems/path-finding.js":"@crash-landed/systems/path-finding.js","@crash-landed/systems/sight.js":"@crash-landed/systems/sight.js","@crash-landed/tiles.js":"@crash-landed/tiles.js","@crash-landed/units.js":"@crash-landed/units.js","@crash-landed/world-gen.js":"@crash-landed/world-gen.js","@crash-landed/world-gen/worker.js":"@crash-landed/world-gen/worker.js","@kit-js/core/js/util":3,"@kit-js/interface":4,"@shared/noise.js":"@shared/noise.js","@shared/systems/position.js":"@shared/systems/position.js","@shared/systems/velocity.js":"@shared/systems/velocity.js","ramda":7}],2:[function(require,module,exports){
 const create = (object, r) => (...args) => ((r = Object.create(object)), r.init(...args), r);
 const defined = (value) => (!(value === undefined));
 

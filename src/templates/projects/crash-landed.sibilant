@@ -18,17 +18,32 @@ position:absolute;
        )
 
 
-      (.script .src "/socket.io/socket.io.js")
+
+      (.script `(assign window.*worker-scripts []))
       (scoped (require! (lit File-system) "kit-file-system"
                         Path 'path)
               (each (.load File-system "./shared") (file)
-                    (markup (.script .src (Path.join "/bundles/shared" file.rel)))))
+                    (markup (.div (.script .src (Path.join "/bundles/shared" file.rel))
+                                  (.script (+ 'window.*worker-scripts ".push("
+                                              'location.origin
+                                              "+"  "'"
+                                              (Path.join "/bundles/shared" file.rel)
+                                              "'"
+                                              ")"))))))
       (scoped (require! (lit File-system) "kit-file-system"
                         Path 'path)
 
               (each (.load File-system "./client/crash-landed") (file)
                     (unless (= (Path.basename file.path) "main.js")
-                      (markup (.script .src (Path.join "/bundles/crash-landed" file.rel))))))
+                      (markup (.div (.script .src (Path.join "/bundles/crash-landed" file.rel))
+                                    (.script (+ 'window.*worker-scripts ".push("
+                                                'location.origin
+                                                "+"  "'"
+                                                (Path.join "/bundles/crash-landed" file.rel)
+                                                "'"
+                                                ")"))
+                                    )))))
+
 
 
       (.body

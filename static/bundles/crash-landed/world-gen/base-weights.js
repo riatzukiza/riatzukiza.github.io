@@ -10623,9 +10623,9 @@ var {
   Interface
  } = require("@kit-js/interface");
 var baseWeights = Interface.define("baseWeights", { 
-  grass:20,
-  stone:0.1,
-  floweryGrass:2
+  grass:500,
+  stone:0.01,
+  floweryGrass:500
  });
 exports.baseWeights = baseWeights;
 },{"@kit-js/interface":1}]},{},[]);

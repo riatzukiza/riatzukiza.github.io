@@ -14,169 +14,505 @@ position:absolute;
 
 </style>
 </head>
-<script src='/socket.io/socket.io.js' ></script>
-<script src='/bundles/shared/andy.js' ></script>
-<script src='/bundles/shared/data-structures/array.js' ></script>
-<script src='/bundles/shared/data-structures/contrib.js' ></script>
-<script src='/bundles/shared/data-structures/fields/sparse.js' ></script>
-<script src='/bundles/shared/data-structures/fields/wrapped.js' ></script>
-<script src='/bundles/shared/data-structures/group.js' ></script>
-<script src='/bundles/shared/data-structures/linked-list.js' ></script>
-<script src='/bundles/shared/data-structures/list.js' ></script>
-<script src='/bundles/shared/data-structures/maps/matrix.js' ></script>
-<script src='/bundles/shared/data-structures/maps/ordered-buckets.js' ></script>
-<script src='/bundles/shared/data-structures/maps/ordered.js' ></script>
-<script src='/bundles/shared/data-structures/old-list.js' ></script>
-<script src='/bundles/shared/data-structures/pooled.js' ></script>
-<script src='/bundles/shared/data-structures/spawnable.js' ></script>
-<script src='/bundles/shared/data-structures/table.js' ></script>
-<script src='/bundles/shared/data-structures/trees/avl.js' ></script>
-<script src='/bundles/shared/data-structures/trees/base.js' ></script>
-<script src='/bundles/shared/data-structures/trees/binary-heap.js' ></script>
-<script src='/bundles/shared/data-structures/trees/binary-search-tree.js' ></script>
-<script src='/bundles/shared/data-structures/trees/bst-buckets.js' ></script>
-<script src='/bundles/shared/data-structures/trees/bst-fixed-depth.js' ></script>
-<script src='/bundles/shared/data-structures/trees/bucket-tree.js' ></script>
-<script src='/bundles/shared/data-structures/trees/red-black-tree.js' ></script>
-<script src='/bundles/shared/data-structures/trees/trie.js' ></script>
-<script src='/bundles/shared/dom.js' ></script>
-<script src='/bundles/shared/ecs/component-system.js' ></script>
-<script src='/bundles/shared/ecs/component.js' ></script>
-<script src='/bundles/shared/ecs/entity-group.js' ></script>
-<script src='/bundles/shared/ecs/entity-system.js' ></script>
-<script src='/bundles/shared/ecs/entity.js' ></script>
-<script src='/bundles/shared/ecs.js' ></script>
-<script src='/bundles/shared/field.js' ></script>
-<script src='/bundles/shared/game.js' ></script>
-<script src='/bundles/shared/gl.js' ></script>
-<script src='/bundles/shared/graph.js' ></script>
-<script src='/bundles/shared/interface.js' ></script>
-<script src='/bundles/shared/math/math.js' ></script>
-<script src='/bundles/shared/math/matrix.js' ></script>
-<script src='/bundles/shared/math/scalar.js' ></script>
-<script src='/bundles/shared/math/tensor.js' ></script>
-<script src='/bundles/shared/noise.js' ></script>
-<script src='/bundles/shared/pooling/dynamic-pool.js' ></script>
-<script src='/bundles/shared/pooling/object-pool.js' ></script>
-<script src='/bundles/shared/pooling/pooled-system.js' ></script>
-<script src='/bundles/shared/systems/collision.js' ></script>
-<script src='/bundles/shared/systems/physics/forces/friction.js' ></script>
-<script src='/bundles/shared/systems/physics/forces/gravity.js' ></script>
-<script src='/bundles/shared/systems/physics/forces/gravity.sibilant .js' ></script>
-<script src='/bundles/shared/systems/physics/forces/index.js' ></script>
-<script src='/bundles/shared/systems/physics/forces/signal-field.js' ></script>
-<script src='/bundles/shared/systems/physics/forces.js' ></script>
-<script src='/bundles/shared/systems/physics/index.js' ></script>
-<script src='/bundles/shared/systems/physics/system.js' ></script>
-<script src='/bundles/shared/systems/physics.js' ></script>
-<script src='/bundles/shared/systems/position.js' ></script>
-<script src='/bundles/shared/systems/rendering/dot.js' ></script>
-<script src='/bundles/shared/systems/rendering/gl-sprites.js' ></script>
-<script src='/bundles/shared/systems/rendering/layer.js' ></script>
-<script src='/bundles/shared/systems/rendering/renderable.js' ></script>
-<script src='/bundles/shared/systems/rendering/rendering.js' ></script>
-<script src='/bundles/shared/systems/rendering/scaling-vertex.js' ></script>
-<script src='/bundles/shared/systems/rendering/sprite-atlas.js' ></script>
-<script src='/bundles/shared/systems/rendering/sprite.js' ></script>
-<script src='/bundles/shared/systems/rendering/vertex.js' ></script>
-<script src='/bundles/shared/systems/rendering.js' ></script>
-<script src='/bundles/shared/systems/velocity.js' ></script>
-<script src='/bundles/shared/ticker.js' ></script>
-<script src='/bundles/shared/tiles.js' ></script>
-<script src='/bundles/shared/units.js' ></script>
-<script src='/bundles/shared/utils.js' ></script>
-<script src='/bundles/shared/vector.js' ></script>
-<script src='/bundles/shared/vectors.js' ></script>
-<script src='/bundles/shared/worker.js' ></script>
-<script src='/bundles/crash-landed/agents.js' ></script>
-<script src='/bundles/crash-landed/collapse-wave-function.js' ></script>
-<script src='/bundles/crash-landed/colors.js' ></script>
-<script src='/bundles/crash-landed/config.js' ></script>
-<script src='/bundles/crash-landed/directions.js' ></script>
-<script src='/bundles/crash-landed/dom/dom-node.js' ></script>
-<script src='/bundles/crash-landed/dom/entity-panel.js' ></script>
-<script src='/bundles/crash-landed/dom/rocks.js' ></script>
-<script src='/bundles/crash-landed/dom.js' ></script>
-<script src='/bundles/crash-landed/entities/ants.js' ></script>
-<script src='/bundles/crash-landed/entities/chicken.js' ></script>
-<script src='/bundles/crash-landed/entities/home.js' ></script>
-<script src='/bundles/crash-landed/entities/plants.js' ></script>
-<script src='/bundles/crash-landed/entities/rocks.js' ></script>
-<script src='/bundles/crash-landed/entities/tile.js' ></script>
-<script src='/bundles/crash-landed/entities/trail-segments.js' ></script>
-<script src='/bundles/crash-landed/entities.js' ></script>
-<script src='/bundles/crash-landed/events/ant-collision.js' ></script>
-<script src='/bundles/crash-landed/events/ant-found-plant.js' ></script>
-<script src='/bundles/crash-landed/events/collision.js' ></script>
-<script src='/bundles/crash-landed/events/plant-colliding-with-spawn.js' ></script>
-<script src='/bundles/crash-landed/events/simple-collision.js' ></script>
-<script src='/bundles/crash-landed/events/static-object-collision.js' ></script>
-<script src='/bundles/crash-landed/events/tick.js' ></script>
-<script src='/bundles/crash-landed/exploration.js' ></script>
-<script src='/bundles/crash-landed/forces.js' ></script>
-<script src='/bundles/crash-landed/game.js' ></script>
-<script src='/bundles/crash-landed/location.js' ></script>
-<script src='/bundles/crash-landed/noise.js' ></script>
-<script src='/bundles/crash-landed/path-finder.js' ></script>
-<script src='/bundles/crash-landed/rendering.js' ></script>
-<script src='/bundles/crash-landed/settings.js' ></script>
-<script src='/bundles/crash-landed/strings.js' ></script>
-<script src='/bundles/crash-landed/systems/ant-life-timer.js' ></script>
-<script src='/bundles/crash-landed/systems/ant-sprites.js' ></script>
-<script src='/bundles/crash-landed/systems/ants/ant-dot.js' ></script>
-<script src='/bundles/crash-landed/systems/ants/ant-life-timer.js' ></script>
-<script src='/bundles/crash-landed/systems/ants/ant-panel.js' ></script>
-<script src='/bundles/crash-landed/systems/ants/ant-trails.js' ></script>
-<script src='/bundles/crash-landed/systems/ants/trail-dots.js' ></script>
-<script src='/bundles/crash-landed/systems/ants/trail-panel.js' ></script>
-<script src='/bundles/crash-landed/systems/ants/trail-segments.js' ></script>
-<script src='/bundles/crash-landed/systems/ants/trail-view.js' ></script>
-<script src='/bundles/crash-landed/systems/containers.js' ></script>
-<script src='/bundles/crash-landed/systems/day-night.js' ></script>
-<script src='/bundles/crash-landed/systems/dot.js' ></script>
-<script src='/bundles/crash-landed/systems/experation.js' ></script>
-<script src='/bundles/crash-landed/systems/floor-type.js' ></script>
-<script src='/bundles/crash-landed/systems/hunger.js' ></script>
-<script src='/bundles/crash-landed/systems/item.js' ></script>
-<script src='/bundles/crash-landed/systems/mental-state.js' ></script>
-<script src='/bundles/crash-landed/systems/metabolisim.js' ></script>
-<script src='/bundles/crash-landed/systems/path-finding.js' ></script>
-<script src='/bundles/crash-landed/systems/position.js' ></script>
-<script src='/bundles/crash-landed/systems/property-view.js' ></script>
-<script src='/bundles/crash-landed/systems/rock-sprites.js' ></script>
-<script src='/bundles/crash-landed/systems/sight.js' ></script>
-<script src='/bundles/crash-landed/systems/signal.js' ></script>
-<script src='/bundles/crash-landed/systems/signals/collision.js' ></script>
-<script src='/bundles/crash-landed/systems/signals/goal.js' ></script>
-<script src='/bundles/crash-landed/systems/signals/noise.js' ></script>
-<script src='/bundles/crash-landed/systems/sleep.js' ></script>
-<script src='/bundles/crash-landed/systems/sprites/basic-props.js' ></script>
-<script src='/bundles/crash-landed/systems/sprites/cliff.js' ></script>
-<script src='/bundles/crash-landed/systems/sprites/floor.js' ></script>
-<script src='/bundles/crash-landed/systems/sprites/player.js' ></script>
-<script src='/bundles/crash-landed/systems/tiles/grass.js' ></script>
-<script src='/bundles/crash-landed/systems/timer.js' ></script>
-<script src='/bundles/crash-landed/systems/velocity.js' ></script>
-<script src='/bundles/crash-landed/systems/visibility.js' ></script>
-<script src='/bundles/crash-landed/tiles.js' ></script>
-<script src='/bundles/crash-landed/units.js' ></script>
-<script src='/bundles/crash-landed/world-gen/base-weights.js' ></script>
-<script src='/bundles/crash-landed/world-gen/generate-main-road.js' ></script>
-<script src='/bundles/crash-landed/world-gen/modules/fields.js' ></script>
-<script src='/bundles/crash-landed/world-gen/modules/roads/crossings.js' ></script>
-<script src='/bundles/crash-landed/world-gen/modules/roads/intersections.js' ></script>
-<script src='/bundles/crash-landed/world-gen/modules/roads/straight.js' ></script>
-<script src='/bundles/crash-landed/world-gen/modules/roads/turns.js' ></script>
-<script src='/bundles/crash-landed/world-gen/modules/roads/weights.js' ></script>
-<script src='/bundles/crash-landed/world-gen/modules/roads.js' ></script>
-<script src='/bundles/crash-landed/world-gen/modules/testing.js' ></script>
-<script src='/bundles/crash-landed/world-gen/modules.js' ></script>
-<script src='/bundles/crash-landed/world-gen/possible-state.js' ></script>
-<script src='/bundles/crash-landed/world-gen/probabilities.js' ></script>
-<script src='/bundles/crash-landed/world-gen/super-position.js' ></script>
-<script src='/bundles/crash-landed/world-gen/terrain-module.js' ></script>
-<script src='/bundles/crash-landed/world-gen/tile-setup.js' ></script>
-<script src='/bundles/crash-landed/world-gen.js' ></script>
+<script>window._workerScripts = [];</script>
+<div><script src='/bundles/shared/andy.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/andy.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/array.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/array.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/contrib.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/contrib.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/fields/sparse.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/fields/sparse.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/fields/wrapped.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/fields/wrapped.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/group.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/group.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/linked-list.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/linked-list.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/list.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/list.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/maps/matrix.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/maps/matrix.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/maps/ordered-buckets.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/maps/ordered-buckets.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/maps/ordered.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/maps/ordered.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/old-list.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/old-list.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/pooled.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/pooled.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/spawnable.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/spawnable.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/table.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/table.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/trees/avl.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/trees/avl.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/trees/base.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/trees/base.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/trees/binary-heap.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/trees/binary-heap.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/trees/binary-search-tree.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/trees/binary-search-tree.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/trees/bst-buckets.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/trees/bst-buckets.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/trees/bst-fixed-depth.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/trees/bst-fixed-depth.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/trees/bucket-tree.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/trees/bucket-tree.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/trees/red-black-tree.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/trees/red-black-tree.js')</script>
+</div>
+<div><script src='/bundles/shared/data-structures/trees/trie.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/data-structures/trees/trie.js')</script>
+</div>
+<div><script src='/bundles/shared/dom.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/dom.js')</script>
+</div>
+<div><script src='/bundles/shared/ecs/component-system.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/ecs/component-system.js')</script>
+</div>
+<div><script src='/bundles/shared/ecs/component.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/ecs/component.js')</script>
+</div>
+<div><script src='/bundles/shared/ecs/entity-group.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/ecs/entity-group.js')</script>
+</div>
+<div><script src='/bundles/shared/ecs/entity-system.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/ecs/entity-system.js')</script>
+</div>
+<div><script src='/bundles/shared/ecs/entity.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/ecs/entity.js')</script>
+</div>
+<div><script src='/bundles/shared/ecs.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/ecs.js')</script>
+</div>
+<div><script src='/bundles/shared/field.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/field.js')</script>
+</div>
+<div><script src='/bundles/shared/game.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/game.js')</script>
+</div>
+<div><script src='/bundles/shared/gl.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/gl.js')</script>
+</div>
+<div><script src='/bundles/shared/graph.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/graph.js')</script>
+</div>
+<div><script src='/bundles/shared/interface.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/interface.js')</script>
+</div>
+<div><script src='/bundles/shared/math/math.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/math/math.js')</script>
+</div>
+<div><script src='/bundles/shared/math/matrix.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/math/matrix.js')</script>
+</div>
+<div><script src='/bundles/shared/math/scalar.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/math/scalar.js')</script>
+</div>
+<div><script src='/bundles/shared/math/tensor.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/math/tensor.js')</script>
+</div>
+<div><script src='/bundles/shared/noise.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/noise.js')</script>
+</div>
+<div><script src='/bundles/shared/pooling/dynamic-pool.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/pooling/dynamic-pool.js')</script>
+</div>
+<div><script src='/bundles/shared/pooling/object-pool.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/pooling/object-pool.js')</script>
+</div>
+<div><script src='/bundles/shared/pooling/pooled-system.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/pooling/pooled-system.js')</script>
+</div>
+<div><script src='/bundles/shared/systems/collision.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/systems/collision.js')</script>
+</div>
+<div><script src='/bundles/shared/systems/physics/forces/friction.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/systems/physics/forces/friction.js')</script>
+</div>
+<div><script src='/bundles/shared/systems/physics/forces/gravity.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/systems/physics/forces/gravity.js')</script>
+</div>
+<div><script src='/bundles/shared/systems/physics/forces/index.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/systems/physics/forces/index.js')</script>
+</div>
+<div><script src='/bundles/shared/systems/physics/forces/signal-field.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/systems/physics/forces/signal-field.js')</script>
+</div>
+<div><script src='/bundles/shared/systems/physics/forces.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/systems/physics/forces.js')</script>
+</div>
+<div><script src='/bundles/shared/systems/physics/index.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/systems/physics/index.js')</script>
+</div>
+<div><script src='/bundles/shared/systems/physics/system.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/systems/physics/system.js')</script>
+</div>
+<div><script src='/bundles/shared/systems/physics.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/systems/physics.js')</script>
+</div>
+<div><script src='/bundles/shared/systems/position.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/systems/position.js')</script>
+</div>
+<div><script src='/bundles/shared/systems/rendering/dot.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/systems/rendering/dot.js')</script>
+</div>
+<div><script src='/bundles/shared/systems/rendering/gl-sprites.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/systems/rendering/gl-sprites.js')</script>
+</div>
+<div><script src='/bundles/shared/systems/rendering/layer.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/systems/rendering/layer.js')</script>
+</div>
+<div><script src='/bundles/shared/systems/rendering/renderable.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/systems/rendering/renderable.js')</script>
+</div>
+<div><script src='/bundles/shared/systems/rendering/rendering.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/systems/rendering/rendering.js')</script>
+</div>
+<div><script src='/bundles/shared/systems/rendering/scaling-vertex.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/systems/rendering/scaling-vertex.js')</script>
+</div>
+<div><script src='/bundles/shared/systems/rendering/sprite-atlas.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/systems/rendering/sprite-atlas.js')</script>
+</div>
+<div><script src='/bundles/shared/systems/rendering/sprite.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/systems/rendering/sprite.js')</script>
+</div>
+<div><script src='/bundles/shared/systems/rendering/vertex.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/systems/rendering/vertex.js')</script>
+</div>
+<div><script src='/bundles/shared/systems/rendering.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/systems/rendering.js')</script>
+</div>
+<div><script src='/bundles/shared/systems/velocity.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/systems/velocity.js')</script>
+</div>
+<div><script src='/bundles/shared/ticker.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/ticker.js')</script>
+</div>
+<div><script src='/bundles/shared/tiles.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/tiles.js')</script>
+</div>
+<div><script src='/bundles/shared/units.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/units.js')</script>
+</div>
+<div><script src='/bundles/shared/utils.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/utils.js')</script>
+</div>
+<div><script src='/bundles/shared/vector.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/vector.js')</script>
+</div>
+<div><script src='/bundles/shared/vectors.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/vectors.js')</script>
+</div>
+<div><script src='/bundles/shared/worker.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/shared/worker.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/agents.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/agents.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/collapse-wave-function.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/collapse-wave-function.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/colors.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/colors.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/config.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/config.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/directions.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/directions.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/dom/dom-node.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/dom/dom-node.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/dom/entity-panel.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/dom/entity-panel.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/dom/rocks.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/dom/rocks.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/dom.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/dom.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/entities/ants.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/entities/ants.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/entities/chicken.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/entities/chicken.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/entities/home.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/entities/home.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/entities/plants.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/entities/plants.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/entities/rocks.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/entities/rocks.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/entities/tile.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/entities/tile.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/entities/trail-segments.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/entities/trail-segments.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/entities.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/entities.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/events/ant-collision.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/events/ant-collision.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/events/ant-found-plant.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/events/ant-found-plant.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/events/collision.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/events/collision.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/events/plant-colliding-with-spawn.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/events/plant-colliding-with-spawn.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/events/simple-collision.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/events/simple-collision.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/events/static-object-collision.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/events/static-object-collision.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/events/tick.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/events/tick.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/exploration.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/exploration.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/forces.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/forces.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/game.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/game.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/hack.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/hack.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/location.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/location.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/noise.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/noise.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/path-finder.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/path-finder.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/rendering.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/rendering.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/settings.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/settings.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/strings.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/strings.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/ant-life-timer.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/ant-life-timer.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/ant-sprites.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/ant-sprites.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/ants/ant-dot.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/ants/ant-dot.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/ants/ant-life-timer.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/ants/ant-life-timer.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/ants/ant-panel.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/ants/ant-panel.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/ants/ant-trails.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/ants/ant-trails.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/ants/trail-dots.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/ants/trail-dots.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/ants/trail-panel.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/ants/trail-panel.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/ants/trail-segments.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/ants/trail-segments.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/ants/trail-view.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/ants/trail-view.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/containers.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/containers.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/day-night.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/day-night.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/dot.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/dot.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/experation.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/experation.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/floor-type.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/floor-type.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/hunger.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/hunger.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/item.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/item.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/mental-state.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/mental-state.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/metabolisim.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/metabolisim.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/path-finding.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/path-finding.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/position.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/position.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/property-view.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/property-view.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/rock-sprites.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/rock-sprites.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/sight.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/sight.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/signal.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/signal.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/signals/collision.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/signals/collision.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/signals/goal.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/signals/goal.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/signals/noise.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/signals/noise.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/sleep.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/sleep.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/sprites/basic-props.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/sprites/basic-props.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/sprites/cliff.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/sprites/cliff.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/sprites/floor.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/sprites/floor.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/sprites/player.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/sprites/player.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/tiles/grass.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/tiles/grass.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/timer.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/timer.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/velocity.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/velocity.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/systems/visibility.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/systems/visibility.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/tiles.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/tiles.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/units.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/units.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/world-gen/base-weights.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/world-gen/base-weights.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/world-gen/generate-main-road.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/world-gen/generate-main-road.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/world-gen/generator.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/world-gen/generator.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/world-gen/modules/exclusions.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/world-gen/modules/exclusions.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/world-gen/modules/fields.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/world-gen/modules/fields.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/world-gen/modules/roads/crossings.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/world-gen/modules/roads/crossings.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/world-gen/modules/roads/intersections.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/world-gen/modules/roads/intersections.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/world-gen/modules/roads/straight.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/world-gen/modules/roads/straight.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/world-gen/modules/roads/turns.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/world-gen/modules/roads/turns.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/world-gen/modules/roads/weights.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/world-gen/modules/roads/weights.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/world-gen/modules/roads.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/world-gen/modules/roads.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/world-gen/modules/testing.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/world-gen/modules/testing.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/world-gen/modules.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/world-gen/modules.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/world-gen/possible-state.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/world-gen/possible-state.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/world-gen/probabilities.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/world-gen/probabilities.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/world-gen/super-position.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/world-gen/super-position.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/world-gen/terrain-module.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/world-gen/terrain-module.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/world-gen/tile-loader.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/world-gen/tile-loader.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/world-gen/tile-setup.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/world-gen/tile-setup.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/world-gen/worker.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/world-gen/worker.js')</script>
+</div>
+<div><script src='/bundles/crash-landed/world-gen.js' ></script>
+<script>window._workerScripts.push(location.origin+'/bundles/crash-landed/world-gen.js')</script>
+</div>
 <body><img id='player-sprite'  src='/sprites/Small-8-Direction-Characters_by_AxulArt/8-way-128-72.png'  hidden='true' ></img>
 <img id='grass-sprite'  src='/sprites/Pixel_art_top_down_basic_v1.1.2/TX_Tileset_Grass.png'  hidden='true' ></img>
 <img id='cliff-sprite'  src='/sprites/Pixel_art_top_down_basic_v1.1.2/TX_Tileset_Wall.png'  hidden='true' ></img>

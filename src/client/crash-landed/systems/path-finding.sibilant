@@ -22,7 +22,7 @@
   (const d-length (Math.round (.get-length distance)))
   (.despawn start-v)
   (.despawn end-v)
-  (* (if end.entity.visible-status.explored?
+  (* (if (and end.entity.visible-status.explored? end.entity.ground.stats)
          (* 2 (/ 1
 
                  end.entity.ground.stats.movement-speed
@@ -138,7 +138,10 @@
                                      c.next-node.item.tile.world-pos.x
                                      c.next-node.item.tile.world-pos.y))
             (const d (.distance-to  tile-pos-v pos-v))
-            (.set-length vel (* occupied-tile.entity.ground.stats.movement-speed  (* 0.5 config.game-scale)))
+            (.set-length vel (* 
+                              occupied-tile.entity.ground.stats.movement-speed
+
+                                (* 0.1 config.game-scale)))
             (.set-angle vel (.get-angle d))
             (.despawn d)
             (.despawn pos-v)

@@ -32,17 +32,17 @@ var {
 var ProbabilityDistrobution = Spawnable.define("ProbabilityDistrobution", { 
   get grass(  ){ 
     
-      throw (new TypeError((this.name + "expects a definition of" + "grass")))
+      throw (new TypeError((this.name + " expects a definition of " + "grass")))
     
    },
   get stone(  ){ 
     
-      throw (new TypeError((this.name + "expects a definition of" + "stone")))
+      throw (new TypeError((this.name + " expects a definition of " + "stone")))
     
    },
   get floweryGrass(  ){ 
     
-      throw (new TypeError((this.name + "expects a definition of" + "floweryGrass")))
+      throw (new TypeError((this.name + " expects a definition of " + "floweryGrass")))
     
    },
   sampleInverse(  ){ 

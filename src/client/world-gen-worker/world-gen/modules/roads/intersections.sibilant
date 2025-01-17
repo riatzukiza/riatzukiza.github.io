@@ -1,0 +1,11 @@
+(require! (lit intersection-weight) "@crash-landed/world-gen/modules/roads/weights.js")
+
+(require! (lit Terrain-module) "@crash-landed/world-gen/terrain-module.js")
+
+(const cross-roads
+       (.create Terrain-module intersection-weight
+                'grass 'stone 'grass
+                'stone 'stone 'stone
+                'grass 'stone 'grass ))
+
+(export cross-roads)

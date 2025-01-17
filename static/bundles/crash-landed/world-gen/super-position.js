@@ -58,12 +58,12 @@ var SuperPosition = Spawnable.define("SuperPosition", {
    },
   get state(  ){ 
     
-      return this.cell.entity.ground.type;
+      return this.cell.type;
     
    },
-  set state( s ){ 
+  set state( v ){ 
     
-      return this.cell.entity.ground.type = s;
+      return this.cell.type = v;
     
    },
   get weights(  ){ 
@@ -106,6 +106,12 @@ var SuperPosition = Spawnable.define("SuperPosition", {
       }).call(this);
     
    },
+  get edges(  ){ 
+    
+      const tile=this.cell;
+      return [ tile.north, tile.south, tile.east, tile.west, tile.northEast, tile.northWest, tile.southEast, tile.southWest ];
+    
+   },
   get neighbors(  ){ 
     
       return (function() {
@@ -115,7 +121,7 @@ var SuperPosition = Spawnable.define("SuperPosition", {
           return this._neighbors = (function() {
             /* inc/misc.sibilant:1:3415 */
           
-            return this.cell.edges.map(((neighbor) => {
+            return this.edges.map(((neighbor) => {
             	
               return SuperPosition.spawn(neighbor);
             

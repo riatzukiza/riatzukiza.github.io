@@ -13,8 +13,8 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   
   }));
 });
-create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(HtmlElement)("style", {  }, [ "\n"+"        .panel {\n"+"            float: left;\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"        .bordered {\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"img {\n"+"position:absolute;\n"+"}\n"+"\n"+"" ]) ]), create(HtmlElement)("script", { 'src': "/socket.io/socket.io.js" }, []), (function() {
-  /* eval.sibilant:22:6 */
+create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(HtmlElement)("style", {  }, [ "\n"+"        .panel {\n"+"            float: left;\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"        .bordered {\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"img {\n"+"position:absolute;\n"+"}\n"+"\n"+"" ]) ]), create(HtmlElement)("script", {  }, [ "window._workerScripts = [];" ]), (function() {
+  /* eval.sibilant:23:6 */
 
   var { 
     FileSystem
@@ -22,11 +22,11 @@ create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(H
       Path = require("path");
   return FileSystem.load("./shared").each(((file) => {
   	
-    return create(HtmlElement)("script", { 'src': Path.join("/bundles/shared", file.rel) }, []);
+    return create(HtmlElement)("div", {  }, [ create(HtmlElement)("script", { 'src': Path.join("/bundles/shared", file.rel) }, []), create(HtmlElement)("script", {  }, [ ("window._workerScripts" + ".push(" + "location.origin" + "+" + "'" + Path.join("/bundles/shared", file.rel) + "'" + ")") ]) ]);
   
   }));
 }).call(this), (function() {
-  /* eval.sibilant:26:6 */
+  /* eval.sibilant:33:6 */
 
   var { 
     FileSystem
@@ -36,7 +36,7 @@ create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(H
   	
     return (function() {
       if (!(Path.basename(file.path) === "main.js")) {
-        return create(HtmlElement)("script", { 'src': Path.join("/bundles/crash-landed", file.rel) }, []);
+        return create(HtmlElement)("div", {  }, [ create(HtmlElement)("script", { 'src': Path.join("/bundles/crash-landed", file.rel) }, []), create(HtmlElement)("script", {  }, [ ("window._workerScripts" + ".push(" + "location.origin" + "+" + "'" + Path.join("/bundles/crash-landed", file.rel) + "'" + ")") ]) ]);
       }
     }).call(this);
   

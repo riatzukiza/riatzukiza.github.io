@@ -45,7 +45,7 @@
   (gett pathing this.entity-current-path)
   (gett mind-state this.entity.mind-state)
   (gett needs this.entity.needs)
-  (gett los this.entity.line-of-sight)
+  (gett los this.entity.field-of-view)
   (gett velocity this.entity.velocity-interface)
   (def eat (item)
     (.eat this.needs item)))

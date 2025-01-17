@@ -6,7 +6,7 @@
   (init (super-position configuration ))
 
   (gett collapsed-state (.get this.configuration 'center))
-  (gett tile this.super-position.tile)
+  (gett tile this.super-position.cell)
 
   (cached likelyhood (/ this.super-position.total-weight this.weight))
   (cached weight (.calculate-weight this))
@@ -23,10 +23,13 @@
                          (get base-weights tile-type)))))
 
   (def-generic is-valid? (tile configuration)
+    (if! (not this.weight) (return false))
     (every configuration (tile-type direction)
            (or (= direction 'center)
-               (= (get tile direction 'entity 'ground 'type)
+               (= (get tile direction ;; 'entity 'ground
+                       'type)
                   tile-type)
-               (not (get tile direction 'entity 'ground 'type))))))
+               (not (get tile direction ;; 'entity 'ground
+                         'type))))))
 
 (export Possible-state)
