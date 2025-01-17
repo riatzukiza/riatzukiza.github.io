@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1123 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1185 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -32,37 +32,37 @@ var {
   Scalar
  } = require("@shared/math/scalar.js");
 var bound = (function() {
-  /* eval.sibilant:1:539 */
+  /* eval.sibilant:1:605 */
 
   return arguments[0].bind();
 }),
     clear = (function() {
-  /* eval.sibilant:1:564 */
+  /* eval.sibilant:1:630 */
 
   return arguments[0].clear();
 }),
     rendered = (function() {
-  /* eval.sibilant:1:593 */
+  /* eval.sibilant:1:659 */
 
   return arguments[0].render();
 }),
     unbound = (function() {
-  /* eval.sibilant:1:623 */
+  /* eval.sibilant:1:689 */
 
   return arguments[0].unbind();
 }),
     disabled = (function() {
-  /* eval.sibilant:1:652 */
+  /* eval.sibilant:1:718 */
 
   return arguments[0].disable();
 }),
     enabled = (function() {
-  /* eval.sibilant:1:683 */
+  /* eval.sibilant:1:749 */
 
   return arguments[0].enable();
 });
 var allowAlphaBlending = (function allowAlphaBlending$(context) {
-  /* allow-alpha-blending eval.sibilant:1:701 */
+  /* allow-alpha-blending eval.sibilant:1:767 */
 
   context.gl = context.canvas.getContext("webgl2");
   context.gl.enable(context.gl.BLEND);
@@ -79,19 +79,19 @@ var Rendering = PooledSystem.define("Rendering", {
       this.zoomLevel = 0.2;
       var mouseHeld = false;
       context.canvas.onmousedown = (function context$canvas$onmousedown$(e) {
-        /* context.canvas.onmousedown eval.sibilant:1:1732 */
+        /* context.canvas.onmousedown eval.sibilant:1:1798 */
       
         e.preventDefault();
         return mouseHeld = true;
       });
       context.canvas.onmouseup = (function context$canvas$onmouseup$(e) {
-        /* context.canvas.onmouseup eval.sibilant:1:1833 */
+        /* context.canvas.onmouseup eval.sibilant:1:1899 */
       
         e.preventDefault();
         return mouseHeld = false;
       });
       context.canvas.onmousemove = (function context$canvas$onmousemove$(e) {
-        /* context.canvas.onmousemove eval.sibilant:1:1931 */
+        /* context.canvas.onmousemove eval.sibilant:1:1997 */
       
         e.preventDefault();
         return (function() {
@@ -102,7 +102,7 @@ var Rendering = PooledSystem.define("Rendering", {
         }).call(this);
       });
       context.canvas.onwheel = (function context$canvas$onwheel$(e) {
-        /* context.canvas.onwheel eval.sibilant:1:2409 */
+        /* context.canvas.onwheel eval.sibilant:1:2475 */
       
         e.preventDefault();
         const oldScale=(1 / self.zoomLevel);

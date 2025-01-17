@@ -9643,13 +9643,13 @@ void gl.uniformMatrix4fv(location, transpose, data, optional srcOffset, optional
 
 },{"../math/matrix":18,"./program":35}],"@shared/andy.js":[function(require,module,exports){
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1123 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1185 */
 
   return Object.keys(this).forEach(((k) => {
   	

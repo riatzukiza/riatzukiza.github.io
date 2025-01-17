@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1123 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1185 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -97,7 +97,7 @@ var SuperPosition = Spawnable.define("SuperPosition", {
           return this._probabilityDistrobution;
         } else {
           return this._probabilityDistrobution = (function() {
-            /* inc/misc.sibilant:1:3415 */
+            /* inc/misc.sibilant:1:3417 */
           
             return SuperPositionDistrobution.spawn(this);
           }).call(this);
@@ -118,7 +118,7 @@ var SuperPosition = Spawnable.define("SuperPosition", {
           return this._neighbors;
         } else {
           return this._neighbors = (function() {
-            /* inc/misc.sibilant:1:3415 */
+            /* inc/misc.sibilant:1:3417 */
           
             return this.edges.map(((neighbor) => {
             	

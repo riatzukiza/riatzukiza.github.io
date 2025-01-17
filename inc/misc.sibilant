@@ -1,4 +1,5 @@
 (namespace misc)
+
 (macro in (  o k) [k " in " o])
 
 (macro sprint (...args) `(print ...@(Array.bind args (=> (a) [`(quote @a) a]))))
@@ -8,6 +9,17 @@
 (macro fluently (...body) `(scoped ...@body))
 
 (macro accumulate (name ...body) `(assign @name (pipe @name ...@body)))
+(macro do-after (name ...body) `(accumulate @name (then resolved ...@body)))
+(alias-macro do-after do-after-accumulating)
+(macro def-accumulator (name args ...body)
+       (const accumulated-value (.shift args.contents))
+       `(def-generic @name (args)
+          (do-after-accumulating @accumulated-value ...@body)))
+(def-lit-macro def-accumulator (name args ...body)
+  (const accumulated-value (.shift args.contents))
+  `(def-generic @name @args
+     (do-after-accumulating (get this (quote @accumulated-value))
+       ...@body)))
 
 (def-lit-macro def-curried (name args ...body) `(property @name (R.curry (lambda @args ...@body))))
 
@@ -125,3 +137,18 @@
 
 (macro filter (array args ...rest) `(.filter @array (=> @args ...@rest) ))
 (macro sort (array args ...rest) `(.sort @array (=> @args ...@rest) ))
+
+(def-lit-macro spread (spreadable)
+  ["..." spreadable]
+  )
+(macro tidy (vars ...body)
+       (const last (.pop body))
+       `(let @vars
+          ...@body
+          (const r @last)
+          ...@(map vars.contents (v)
+                   (const name (first v.contents))
+                   (const value (second v.contents))
+
+                   `(.despawn @value))
+          r))

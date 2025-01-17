@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1123 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1185 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -29,32 +29,32 @@ var {
   Gl
  } = require("@shared/gl.js");
 var bound = (function() {
-  /* eval.sibilant:1:515 */
+  /* eval.sibilant:1:581 */
 
   return arguments[0].bind();
 }),
     clear = (function() {
-  /* eval.sibilant:1:540 */
+  /* eval.sibilant:1:606 */
 
   return arguments[0].clear();
 }),
     rendered = (function() {
-  /* eval.sibilant:1:569 */
+  /* eval.sibilant:1:635 */
 
   return arguments[0].render();
 }),
     unbound = (function() {
-  /* eval.sibilant:1:599 */
+  /* eval.sibilant:1:665 */
 
   return arguments[0].unbind();
 }),
     disabled = (function() {
-  /* eval.sibilant:1:628 */
+  /* eval.sibilant:1:694 */
 
   return arguments[0].disable();
 }),
     enabled = (function() {
-  /* eval.sibilant:1:659 */
+  /* eval.sibilant:1:725 */
 
   return arguments[0].enable();
 });

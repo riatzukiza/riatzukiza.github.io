@@ -32,17 +32,15 @@
 (define Thread Inline-worker
   (init (code (promise (Promise.resolve)))
         (.call Web-worker.init this))
-  (def send (data)
-    (assign this.promise
-            (then this.promise  _
-                  (print "sending message" data)
-                  (.*send this data)
-                  (make-promise 
-                   (.once this.events 'message
-                          (=> (data)
-                              (resolve data)))
-                   (.once this.events 'error
-                          (=> (message)
-                              (reject message))))))))
+  (def-accumulator send (promise data)
+    (print "sending message" data)
+    (.*send this data)
+    (make-promise
+     (.once this.events 'message
+            (=> (data)
+                (resolve data)))
+     (.once this.events 'error
+            (=> (message)
+                (reject message))))))
 
 (export Thread)

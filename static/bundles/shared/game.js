@@ -11276,13 +11276,13 @@ module.exports = _curry3(function zipWith(fn, a, b) {
 
 },{"./internal/_curry3":114}],"@shared/game.js":[function(require,module,exports){
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1123 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1185 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -11313,7 +11313,7 @@ var Game = Interface.define("Game", {
           setSystemBySymbol = systems.set;
       systems.getBySymbol = getSystemBySymbol;
       systems.get = (function systems$get$(interface, ent) {
-        /* systems.get eval.sibilant:1:939 */
+        /* systems.get eval.sibilant:1:1005 */
       
         var sys = getSystemBySymbol.call(systems, interface.symbol);
         return (function() {
@@ -11360,7 +11360,7 @@ var Game = Interface.define("Game", {
       return events.on("tick", ((t) => {
       	
         return systems.each((function() {
-          /* eval.sibilant:1:1560 */
+          /* eval.sibilant:1:1626 */
         
           return arguments[0].update();
         }));
@@ -11385,7 +11385,7 @@ var Game = Interface.define("Game", {
       entities.clear();
       events.removeAllListeners();
       return systems.each((function() {
-        /* eval.sibilant:1:1839 */
+        /* eval.sibilant:1:1905 */
       
         return arguments[0].clear();
       }));

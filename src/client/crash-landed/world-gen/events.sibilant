@@ -1,0 +1,25 @@
+(require! (lit Super-position) "@crash-landed/world-gen/super-position.js")
+(const loader self.loader)
+(def send-message (type data)
+  (.post-message
+   self (lit type (spread data))))
+(def generate-tile (data)
+  (.load )
+  )
+ 
+(on loader.events 'tile (data)
+
+    (const tile (.get loader m.data.x m.data.y))
+    (const s (.spawn Super-position tile))
+
+    (.collapse s)
+    (.despawn s)
+    (send-message 'collapsed-tile
+                  tile.data))
+(on loader.events 'tiles (data)
+    (send-message 'collapsed-tiles
+                  (map m.data.tiles (t)
+                       (tidy ((s (.spawn Super-position tile)))
+                             (const tile (.get loader t.x t.y))
+                             (.collapse s)
+                             (return tile.data)))))

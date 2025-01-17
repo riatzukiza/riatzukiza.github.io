@@ -10605,13 +10605,13 @@ module.exports = _curry3(function zipWith(fn, a, b) {
 
 },{"./internal/_curry3":107}],"@shared/data-structures/linked-list.js":[function(require,module,exports){
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1123 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1185 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -10744,9 +10744,9 @@ var List = Interface.define("List", {
       var node = this.head;
       var success = false;
       return (function() {
-        var while$28 = undefined;
+        var while$32 = undefined;
         while (node) {
-          while$28 = (function() {
+          while$32 = (function() {
             return (function() {
               if (node.item !== item) {
                 node = node.next;
@@ -10758,7 +10758,7 @@ var List = Interface.define("List", {
             }).call(this);
           }).call(this);
         };
-        return while$28;
+        return while$32;
       }).call(this);
     
    },
@@ -10866,14 +10866,14 @@ var List = Interface.define("List", {
     
       var node = this.head;
       (function() {
-        var while$29 = undefined;
+        var while$33 = undefined;
         while (node) {
-          while$29 = (function() {
+          while$33 = (function() {
             f(node.item, node);
             return node = node.next;
           }).call(this);
         };
-        return while$29;
+        return while$33;
       }).call(this);
       return this;
     
@@ -10883,13 +10883,13 @@ var List = Interface.define("List", {
       var result = create(List)();
       var node = this.head;
       return (function() {
-        var while$30 = undefined;
+        var while$34 = undefined;
         while (node) {
-          while$30 = (function() {
+          while$34 = (function() {
             return result.push(f(node, node.next, node.prev));
           }).call(this);
         };
-        return while$30;
+        return while$34;
       }).call(this);
     
    },

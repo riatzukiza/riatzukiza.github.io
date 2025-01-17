@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1123 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1185 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -33,7 +33,7 @@ var WebWorker = Spawnable.define("WebWorker", {
           return this._worker;
         } else {
           return this._worker = (function() {
-            /* inc/misc.sibilant:1:3415 */
+            /* inc/misc.sibilant:1:3417 */
           
             return (new Worker(this.url));
           }).call(this);
@@ -124,7 +124,7 @@ var InlineWorker = WebWorker.define("InlineWorker", {
           return this._url;
         } else {
           return this._url = (function() {
-            /* inc/misc.sibilant:1:3415 */
+            /* inc/misc.sibilant:1:3417 */
           
             return window.URL.createObjectURL(this.blob);
           }).call(this);
@@ -139,7 +139,7 @@ var InlineWorker = WebWorker.define("InlineWorker", {
           return this._blob;
         } else {
           return this._blob = (function() {
-            /* inc/misc.sibilant:1:3415 */
+            /* inc/misc.sibilant:1:3417 */
           
             return (new Blob([ this.code ], { 
               type:"text/javascript"
@@ -159,31 +159,6 @@ var Thread = InlineWorker.define("Thread", {
       return this;
     
    },
-  send( data ){ 
-    
-      return this.promise = this.promise.then(((_) => {
-      	
-        console.log("sending message", data);
-        this._send(data);
-        return (new Promise(((success, fail) => {
-        	
-          var resolve = success,
-              reject = fail;
-          this.events.once("message", ((data) => {
-          	
-            return resolve(data);
-          
-          }));
-          return this.events.once("error", ((message) => {
-          	
-            return reject(message);
-          
-          }));
-        
-        })));
-      
-      }));
-    
-   }
+  defAccumulator:send
  });
 exports.Thread = Thread;

@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1123 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1185 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -27,7 +27,7 @@ var _assignId = ((m, k) => {
 });
 var ObjectPool = Interface.define("ObjectPool", { 
   init( size = this.size,_interface = null,_array = (function(array) {
-    /* eval.sibilant:1:489 */
+    /* inc/misc.sibilant:1:800 */
   
     (function() {
       /* node_modules/kit/inc/loops.sibilant:26:8 */
@@ -39,7 +39,7 @@ var ObjectPool = Interface.define("ObjectPool", {
         /* node_modules/kit/inc/loops.sibilant:28:35 */
       
         array.push((function() {
-          /* eval.sibilant:1:477 */
+          /* eval.sibilant:1:543 */
         
           return Object.create(_interface);
         }).call(this));
@@ -87,7 +87,7 @@ var ObjectPool = Interface.define("ObjectPool", {
     
       "remove an object from the collection of available ones,\n"+"adding it to the collection of objects currently in use,\n"+"and return it to the caller.";
       return (function(member) {
-        /* eval.sibilant:1:489 */
+        /* inc/misc.sibilant:1:800 */
       
         _inUse.add(member);
         return member;

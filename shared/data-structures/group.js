@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1123 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1185 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -84,7 +84,7 @@ var Group = Spawnable.define("Group", {
     
       "remove and return the element last in the groups ordering.";
       return (function(item) {
-        /* inc/misc.sibilant:1:798 */
+        /* inc/misc.sibilant:1:800 */
       
         _members.delete(item);
         return item;
@@ -114,7 +114,7 @@ var Group = Spawnable.define("Group", {
       return (function() {
         if (!(_members.has(member))) {
           return (function(node) {
-            /* inc/misc.sibilant:1:798 */
+            /* inc/misc.sibilant:1:800 */
           
             _members.set(member, node);
             _list.pushNode(node);
@@ -139,7 +139,7 @@ var Group = Spawnable.define("Group", {
     
       "Remove a specific member from the group.";
       return (function(node) {
-        /* inc/misc.sibilant:1:798 */
+        /* inc/misc.sibilant:1:800 */
       
         (function() {
           if (node) {

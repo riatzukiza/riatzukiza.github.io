@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1123 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1185 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -26,7 +26,7 @@ var SpriteInterface = Component.define("SpriteInterface", {
   register( dim = this.dim,system = this.system ){ 
     
       return this.verts = create(MatrixMap)(dim, (function(array) {
-        /* eval.sibilant:1:489 */
+        /* eval.sibilant:1:555 */
       
         (function() {
           /* node_modules/kit/inc/loops.sibilant:26:8 */
@@ -38,7 +38,7 @@ var SpriteInterface = Component.define("SpriteInterface", {
             /* node_modules/kit/inc/loops.sibilant:28:35 */
           
             array.push((function() {
-              /* eval.sibilant:1:477 */
+              /* eval.sibilant:1:543 */
             
               return system.verts.spawn();
             }).call(this));

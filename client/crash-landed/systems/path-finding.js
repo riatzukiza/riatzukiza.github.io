@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1123 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1185 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -153,7 +153,7 @@ var PathNode = Heapable.define("PathNode", {
           return this._gCost;
         } else {
           return this._gCost = (function() {
-            /* inc/misc.sibilant:1:3415 */
+            /* inc/misc.sibilant:1:3417 */
           
             (function() {
               if (this.parent === this) {
@@ -181,7 +181,7 @@ var PathNode = Heapable.define("PathNode", {
           return this._fCost;
         } else {
           return this._fCost = (function() {
-            /* inc/misc.sibilant:1:3415 */
+            /* inc/misc.sibilant:1:3417 */
           
             return (this.gCost + this.hCost);
           }).call(this);
@@ -218,15 +218,15 @@ var PathNode = Heapable.define("PathNode", {
       var path = List.spawn();
       var node = this;
       return (function() {
-        var while$361 = undefined;
+        var while$202 = undefined;
         while (node) {
-          while$361 = (function() {
+          while$202 = (function() {
             path.unshift(node);
             node = node.parent;
             return path;
           }).call(this);
         };
-        return while$361;
+        return while$202;
       }).call(this);
     
    },
@@ -364,7 +364,7 @@ var PathFinding = System.define("PathFinding", {
               return c.activeNodes.get(c.start);
             } else {
               var r = (function() {
-                /* inc/misc.sibilant:1:689 */
+                /* inc/misc.sibilant:1:691 */
               
                 return PathNode.spawn(c.start, c.start, c.end, c.open);
               }).call(this);
@@ -374,9 +374,9 @@ var PathFinding = System.define("PathFinding", {
           }).call(this);
           c.open.insert(startingNode);
           return (function() {
-            var while$362 = undefined;
+            var while$203 = undefined;
             while (c.open.root) {
-              while$362 = (function() {
+              while$203 = (function() {
                 const currentNode=c.nextOpenNode;
                 return (function() {
                   if (currentNode.tile === c.end) {
@@ -395,7 +395,7 @@ var PathFinding = System.define("PathFinding", {
                         return c.activeNodes.get(neighbor);
                       } else {
                         var r = (function() {
-                          /* inc/misc.sibilant:1:689 */
+                          /* inc/misc.sibilant:1:691 */
                         
                           return PathNode.spawn(neighbor, c.start, c.end, c.open);
                         }).call(this);
@@ -420,7 +420,7 @@ var PathFinding = System.define("PathFinding", {
                 }).call(this);
               }).call(this);
             };
-            return while$362;
+            return while$203;
           }).call(this);
         }
       }).call(this);

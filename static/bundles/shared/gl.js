@@ -1,13 +1,13 @@
 require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({"@shared/gl.js":[function(require,module,exports){
 (function (global){(function (){
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1123 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1185 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -32,28 +32,28 @@ var {
  } = Andy.Color;
 global.Program = Program;
 Gl.shader = (function Gl$shader$(typeName, string, context) {
-  /* Gl.shader eval.sibilant:1:416 */
+  /* Gl.shader eval.sibilant:1:482 */
 
   return (new Andy.Gl.Shader(Andy.Gl.Shader[typeName], string));
 });
 Gl.buffer = (function Gl$buffer$(_members, context) {
-  /* Gl.buffer eval.sibilant:1:526 */
+  /* Gl.buffer eval.sibilant:1:592 */
 
   return (new Andy.Gl.Buffer(context.ARRAY_BUFFER, context.DYNAMIC_DRAW)).bind().data(_members.data).unbind();
 });
 Gl.context = (function Gl$context$(dimensions, blend) {
-  /* Gl.context eval.sibilant:1:706 */
+  /* Gl.context eval.sibilant:1:772 */
 
   const context=(new Andy.Context()).makeCurrent().resize(...dimensions).clearColor(0, 0, 0, 0).blend(blend).clear();
   return context;
 });
 Gl.uniform = (function Gl$uniform$(typeName, varName, value) {
-  /* Gl.uniform eval.sibilant:1:1016 */
+  /* Gl.uniform eval.sibilant:1:1082 */
 
   return (new Andy.Gl.Uniform[typeName](varName, value));
 });
 Gl.program = (function Gl$program$(vert, frag, context) {
-  /* Gl.program eval.sibilant:1:1320 */
+  /* Gl.program eval.sibilant:1:1386 */
 
   return (new Andy.Gl.Program(Gl.shader("vertex", vert, context), Gl.shader("fragment", frag, context)));
 });

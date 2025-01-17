@@ -10792,13 +10792,13 @@ module.exports = _curry3(function zipWith(fn, a, b) {
 },{"./internal/_curry3":108}],"@shared/ecs/component-system.js":[function(require,module,exports){
 (function (process){(function (){
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1123 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1185 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -10955,7 +10955,7 @@ var System = Interface.define("System", {
   spawn( entity = this.entity,pool = this.pool,components = this.components ){ 
     
       return (function(c) {
-        /* inc/misc.sibilant:1:798 */
+        /* inc/misc.sibilant:1:800 */
       
         components.set(entity, c);
         return c;

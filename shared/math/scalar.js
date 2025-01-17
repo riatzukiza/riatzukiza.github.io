@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1123 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1185 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -35,7 +35,7 @@ var Scalar = Interface.define("Scalar", {
   mul( array = this.array,value = this.value ){ 
     
       return array.map((function() {
-        /* eval.sibilant:1:384 */
+        /* eval.sibilant:1:450 */
       
         return (arguments[0] * value);
       }));
@@ -44,7 +44,7 @@ var Scalar = Interface.define("Scalar", {
   div( array = this.array,value = this.value ){ 
     
       return array.map((function() {
-        /* eval.sibilant:1:453 */
+        /* eval.sibilant:1:519 */
       
         return (arguments[0] / value);
       }));
@@ -53,7 +53,7 @@ var Scalar = Interface.define("Scalar", {
   sub( array = this.array,value = this.value ){ 
     
       return array.map((function() {
-        /* eval.sibilant:1:522 */
+        /* eval.sibilant:1:588 */
       
         return (arguments[0] - value);
       }));

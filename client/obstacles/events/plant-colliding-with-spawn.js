@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1123 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1185 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -33,13 +33,13 @@ game.events.on("plantCollidingWithSpawn", ((home, plant) => {
   const v=plant.entity.velocityInterface;
   const pos=plant.pos;
   var xd = (function() {
-    /* eval.sibilant:1:511 */
+    /* eval.sibilant:1:577 */
   
     var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
     return (config.collisionStatic - (rand / 2));
   }).call(this);
   var yd = (function() {
-    /* eval.sibilant:1:511 */
+    /* eval.sibilant:1:577 */
   
     var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
     return (config.collisionStatic - (rand / 2));

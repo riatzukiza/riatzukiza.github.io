@@ -1,12 +1,12 @@
 require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({"@crash-landed/world-gen/worker.js":[function(require,module,exports){
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1123 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1185 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -20,51 +20,31 @@ var {
 var TileGenerator = Thread.define("TileGenerator", { 
   code:"(() => {\n" +
   "	\n" +
-  "  var loader = null;\n" +
   "  self.onmessage = (function self$onmessage$(m) {\n" +
-  "    /* self.onmessage eval.sibilant:8:11 */\n" +
+  "    /* self.onmessage eval.sibilant:7:11 */\n" +
   "  \n" +
   "    return (function() {\n" +
   "      if (m.data.type === \"load\") {\n" +
-  "        importScripts.apply(this, m.data.scripts);\n" +
-  "        require(\"@crash-landed/hack.js\");\n" +
-  "        var { \n" +
-  "          TileLoader\n" +
-  "         } = require(\"@crash-landed/world-gen/tile-loader.js\"),\n" +
-  "            modules = require(\"@crash-landed/world-gen/modules.js\");\n" +
-  "        loader = TileLoader.spawn();\n" +
-  "        return self.postMessage({ \n" +
-  "          type:\"done\",\n" +
-  "          message:\"done loading\"\n" +
-  "         });\n" +
-  "      } else if (m.data.type === \"tile\") {\n" +
-  "        var { \n" +
-  "          SuperPosition\n" +
-  "         } = require(\"@crash-landed/world-gen/super-position.js\");\n" +
-  "        const tile=loader.get(m.data.x, m.data.y);\n" +
-  "        const s=SuperPosition.spawn(tile);\n" +
-  "        s.collapse();\n" +
-  "        s.despawn();\n" +
-  "        return self.postMessage({ \n" +
-  "          type:\"collapsedTile\",\n" +
-  "          tile:tile.data\n" +
-  "         });\n" +
-  "      } else if (m.data.type === \"tiles\") {\n" +
-  "        var { \n" +
-  "          SuperPosition\n" +
-  "         } = require(\"@crash-landed/world-gen/super-position.js\");\n" +
-  "        return self.postMessage({ \n" +
-  "          type:\"collapsedTiles\",\n" +
-  "          tiles:m.data.tiles.map(((t) => {\n" +
-  "          	\n" +
-  "            const tile=loader.get(t.x, t.y);\n" +
-  "            const s=SuperPosition.spawn(tile);\n" +
-  "            s.collapse();\n" +
-  "            s.despawn();\n" +
-  "            return tile.data;\n" +
-  "          \n" +
-  "          }))\n" +
-  "         });\n" +
+  "        return (function() {\n" +
+  "          if (!(self.loader)) {\n" +
+  "            importScripts.apply(this, m.data.scripts);\n" +
+  "            require(\"@crash-landed/hack.js\");\n" +
+  "            var { \n" +
+  "              TileLoader\n" +
+  "             } = require(\"@crash-landed/world-gen/tile-loader.js\"),\n" +
+  "                modules = require(\"@crash-landed/world-gen/modules.js\");\n" +
+  "            self.loader = TileLoader.spawn();\n" +
+  "            require(\"@crash-landed/world-gen/events.js\");\n" +
+  "            return self.postMessage({ \n" +
+  "              type:\"done\",\n" +
+  "              message:\"done loading\"\n" +
+  "             });\n" +
+  "          } else {\n" +
+  "            throw (new Error(\"Trying to load after loading.\"))\n" +
+  "          }\n" +
+  "        }).call(this);\n" +
+  "      } else {\n" +
+  "        return loader.emit(m.data.type, m.data);\n" +
   "      }\n" +
   "    }).call(this);\n" +
   "  });\n" +
@@ -94,6 +74,9 @@ var TileGenerator = Thread.define("TileGenerator", {
         type:"tiles",
         tiles
        });
+    
+   },
+  getNear( x,y ){ 
     
    }
  });

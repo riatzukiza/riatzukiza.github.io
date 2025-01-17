@@ -1,12 +1,12 @@
 require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({"@crash-landed/world-gen/probabilities.js":[function(require,module,exports){
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1123 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1185 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -123,7 +123,7 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
           return this._totalWeight;
         } else {
           return this._totalWeight = (function() {
-            /* inc/misc.sibilant:1:3415 */
+            /* inc/misc.sibilant:1:3417 */
           
             return summate(this.weights);
           }).call(this);
@@ -138,7 +138,7 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
           return this._weights;
         } else {
           return this._weights = (function() {
-            /* inc/misc.sibilant:1:3415 */
+            /* inc/misc.sibilant:1:3417 */
           
             return this.states.map(((state) => {
             	
@@ -157,7 +157,7 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
           return this._states;
         } else {
           return this._states = (function() {
-            /* inc/misc.sibilant:1:3415 */
+            /* inc/misc.sibilant:1:3417 */
           
             return TerrainModule.modules.map(((chunkType) => {
             	
@@ -176,7 +176,7 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
           return this._grass;
         } else {
           return this._grass = (function() {
-            /* inc/misc.sibilant:1:3415 */
+            /* inc/misc.sibilant:1:3417 */
           
             return (this.states.reduce(((weight, state) => {
             	
@@ -201,7 +201,7 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
           return this._stone;
         } else {
           return this._stone = (function() {
-            /* inc/misc.sibilant:1:3415 */
+            /* inc/misc.sibilant:1:3417 */
           
             return (this.states.reduce(((weight, state) => {
             	
@@ -226,7 +226,7 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
           return this._floweryGrass;
         } else {
           return this._floweryGrass = (function() {
-            /* inc/misc.sibilant:1:3415 */
+            /* inc/misc.sibilant:1:3417 */
           
             return (this.states.reduce(((weight, state) => {
             	

@@ -133,7 +133,9 @@
    (var lisp (await file.string))
    (var js (await (.send compiler (+ "(include \"./inc/docs.sibilant\")"
                                      "(include \"./inc/misc.sibilant\")"
+                                     "(include \"./inc/generators.sibilant\")"
                                      "(import-namespace misc)"
+                                     "(import-namespace generators)"
                                      "(import-namespace docs)"
 
                                      "(meta (assign sibilant.dir \"" (Path.dirname file.path) "\" ) null)"

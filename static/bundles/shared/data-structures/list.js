@@ -1,12 +1,12 @@
 require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({"@shared/data-structures/list.js":[function(require,module,exports){
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1123 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1185 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -96,13 +96,13 @@ var List = Spawnable.define("List", {
   clear(  ){ 
     
       return (function() {
-        var while$32 = undefined;
+        var while$37 = undefined;
         while (this.length > 0) {
-          while$32 = (function() {
+          while$37 = (function() {
             return this.pop();
           }).call(this);
         };
-        return while$32;
+        return while$37;
       }).call(this);
     
    },
@@ -139,9 +139,9 @@ var List = Spawnable.define("List", {
       var node = this.head;
       var r = false;
       (function() {
-        var while$33 = undefined;
+        var while$38 = undefined;
         while ((node && !(r))) {
-          while$33 = (function() {
+          while$38 = (function() {
             return (function() {
               if (node.item !== item) {
                 return node = node.next;
@@ -152,7 +152,7 @@ var List = Spawnable.define("List", {
             }).call(this);
           }).call(this);
         };
-        return while$33;
+        return while$38;
       }).call(this);
       return item;
     
@@ -250,14 +250,14 @@ var List = Spawnable.define("List", {
     
       var node = this.head;
       (function() {
-        var while$34 = undefined;
+        var while$39 = undefined;
         while (node) {
-          while$34 = (function() {
+          while$39 = (function() {
             f(node.item, node);
             return node = node.next;
           }).call(this);
         };
-        return while$34;
+        return while$39;
       }).call(this);
       return this;
     
@@ -267,13 +267,13 @@ var List = Spawnable.define("List", {
       var result = create(List)();
       var node = this.head;
       return (function() {
-        var while$35 = undefined;
+        var while$40 = undefined;
         while (node) {
-          while$35 = (function() {
+          while$40 = (function() {
             return result.push(f(node, node.next, node.prev));
           }).call(this);
         };
-        return while$35;
+        return while$40;
       }).call(this);
     
    },
@@ -326,9 +326,9 @@ var List = Spawnable.define("List", {
       var r = false;
       var t = 0;
       (function() {
-        var while$36 = undefined;
+        var while$41 = undefined;
         while ((!(r) && t < this.size)) {
-          while$36 = (function() {
+          while$41 = (function() {
             return (function() {
               if (predicate(this.head.item)) {
                 return r = this.head.item;
@@ -339,7 +339,7 @@ var List = Spawnable.define("List", {
             }).call(this);
           }).call(this);
         };
-        return while$36;
+        return while$41;
       }).call(this);
       return r;
     

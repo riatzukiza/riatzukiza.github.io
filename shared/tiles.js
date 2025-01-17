@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1123 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1185 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -119,7 +119,6 @@ var TileNode = Spawnable.define("TileNode", {
    },
   traverseArea( f = this.f,n = this.n,visited = (new Set()) ){ 
     
-      visited.add(this);
       for (var x = (this.x - n);x < (this.x + n);++(x))
       {
       for (var y = (this.y - n);y < (this.y + n);++(y))

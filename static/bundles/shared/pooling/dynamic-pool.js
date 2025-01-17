@@ -10605,13 +10605,13 @@ module.exports = _curry3(function zipWith(fn, a, b) {
 
 },{"./internal/_curry3":107}],"@shared/pooling/dynamic-pool.js":[function(require,module,exports){
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1123 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1185 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -10629,7 +10629,7 @@ var {
   List
  } = require("@shared/data-structures/list.js");
 var sumOf = (function sumOf$(list, p) {
-  /* sum-of eval.sibilant:1:538 */
+  /* sum-of eval.sibilant:1:604 */
 
   return list.reduce(((total, e) => {
   	
@@ -10677,7 +10677,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(newPool) {
-        /* eval.sibilant:1:489 */
+        /* eval.sibilant:1:555 */
       
         buckets.unshift(newPool);
         return newPool;
@@ -10734,7 +10734,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(object) {
-        /* eval.sibilant:1:489 */
+        /* eval.sibilant:1:555 */
       
         object.bucket = this.current;
         (function() {
@@ -10837,7 +10837,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(r) {
-        /* eval.sibilant:1:489 */
+        /* eval.sibilant:1:555 */
       
         r.init(...args);
         return r;
