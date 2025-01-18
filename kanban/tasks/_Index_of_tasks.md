@@ -109,6 +109,7 @@
  [[kanban/tasks/Symbiant|Symbiant]]
  [[kanban/tasks/Terrain features|Terrain features]]
  [[kanban/tasks/Text editor program|Text editor program]]
+ [[kanban/tasks/Threaded game systems|Threaded game systems]]
  [[kanban/tasks/Toggle coordinate wrap around|Toggle coordinate wrap around]]
  [[kanban/tasks/unit system|unit system]]
  [[kanban/tasks/Update physics engine to increase accuracy and performance|Update physics engine to increase accuracy and performance]]

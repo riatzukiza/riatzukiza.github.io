@@ -186,7 +186,7 @@ kanban-plugin: board
 ## New (50)
 
 - [ ] Optional/removable components
-- [ ] Threaded game systems
+- [ ] [[Threaded game systems]]
 - [ ] Prevent agents from entering ungenerated parts of the world.
 - [ ] cleanup needs system
 - [ ] Cleanup path finding system
