@@ -88,6 +88,7 @@
  [[kanban/tasks/Process|Process]]
  [[kanban/tasks/Pure p2p video text chat|Pure p2p video text chat]]
  [[kanban/tasks/Question answering system for file system|Question answering system for file system]]
+ [[kanban/tasks/ranged attack system|ranged attack system]]
  [[kanban/tasks/Remove duplicate code included in headers.|Remove duplicate code included in headers.]]
  [[kanban/tasks/resource mechanics|resource mechanics]]
  [[kanban/tasks/reverse navigation home|reverse navigation home]]

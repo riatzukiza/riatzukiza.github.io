@@ -1,6 +1,6 @@
 {
   "releaseNote2_0_0wasShowed": true,
-  "persistentOuput": false,
+  "persistentOuput": true,
   "timeout": 10000,
   "allowInput": true,
   "wslMode": false,

@@ -120,6 +120,9 @@ kanban-plugin: board
 
 ## Ice Box
 
+- [ ] [Better sprite rotation](tasks/Better%20sprite%20rotation.md)
+- [ ] [multiple signal fields](tasks/multiple%20signal%20fields.md)
+- [ ] [reverse navigation home](tasks/reverse%20navigation%20home.md)
 - [ ] [weather system](tasks/weather%20system.md)
 - [ ] [flying units](tasks/flying%20units.md)
 - [ ] [chat app MVP](tasks/chat%20app%20MVP.md)
@@ -183,6 +186,16 @@ kanban-plugin: board
 ## New (50)
 
 - [ ] Optional/removable components
+- [ ] Threaded game systems
+- [ ] Prevent agents from entering ungenerated parts of the world.
+- [ ] cleanup needs system
+- [ ] Cleanup path finding system
+- [ ] clean up mental state system
+- [ ] cleanup item system
+- [ ] cleanup container system
+- [ ] Implement action system
+- [ ] Add sound effects
+- [ ] Add music
 
 
 ## Bugs (8)
@@ -193,7 +206,7 @@ kanban-plugin: board
 
 ## Accepted (21)
 
-- [ ] ranged attack system
+- [ ] [[ranged attack system]]
 - [ ] projectile system
 - [ ] [minimap](tasks/minimap.md)
 - [ ] In game unit designer
@@ -222,6 +235,7 @@ kanban-plugin: board
 
 ## Ready (21)
 
+- [ ] [predator agents](tasks/predator%20agents.md)
 - [ ] [multiple factions](tasks/multiple%20factions.md)
 - [ ] [Dynamic pools for renderables.](tasks/Dynamic%20pools%20for%20renderables..md)
 - [ ] [attack system](tasks/attack%20system.md)
@@ -232,7 +246,6 @@ kanban-plugin: board
 	  - Consolodate position and velocity into physics
 	  - When performing updates, do not mutate the state of the
 	last tick. Use two data structures, and swap them out [each](../docs/Pools/Dynamic/each.md) tick.
-- [ ] [predator agents](tasks/predator%20agents.md)
 - [ ] [Hot reload system](tasks/Hot%20reload%20system.md)
 	  - Create a seperate pipeline for development and production
 
@@ -243,30 +256,27 @@ kanban-plugin: board
 - [ ] [placeable entities (rocks, plants, bases)](tasks/placeable%20entities%20(rocks,%20plants,%20bases).md)
 - [ ] [sparse vector fields](tasks/sparse%20vector%20fields.md)
 - [ ] [vector field visualization](tasks/vector%20field%20visualization.md)
-- [ ] [Better sprite rotation](tasks/Better%20sprite%20rotation.md)
 - [ ] [Order queues](tasks/Order%20queues.md)
 - [ ] [selection box](tasks/selection%20box.md)
 
 
 ## In Progress (3)
 
-- [ ] [[implement binary heap]]
-- [ ] [reverse navigation home](tasks/reverse%20navigation%20home.md)
-- [ ] [multiple signal fields](tasks/multiple%20signal%20fields.md)
 
 
 ## In Review (8)
 
-- [ ] [unit system](tasks/unit%20system.md)
-	  - A unit is an abstraction over an entity.
-	  - Entities can be anything in the game
-	  - A unit is a dynamic collection of entities
-	- Like say a weapon, a shield
+- [ ] [[implement binary heap]]
 
 
 ## Done
 
 **Complete**
+- [x] [unit system](tasks/unit%20system.md) ✅ 2025-01-18
+	  - A unit is an abstraction over an entity.
+	  - Entities can be anything in the game
+	  - A unit is a dynamic collection of entities
+	- Like say a weapon, a shield
 - [x] [[Map generation]] ✅ 2025-01-15
 - [x] [metabolism system](tasks/metabolism%20system.md) ✅ 2025-01-15
 - [x] [[Implement A star algorithim]] ✅ 2025-01-15
@@ -303,6 +313,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,true,true,true,false,true,false,false,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,true,false,true,false,true,false,false,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%

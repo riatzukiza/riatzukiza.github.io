@@ -2,7 +2,7 @@
   "providers": {
     "ollama": {
       "url": "http://localhost:11434",
-      "defaultModel": "llama3.2:1b",
+      "defaultModel": "zephyr",
       "embeddingModel": "llama3.2:1b",
       "type": "ollama"
     },
@@ -28,9 +28,16 @@
   "defaults": {
     "provider": "ollama",
     "fallbackProvider": "",
-    "creativity": "low"
+    "creativity": "medium"
   },
   "actions": [
+    {
+      "name": "Fill in this card note",
+      "prompt": "",
+      "model": "",
+      "system": "Using the title of this document, fill in each section.",
+      "replace": true
+    },
     {
       "name": "Game Dev Assistant",
       "prompt": "",
