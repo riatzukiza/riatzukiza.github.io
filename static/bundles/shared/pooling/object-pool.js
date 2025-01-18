@@ -10646,7 +10646,7 @@ var _assignId = ((m, k) => {
 });
 var ObjectPool = Interface.define("ObjectPool", { 
   init( size = this.size,_interface = null,_array = (function(array) {
-    /* inc/misc.sibilant:1:1369 */
+    /* eval.sibilant:1:635 */
   
     (function() {
       /* node_modules/kit/inc/loops.sibilant:26:8 */
@@ -10706,7 +10706,7 @@ var ObjectPool = Interface.define("ObjectPool", {
     
       "remove an object from the collection of available ones,\n"+"adding it to the collection of objects currently in use,\n"+"and return it to the caller.";
       return (function(member) {
-        /* inc/misc.sibilant:1:1369 */
+        /* eval.sibilant:1:635 */
       
         _inUse.add(member);
         return member;

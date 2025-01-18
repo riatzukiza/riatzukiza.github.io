@@ -10613,32 +10613,17 @@ var PositionInterface = PositionInterface.define("PositionInterface", {
   
     return (() => {
     	
-      return (function() {
-        if (this.views.has("view")) {
-          return this.views.get("view");
-        } else {
-          var r = (function() {
-            /* eval.sibilant:13:23 */
-          
-            return createDocumentNode("div", {
-              'className': "panel",
-              'style': { 
-                width:"48%"
-               }
-            }, [ createDocumentNode("div", {  }, [ "position" ]), createDocumentNode("div", {  }, [ (() => {
-            	
-              return displayDecimal(this.x, 2);
-            
-            }), ", ", (() => {
-            	
-              return displayDecimal(this.y, 2);
-            
-            }) ]) ]);
-          }).call(this);
-          this.views.set("view", r);
-          return r;
-        }
-      }).call(this);
+      return cache(this.views, "view", dom(className.div("panel", style, { 
+        width:"48%"
+       }, "position".div(), (() => {
+      	
+        return displayDecimal(this.x, 2);
+      
+      }).div(", ", (() => {
+      	
+        return displayDecimal(this.y, 2);
+      
+      })))));
     
     });
   

@@ -22,29 +22,99 @@
 
 (define Chunk Grid-chunk
   (gett data (Array.from (.collapse this)))
+  (gett heap this.grid.heap.heap)
+  (cached position-vector (.spawn Vector this.grid-x this.grid-y))
+  (gett player-pos this.grid.player-pos)
+  (gett distance-from-player
+        (const dv (.distance-to player-pos this.position-vector))
+        (const d (Math.abs (.get-length dv)))
+        (.despawn dv)
+        (return d))
+  (def compare-to (chunk)
+    (if (> this.distance-from-player chunk.distance-from-player)
+        -1
+        1))
   (def-generic* collapse ()
 
     (print "collapsing chunk" this)
     (if! this.collapsed (return))
+    (assign this.collapsing true)
     (for-of! cell this.cells
              (if! cell.type
                   (print "previously collapsed cell detected")
                   continue)
              (yield (.collapse cell)))
-    (set this 'collapsed true)))
+    (set this 'collapsed true
+         'collapsing false
+         )))
 
 (export Tile)
 (define Tile-grid Grid
   (Chunk Chunk)
   (Cell Tile)
+  (player-pos (.spawn Vector 0 0))
+  (heap (.spawn Binary-heap))
+  (loading-chunks (new Set))
+  (unsent-chunks [])
+  (def* request-chunks ()
+    (while! unsent-chunks.length
+            (yield (get (.pop this.unsent-chunks) 'data))))
+  (gett ready-chunks (Promise.all (Array.from (.request-chunks this))))
+  (gett ready-tiles (then this.ready-chunks chunks (chunks)
+                          (.flat chunks)))
+  (cached chunk-processor (.process-chunks this))
+  (search-radius 1)
+  (gett player-chunk (.get-nearest-chunk this this.player-pos.x this.player-pos.y))
+  (gett chunks-in-search-radius (.get-chunks-in-search-radius this))
+  (def step () (const promise (.next this.chunk-processor))
+       (.push this.unsent-chunks promise)
+       promise)
+  (def-async* process-chunks () (while! true (yield (.collapse this.next-chunk))))
+  (gett next-chunk (.get-next-chunk this))
+  (def add-to-heap (chunk)
+    (if! (and (not chunk.collapsed)
+             (not (.has this.loading-chunks chunk)))
+        (.add this.loading-chunks chunk)
+        (.insert this.heap chunk))
+    null)
+
+  (def get-next-chunk ()
+    (var next-chunk (.extract-min this.heap))
+
+    (while! (not chunk)
+         (incr this.search-radius)
+         (for-of! chunk this.chunks-in-search-radius
+                  (.add-to-heap this chunk))
+         (assign next-chunk (.extract-min this.heap) ))
+    (.delete this.loading-chunks next-chunk)
+    (return next-chunk))
+
+  (def reset-search-radius ()
+    (assign this.search-radius 1))
+  (def get-chunks-in-search-radius ()
+    (.get-nearest-chunks this this.player-pos.x this.player-pos.y
+                         this.search-radius)
+    )
+  (def update-player-pos (pos)
+    (when (!= (.get-nearest-chunk this pos.x pos.y)
+              this.player-chunk)
+      (.reset-search-radius this)
+      (.heapify this.heap)
+
+        )
+
+    (set this.player-pos
+         'x pos.x
+         'y pos.y)
+)
   (init ((events ((create Event-emitter))))
         (.call Grid.init this))
   (chunk-size 16)
   (overlap-factor 2)
   (def collapse-area (x y w h))
   (def collapse-cell (x y) (.collapse (.get this x y)))
-  (def collapse-chunk (x y) (.collapse (.get-chunk this x y)))
-  (def collapse-nearest-chunk (x y) (.collapse (.get-nearest-chunk this x y)))
+  (def collapse-chunk (x y) (get (.get-chunk this x y) 'data))
+  (def collapse-nearest-chunk (x y) (get (.get-nearest-chunk this x y) 'data))
   (def collapse-cells (coords) (map coords (p) (.collapse (.get this p.x p.y))))
   (def collapse-nearest-chunks (x y n)
     (print this)

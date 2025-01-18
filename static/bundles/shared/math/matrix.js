@@ -10589,7 +10589,7 @@ var Matrix = Interface.define("Matrix", {
     
       "perform a kernel filter convolution of two matricies '";
       return (function(m) {
-        /* inc/misc.sibilant:1:1369 */
+        /* eval.sibilant:1:635 */
       
         for (var x = 0;x < width;++(x))
         {
@@ -10662,7 +10662,7 @@ var Matrix = Interface.define("Matrix", {
       return (function() {
         if (A.width === B.height) {
           return (function(m) {
-            /* inc/misc.sibilant:1:1369 */
+            /* eval.sibilant:1:635 */
           
             for (var r = 0;r < A.width;++(r))
             {
@@ -10704,7 +10704,7 @@ var Matrix = Interface.define("Matrix", {
     
       "standard itterative operator, takes a produces a new Matrix from the successive\n"+"application of that function to every element of the input matrix";
       return (function(r) {
-        /* inc/misc.sibilant:1:1369 */
+        /* eval.sibilant:1:635 */
       
         m.each(((v, x, y, m) => {
         	

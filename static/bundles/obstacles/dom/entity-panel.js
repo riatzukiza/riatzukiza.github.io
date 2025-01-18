@@ -10693,42 +10693,38 @@ var EntityPanel = Interface.define("EntityPanel", {
           const property=component[key];
           return (function() {
             if ((typeof property === "string" || property.render || typeof property === "number")) {
-              return [ ...accumulator, createDocumentNode("div", { 'className': "panel" }, [ key, ":", component[key] ]) ];
+              return [ ...accumulator, dom(className.div("panel", key, ":", component[key])) ];
             }
           }).call(this);
         
         }), []);
       
       });
-      return createDocumentNode("div", {
-        'className': "panel",
-        'onmouseenter': (() => {
-        	
-          const dot=game.systems.get(Dot, this.entity);
-          this.entity.originalColor = dot.color;
-          dot.color = rgba(255, 255, 0, 255);
-          return console.log("mouse entered", dot.color);
-        
-        }),
-        'onmouseleave': (() => {
-        	
-          const dot=game.systems.get(Dot, this.entity);
-          dot.color = this.entity.originalColor;
-          return console.log("mouse left", dot.color);
-        
-        })
-      }, [ this.entity.aspects.map(((system) => {
+      return withDom(_parent, className.div("panel", onmouseenter, (() => {
+      	
+        const dot=game.systems.get(Dot, this.entity);
+        this.entity.originalColor = dot.color;
+        dot.color = rgba(255, 255, 0, 255);
+        return console.log("mouse entered", dot.color);
+      
+      }), onmouseleave, (() => {
+      	
+        const dot=game.systems.get(Dot, this.entity);
+        dot.color = this.entity.originalColor;
+        return console.log("mouse left", dot.color);
+      
+      }), this.entity.aspects.map(((system) => {
       	
         const component=game.systems.get(system, this.entity);
-        return createDocumentNode("div", { 'className': "panel" }, [ createDocumentNode("div", { 'className': "panel" }, [ createDocumentNode("b", {  }, [ system.name ]) ]), (function() {
+        return dom(className.div("panel", className.div("panel", system.name.b()), (function() {
           if (this[system.name]) {
             return this[system.name](component);
           } else {
-            return createDocumentNode("div", { 'className': "panel" }, [ componentPanel(component) ]);
+            return dom(className.div("panel", componentPanel(component)));
           }
-        }).call(this) ]);
+        }).call(this)));
       
-      })) ]).render(_parent);
+      }))));
     
    }
  });

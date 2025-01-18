@@ -11381,7 +11381,7 @@ var TileGrid = Grid.define("TileGrid", {
    },
   collapseChunk( x,y ){ 
     
-      return this.getChunk(x, y).collapse();
+      return this.getChunk(x, y).data;
     
    },
   collapseNearestChunk( x,y ){ 

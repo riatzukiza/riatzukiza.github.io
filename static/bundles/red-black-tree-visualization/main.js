@@ -85,7 +85,7 @@ var renderNode = (function renderNode$(node) {
       return "black";
     }
   }).call(this);
-  return createDocumentNode("div", { 'style': { 
+  return dom(style.div({ 
     "background-color":node.color,
     "color":foregroundColor,
     "float":"left",
@@ -99,7 +99,7 @@ var renderNode = (function renderNode$(node) {
     "border-color":foregroundColor,
     "border-width":"2px",
     "border-style":"solid"
-   } }, [ createDocumentNode("div", {  }, [ (node.key || "nil") ]), (function() {
+   }, (node.key || "nil").div(), (function() {
     if (node.left) {
       return renderNode(node.left);
     } else {
@@ -111,21 +111,18 @@ var renderNode = (function renderNode$(node) {
     } else {
       return "";
     }
-  }).call(this) ]);
+  }).call(this)));
 });
 const ticker=create(Ticker)(1);
 ticker.start();
-const container=createDocumentNode("div", {
-  'id': "container",
-  'style': { 
-    "width":(window.innerWidth + "px")
-   }
-}, [ createDocumentNode("h1", {  }, [ "find nodes between", low, "and", high ]), (() => {
+const container=dom(id.div("container", style, { 
+  "width":(window.innerWidth + "px")
+ }, "find nodes between".h1(low, "and", high), (() => {
 	
   return renderNode(rbTree.root);
 
-}) ]);
-const frame=createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentBody);
+})));
+const frame=withDom(DocumentBody, id.div("frame", container));
 ticker.events.on("tick", (() => {
 	
   rbTree.root.insert(Math.floor((Math.random() * (low + high))));

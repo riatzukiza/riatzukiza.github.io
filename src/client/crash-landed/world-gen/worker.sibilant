@@ -13,7 +13,6 @@
                                  modules "@crash-landed/world-gen/modules.js")
                        (assign self.tile-grid (.spawn Tile-grid))
                        (require "@crash-landed/world-gen/events.js")
-                       
                        (.post-message self (lit (type "done") (message "done loading"))))
                      (throw (new Error "Trying to load after loading.")))
                  (.emit tile-grid.events m.data.type m.data))))))
@@ -25,6 +24,10 @@
   (def get-tiles (tiles)
     (.send this (lit (type 'tiles)
                      tiles)))
+  (def get-loaded-tiles (pos)
+    (.send this (lit (type 'get-loaded-tiles
+                           (x pos.x)
+                           (y pos.y)))))
   (def-generic get-near (x y (n 3))
     (.send this (lit (type 'chunks-near) x y n))))
 

@@ -1,4 +1,5 @@
 (const tile-grid self.tile-grid)
+(var pos (lit (x 0) (y 0)))
 (def send-message (type data)
   (.post-message
    self
@@ -12,11 +13,32 @@
     (send-message 'collapsed-tiles
                    (lit (tiles (.collapse-cells tile-grid data)))))
 
+(on tile-grid.events 'player-tile-pos (data)
+    (send-message 'player-pos-update
+                  (lit (success true))))
+
+(on tile-grid.events 'get-loaded-tiles (data)
+    (.update-player-pos tile-grid data)
+    (then tile-grid.ready-tiles (tiles)
+          (send-message 'loaded-tiles
+                        (lit tiles))))
+
 (on tile-grid.events 'chunks-near (data)
     (send-message 'collapsed-tiles
-                   (lit (tiles (.collapse-nearest-chunks
-                                tile-grid
-                                data.x
-                                data.y
-                                data.n
-                                )))))
+                  (lit (tiles (.collapse-nearest-chunks
+                               tile-grid
+                               data.x
+                               data.y
+                               data.n)))))
+(on tile-grid.events '*step ()
+    (pipe (.step tile-grid)
+          (.then (-> (.emit tile-grid.events '*step)))))
+
+(once tile-grid.events 'start (data)
+      (send-message 'initial-tiles
+                    (lit (tiles (.collapse-nearest-chunks
+                                 tile-grid
+                                 data.x
+                                 data.y
+                                 data.n))))
+      (.emit tile-grid.events '*step))

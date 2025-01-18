@@ -10598,13 +10598,10 @@ var RockPanel = EntityPanel.define("RockPanel", {
     
       console.log("rendering color");
       const colorString=("rgb(" + dot.color.r + "," + dot.color.g + "," + dot.color.b + ")");
-      return createDocumentNode("div", {
-        'className': "panel",
-        'style': { 
-          "background-color":colorString,
-          "color":"grey"
-         }
-      }, [ colorString ]);
+      return dom(className.div("panel", style, { 
+        "background-color":colorString,
+        "color":"grey"
+       }, colorString));
     
    },
   Position( pos ){ 
@@ -10615,7 +10612,7 @@ var RockPanel = EntityPanel.define("RockPanel", {
    },
   Physics( phys ){ 
     
-      return createDocumentNode("div", { 'className': "panel" }, [ createDocumentNode("div", { 'className': "panel" }, [ "scale:", displayDecimal(phys.scale, 2) ]), createDocumentNode("div", { 'className': "panel" }, [ "mass:", displayDecimal(phys.mass, 2) ]), createDocumentNode("div", { 'className': "panel" }, [ "vol:", displayDecimal(phys.volume, 1) ]), createDocumentNode("div", { 'className': "panel" }, [ "density:", displayDecimal(phys.density, 4) ]) ]);
+      return dom(className.div("panel", className.div("panel", "scale:", displayDecimal(phys.scale, 2)), className.div("panel", "mass:", displayDecimal(phys.mass, 2)), className.div("panel", "vol:", displayDecimal(phys.volume, 1)), className.div("panel", "density:", displayDecimal(phys.density, 4))));
     
    }
  });

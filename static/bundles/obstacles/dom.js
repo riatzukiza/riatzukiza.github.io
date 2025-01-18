@@ -10601,13 +10601,9 @@ var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
 
   return (Math.round((Math.pow(10, n) * d)) / Math.pow(10, n));
 });
-const gameView=createDocumentNode("div", {
-  'id': "game-view",
-  'className': "panel",
-  'style': { 
-    "background-color":"sandyBrown"
-   }
-}, [ rendering.context.canvas ]);
+const gameView=dom(id.div("game-view", className, "panel", style, { 
+  "background-color":"sandyBrown"
+ }, rendering.context.canvas));
 const getStats=(() => {
 	
   var { 
@@ -10621,11 +10617,7 @@ const getStats=(() => {
    } = require("@obstacles/entities.js");
   const getTotalAntMass=(() => {
   	
-    return displayDecimal(ants.group.reduce(((sum, el) => {
-    	
-      return (sum + (el.physicalProperties.mass || 0));
-    
-    }), 0), 2);
+    return displayDecimal(sumOf(ants.group, "physicalProperties", "mass"), 2);
   
   });
   const getAntCount=(() => {
@@ -10635,28 +10627,20 @@ const getStats=(() => {
   });
   const getWins=(() => {
   	
-    return ants.group.reduce(((sum, el) => {
-    	
-      return (sum + (el.antLife.winCount || 0));
-    
-    }), 0);
+    return sumOf(ants.group, "antLife", "winCount");
   
   });
   const getLosses=(() => {
   	
-    return ants.group.reduce(((sum, el) => {
-    	
-      return (sum + (el.antLife.looseCount || 0));
-    
-    }), 0);
+    return sumOf(ants.group, "antLife", "looseCount");
   
   });
   const wins=getWins();
   const losses=getLosses();
-  return [ createDocumentNode("div", {  }, [ "Ants" ]), createDocumentNode("div", {  }, [ "count:", getAntCount ]), createDocumentNode("div", {  }, [ "latency:", game.ticker.averageLatency ]), createDocumentNode("div", {  }, [ "fps:", game.ticker.averageFps ]), createDocumentNode("div", {  }, [ "target fps:", game.ticker.fps ]), createDocumentNode("div", {  }, [ "total mass:", getTotalAntMass ]), createDocumentNode("div", {  }, [ "wins:", displayDecimal(wins) ]), createDocumentNode("div", {  }, [ "losses:", displayDecimal(losses) ]), createDocumentNode("div", {  }, [ "win/loss:", displayDecimal((wins / losses)) ]) ];
+  return [ dom("Ants".div()), dom("count:".div(getAntCount)), dom("latency:".div(game.ticker.averageLatency)), dom("fps:".div(game.ticker.averageFps)), dom("target fps:".div(game.ticker.fps)), dom("total mass:".div(getTotalAntMass)), dom("wins:".div(displayDecimal(wins))), dom("losses:".div(displayDecimal(losses))), dom("win/loss:".div(displayDecimal((wins / losses)))) ];
 
 });
-const stats=createDocumentNode("div", { 'className': "panel" }, [ getStats ]);
+const stats=dom(className.div("panel", getStats));
 const getVectorBucketCount=(() => {
 	
   return vectorPool.buckets.length;
@@ -10667,8 +10651,8 @@ const getTrailBucketCount=(() => {
   return trailPool.buckets.length;
 
 });
-const poolsView=createDocumentNode("div", { 'className': "panel" }, [ createDocumentNode("h3", {  }, [ "Pools" ]), createDocumentNode("div", {  }, [ "vector buckets", getVectorBucketCount ]), createDocumentNode("div", {  }, [ "trail buckets", getTrailBucketCount ]) ]);
-const resetButton=createDocumentNode("button", { 'onclick': (() => {
+const poolsView=dom(className.div("panel", "Pools".h3(), "vector buckets".div(getVectorBucketCount), "trail buckets".div(getTrailBucketCount)));
+const resetButton=dom(onclick.button((() => {
 	
   var { 
     game
@@ -10689,19 +10673,12 @@ const resetButton=createDocumentNode("button", { 'onclick': (() => {
   
   }));
 
-}) }, [ "Reset" ]);
+}), "Reset"));
 const inputField=((label, initialInput, type, f) => {
 	
-  return createDocumentNode("div", {
-    'className': "panel",
-    'style': { 
-      width:"49%"
-     }
-  }, [ label, createDocumentNode("input", {
-    'value': initialInput,
-    'type': (type || "number"),
-    'onchange': f
-  }, []) ]);
+  return dom(className.div("panel", style, { 
+    width:"49%"
+   }, label, value.input(initialInput, type, (type || "number"), onchange, f)));
 
 });
 const numberInput=((label, initialInput, f) => {
@@ -10718,17 +10695,13 @@ const configNumberInput=((label) => {
   }));
 
 });
-const settingsPanel=createDocumentNode("div", { 'className': "panel" }, [ configNumberInput("angleZoom"), configNumberInput("noiseZ"), configNumberInput("fieldForce"), configNumberInput("decay"), configNumberInput("maxLength"), configNumberInput("trailResultDuration"), configNumberInput("growthRate"), configNumberInput("plantMassLimit"), configNumberInput("maxInDecay"), configNumberInput("trailLimit"), configNumberInput("antLife"), configNumberInput("antInfluence"), configNumberInput("trailResolution"), configNumberInput("stationaryResistanceCoefficiant") ]);
-const debugView=createDocumentNode("div", {
-  'id': "debug-view",
-  'className': "panel",
-  'style': { 
-    height:(config.dimensions[1] + "px"),
-    width:(Math.round(((window.innerWidth * 0.2) - 42)) + "px"),
-    "overflow-y":"scroll"
-   }
-}, [ createDocumentNode("div", {  }, [ createDocumentNode("b", {  }, [ "stats" ]), resetButton, stats, poolsView ]), createDocumentNode("div", {  }, [ settingsPanel ]) ]);
-var container = createDocumentNode("div", { 'id': "container" }, [ gameView, debugView ]);
+const settingsPanel=dom(className.div("panel", configNumberInput("angleZoom"), configNumberInput("noiseZ"), configNumberInput("fieldForce"), configNumberInput("decay"), configNumberInput("maxLength"), configNumberInput("trailResultDuration"), configNumberInput("growthRate"), configNumberInput("plantMassLimit"), configNumberInput("maxInDecay"), configNumberInput("trailLimit"), configNumberInput("antLife"), configNumberInput("antInfluence"), configNumberInput("trailResolution"), configNumberInput("stationaryResistanceCoefficiant")));
+const debugView=dom(id.div("debug-view", className, "panel", style, { 
+  height:(config.dimensions[1] + "px"),
+  width:(Math.round(((window.innerWidth * 0.2) - 42)) + "px"),
+  "overflow-y":"scroll"
+ }, "stats".b().div(resetButton, stats, poolsView), settingsPanel.div()));
+var container = dom(id.div("container", gameView, debugView));
 exports.container = container;
 exports.gameView = gameView;
 exports.debugView = debugView;
@@ -10738,7 +10711,7 @@ var startInterface = (function startInterface$() {
   var { 
     game
    } = require("@obstacles/game.js");
-  createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentBody);
+  withDom(DocumentBody, id.div("frame", container));
   return game.events.on("tick", ((t) => {
   	
     return (function() {

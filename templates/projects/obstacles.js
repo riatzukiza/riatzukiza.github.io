@@ -22,7 +22,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   
   }));
 });
-create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(HtmlElement)("style", {  }, [ "\n"+"        .panel {\n"+"            float: left;\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"        .bordered {\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"img {\n"+"position:absolute;\n"+"}\n"+"\n"+"" ]), create(HtmlElement)("script", { 'src': "https://cdn.jsdelivr.net/quicksettings/3.0/quicksettings.min.js" }, []) ]), create(HtmlElement)("script", { 'src': "/socket.io/socket.io.js" }, []), (function() {
+html("\n"+"        .panel {\n"+"            float: left;\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"        .bordered {\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"img {\n"+"position:absolute;\n"+"}\n"+"\n"+"".style().head(src.script("https://cdn.jsdelivr.net/quicksettings/3.0/quicksettings.min.js")), src.script("/socket.io/socket.io.js"), (function() {
   /* eval.sibilant:15:153 */
 
   var { 
@@ -31,7 +31,7 @@ create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(H
       Path = require("path");
   return FileSystem.load("./shared").each(((file) => {
   	
-    return create(HtmlElement)("script", { 'src': Path.join("/bundles/shared", file.rel) }, []);
+    return markup(src.script(Path.join("/bundles/shared", file.rel)));
   
   }));
 }).call(this), (function() {
@@ -45,17 +45,9 @@ create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(H
   	
     return (function() {
       if (!(Path.basename(file.path) === "main.js")) {
-        return create(HtmlElement)("script", { 'src': Path.join("/bundles/obstacles", file.rel) }, []);
+        return markup(src.script(Path.join("/bundles/obstacles", file.rel)));
       }
     }).call(this);
   
   }));
-}).call(this), create(HtmlElement)("body", {  }, [ create(HtmlElement)("img", {
-  'id': "ant-texture",
-  'src': "/ant.png",
-  'hidden': "true"
-}, []), create(HtmlElement)("img", {
-  'id': "rock-texture",
-  'src': "/rock.png",
-  'hidden': "true"
-}, []) ]), create(HtmlElement)("script", { 'src': "/bundles/obstacles/main.js" }, []) ]);
+}).call(this), id.img("ant-texture", src, "/ant.png", hidden, "true").body(id.img("rock-texture", src, "/rock.png", hidden, "true")), src.script("/bundles/obstacles/main.js"));

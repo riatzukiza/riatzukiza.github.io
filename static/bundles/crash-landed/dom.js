@@ -10601,23 +10601,15 @@ var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
 
   return (Math.round((Math.pow(10, n) * d)) / Math.pow(10, n));
 });
-const gameView=createDocumentNode("div", {
-  'id': "game-view",
-  'className': "panel",
-  'style': { 
-    "background-color":"black"
-   }
-}, [ rendering.context.canvas ]);
-const debugView=createDocumentNode("div", {
-  'id': "debug-view",
-  'className': "panel",
-  'style': { 
-    height:(config.dimensions[1] + "px"),
-    width:(Math.round(((window.innerWidth * 0.2) - 42)) + "px"),
-    "overflow-y":"scroll"
-   }
-}, []);
-var container = createDocumentNode("div", { 'id': "container" }, [ gameView, debugView ]);
+const gameView=dom(id.div("game-view", className, "panel", style, { 
+  "background-color":"black"
+ }, rendering.context.canvas));
+const debugView=dom(id.div("debug-view", className, "panel", style, { 
+  height:(config.dimensions[1] + "px"),
+  width:(Math.round(((window.innerWidth * 0.2) - 42)) + "px"),
+  "overflow-y":"scroll"
+ }));
+var container = dom(id.div("container", gameView, debugView));
 exports.container = container;
 exports.gameView = gameView;
 exports.debugView = debugView;
@@ -10627,7 +10619,7 @@ var startInterface = (function startInterface$() {
   var { 
     game
    } = require("@crash-landed/game.js");
-  createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentBody);
+  withDom(DocumentBody, id.div("frame", container));
   return game.events.on("tick", ((t) => {
   	
     return (function() {

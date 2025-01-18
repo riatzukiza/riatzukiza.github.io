@@ -106,7 +106,7 @@
                 (dots coords)))
 (.start generator)
 (pipe (.load generator)
-      (then-do (.get-near generator 0 0 2) )
+      (then-do (.start generator 0 0 2) )
       (then initial-tiles
 
             (each initial-tiles.tiles (data)

@@ -10615,33 +10615,17 @@ var VelocityInterface = VelocityInterface.define("VelocityInterface", {
   
     return (() => {
     	
-      return (function() {
-        if (this.views.has("view")) {
-          return this.views.get("view");
-        } else {
-          var r = (function() {
-            /* eval.sibilant:11:23 */
-          
-            return createDocumentNode("div", {
-              'className': "panel",
-              'id': ("velocity-panel" + this.entity.id),
-              'style': { 
-                width:"48%"
-               }
-            }, [ createDocumentNode("div", {  }, [ "velocity:" ]), createDocumentNode("div", {  }, [ (() => {
-            	
-              return displayDecimal(this.xd, 2);
-            
-            }), ",", (() => {
-            	
-              return displayDecimal(this.yd, 2);
-            
-            }) ]) ]);
-          }).call(this);
-          this.views.set("view", r);
-          return r;
-        }
-      }).call(this);
+      return cache(this.views, "view", dom(className.div("panel", id, ("velocity-panel" + this.entity.id), style, { 
+        width:"48%"
+       }, "velocity:".div(), (() => {
+      	
+        return displayDecimal(this.xd, 2);
+      
+      }).div(",", (() => {
+      	
+        return displayDecimal(this.yd, 2);
+      
+      })))));
     
     });
   
