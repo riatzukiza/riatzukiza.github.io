@@ -14,8 +14,7 @@
   ["*"name  `(parenthetic (comma @args.contents))
       `(curly (do-block ...@body))])
 (def-lit-macro def-generic* (name args ...body)
-  `(generic @name (method*) @args ...@body)
-  )
+  `(generic @name (method*) @args ...@body))
 
 (macro async-lambda* (args ...body)
        ["async function*" `(parenthetic (comma ...@args.contents))
