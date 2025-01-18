@@ -226,7 +226,6 @@ kanban-plugin: board
 ## Breakdown (13)
 
 - [ ] [[ranged attack system]]
-- [ ] [[Threaded game systems]]
 - [ ] [Mineral Resource](tasks/Mineral%20Resource.md)
 - [ ] [night day cycle](tasks/night%20day%20cycle.md)
 - [ ] [Building system](tasks/Building%20system.md)
@@ -237,6 +236,7 @@ kanban-plugin: board
 ## Ready (21)
 
 - [ ] [predator agents](tasks/predator%20agents.md)
+- [ ] [[Threaded game systems]]
 - [ ] [multiple factions](tasks/multiple%20factions.md)
 - [ ] [Dynamic pools for renderables.](tasks/Dynamic%20pools%20for%20renderables..md)
 - [ ] [attack system](tasks/attack%20system.md)
