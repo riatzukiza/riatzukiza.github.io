@@ -15,6 +15,13 @@ Agent should starve to death to loose unless killed by another agent.
 - Hungry means the amount of food the agent can store internally has gone below a certain threshhold upon previously being satiated.
 - Agents are spawned hungry
 
+## Tasks
+
+- [ ] Implement hunger system
+- [ ] Implement rest system
+- [ ] Implement calorie burning system
+- [ ] 
+
 ## Blocked by
 
 - trail entities

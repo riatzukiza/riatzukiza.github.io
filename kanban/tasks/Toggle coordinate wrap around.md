@@ -12,7 +12,7 @@ Add a config/settings panel toggle for coordinate systems wrap around. The entit
 
 ## Tasks 
 
-- [ ] Modify position system to emit an elastic collision event when coordinates exceed the bounds of the map
+- [x] Add Toggle for wrapping/infinite coordinate system ✅ 2025-01-12
 
 ## Blocked by 
 
