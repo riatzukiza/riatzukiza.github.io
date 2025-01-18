@@ -225,8 +225,7 @@
       "obsidian-git:Open Git source control": false,
       "githobs:Manage a github issue": false,
       "webpage-html-export:Export Vault to HTML": false,
-      "obisidian-note-linker:Note Linker": false,
-      "card-board:CardBoard": false
+      "obisidian-note-linker:Note Linker": false
     }
   },
   "floating": {
@@ -247,12 +246,12 @@
                 "state": {
                   "type": "markdown",
                   "state": {
-                    "file": "kanban/tasks/Sprite sheets.md",
+                    "file": "notes/daily/2025-01-18.md",
                     "mode": "source",
                     "source": false
                   },
                   "icon": "lucide-file",
-                  "title": "Sprite sheets"
+                  "title": "2025-01-18"
                 }
               }
             ]
@@ -293,9 +292,9 @@
         ],
         "direction": "vertical",
         "x": 20,
-        "y": 20,
-        "width": 1498,
-        "height": 896,
+        "y": 5,
+        "width": 1500,
+        "height": 901,
         "maximize": false,
         "zoom": 0
       }
@@ -303,8 +302,9 @@
   },
   "active": "a92ab7efc8193530",
   "lastOpenFiles": [
-    "notes/daily/2025-01-15.md",
     "kanban/tasks/Sprite sheets.md",
+    "notes/daily/2025-01-18.md",
+    "notes/daily/2025-01-15.md",
     "kanban/board.md",
     "kanban/tasks/sprite generator.md",
     "kanban/tasks/predator agents.md",
@@ -328,7 +328,6 @@
     "kanban/tasks/Toggle coordinate wrap around.md",
     "kanban/tasks/Process.md",
     "kanban/tasks/Digital Assistants.md",
-    "kanban/tasks/World building.md",
     "notes/unique",
     "notes/daily",
     "notes",
