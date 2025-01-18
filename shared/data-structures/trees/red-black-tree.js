@@ -1,11 +1,20 @@
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -31,14 +40,14 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
       var count = 1;
       var node = this;
       (function() {
-        var while$71 = undefined;
+        var while$78 = undefined;
         while (node) {
-          while$71 = (function() {
+          while$78 = (function() {
             node = node.left;
             return ((count)++);
           }).call(this);
         };
-        return while$71;
+        return while$78;
       }).call(this);
       return count;
     

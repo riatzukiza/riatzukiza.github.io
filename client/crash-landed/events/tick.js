@@ -1,11 +1,20 @@
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -77,25 +86,25 @@ game.events.on("tick", (() => {
                 physics.mass = x;
                 physics.scale = x;
                 const plant_=spawnPlant([ ((function() {
-                  /* eval.sibilant:1:577 */
+                  /* eval.sibilant:1:657 */
                 
                   var rand = ((Math.random() * (physics.scale - 0)) + 0);
                   return (physics.scale - (rand / 2));
                 }).call(this) + physics.position.x), ((function() {
-                  /* eval.sibilant:1:577 */
+                  /* eval.sibilant:1:657 */
                 
                   var rand = ((Math.random() * (physics.scale - 0)) + 0);
                   return (physics.scale - (rand / 2));
                 }).call(this) + physics.position.y) ], physics.mass);
                 const physics_=game.systems.get(Physics, plant_);
                 const vx=(function() {
-                  /* eval.sibilant:1:577 */
+                  /* eval.sibilant:1:657 */
                 
                   var rand = ((Math.random() * (config.spawnStatic - 0)) + 0);
                   return (config.spawnStatic - (rand / 2));
                 }).call(this);
                 const vy=(function() {
-                  /* eval.sibilant:1:577 */
+                  /* eval.sibilant:1:657 */
                 
                   var rand = ((Math.random() * (config.spawnStatic - 0)) + 0);
                   return (config.spawnStatic - (rand / 2));

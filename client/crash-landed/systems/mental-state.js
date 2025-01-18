@@ -1,11 +1,20 @@
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -131,14 +140,40 @@ var MentalState = System.define("MentalState", {
             if (c.tile.entity.container.hasType("food")) {
               console.log("I'm hungry, and there's food right here", c);
               return c.tile.entity.container.objects.head.item.itemInterface.consume(c.entity);
-            } else if ((!(c.tile.entity.container.hasType("food")) && !(c.target))) {
-              console.log("I'm hungry and I know where food is");
+            } else if (!(c.tile.entity.container.hasType("food"))) {
               const key=(c.pos.x + c.pos.y);
               const items=c.knownFoodItems.search(key);
               return (function() {
-                if (items.values.head) {
+                if ((!(c.target) && items.values.head)) {
+                  console.log("I'm hungry and I know where food is");
                   c.target = items.values.head.item;
                   return c.knownFoodItems.remove(key, items.values.head.item);
+                } else {
+                  var newX = c.entity.positionInterface.x,
+                      newY = c.entity.positionInterface.y;
+                  const searchLimit=10;
+                  var i = 0;
+                  return (function() {
+                    var while$360 = undefined;
+                    while (!((c.entity.currentPath.end || i > searchLimit))) {
+                      while$360 = (function() {
+                        const noiseV=getMoveNoise(newX, newY, this.game.ticker.ticks, (1 * config.gameScale));
+                        ((i)++);
+                        newX = (newX + (20 * noiseV.x));
+                        newY = (newY + (20 * noiseV.y));
+                        const tiles=c.tile.graph;
+                        const possibleEnd=tiles.getClosestFromWorldPos(newX, newY);
+                        (function() {
+                          if (!((possibleEnd.entity.visibleStatus.explored__QUERY))) {
+                            c.entity.currentPath.start = tiles.getClosestFromWorldPos(c.entity.positionInterface.x, c.entity.positionInterface.y);
+                            return c.entity.currentPath.end = possibleEnd;
+                          }
+                        }).call(this);
+                        return noiseV.despawn();
+                      }).call(this);
+                    };
+                    return while$360;
+                  }).call(this);
                 }
               }).call(this);
             }
@@ -149,9 +184,9 @@ var MentalState = System.define("MentalState", {
           const searchLimit=10;
           var i = 0;
           return (function() {
-            var while$197 = undefined;
+            var while$362 = undefined;
             while (!((c.entity.currentPath.end || i > searchLimit))) {
-              while$197 = (function() {
+              while$362 = (function() {
                 const noiseV=getMoveNoise(newX, newY, this.game.ticker.ticks, (1 * config.gameScale));
                 ((i)++);
                 newX = (newX + (20 * noiseV.x));
@@ -167,7 +202,7 @@ var MentalState = System.define("MentalState", {
                 return noiseV.despawn();
               }).call(this);
             };
-            return while$197;
+            return while$362;
           }).call(this);
         }
       }).call(this);

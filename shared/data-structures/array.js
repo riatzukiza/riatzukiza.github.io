@@ -1,11 +1,20 @@
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -14,10 +23,10 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   }));
 });
 Array.transform = (function Array$transform$(f, a, r = a) {
-  /* Array.transform eval.sibilant:1:473 */
+  /* Array.transform eval.sibilant:1:553 */
 
   return (function(r) {
-    /* inc/misc.sibilant:1:800 */
+    /* inc/misc.sibilant:1:1369 */
   
     a.each(((e, i) => {
     	
@@ -28,7 +37,7 @@ Array.transform = (function Array$transform$(f, a, r = a) {
   }).call(this, r);
 });
 Array.prototype.bind = Array.bind = (function Array$bind$(a, f) {
-  /* Array.bind eval.sibilant:1:606 */
+  /* Array.bind eval.sibilant:1:686 */
 
   return a.reduce(((r, e, i) => {
   	
@@ -42,16 +51,16 @@ Array.prototype.bind = Array.bind = (function Array$bind$(a, f) {
   }), []);
 });
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each eval.sibilant:1:767 */
+  /* Array.prototype.each eval.sibilant:1:847 */
 
   this.forEach(f);
   return this;
 });
 Array.prototype.bind = (function Array$prototype$bind$(f) {
-  /* Array.prototype.bind eval.sibilant:1:831 */
+  /* Array.prototype.bind eval.sibilant:1:911 */
 
   return (function(r) {
-    /* inc/misc.sibilant:1:800 */
+    /* inc/misc.sibilant:1:1369 */
   
     this.each(((a) => {
     	
@@ -62,7 +71,7 @@ Array.prototype.bind = (function Array$prototype$bind$(f) {
   }).call(this, []);
 });
 Map.prototype.each = (function Map$prototype$each$(f) {
-  /* Map.prototype.each eval.sibilant:1:922 */
+  /* Map.prototype.each eval.sibilant:1:1002 */
 
   this.forEach(f);
   return this;

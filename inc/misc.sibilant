@@ -1,4 +1,5 @@
 (namespace misc)
+(import-namespace kit)
 
 (macro in (  o k) [k " in " o])
 

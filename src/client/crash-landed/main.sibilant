@@ -106,14 +106,7 @@
                 (dots coords)))
 (.start generator)
 (pipe (.load generator)
-      (then-do
-       (const initial-tiles [])
-       (.traverse-area (.get tiles 0 0 )
-                       (=> (tile)
-                           (.push initial-tiles (lit (x tile.x) (y tile.y))))
-                       64)
-
-       (.get-tiles generator initial-tiles))
+      (then-do (.get-near generator 0 0 2) )
       (then initial-tiles
 
             (each initial-tiles.tiles (data)
@@ -123,24 +116,22 @@
             (on game.events 'tick (t)
 
                 ;; (const pos p.pos)
-                (if (= (mod t 10) 0) (.step p.sprite))
+                (if! (= (mod t 20) 0)
+                     (.step p.sprite))
+                (if! (not generator.busy)
+                     (const nearest-tile (.get-closest-from-world-pos
+                                          tiles
+                                          p.pos.x p.pos.y
+                                          ))
+                 (then (.get-near generator nearest-tile.x nearest-tile.y
+                                  (if p.needs.is-resting? 3
+                                      2)) data
+                                      (each data.tiles (tile-data)
+                                            (setup-tile tile-data)))
+                 )
                 (const direction-name (get-cardinal-direction-name v))
 
-                (when p.los
-                  (const safe-tiles [])
-                  (each p.los.unloaded-tiles (tile)
-                        (if (not tile.sent?)
-                            (do (.push safe-tiles (lit (x tile.x) (y tile.y)))
-                                (assign tile.sent? true))))
-                  (if safe-tiles.length
-                      (then (.get-tiles generator safe-tiles) data
-                            (each data.tiles (tile-data)
-                                  (.delete p.los.loading-tiles (.get tiles tile-data.x tile-data.y))
-                                  (setup-tile tile-data)))))
-
-                (.select-sequence p.sprite direction-name)
-                ;; (print "elapsed" game.ticker.elapsed)
-                )))
+                (.select-sequence p.sprite direction-name))))
 
 
 

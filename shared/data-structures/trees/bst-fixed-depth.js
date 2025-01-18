@@ -1,11 +1,20 @@
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -42,13 +51,13 @@ var FixedBst = Spawnable.define("FixedBst", {
         } else {
           var node = this;
           return this._root = (function() {
-            var while$78 = undefined;
+            var while$74 = undefined;
             while (node.parent) {
-              while$78 = (function() {
+              while$74 = (function() {
                 return node = node.parent;
               }).call(this);
             };
-            return while$78;
+            return while$74;
           }).call(this);
         }
       }).call(this);
@@ -78,13 +87,13 @@ var FixedBst = Spawnable.define("FixedBst", {
     
       var temp = this;
       return (function() {
-        var while$79 = undefined;
+        var while$75 = undefined;
         while (temp.left) {
-          while$79 = (function() {
+          while$75 = (function() {
             return temp = temp.left;
           }).call(this);
         };
-        return while$79;
+        return while$75;
       }).call(this);
     
    },

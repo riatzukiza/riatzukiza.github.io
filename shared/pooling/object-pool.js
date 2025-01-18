@@ -1,11 +1,20 @@
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -27,7 +36,7 @@ var _assignId = ((m, k) => {
 });
 var ObjectPool = Interface.define("ObjectPool", { 
   init( size = this.size,_interface = null,_array = (function(array) {
-    /* inc/misc.sibilant:1:800 */
+    /* inc/misc.sibilant:1:1369 */
   
     (function() {
       /* node_modules/kit/inc/loops.sibilant:26:8 */
@@ -39,7 +48,7 @@ var ObjectPool = Interface.define("ObjectPool", {
         /* node_modules/kit/inc/loops.sibilant:28:35 */
       
         array.push((function() {
-          /* eval.sibilant:1:543 */
+          /* eval.sibilant:1:623 */
         
           return Object.create(_interface);
         }).call(this));
@@ -87,7 +96,7 @@ var ObjectPool = Interface.define("ObjectPool", {
     
       "remove an object from the collection of available ones,\n"+"adding it to the collection of objects currently in use,\n"+"and return it to the caller.";
       return (function(member) {
-        /* inc/misc.sibilant:1:800 */
+        /* inc/misc.sibilant:1:1369 */
       
         _inUse.add(member);
         return member;

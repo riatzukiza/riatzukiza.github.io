@@ -1,11 +1,20 @@
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -40,13 +49,13 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
     
       var node = this;
       (function() {
-        var while$74 = undefined;
+        var while$80 = undefined;
         while (node.parent) {
-          while$74 = (function() {
+          while$80 = (function() {
             return node = node.parent;
           }).call(this);
         };
-        return while$74;
+        return while$80;
       }).call(this);
       return node;
     
@@ -65,13 +74,13 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
     
       var temp = this;
       (function() {
-        var while$75 = undefined;
+        var while$81 = undefined;
         while (temp.left) {
-          while$75 = (function() {
+          while$81 = (function() {
             return temp = temp.left;
           }).call(this);
         };
-        return while$75;
+        return while$81;
       }).call(this);
       return temp;
     

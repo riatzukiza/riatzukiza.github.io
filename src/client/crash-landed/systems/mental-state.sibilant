@@ -73,12 +73,8 @@
              (do (print "I'm hungry, and there's food right here" c)
                  (c.tile.entity.container.objects.head.item.item-interface.consume
                   c.entity))
-             (and (not (c.tile.entity.container.has-type 'food))
-                  (not c.target)
-                  ;; (not c.target.entity.visible-status.explored?)
-                  )
-             (do (print "I'm hungry and I know where food is")
-                 (const key (+ c.pos.x c.pos.y)) ;; adding the coordinates together should
+             (not (c.tile.entity.container.has-type 'food))
+             (do (const key (+ c.pos.x c.pos.y)) ;; adding the coordinates together should
                ;; loosely correspond with the distance somthing is from that location
                ;; this is a hack to make the high level behavior work.
                ;; In the future, with more possible actions, and needs, and more ways to meat those needs, we will be using a meta heuristic vector system to quickly
@@ -86,10 +82,39 @@
                ;; then weight them according to the agents current needs.
 
                (const items (.search c.known-food-items key))
-               (if items.values.head
+               (if (and (not c.target) items.values.head)
+                   (do (print "I'm hungry and I know where food is")
+                       (assign c.target items.values.head.item)
+                     (.remove c.known-food-items key items.values.head.item))
                    (do
-                    (assign c.target items.values.head.item)
-                    (.remove c.known-food-items key items.values.head.item))))
+                    (var new-x c.entity.position-interface.x
+                         new-y c.entity.position-interface.y)
+
+                    (const search-limit 10)
+                     (var i 0)
+                     (until (or c.entity.current-path.end
+
+                                (> i search-limit )
+                                )
+                            (const noise-v (get-move-noise new-x new-y this.game.ticker.ticks (* 1.0 config.game-scale)))
+
+                            (incr i)
+                            (assign new-x (+ new-x (*  20 noise-v.x)))
+                            (assign new-y (+ new-y (*  20 noise-v.y)))
+                            (const tiles c.tile.graph)
+                            (const possible-end (.get-closest-from-world-pos tiles new-x new-y))
+                            (unless (or possible-end.entity.visible-status.explored?
+                                        )
+                              (assign c.entity.current-path.start
+                                      (.get-closest-from-world-pos tiles c.entity.position-interface.x
+                                                                   c.entity.position-interface.y))
+                              (assign c.entity.current-path.end
+                                      possible-end))
+
+                            (.despawn noise-v))
+
+                     )
+                   ))
              ))
         (not c.needs.is-resting?)
         (do

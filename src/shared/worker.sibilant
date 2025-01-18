@@ -29,18 +29,25 @@
   (cached blob (new Blob [this.code] (lit (type "text/javascript")))))
 (export Inline-worker)
 
+
 (define Thread Inline-worker
   (init (code (promise (Promise.resolve)))
         (.call Web-worker.init this))
-  (def-accumulator send (promise data)
-    (print "sending message" data)
-    (.*send this data)
-    (make-promise
-     (.once this.events 'message
-            (=> (data)
-                (resolve data)))
-     (.once this.events 'error
-            (=> (message)
-                (reject message))))))
+  (def send (data)
+    (do-after-accumulating this.promise
+      (print "sending message" data)
+      (assign this.busy true)
+      (.*send this data)
+      (make-promise
+       (.once this.events 'message
+              (=> (data)
+                  (assign this.busy false)
+                  (print "recieved message from thread" data)
+                  (resolve data)))
+       (.once this.events 'error
+              (=> (message)
+
+                  (print "recieved error from thread" message)
+                  (reject message)))))))
 
 (export Thread)

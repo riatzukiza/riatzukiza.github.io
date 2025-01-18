@@ -1,11 +1,20 @@
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -97,7 +106,7 @@ var SuperPosition = Spawnable.define("SuperPosition", {
           return this._probabilityDistrobution;
         } else {
           return this._probabilityDistrobution = (function() {
-            /* inc/misc.sibilant:1:3417 */
+            /* inc/misc.sibilant:1:3986 */
           
             return SuperPositionDistrobution.spawn(this);
           }).call(this);
@@ -118,7 +127,7 @@ var SuperPosition = Spawnable.define("SuperPosition", {
           return this._neighbors;
         } else {
           return this._neighbors = (function() {
-            /* inc/misc.sibilant:1:3417 */
+            /* inc/misc.sibilant:1:3986 */
           
             return this.edges.map(((neighbor) => {
             	
@@ -224,7 +233,7 @@ var SuperPosition = Spawnable.define("SuperPosition", {
       }), 0) / this.totalWeight);
     
    },
-  collapse( testing = false,depth = 0,maxDepth = 3,cell = this.cell ){ 
+  collapse( testing = false,depth = 0,maxDepth = 2,overlap = 1,cell = this.cell ){ 
     
       if( this.state ){ 
         return ;
@@ -242,7 +251,7 @@ var SuperPosition = Spawnable.define("SuperPosition", {
           for (var neighbor of this.uncollapsedNeighbors)
           {
           temp.push(neighbor);
-          neighbor.collapse(true, (depth + 1), maxDepth);
+          neighbor.collapse(depth > overlap, (depth + 1), maxDepth, overlap);
           if( this.validStates.length === 1 ){ 
             newState = this.validStates[0].state;;
             break

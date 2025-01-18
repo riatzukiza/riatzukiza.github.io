@@ -1,11 +1,20 @@
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -33,7 +42,7 @@ var WebWorker = Spawnable.define("WebWorker", {
           return this._worker;
         } else {
           return this._worker = (function() {
-            /* inc/misc.sibilant:1:3417 */
+            /* inc/misc.sibilant:1:3986 */
           
             return (new Worker(this.url));
           }).call(this);
@@ -124,7 +133,7 @@ var InlineWorker = WebWorker.define("InlineWorker", {
           return this._url;
         } else {
           return this._url = (function() {
-            /* inc/misc.sibilant:1:3417 */
+            /* inc/misc.sibilant:1:3986 */
           
             return window.URL.createObjectURL(this.blob);
           }).call(this);
@@ -139,7 +148,7 @@ var InlineWorker = WebWorker.define("InlineWorker", {
           return this._blob;
         } else {
           return this._blob = (function() {
-            /* inc/misc.sibilant:1:3417 */
+            /* inc/misc.sibilant:1:3986 */
           
             return (new Blob([ this.code ], { 
               type:"text/javascript"
@@ -159,6 +168,35 @@ var Thread = InlineWorker.define("Thread", {
       return this;
     
    },
-  defAccumulator:send
+  send( data ){ 
+    
+      return this.promise = this.promise.then(((resolved) => {
+      	
+        console.log("sending message", data);
+        this.busy = true;
+        this._send(data);
+        return (new Promise(((success, fail) => {
+        	
+          var resolve = success,
+              reject = fail;
+          this.events.once("message", ((data) => {
+          	
+            this.busy = false;
+            console.log("recieved message from thread", data);
+            return resolve(data);
+          
+          }));
+          return this.events.once("error", ((message) => {
+          	
+            console.log("recieved error from thread", message);
+            return reject(message);
+          
+          }));
+        
+        })));
+      
+      }));
+    
+   }
  });
 exports.Thread = Thread;

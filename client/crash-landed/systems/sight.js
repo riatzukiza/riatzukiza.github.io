@@ -1,11 +1,20 @@
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -51,19 +60,11 @@ var Sight = System.define("Sight", {
       
       }));
       c.visibleTiles.clear();
-      c.unloadedTiles.clear();
-      c.loadingVisibleTiles = false;
       for (var x = (occupiedTile.x - c.collapseRange);x < (occupiedTile.x + c.collapseRange);++(x))
       {
       for (var y = (occupiedTile.y - c.collapseRange);y < (occupiedTile.y + c.collapseRange);++(y))
       {
-      const tile=this.tiles.get(x, y);;
-      (function() {
-        if ((!(c.loadingTiles.has(tile)) && !(tile.entity.ground.type))) {
-          c.loadingTiles.add(tile);
-          return c.unloadedTiles.push(tile);
-        }
-      }).call(this)
+      const tile=this.tiles.get(x, y);
       }
       
       }
@@ -73,11 +74,6 @@ var Sight = System.define("Sight", {
       for (var y = (occupiedTile.y - c.range);y < (occupiedTile.y + c.range);++(y))
       {
       const visibleTile=this.tiles.get(x, y);;
-      (function() {
-        if (c.loadingTiles.has(visibleTile)) {
-          return c.loadingVisibleTiles = true;
-        }
-      }).call(this);
       c.visibleTiles.push(visibleTile);
       visibleTile.entity.visibleStatus.visible__QUERY = true;
       }

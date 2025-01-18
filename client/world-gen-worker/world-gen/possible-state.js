@@ -1,11 +1,20 @@
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -43,7 +52,7 @@ var PossibleState = Spawnable.define("PossibleState", {
           return this._likelyhood;
         } else {
           return this._likelyhood = (function() {
-            /* inc/misc.sibilant:1:3417 */
+            /* inc/misc.sibilant:1:3986 */
           
             return (this.superPosition.totalWeight / this.weight);
           }).call(this);
@@ -58,7 +67,7 @@ var PossibleState = Spawnable.define("PossibleState", {
           return this._weight;
         } else {
           return this._weight = (function() {
-            /* inc/misc.sibilant:1:3417 */
+            /* inc/misc.sibilant:1:3986 */
           
             return this.calculateWeight();
           }).call(this);

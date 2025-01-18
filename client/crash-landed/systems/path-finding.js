@@ -1,11 +1,20 @@
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -153,7 +162,7 @@ var PathNode = Heapable.define("PathNode", {
           return this._gCost;
         } else {
           return this._gCost = (function() {
-            /* inc/misc.sibilant:1:3417 */
+            /* inc/misc.sibilant:1:3986 */
           
             (function() {
               if (this.parent === this) {
@@ -181,7 +190,7 @@ var PathNode = Heapable.define("PathNode", {
           return this._fCost;
         } else {
           return this._fCost = (function() {
-            /* inc/misc.sibilant:1:3417 */
+            /* inc/misc.sibilant:1:3986 */
           
             return (this.gCost + this.hCost);
           }).call(this);
@@ -218,15 +227,15 @@ var PathNode = Heapable.define("PathNode", {
       var path = List.spawn();
       var node = this;
       return (function() {
-        var while$202 = undefined;
+        var while$334 = undefined;
         while (node) {
-          while$202 = (function() {
+          while$334 = (function() {
             path.unshift(node);
             node = node.parent;
             return path;
           }).call(this);
         };
-        return while$202;
+        return while$334;
       }).call(this);
     
    },
@@ -347,7 +356,7 @@ var PathFinding = System.define("PathFinding", {
               const posV=Vector.spawn(pos.x, pos.y);
               const tilePosV=Vector.spawn(c.nextNode.item.tile.worldPos.x, c.nextNode.item.tile.worldPos.y);
               const d=tilePosV.distanceTo(posV);
-              vel.setLength(64);
+              vel.setLength((occupiedTile.entity.ground.stats.movementSpeed * (0.1 * config.gameScale)));
               vel.setAngle(d.getAngle());
               posV.despawn();
               tilePosV.despawn();
@@ -364,7 +373,7 @@ var PathFinding = System.define("PathFinding", {
               return c.activeNodes.get(c.start);
             } else {
               var r = (function() {
-                /* inc/misc.sibilant:1:691 */
+                /* inc/misc.sibilant:1:1260 */
               
                 return PathNode.spawn(c.start, c.start, c.end, c.open);
               }).call(this);
@@ -374,9 +383,9 @@ var PathFinding = System.define("PathFinding", {
           }).call(this);
           c.open.insert(startingNode);
           return (function() {
-            var while$203 = undefined;
+            var while$335 = undefined;
             while (c.open.root) {
-              while$203 = (function() {
+              while$335 = (function() {
                 const currentNode=c.nextOpenNode;
                 return (function() {
                   if (currentNode.tile === c.end) {
@@ -395,7 +404,7 @@ var PathFinding = System.define("PathFinding", {
                         return c.activeNodes.get(neighbor);
                       } else {
                         var r = (function() {
-                          /* inc/misc.sibilant:1:691 */
+                          /* inc/misc.sibilant:1:1260 */
                         
                           return PathNode.spawn(neighbor, c.start, c.end, c.open);
                         }).call(this);
@@ -420,7 +429,7 @@ var PathFinding = System.define("PathFinding", {
                 }).call(this);
               }).call(this);
             };
-            return while$203;
+            return while$335;
           }).call(this);
         }
       }).call(this);

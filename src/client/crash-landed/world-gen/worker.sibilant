@@ -6,28 +6,27 @@
 
            (def self.onmessage (m)
              (if (= m.data.type "load")
-                 (if (not self.loader)
+                 (if (not self.tile-grid)
                      (do (import-scripts ...m.data.scripts)
                          (require "@crash-landed/hack.js")
-                       (require! (lit Tile-loader) "@crash-landed/world-gen/tile-loader.js"
+                       (require! (lit Tile-grid) "@crash-landed/world-gen/tile-grid.js"
                                  modules "@crash-landed/world-gen/modules.js")
-                       (assign self.loader (.spawn Tile-loader))
+                       (assign self.tile-grid (.spawn Tile-grid))
                        (require "@crash-landed/world-gen/events.js")
-
+                       
                        (.post-message self (lit (type "done") (message "done loading"))))
                      (throw (new Error "Trying to load after loading.")))
-                 (.emit loader m.data.type m.data))))))
+                 (.emit tile-grid.events m.data.type m.data))))))
   (def load ()
-    (.send this (lit (type "load")
+    (.send this (lit (type 'load)
                      (scripts window.*worker-scripts))))
   (def get-tile (x y)
-    (.send this (lit (type "tile")
-                     x y)))
+    (.send this (lit (type 'tile) x y)))
   (def get-tiles (tiles)
-    (.send this (lit (type "tiles")
+    (.send this (lit (type 'tiles)
                      tiles)))
-  (def get-near (x y))
-  )
+  (def-generic get-near (x y (n 3))
+    (.send this (lit (type 'chunks-near) x y n))))
 
 (export Tile-generator)
 

@@ -1,13 +1,22 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 (function (global){(function (){
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -28,13 +37,13 @@ var {
   Interface
  } = require("@kit-js/interface");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -123,16 +132,7 @@ var setupTile = (function setupTile$(tileData) {
 generator.start();
 generator.load().then(((nil) => {
 	
-  const initialTiles=[];
-  tiles.get(0, 0).traverseArea(((tile) => {
-  	
-    return initialTiles.push({ 
-      x:tile.x,
-      y:tile.y
-     });
-  
-  }), 64);
-  return generator.getTiles(initialTiles);
+  return generator.getNear(0, 0, 2);
 
 })).then(((initialTiles) => {
 	
@@ -144,44 +144,28 @@ generator.load().then(((nil) => {
   game.start();
   return game.events.on("tick", ((t) => {
   	
-    (function() {
-      if ((t % 10) === 0) {
-        return p.sprite.step();
-      }
-    }).call(this);
-    const directionName=getCardinalDirectionName(v);
-    (function() {
-      if (p.los) {
-        const safeTiles=[];
-        p.los.unloadedTiles.each(((tile) => {
+    if( (t % 20) === 0 ){ 
+      p.sprite.step()
+     };
+    if( !(generator.busy) ){ 
+      const nearestTile=tiles.getClosestFromWorldPos(p.pos.x, p.pos.y);;
+      generator.getNear(nearestTile.x, nearestTile.y, (function() {
+        if (p.needs.isResting__QUERY) {
+          return 3;
+        } else {
+          return 2;
+        }
+      }).call(this)).then(((data) => {
+      	
+        return data.tiles.each(((tileData) => {
         	
-          return (function() {
-            if (!(tile.sent__QUERY)) {
-              safeTiles.push({ 
-                x:tile.x,
-                y:tile.y
-               });
-              return tile.sent__QUERY = true;
-            }
-          }).call(this);
+          return setupTile(tileData);
         
         }));
-        return (function() {
-          if (safeTiles.length) {
-            return generator.getTiles(safeTiles).then(((data) => {
-            	
-              return data.tiles.each(((tileData) => {
-              	
-                p.los.loadingTiles.delete(tiles.get(tileData.x, tileData.y));
-                return setupTile(tileData);
-              
-              }));
-            
-            }));
-          }
-        }).call(this);
-      }
-    }).call(this);
+      
+      }))
+     };
+    const directionName=getCardinalDirectionName(v);
     return p.sprite.selectSequence(directionName);
   
   })).once("error", ((err) => {

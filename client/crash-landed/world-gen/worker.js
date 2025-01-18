@@ -1,11 +1,20 @@
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -25,14 +34,14 @@ var TileGenerator = Thread.define("TileGenerator", {
   "    return (function() {\n" +
   "      if (m.data.type === \"load\") {\n" +
   "        return (function() {\n" +
-  "          if (!(self.loader)) {\n" +
+  "          if (!(self.tileGrid)) {\n" +
   "            importScripts.apply(this, m.data.scripts);\n" +
   "            require(\"@crash-landed/hack.js\");\n" +
   "            var { \n" +
-  "              TileLoader\n" +
-  "             } = require(\"@crash-landed/world-gen/tile-loader.js\"),\n" +
+  "              TileGrid\n" +
+  "             } = require(\"@crash-landed/world-gen/tile-grid.js\"),\n" +
   "                modules = require(\"@crash-landed/world-gen/modules.js\");\n" +
-  "            self.loader = TileLoader.spawn();\n" +
+  "            self.tileGrid = TileGrid.spawn();\n" +
   "            require(\"@crash-landed/world-gen/events.js\");\n" +
   "            return self.postMessage({ \n" +
   "              type:\"done\",\n" +
@@ -43,7 +52,7 @@ var TileGenerator = Thread.define("TileGenerator", {
   "          }\n" +
   "        }).call(this);\n" +
   "      } else {\n" +
-  "        return loader.emit(m.data.type, m.data);\n" +
+  "        return tileGrid.events.emit(m.data.type, m.data);\n" +
   "      }\n" +
   "    }).call(this);\n" +
   "  });\n" +
@@ -75,7 +84,14 @@ var TileGenerator = Thread.define("TileGenerator", {
        });
     
    },
-  getNear( x,y ){ 
+  getNear( x = this.x,y = this.y,n = 3 ){ 
+    
+      return this.send({ 
+        type:"chunksNear",
+        x,
+        y,
+        n
+       });
     
    }
  });

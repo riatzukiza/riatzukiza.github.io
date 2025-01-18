@@ -138,8 +138,7 @@
                                      c.next-node.item.tile.world-pos.x
                                      c.next-node.item.tile.world-pos.y))
             (const d (.distance-to  tile-pos-v pos-v))
-            (.set-length vel (* 
-                              occupied-tile.entity.ground.stats.movement-speed
+            (.set-length vel (* occupied-tile.entity.ground.stats.movement-speed
 
                                 (* 0.1 config.game-scale)))
             (.set-angle vel (.get-angle d))
@@ -172,7 +171,9 @@
                                         c.next-node.item.tile.world-pos.y))
               (const d (.distance-to  tile-pos-v pos-v))
 
-              (.set-length vel 64)
+              (.set-length vel (* occupied-tile.entity.ground.stats.movement-speed
+
+                                  (* 0.1 config.game-scale)))
               (.set-angle vel (.get-angle d))
               (.despawn pos-v)
               (.despawn tile-pos-v)

@@ -1,11 +1,20 @@
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -23,7 +32,7 @@ var {
   List
  } = require("@shared/data-structures/list.js");
 var sumOf = (function sumOf$(list, p) {
-  /* sum-of eval.sibilant:1:604 */
+  /* sum-of eval.sibilant:1:684 */
 
   return list.reduce(((total, e) => {
   	
@@ -71,7 +80,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(newPool) {
-        /* eval.sibilant:1:555 */
+        /* eval.sibilant:1:635 */
       
         buckets.unshift(newPool);
         return newPool;
@@ -128,7 +137,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(object) {
-        /* eval.sibilant:1:555 */
+        /* eval.sibilant:1:635 */
       
         object.bucket = this.current;
         (function() {
@@ -231,7 +240,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(r) {
-        /* eval.sibilant:1:555 */
+        /* eval.sibilant:1:635 */
       
         r.init(...args);
         return r;

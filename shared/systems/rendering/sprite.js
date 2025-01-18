@@ -1,11 +1,20 @@
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -26,7 +35,7 @@ var SpriteInterface = Component.define("SpriteInterface", {
   register( dim = this.dim,system = this.system ){ 
     
       return this.verts = create(MatrixMap)(dim, (function(array) {
-        /* eval.sibilant:1:555 */
+        /* eval.sibilant:1:635 */
       
         (function() {
           /* node_modules/kit/inc/loops.sibilant:26:8 */
@@ -38,7 +47,7 @@ var SpriteInterface = Component.define("SpriteInterface", {
             /* node_modules/kit/inc/loops.sibilant:28:35 */
           
             array.push((function() {
-              /* eval.sibilant:1:543 */
+              /* eval.sibilant:1:623 */
             
               return system.verts.spawn();
             }).call(this));

@@ -1,11 +1,20 @@
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -204,9 +213,9 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
   const placementVector=Vector.spawn(1, 1);
   var colliding = true;
   (function() {
-    var while$51 = undefined;
+    var while$54 = undefined;
     while (colliding) {
-      while$51 = (function() {
+      while$54 = (function() {
         var noCollisions = true;
         placementTree.clear();
         c.system.components.each(((c_) => {
@@ -222,16 +231,16 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         for (var c_ of possibleCollisions)
         {
         (function() {
-          var while$52 = undefined;
+          var while$55 = undefined;
           while (c.isColliding__QUERY(c_)) {
-            while$52 = (function() {
+            while$55 = (function() {
               noCollisions = false;
               placementVector.setLength((1 * c_.scale));
               placementVector.setAngle(((Math.random() * ( - 360)) + 360));
               return c.pos.system.shift(c.pos, [ placementVector.x, placementVector.y ]);
             }).call(this);
           };
-          return while$52;
+          return while$55;
         }).call(this)
         }
         ;
@@ -243,7 +252,7 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         return null;
       }).call(this);
     };
-    return while$51;
+    return while$54;
   }).call(this);
   placementVector.despawn();
   return entity;

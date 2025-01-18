@@ -1,11 +1,20 @@
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -29,32 +38,32 @@ var {
   Gl
  } = require("@shared/gl.js");
 var bound = (function() {
-  /* eval.sibilant:1:581 */
+  /* eval.sibilant:1:661 */
 
   return arguments[0].bind();
 }),
     clear = (function() {
-  /* eval.sibilant:1:606 */
+  /* eval.sibilant:1:686 */
 
   return arguments[0].clear();
 }),
     rendered = (function() {
-  /* eval.sibilant:1:635 */
+  /* eval.sibilant:1:715 */
 
   return arguments[0].render();
 }),
     unbound = (function() {
-  /* eval.sibilant:1:665 */
+  /* eval.sibilant:1:745 */
 
   return arguments[0].unbind();
 }),
     disabled = (function() {
-  /* eval.sibilant:1:694 */
+  /* eval.sibilant:1:774 */
 
   return arguments[0].disable();
 }),
     enabled = (function() {
-  /* eval.sibilant:1:725 */
+  /* eval.sibilant:1:805 */
 
   return arguments[0].enable();
 });

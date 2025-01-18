@@ -1,11 +1,20 @@
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -33,13 +42,13 @@ game.events.on("plantCollidingWithSpawn", ((home, plant) => {
   const v=plant.entity.velocityInterface;
   const pos=plant.pos;
   var xd = (function() {
-    /* eval.sibilant:1:577 */
+    /* eval.sibilant:1:657 */
   
     var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
     return (config.collisionStatic - (rand / 2));
   }).call(this);
   var yd = (function() {
-    /* eval.sibilant:1:577 */
+    /* eval.sibilant:1:657 */
   
     var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
     return (config.collisionStatic - (rand / 2));

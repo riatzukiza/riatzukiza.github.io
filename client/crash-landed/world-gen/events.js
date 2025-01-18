@@ -1,11 +1,20 @@
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -13,56 +22,48 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   
   }));
 });
-var { 
-  SuperPosition
- } = require("@crash-landed/world-gen/super-position.js");
-const loader=self.loader;
+const tileGrid=self.tileGrid;
 var sendMessage = (function sendMessage$(type, data) {
-  /* send-message eval.sibilant:3:0 */
+  /* send-message eval.sibilant:2:0 */
 
   return self.postMessage({ 
     type,
     ...data
    });
 });
-var generateTile = (function generateTile$(data) {
-  /* generate-tile eval.sibilant:6:0 */
-
-  return .load();
-});
-loader.events.on("tile", ((data) => {
+tileGrid.events.on("tile", ((data) => {
 	
-  const tile=loader.get(m.data.x, m.data.y);
-  const s=SuperPosition.spawn(tile);
-  s.collapse();
-  s.despawn();
-  return sendMessage("collapsedTile", tile.data);
+  return sendMessage("collapsedTile", { 
+    tile:tileGrid.collapseCell(data)
+   });
 
 })).once("error", ((err) => {
 	
-  console.log("error on", "tile", "of", "loader.events", "given", "data()");
+  console.log("error on", "tile", "of", "tileGrid.events", "given", "data()");
   return console.log(err);
 
 }));
-loader.events.on("tiles", ((data) => {
+tileGrid.events.on("tiles", ((data) => {
 	
-  return sendMessage("collapsedTiles", m.data.tiles.map(((t) => {
-  	
-    return (function(s) {
-      /* node_modules/kit/inc/scope.sibilant:12:9 */
-    
-      const tile=loader.get(t.x, t.y);
-      s.collapse();
-      const r=return tile.data;;
-      SuperPosition.spawn(tile).despawn();
-      return r;
-    })(SuperPosition.spawn(tile));
-  
-  })));
+  return sendMessage("collapsedTiles", { 
+    tiles:tileGrid.collapseCells(data)
+   });
 
 })).once("error", ((err) => {
 	
-  console.log("error on", "tiles", "of", "loader.events", "given", "data()");
+  console.log("error on", "tiles", "of", "tileGrid.events", "given", "data()");
+  return console.log(err);
+
+}));
+tileGrid.events.on("chunksNear", ((data) => {
+	
+  return sendMessage("collapsedTiles", { 
+    tiles:tileGrid.collapseNearestChunks(data.x, data.y, data.n)
+   });
+
+})).once("error", ((err) => {
+	
+  console.log("error on", "chunksNear", "of", "tileGrid.events", "given", "data()");
   return console.log(err);
 
 }));

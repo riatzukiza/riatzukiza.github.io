@@ -1,11 +1,20 @@
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -36,7 +45,7 @@ var Game = Interface.define("Game", {
           setSystemBySymbol = systems.set;
       systems.getBySymbol = getSystemBySymbol;
       systems.get = (function systems$get$(interface, ent) {
-        /* systems.get eval.sibilant:1:1005 */
+        /* systems.get eval.sibilant:1:1085 */
       
         var sys = getSystemBySymbol.call(systems, interface.symbol);
         return (function() {
@@ -83,7 +92,7 @@ var Game = Interface.define("Game", {
       return events.on("tick", ((t) => {
       	
         return systems.each((function() {
-          /* eval.sibilant:1:1626 */
+          /* eval.sibilant:1:1706 */
         
           return arguments[0].update();
         }));
@@ -108,7 +117,7 @@ var Game = Interface.define("Game", {
       entities.clear();
       events.removeAllListeners();
       return systems.each((function() {
-        /* eval.sibilant:1:1905 */
+        /* eval.sibilant:1:1985 */
       
         return arguments[0].clear();
       }));

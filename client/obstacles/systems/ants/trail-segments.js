@@ -1,11 +1,20 @@
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1123 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1185 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -38,21 +47,7 @@ var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
   return (Math.round((Math.pow(10, n) * d)) / Math.pow(10, n));
 });
 var TrailSegment = TimeLimit.define("TrailSegment", { 
-  docString:`
-  obstacles/systems/ant-trails/Trail-vector.md
-
-  # obstacles.systems.ant-trails.Trail-vector
-
-  ## arguments
-
-  inherits from shared.ecs.Component
-
-  ## description
-
-  A time limited vector component that modifies the signal field when the ant has either succeeded or failed
-  If the time limit expires, it disapears.`
-
-  ,
+  docString:"obstacles.systems.ant-trails.Trail-vector",
   duration:config.trailLimit,
   updateView__QUERY:true,
   get views(  ){ 
@@ -75,7 +70,7 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
           return this.views.get("view");
         } else {
           var r = (function() {
-            /* eval.sibilant:13:23 */
+            /* eval.sibilant:11:23 */
           
             return createDocumentNode("div", { 'className': "panel" }, [ "trail segment", createDocumentNode("div", {  }, [ "pos:", (() => {
             	
