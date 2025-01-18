@@ -23,7 +23,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   }));
 });
 const roadWeight=1;
-const turnWeight=0.01;
+const turnWeight=0.5;
 const intersectionWeight=turnWeight;
 exports.roadWeight = roadWeight;
 exports.turnWeight = turnWeight;

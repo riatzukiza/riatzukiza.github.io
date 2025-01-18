@@ -132,7 +132,7 @@ var setupTile = (function setupTile$(tileData) {
 generator.start();
 generator.load().then(((nil) => {
 	
-  return generator.getNear(0, 0, 2);
+  return generator.getStartingTiles(0, 0, 2);
 
 })).then(((initialTiles) => {
 	
@@ -149,13 +149,7 @@ generator.load().then(((nil) => {
      };
     if( !(generator.busy) ){ 
       const nearestTile=tiles.getClosestFromWorldPos(p.pos.x, p.pos.y);;
-      generator.getNear(nearestTile.x, nearestTile.y, (function() {
-        if (p.needs.isResting__QUERY) {
-          return 3;
-        } else {
-          return 2;
-        }
-      }).call(this)).then(((data) => {
+      generator.getLoadedTiles(nearestTile).then(((data) => {
       	
         return data.tiles.each(((tileData) => {
         	

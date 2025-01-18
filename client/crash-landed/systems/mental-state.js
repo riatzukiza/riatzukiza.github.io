@@ -154,9 +154,9 @@ var MentalState = System.define("MentalState", {
                   const searchLimit=10;
                   var i = 0;
                   return (function() {
-                    var while$160 = undefined;
+                    var while$194 = undefined;
                     while (!((c.entity.currentPath.end || i > searchLimit))) {
-                      while$160 = (function() {
+                      while$194 = (function() {
                         const noiseV=getMoveNoise(newX, newY, this.game.ticker.ticks, (1 * config.gameScale));
                         ((i)++);
                         newX = (newX + (20 * noiseV.x));
@@ -172,7 +172,7 @@ var MentalState = System.define("MentalState", {
                         return noiseV.despawn();
                       }).call(this);
                     };
-                    return while$160;
+                    return while$194;
                   }).call(this);
                 }
               }).call(this);
@@ -184,9 +184,9 @@ var MentalState = System.define("MentalState", {
           const searchLimit=10;
           var i = 0;
           return (function() {
-            var while$162 = undefined;
+            var while$196 = undefined;
             while (!((c.entity.currentPath.end || i > searchLimit))) {
-              while$162 = (function() {
+              while$196 = (function() {
                 const noiseV=getMoveNoise(newX, newY, this.game.ticker.ticks, (1 * config.gameScale));
                 ((i)++);
                 newX = (newX + (20 * noiseV.x));
@@ -202,7 +202,7 @@ var MentalState = System.define("MentalState", {
                 return noiseV.despawn();
               }).call(this);
             };
-            return while$162;
+            return while$196;
           }).call(this);
         }
       }).call(this);

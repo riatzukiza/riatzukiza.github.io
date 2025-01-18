@@ -90,7 +90,13 @@ var SuperPosition = Spawnable.define("SuperPosition", {
    },
   get entropy(  ){ 
     
-      const e=calculateEntropy(this.weights);
+      const e=calculateEntropy((function() {
+        if (this.weights.length) {
+          return this.weights;
+        } else {
+          return [ CurrentDistrobution.grass, CurrentDistrobution.stone, CurrentDistrobution.floweryGrass ];
+        }
+      }).call(this));
       (function() {
         if (isNaN(e)) {
           throw (new Error("entropy is NaN"))
@@ -233,7 +239,7 @@ var SuperPosition = Spawnable.define("SuperPosition", {
       }), 0) / this.totalWeight);
     
    },
-  collapse( testing = false,depth = 0,maxDepth = 2,overlap = 1,cell = this.cell ){ 
+  collapse( testing = false,depth = 0,maxDepth = 1,overlap = 1,cell = this.cell ){ 
     
       if( this.state ){ 
         return ;
@@ -251,7 +257,7 @@ var SuperPosition = Spawnable.define("SuperPosition", {
           for (var neighbor of this.uncollapsedNeighbors)
           {
           temp.push(neighbor);
-          neighbor.collapse(depth > overlap, (depth + 1), maxDepth, overlap);
+          neighbor.collapse(true, (depth + 1), maxDepth, overlap);
           if( this.validStates.length === 1 ){ 
             newState = this.validStates[0].state;;
             break

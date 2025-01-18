@@ -84,6 +84,26 @@ var TileGenerator = Thread.define("TileGenerator", {
        });
     
    },
+  getLoadedTiles( playerTile ){ 
+    
+      console.log(playerTile);
+      return this.send({ 
+        type:"getLoadedTiles",
+        x:playerTile.x,
+        y:playerTile.y
+       });
+    
+   },
+  getStartingTiles( x,y,n ){ 
+    
+      return this.send({ 
+        type:"getStartingTiles",
+        x,
+        y,
+        n
+       });
+    
+   },
   getNear( x = this.x,y = this.y,n = 3 ){ 
     
       return this.send({ 

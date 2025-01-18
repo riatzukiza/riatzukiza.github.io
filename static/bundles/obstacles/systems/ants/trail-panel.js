@@ -10611,21 +10611,33 @@ var TrailsPanel = ViewPanel.define("TrailsPanel", {
   
     return (() => {
     	
-      return cache(this.views, "settingsPanel", dom(className.div("panel", onclick.button((() => {
-      	
-        return this.trailDots.toggleVisibility();
-      
-      }), (() => {
-      	
-        return (function() {
-          if (this.visible__QUERY) {
-            return "visible";
-          } else {
-            return "hidden";
-          }
-        }).call(this);
-      
-      })))));
+      return (function() {
+        if (this.views.has("settingsPanel")) {
+          return this.views.get("settingsPanel");
+        } else {
+          var r = (function() {
+            /* eval.sibilant:13:23 */
+          
+            return createDocumentNode("div", { 'className': "panel" }, [ createDocumentNode("button", { 'onclick': (() => {
+            	
+              return this.trailDots.toggleVisibility();
+            
+            }) }, [ (() => {
+            	
+              return (function() {
+                if (this.visible__QUERY) {
+                  return "visible";
+                } else {
+                  return "hidden";
+                }
+              }).call(this);
+            
+            }) ]) ]);
+          }).call(this);
+          this.views.set("settingsPanel", r);
+          return r;
+        }
+      }).call(this);
     
     });
   

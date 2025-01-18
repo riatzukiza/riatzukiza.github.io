@@ -23,8 +23,12 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   }));
 });
 const tileGrid=self.tileGrid;
+var pos = { 
+  x:0,
+  y:0
+ };
 var sendMessage = (function sendMessage$(type, data) {
-  /* send-message eval.sibilant:2:0 */
+  /* send-message eval.sibilant:3:0 */
 
   return self.postMessage({ 
     type,
@@ -55,6 +59,36 @@ tileGrid.events.on("tiles", ((data) => {
   return console.log(err);
 
 }));
+tileGrid.events.on("playerTilePos", ((data) => {
+	
+  return sendMessage("playerPosUpdate", { 
+    success:true
+   });
+
+})).once("error", ((err) => {
+	
+  console.log("error on", "playerTilePos", "of", "tileGrid.events", "given", "data()");
+  return console.log(err);
+
+}));
+tileGrid.events.on("getLoadedTiles", ((data) => {
+	
+  tileGrid.updatePlayerPos(data);
+  return tileGrid.readyTiles.then(((tiles) => {
+  	
+    console.log("ready tile", tiles);
+    return sendMessage("loadedTiles", { 
+      tiles
+     });
+  
+  }));
+
+})).once("error", ((err) => {
+	
+  console.log("error on", "getLoadedTiles", "of", "tileGrid.events", "given", "data()");
+  return console.log(err);
+
+}));
 tileGrid.events.on("chunksNear", ((data) => {
 	
   return sendMessage("collapsedTiles", { 
@@ -64,6 +98,34 @@ tileGrid.events.on("chunksNear", ((data) => {
 })).once("error", ((err) => {
 	
   console.log("error on", "chunksNear", "of", "tileGrid.events", "given", "data()");
+  return console.log(err);
+
+}));
+tileGrid.events.on("_step", (() => {
+	
+  return tileGrid.step().then((() => {
+  	
+    return tileGrid.events.emit("_step");
+  
+  }));
+
+})).once("error", ((err) => {
+	
+  console.log("error on", "_step", "of", "tileGrid.events", "given", "null");
+  return console.log(err);
+
+}));
+tileGrid.events.once("getStartingTiles", ((data) => {
+	
+  sendMessage("initialTiles", { 
+    tiles:tileGrid.collapseNearestChunks(data.x, data.y, data.n)
+   });
+  tileGrid.updatePlayerPos(data);
+  return tileGrid.events.emit("_step");
+
+})).once("error", ((err) => {
+	
+  console.log("error on", "getStartingTiles", "of", "tileGrid.events", "given", "data()");
   return console.log(err);
 
 }));

@@ -10610,31 +10610,43 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
   
     return (() => {
     	
-      return cache(this.views, "view", dom(className.div("panel", "trail segment", "pos:".div((() => {
-      	
-        return displayDecimal(this.x, 2);
-      
-      }), ",", (() => {
-      	
-        return displayDecimal(this.y, 2);
-      
-      })), "remaining".div((() => {
-      	
-        return this.remainingTime;
-      
-      })), "duration".div((() => {
-      	
-        return ("" + this.duration);
-      
-      })), "triggered?".div((() => {
-      	
-        return ("" + this.triggered);
-      
-      })), "started at".div((() => {
-      	
-        return this.createdAt;
-      
-      })))));
+      return (function() {
+        if (this.views.has("view")) {
+          return this.views.get("view");
+        } else {
+          var r = (function() {
+            /* eval.sibilant:13:23 */
+          
+            return createDocumentNode("div", { 'className': "panel" }, [ "trail segment", createDocumentNode("div", {  }, [ "pos:", (() => {
+            	
+              return displayDecimal(this.x, 2);
+            
+            }), ",", (() => {
+            	
+              return displayDecimal(this.y, 2);
+            
+            }) ]), createDocumentNode("div", {  }, [ "remaining", (() => {
+            	
+              return this.remainingTime;
+            
+            }) ]), createDocumentNode("div", {  }, [ "duration", (() => {
+            	
+              return ("" + this.duration);
+            
+            }) ]), createDocumentNode("div", {  }, [ "triggered?", (() => {
+            	
+              return ("" + this.triggered);
+            
+            }) ]), createDocumentNode("div", {  }, [ "started at", (() => {
+            	
+              return this.createdAt;
+            
+            }) ]) ]);
+          }).call(this);
+          this.views.set("view", r);
+          return r;
+        }
+      }).call(this);
     
     });
   

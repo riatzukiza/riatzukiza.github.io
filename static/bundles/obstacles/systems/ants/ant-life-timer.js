@@ -10610,21 +10610,36 @@ var AntLife = TimeLimit.define("AntLife", {
   
     return (() => {
     	
-      return cache(this.views, "view", dom(className.div("panel", style, { 
-        width:"48%"
-       }, "life".div((() => {
-      	
-        return this.remainingTime;
-      
-      })), "wins".div((() => {
-      	
-        return this.winCount;
-      
-      })), "losses".div((() => {
-      	
-        return this.looseCount;
-      
-      })))));
+      return (function() {
+        if (this.views.has("view")) {
+          return this.views.get("view");
+        } else {
+          var r = (function() {
+            /* eval.sibilant:13:23 */
+          
+            return createDocumentNode("div", {
+              'className': "panel",
+              'style': { 
+                width:"48%"
+               }
+            }, [ createDocumentNode("div", {  }, [ "life", (() => {
+            	
+              return this.remainingTime;
+            
+            }) ]), createDocumentNode("div", {  }, [ "wins", (() => {
+            	
+              return this.winCount;
+            
+            }) ]), createDocumentNode("div", {  }, [ "losses", (() => {
+            	
+              return this.looseCount;
+            
+            }) ]) ]);
+          }).call(this);
+          this.views.set("view", r);
+          return r;
+        }
+      }).call(this);
     
     });
   

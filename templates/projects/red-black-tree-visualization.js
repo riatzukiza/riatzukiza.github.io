@@ -22,7 +22,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   
   }));
 });
-html("\n"+"        .panel {\n"+"            float: left;\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"        .bordered {\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"\n"+"".style().head((function() {
+create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(HtmlElement)("style", {  }, [ "\n"+"        .panel {\n"+"            float: left;\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"        .bordered {\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"\n"+"" ]), (function() {
   /* eval.sibilant:16:7 */
 
   var { 
@@ -31,7 +31,7 @@ html("\n"+"        .panel {\n"+"            float: left;\n"+"            border-
       Path = require("path");
   return FileSystem.load("./shared").each(((file) => {
   	
-    return markup(src.script(Path.join("/bundles/shared", file.rel)));
+    return create(HtmlElement)("script", { 'src': Path.join("/bundles/shared", file.rel) }, []);
   
   }));
 }).call(this), (function() {
@@ -45,9 +45,9 @@ html("\n"+"        .panel {\n"+"            float: left;\n"+"            border-
   	
     return (function() {
       if (!(Path.basename(file.path) === "main.js")) {
-        return markup(src.script(Path.join("/bundles/tests", file.rel)));
+        return create(HtmlElement)("script", { 'src': Path.join("/bundles/tests", file.rel) }, []);
       }
     }).call(this);
   
   }));
-}).call(this)), "".body(), src.script("/bundles/tests/main.js"));
+}).call(this) ]), create(HtmlElement)("body", {  }, [ "" ]), create(HtmlElement)("script", { 'src': "/bundles/tests/main.js" }, []) ]);

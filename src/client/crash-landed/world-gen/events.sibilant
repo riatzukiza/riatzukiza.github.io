@@ -19,7 +19,8 @@
 
 (on tile-grid.events 'get-loaded-tiles (data)
     (.update-player-pos tile-grid data)
-    (then tile-grid.ready-tiles (tiles)
+    (then tile-grid.ready-tiles tiles
+          (print "ready tile" tiles)
           (send-message 'loaded-tiles
                         (lit tiles))))
 
@@ -34,11 +35,12 @@
     (pipe (.step tile-grid)
           (.then (-> (.emit tile-grid.events '*step)))))
 
-(once tile-grid.events 'start (data)
+(once tile-grid.events 'get-starting-tiles (data)
       (send-message 'initial-tiles
                     (lit (tiles (.collapse-nearest-chunks
                                  tile-grid
                                  data.x
                                  data.y
                                  data.n))))
+      (.update-player-pos tile-grid data)
       (.emit tile-grid.events '*step))

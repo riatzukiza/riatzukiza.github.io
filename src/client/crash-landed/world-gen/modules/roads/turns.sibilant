@@ -32,3 +32,27 @@
                                 'grass 'stone 'stone
                                 'grass 'grass 'grass))
 (export south-east-turn)
+
+
+
+
+
+(const wide-north-east-turn (.create Terrain-module  turn-weight
+                                     'stone 'stone 'stone
+                                     'stone 'grass 'grass
+                                     'stone 'grass 'grass))
+
+
+
+(const wide-north-west-turn (.create Terrain-module  turn-weight
+                             'stone 'stone 'stone
+                             'grass 'grass 'stone
+                             'grass 'grass 'stone))
+
+
+
+(const wide-south-west-turn (.create Terrain-module turn-weight
+                                     'grass 'grass 'stone
+                                     'grass 'grass 'stone
+                                     'stone 'stone 'stone))
+

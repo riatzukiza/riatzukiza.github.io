@@ -106,7 +106,7 @@
                 (dots coords)))
 (.start generator)
 (pipe (.load generator)
-      (then-do (.start generator 0 0 2) )
+      (then-do (.get-starting-tiles generator 0 0 2) )
       (then initial-tiles
 
             (each initial-tiles.tiles (data)
@@ -121,18 +121,14 @@
                 (if! (not generator.busy)
                      (const nearest-tile (.get-closest-from-world-pos
                                           tiles
-                                          p.pos.x p.pos.y
-                                          ))
-                 (then (.get-near generator nearest-tile.x nearest-tile.y
-                                  (if p.needs.is-resting? 3
-                                      2)) data
-                                      (each data.tiles (tile-data)
-                                            (setup-tile tile-data)))
-                 )
+                                          p.pos.x p.pos.y))
+                     (pipe (.get-loaded-tiles generator nearest-tile)
+                           (then data
+                                 (each data.tiles (tile-data)
+                                       (setup-tile tile-data)))))
                 (const direction-name (get-cardinal-direction-name v))
 
                 (.select-sequence p.sprite direction-name))))
-
 
 
 

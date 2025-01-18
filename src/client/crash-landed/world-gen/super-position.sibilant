@@ -35,10 +35,16 @@
         (map this.valid-states (state)
              state.weight))
   (gett total-weight (summate this.weights))
-  (gett entropy (const e (calculate-entropy this.weights))
+  (gett entropy
+        (const e (calculate-entropy (if this.weights.length
+                                        this.weights
+                                        [Current-distrobution.grass
+                                         Current-distrobution.stone
+                                         Current-distrobution.flowery-grass])))
         (if (isNaN e)
             (throw (new Error "entropy is NaN")))
         e)
+  
   (cached probability-distrobution (.spawn Super-position-distrobution this))
   (gett edges
         (const tile this.cell)
@@ -82,7 +88,7 @@
                     (+ type-weight state.weight)
                     type-weight))
         this.total-weight))
-  (def-generic collapse ((testing false) (depth 0) (max-depth 2) (overlap 1) cell )
+  (def-generic collapse ((testing false) (depth 0) (max-depth 1) (overlap 1) cell )
     (if! this.state (return ))
     (assign this.state
             (if (= this.valid-states.length 1)
@@ -97,7 +103,7 @@
                     (var new-state null)
                     (for-of! neighbor this.uncollapsed-neighbors
                              (.push temp neighbor)
-                             (.collapse neighbor (>  depth overlap) (+ depth 1) max-depth overlap)
+                             (.collapse neighbor true (+ depth 1) max-depth overlap)
                              (if! (= this.valid-states.length 1)
                                   (assign new-state  (get (first this.valid-states)
                                                           'state))

@@ -3,30 +3,56 @@
           (lit Trie) "@shared/data-structures/trees/trie.js"
           (lit Super-position) "@crash-landed/world-gen/super-position.js"
           (lit Grid-cell Grid Grid-chunk) "@shared/grid.js"
+          (lit Binary-heap Heapable) "@shared/data-structures/trees/binary-heap.js"
+          (lit Vector) "@shared/vectors.js"
+
           )
 
 (define Tile Grid-cell
   (gett data (lit (x this.x) (y this.y) (type this.type)))
+  (gett heap this.chunk.cell-heap.heap)
+  (cached super-position (.spawn Super-position this))
+  (gett parent-index (.get-parent-index Heapable this.index))
+  (gett entropy this.super-position.entropy)
+  (def compare-to (s)
+    (if (> this.entropy s.entropy)
+        1
+        -1
+        )
+    )
   (def collapse ()
-    (const s (.spawn Super-position this))
-    (.collapse s)
-    (.despawn s)
+    (.collapse this.super-position)
     (return this.data)))
 
+(def sleep (n) (make-promise (set-timeout resolve n)))
 
 (macro method* (name args ..body)
        ["*"name  `(parenthetic (comma @args.contents))
            `(curly (do-block ...@body))])
+(def-lit-macro def-async (name args ...body)
+  [" async "name  `(parenthetic (comma @args.contents))
+      `(curly (do-block ...@body))])
+
+(def-lit-macro def-async* (name args ...body)
+  [" async *"name  `(parenthetic (comma @args.contents))
+            `(curly (do-block ...@body))])
+
 (def-lit-macro def-generic* (name args ...body)
   `(generic @name (method*) @args ...@body))
 
 (define Chunk Grid-chunk
   (gett data (Array.from (.collapse this)))
   (gett heap this.grid.heap.heap)
+  (gett *cell-fn (=> (cell i)
+                     (assign cell.index i)
+                     (assign cell.chunk this)))
+
+  (cached cell-heap (.spawn Binary-heap this.cells))
   (cached position-vector (.spawn Vector this.grid-x this.grid-y))
+  (gett parent-index (.get-parent-index Heapable this.index))
   (gett player-pos this.grid.player-pos)
   (gett distance-from-player
-        (const dv (.distance-to player-pos this.position-vector))
+        (const dv (.distance-to this.player-pos this.position-vector))
         (const d (Math.abs (.get-length dv)))
         (.despawn dv)
         (return d))
@@ -39,14 +65,13 @@
     (print "collapsing chunk" this)
     (if! this.collapsed (return))
     (assign this.collapsing true)
-    (for-of! cell this.cells
-             (if! cell.type
-                  (print "previously collapsed cell detected")
-                  continue)
-             (yield (.collapse cell)))
+    (.heapify this.cell-heap)
+    (while! (.get-min this.cell-heap)
+      (yield (.collapse (.get-min this.cell-heap)))
+      (.heapify this.cell-heap))
+
     (set this 'collapsed true
-         'collapsing false
-         )))
+         'collapsing false)))
 
 (export Tile)
 (define Tile-grid Grid
@@ -57,23 +82,33 @@
   (loading-chunks (new Set))
   (unsent-chunks [])
   (def* request-chunks ()
-    (while! unsent-chunks.length
-            (yield (get (.pop this.unsent-chunks) 'data))))
+    (while! this.unsent-chunks.length
+            (yield (.pop this.unsent-chunks)))
+    null
+    )
+
   (gett ready-chunks (Promise.all (Array.from (.request-chunks this))))
-  (gett ready-tiles (then this.ready-chunks chunks (chunks)
+  (gett ready-tiles (then this.ready-chunks chunks
+                          (print "flattening chunks" chunks)
                           (.flat chunks)))
   (cached chunk-processor (.process-chunks this))
   (search-radius 1)
   (gett player-chunk (.get-nearest-chunk this this.player-pos.x this.player-pos.y))
   (gett chunks-in-search-radius (.get-chunks-in-search-radius this))
-  (def step () (const promise (.next this.chunk-processor))
-       (.push this.unsent-chunks promise)
-       promise)
-  (def-async* process-chunks () (while! true (yield (.collapse this.next-chunk))))
+  (def-async step ()
+    (const value (await (.next this.chunk-processor)))
+    (print "stepping with value" value.value)
+    (.push this.unsent-chunks value.value))
+  (def-async* process-chunks ()
+    (while! true
+            (await (sleep 0))
+            (yield this.next-chunk.data))
+    null
+    )
   (gett next-chunk (.get-next-chunk this))
   (def add-to-heap (chunk)
-    (if! (and (not chunk.collapsed)
-             (not (.has this.loading-chunks chunk)))
+    (if! (not (or  chunk.collapsed
+                   (.has this.loading-chunks chunk)))
         (.add this.loading-chunks chunk)
         (.insert this.heap chunk))
     null)
@@ -81,11 +116,12 @@
   (def get-next-chunk ()
     (var next-chunk (.extract-min this.heap))
 
-    (while! (not chunk)
+    (while! (not next-chunk)
          (incr this.search-radius)
          (for-of! chunk this.chunks-in-search-radius
                   (.add-to-heap this chunk))
          (assign next-chunk (.extract-min this.heap) ))
+    (print "next chunk" next-chunk)
     (.delete this.loading-chunks next-chunk)
     (return next-chunk))
 
@@ -117,7 +153,6 @@
   (def collapse-nearest-chunk (x y) (get (.get-nearest-chunk this x y) 'data))
   (def collapse-cells (coords) (map coords (p) (.collapse (.get this p.x p.y))))
   (def collapse-nearest-chunks (x y n)
-    (print this)
     (pipe (.get-nearest-chunks this x y n)
           (Array.from (=> (chunk) chunk.data))
 

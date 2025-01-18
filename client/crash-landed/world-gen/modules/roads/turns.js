@@ -36,3 +36,6 @@ const southWestTurn=TerrainModule.create(turnWeight, "grass", "stone", "grass", 
 exports.southWestTurn = southWestTurn;
 const southEastTurn=TerrainModule.create(turnWeight, "grass", "stone", "grass", "grass", "stone", "stone", "grass", "grass", "grass");
 exports.southEastTurn = southEastTurn;
+const wideNorthEastTurn=TerrainModule.create(turnWeight, "stone", "stone", "stone", "stone", "grass", "grass", "stone", "grass", "grass");
+const wideNorthWestTurn=TerrainModule.create(turnWeight, "stone", "stone", "stone", "grass", "grass", "stone", "grass", "grass", "stone");
+const wideSouthWestTurn=TerrainModule.create(turnWeight, "grass", "grass", "stone", "grass", "grass", "stone", "stone", "stone", "stone");

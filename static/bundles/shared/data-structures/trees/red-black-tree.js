@@ -10585,14 +10585,14 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
       var count = 1;
       var node = this;
       (function() {
-        var while$71 = undefined;
+        var while$80 = undefined;
         while (node) {
-          while$71 = (function() {
+          while$80 = (function() {
             node = node.left;
             return ((count)++);
           }).call(this);
         };
-        return while$71;
+        return while$80;
       }).call(this);
       return count;
     

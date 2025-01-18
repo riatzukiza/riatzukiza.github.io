@@ -10617,13 +10617,29 @@ var PropertyView = Component.define("PropertyView", {
   
     return (() => {
     	
-      return cache(this.views, "view", dom(id.div((() => {
-      	
-        return this.panelId;
-      
-      }), className, "panel", style, { 
-        width:"99%"
-       }, "entity".div(this.entity.id))));
+      return (function() {
+        if (this.views.has("view")) {
+          return this.views.get("view");
+        } else {
+          var r = (function() {
+            /* eval.sibilant:13:23 */
+          
+            return createDocumentNode("div", {
+              'id': (() => {
+              	
+                return this.panelId;
+              
+              }),
+              'className': "panel",
+              'style': { 
+                width:"99%"
+               }
+            }, [ createDocumentNode("div", {  }, [ "entity", this.entity.id ]) ]);
+          }).call(this);
+          this.views.set("view", r);
+          return r;
+        }
+      }).call(this);
     
     });
   
@@ -10723,7 +10739,19 @@ var ViewPanel = System.define("ViewPanel", {
   
     return (() => {
     	
-      return cache(this.views, "settingsPanel", dom(className.div("panel")));
+      return (function() {
+        if (this.views.has("settingsPanel")) {
+          return this.views.get("settingsPanel");
+        } else {
+          var r = (function() {
+            /* eval.sibilant:13:23 */
+          
+            return createDocumentNode("div", { 'className': "panel" }, []);
+          }).call(this);
+          this.views.set("settingsPanel", r);
+          return r;
+        }
+      }).call(this);
     
     });
   
@@ -10743,11 +10771,23 @@ var ViewPanel = System.define("ViewPanel", {
   
     return (() => {
     	
-      return cache(this.views, "pageNumberView", dom((() => {
-      	
-        return ((1 + this.page) + "/" + this.pages);
-      
-      }).span()));
+      return (function() {
+        if (this.views.has("pageNumberView")) {
+          return this.views.get("pageNumberView");
+        } else {
+          var r = (function() {
+            /* eval.sibilant:13:23 */
+          
+            return createDocumentNode("span", {  }, [ (() => {
+            	
+              return ((1 + this.page) + "/" + this.pages);
+            
+            }) ]);
+          }).call(this);
+          this.views.set("pageNumberView", r);
+          return r;
+        }
+      }).call(this);
     
     });
   
@@ -10767,22 +10807,40 @@ var ViewPanel = System.define("ViewPanel", {
   
     return (() => {
     	
-      return cache(this.views, "titleView", dom(className.div("panel", style, { 
-        width:"30%"
-       }, this.title).b(onclick, this.hide, className.div("panel", style, { 
-        width:20,
-        height:20
-       }, (() => {
-      	
-        return (function() {
-          if (this.hidden) {
-            return "+";
-          } else {
-            return "-";
-          }
-        }).call(this);
-      
-      })))));
+      return (function() {
+        if (this.views.has("titleView")) {
+          return this.views.get("titleView");
+        } else {
+          var r = (function() {
+            /* eval.sibilant:13:23 */
+          
+            return createDocumentNode("b", { 'onclick': this.hide }, [ createDocumentNode("div", {
+              'className': "panel",
+              'style': { 
+                width:"30%"
+               }
+            }, [ this.title ]), createDocumentNode("div", {
+              'className': "panel",
+              'style': { 
+                width:20,
+                height:20
+               }
+            }, [ (() => {
+            	
+              return (function() {
+                if (this.hidden) {
+                  return "+";
+                } else {
+                  return "-";
+                }
+              }).call(this);
+            
+            }) ]) ]);
+          }).call(this);
+          this.views.set("titleView", r);
+          return r;
+        }
+      }).call(this);
     
     });
   
@@ -10802,7 +10860,19 @@ var ViewPanel = System.define("ViewPanel", {
   
     return (() => {
     	
-      return cache(this.views, "previousPageButton", dom("prev".button(onclick, this.previousPage)));
+      return (function() {
+        if (this.views.has("previousPageButton")) {
+          return this.views.get("previousPageButton");
+        } else {
+          var r = (function() {
+            /* eval.sibilant:13:23 */
+          
+            return createDocumentNode("button", { 'onclick': this.previousPage }, [ "prev" ]);
+          }).call(this);
+          this.views.set("previousPageButton", r);
+          return r;
+        }
+      }).call(this);
     
     });
   
@@ -10822,7 +10892,19 @@ var ViewPanel = System.define("ViewPanel", {
   
     return (() => {
     	
-      return cache(this.views, "nextPageButton", dom("next".button(onclick, this.nextPage)));
+      return (function() {
+        if (this.views.has("nextPageButton")) {
+          return this.views.get("nextPageButton");
+        } else {
+          var r = (function() {
+            /* eval.sibilant:13:23 */
+          
+            return createDocumentNode("button", { 'onclick': this.nextPage }, [ "next" ]);
+          }).call(this);
+          this.views.set("nextPageButton", r);
+          return r;
+        }
+      }).call(this);
     
     });
   
@@ -10842,11 +10924,29 @@ var ViewPanel = System.define("ViewPanel", {
   
     return (() => {
     	
-      return cache(this.views, "header", dom(className.div("panel", style, { 
-        width:"100%"
-       }, className.div("panel", style, { 
-        width:"100%"
-       }, this.titleView, this.nextPageButton, this.previousPageButton, this.pageNumberView), this.settingsPanel)));
+      return (function() {
+        if (this.views.has("header")) {
+          return this.views.get("header");
+        } else {
+          var r = (function() {
+            /* eval.sibilant:13:23 */
+          
+            return createDocumentNode("div", {
+              'className': "panel",
+              'style': { 
+                width:"100%"
+               }
+            }, [ createDocumentNode("div", {
+              'className': "panel",
+              'style': { 
+                width:"100%"
+               }
+            }, [ this.titleView, this.nextPageButton, this.previousPageButton, this.pageNumberView ]), this.settingsPanel ]);
+          }).call(this);
+          this.views.set("header", r);
+          return r;
+        }
+      }).call(this);
     
     });
   
@@ -10866,9 +10966,25 @@ var ViewPanel = System.define("ViewPanel", {
   
     return (() => {
     	
-      return cache(this.views, "containerView", dom(id.div((this.title + "-container"), className, "panel", style, { 
-        width:"99%"
-       }, this.header, this.contentView)));
+      return (function() {
+        if (this.views.has("containerView")) {
+          return this.views.get("containerView");
+        } else {
+          var r = (function() {
+            /* eval.sibilant:13:23 */
+          
+            return createDocumentNode("div", {
+              'id': (this.title + "-container"),
+              'className': "panel",
+              'style': { 
+                width:"99%"
+               }
+            }, [ this.header, this.contentView ]);
+          }).call(this);
+          this.views.set("containerView", r);
+          return r;
+        }
+      }).call(this);
     
     });
   
@@ -10888,11 +11004,26 @@ var ViewPanel = System.define("ViewPanel", {
   
     return (() => {
     	
-      return cache(this.views, "contentView", dom(id.div((this.title + "-content"), style, { 
-        "overflow-y":"scroll",
-        "height":500,
-        "width":"99%"
-       })));
+      return (function() {
+        if (this.views.has("contentView")) {
+          return this.views.get("contentView");
+        } else {
+          var r = (function() {
+            /* eval.sibilant:13:23 */
+          
+            return createDocumentNode("div", {
+              'id': (this.title + "-content"),
+              'style': { 
+                "overflow-y":"scroll",
+                "height":500,
+                "width":"99%"
+               }
+            }, []);
+          }).call(this);
+          this.views.set("contentView", r);
+          return r;
+        }
+      }).call(this);
     
     });
   

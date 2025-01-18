@@ -24,10 +24,17 @@
   (def get-tiles (tiles)
     (.send this (lit (type 'tiles)
                      tiles)))
-  (def get-loaded-tiles (pos)
-    (.send this (lit (type 'get-loaded-tiles
-                           (x pos.x)
-                           (y pos.y)))))
+  (def get-loaded-tiles (player-tile)
+    (print player-tile)
+    (.send this (lit (type 'get-loaded-tiles)
+                     (x player-tile.x)
+                     (y player-tile.y)
+                     )))
+
+  (def get-starting-tiles (x y n)
+    (.send this (lit (type 'get-starting-tiles)
+                     x y n)))
+
   (def-generic get-near (x y (n 3))
     (.send this (lit (type 'chunks-near) x y n))))
 

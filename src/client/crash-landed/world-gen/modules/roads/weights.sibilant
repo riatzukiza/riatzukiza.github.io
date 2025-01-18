@@ -1,6 +1,6 @@
 
 (const road-weight 1)
-(const turn-weight 0.01)
+(const turn-weight 0.5)
 (const intersection-weight turn-weight)
 
 (export road-weight)

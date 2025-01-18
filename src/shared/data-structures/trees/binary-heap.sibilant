@@ -5,8 +5,9 @@
   (expects compare-to)
   (gett right-index (+ (* 2 this.index) 2))
   (gett left-index (+ (* 2 this.index) 1))
-  (gett parent-index
-        (Math.floor (/ (- this.index 1) 2)))
+  (gett parent-index (Math.floor (/ (- this.index 1) 2)))
+  (def-generic get-parent-index (index)
+    (Math.floor (/ (- index 1) 2)))
   (gett smallest-child-index
         (if (or (>= this.right-index this.heap.length)
                 (< (get this.heap this.left-index 'priority)

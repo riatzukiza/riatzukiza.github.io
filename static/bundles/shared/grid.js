@@ -11495,6 +11495,11 @@ var GridChunk = GridView.define("GridChunk", {
       return this.grid.getChunk((this.x - 1), (this.y - 1));
     
    },
+  _cellFn:((cell, i) => {
+  	
+    return cell.chunkIndex = i;
+  
+  }),
   get cells(  ){ 
     
       return (function() {
@@ -11504,7 +11509,7 @@ var GridChunk = GridView.define("GridChunk", {
           return this._cells = (function() {
             /* inc/misc.sibilant:1:3986 */
           
-            return Array.from(this.grid.squareArea(this.gridX, this.gridY, this.size));
+            return Array.from(this.grid.squareArea(this.gridX, this.gridY, this.size), this._cellFn);
           }).call(this);
         }
       }).call(this);
@@ -11633,7 +11638,6 @@ var Grid = Spawnable.define("Grid", {
    },
   getNearestChunks( x = this.x,y = this.y,n = this.n,chunkSize = this.chunkSize,overlapFactor = this.overlapFactor ){ 
     
-      console.log("getting nearest chunks", x, y, n, chunkSize, overlapFactor);
       return this.chunkSquareArea(Math.round((x / chunkSize / overlapFactor)), Math.round((y / chunkSize / overlapFactor)), n);
     
    },
@@ -11671,7 +11675,6 @@ var Grid = Spawnable.define("Grid", {
   chunkSquareArea( x_,y_,n ){ 
     
       const r=this.chunkArea(x_, y_, n, n);
-      console.log(r);
       return r;
     
    },
