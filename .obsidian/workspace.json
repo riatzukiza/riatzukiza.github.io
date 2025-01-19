@@ -11,14 +11,13 @@
             "id": "fd8adc03a0d2fd83",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "kanban",
               "state": {
-                "file": "kanban/tasks/Move fork of sibilant into git.md",
-                "mode": "source",
-                "source": false
+                "file": "kanban/board.md",
+                "kanbanViewState": {}
               },
-              "icon": "lucide-file",
-              "title": "Move fork of sibilant into git"
+              "icon": "lucide-trello",
+              "title": "board"
             }
           }
         ]
@@ -306,16 +305,16 @@
       }
     ]
   },
-  "active": "a92ab7efc8193530",
+  "active": "fd8adc03a0d2fd83",
   "lastOpenFiles": [
-    "Colors.md",
     "kanban/tasks/Move fork of sibilant into git.md",
+    "kanban/board.md",
+    "Colors.md",
     "notes/daily/2025-01-09.md",
     "notes/daily/2025-01-07.md",
     "notes/daily/2025-01-04.md",
     "colors.md",
     "kanban/tasks/DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files..md",
-    "kanban/board.md",
     "kanban/tasks/Threaded game systems.md",
     "kanban/tasks/Prevent agents from entering ungenerated parts of the world..md",
     "kanban/tasks/paralell processing for each system.md",
