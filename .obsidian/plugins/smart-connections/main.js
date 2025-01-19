@@ -1196,6 +1196,114 @@ async function post_process(scope, frag, opts = {}) {
   return frag;
 }
 
+// node_modules/smart-settings/smart_settings.js
+var SmartSettings = class {
+  /**
+   * Creates an instance of SmartEnvSettings.
+   * @param {Object} main - The main object to contain the instance (smart_settings) and getter (settings)
+   * @param {Object} [opts={}] - Configuration options.
+   */
+  constructor(main, opts = {}) {
+    this.main = main;
+    this.opts = opts;
+    this._fs = null;
+    this._settings = {};
+    this._saved = false;
+    this.save_timeout = null;
+  }
+  static async create(main, opts = {}) {
+    const smart_settings = new this(main, opts);
+    await smart_settings.load();
+    main.smart_settings = smart_settings;
+    Object.defineProperty(main, "settings", {
+      get() {
+        return smart_settings.settings;
+      },
+      set(settings) {
+        smart_settings.settings = settings;
+      }
+    });
+    return smart_settings;
+  }
+  static create_sync(main, opts = {}) {
+    const smart_settings = new this(main, opts);
+    smart_settings.load_sync();
+    main.smart_settings = smart_settings;
+    Object.defineProperty(main, "settings", {
+      get() {
+        return smart_settings.settings;
+      },
+      set(settings) {
+        smart_settings.settings = settings;
+      }
+    });
+    return smart_settings;
+  }
+  /**
+   * Gets the current settings, wrapped with an observer to handle changes.
+   * @returns {Proxy} A proxy object that observes changes to the settings.
+   */
+  get settings() {
+    return observe_object(this._settings, (property, value, target) => {
+      if (this.save_timeout) clearTimeout(this.save_timeout);
+      this.save_timeout = setTimeout(() => {
+        this.save(this._settings);
+        this.save_timeout = null;
+      }, 1e3);
+    });
+  }
+  /**
+   * Sets the current settings.
+   * @param {Object} settings - The new settings to apply.
+   */
+  set settings(settings) {
+    this._settings = settings;
+  }
+  async save(settings = this._settings) {
+    if (typeof this.opts.save === "function") await this.opts.save(settings);
+    else await this.main.save_settings(settings);
+  }
+  async load() {
+    if (typeof this.opts.load === "function") this._settings = await this.opts.load();
+    else this._settings = await this.main.load_settings();
+  }
+  load_sync() {
+    if (typeof this.opts.load === "function") this._settings = this.opts.load();
+    else this._settings = this.main.load_settings();
+  }
+};
+function observe_object(obj, on_change) {
+  function create_proxy(target) {
+    return new Proxy(target, {
+      set(target2, property, value) {
+        if (target2[property] !== value) {
+          target2[property] = value;
+          on_change(property, value, target2);
+        }
+        if (typeof value === "object" && value !== null) {
+          target2[property] = create_proxy(value);
+        }
+        return true;
+      },
+      get(target2, property) {
+        const result = target2[property];
+        if (typeof result === "object" && result !== null) {
+          return create_proxy(result);
+        }
+        return result;
+      },
+      deleteProperty(target2, property) {
+        if (property in target2) {
+          delete target2[property];
+          on_change(property, void 0, target2);
+        }
+        return true;
+      }
+    });
+  }
+  return create_proxy(obj);
+}
+
 // node_modules/smart-environment/smart_env.js
 var SmartEnv = class _SmartEnv {
   scope_name = "smart_env";
@@ -1241,7 +1349,7 @@ var SmartEnv = class _SmartEnv {
     this.is_init = true;
     const main_key = this.init_main(main, main_env_opts);
     await this.fs.load_files();
-    await this.opts.modules.smart_settings.class.create(this);
+    await SmartSettings.create(this);
     await this.load_main(main_key);
     this.is_init = false;
     return main_key;
@@ -1734,15 +1842,6 @@ var CollectionItem = class _CollectionItem {
     return create_uid(this.data);
   }
   /**
-   * Ensures the item is fully loaded if it was queued for loading.
-   * @returns {Promise<void>}
-   */
-  async ensure_loaded() {
-    if (this._queue_load) {
-      await this.load();
-    }
-  }
-  /**
    * Updates the item data and returns true if changed.
    * @param {Object} data
    * @returns {boolean} True if data changed.
@@ -1809,7 +1908,7 @@ var CollectionItem = class _CollectionItem {
    */
   async load() {
     try {
-      await this.data_adapter.load(this);
+      await this.data_adapter.load_item(this);
       this.init();
     } catch (err) {
       this._load_error = err;
@@ -1924,24 +2023,10 @@ var CollectionItem = class _CollectionItem {
     return this.collection.data_adapter;
   }
   /**
-   * Generates a filename-friendly version of the item's key for storage.
-   * @returns {string}
-   */
-  get multi_ajson_file_name() {
-    return this.key.replace(/[\s\/\.]/g, "_").replace(".md", "");
-  }
-  /**
    * @returns {Object} The filesystem adapter.
    */
   get data_fs() {
     return this.collection.data_fs;
-  }
-  /**
-   * The path at which this item's data is stored.
-   * @returns {string}
-   */
-  get data_path() {
-    return this.collection.data_dir + (this.data_fs?.sep || "/") + this.multi_ajson_file_name + ".ajson";
   }
   /**
    * Access to collection-level settings.
@@ -2054,7 +2139,6 @@ var Collection = class {
     item._queue_save = !existing_item;
     const data_changed = item.update_data(data);
     if (!existing_item && !item.validate_save()) {
-      console.warn("Invalid item, skipping adding to collection:", item);
       return item;
     }
     if (!existing_item) {
@@ -2095,9 +2179,9 @@ var Collection = class {
     }
     this.filter_opts = this.prepare_filter(filter_opts);
     const results = [];
-    const { limit } = this.filter_opts;
+    const { first_n } = this.filter_opts;
     for (const item of Object.values(this.items)) {
-      if (limit && results.length >= limit) break;
+      if (first_n && results.length >= first_n) break;
       if (item.filter(filter_opts)) results.push(item);
     }
     return results;
@@ -2205,14 +2289,18 @@ var Collection = class {
    */
   get data_adapter() {
     if (!this._data_adapter) {
-      const config = this.env.opts.collections?.[this.collection_key];
-      const data_adapter_class = config?.data_adapter ?? this.env.opts.collections?.smart_collections?.data_adapter;
-      if (!data_adapter_class) {
-        throw new Error(`No data adapter class found for ${this.collection_key} or smart_collections`);
-      }
-      this._data_adapter = new data_adapter_class(this);
+      const AdapterClass = this.get_adapter_class("data");
+      this._data_adapter = new AdapterClass(this);
     }
     return this._data_adapter;
+  }
+  get_adapter_class(type) {
+    const config = this.env.opts.collections?.[this.collection_key];
+    const adapter_key = type + "_adapter";
+    const adapter_module = config?.[adapter_key] ?? this.env.opts.collections?.smart_collections?.[adapter_key];
+    if (typeof adapter_module === "function") return adapter_module;
+    if (typeof adapter_module?.collection === "function") return adapter_module.collection;
+    throw new Error(`No adapter class found for ${this.collection_key} or smart_collections`);
   }
   /**
    * Data directory strategy for this collection. Defaults to 'multi'.
@@ -2266,34 +2354,23 @@ var Collection = class {
     return this.data_adapter;
   }
   /**
-   * @deprecated Use env.env_data_dir
-   * @returns {string}
-   */
-  get data_path() {
-    return this.env.data_path;
-  }
-  /**
-   * Saves the current state of the collection.
-   * @returns {Promise<void>}
-   */
-  async save() {
-    await this.data_adapter.save_all_items();
-  }
-  /**
-   * Processes all items queued for saving.
-   * @returns {Promise<void>}
-   */
-  async save_queue() {
-    await this.process_save_queue();
-  }
-  /**
    * @method process_save_queue
    * @description 
    * Saves items flagged for saving (_queue_save) back to AJSON or SQLite. This ensures persistent storage 
    * of any updates made since last load/import. This method also writes changes to disk (AJSON files or DB).
    */
-  async process_save_queue() {
-    await this.data_adapter.process_save_queue();
+  async process_save_queue(opts = {}) {
+    if (opts.force) {
+      Object.values(this.items).forEach((item) => item._queue_save = true);
+    }
+    await this.data_adapter.process_save_queue(opts);
+  }
+  /**
+   * @alias process_save_queue
+   * @returns {Promise<void>}
+   */
+  async save(opts = {}) {
+    await this.process_save_queue(opts);
   }
   /**
    * @method process_load_queue
@@ -2417,17 +2494,32 @@ var Collection = class {
     this.notices?.show("done loading", `${this.collection_key} loaded`, { timeout: 3e3 });
     this.render_settings();
   }
+  /**
+   * Helper function to render a component in the collection scope
+   * @param {*} component_key 
+   * @param {*} opts 
+   * @returns 
+   */
+  async render_component(component_key, opts = {}) {
+    return await this.env.render_component(component_key, this, opts);
+  }
 };
 
-// node_modules/smart-sources/node_modules/smart-entities/utils/sort_by_score.js
+// node_modules/smart-entities/utils/sort_by_score.js
 function sort_by_score(a, b) {
   const epsilon = 1e-9;
   const score_diff = a.score - b.score;
   if (Math.abs(score_diff) < epsilon) return 0;
   return score_diff > 0 ? -1 : 1;
 }
+function sort_by_score_descending(a, b) {
+  return sort_by_score(a, b);
+}
+function sort_by_score_ascending(a, b) {
+  return sort_by_score(a, b) * -1;
+}
 
-// node_modules/smart-sources/node_modules/smart-entities/adapters/_adapter.js
+// node_modules/smart-entities/adapters/_adapter.js
 var EntitiesVectorAdapter = class {
   /**
    * @constructor
@@ -2518,7 +2610,7 @@ var EntityVectorAdapter = class {
   }
 };
 
-// node_modules/smart-sources/node_modules/smart-entities/cos_sim.js
+// node_modules/smart-entities/utils/cos_sim.js
 function cos_sim(vector1, vector2) {
   if (vector1.length !== vector2.length) {
     throw new Error("Vectors must have the same length");
@@ -2540,29 +2632,63 @@ function cos_sim(vector1, vector2) {
   return dot_product / (magnitude1 * magnitude2);
 }
 
-// node_modules/smart-sources/node_modules/smart-entities/top_acc.js
+// node_modules/smart-entities/utils/results_acc.js
 function results_acc(_acc, result, ct = 10) {
   if (_acc.results.size < ct) {
     _acc.results.add(result);
+    if (_acc.results.size === ct && _acc.min === Number.POSITIVE_INFINITY) {
+      let { minScore, minObj } = find_min(_acc.results);
+      _acc.min = minScore;
+      _acc.minResult = minObj;
+    }
   } else if (result.score > _acc.min) {
     _acc.results.add(result);
     _acc.results.delete(_acc.minResult);
-    _acc.minResult = Array.from(_acc.results).reduce((min, curr) => curr.score < min.score ? curr : min);
-    _acc.min = _acc.minResult.score;
+    let { minScore, minObj } = find_min(_acc.results);
+    _acc.min = minScore;
+    _acc.minResult = minObj;
   }
 }
 function furthest_acc(_acc, result, ct = 10) {
   if (_acc.results.size < ct) {
     _acc.results.add(result);
+    if (_acc.results.size === ct && _acc.max === Number.NEGATIVE_INFINITY) {
+      let { maxScore, maxObj } = find_max(_acc.results);
+      _acc.max = maxScore;
+      _acc.maxResult = maxObj;
+    }
   } else if (result.score < _acc.max) {
     _acc.results.add(result);
     _acc.results.delete(_acc.maxResult);
-    _acc.maxResult = Array.from(_acc.results).reduce((max, curr) => curr.score > max.score ? curr : max);
-    _acc.max = _acc.maxResult.score;
+    let { maxScore, maxObj } = find_max(_acc.results);
+    _acc.max = maxScore;
+    _acc.maxResult = maxObj;
   }
 }
+function find_min(results) {
+  let minScore = Number.POSITIVE_INFINITY;
+  let minObj = null;
+  for (const obj of results) {
+    if (obj.score < minScore) {
+      minScore = obj.score;
+      minObj = obj;
+    }
+  }
+  return { minScore, minObj };
+}
+function find_max(results) {
+  let maxScore = Number.NEGATIVE_INFINITY;
+  let maxObj = null;
+  for (const obj of results) {
+    if (obj.score > maxScore) {
+      maxScore = obj.score;
+      maxObj = obj;
+    }
+  }
+  return { maxScore, maxObj };
+}
 
-// node_modules/smart-sources/node_modules/smart-entities/adapters/default.js
+// node_modules/smart-entities/adapters/default.js
 var DefaultEntitiesVectorAdapter = class extends EntitiesVectorAdapter {
   constructor(collection) {
     super(collection);
@@ -2589,7 +2715,7 @@ var DefaultEntitiesVectorAdapter = class extends EntitiesVectorAdapter {
       results_acc(acc, result, limit);
       return acc;
     }, { min: 0, results: /* @__PURE__ */ new Set() });
-    return Array.from(nearest.results);
+    return Array.from(nearest.results).sort(sort_by_score_descending);
   }
   /**
    * Find the furthest entities from the given vector.
@@ -2612,7 +2738,7 @@ var DefaultEntitiesVectorAdapter = class extends EntitiesVectorAdapter {
       furthest_acc(acc, result, limit);
       return acc;
     }, { max: 0, results: /* @__PURE__ */ new Set() });
-    return Array.from(furthest.results);
+    return Array.from(furthest.results).sort(sort_by_score_ascending);
   }
   /**
    * Embed a batch of entities.
@@ -2656,8 +2782,8 @@ var DefaultEntitiesVectorAdapter = class extends EntitiesVectorAdapter {
     console.log(`Time spent getting embed queue: ${(/* @__PURE__ */ new Date()).getTime() - datetime_start.getTime()}ms`);
     console.log(`Processing ${this.collection.collection_key} embed queue: ${embed_queue.length} items`);
     for (let i = 0; i < embed_queue.length; i += this.collection.embed_model.batch_size) {
-      if (this.collection.is_queue_halted) {
-        this.collection.is_queue_halted = false;
+      if (this.is_queue_halted) {
+        this.is_queue_halted = false;
         break;
       }
       const batch = embed_queue.slice(i, i + this.collection.embed_model.batch_size);
@@ -2665,7 +2791,7 @@ var DefaultEntitiesVectorAdapter = class extends EntitiesVectorAdapter {
       try {
         const start_time = Date.now();
         await this.embed_batch(batch);
-        this.collection.total_time += Date.now() - start_time;
+        this.total_time += Date.now() - start_time;
       } catch (e) {
         if (e && e.message && e.message.includes("API key not set")) {
           this.halt_embed_queue_processing(`API key not set for ${this.collection.embed_model_key}
@@ -2676,24 +2802,32 @@ Please set the API key in the settings.`);
       }
       batch.forEach((item) => {
         item.embed_hash = item.read_hash;
+        item._queue_save = true;
       });
-      this.collection.embedded_total += batch.length;
-      this.collection.total_tokens += batch.reduce((acc, item) => acc + (item.tokens || 0), 0);
+      this.embedded_total += batch.length;
+      this.total_tokens += batch.reduce((acc, item) => acc + (item.tokens || 0), 0);
       this._show_embed_progress_notice(embed_queue.length);
-      if (this.collection.embedded_total - this.collection.last_save_total > 1e3) {
-        this.collection.last_save_total = this.collection.embedded_total;
+      if (this.embedded_total - this.last_save_total > 1e3) {
+        this.last_save_total = this.embedded_total;
         await this.collection.process_save_queue();
+        if (this.collection.block_collection) {
+          console.log(`Saving ${this.collection.block_collection.collection_key} block collection`);
+          await this.collection.block_collection.process_save_queue();
+        }
       }
     }
     this._show_embed_completion_notice(embed_queue.length);
-    this.collection.process_save_queue();
+    await this.collection.process_save_queue();
+    if (this.collection.block_collection) {
+      await this.collection.block_collection.process_save_queue();
+    }
   }
   /**
    * Displays the embedding progress notice.
    * @private
    * @returns {void}
    */
-  _show_embed_progress_notice() {
+  _show_embed_progress_notice(embed_queue_length) {
     if (this.embedded_total - this.last_notice_embedded_total < 100) return;
     this.last_notice_embedded_total = this.embedded_total;
     const pause_btn = { text: "Pause", callback: this.halt_embed_queue_processing.bind(this), stay_open: true };
@@ -2701,8 +2835,8 @@ Please set the API key in the settings.`);
       "embedding_progress",
       [
         `Making Smart Connections...`,
-        `Embedding progress: ${this.embedded_total} / ${this.embed_queue.length}`,
-        `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
+        `Embedding progress: ${this.embedded_total} / ${embed_queue_length}`,
+        `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.collection.embed_model_key}`
       ],
       {
         timeout: 0,
@@ -2720,7 +2854,7 @@ Please set the API key in the settings.`);
     this.notices?.show("embedding_complete", [
       `Embedding complete.`,
       `${this.embedded_total} entities embedded.`,
-      `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
+      `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.collection.embed_model_key}`
     ], { timeout: 1e4 });
   }
   /**
@@ -2735,8 +2869,8 @@ Please set the API key in the settings.`);
       "embedding_paused",
       [
         msg || `Embedding paused.`,
-        `Progress: ${this.embedded_total} / ${this.embed_queue.length}`,
-        `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
+        `Progress: ${this.embedded_total} / ${this.collection._embed_queue.length}`,
+        `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.collection.embed_model_key}`
       ],
       {
         timeout: 0,
@@ -2772,7 +2906,7 @@ Please set the API key in the settings.`);
    * @returns {void}
    */
   _reset_embed_queue_stats() {
-    this._embed_queue = [];
+    this.collection._embed_queue = [];
     this.embedded_total = 0;
     this.is_queue_halted = false;
     this.last_save_total = 0;
@@ -2830,7 +2964,7 @@ var DefaultEntityVectorAdapter = class extends EntityVectorAdapter {
   }
 };
 
-// node_modules/smart-sources/node_modules/smart-entities/components/entity.js
+// node_modules/smart-entities/components/entity.js
 async function render2(entity, opts = {}) {
   let markdown;
   if (should_render_embed(entity)) markdown = entity.embed_link;
@@ -2854,7 +2988,7 @@ function should_render_embed(entity) {
   return false;
 }
 
-// node_modules/smart-sources/node_modules/smart-entities/smart_entity.js
+// node_modules/smart-entities/smart_entity.js
 var SmartEntity = class extends CollectionItem {
   /**
    * Creates an instance of SmartEntity.
@@ -2876,12 +3010,18 @@ var SmartEntity = class extends CollectionItem {
     return {
       data: {
         path: null,
-        embeddings: {},
         last_embed: {
           hash: null
-        }
+        },
+        embeddings: {}
       }
     };
+  }
+  get vector_adapter() {
+    if (!this._vector_adapter) {
+      this._vector_adapter = new this.collection.opts.vector_adapter.item(this);
+    }
+    return this._vector_adapter;
   }
   /**
    * Initializes the SmartEntity instance.
@@ -2929,6 +3069,14 @@ var SmartEntity = class extends CollectionItem {
   async get_embed_input(content = null) {
   }
   // override in child class
+  /**
+   * Retrieves the embed input, either from cache or by generating it.
+   * @readonly
+   * @returns {string|Promise<string>} The embed input string or a promise resolving to it.
+   */
+  get embed_input() {
+    return this._embed_input ? this._embed_input : this.get_embed_input();
+  }
   /**
    * Prepares filter options for finding connections based on parameters.
    * @param {Object} [params={}] - Parameters for finding connections.
@@ -3041,14 +3189,6 @@ var SmartEntity = class extends CollectionItem {
     return this.collection.embed_model;
   }
   /**
-   * Gets the number of tokens associated with the entity's embedding.
-   * @readonly
-   * @returns {number|undefined} The number of tokens, or undefined if not set.
-   */
-  get tokens() {
-    return this.data.embeddings[this.embed_model_key]?.tokens;
-  }
-  /**
    * Determines if the entity should be embedded.
    * @readonly
    * @returns {boolean} True if no vector is set, false otherwise.
@@ -3064,13 +3204,20 @@ var SmartEntity = class extends CollectionItem {
     this.data.embeddings[this.embed_model_key].error = error;
   }
   /**
+   * Gets the number of tokens associated with the entity's embedding.
+   * @readonly
+   * @returns {number|undefined} The number of tokens, or undefined if not set.
+   */
+  get tokens() {
+    return this.data.last_embed?.tokens;
+  }
+  /**
    * Sets the number of tokens for the embedding.
    * @param {number} tokens - The number of tokens.
    */
   set tokens(tokens) {
-    if (!this.data.embeddings) this.data.embeddings = {};
-    if (!this.data.embeddings[this.embed_model_key]) this.data.embeddings[this.embed_model_key] = {};
-    this.data.embeddings[this.embed_model_key].tokens = tokens;
+    if (!this.data.last_embed) this.data.last_embed = {};
+    this.data.last_embed.tokens = tokens;
   }
   /**
    * Gets the vector representation from the entity adapter.
@@ -3137,7 +3284,7 @@ var SmartEntity = class extends CollectionItem {
   }
 };
 
-// node_modules/smart-sources/node_modules/smart-entities/smart_entities.js
+// node_modules/smart-entities/smart_entities.js
 var SmartEntities = class extends Collection {
   /**
    * Creates an instance of SmartEntities.
@@ -3378,8 +3525,6 @@ var SmartEntities = class extends Collection {
             key: result.item.key,
             score: result.score,
             item: result.item,
-            entity: result.item,
-            // DEPRECATED: use item instead
             hypothetical_i: i
           };
         } else {
@@ -3388,6 +3533,7 @@ var SmartEntities = class extends Collection {
       });
       return acc;
     }, Promise.resolve({}));
+    console.log(results);
     const top_k = Object.values(results).sort(sort_by_score).slice(0, limit);
     console.log(`Found and returned ${top_k.length} ${this.collection_key}.`);
     return top_k;
@@ -3441,15 +3587,6 @@ var SmartEntities = class extends Collection {
     await this.init();
     this.render_settings();
     await this.process_load_queue();
-  }
-  async render_lookup(container, opts = {}) {
-    if (container) container.innerHTML = "Loading lookup...";
-    const frag = await this.env.render_component("lookup", this, opts);
-    if (container) {
-      container.innerHTML = "";
-      container.appendChild(frag);
-    }
-    return frag;
   }
   get connections_filter_config() {
     return connections_filter_config;
@@ -3542,12 +3679,11 @@ var SmartSource = class extends SmartEntity {
   static get defaults() {
     return {
       data: {
-        history: [],
-        // Array of { mtime, hash, length, blocks[] }
         last_read: {
           hash: null,
           mtime: 0
-        }
+        },
+        embeddings: {}
       },
       _embed_input: null,
       // Stored temporarily
@@ -3577,7 +3713,6 @@ var SmartSource = class extends SmartEntity {
   async import() {
     this._queue_import = false;
     try {
-      await this.check_if_data_updated_on_disk();
       await this.source_adapter.import();
     } catch (err) {
       if (err.code === "ENOENT") {
@@ -3586,14 +3721,6 @@ var SmartSource = class extends SmartEntity {
       } else {
         console.warn("Smart Connections: Error during import: re-queueing import", err);
         this.queue_import();
-      }
-    }
-  }
-  async check_if_data_updated_on_disk() {
-    if (await this.data_fs.exists(this.data_path)) {
-      if (this.loaded_at && (this.env.fs.files[this.data_path] && this.env.fs.files[this.data_path].mtime > this.loaded_at + 1 * 60 * 1e3)) {
-        console.log(`Smart Connections: Re-loading data source for ${this.path} because it has been updated on disk`);
-        await this.load();
       }
     }
   }
@@ -3749,7 +3876,7 @@ ${content}`.substring(0, max_tokens * 4);
    * @returns {Promise<void>}
    */
   async _update(content) {
-    await this.source_adapter._update(content);
+    await this.source_adapter.update(content);
   }
   /**
    * Reads the entire content of the source file.
@@ -3832,26 +3959,6 @@ ${content}`.substring(0, max_tokens * 4);
       throw error;
     }
   }
-  // /**
-  //  * Saves the SmartSource and its blocks by processing the save queue.
-  //  * @async
-  //  * @returns {Promise<void>}
-  //  */
-  // async save() {
-  //   if(this.deleted) return await super.save(super.ajson);
-  //   const blocks_to_save = this.blocks.filter(block => block._queue_save);
-  //   const ajson = [
-  //     super.ajson,
-  //     ...blocks_to_save.map(block => block.ajson).filter(ajson => ajson),
-  //   ].join("\n");
-  //   await super.save(ajson);
-  //   blocks_to_save.forEach(block => {
-  //     block._queue_save = false;
-  //     if(block.deleted && this.block_collection.items[block.key]){
-  //       this.block_collection.delete_item(block.key);
-  //     }
-  //   });
-  // }
   /**
    * Handles errors during the load process.
    * @param {Error} err - The error encountered during load.
@@ -3890,30 +3997,6 @@ ${content}`.substring(0, max_tokens * 4);
   get blocks() {
     if (this.data.blocks) return this.block_collection.get_many(Object.keys(this.data.blocks).map((key) => this.key + key));
     return [];
-  }
-  /**
-   * Retrieves the data path for the SmartSource.
-   * @readonly
-   * @returns {string} The data path.
-   */
-  get data_path() {
-    return this.collection.data_dir + "/" + this.multi_ajson_file_name + ".ajson";
-  }
-  /**
-   * Retrieves the data file associated with the SmartSource.
-   * @readonly
-   * @returns {Object} The data file object.
-   */
-  get data_file() {
-    return this.data_fs.files[this.data_path];
-  }
-  /**
-   * Retrieves the embed input, either from cache or by generating it.
-   * @readonly
-   * @returns {string|Promise<string>} The embed input string or a promise resolving to it.
-   */
-  get embed_input() {
-    return this._embed_input ? this._embed_input : this.get_embed_input();
   }
   /**
    * Determines if the SmartSource is excluded from processing.
@@ -4052,14 +4135,6 @@ ${content}`.substring(0, max_tokens * 4);
     return this.data.last_read;
   }
   /**
-   * Retrieves the multi AJSON file name derived from the path.
-   * @readonly
-   * @returns {string} The multi AJSON file name.
-   */
-  get multi_ajson_file_name() {
-    return this.path.split("#").shift().replace(/[\s\/\.]/g, "_").replace(".md", "");
-  }
-  /**
    * Retrieves the display name of the SmartSource.
    * @readonly
    * @returns {string} The display name.
@@ -4196,11 +4271,24 @@ var SmartSources = class extends SmartEntities {
   async prune() {
     await this.fs.refresh();
     this.notices?.show("pruning sources", "Pruning sources...", { timeout: 0 });
-    const remove_sources = Object.values(this.items).filter((item) => item.is_gone || item.excluded || !item.should_embed || !item.data.blocks);
+    const remove_sources = Object.values(this.items).filter((item) => {
+      if (item.is_gone) {
+        item.reason = "is_gone";
+        return true;
+      }
+      if (item.excluded) {
+        item.reason = "excluded";
+        return true;
+      }
+      if (!item.data.blocks) {
+        item.reason = "!data.blocks";
+        return true;
+      }
+      return false;
+    });
     for (let i = 0; i < remove_sources.length; i++) {
       const source = remove_sources[i];
-      await this.data_fs.remove(source.data_path);
-      source.delete();
+      console.log(source.reason);
     }
     this.notices?.remove("pruning sources");
     this.notices?.show("pruned sources", `Pruned ${remove_sources.length} sources`, { timeout: 5e3 });
@@ -4213,10 +4301,6 @@ var SmartSources = class extends SmartEntities {
       }
       if (!item.should_embed) {
         item.reason = "!should_embed";
-        return true;
-      }
-      if (!item.data?.hash) {
-        item.reason = "!data.hash";
         return true;
       }
       return false;
@@ -4321,12 +4405,14 @@ ${remove_smart_blocks.map((item) => `${item.reason} - ${item.key}`).join("\n")}`
     const limit = params.filter?.limit || params.k || this.env.settings.lookup_k || 10;
     if (params.filter?.limit) delete params.filter.limit;
     let results = await super.lookup(params);
-    if (this.env.smart_blocks?.settings?.embed_blocks) {
+    if (this.block_collection?.settings?.embed_blocks) {
+      console.log("lookup block_collection");
       results = [
         ...results,
         ...await this.block_collection.lookup(params)
       ].sort(sort_by_score);
     }
+    console.log(results);
     return results.slice(0, limit);
   }
   /**
@@ -4376,6 +4462,7 @@ ${remove_smart_blocks.map((item) => `${item.reason} - ${item.key}`).join("\n")}`
     this.build_links_map();
     await this.process_embed_queue();
     await this.process_save_queue();
+    await this.block_collection?.process_save_queue();
   }
   /**
    * Retrieves the source adapters based on the collection configuration.
@@ -4625,7 +4712,8 @@ ${remove_smart_blocks.map((item) => `${item.reason} - ${item.key}`).join("\n")}`
    * @returns {number} The number of included files.
    */
   get included_files() {
-    return this.fs.file_paths.filter((file) => file.endsWith(".md") || file.endsWith(".canvas")).filter((file) => !this.fs.is_excluded(file)).length;
+    const extensions = Object.keys(this.source_adapters);
+    return this.fs.file_paths.filter((file_path) => extensions.some((ext) => file_path.endsWith(ext)) && !this.fs.is_excluded(file_path)).length;
   }
   /**
    * Retrieves the total number of files, regardless of exclusion.
@@ -4645,1912 +4733,8 @@ var settings_config2 = {
   }
 };
 
-// node_modules/smart-blocks/node_modules/smart-collections/utils/collection_instance_name_from.js
-function collection_instance_name_from2(class_name) {
-  if (class_name.endsWith("Item")) {
-    return class_name.replace(/Item$/, "").toLowerCase();
-  }
-  return class_name.replace(/([a-z])([A-Z])/g, "$1_$2").toLowerCase().replace(/y$/, "ie") + "s";
-}
-
-// node_modules/smart-blocks/node_modules/smart-collections/utils/helpers.js
-function create_uid2(data) {
-  const str = JSON.stringify(data);
-  let hash = 0;
-  if (str.length === 0) return hash;
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
-    hash = (hash << 5) - hash + char;
-    hash = hash & hash;
-    if (hash < 0) hash = hash * -1;
-  }
-  return hash.toString() + str.length;
-}
-function deep_merge3(target, source) {
-  for (const key in source) {
-    if (source.hasOwnProperty(key)) {
-      if (is_obj(source[key]) && is_obj(target[key])) deep_merge3(target[key], source[key]);
-      else target[key] = source[key];
-    }
-  }
-  return target;
-  function is_obj(item) {
-    return item && typeof item === "object" && !Array.isArray(item);
-  }
-}
-
-// node_modules/smart-blocks/node_modules/smart-collections/utils/deep_equal.js
-function deep_equal2(obj1, obj2, visited = /* @__PURE__ */ new WeakMap()) {
-  if (obj1 === obj2) return true;
-  if (obj1 === null || obj2 === null || obj1 === void 0 || obj2 === void 0) return false;
-  if (typeof obj1 !== typeof obj2 || Array.isArray(obj1) !== Array.isArray(obj2)) return false;
-  if (Array.isArray(obj1)) {
-    if (obj1.length !== obj2.length) return false;
-    return obj1.every((item, index) => deep_equal2(item, obj2[index], visited));
-  }
-  if (typeof obj1 === "object") {
-    if (visited.has(obj1)) return visited.get(obj1) === obj2;
-    visited.set(obj1, obj2);
-    const keys1 = Object.keys(obj1);
-    const keys2 = Object.keys(obj2);
-    if (keys1.length !== keys2.length) return false;
-    return keys1.every((key) => deep_equal2(obj1[key], obj2[key], visited));
-  }
-  return obj1 === obj2;
-}
-
-// node_modules/smart-blocks/node_modules/smart-collections/item.js
-var CollectionItem2 = class _CollectionItem {
-  /**
-   * Default properties for an instance of CollectionItem.
-   * Override in subclasses to define different defaults.
-   * @returns {Object}
-   */
-  static get defaults() {
-    return {
-      data: {}
-    };
-  }
-  /**
-   * @param {Object} env - The environment/context.
-   * @param {Object|null} [data=null] - Initial data for the item.
-   */
-  constructor(env, data = null) {
-    this.env = env;
-    this.config = this.env?.config;
-    this.merge_defaults();
-    if (data) deep_merge3(this.data, data);
-    if (!this.data.class_name) this.data.class_name = this.constructor.name;
-  }
-  /**
-   * Loads an item from data and initializes it.
-   * @param {Object} env
-   * @param {Object} data
-   * @returns {CollectionItem}
-   */
-  static load(env, data) {
-    const item = new this(env, data);
-    item.init();
-    return item;
-  }
-  /**
-   * Merge default properties from the entire inheritance chain.
-   * @private
-   */
-  merge_defaults() {
-    let current_class = this.constructor;
-    while (current_class) {
-      for (let key in current_class.defaults) {
-        const default_val = current_class.defaults[key];
-        if (typeof default_val === "object") {
-          this[key] = { ...default_val, ...this[key] };
-        } else {
-          this[key] = this[key] === void 0 ? default_val : this[key];
-        }
-      }
-      current_class = Object.getPrototypeOf(current_class);
-    }
-  }
-  /**
-   * Generates or retrieves a unique key for the item.
-   * Key syntax supports:
-   * - `[i]` for sequences
-   * - `/` for super-sources (groups, directories, clusters)
-   * - `#` for sub-sources (blocks)
-   * @returns {string} The unique key
-   */
-  get_key() {
-    return create_uid2(this.data);
-  }
-  /**
-   * Ensures the item is fully loaded if it was queued for loading.
-   * @returns {Promise<void>}
-   */
-  async ensure_loaded() {
-    if (this._queue_load) {
-      await this.load();
-    }
-  }
-  /**
-   * Updates the item data and returns true if changed.
-   * @param {Object} data
-   * @returns {boolean} True if data changed.
-   */
-  update_data(data) {
-    const sanitized_data = this.sanitize_data(data);
-    const current_data = { ...this.data };
-    deep_merge3(current_data, sanitized_data);
-    const changed = !deep_equal2(this.data, current_data);
-    if (!changed) return false;
-    this.data = current_data;
-    return true;
-  }
-  /**
-   * Sanitizes data for saving. Ensures no circular references.
-   * @param {*} data
-   * @returns {*} Sanitized data.
-   */
-  sanitize_data(data) {
-    if (data instanceof _CollectionItem) return data.ref;
-    if (Array.isArray(data)) return data.map((val) => this.sanitize_data(val));
-    if (typeof data === "object" && data !== null) {
-      return Object.keys(data).reduce((acc, key) => {
-        acc[key] = this.sanitize_data(data[key]);
-        return acc;
-      }, {});
-    }
-    return data;
-  }
-  /**
-   * Initializes the item. Override as needed.
-   * @param {Object} [input_data] - Additional data that might be provided on creation.
-   */
-  init(input_data) {
-  }
-  /**
-   * Queues this item for saving.
-   */
-  queue_save() {
-    this._queue_save = true;
-  }
-  /**
-   * Saves this item using its data adapter.
-   * @returns {Promise<void>}
-   */
-  async save() {
-    try {
-      await this.data_adapter.save_item(this);
-      this.init();
-    } catch (err) {
-      this._queue_save = true;
-      console.error(err, err.stack);
-    }
-  }
-  /**
-   * Queues this item for loading.
-   */
-  queue_load() {
-    this._queue_load = true;
-  }
-  /**
-   * Loads this item using its data adapter.
-   * @returns {Promise<void>}
-   */
-  async load() {
-    try {
-      await this.data_adapter.load(this);
-      this.init();
-    } catch (err) {
-      this._load_error = err;
-      this.on_load_error(err);
-    }
-  }
-  /**
-   * Handles load errors by re-queuing for load.
-   * Override if needed.
-   * @param {Error} err
-   */
-  on_load_error(err) {
-    this.queue_load();
-  }
-  /**
-   * Validates the item before saving. Checks for presence and validity of key.
-   * @returns {boolean}
-   */
-  validate_save() {
-    if (!this.key) return false;
-    if (this.key.trim() === "") return false;
-    if (this.key === "undefined") return false;
-    return true;
-  }
-  /**
-   * Marks this item as deleted. This does not immediately remove it from memory,
-   * but queues a save that will result in the item being removed from persistent storage.
-   */
-  delete() {
-    this.deleted = true;
-    this.queue_save();
-  }
-  /**
-   * Filters items in the collection based on provided options.
-   * functional filter (returns true or false) for filtering items in collection; called by collection class
-   * @param {Object} filter_opts - Filtering options.
-   * @param {string} [filter_opts.exclude_key] - A single key to exclude.
-   * @param {string[]} [filter_opts.exclude_keys] - An array of keys to exclude. If exclude_key is provided, it's added to this array.
-   * @param {string} [filter_opts.exclude_key_starts_with] - Exclude keys starting with this string.
-   * @param {string[]} [filter_opts.exclude_key_starts_with_any] - Exclude keys starting with any of these strings.
-   * @param {string} [filter_opts.exclude_key_includes] - Exclude keys that include this string.
-   * @param {string} [filter_opts.key_ends_with] - Include only keys ending with this string.
-   * @param {string} [filter_opts.key_starts_with] - Include only keys starting with this string.
-   * @param {string[]} [filter_opts.key_starts_with_any] - Include only keys starting with any of these strings.
-   * @param {string} [filter_opts.key_includes] - Include only keys that include this string.
-   * @returns {boolean} True if the item passes the filter, false otherwise.
-   */
-  filter(filter_opts = {}) {
-    const {
-      exclude_key,
-      exclude_keys = exclude_key ? [exclude_key] : [],
-      exclude_key_starts_with,
-      exclude_key_starts_with_any,
-      exclude_key_includes,
-      key_ends_with,
-      key_starts_with,
-      key_starts_with_any,
-      key_includes
-    } = filter_opts;
-    if (exclude_keys?.includes(this.key)) return false;
-    if (exclude_key_starts_with && this.key.startsWith(exclude_key_starts_with)) return false;
-    if (exclude_key_starts_with_any && exclude_key_starts_with_any.some((prefix) => this.key.startsWith(prefix))) return false;
-    if (exclude_key_includes && this.key.includes(exclude_key_includes)) return false;
-    if (key_ends_with && !this.key.endsWith(key_ends_with)) return false;
-    if (key_starts_with && !this.key.startsWith(key_starts_with)) return false;
-    if (key_starts_with_any && !key_starts_with_any.some((prefix) => this.key.startsWith(prefix))) return false;
-    if (key_includes && !this.key.includes(key_includes)) return false;
-    return true;
-  }
-  /**
-   * Parses item data for additional processing. Override as needed.
-   */
-  parse() {
-  }
-  /**
-   * Derives the collection key from the class name.
-   * @returns {string}
-   */
-  static get collection_key() {
-    return collection_instance_name_from2(this.name);
-  }
-  /**
-   * @returns {string} The collection key for this item.
-   */
-  get collection_key() {
-    return collection_instance_name_from2(this.constructor.name);
-  }
-  /**
-   * Retrieves the parent collection from the environment.
-   * @returns {Collection}
-   */
-  get collection() {
-    return this.env[this.collection_key];
-  }
-  /**
-   * @returns {string} The item's key.
-   */
-  get key() {
-    return this.data?.key || this.get_key();
-  }
-  /**
-   * A simple reference object for this item.
-   * @returns {{collection_key: string, key: string}}
-   */
-  get ref() {
-    return { collection_key: this.collection_key, key: this.key };
-  }
-  /**
-   * @returns {Object} The data adapter for this item's collection.
-   */
-  get data_adapter() {
-    return this.collection.data_adapter;
-  }
-  /**
-   * Generates a filename-friendly version of the item's key for storage.
-   * @returns {string}
-   */
-  get multi_ajson_file_name() {
-    return this.key.replace(/[\s\/\.]/g, "_").replace(".md", "");
-  }
-  /**
-   * @returns {Object} The filesystem adapter.
-   */
-  get data_fs() {
-    return this.collection.data_fs;
-  }
-  /**
-   * The path at which this item's data is stored.
-   * @returns {string}
-   */
-  get data_path() {
-    return this.collection.data_dir + (this.data_fs?.sep || "/") + this.multi_ajson_file_name + ".ajson";
-  }
-  /**
-   * Access to collection-level settings.
-   * @returns {Object}
-   */
-  get settings() {
-    if (!this.env.settings[this.collection_key]) this.env.settings[this.collection_key] = {};
-    return this.env.settings[this.collection_key];
-  }
-  set settings(settings) {
-    this.env.settings[this.collection_key] = settings;
-    this.env.smart_settings.save();
-  }
-  /**
-   * Render this item into a container using the item's component.
-   * @deprecated 2024-12-02 Use explicit component pattern from environment
-   * @param {HTMLElement} container
-   * @param {Object} opts
-   * @returns {Promise<HTMLElement>}
-   */
-  async render_item(container, opts = {}) {
-    const frag = await this.component.call(this.smart_view, this, opts);
-    container.innerHTML = "";
-    container.appendChild(frag);
-    return container;
-  }
-  /**
-   * @deprecated use env.smart_view
-   * @returns {Object}
-   */
-  get smart_view() {
-    if (!this._smart_view) this._smart_view = this.env.init_module("smart_view");
-    return this._smart_view;
-  }
-  /**
-   * Override in child classes to set the component for this item
-   * @deprecated 2024-12-02
-   * @returns {Function} The render function for this component
-   */
-  get component() {
-    return item_component;
-  }
-};
-
-// node_modules/smart-blocks/node_modules/smart-collections/collection.js
-var AsyncFunction2 = Object.getPrototypeOf(async function() {
-}).constructor;
-var Collection2 = class {
-  /**
-   * Constructs a new Collection instance.
-   *
-   * @param {Object} env - The environment context containing configurations and adapters.
-   * @param {Object} [opts={}] - Optional configuration.
-   * @param {string} [opts.custom_collection_key] - Custom key to override default collection name.
-   * @param {string} [opts.data_dir] - Custom data directory path.
-   * @param {boolean} [opts.prevent_load_on_init] - Whether to prevent loading items on initialization.
-   */
-  constructor(env, opts = {}) {
-    this.env = env;
-    this.opts = opts;
-    if (opts.custom_collection_key) this.collection_key = opts.custom_collection_key;
-    this.env[this.collection_key] = this;
-    this.config = this.env.config;
-    this.items = {};
-    this.loaded = null;
-    this._loading = false;
-    this.load_time_ms = null;
-    this.settings_container = null;
-  }
-  /**
-   * Initializes a new collection in the environment. Override in subclass if needed.
-   *
-   * @param {Object} env
-   * @param {Object} [opts={}]
-   * @returns {Promise<void>}
-   */
-  static async init(env, opts = {}) {
-    env[this.collection_key] = new this(env, opts);
-    await env[this.collection_key].init();
-    env.collections[this.collection_key] = "init";
-  }
-  /**
-   * The unique collection key derived from the class name.
-   * @returns {string}
-   */
-  static get collection_key() {
-    return this.name.replace(/([a-z])([A-Z])/g, "$1_$2").toLowerCase();
-  }
-  /**
-   * Instance-level init. Override in subclasses if necessary.
-   * @returns {Promise<void>}
-   */
-  async init() {
-  }
-  /**
-   * Creates or updates an item in the collection.
-   * - If `data` includes a key that matches an existing item, that item is updated.
-   * - Otherwise, a new item is created.
-   * After updating or creating, the item is validated. If validation fails, the item is logged and returned without being saved.
-   * If validation succeeds for a new item, it is added to the collection and marked for saving.
-   *
-   * If the item’s `init()` method is async, a promise is returned that resolves once init completes.
-   *
-   * @param {Object} [data={}] - Data for creating/updating an item.
-   * @returns {Promise<Item>|Item} The created or updated item. May return a promise if `init()` is async.
-   */
-  create_or_update(data = {}) {
-    const existing_item = this.find_by(data);
-    const item = existing_item ? existing_item : new this.item_type(this.env);
-    item._queue_save = !existing_item;
-    const data_changed = item.update_data(data);
-    if (!existing_item && !item.validate_save()) {
-      console.warn("Invalid item, skipping adding to collection:", item);
-      return item;
-    }
-    if (!existing_item) {
-      this.set(item);
-    }
-    if (existing_item && !data_changed) return existing_item;
-    if (item.init instanceof AsyncFunction2) {
-      return new Promise((resolve) => {
-        item.init(data).then(() => resolve(item));
-      });
-    }
-    item.init(data);
-    return item;
-  }
-  /**
-   * Finds an item by partial data match (first checks key). If `data.key` provided,
-   * returns the item with that key; otherwise attempts a match by merging data.
-   *
-   * @param {Object} data - Data to match against.
-   * @returns {Item|null}
-   */
-  find_by(data) {
-    if (data.key) return this.get(data.key);
-    const temp = new this.item_type(this.env);
-    const temp_data = JSON.parse(JSON.stringify(data, temp.sanitize_data(data)));
-    deep_merge3(temp.data, temp_data);
-    return temp.key ? this.get(temp.key) : null;
-  }
-  /**
-   * Filters items based on provided filter options or a custom function.
-   *
-   * @param {Object|Function} [filter_opts={}] - Filter options or a predicate function.
-   * @returns {Item[]} Array of filtered items.
-   */
-  filter(filter_opts = {}) {
-    if (typeof filter_opts === "function") {
-      return Object.values(this.items).filter(filter_opts);
-    }
-    this.filter_opts = this.prepare_filter(filter_opts);
-    const results = [];
-    const { limit } = this.filter_opts;
-    for (const item of Object.values(this.items)) {
-      if (limit && results.length >= limit) break;
-      if (item.filter(filter_opts)) results.push(item);
-    }
-    return results;
-  }
-  /**
-   * Alias for `filter()`
-   * @param {Object|Function} filter_opts
-   * @returns {Item[]}
-   */
-  list(filter_opts) {
-    return this.filter(filter_opts);
-  }
-  /**
-   * Prepares filter options. Can be overridden by subclasses to normalize filter options.
-   *
-   * @param {Object} filter_opts
-   * @returns {Object} Prepared filter options.
-   */
-  prepare_filter(filter_opts) {
-    return filter_opts;
-  }
-  /**
-   * Retrieves an item by key.
-   * @param {string} key
-   * @returns {Item|undefined}
-   */
-  get(key) {
-    return this.items[key];
-  }
-  /**
-   * Retrieves multiple items by an array of keys.
-   * @param {string[]} keys
-   * @returns {Item[]}
-   */
-  get_many(keys = []) {
-    if (!Array.isArray(keys)) {
-      console.error("get_many called with non-array keys:", keys);
-      return [];
-    }
-    return keys.map((key) => this.get(key)).filter(Boolean);
-  }
-  /**
-   * Retrieves a random item from the collection, optionally filtered by options.
-   * @param {Object} [opts]
-   * @returns {Item|undefined}
-   */
-  get_rand(opts = null) {
-    if (opts) {
-      const filtered = this.filter(opts);
-      return filtered[Math.floor(Math.random() * filtered.length)];
-    }
-    const keys = this.keys;
-    return this.items[keys[Math.floor(Math.random() * keys.length)]];
-  }
-  /**
-   * Adds or updates an item in the collection.
-   * @param {Item} item
-   */
-  set(item) {
-    if (!item.key) throw new Error("Item must have a key property");
-    this.items[item.key] = item;
-  }
-  /**
-   * Updates multiple items by their keys.
-   * @param {string[]} keys
-   * @param {Object} data
-   */
-  update_many(keys = [], data = {}) {
-    this.get_many(keys).forEach((item) => item.update_data(data));
-  }
-  /**
-   * Clears all items from the collection.
-   */
-  clear() {
-    this.items = {};
-  }
-  /**
-   * Deletes an item by key from the collection (does not save deletion, just removes from memory).
-   * @param {string} key
-   */
-  delete_item(key) {
-    delete this.items[key];
-  }
-  /**
-   * Deletes multiple items by their keys. Internally calls `item.delete()` which queues a save.
-   * @param {string[]} keys
-   */
-  delete_many(keys = []) {
-    keys.forEach((key) => {
-      if (this.items[key]) this.items[key].delete();
-    });
-  }
-  /**
-   * @returns {string} The collection key, can be overridden by opts.custom_collection_key
-   */
-  get collection_key() {
-    return this._collection_key ? this._collection_key : this.constructor.collection_key;
-  }
-  set collection_key(name) {
-    this._collection_key = name;
-  }
-  /**
-   * Lazily initializes and returns the data adapter instance for this collection.
-   * @returns {Object} The data adapter instance.
-   */
-  get data_adapter() {
-    if (!this._data_adapter) {
-      const config = this.env.opts.collections?.[this.collection_key];
-      const data_adapter_class = config?.data_adapter ?? this.env.opts.collections?.smart_collections?.data_adapter;
-      if (!data_adapter_class) {
-        throw new Error(`No data adapter class found for ${this.collection_key} or smart_collections`);
-      }
-      this._data_adapter = new data_adapter_class(this);
-    }
-    return this._data_adapter;
-  }
-  /**
-   * Data directory strategy for this collection. Defaults to 'multi'.
-   * @returns {string}
-   */
-  get data_dir() {
-    return "multi";
-  }
-  /**
-   * File system adapter from the environment.
-   * @returns {Object}
-   */
-  get data_fs() {
-    return this.env.data_fs;
-  }
-  /**
-   * Derives the corresponding item class name based on this collection's class name.
-   * @returns {string}
-   */
-  get item_class_name() {
-    const name = this.constructor.name;
-    if (name.endsWith("ies")) return name.slice(0, -3) + "y";
-    else if (name.endsWith("s")) return name.slice(0, -1);
-    return name + "Item";
-  }
-  /**
-   * Derives a readable item name from the item class name.
-   * @returns {string}
-   */
-  get item_name() {
-    return this.item_class_name.replace(/([a-z])([A-Z])/g, "$1_$2").toLowerCase();
-  }
-  /**
-   * Retrieves the item type (constructor) from the environment.
-   * @returns {Function} Item constructor.
-   */
-  get item_type() {
-    return this.env.item_types[this.item_class_name];
-  }
-  /**
-   * Returns an array of all keys in the collection.
-   * @returns {string[]}
-   */
-  get keys() {
-    return Object.keys(this.items);
-  }
-  /**
-   * @deprecated use data_adapter instead (2024-09-14)
-   */
-  get adapter() {
-    return this.data_adapter;
-  }
-  /**
-   * @deprecated Use env.env_data_dir
-   * @returns {string}
-   */
-  get data_path() {
-    return this.env.data_path;
-  }
-  /**
-   * Saves the current state of the collection.
-   * @returns {Promise<void>}
-   */
-  async save() {
-    await this.data_adapter.save_all_items();
-  }
-  /**
-   * Processes all items queued for saving.
-   * @returns {Promise<void>}
-   */
-  async save_queue() {
-    await this.process_save_queue();
-  }
-  /**
-   * @method process_save_queue
-   * @description 
-   * Saves items flagged for saving (_queue_save) back to AJSON or SQLite. This ensures persistent storage 
-   * of any updates made since last load/import. This method also writes changes to disk (AJSON files or DB).
-   */
-  async process_save_queue() {
-    await this.data_adapter.process_save_queue();
-  }
-  /**
-   * @method process_load_queue
-   * @description 
-   * Loads items that have been flagged for loading (_queue_load). This may involve 
-   * reading from AJSON/SQLite or re-importing from markdown if needed. 
-   * Called once initial environment is ready and collections are known.
-   */
-  async process_load_queue() {
-    await this.data_adapter.process_load_queue();
-  }
-  /**
-   * Retrieves processed settings configuration.
-   * @returns {Object}
-   */
-  get settings_config() {
-    return this.process_settings_config({});
-  }
-  /**
-   * Processes given settings config, adding prefixes and handling conditionals.
-   *
-   * @private
-   * @param {Object} _settings_config
-   * @param {string} [prefix='']
-   * @returns {Object}
-   */
-  process_settings_config(_settings_config, prefix = "") {
-    const add_prefix = (key) => prefix && !key.includes(`${prefix}.`) ? `${prefix}.${key}` : key;
-    return Object.entries(_settings_config).reduce((acc, [key, val]) => {
-      let new_val = { ...val };
-      if (new_val.conditional) {
-        if (!new_val.conditional(this)) return acc;
-        delete new_val.conditional;
-      }
-      if (new_val.callback) new_val.callback = add_prefix(new_val.callback);
-      if (new_val.btn_callback) new_val.btn_callback = add_prefix(new_val.btn_callback);
-      if (new_val.options_callback) new_val.options_callback = add_prefix(new_val.options_callback);
-      const new_key = add_prefix(this.process_setting_key(key));
-      acc[new_key] = new_val;
-      return acc;
-    }, {});
-  }
-  /**
-   * Processes an individual setting key. Override if needed.
-   * @param {string} key
-   * @returns {string}
-   */
-  process_setting_key(key) {
-    return key;
-  }
-  /**
-   * Default settings for this collection. Override in subclasses as needed.
-   * @returns {Object}
-   */
-  get default_settings() {
-    return {};
-  }
-  /**
-   * Current settings for the collection.
-   * Initializes with default settings if none exist.
-   * @returns {Object}
-   */
-  get settings() {
-    if (!this.env.settings[this.collection_key]) {
-      this.env.settings[this.collection_key] = this.default_settings;
-    }
-    return this.env.settings[this.collection_key];
-  }
-  /**
-   * @deprecated use env.smart_view instead
-   * @returns {Object} smart_view instance
-   */
-  get smart_view() {
-    if (!this._smart_view) this._smart_view = this.env.init_module("smart_view");
-    return this._smart_view;
-  }
-  /**
-   * Renders the settings for the collection into a given container.
-   * @param {HTMLElement} [container=this.settings_container]
-   * @param {Object} opts
-   * @returns {Promise<HTMLElement>}
-   */
-  async render_settings(container = this.settings_container, opts = {}) {
-    return await this.render_collection_settings(container, opts);
-  }
-  /**
-   * Helper function to render collection settings.
-   * @param {HTMLElement} [container=this.settings_container]
-   * @param {Object} opts
-   * @returns {Promise<HTMLElement>}
-   */
-  async render_collection_settings(container = this.settings_container, opts = {}) {
-    if (container && (!this.settings_container || this.settings_container !== container)) {
-      this.settings_container = container;
-    } else if (!container) {
-      container = this.env.smart_view.create_doc_fragment("<div></div>");
-    }
-    container.innerHTML = `<div class="sc-loading">Loading ${this.collection_key} settings...</div>`;
-    const frag = await this.env.render_component("settings", this, opts);
-    container.innerHTML = "";
-    container.appendChild(frag);
-    return container;
-  }
-  /**
-   * Unloads collection data from memory.
-   */
-  unload() {
-    this.clear();
-  }
-  /**
-   * Runs load process for all items in the collection, triggering queue loads and rendering settings after done.
-   * @returns {Promise<void>}
-   */
-  async run_data_load() {
-    this.loaded = null;
-    this.load_time_ms = null;
-    Object.values(this.items).forEach((item) => item.queue_load());
-    this.notices?.show(`loading ${this.collection_key}`, `Loading ${this.collection_key}...`, { timeout: 0 });
-    await this.process_load_queue();
-    this.notices?.remove(`loading ${this.collection_key}`);
-    this.notices?.show("done loading", `${this.collection_key} loaded`, { timeout: 3e3 });
-    this.render_settings();
-  }
-};
-
-// node_modules/smart-blocks/node_modules/smart-entities/utils/sort_by_score.js
-function sort_by_score2(a, b) {
-  const epsilon = 1e-9;
-  const score_diff = a.score - b.score;
-  if (Math.abs(score_diff) < epsilon) return 0;
-  return score_diff > 0 ? -1 : 1;
-}
-
-// node_modules/smart-blocks/node_modules/smart-entities/adapters/_adapter.js
-var EntitiesVectorAdapter2 = class {
-  /**
-   * @constructor
-   * @param {Object} collection - The collection (SmartEntities or derived class) instance.
-   */
-  constructor(collection) {
-    this.collection = collection;
-  }
-  /**
-   * Find the nearest entities to the given vector.
-   * @async
-   * @param {number[]} vec - The reference vector.
-   * @param {Object} [filter={}] - Optional filters (limit, exclude, etc.)
-   * @returns {Promise<Array<{item:Object, score:number}>>} Array of results sorted by score descending.
-   * @throws {Error} Not implemented by default.
-   */
-  async nearest(vec, filter = {}) {
-    throw new Error("EntitiesVectorAdapter.nearest() not implemented");
-  }
-  /**
-   * Find the furthest entities from the given vector.
-   * @async
-   * @param {number[]} vec - The reference vector.
-   * @param {Object} [filter={}] - Optional filters (limit, exclude, etc.)
-   * @returns {Promise<Array<{item:Object, score:number}>>} Array of results sorted by score ascending (furthest).
-   * @throws {Error} Not implemented by default.
-   */
-  async furthest(vec, filter = {}) {
-    throw new Error("EntitiesVectorAdapter.furthest() not implemented");
-  }
-  /**
-   * Embed a batch of entities.
-   * @async
-   * @param {Object[]} entities - Array of entity instances to embed.
-   * @returns {Promise<void>}
-   * @throws {Error} Not implemented by default.
-   */
-  async embed_batch(entities) {
-    throw new Error("EntitiesVectorAdapter.embed_batch() not implemented");
-  }
-  /**
-   * Process a queue of entities waiting to be embedded.
-   * Typically, this will call embed_batch in batches and update entities.
-   * @async
-   * @param {Object[]} embed_queue - Array of entities to embed.
-   * @returns {Promise<void>}
-   * @throws {Error} Not implemented by default.
-   */
-  async process_embed_queue(embed_queue) {
-    throw new Error("EntitiesVectorAdapter.process_embed_queue() not implemented");
-  }
-};
-var EntityVectorAdapter2 = class {
-  /**
-   * @constructor
-   * @param {Object} item - The SmartEntity instance that this adapter is associated with.
-   */
-  constructor(item) {
-    this.item = item;
-  }
-  /**
-   * Retrieve the current vector embedding for this entity.
-   * @async
-   * @returns {Promise<number[]|undefined>} The entity's vector or undefined if not set.
-   * @throws {Error} Not implemented by default.
-   */
-  async get_vec() {
-    throw new Error("EntityVectorAdapter.get_vec() not implemented");
-  }
-  /**
-   * Store/update the vector embedding for this entity.
-   * @async
-   * @param {number[]} vec - The vector to set.
-   * @returns {Promise<void>}
-   * @throws {Error} Not implemented by default.
-   */
-  async set_vec(vec) {
-    throw new Error("EntityVectorAdapter.set_vec() not implemented");
-  }
-  /**
-   * Delete/remove the vector embedding for this entity.
-   * @async
-   * @returns {Promise<void>}
-   * @throws {Error} Not implemented by default.
-   */
-  async delete_vec() {
-    throw new Error("EntityVectorAdapter.delete_vec() not implemented");
-  }
-};
-
-// node_modules/smart-blocks/node_modules/smart-entities/cos_sim.js
-function cos_sim2(vector1, vector2) {
-  if (vector1.length !== vector2.length) {
-    throw new Error("Vectors must have the same length");
-  }
-  let dot_product = 0;
-  let magnitude1 = 0;
-  let magnitude2 = 0;
-  const epsilon = 1e-8;
-  for (let i = 0; i < vector1.length; i++) {
-    dot_product += vector1[i] * vector2[i];
-    magnitude1 += vector1[i] * vector1[i];
-    magnitude2 += vector2[i] * vector2[i];
-  }
-  magnitude1 = Math.sqrt(magnitude1);
-  magnitude2 = Math.sqrt(magnitude2);
-  if (magnitude1 < epsilon || magnitude2 < epsilon) {
-    return 0;
-  }
-  return dot_product / (magnitude1 * magnitude2);
-}
-
-// node_modules/smart-blocks/node_modules/smart-entities/top_acc.js
-function results_acc2(_acc, result, ct = 10) {
-  if (_acc.results.size < ct) {
-    _acc.results.add(result);
-  } else if (result.score > _acc.min) {
-    _acc.results.add(result);
-    _acc.results.delete(_acc.minResult);
-    _acc.minResult = Array.from(_acc.results).reduce((min, curr) => curr.score < min.score ? curr : min);
-    _acc.min = _acc.minResult.score;
-  }
-}
-function furthest_acc2(_acc, result, ct = 10) {
-  if (_acc.results.size < ct) {
-    _acc.results.add(result);
-  } else if (result.score < _acc.max) {
-    _acc.results.add(result);
-    _acc.results.delete(_acc.maxResult);
-    _acc.maxResult = Array.from(_acc.results).reduce((max, curr) => curr.score > max.score ? curr : max);
-    _acc.max = _acc.maxResult.score;
-  }
-}
-
-// node_modules/smart-blocks/node_modules/smart-entities/adapters/default.js
-var DefaultEntitiesVectorAdapter2 = class extends EntitiesVectorAdapter2 {
-  constructor(collection) {
-    super(collection);
-    this._reset_embed_queue_stats();
-  }
-  /**
-   * Find the nearest entities to the given vector.
-   * @async
-   * @param {number[]} vec - The reference vector.
-   * @param {Object} [filter={}] - Optional filters (limit, exclude, etc.)
-   * @returns {Promise<Array<{item:Object, score:number}>>} Array of results sorted by score descending.
-   */
-  async nearest(vec, filter = {}) {
-    if (!vec || !Array.isArray(vec)) {
-      throw new Error("Invalid vector input to nearest()");
-    }
-    const {
-      limit = 50
-      // TODO: default configured in settings
-    } = filter;
-    const nearest = this.collection.filter(filter).reduce((acc, item) => {
-      if (!item.vec) return acc;
-      const result = { item, score: cos_sim2(vec, item.vec) };
-      results_acc2(acc, result, limit);
-      return acc;
-    }, { min: 0, results: /* @__PURE__ */ new Set() });
-    return Array.from(nearest.results);
-  }
-  /**
-   * Find the furthest entities from the given vector.
-   * @async
-   * @param {number[]} vec - The reference vector.
-   * @param {Object} [filter={}] - Optional filters (limit, exclude, etc.)
-   * @returns {Promise<Array<{item:Object, score:number}>>} Array of results sorted by score ascending (furthest).
-   */
-  async furthest(vec, filter = {}) {
-    if (!vec || !Array.isArray(vec)) {
-      throw new Error("Invalid vector input to furthest()");
-    }
-    const {
-      limit = 50
-      // TODO: default configured in settings
-    } = filter;
-    const furthest = this.collection.filter(filter).reduce((acc, item) => {
-      if (!item.vec) return acc;
-      const result = { item, score: cos_sim2(vec, item.vec) };
-      furthest_acc2(acc, result, limit);
-      return acc;
-    }, { max: 0, results: /* @__PURE__ */ new Set() });
-    return Array.from(furthest.results);
-  }
-  /**
-   * Embed a batch of entities.
-   * @async
-   * @param {Object[]} entities - Array of entity instances to embed.
-   * @returns {Promise<void>}
-   */
-  async embed_batch(entities) {
-    if (!this.collection.embed_model) {
-      throw new Error("No embed_model found in collection for embedding");
-    }
-    await Promise.all(entities.map((e) => e.get_embed_input()));
-    const embeddings = await this.collection.embed_model.embed_batch(entities);
-    embeddings.forEach((emb, i) => {
-      const entity = entities[i];
-      entity.vec = emb.vec;
-      if (emb.tokens !== void 0) entity.tokens = emb.tokens;
-    });
-  }
-  /**
-   * Process a queue of entities waiting to be embedded.
-   * Typically, this will call embed_batch in batches and update entities.
-   * @async
-   * @returns {Promise<void>}
-   */
-  async process_embed_queue() {
-    const embed_queue = this.collection.embed_queue;
-    this._reset_embed_queue_stats();
-    if (this.collection.embed_model_key === "None") {
-      console.log(`Smart Connections: No active embedding model for ${this.collection.collection_key}, skipping embedding`);
-      return;
-    }
-    if (!this.collection.embed_model) {
-      console.log(`Smart Connections: No active embedding model for ${this.collection.collection_key}, skipping embedding`);
-      return;
-    }
-    const datetime_start = /* @__PURE__ */ new Date();
-    if (!embed_queue.length) {
-      return console.log(`Smart Connections: No items in ${this.collection.collection_key} embed queue`);
-    }
-    console.log(`Time spent getting embed queue: ${(/* @__PURE__ */ new Date()).getTime() - datetime_start.getTime()}ms`);
-    console.log(`Processing ${this.collection.collection_key} embed queue: ${embed_queue.length} items`);
-    for (let i = 0; i < embed_queue.length; i += this.collection.embed_model.batch_size) {
-      if (this.collection.is_queue_halted) {
-        this.collection.is_queue_halted = false;
-        break;
-      }
-      const batch = embed_queue.slice(i, i + this.collection.embed_model.batch_size);
-      await Promise.all(batch.map((item) => item.get_embed_input()));
-      try {
-        const start_time = Date.now();
-        await this.embed_batch(batch);
-        this.collection.total_time += Date.now() - start_time;
-      } catch (e) {
-        if (e && e.message && e.message.includes("API key not set")) {
-          this.halt_embed_queue_processing(`API key not set for ${this.collection.embed_model_key}
-Please set the API key in the settings.`);
-        }
-        console.error(e);
-        console.error(`Error processing ${this.collection.collection_key} embed queue: ` + JSON.stringify(e || {}, null, 2));
-      }
-      batch.forEach((item) => {
-        item.embed_hash = item.read_hash;
-      });
-      this.collection.embedded_total += batch.length;
-      this.collection.total_tokens += batch.reduce((acc, item) => acc + (item.tokens || 0), 0);
-      this._show_embed_progress_notice(embed_queue.length);
-      if (this.collection.embedded_total - this.collection.last_save_total > 1e3) {
-        this.collection.last_save_total = this.collection.embedded_total;
-        await this.collection.process_save_queue();
-      }
-    }
-    this._show_embed_completion_notice(embed_queue.length);
-    this.collection.process_save_queue();
-  }
-  /**
-   * Displays the embedding progress notice.
-   * @private
-   * @returns {void}
-   */
-  _show_embed_progress_notice() {
-    if (this.embedded_total - this.last_notice_embedded_total < 100) return;
-    this.last_notice_embedded_total = this.embedded_total;
-    const pause_btn = { text: "Pause", callback: this.halt_embed_queue_processing.bind(this), stay_open: true };
-    this.notices?.show(
-      "embedding_progress",
-      [
-        `Making Smart Connections...`,
-        `Embedding progress: ${this.embedded_total} / ${this.embed_queue.length}`,
-        `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
-      ],
-      {
-        timeout: 0,
-        button: pause_btn
-      }
-    );
-  }
-  /**
-   * Displays the embedding completion notice.
-   * @private
-   * @returns {void}
-   */
-  _show_embed_completion_notice() {
-    this.notices?.remove("embedding_progress");
-    this.notices?.show("embedding_complete", [
-      `Embedding complete.`,
-      `${this.embedded_total} entities embedded.`,
-      `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
-    ], { timeout: 1e4 });
-  }
-  /**
-   * Halts the embed queue processing.
-   * @param {string|null} msg - Optional message.
-   */
-  halt_embed_queue_processing(msg = null) {
-    this.is_queue_halted = true;
-    console.log("Embed queue processing halted");
-    this.notices?.remove("embedding_progress");
-    this.notices?.show(
-      "embedding_paused",
-      [
-        msg || `Embedding paused.`,
-        `Progress: ${this.embedded_total} / ${this.embed_queue.length}`,
-        `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
-      ],
-      {
-        timeout: 0,
-        button: { text: "Resume", callback: () => this.resume_embed_queue_processing(100) }
-      }
-    );
-  }
-  /**
-   * Resumes the embed queue processing after a delay.
-   * @param {number} [delay=0] - The delay in milliseconds before resuming.
-   * @returns {void}
-   */
-  resume_embed_queue_processing(delay = 0) {
-    console.log("resume_embed_queue_processing");
-    this.notices?.remove("embedding_paused");
-    setTimeout(() => {
-      this.embedded_total = 0;
-      this.process_embed_queue();
-    }, delay);
-  }
-  /**
-   * Calculates the number of tokens processed per second.
-   * @private
-   * @returns {number} Tokens per second.
-   */
-  _calculate_embed_tokens_per_second() {
-    const elapsed_time = this.total_time / 1e3;
-    return Math.round(this.total_tokens / elapsed_time);
-  }
-  /**
-   * Resets the statistics related to embed queue processing.
-   * @private
-   * @returns {void}
-   */
-  _reset_embed_queue_stats() {
-    this._embed_queue = [];
-    this.embedded_total = 0;
-    this.is_queue_halted = false;
-    this.last_save_total = 0;
-    this.last_notice_embedded_total = 0;
-    this.total_tokens = 0;
-    this.total_time = 0;
-  }
-  get notices() {
-    return this.collection.notices;
-  }
-};
-var DefaultEntityVectorAdapter2 = class extends EntityVectorAdapter2 {
-  get data() {
-    return this.item.data;
-  }
-  /**
-   * Retrieve the current vector embedding for this entity.
-   * @async
-   * @returns {Promise<number[]|undefined>} The entity's vector or undefined if not set.
-   */
-  async get_vec() {
-    return this.vec;
-  }
-  /**
-   * Store/update the vector embedding for this entity.
-   * @async
-   * @param {number[]} vec - The vector to set.
-   * @returns {Promise<void>}
-   */
-  async set_vec(vec) {
-    this.vec = vec;
-  }
-  /**
-   * Delete/remove the vector embedding for this entity.
-   * @async
-   * @returns {Promise<void>}
-   */
-  async delete_vec() {
-    if (this.item.data?.embeddings?.[this.item.embed_model_key]) {
-      delete this.item.data.embeddings[this.item.embed_model_key].vec;
-    }
-  }
-  // adds synchronous get/set for vec
-  get vec() {
-    return this.item.data?.embeddings?.[this.item.embed_model_key]?.vec;
-  }
-  set vec(vec) {
-    if (!this.item.data.embeddings) {
-      this.item.data.embeddings = {};
-    }
-    if (!this.item.data.embeddings[this.item.embed_model_key]) {
-      this.item.data.embeddings[this.item.embed_model_key] = {};
-    }
-    this.item.data.embeddings[this.item.embed_model_key].vec = vec;
-  }
-};
-
-// node_modules/smart-blocks/node_modules/smart-entities/components/entity.js
-async function render4(entity, opts = {}) {
-  let markdown;
-  if (should_render_embed2(entity)) markdown = entity.embed_link;
-  else markdown = process_for_rendering2(await entity.read());
-  let frag;
-  if (entity.env.settings.smart_view_filter.render_markdown) frag = await this.render_markdown(markdown, entity);
-  else frag = this.create_doc_fragment(markdown);
-  return await post_process3.call(this, entity, frag, opts);
-}
-function process_for_rendering2(content) {
-  if (content.includes("```dataview")) content = content.replace(/```dataview/g, "```\\dataview");
-  if (content.includes("![[")) content = content.replace(/\!\[\[/g, "! [[");
-  return content;
-}
-async function post_process3(scope, frag, opts = {}) {
-  return frag;
-}
-function should_render_embed2(entity) {
-  if (!entity) return false;
-  if (entity.is_canvas || entity.is_excalidraw) return true;
-  return false;
-}
-
-// node_modules/smart-blocks/node_modules/smart-entities/smart_entity.js
-var SmartEntity2 = class extends CollectionItem2 {
-  /**
-   * Creates an instance of SmartEntity.
-   * @constructor
-   * @param {Object} env - The environment instance.
-   * @param {Object} [opts={}] - Configuration options.
-   */
-  constructor(env, opts = {}) {
-    super(env, opts);
-    this.entity_adapter = new DefaultEntityVectorAdapter2(this);
-  }
-  /**
-   * Provides default values for a SmartEntity instance.
-   * @static
-   * @readonly
-   * @returns {Object} The default values.
-   */
-  static get defaults() {
-    return {
-      data: {
-        path: null,
-        embeddings: {},
-        last_embed: {
-          hash: null
-        }
-      }
-    };
-  }
-  /**
-   * Initializes the SmartEntity instance.
-   * Checks if the entity has a vector and if it matches the model dimensions.
-   * If not, it queues an embed.
-   * Removes embeddings for inactive models.
-   * @returns {void}
-   */
-  init() {
-    super.init();
-    if (!this.vec) {
-      this.queue_embed();
-    } else if (this.vec.length !== this.embed_model.model_config.dims) {
-      this.vec = null;
-      this.queue_embed();
-    }
-    Object.entries(this.data.embeddings || {}).forEach(([model, embedding]) => {
-      if (model !== this.embed_model_key) {
-        this.data.embeddings[model] = null;
-        delete this.data.embeddings[model];
-      }
-    });
-  }
-  /**
-   * Queues the entity for embedding.
-   * @returns {void}
-   */
-  queue_embed() {
-    this._queue_embed = true;
-  }
-  /**
-   * Finds the nearest entities to this entity.
-   * @param {Object} [filter={}] - Optional filters to apply.
-   * @returns {Array<{item:Object, score:number}>} An array of result objects with score and item.
-   */
-  async nearest(filter = {}) {
-    return await this.collection.nearest_to(this, filter);
-  }
-  /**
-   * Prepares the input for embedding.
-   * @async
-   * @param {string} [content=null] - Optional content to use instead of calling subsequent read()
-   * @returns {Promise<void>} Should be overridden in child classes.
-   */
-  async get_embed_input(content = null) {
-  }
-  // override in child class
-  /**
-   * Prepares filter options for finding connections based on parameters.
-   * @param {Object} [params={}] - Parameters for finding connections.
-   * @returns {Object} The prepared filter options.
-   */
-  prepare_find_connections_filter_opts(params = {}) {
-    const opts = {
-      ...this.env.settings.smart_view_filter || {},
-      ...params,
-      entity: this
-    };
-    if (opts.filter?.limit) delete opts.filter.limit;
-    if (opts.limit) delete opts.limit;
-    return opts;
-  }
-  /**
-   * Finds connections relevant to this entity based on provided parameters.
-   * @async
-   * @param {Object} [params={}] - Parameters for finding connections.
-   * @returns {Array<{item:Object, score:number}>} An array of result objects with score and item.
-   */
-  async find_connections(params = {}) {
-    const filter_opts = this.prepare_find_connections_filter_opts(params);
-    const limit = params.filter?.limit || params.limit || this.env.settings.smart_view_filter?.results_limit || 10;
-    const cache_key = this.key + JSON.stringify(params);
-    if (!this.env.connections_cache) this.env.connections_cache = {};
-    if (!this.env.connections_cache[cache_key]) {
-      const connections = (await this.nearest(filter_opts)).sort(sort_by_score2).slice(0, limit);
-      this.connections_to_cache(cache_key, connections);
-    }
-    return this.connections_from_cache(cache_key);
-  }
-  /**
-   * Retrieves connections from the cache based on the cache key.
-   * @param {string} cache_key - The cache key.
-   * @returns {Array<{item:Object, score:number}>} The cached connections.
-   */
-  connections_from_cache(cache_key) {
-    return this.env.connections_cache[cache_key];
-  }
-  /**
-   * Stores connections in the cache with the provided cache key.
-   * @param {string} cache_key - The cache key.
-   * @param {Array<{item:Object, score:number}>} connections - The connections to cache.
-   * @returns {void}
-   */
-  connections_to_cache(cache_key, connections) {
-    this.env.connections_cache[cache_key] = connections;
-  }
-  get read_hash() {
-    return this.data.last_read?.hash;
-  }
-  set read_hash(hash) {
-    if (!this.data.last_read) this.data.last_read = {};
-    this.data.last_read.hash = hash;
-  }
-  get embed_hash() {
-    return this.data.last_embed?.hash;
-  }
-  set embed_hash(hash) {
-    if (!this.data.last_embed) this.data.last_embed = {};
-    this.data.last_embed.hash = hash;
-  }
-  /**
-   * Gets the embed link for the entity.
-   * @readonly
-   * @returns {string} The embed link.
-   */
-  get embed_link() {
-    return `![[${this.path}]]`;
-  }
-  /**
-   * Gets the key of the embedding model.
-   * @readonly
-   * @returns {string} The embedding model key.
-   */
-  get embed_model_key() {
-    return this.collection.embed_model_key;
-  }
-  /**
-   * Gets the name of the entity, formatted based on settings.
-   * @readonly
-   * @returns {string} The entity name.
-   */
-  get name() {
-    return (!this.should_show_full_path ? this.path.split("/").pop() : this.path.split("/").join(" > ")).split("#").join(" > ").replace(".md", "");
-  }
-  /**
-   * Determines whether to show the full path of the entity.
-   * @readonly
-   * @returns {boolean} True if the full path should be shown, false otherwise.
-   */
-  get should_show_full_path() {
-    return this.env.settings.smart_view_filter?.show_full_path;
-  }
-  /**
-   * @deprecated Use embed_model instead.
-   * @readonly
-   * @returns {Object} The smart embedding model.
-   */
-  get smart_embed() {
-    return this.embed_model;
-  }
-  /**
-   * Gets the embedding model instance from the collection.
-   * @readonly
-   * @returns {Object} The embedding model instance.
-   */
-  get embed_model() {
-    return this.collection.embed_model;
-  }
-  /**
-   * Gets the number of tokens associated with the entity's embedding.
-   * @readonly
-   * @returns {number|undefined} The number of tokens, or undefined if not set.
-   */
-  get tokens() {
-    return this.data.embeddings[this.embed_model_key]?.tokens;
-  }
-  /**
-   * Determines if the entity should be embedded.
-   * @readonly
-   * @returns {boolean} True if no vector is set, false otherwise.
-   */
-  get should_embed() {
-    return !this.vec && this.size > (this.settings?.min_chars || 300);
-  }
-  /**
-   * Sets the error for the embedding model.
-   * @param {string} error - The error message.
-   */
-  set error(error) {
-    this.data.embeddings[this.embed_model_key].error = error;
-  }
-  /**
-   * Sets the number of tokens for the embedding.
-   * @param {number} tokens - The number of tokens.
-   */
-  set tokens(tokens) {
-    if (!this.data.embeddings) this.data.embeddings = {};
-    if (!this.data.embeddings[this.embed_model_key]) this.data.embeddings[this.embed_model_key] = {};
-    this.data.embeddings[this.embed_model_key].tokens = tokens;
-  }
-  /**
-   * Gets the vector representation from the entity adapter.
-   * @readonly
-   * @returns {Array<number>|undefined} The vector or undefined if not set.
-   */
-  get vec() {
-    return this.entity_adapter.vec;
-  }
-  /**
-   * Sets the vector representation in the entity adapter.
-   * @param {Array<number>} vec - The vector to set.
-   */
-  set vec(vec) {
-    this.entity_adapter.vec = vec;
-    this._queue_embed = false;
-    this._embed_input = null;
-    this.queue_save();
-  }
-  /**
-   * Removes all embeddings from the entity.
-   * @returns {void}
-   */
-  remove_embeddings() {
-    this.data.embeddings = null;
-    this.queue_save();
-  }
-  /**
-   * Retrieves the key of the entity.
-   * @returns {string} The entity key.
-   */
-  get_key() {
-    return this.data.key || this.data.path;
-  }
-  /**
-   * Retrieves the path of the entity.
-   * @readonly
-   * @returns {string|null} The entity path.
-   */
-  get path() {
-    return this.data.path;
-  }
-  /**
-   * Gets the component responsible for rendering the entity.
-   * @readonly
-   * @returns {Function} The render function for the entity component.
-   */
-  get component() {
-    return render4;
-  }
-  // COMPONENTS 2024-11-27
-  get connections_component() {
-    if (!this._connections_component) this._connections_component = this.components?.connections?.bind(this.smart_view);
-    return this._connections_component;
-  }
-  async render_connections(container, opts = {}) {
-    if (container) container.innerHTML = "Loading connections...";
-    const frag = await this.env.render_component("connections", this, opts);
-    if (container) {
-      container.innerHTML = "";
-      container.appendChild(frag);
-    }
-    return frag;
-  }
-};
-
-// node_modules/smart-blocks/node_modules/smart-entities/smart_entities.js
-var SmartEntities2 = class extends Collection2 {
-  /**
-   * Creates an instance of SmartEntities.
-   * @constructor
-   * @param {Object} env - The environment instance.
-   * @param {Object} opts - Configuration options.
-   */
-  constructor(env, opts) {
-    super(env, opts);
-    this.entities_vector_adapter = new DefaultEntitiesVectorAdapter2(this);
-    this.model_instance_id = null;
-    this._embed_queue = [];
-  }
-  /**
-   * Initializes the SmartEntities instance by loading embeddings.
-   * @async
-   * @returns {Promise<void>}
-   */
-  async init() {
-    await super.init();
-    await this.load_smart_embed();
-    if (!this.embed_model) {
-      console.log(`SmartEmbed not loaded for ${this.collection_key}. Continuing without embedding capabilities.`);
-    }
-  }
-  /**
-   * Loads the smart embedding model.
-   * @async
-   * @returns {Promise<void>}
-   */
-  async load_smart_embed() {
-    if (this.embed_model_key === "None") return;
-    if (!this.embed_model) return;
-    if (this.embed_model.is_loading) return console.log(`SmartEmbedModel already loading for ${this.embed_model_key}`);
-    if (this.embed_model.is_loaded) return console.log(`SmartEmbedModel already loaded for ${this.embed_model_key}`);
-    try {
-      console.log(`Loading SmartEmbedModel in ${this.collection_key}, current state: ${this.embed_model.state}`);
-      await this.embed_model.load();
-    } catch (e) {
-      console.error(`Error loading SmartEmbedModel for ${this.embed_model.model_key}`);
-      console.error(e);
-    }
-  }
-  /**
-   * Unloads the smart embedding model.
-   * @async
-   * @returns {Promise<void>}
-   */
-  async unload() {
-    if (typeof this.embed_model?.unload === "function") {
-      await this.embed_model.unload();
-      this.embed_model = null;
-    }
-    super.unload();
-  }
-  /**
-   * Gets the key of the embedding model.
-   * @readonly
-   * @returns {string} The embedding model key.
-   */
-  get embed_model_key() {
-    return this.embed_model?.model_key;
-  }
-  /**
-   * Gets or creates the container for smart embeddings in the DOM.
-   * @readonly
-   * @returns {HTMLElement|undefined} The container element or undefined if not available.
-   */
-  get smart_embed_container() {
-    if (!this.model_instance_id) return console.log("model_key not set");
-    const id = this.model_instance_id.replace(/[^a-zA-Z0-9]/g, "_");
-    if (!window.document) return console.log("window.document not available");
-    if (window.document.querySelector(`#${id}`)) return window.document.querySelector(`#${id}`);
-    const container = window.document.createElement("div");
-    container.id = id;
-    window.document.body.appendChild(container);
-    return container;
-  }
-  /**
-   * @deprecated Use embed_model instead.
-   * @readonly
-   * @returns {Object} The smart embedding model.
-   */
-  get smart_embed() {
-    return this.embed_model;
-  }
-  /**
-   * Gets the embedding model instance.
-   * @readonly
-   * @returns {Object|null} The embedding model instance or null if none.
-   */
-  get embed_model() {
-    if (!this.env._embed_model && this.env.opts.modules.smart_embed_model?.class) this.env._embed_model = new this.env.opts.modules.smart_embed_model.class({
-      settings: this.settings.embed_model,
-      adapters: this.env.opts.modules.smart_embed_model?.adapters,
-      re_render_settings: this.re_render_settings.bind(this),
-      reload_model: this.reload_embed_model.bind(this)
-    });
-    return this.env._embed_model;
-  }
-  set embed_model(embed_model) {
-    this.env._embed_model = embed_model;
-  }
-  reload_embed_model() {
-    console.log("reload_embed_model");
-    this.embed_model.unload();
-    this.env._embed_model = null;
-  }
-  re_render_settings() {
-    this.settings_container.innerHTML = "";
-    this.render_settings();
-  }
-  /**
-   * Finds the nearest entities to a given entity.
-   * @async
-   * @param {Object} entity - The reference entity.
-   * @param {Object} [filter={}] - Optional filters to apply.
-   * @returns {Promise<Array<{item:Object, score:number}>>} An array of result objects with score and item.
-   */
-  async nearest_to(entity, filter = {}) {
-    return await this.nearest(entity.vec, filter);
-  }
-  /**
-   * Finds the nearest entities to a vector using the default adapter.
-   * @async
-   * @param {Array<number>} vec - The vector to compare against.
-   * @param {Object} [filter={}] - Optional filters to apply.
-   * @returns {Promise<Array<{item:Object, score:number}>>} An array of result objects with score and item.
-   */
-  async nearest(vec, filter = {}) {
-    if (!vec) return console.warn("nearest: no vec");
-    return await this.entities_vector_adapter.nearest(vec, filter);
-  }
-  /**
-   * Finds the furthest entities from a vector using the default adapter.
-   * @async
-   * @param {Array<number>} vec - The vector to compare against.
-   * @param {Object} [filter={}] - Optional filters to apply.
-   * @returns {Promise<Array<{item:Object, score:number}>>} An array of result objects with score and item.
-   */
-  async furthest(vec, filter = {}) {
-    if (!vec) return console.warn("furthest: no vec");
-    return await this.entities_vector_adapter.furthest(vec, filter);
-  }
-  /**
-   * Gets the file name based on collection key and embedding model key.
-   * @readonly
-   * @returns {string} The constructed file name.
-   */
-  get file_name() {
-    return this.collection_key + "-" + this.embed_model_key.split("/").pop();
-  }
-  /**
-   * Calculates the relevance of an item based on the search filter.
-   * @param {Object} item - The item to calculate relevance for.
-   * @param {Object} search_filter - The search filter containing keywords.
-   * @returns {number} The relevance score:
-   *                   1 if any keyword is found in the item's path,
-   *                   0 otherwise (default relevance for keyword in content).
-   */
-  calculate_relevance(item, search_filter) {
-    if (search_filter.keywords.some((keyword) => item.path?.includes(keyword))) return 1;
-    return 0;
-  }
-  /**
-   * Prepares the filter options by incorporating entity-based filters.
-   * @param {Object} [opts={}] - The filter options.
-   * @param {Object} [opts.entity] - The entity to base the filters on.
-   * @param {string|string[]} [opts.exclude_filter] - Keys or prefixes to exclude.
-   * @param {string|string[]} [opts.include_filter] - Keys or prefixes to include.
-   * @param {boolean} [opts.exclude_inlinks] - Whether to exclude inlinks of the entity.
-   * @param {boolean} [opts.exclude_outlinks] - Whether to exclude outlinks of the entity.
-   * @returns {Object} The modified filter options.
-   */
-  prepare_filter(opts = {}) {
-    const {
-      entity,
-      exclude_filter,
-      include_filter,
-      exclude_inlinks,
-      exclude_outlinks
-    } = opts;
-    if (entity) {
-      if (typeof opts.exclude_key_starts_with_any === "undefined") opts.exclude_key_starts_with_any = [];
-      if (opts.exclude_key_starts_with) {
-        opts.exclude_key_starts_with_any = [
-          opts.exclude_key_starts_with
-        ];
-        delete opts.exclude_key_starts_with;
-      }
-      opts.exclude_key_starts_with_any.push(entity.source_key || entity.key);
-      if (exclude_filter) {
-        if (typeof exclude_filter === "string") opts.exclude_key_starts_with_any.push(exclude_filter);
-        else if (Array.isArray(exclude_filter)) opts.exclude_key_starts_with_any.push(...exclude_filter);
-      }
-      if (include_filter) {
-        if (!Array.isArray(opts.key_starts_with_any)) opts.key_starts_with_any = [];
-        if (typeof include_filter === "string") opts.key_starts_with_any.push(include_filter);
-        else if (Array.isArray(include_filter)) opts.key_starts_with_any.push(...include_filter);
-      }
-      if (exclude_inlinks && this.links?.[entity.path]) {
-        if (!Array.isArray(opts.exclude_key_starts_with_any)) opts.exclude_key_starts_with_any = [];
-        opts.exclude_key_starts_with_any.push(...Object.keys(this.links?.[entity.path] || {}));
-      }
-      if (exclude_outlinks) {
-        if (!Array.isArray(opts.exclude_key_starts_with_any)) opts.exclude_key_starts_with_any = [];
-        opts.exclude_key_starts_with_any.push(...entity.outlinks);
-      }
-    }
-    return opts;
-  }
-  /**
-   * Looks up entities based on hypothetical content.
-   * @async
-   * @param {Object} [params={}] - The parameters for the lookup.
-   * @param {Array<string>} [params.hypotheticals=[]] - The hypothetical content to lookup.
-   * @param {Object} [params.filter] - The filter to use for the lookup.
-   * @param {number} [params.k] - Deprecated: Use `filter.limit` instead.
-   * @returns {Promise<Array<Result>|Object>} The lookup results or an error object.
-   */
-  async lookup(params = {}) {
-    const { hypotheticals = [] } = params;
-    if (!hypotheticals?.length) return { error: "hypotheticals is required" };
-    if (!this.embed_model) return { error: "Embedding search is not enabled." };
-    const hyp_vecs = await this.embed_model.embed_batch(hypotheticals.map((h) => ({ embed_input: h })));
-    const limit = params.filter?.limit || params.k || this.env.settings.lookup_k || 10;
-    if (params.filter?.limit) delete params.filter.limit;
-    const filter = {
-      ...this.env.chats?.current?.scope || {},
-      ...params.filter || {}
-    };
-    const results = await hyp_vecs.reduce(async (acc_promise, embedding, i) => {
-      const acc = await acc_promise;
-      const results2 = await this.nearest(embedding.vec, filter);
-      results2.forEach((result) => {
-        if (!acc[result.item.path] || result.score > acc[result.item.path].score) {
-          acc[result.item.path] = {
-            key: result.item.key,
-            score: result.score,
-            item: result.item,
-            entity: result.item,
-            // DEPRECATED: use item instead
-            hypothetical_i: i
-          };
-        } else {
-          result.score = acc[result.item.path].score;
-        }
-      });
-      return acc;
-    }, Promise.resolve({}));
-    const top_k = Object.values(results).sort(sort_by_score2).slice(0, limit);
-    console.log(`Found and returned ${top_k.length} ${this.collection_key}.`);
-    return top_k;
-  }
-  /**
-   * Gets the configuration for settings.
-   * @readonly
-   * @returns {Object} The settings configuration.
-   */
-  get settings_config() {
-    return settings_config3;
-  }
-  async render_settings(container = this.settings_container, opts = {}) {
-    container = await this.render_collection_settings(container, opts);
-    const embed_model_settings_frag = await this.env.render_component("settings", this.embed_model, opts);
-    container.appendChild(embed_model_settings_frag);
-    return container;
-  }
-  /**
-   * Gets the notices from the environment.
-   * @readonly
-   * @returns {Object} The notices object.
-   */
-  get notices() {
-    return this.env.smart_connections_plugin?.notices || this.env.main?.notices;
-  }
-  /**
-   * Gets the embed queue containing items to be embedded.
-   * @readonly
-   * @returns {Array<Object>} The embed queue.
-   */
-  get embed_queue() {
-    if (!this._embed_queue?.length) this._embed_queue = Object.values(this.items).filter((item) => item._queue_embed && item.should_embed);
-    return this._embed_queue;
-  }
-  /**
-   * Processes the embed queue by delegating to the default vector adapter.
-   * @async
-   * @returns {Promise<void>}
-   */
-  async process_embed_queue() {
-    await this.entities_vector_adapter.process_embed_queue();
-  }
-  /**
-   * Handles changes to the embedding model by reinitializing and processing the load queue.
-   * @async
-   * @returns {Promise<void>}
-   */
-  async embed_model_changed() {
-    await this.unload();
-    await this.init();
-    this.render_settings();
-    await this.process_load_queue();
-  }
-  async render_lookup(container, opts = {}) {
-    if (container) container.innerHTML = "Loading lookup...";
-    const frag = await this.env.render_component("lookup", this, opts);
-    if (container) {
-      container.innerHTML = "";
-      container.appendChild(frag);
-    }
-    return frag;
-  }
-  get connections_filter_config() {
-    return connections_filter_config2;
-  }
-};
-var settings_config3 = {
-  "min_chars": {
-    name: "Minimum length",
-    type: "number",
-    description: "Minimum length of entity to embed (in characters).",
-    placeholder: "Enter number ex. 300",
-    default: 300
-  }
-};
-var connections_filter_config2 = {
-  "smart_view_filter.show_full_path": {
-    "name": "Show Full Path",
-    "type": "toggle",
-    "description": "Show full path in view.",
-    "callback": "re_render"
-  },
-  "smart_view_filter.render_markdown": {
-    "name": "Render Markdown",
-    "type": "toggle",
-    "description": "Render markdown in results.",
-    "callback": "re_render"
-  },
-  "smart_view_filter.results_limit": {
-    "name": "Results Limit",
-    "type": "number",
-    "description": "Limit the number of results.",
-    "default": 20,
-    "callback": "re_render"
-  },
-  "smart_view_filter.exclude_inlinks": {
-    "name": "Exclude Inlinks",
-    "type": "toggle",
-    "description": "Exclude inlinks.",
-    "callback": "re_render_settings"
-  },
-  "smart_view_filter.exclude_outlinks": {
-    "name": "Exclude Outlinks",
-    "type": "toggle",
-    "description": "Exclude outlinks.",
-    "callback": "re_render_settings"
-  },
-  "smart_view_filter.include_filter": {
-    "name": "Include Filter",
-    "type": "text",
-    "description": "Require that results match this value.",
-    "callback": "re_render"
-  },
-  "smart_view_filter.exclude_filter": {
-    "name": "Exclude Filter",
-    "type": "text",
-    "description": "Exclude results that match this value.",
-    "callback": "re_render"
-  }
-};
-
-// node_modules/smart-blocks/node_modules/smart-sources/utils/create_hash.js
-async function create_hash2(text) {
-  if (text.length > 1e5) text = text.substring(0, 1e5);
-  const msgUint8 = new TextEncoder().encode(text.trim());
-  const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
-  return hashHex;
-}
-
 // node_modules/smart-blocks/smart_block.js
-var SmartBlock = class extends SmartEntity2 {
+var SmartBlock = class extends SmartEntity {
   /**
    * Provides default values for a SmartBlock instance.
    * @static
@@ -6590,7 +4774,6 @@ var SmartBlock = class extends SmartEntity2 {
    */
   queue_save() {
     this._queue_save = true;
-    this.source?.queue_save();
   }
   /**
    * Queues the entity for embedding.
@@ -6755,14 +4938,6 @@ var SmartBlock = class extends SmartEntity2 {
     return `![[${this.link}]]`;
   }
   /**
-   * Retrieves the embed input, either from cache or by generating it.
-   * @readonly
-   * @returns {string|Promise<string>} The embed input string or a promise resolving to it.
-   */
-  get embed_input() {
-    return this._embed_input ? this._embed_input : this.get_embed_input();
-  }
-  /**
    * Determines if the block has valid line range information.
    * @readonly
    * @returns {boolean} `true` if the block has both start and end lines, `false` otherwise.
@@ -6807,8 +4982,9 @@ var SmartBlock = class extends SmartEntity2 {
    * @readonly
    * @returns {Array<number>|undefined} An array containing the start and end lines or `undefined` if not set.
    */
+  // get lines() { return this.source?.data?.blocks?.[this.sub_key]; }
   get lines() {
-    return this.source?.data?.blocks?.[this.sub_key];
+    return this.data.lines;
   }
   /**
    * Retrieves the starting line number of the block.
@@ -6952,12 +5128,6 @@ var SmartBlock = class extends SmartEntity2 {
     return this.source?.blocks?.filter((block) => block.key.startsWith(this.key + "#") && block.line_start > this.line_start && block.line_end <= this.line_end) || [];
   }
   // source dependent
-  get data_path() {
-    return this.source.data_path;
-  }
-  get data_file() {
-    return this.source.data_file;
-  }
   get excluded_lines() {
     return this.source.excluded_lines;
   }
@@ -6972,9 +5142,6 @@ var SmartBlock = class extends SmartEntity2 {
   }
   get mtime() {
     return this.source.mtime;
-  }
-  get multi_ajson_file_name() {
-    return this.source.multi_ajson_file_name;
   }
   get smart_change_adapter() {
     return this.source.smart_change_adapter;
@@ -7005,7 +5172,7 @@ var SmartBlock = class extends SmartEntity2 {
   }
 };
 
-// node_modules/smart-blocks/node_modules/smart-sources/utils/get_markdown_links.js
+// node_modules/smart-sources/utils/get_markdown_links.js
 function get_markdown_links(content) {
   const markdown_link_pattern = /\[([^\]]+)\]\(([^)]+)\)/g;
   const wikilink_pattern = /\[\[([^\|\]]+)(?:\|([^\]]+))?\]\]/g;
@@ -7025,14 +5192,14 @@ function get_markdown_links(content) {
   return result;
 }
 
-// node_modules/smart-blocks/node_modules/smart-sources/utils/get_line_range.js
+// node_modules/smart-sources/utils/get_line_range.js
 function get_line_range2(content, start_line, end_line) {
   const lines = content.split("\n");
   return lines.slice(start_line - 1, end_line).join("\n");
 }
 
-// node_modules/smart-blocks/node_modules/smart-sources/blocks/markdown_to_blocks.js
-function markdown_to_blocks2(markdown) {
+// node_modules/smart-blocks/parsers/markdown.js
+function parse_blocks(markdown) {
   const lines = markdown.split("\n");
   const result = {};
   const heading_stack = [];
@@ -7243,7 +5410,7 @@ function markdown_to_blocks2(markdown) {
 }
 
 // node_modules/smart-blocks/smart_blocks.js
-var SmartBlocks = class extends SmartEntities2 {
+var SmartBlocks = class extends SmartEntities {
   /**
    * Initializes the SmartBlocks instance. Currently muted as processing is handled by SmartSources.
    * @returns {void}
@@ -7253,14 +5420,14 @@ var SmartBlocks = class extends SmartEntities2 {
   /**
    * @method import_source
    * @description Imports blocks for a given source by parsing the content. Delegates parsing to a parser
-   * depending on the source.file_type (e.g., markdown_to_blocks for .md).
+   * depending on the source.file_type (e.g., parse_blocks for .md).
    * @async
    * @param {SmartSource} source The source whose blocks are to be imported.
    * @param {string} content The raw content of the source file.
    * @returns {Promise<void>}
    */
   async import_source(source, content) {
-    let blocks_obj = markdown_to_blocks2(content);
+    let blocks_obj = parse_blocks(content);
     const blocks = [];
     for (const [sub_key, line_range] of Object.entries(blocks_obj)) {
       const block_key = source.key + sub_key;
@@ -7272,9 +5439,10 @@ var SmartBlocks = class extends SmartEntities2 {
         size: block_content.length,
         outlinks: block_outlinks
       };
-      blocks.push(this.create_or_update(block_data));
+      const new_item = new this.item_type(this.env, block_data);
+      new_item.queue_embed();
+      this.set(new_item);
     }
-    await Promise.all(blocks);
     this.clean_and_update_source_blocks(source, blocks_obj);
   }
   /**
@@ -7294,6 +5462,10 @@ var SmartBlocks = class extends SmartEntities2 {
       }
     }
     source.data.blocks = blocks_obj;
+    source.queue_save();
+  }
+  get fs() {
+    return this.env.smart_sources.fs;
   }
   /**
    * Retrieves the embedding model associated with the SmartSources collection.
@@ -7361,14 +5533,6 @@ var SmartBlocks = class extends SmartEntities2 {
    */
   get source_collection() {
     return this.env.smart_sources;
-  }
-  /**
-   * Processes the save queue by delegating to the SmartSources collection.
-   * @async
-   * @returns {Promise<void>}
-   */
-  async process_save_queue() {
-    await this.source_collection.process_save_queue();
   }
   /**
    * Processes the embed queue. Currently handled by SmartSources, so this method is muted.
@@ -7449,133 +5613,6 @@ var SmartBlocks = class extends SmartEntities2 {
     throw "Not implemented: run_force_refresh";
   }
 };
-
-// node_modules/smart-sources/adapters/_adapter.js
-var SourceAdapter = class {
-  constructor(item, opts = {}) {
-    this.item = item;
-    this.opts = opts;
-  }
-  get collection() {
-    return this.item.collection;
-  }
-  get env() {
-    return this.collection.env;
-  }
-  get smart_change() {
-    return this.collection.smart_change;
-  }
-  get block_collection() {
-    return this.env.smart_blocks;
-  }
-  get source_collection() {
-    return this.env.smart_sources;
-  }
-  // override these methods in the adapter class
-  throw_not_implemented(method_name) {
-    throw new Error(`Method "${method_name}" is not implemented for file type "${this.item.file_type}" in "${this.constructor.name}".`);
-  }
-  // source methods
-  async import() {
-    this.throw_not_implemented("import");
-  }
-  async append(content) {
-    this.throw_not_implemented("append");
-  }
-  async update(full_content, opts = {}) {
-    this.throw_not_implemented("update");
-  }
-  // async _update(content) { this.throw_not_implemented('_update'); }
-  async read(opts = {}) {
-    this.throw_not_implemented("read");
-  }
-  // async _read() { this.throw_not_implemented('_read'); }
-  async remove() {
-    this.throw_not_implemented("remove");
-  }
-  async move_to(entity_ref) {
-    this.throw_not_implemented("move_to");
-  }
-  async merge(content, opts = {}) {
-    this.throw_not_implemented("merge");
-  }
-  // block methods
-  async block_append(content) {
-    this.throw_not_implemented("block_append");
-  }
-  async block_update(full_content, opts = {}) {
-    this.throw_not_implemented("block_update");
-  }
-  async _block_update(content) {
-    this.throw_not_implemented("_block_update");
-  }
-  async block_read(opts = {}) {
-    this.throw_not_implemented("block_read");
-  }
-  async _block_read() {
-    this.throw_not_implemented("_block_read");
-  }
-  async block_remove() {
-    this.throw_not_implemented("block_remove");
-  }
-  async block_move_to(entity_ref) {
-    this.throw_not_implemented("block_move_to");
-  }
-  async block_merge(content, opts = {}) {
-    this.throw_not_implemented("block_merge");
-  }
-  // HELPER METHODS
-  async create_hash(content) {
-    return await create_hash(content);
-  }
-};
-var SourceContentAdapter = class {
-  constructor(item) {
-    this.item = item;
-  }
-  async import() {
-    this.throw_not_implemented("import");
-  }
-  async create() {
-    this.throw_not_implemented("create");
-  }
-  async update() {
-    this.throw_not_implemented("update");
-  }
-  async read() {
-    this.throw_not_implemented("read");
-  }
-  async remove() {
-    this.throw_not_implemented("remove");
-  }
-  // HELPER METHODS
-  get data() {
-    return this.item.data;
-  }
-  async create_hash(content) {
-    return await create_hash(content);
-  }
-};
-
-// node_modules/smart-sources/utils/get_markdown_links.js
-function get_markdown_links2(content) {
-  const markdown_link_pattern = /\[([^\]]+)\]\(([^)]+)\)/g;
-  const wikilink_pattern = /\[\[([^\|\]]+)(?:\|([^\]]+))?\]\]/g;
-  const result = [];
-  const extract_links_from_pattern = (pattern, type) => {
-    let match;
-    while ((match = pattern.exec(content)) !== null) {
-      const title = type === "markdown" ? match[1] : match[2] || match[1];
-      const target = type === "markdown" ? match[2] : match[1];
-      const line = content.substring(0, match.index).split("\n").length;
-      result.push({ title, target, line });
-    }
-  };
-  extract_links_from_pattern(markdown_link_pattern, "markdown");
-  extract_links_from_pattern(wikilink_pattern, "wikilink");
-  result.sort((a, b) => a.line - b.line || a.target.localeCompare(b.target));
-  return result;
-}
 
 // node_modules/smart-blocks/adapters/_adapter.js
 var BlockContentAdapter = class {
@@ -7671,7 +5708,7 @@ var BlockContentAdapter = class {
    * @description Hash the block content to detect changes and prevent unnecessary re-embeddings.
    */
   async create_hash(content) {
-    return await create_hash2(content);
+    return await create_hash(content);
   }
 };
 
@@ -7810,6 +5847,35 @@ var MarkdownBlockContentAdapter = class extends BlockContentAdapter {
   }
 };
 
+// node_modules/smart-sources/adapters/_adapter.js
+var SourceContentAdapter = class {
+  constructor(item) {
+    this.item = item;
+  }
+  async import() {
+    this.throw_not_implemented("import");
+  }
+  async create() {
+    this.throw_not_implemented("create");
+  }
+  async update() {
+    this.throw_not_implemented("update");
+  }
+  async read() {
+    this.throw_not_implemented("read");
+  }
+  async remove() {
+    this.throw_not_implemented("remove");
+  }
+  // HELPER METHODS
+  get data() {
+    return this.item.data;
+  }
+  async create_hash(content) {
+    return await create_hash(content);
+  }
+};
+
 // node_modules/smart-sources/adapters/_file.js
 var FileSourceContentAdapter = class extends SourceContentAdapter {
   /**
@@ -7922,10 +5988,10 @@ ${current_content}`;
    */
   async merge(content, opts = {}) {
     const { mode = "append_blocks" } = opts;
-    const blocks_obj = markdown_to_blocks(content);
+    const blocks_obj = parse_blocks(content);
     if (typeof blocks_obj !== "object" || Array.isArray(blocks_obj)) {
-      console.warn("merge error: Expected an object from markdown_to_blocks, but received:", blocks_obj);
-      throw new Error("merge error: markdown_to_blocks did not return an object as expected.");
+      console.warn("merge error: Expected an object from parse_blocks, but received:", blocks_obj);
+      throw new Error("merge error: parse_blocks did not return an object as expected.");
     }
     const { new_blocks, new_with_parent_blocks, changed_blocks, same_blocks } = await this.get_changes(blocks_obj, content);
     for (const block of new_blocks) {
@@ -8038,7 +6104,7 @@ var MarkdownSourceContentAdapter = class extends FileSourceContentAdapter {
     if (this.data.last_import?.hash === this.data.last_read?.hash) {
       if (this.data.blocks) return;
     }
-    const outlinks = get_markdown_links2(content);
+    const outlinks = get_markdown_links(content);
     this.data.outlinks = outlinks;
     const { mtime, size } = this.item.file.stat;
     this.data.last_import = {
@@ -8128,25 +6194,6 @@ var CollectionDataAdapter = class {
     return new this.ItemDataAdapter(item);
   }
   /**
-   * Load all items from the underlying data storage into the collection.
-   * This may initiate a batch load operation that uses multiple item adapters.
-   * @async
-   * @returns {Promise<void>} Resolves when the load operation is complete.
-   */
-  async load_all_items() {
-    throw new Error("Not implemented");
-  }
-  /**
-   * Save all items that require saving to the underlying data storage.
-   * Typically processes all items queued for saving and delegates the actual I/O 
-   * to individual `ItemDataAdapter` instances.
-   * @async
-   * @returns {Promise<void>} Resolves when the save operation is complete.
-   */
-  async save_all_items() {
-    throw new Error("Not implemented");
-  }
-  /**
    * Load a single item by its key using an `ItemDataAdapter`.
    * @async
    * @param {string} key - The key of the item to load.
@@ -8192,6 +6239,16 @@ var CollectionDataAdapter = class {
   async process_save_queue() {
     throw new Error("Not implemented");
   }
+  /**
+   * Load the item's data from storage if it has been updated externally.
+   * @async
+   * @param {string} key - The key of the item to load.
+   * @returns {Promise<void>} Resolves when the item is loaded.
+   */
+  async load_item_if_updated(item) {
+    const adapter = this.create_item_adapter(item);
+    await adapter.load_if_updated();
+  }
 };
 var ItemDataAdapter = class {
   /**
@@ -8235,7 +6292,7 @@ var ItemDataAdapter = class {
    * the item's data. This may be a file name derived from the item's key.
    * @returns {string} The path or identifier for the item's data.
    */
-  get_data_path() {
+  get data_path() {
     throw new Error("Not implemented");
   }
   /**
@@ -8243,6 +6300,17 @@ var ItemDataAdapter = class {
    */
   get collection_adapter() {
     return this.item.collection.data_adapter;
+  }
+  get env() {
+    return this.item.env;
+  }
+  /**
+   * Load the item's data from storage if it has been updated externally.
+   * @async
+   * @returns {Promise<void>} Resolves when the item is loaded.
+   */
+  async load_if_updated() {
+    throw new Error("Not implemented");
   }
 };
 
@@ -8266,6 +6334,20 @@ var FileItemDataAdapter = class extends ItemDataAdapter {
    */
   get fs() {
     return this.item.collection.data_fs || this.item.collection.env.data_fs;
+  }
+  get data_path() {
+    throw new Error("Not implemented");
+  }
+  async load_if_updated() {
+    const data_path = this.data_path;
+    if (await this.fs.exists(data_path)) {
+      const loaded_at = this.item.loaded_at || 0;
+      const data_file_stat = await this.fs.stat(data_path);
+      if (data_file_stat.mtime > loaded_at + 1 * 60 * 1e3) {
+        console.log(`Smart Collections: Re-loading item ${this.item.key} because it has been updated on disk`);
+        await this.load();
+      }
+    }
   }
 };
 
@@ -8308,43 +6390,15 @@ var AjsonMultiFileCollectionDataAdapter = class extends FileCollectionDataAdapte
     await adapter.save();
   }
   /**
-   * Delete a single item by its key.
-   * @async
-   * @param {string} key
-   * @returns {Promise<void>}
-   */
-  async delete_item(key) {
-    const item = this.collection.get(key);
-    if (!item) return;
-    const adapter = this.create_item_adapter(item);
-    await adapter.delete();
-  }
-  /**
-   * Load all items in the collection.
-   * Typically, you'd iterate over known keys.
-   * @async
-   * @returns {Promise<void>}
-   */
-  async load_all_items() {
-  }
-  /**
-   * Save all items that need saving.
-   * @async
-   * @returns {Promise<void>}
-   */
-  async save_all_items() {
-    const save_queue = Object.values(this.collection.items).filter((i) => i._queue_save);
-    for (const item of save_queue) {
-      await this.save_item(item.key);
-    }
-  }
-  /**
    * Process any queued load operations.
    * @async
    * @returns {Promise<void>}
    */
   async process_load_queue() {
     this.collection.notices?.show("loading", `Loading ${this.collection.collection_key}...`, { timeout: 0 });
+    if (!await this.fs.exists(this.collection.data_dir)) {
+      await this.fs.mkdir(this.collection.data_dir);
+    }
     const load_queue = Object.values(this.collection.items).filter((item) => item._queue_load);
     if (!load_queue.length) {
       this.collection.notices?.remove("loading");
@@ -8393,29 +6447,40 @@ var AjsonMultiFileCollectionDataAdapter = class extends FileCollectionDataAdapte
     console.log(`Saved ${this.collection.collection_key} in ${Date.now() - time_start}ms`);
     this.collection.notices?.remove("saving");
   }
+  get_item_data_path(key) {
+    return [
+      this.collection.data_dir || "multi",
+      this.fs?.sep || "/",
+      this.get_data_file_name(key) + ".ajson"
+    ].join("");
+  }
+  /**
+   * Transforms the item key into a safe filename.
+   * Replaces spaces, slashes, and dots with underscores.
+   * @returns {string} safe file name
+   */
+  get_data_file_name(key) {
+    return key.replace(/[\s\/\.]/g, "_").replace(".md", "");
+  }
+  /**
+   * Build a single AJSON line for the given item and data.
+   * @param {Object} item 
+   * @returns {string}
+   */
+  get_item_ajson(item) {
+    const collection_key = item.collection_key;
+    const key = item.key;
+    const data_value = item.deleted ? "null" : JSON.stringify(item.data);
+    return `${JSON.stringify(`${collection_key}:${key}`)}: ${data_value},`;
+  }
 };
 var AjsonMultiFileItemDataAdapter = class extends FileItemDataAdapter {
   /**
    * Derives the `.ajson` file path from the collection's data_dir and item key.
-   * Removes invalid characters from key and appends `.ajson`.
    * @returns {string}
    */
-  get_data_path() {
-    const dir = this.collection_adapter.collection.data_dir || "multi";
-    const sep = this.fs?.sep || "/";
-    const file_name = this._get_data_file_name(this.item.key);
-    return dir + sep + file_name + ".ajson";
-  }
-  /**
-   * Transforms the item key into a safe filename.
-   * Replaces spaces, slashes, and dots with underscores, 
-   * also removes ".md" suffix if present.
-   * @private
-   * @param {string} key 
-   * @returns {string} safe file name
-   */
-  _get_data_file_name(key) {
-    return key.replace(/[\s\/\.]/g, "_").replace(".md", "");
+  get data_path() {
+    return this.collection_adapter.get_item_data_path(this.item.key);
   }
   /**
    * Load the item from its `.ajson` file.
@@ -8423,121 +6488,125 @@ var AjsonMultiFileItemDataAdapter = class extends FileItemDataAdapter {
    * @returns {Promise<void>}
    */
   async load() {
-    const raw_data = await this._read_item_file();
-    if (!raw_data) {
-      this.item.queue_import();
-      return;
-    }
-    const lines = raw_data.split("\n").map((l) => l.trim()).filter(Boolean);
-    if (!lines.length) {
-      this.item.queue_import();
-      return;
-    }
-    const states = this._parse_lines(lines, this.item.key);
-    const final_state = this._determine_final_state(states);
-    if (final_state !== null) {
-      this.item.data = final_state;
-      this.item._queue_load = false;
-      this.item.loaded_at = Date.now();
-      if (states.length > 1) await this._rewrite_minimal_file(final_state);
-    } else {
-      await this._cleanup_deleted_item();
-    }
-  }
-  async save() {
-    const data_path = this.get_data_path();
-    const dir = this.collection_adapter.collection.data_dir;
-    if (!await this.fs.exists(dir)) {
-      await this.fs.mkdir(dir);
-    }
-    const ajson_line = this._build_ajson_line(this.item, this.item.deleted ? null : this.item.data);
-    await this.fs.append(data_path, "\n" + ajson_line);
-    this.item._queue_save = false;
-  }
-  async delete() {
-    const data_path = this.get_data_path();
-    const ajson_line = this._build_ajson_line(this.item, null);
-    await this.fs.append(data_path, "\n" + ajson_line);
-    this.item.collection.delete_item(this.item.key);
-  }
-  async _cleanup_deleted_item() {
-    const data_path = this.get_data_path();
-    if (await this.fs.exists(data_path)) {
-      await this.fs.remove(data_path);
-    }
-    this.item._queue_load = false;
-  }
-  async _rewrite_minimal_file(final_state) {
-    const data_path = this.get_data_path();
-    if (final_state !== null) {
-      const line = this._build_ajson_line(this.item, final_state);
-      await this.fs.write(data_path, line);
-    } else {
-      if (await this.fs.exists(data_path)) await this.fs.remove(data_path);
-    }
-  }
-  _parse_lines(lines, item_key) {
-    const states = [];
-    for (const line of lines) {
-      const trimmed = line.replace(/,$/, "");
-      const idx = trimmed.indexOf(":");
-      if (idx === -1) continue;
-      const key_str = trimmed.slice(0, idx).trim();
-      const value_str = trimmed.slice(idx + 1).trim();
-      let ajson_key;
-      let value;
-      try {
-        ajson_key = JSON.parse(key_str);
-        value = JSON.parse(value_str);
-      } catch (e) {
-        console.warn("Error parsing line:", line, e);
-        continue;
-      }
-      const { new_ajson_key } = this._rewrite_legacy_ajson_keys(ajson_key);
-      const parsed_item_key = new_ajson_key.split(":").slice(1).join(":");
-      if (parsed_item_key === item_key) {
-        states.push(value);
-      }
-    }
-    return states;
-  }
-  _determine_final_state(states) {
-    const last_state = [...states].reverse().find((s) => s !== null);
-    return last_state || null;
-  }
-  _build_ajson_line(item, data) {
-    const collection_key = item.collection_key;
-    const key = item.key;
-    const data_value = data === null ? "null" : JSON.stringify(data);
-    return `${JSON.stringify(`${collection_key}:${key}`)}: ${data_value},`;
-  }
-  async _read_item_file() {
     try {
-      const data_path = this.get_data_path();
-      const data_ajson = await this.fs.adapter.read(data_path, "utf-8", { no_cache: true });
-      return data_ajson?.trim() || null;
+      const raw_data = await this.fs.adapter.read(this.data_path, "utf-8", { no_cache: true });
+      if (!raw_data) {
+        this.item.queue_import();
+        return;
+      }
+      const { rewrite, file_data } = this._parse(raw_data);
+      if (rewrite) {
+        if (file_data.length) await this.fs.write(this.data_path, file_data);
+        else await this.fs.remove(this.data_path);
+      }
     } catch (e) {
-      console.warn("no data found for item");
-      return null;
+      console.warn("Error loading item (queueing import)", this.item.key, this.data_path, e);
+      this.item.queue_import();
     }
   }
-  // temp: for backwards compatibility
-  _rewrite_legacy_ajson_keys(ajson_key) {
-    const [prefix, ...rest] = ajson_key.split(":");
-    const item_key = rest.join(":");
-    let new_prefix = prefix;
-    let changed = false;
-    if (class_to_collection_key[prefix]) {
-      new_prefix = class_to_collection_key[prefix];
-      if (new_prefix !== prefix) changed = true;
+  /**
+   * Parse the entire AJSON content as a JSON object, handle legacy keys, and extract final state.
+   * @private
+   * @param {string} ajson 
+   * @returns {boolean}
+   */
+  _parse(ajson) {
+    try {
+      let rewrite = false;
+      if (!ajson.length) return false;
+      ajson = ajson.trim();
+      const original_line_count = ajson.split("\n").length;
+      const json_str = "{" + ajson.slice(0, -1) + "}";
+      const data = JSON.parse(json_str);
+      const entries = Object.entries(data);
+      for (let i = 0; i < entries.length; i++) {
+        const [ajson_key, value] = entries[i];
+        if (!value) {
+          delete data[ajson_key];
+          rewrite = true;
+          continue;
+        }
+        const { collection_key, item_key, changed } = this._parse_ajson_key(ajson_key);
+        if (changed) {
+          rewrite = true;
+          data[collection_key + ":" + item_key] = value;
+          delete data[ajson_key];
+        }
+        const collection = this.env[collection_key];
+        if (!collection) continue;
+        const existing_item = collection.get(item_key);
+        if (!value.key) value.key = item_key;
+        if (existing_item) {
+          existing_item.data = value;
+          existing_item._queue_load = false;
+          existing_item.loaded_at = Date.now();
+        } else {
+          const ItemClass = collection.item_type;
+          const new_item = new ItemClass(this.env, value);
+          new_item._queue_load = false;
+          new_item.loaded_at = Date.now();
+          collection.set(new_item);
+        }
+      }
+      if (rewrite || original_line_count > entries.length) {
+        rewrite = true;
+      }
+      return {
+        rewrite,
+        file_data: rewrite ? Object.entries(data).map(([key, value]) => `${JSON.stringify(key)}: ${JSON.stringify(value)},`).join("\n") : null
+      };
+    } catch (e) {
+      if (ajson.split("\n").some((line) => !line.endsWith(","))) {
+        console.warn("fixing trailing comma error");
+        ajson = ajson.split("\n").map((line) => line.endsWith(",") ? line : line + ",").join("\n");
+        return this._parse(ajson);
+      }
+      console.warn("Error parsing JSON:", e);
+      return { rewrite: true, file_data: null };
     }
-    return { new_ajson_key: `${new_prefix}:${item_key}`, changed };
   }
-  _make_backwards_compatible_with_trailing_comma_format(ajson) {
-    if (ajson[ajson.length - 1] !== ",") {
-      ajson = ajson.split("\n").map((line) => line.endsWith(",") ? line : line + ",").join("\n");
+  _parse_ajson_key(ajson_key) {
+    let changed;
+    let [collection_key, ...item_key] = ajson_key.split(":");
+    if (class_to_collection_key[collection_key]) {
+      collection_key = class_to_collection_key[collection_key];
+      changed = true;
     }
-    return ajson;
+    return {
+      collection_key,
+      item_key: item_key.join(":"),
+      changed
+    };
+  }
+  /**
+   * Save the current state of the item by appending a new line to its `.ajson` file.
+   * @async
+   * @returns {Promise<void>}
+   */
+  async save(retries = 0) {
+    try {
+      const ajson_line = this.get_item_ajson();
+      await this.fs.append(this.data_path, "\n" + ajson_line);
+      this.item._queue_save = false;
+    } catch (e) {
+      if (e.code === "ENOENT" && retries < 1) {
+        console.warn("ENOENT, creating directory", this.data_path);
+        const dir = this.collection_adapter.collection.data_dir;
+        if (!await this.fs.exists(dir)) {
+          await this.fs.mkdir(dir);
+        }
+        return await this.save(retries + 1);
+      }
+      console.warn("Error saving item", this.data_path, e);
+    }
+  }
+  /**
+   * Build a single AJSON line for the given item and data.
+   * @param {Object} item 
+   * @returns {string}
+   */
+  get_item_ajson() {
+    return this.collection_adapter.get_item_ajson(this.item);
   }
 };
 
@@ -11028,9 +9097,9 @@ ${attributes}
    * @param {Object} settings_config - The settings configuration object.
    * @returns {Promise<DocumentFragment>} The rendered settings fragment.
    */
-  async render_settings(settings_config5, opts = {}) {
+  async render_settings(settings_config3, opts = {}) {
     const scope = opts.scope || {};
-    const html = Object.entries(settings_config5).map(([setting_key, setting_config]) => {
+    const html = Object.entries(settings_config3).map(([setting_key, setting_config]) => {
       if (!setting_config.setting) setting_config.setting = setting_key;
       if (this.validate_setting(scope, opts, setting_key, setting_config)) return this.render_setting_html(setting_config);
       return "";
@@ -11179,6 +9248,7 @@ var SmartViewAdapter = class {
       dropdown: this.render_dropdown_component,
       toggle: this.render_toggle_component,
       textarea: this.render_textarea_component,
+      textarea_array: this.render_textarea_array_component,
       button: this.render_button_component,
       remove: this.render_remove_component,
       folder: this.render_folder_select_component,
@@ -11310,6 +9380,19 @@ var SmartViewAdapter = class {
     smart_setting.addTextArea((textarea) => {
       textarea.setPlaceholder(elm.dataset.placeholder || "");
       textarea.setValue(value || "");
+      let debounceTimer;
+      textarea.onChange(async (value2) => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => this.handle_on_change(path, value2, elm, scope), 2e3);
+      });
+    });
+    return smart_setting;
+  }
+  render_textarea_array_component(elm, path, value, scope) {
+    const smart_setting = new this.setting_class(elm);
+    smart_setting.addTextArea((textarea) => {
+      textarea.setPlaceholder(elm.dataset.placeholder || "");
+      textarea.setValue(Array.isArray(value) ? value.join("\n") : value || "");
       let debounceTimer;
       textarea.onChange(async (value2) => {
         value2 = value2.split("\n").map((v) => v.trim()).filter((v) => v);
@@ -11570,116 +9653,8 @@ var SmartNotices = class {
 // src/smart_env.config.js
 var import_obsidian8 = require("obsidian");
 
-// node_modules/smart-settings/smart_settings.js
-var SmartSettings = class {
-  /**
-   * Creates an instance of SmartEnvSettings.
-   * @param {Object} main - The main object to contain the instance (smart_settings) and getter (settings)
-   * @param {Object} [opts={}] - Configuration options.
-   */
-  constructor(main, opts = {}) {
-    this.main = main;
-    this.opts = opts;
-    this._fs = null;
-    this._settings = {};
-    this._saved = false;
-    this.save_timeout = null;
-  }
-  static async create(main, opts = {}) {
-    const smart_settings = new this(main, opts);
-    await smart_settings.load();
-    main.smart_settings = smart_settings;
-    Object.defineProperty(main, "settings", {
-      get() {
-        return smart_settings.settings;
-      },
-      set(settings) {
-        smart_settings.settings = settings;
-      }
-    });
-    return smart_settings;
-  }
-  static create_sync(main, opts = {}) {
-    const smart_settings = new this(main, opts);
-    smart_settings.load_sync();
-    main.smart_settings = smart_settings;
-    Object.defineProperty(main, "settings", {
-      get() {
-        return smart_settings.settings;
-      },
-      set(settings) {
-        smart_settings.settings = settings;
-      }
-    });
-    return smart_settings;
-  }
-  /**
-   * Gets the current settings, wrapped with an observer to handle changes.
-   * @returns {Proxy} A proxy object that observes changes to the settings.
-   */
-  get settings() {
-    return observe_object(this._settings, (property, value, target) => {
-      if (this.save_timeout) clearTimeout(this.save_timeout);
-      this.save_timeout = setTimeout(() => {
-        this.save(this._settings);
-        this.save_timeout = null;
-      }, 1e3);
-    });
-  }
-  /**
-   * Sets the current settings.
-   * @param {Object} settings - The new settings to apply.
-   */
-  set settings(settings) {
-    this._settings = settings;
-  }
-  async save(settings = this._settings) {
-    if (typeof this.opts.save === "function") await this.opts.save(settings);
-    else await this.main.save_settings(settings);
-  }
-  async load() {
-    if (typeof this.opts.load === "function") this._settings = await this.opts.load();
-    else this._settings = await this.main.load_settings();
-  }
-  load_sync() {
-    if (typeof this.opts.load === "function") this._settings = this.opts.load();
-    else this._settings = this.main.load_settings();
-  }
-};
-function observe_object(obj, on_change) {
-  function create_proxy(target) {
-    return new Proxy(target, {
-      set(target2, property, value) {
-        if (target2[property] !== value) {
-          target2[property] = value;
-          on_change(property, value, target2);
-        }
-        if (typeof value === "object" && value !== null) {
-          target2[property] = create_proxy(value);
-        }
-        return true;
-      },
-      get(target2, property) {
-        const result = target2[property];
-        if (typeof result === "object" && result !== null) {
-          return create_proxy(result);
-        }
-        return result;
-      },
-      deleteProperty(target2, property) {
-        if (property in target2) {
-          delete target2[property];
-          on_change(property, void 0, target2);
-        }
-        return true;
-      }
-    });
-  }
-  return create_proxy(obj);
-}
-
 // node_modules/smart-sources/components/settings.js
-async function render5(scope, opts = {}) {
+async function render4(scope, opts = {}) {
   const settings_html = Object.entries(scope.settings_config).map(([setting_key, setting_config]) => {
     if (!setting_config.setting) setting_config.setting = setting_key;
     if (this.validate_setting(scope, opts, setting_key, setting_config)) return this.render_setting_html(setting_config);
@@ -11690,9 +9665,9 @@ async function render5(scope, opts = {}) {
     ${settings_html}
   </div>`;
   const frag = this.create_doc_fragment(html);
-  return await post_process4.call(this, scope, frag, opts);
+  return await post_process3.call(this, scope, frag, opts);
 }
-async function post_process4(source_collection, frag, opts = {}) {
+async function post_process3(source_collection, frag, opts = {}) {
   await this.render_setting_components(frag, { scope: source_collection });
   frag.querySelector(".sources-load-btn")?.addEventListener("click", () => {
     source_collection.run_data_load();
@@ -11778,7 +9753,7 @@ function get_button_html(scope) {
 }
 
 // node_modules/smart-collections/components/settings.js
-async function render6(scope, opts = {}) {
+async function render5(scope, opts = {}) {
   const html = Object.entries(scope.settings_config).map(([setting_key, setting_config]) => {
     if (!setting_config.setting) setting_config.setting = setting_key;
     if (this.validate_setting(scope, opts, setting_key, setting_config)) return this.render_setting_html(setting_config);
@@ -11786,6 +9761,21 @@ async function render6(scope, opts = {}) {
   }).join("\n");
   const heading_html = `<h2>${scope.collection_key.split("_").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")} Settings</h2>`;
   const frag = this.create_doc_fragment(heading_html + html);
+  return await post_process4.call(this, scope, frag, opts);
+}
+async function post_process4(scope, frag, opts = {}) {
+  await this.render_setting_components(frag, { scope });
+  return frag;
+}
+
+// node_modules/smart-model/components/settings.js
+async function render6(scope, opts = {}) {
+  const html = Object.entries(scope.settings_config).map(([setting_key, setting_config]) => {
+    if (!setting_config.setting) setting_config.setting = setting_key;
+    if (this.validate_setting(scope, opts, setting_key, setting_config)) return this.render_setting_html(setting_config);
+    return "";
+  }).join("\n");
+  const frag = this.create_doc_fragment(html);
   return await post_process5.call(this, scope, frag, opts);
 }
 async function post_process5(scope, frag, opts = {}) {
@@ -11793,192 +9783,8 @@ async function post_process5(scope, frag, opts = {}) {
   return frag;
 }
 
-// node_modules/smart-model/components/settings.js
-async function render7(scope, opts = {}) {
-  const html = Object.entries(scope.settings_config).map(([setting_key, setting_config]) => {
-    if (!setting_config.setting) setting_config.setting = setting_key;
-    if (this.validate_setting(scope, opts, setting_key, setting_config)) return this.render_setting_html(setting_config);
-    return "";
-  }).join("\n");
-  const frag = this.create_doc_fragment(html);
-  return await post_process6.call(this, scope, frag, opts);
-}
-async function post_process6(scope, frag, opts = {}) {
-  await this.render_setting_components(frag, { scope });
-  return frag;
-}
-
-// node_modules/smart-entities/components/result.js
-async function build_html2(result, opts = {}) {
-  const item = result.item;
-  const score = result.score;
-  const expanded_view = item.env.settings.expanded_view;
-  return `<div class="temp-container">
-    <div
-      class="sc-result${expanded_view ? "" : " sc-collapsed"}"
-      data-path="${item.path.replace(/"/g, "&quot;")}"
-      data-link="${item.link?.replace(/"/g, "&quot;") || ""}"
-      data-collection="${item.collection_key}"
-      data-score="${score}"
-      draggable="true"
-    >
-      <span class="header">
-        ${this.get_icon_html("right-triangle")}
-        <a class="sc-result-file-title" href="#" title="${item.path.replace(/"/g, "&quot;")}" draggable="true">
-          <small>${[score?.toFixed(2), item.name].join(" | ")}</small>
-        </a>
-      </span>
-      <ul draggable="true">
-        <li class="sc-result-file-title" title="${item.path.replace(/"/g, "&quot;")}" data-collection="${item.collection_key}" data-key="${item.key}"></li>
-      </ul>
-    </div>
-  </div>`;
-}
-async function render8(result, opts = {}) {
-  let html = await build_html2.call(this, result, opts);
-  const frag = this.create_doc_fragment(html);
-  return await post_process7.call(this, result, frag, opts);
-}
-async function post_process7(result, frag, opts = {}) {
-  const search_result = frag.querySelector(".sc-result");
-  const filter_settings = result.item.env.settings.smart_view_filter;
-  if (!filter_settings.render_markdown) search_result.classList.add("sc-result-plaintext");
-  if (typeof opts.add_result_listeners === "function") opts.add_result_listeners(search_result);
-  if (!filter_settings.expanded_view) return search_result;
-  const li = search_result.querySelector("li");
-  const entity = result.item;
-  if (entity) {
-    await entity.render_item(li, opts);
-  } else {
-    li.innerHTML = "<p>Entity not found.</p>";
-  }
-  return search_result;
-}
-
-// node_modules/smart-entities/components/results.js
-async function build_html3(results, opts = {}) {
-  return ``;
-}
-async function render9(results, opts = {}) {
-  const html = await build_html3.call(this, results, opts);
-  const frag = this.create_doc_fragment(html);
-  const result_frags = await Promise.all(results.map((result) => {
-    return render8.call(this, result, { ...opts });
-  }));
-  result_frags.forEach((result_frag) => frag.appendChild(result_frag));
-  return frag;
-}
-
-// node_modules/smart-directories/components/directory.js
-async function build_html4(directory, opts = {}) {
-  const expanded_view = opts.expanded_view || directory.env.settings.expanded_view;
-  const sources = directory.direct_sources;
-  const subdirs = directory.direct_subdirectories;
-  return `<div class="sg-directory-item${expanded_view ? "" : " sg-collapsed"}" 
-       data-path="${directory.data.path}"
-       draggable="true">
-    <div class="sg-directory-header">
-      ${this.get_icon_html("right-triangle")}
-      <span class="sg-directory-name" title="${directory.data.path}">
-        ${directory.data.path.slice(0, -1)}
-      </span>
-      <small class="sg-directory-stats">
-        ${sources.length} files${subdirs.length ? `, ${subdirs.length} subdirs` : ""}
-      </small>
-    </div>
-    <div class="sg-directory-content">
-      <div class="sg-subdirectories sc-list"></div>
-      <div class="sg-directory-sources sc-list"></div>
-    </div>
-  </div>`;
-}
-async function render10(directory, opts = {}) {
-  const html = await build_html4.call(this, directory, opts);
-  const frag = this.create_doc_fragment(html);
-  return await post_process8.call(this, directory, frag, opts);
-}
-async function post_process8(directory, frag, opts = {}) {
-  const dir_item = frag.querySelector(".sg-directory-item");
-  const sources_container = dir_item.querySelector(".sg-directory-sources");
-  const subdirs_container = dir_item.querySelector(".sg-subdirectories");
-  const header = dir_item.querySelector(".sg-directory-header");
-  header.addEventListener("click", async (e) => {
-    e.stopPropagation();
-    const was_collapsed = dir_item.classList.contains("sg-collapsed");
-    dir_item.classList.toggle("sg-collapsed");
-    if (was_collapsed && !sources_container.innerHTML.trim()) {
-      await render_content.call(this, directory, sources_container, subdirs_container, opts);
-    }
-  });
-  const start_expanded = opts.expanded_view || directory.env.settings.expanded_view;
-  if (start_expanded) {
-    dir_item.classList.remove("sg-collapsed");
-    await render_content.call(this, directory, sources_container, subdirs_container, opts);
-  }
-  return dir_item;
-}
-async function render_content(directory, sources_container, subdirs_container, opts) {
-  if (!sources_container.innerHTML.trim()) {
-    sources_container.innerHTML = "";
-    subdirs_container.innerHTML = "";
-    const results = directory.settings.sort_nearest ? await directory.get_nearest_sources_results() : await directory.get_furthest_sources_results();
-    const result_frags = await render9.call(this, results, opts);
-    sources_container.appendChild(result_frags);
-  }
-}
-
-// node_modules/smart-directories/components/directories.js
-async function build_html5(directories, opts = {}) {
-  const html = `<div class="sg-directories-view">
-    <div class="sg-top-bar">
-      <div class="sg-actions">
-        <button class="sg-refresh" aria-label="Refresh view">${this.get_icon_html("refresh-cw")}</button>
-        <button class="sg-sort" aria-label="Sort directories">${this.get_icon_html("arrow-up-down")} ${directories.settings.sort_nearest ? "nearest" : "furthest"}</button>
-        <button class="sg-subdirectories" aria-label="Show subdirectories">${directories.settings.show_subdirectories ? this.get_icon_html("folder-minus") : this.get_icon_html("folder-plus")}</button>
-        <button class="sg-help" aria-label="Open help documentation">${this.get_icon_html("help-circle")}</button>
-      </div>
-    </div>
-    <div class="sg-list">
-    </div>
-  </div>`;
-  return html;
-}
-async function render11(directories, opts = {}) {
-  const html = await build_html5.call(this, directories, opts);
-  const frag = this.create_doc_fragment(html);
-  const sg_list = frag.querySelector(".sg-list");
-  const directory_frags = await Promise.all(
-    Object.values(directories.items).filter((dir) => directories.settings.show_subdirectories ? true : !dir.data.path.slice(0, -1).includes("/")).sort((a, b) => a.data.path.localeCompare(b.data.path)).map(
-      (directory) => render10.call(this, directory, opts)
-    )
-  );
-  directory_frags.forEach((dir_frag) => sg_list.appendChild(dir_frag));
-  return await post_process9.call(this, directories, frag, opts);
-}
-async function post_process9(directories, frag, opts = {}) {
-  const refresh_button = frag.querySelector(".sg-refresh");
-  refresh_button.addEventListener("click", () => {
-    opts.refresh_view();
-  });
-  const help_button = frag.querySelector(".sg-help");
-  help_button.addEventListener("click", () => {
-    window.open("https://docs.smartconnections.app/directories", "_blank");
-  });
-  const sort_button = frag.querySelector(".sg-sort");
-  sort_button.addEventListener("click", () => {
-    directories.settings.sort_nearest = !directories.settings.sort_nearest;
-    opts.refresh_view();
-  });
-  const subdirectories_button = frag.querySelector(".sg-subdirectories");
-  subdirectories_button.addEventListener("click", () => {
-    directories.settings.show_subdirectories = !directories.settings.show_subdirectories;
-    opts.refresh_view();
-  });
-  return frag;
-}
-
 // src/components/env_settings.js
-async function build_html6(scope, opts = {}) {
+async function build_html2(scope, opts = {}) {
   const env_settings_html = Object.entries(scope.settings_config).map(([setting_key, setting_config]) => {
     if (!setting_config.setting) setting_config.setting = setting_key;
     if (this.validate_setting(scope, opts, setting_key, setting_config)) return this.render_setting_html(setting_config);
@@ -11993,14 +9799,14 @@ async function build_html6(scope, opts = {}) {
   `;
   return html;
 }
-async function render12(scope, opts = {}) {
-  let html = await build_html6.call(this, scope, opts);
+async function render7(scope, opts = {}) {
+  let html = await build_html2.call(this, scope, opts);
   const frag = this.create_doc_fragment(html);
   return await post_process.call(this, scope, frag, opts);
 }
 
 // src/components/connections.js
-async function build_html7(view, opts = {}) {
+async function build_html3(view, opts = {}) {
   const top_bar_buttons = [
     { title: "Refresh", icon: "refresh-cw" },
     { title: "Fold toggle", icon: view.env.settings.expanded_view ? "fold-vertical" : "unfold-vertical" },
@@ -12043,12 +9849,12 @@ async function build_html7(view, opts = {}) {
   </div>`;
   return html;
 }
-async function render13(view, opts = {}) {
-  let html = await build_html7.call(this, view, opts);
+async function render8(view, opts = {}) {
+  let html = await build_html3.call(this, view, opts);
   const frag = this.create_doc_fragment(html);
-  return await post_process10.call(this, view, frag, opts);
+  return await post_process6.call(this, view, frag, opts);
 }
-async function post_process10(view, frag, opts = {}) {
+async function post_process6(view, frag, opts = {}) {
   const container = frag.querySelector(".sc-list");
   const overlay_container = frag.querySelector(".sc-overlay");
   const render_filter_settings = async () => {
@@ -12104,8 +9910,69 @@ async function post_process10(view, frag, opts = {}) {
   return frag;
 }
 
+// node_modules/smart-entities/components/result.js
+async function build_html4(result, opts = {}) {
+  const item = result.item;
+  const score = result.score;
+  const expanded_view = item.env.settings.expanded_view;
+  return `<div class="temp-container">
+    <div
+      class="sc-result${expanded_view ? "" : " sc-collapsed"}"
+      data-path="${item.path.replace(/"/g, "&quot;")}"
+      data-link="${item.link?.replace(/"/g, "&quot;") || ""}"
+      data-collection="${item.collection_key}"
+      data-score="${score}"
+      draggable="true"
+    >
+      <span class="header">
+        ${this.get_icon_html("right-triangle")}
+        <a class="sc-result-file-title" href="#" title="${item.path.replace(/"/g, "&quot;")}" draggable="true">
+          <small>${[score?.toFixed(2), item.name].join(" | ")}</small>
+        </a>
+      </span>
+      <ul draggable="true">
+        <li class="sc-result-file-title" title="${item.path.replace(/"/g, "&quot;")}" data-collection="${item.collection_key}" data-key="${item.key}"></li>
+      </ul>
+    </div>
+  </div>`;
+}
+async function render9(result, opts = {}) {
+  let html = await build_html4.call(this, result, opts);
+  const frag = this.create_doc_fragment(html);
+  return await post_process7.call(this, result, frag, opts);
+}
+async function post_process7(result, frag, opts = {}) {
+  const search_result = frag.querySelector(".sc-result");
+  const filter_settings = result.item.env.settings.smart_view_filter;
+  if (!filter_settings.render_markdown) search_result.classList.add("sc-result-plaintext");
+  if (typeof opts.add_result_listeners === "function") opts.add_result_listeners(search_result);
+  if (!filter_settings.expanded_view) return search_result;
+  const li = search_result.querySelector("li");
+  const entity = result.item;
+  if (entity) {
+    await entity.render_item(li, opts);
+  } else {
+    li.innerHTML = "<p>Entity not found.</p>";
+  }
+  return search_result;
+}
+
+// node_modules/smart-entities/components/results.js
+async function build_html5(results, opts = {}) {
+  return ``;
+}
+async function render10(results, opts = {}) {
+  const html = await build_html5.call(this, results, opts);
+  const frag = this.create_doc_fragment(html);
+  const result_frags = await Promise.all(results.map((result) => {
+    return render9.call(this, result, { ...opts });
+  }));
+  result_frags.forEach((result_frag) => frag.appendChild(result_frag));
+  return frag;
+}
+
 // src/components/lookup.js
-async function build_html8(collection, opts = {}) {
+async function build_html6(collection, opts = {}) {
   return `<div id="sc-lookup-view">
     <div class="sc-top-bar">
       <button class="sc-fold-toggle">${this.get_icon_html(collection.settings.expanded_view ? "fold-vertical" : "unfold-vertical")}</button>
@@ -12131,18 +9998,19 @@ async function build_html8(collection, opts = {}) {
     </div>
   </div>`;
 }
-async function render14(collection, opts = {}) {
-  let html = await build_html8.call(this, collection, opts);
+async function render11(collection, opts = {}) {
+  let html = await build_html6.call(this, collection, opts);
   const frag = this.create_doc_fragment(html);
-  return await post_process11.call(this, collection, frag, opts);
+  return await post_process8.call(this, collection, frag, opts);
 }
-async function post_process11(collection, frag, opts = {}) {
+async function post_process8(collection, frag, opts = {}) {
   const query_input = frag.querySelector("#query");
   const results_container = frag.querySelector(".sc-list");
   const render_lookup = async (query, results_container2) => {
+    console.log("render_lookup", query);
     const results = await collection.lookup({ hypotheticals: [query] });
     results_container2.innerHTML = "";
-    const results_frag = await render9.call(this, results, opts);
+    const results_frag = await render10.call(this, results, opts);
     Array.from(results_frag.children).forEach((elm) => results_container2.appendChild(elm));
   };
   let timeout;
@@ -12187,169 +10055,10 @@ async function post_process11(collection, frag, opts = {}) {
 }
 
 // node_modules/smart-sources/adapters/data/ajson_multi_file.js
-var class_to_collection_key2 = {
-  "SmartSource": "smart_sources",
-  "SmartNote": "smart_sources",
-  // DEPRECATED
-  "SmartBlock": "smart_blocks",
-  "SmartDirectory": "smart_directories"
-};
 var AjsonMultiFileSourcesDataAdapter = class extends AjsonMultiFileCollectionDataAdapter {
   ItemDataAdapter = AjsonMultiFileSourceDataAdapter;
 };
 var AjsonMultiFileSourceDataAdapter = class extends AjsonMultiFileItemDataAdapter {
-  async load() {
-    const raw_data = await this._read_item_file();
-    if (!raw_data) {
-      this.item.queue_import();
-      return;
-    }
-    const { final_states, rewrite_needed } = this._parse(raw_data);
-    const source_data = final_states[this.item.key];
-    if (!source_data && !this.item.deleted) {
-      this.item.queue_import();
-      if (rewrite_needed) {
-        await this._rewrite_minimal_file_for_multi(final_states);
-      }
-      return;
-    }
-    if (source_data) {
-      this.item.data = source_data;
-      this.item._queue_load = false;
-      this.item.loaded_at = Date.now();
-    } else {
-      this.item.deleted = true;
-      this.item._queue_load = false;
-    }
-    const block_collection = this.item.env.smart_blocks;
-    for (const [key, data] of Object.entries(final_states)) {
-      if (key === this.item.key) continue;
-      const existing_block = block_collection.get(key);
-      if (data) {
-        let block = existing_block;
-        if (!block) {
-          const BlockType = block_collection.item_type;
-          block = new BlockType(this.item.env, data);
-          block.data.key = key;
-          block_collection.set(block);
-        } else {
-          block.data = data;
-        }
-        block._queue_load = false;
-        block.loaded_at = Date.now();
-      } else {
-        if (existing_block) block_collection.delete_item(key);
-      }
-    }
-    if (rewrite_needed) {
-      await this._rewrite_minimal_file_for_multi(final_states);
-    }
-  }
-  async save() {
-    const data_path = this.get_data_path();
-    const dir = this.collection_adapter.collection.data_dir;
-    if (!await this.fs.exists(dir)) {
-      await this.fs.mkdir(dir);
-    }
-    const lines = [];
-    if (this.item._queue_save) {
-      const source_line = this._build_ajson_line(this.item, this.item.deleted ? null : this.item.data);
-      lines.push(source_line);
-    }
-    for (const block of this.item.blocks) {
-      if (block._queue_save) {
-        const block_line = this._build_ajson_line(block, block.deleted ? null : block.data);
-        lines.push(block_line);
-      }
-    }
-    if (lines.length > 0) {
-      const to_append = "\n" + lines.join("\n");
-      await this.fs.append(data_path, to_append);
-      this.item._queue_save = false;
-      for (const block of this.item.blocks) {
-        if (block._queue_save) {
-          block._queue_save = false;
-        }
-      }
-    }
-  }
-  async delete() {
-    const data_path = this.get_data_path();
-    const ajson_line = this._build_ajson_line(this.item, null);
-    await this.fs.append(data_path, "\n" + ajson_line);
-    this.item.collection.delete_item(this.item.key);
-  }
-  _parse(ajson) {
-    const final_states = {};
-    if (!ajson.length) return { final_states, rewrite_needed: false };
-    ajson = ajson.trim();
-    ajson = this._make_backwards_compatible_with_trailing_comma_format(ajson);
-    const original_line_count = ajson.split("\n").length;
-    let json_str;
-    try {
-      json_str = "{" + ajson.slice(0, -1) + "}";
-    } catch (e) {
-      console.warn("Error preparing JSON string:", e);
-      return { final_states, rewrite_needed: false };
-    }
-    let changed = false;
-    let data = {};
-    try {
-      data = JSON.parse(json_str);
-    } catch (e) {
-      if (ajson.split("\n").some((line) => !line.endsWith(","))) {
-        console.warn("fixing trailing comma error");
-        ajson = ajson.split("\n").map((line) => line.endsWith(",") ? line : line + ",").join("\n");
-        return this._parse(ajson);
-      }
-      console.warn("Error parsing multi-line JSON:", e);
-      console.warn(this.item.key);
-      return { final_states, rewrite_needed: true };
-    }
-    for (const [ajson_key, value] of Object.entries(data)) {
-      const { new_ajson_key, changed: changed_in_this_loop } = this._rewrite_legacy_ajson_keys(ajson_key);
-      const item_key = new_ajson_key.split(":").slice(1).join(":");
-      final_states[item_key] = value;
-      changed = changed || changed_in_this_loop;
-    }
-    const rewrite_needed = changed || original_line_count > Object.keys(final_states).length;
-    return { final_states, rewrite_needed };
-  }
-  async _rewrite_minimal_file_for_multi(final_states) {
-    const data_path = this.get_data_path();
-    const lines = [];
-    for (const [key, data] of Object.entries(final_states)) {
-      if (data !== null) {
-        let item;
-        if (key === this.item.key) {
-          item = this.item;
-        } else {
-          item = this.item.env.smart_blocks.get(key);
-        }
-        if (!item) {
-          const collection_key = this._guess_collection_key_from_data(data);
-          lines.push(this._make_ajson_line_for_arbitrary_key(key, data, collection_key));
-        } else {
-          lines.push(this._build_ajson_line(item, data));
-        }
-      }
-    }
-    if (lines.length) {
-      await this.fs.write(data_path, lines.join("\n"));
-    } else {
-      console.warn("No active items remain, removing file", data_path);
-    }
-  }
-  _make_ajson_line_for_arbitrary_key(key, data, collection_key = "smart_sources") {
-    const data_value = data === null ? "null" : JSON.stringify(data);
-    return `${JSON.stringify(`${collection_key}:${key}`)}: ${data_value},`;
-  }
-  _guess_collection_key_from_data(data) {
-    if (data?.class_name && class_to_collection_key2[data.class_name]) {
-      return class_to_collection_key2[data.class_name];
-    }
-    return "smart_sources";
-  }
 };
 
 // node_modules/smart-chat-model/node_modules/smart-model/smart_model.js
@@ -13689,9 +11398,11 @@ var SmartChatModelRequestAdapter = class {
       max_tokens: this.max_tokens,
       temperature: this.temperature,
       stream: streaming,
-      ...this.tools && { tools: this._transform_tools_to_openai() },
-      ...this._req.tool_choice && { tool_choice: this._req.tool_choice }
+      ...this.tools && { tools: this._transform_tools_to_openai() }
     };
+    if (body.tools?.length > 0 && this.tool_choice !== "none") {
+      body.tool_choice = this.tool_choice;
+    }
     if (this.model.startsWith("o1-")) {
       body.messages = body.messages.filter((m) => m.role !== "system");
       delete body.temperature;
@@ -14707,7 +12418,7 @@ var SmartChatModelGeminiRequestAdapter = class extends SmartChatModelRequestAdap
       ]
     };
     if (this.tools) gemini_body.tools = this._transform_tools_to_gemini();
-    if (this._req.tool_choice) gemini_body.tool_config = this._transform_tool_choice_to_gemini();
+    if (gemini_body.tools && this.tool_choice !== "none") gemini_body.tool_config = this._transform_tool_choice_to_gemini();
     return {
       url: streaming ? this.adapter.endpoint_streaming : this.adapter.endpoint,
       method: "POST",
@@ -15703,1409 +13414,8 @@ var SmartHttpObsidianResponseAdapter = class extends SmartHttpResponseAdapter3 {
 // src/smart_env.config.js
 var import_obsidian9 = require("obsidian");
 
-// node_modules/smart-directories/node_modules/smart-entities/utils/sort_by_score.js
-function sort_by_score3(a, b) {
-  const epsilon = 1e-9;
-  const score_diff = a.score - b.score;
-  if (Math.abs(score_diff) < epsilon) return 0;
-  return score_diff > 0 ? -1 : 1;
-}
-function sort_by_score_descending(a, b) {
-  return sort_by_score3(a, b);
-}
-function sort_by_score_ascending(a, b) {
-  return sort_by_score3(a, b) * -1;
-}
-
-// node_modules/smart-directories/node_modules/smart-entities/adapters/_adapter.js
-var EntitiesVectorAdapter3 = class {
-  /**
-   * @constructor
-   * @param {Object} collection - The collection (SmartEntities or derived class) instance.
-   */
-  constructor(collection) {
-    this.collection = collection;
-  }
-  /**
-   * Find the nearest entities to the given vector.
-   * @async
-   * @param {number[]} vec - The reference vector.
-   * @param {Object} [filter={}] - Optional filters (limit, exclude, etc.)
-   * @returns {Promise<Array<{item:Object, score:number}>>} Array of results sorted by score descending.
-   * @throws {Error} Not implemented by default.
-   */
-  async nearest(vec, filter = {}) {
-    throw new Error("EntitiesVectorAdapter.nearest() not implemented");
-  }
-  /**
-   * Find the furthest entities from the given vector.
-   * @async
-   * @param {number[]} vec - The reference vector.
-   * @param {Object} [filter={}] - Optional filters (limit, exclude, etc.)
-   * @returns {Promise<Array<{item:Object, score:number}>>} Array of results sorted by score ascending (furthest).
-   * @throws {Error} Not implemented by default.
-   */
-  async furthest(vec, filter = {}) {
-    throw new Error("EntitiesVectorAdapter.furthest() not implemented");
-  }
-  /**
-   * Embed a batch of entities.
-   * @async
-   * @param {Object[]} entities - Array of entity instances to embed.
-   * @returns {Promise<void>}
-   * @throws {Error} Not implemented by default.
-   */
-  async embed_batch(entities) {
-    throw new Error("EntitiesVectorAdapter.embed_batch() not implemented");
-  }
-  /**
-   * Process a queue of entities waiting to be embedded.
-   * Typically, this will call embed_batch in batches and update entities.
-   * @async
-   * @param {Object[]} embed_queue - Array of entities to embed.
-   * @returns {Promise<void>}
-   * @throws {Error} Not implemented by default.
-   */
-  async process_embed_queue(embed_queue) {
-    throw new Error("EntitiesVectorAdapter.process_embed_queue() not implemented");
-  }
-};
-var EntityVectorAdapter3 = class {
-  /**
-   * @constructor
-   * @param {Object} item - The SmartEntity instance that this adapter is associated with.
-   */
-  constructor(item) {
-    this.item = item;
-  }
-  /**
-   * Retrieve the current vector embedding for this entity.
-   * @async
-   * @returns {Promise<number[]|undefined>} The entity's vector or undefined if not set.
-   * @throws {Error} Not implemented by default.
-   */
-  async get_vec() {
-    throw new Error("EntityVectorAdapter.get_vec() not implemented");
-  }
-  /**
-   * Store/update the vector embedding for this entity.
-   * @async
-   * @param {number[]} vec - The vector to set.
-   * @returns {Promise<void>}
-   * @throws {Error} Not implemented by default.
-   */
-  async set_vec(vec) {
-    throw new Error("EntityVectorAdapter.set_vec() not implemented");
-  }
-  /**
-   * Delete/remove the vector embedding for this entity.
-   * @async
-   * @returns {Promise<void>}
-   * @throws {Error} Not implemented by default.
-   */
-  async delete_vec() {
-    throw new Error("EntityVectorAdapter.delete_vec() not implemented");
-  }
-};
-
-// node_modules/smart-directories/node_modules/smart-entities/cos_sim.js
-function cos_sim3(vector1, vector2) {
-  if (vector1.length !== vector2.length) {
-    throw new Error("Vectors must have the same length");
-  }
-  let dot_product = 0;
-  let magnitude1 = 0;
-  let magnitude2 = 0;
-  const epsilon = 1e-8;
-  for (let i = 0; i < vector1.length; i++) {
-    dot_product += vector1[i] * vector2[i];
-    magnitude1 += vector1[i] * vector1[i];
-    magnitude2 += vector2[i] * vector2[i];
-  }
-  magnitude1 = Math.sqrt(magnitude1);
-  magnitude2 = Math.sqrt(magnitude2);
-  if (magnitude1 < epsilon || magnitude2 < epsilon) {
-    return 0;
-  }
-  return dot_product / (magnitude1 * magnitude2);
-}
-
-// node_modules/smart-directories/node_modules/smart-entities/top_acc.js
-function results_acc3(_acc, result, ct = 10) {
-  if (_acc.results.size < ct) {
-    _acc.results.add(result);
-  } else if (result.score > _acc.min) {
-    _acc.results.add(result);
-    _acc.results.delete(_acc.minResult);
-    _acc.minResult = Array.from(_acc.results).reduce((min, curr) => curr.score < min.score ? curr : min);
-    _acc.min = _acc.minResult.score;
-  }
-}
-function furthest_acc3(_acc, result, ct = 10) {
-  if (_acc.results.size < ct) {
-    _acc.results.add(result);
-  } else if (result.score < _acc.max) {
-    _acc.results.add(result);
-    _acc.results.delete(_acc.maxResult);
-    _acc.maxResult = Array.from(_acc.results).reduce((max, curr) => curr.score > max.score ? curr : max);
-    _acc.max = _acc.maxResult.score;
-  }
-}
-
-// node_modules/smart-directories/node_modules/smart-entities/adapters/default.js
-var DefaultEntitiesVectorAdapter3 = class extends EntitiesVectorAdapter3 {
-  constructor(collection) {
-    super(collection);
-    this._reset_embed_queue_stats();
-  }
-  /**
-   * Find the nearest entities to the given vector.
-   * @async
-   * @param {number[]} vec - The reference vector.
-   * @param {Object} [filter={}] - Optional filters (limit, exclude, etc.)
-   * @returns {Promise<Array<{item:Object, score:number}>>} Array of results sorted by score descending.
-   */
-  async nearest(vec, filter = {}) {
-    if (!vec || !Array.isArray(vec)) {
-      throw new Error("Invalid vector input to nearest()");
-    }
-    const {
-      limit = 50
-      // TODO: default configured in settings
-    } = filter;
-    const nearest = this.collection.filter(filter).reduce((acc, item) => {
-      if (!item.vec) return acc;
-      const result = { item, score: cos_sim3(vec, item.vec) };
-      results_acc3(acc, result, limit);
-      return acc;
-    }, { min: 0, results: /* @__PURE__ */ new Set() });
-    return Array.from(nearest.results);
-  }
-  /**
-   * Find the furthest entities from the given vector.
-   * @async
-   * @param {number[]} vec - The reference vector.
-   * @param {Object} [filter={}] - Optional filters (limit, exclude, etc.)
-   * @returns {Promise<Array<{item:Object, score:number}>>} Array of results sorted by score ascending (furthest).
-   */
-  async furthest(vec, filter = {}) {
-    if (!vec || !Array.isArray(vec)) {
-      throw new Error("Invalid vector input to furthest()");
-    }
-    const {
-      limit = 50
-      // TODO: default configured in settings
-    } = filter;
-    const furthest = this.collection.filter(filter).reduce((acc, item) => {
-      if (!item.vec) return acc;
-      const result = { item, score: cos_sim3(vec, item.vec) };
-      furthest_acc3(acc, result, limit);
-      return acc;
-    }, { max: 0, results: /* @__PURE__ */ new Set() });
-    return Array.from(furthest.results);
-  }
-  /**
-   * Embed a batch of entities.
-   * @async
-   * @param {Object[]} entities - Array of entity instances to embed.
-   * @returns {Promise<void>}
-   */
-  async embed_batch(entities) {
-    if (!this.collection.embed_model) {
-      throw new Error("No embed_model found in collection for embedding");
-    }
-    await Promise.all(entities.map((e) => e.get_embed_input()));
-    const embeddings = await this.collection.embed_model.embed_batch(entities);
-    embeddings.forEach((emb, i) => {
-      const entity = entities[i];
-      entity.vec = emb.vec;
-      if (emb.tokens !== void 0) entity.tokens = emb.tokens;
-    });
-  }
-  /**
-   * Process a queue of entities waiting to be embedded.
-   * Typically, this will call embed_batch in batches and update entities.
-   * @async
-   * @returns {Promise<void>}
-   */
-  async process_embed_queue() {
-    const embed_queue = this.collection.embed_queue;
-    this._reset_embed_queue_stats();
-    if (this.collection.embed_model_key === "None") {
-      console.log(`Smart Connections: No active embedding model for ${this.collection.collection_key}, skipping embedding`);
-      return;
-    }
-    if (!this.collection.embed_model) {
-      console.log(`Smart Connections: No active embedding model for ${this.collection.collection_key}, skipping embedding`);
-      return;
-    }
-    const datetime_start = /* @__PURE__ */ new Date();
-    if (!embed_queue.length) {
-      return console.log(`Smart Connections: No items in ${this.collection.collection_key} embed queue`);
-    }
-    console.log(`Time spent getting embed queue: ${(/* @__PURE__ */ new Date()).getTime() - datetime_start.getTime()}ms`);
-    console.log(`Processing ${this.collection.collection_key} embed queue: ${embed_queue.length} items`);
-    for (let i = 0; i < embed_queue.length; i += this.collection.embed_model.batch_size) {
-      if (this.collection.is_queue_halted) {
-        this.collection.is_queue_halted = false;
-        break;
-      }
-      const batch = embed_queue.slice(i, i + this.collection.embed_model.batch_size);
-      await Promise.all(batch.map((item) => item.get_embed_input()));
-      try {
-        const start_time = Date.now();
-        await this.embed_batch(batch);
-        this.collection.total_time += Date.now() - start_time;
-      } catch (e) {
-        if (e && e.message && e.message.includes("API key not set")) {
-          this.halt_embed_queue_processing(`API key not set for ${this.collection.embed_model_key}
-Please set the API key in the settings.`);
-        }
-        console.error(e);
-        console.error(`Error processing ${this.collection.collection_key} embed queue: ` + JSON.stringify(e || {}, null, 2));
-      }
-      batch.forEach((item) => {
-        item.embed_hash = item.read_hash;
-      });
-      this.collection.embedded_total += batch.length;
-      this.collection.total_tokens += batch.reduce((acc, item) => acc + (item.tokens || 0), 0);
-      this._show_embed_progress_notice(embed_queue.length);
-      if (this.collection.embedded_total - this.collection.last_save_total > 1e3) {
-        this.collection.last_save_total = this.collection.embedded_total;
-        await this.collection.process_save_queue();
-      }
-    }
-    this._show_embed_completion_notice(embed_queue.length);
-    this.collection.process_save_queue();
-  }
-  /**
-   * Displays the embedding progress notice.
-   * @private
-   * @returns {void}
-   */
-  _show_embed_progress_notice() {
-    if (this.embedded_total - this.last_notice_embedded_total < 100) return;
-    this.last_notice_embedded_total = this.embedded_total;
-    const pause_btn = { text: "Pause", callback: this.halt_embed_queue_processing.bind(this), stay_open: true };
-    this.notices?.show(
-      "embedding_progress",
-      [
-        `Making Smart Connections...`,
-        `Embedding progress: ${this.embedded_total} / ${this.embed_queue.length}`,
-        `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
-      ],
-      {
-        timeout: 0,
-        button: pause_btn
-      }
-    );
-  }
-  /**
-   * Displays the embedding completion notice.
-   * @private
-   * @returns {void}
-   */
-  _show_embed_completion_notice() {
-    this.notices?.remove("embedding_progress");
-    this.notices?.show("embedding_complete", [
-      `Embedding complete.`,
-      `${this.embedded_total} entities embedded.`,
-      `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
-    ], { timeout: 1e4 });
-  }
-  /**
-   * Halts the embed queue processing.
-   * @param {string|null} msg - Optional message.
-   */
-  halt_embed_queue_processing(msg = null) {
-    this.is_queue_halted = true;
-    console.log("Embed queue processing halted");
-    this.notices?.remove("embedding_progress");
-    this.notices?.show(
-      "embedding_paused",
-      [
-        msg || `Embedding paused.`,
-        `Progress: ${this.embedded_total} / ${this.embed_queue.length}`,
-        `${this._calculate_embed_tokens_per_second()} tokens/sec using ${this.embed_model_key}`
-      ],
-      {
-        timeout: 0,
-        button: { text: "Resume", callback: () => this.resume_embed_queue_processing(100) }
-      }
-    );
-  }
-  /**
-   * Resumes the embed queue processing after a delay.
-   * @param {number} [delay=0] - The delay in milliseconds before resuming.
-   * @returns {void}
-   */
-  resume_embed_queue_processing(delay = 0) {
-    console.log("resume_embed_queue_processing");
-    this.notices?.remove("embedding_paused");
-    setTimeout(() => {
-      this.embedded_total = 0;
-      this.process_embed_queue();
-    }, delay);
-  }
-  /**
-   * Calculates the number of tokens processed per second.
-   * @private
-   * @returns {number} Tokens per second.
-   */
-  _calculate_embed_tokens_per_second() {
-    const elapsed_time = this.total_time / 1e3;
-    return Math.round(this.total_tokens / elapsed_time);
-  }
-  /**
-   * Resets the statistics related to embed queue processing.
-   * @private
-   * @returns {void}
-   */
-  _reset_embed_queue_stats() {
-    this._embed_queue = [];
-    this.embedded_total = 0;
-    this.is_queue_halted = false;
-    this.last_save_total = 0;
-    this.last_notice_embedded_total = 0;
-    this.total_tokens = 0;
-    this.total_time = 0;
-  }
-  get notices() {
-    return this.collection.notices;
-  }
-};
-var DefaultEntityVectorAdapter3 = class extends EntityVectorAdapter3 {
-  get data() {
-    return this.item.data;
-  }
-  /**
-   * Retrieve the current vector embedding for this entity.
-   * @async
-   * @returns {Promise<number[]|undefined>} The entity's vector or undefined if not set.
-   */
-  async get_vec() {
-    return this.vec;
-  }
-  /**
-   * Store/update the vector embedding for this entity.
-   * @async
-   * @param {number[]} vec - The vector to set.
-   * @returns {Promise<void>}
-   */
-  async set_vec(vec) {
-    this.vec = vec;
-  }
-  /**
-   * Delete/remove the vector embedding for this entity.
-   * @async
-   * @returns {Promise<void>}
-   */
-  async delete_vec() {
-    if (this.item.data?.embeddings?.[this.item.embed_model_key]) {
-      delete this.item.data.embeddings[this.item.embed_model_key].vec;
-    }
-  }
-  // adds synchronous get/set for vec
-  get vec() {
-    return this.item.data?.embeddings?.[this.item.embed_model_key]?.vec;
-  }
-  set vec(vec) {
-    if (!this.item.data.embeddings) {
-      this.item.data.embeddings = {};
-    }
-    if (!this.item.data.embeddings[this.item.embed_model_key]) {
-      this.item.data.embeddings[this.item.embed_model_key] = {};
-    }
-    this.item.data.embeddings[this.item.embed_model_key].vec = vec;
-  }
-};
-
-// node_modules/smart-directories/node_modules/smart-entities/components/entity.js
-async function render15(entity, opts = {}) {
-  let markdown;
-  if (should_render_embed3(entity)) markdown = entity.embed_link;
-  else markdown = process_for_rendering3(await entity.read());
-  let frag;
-  if (entity.env.settings.smart_view_filter.render_markdown) frag = await this.render_markdown(markdown, entity);
-  else frag = this.create_doc_fragment(markdown);
-  return await post_process12.call(this, entity, frag, opts);
-}
-function process_for_rendering3(content) {
-  if (content.includes("```dataview")) content = content.replace(/```dataview/g, "```\\dataview");
-  if (content.includes("![[")) content = content.replace(/\!\[\[/g, "! [[");
-  return content;
-}
-async function post_process12(scope, frag, opts = {}) {
-  return frag;
-}
-function should_render_embed3(entity) {
-  if (!entity) return false;
-  if (entity.is_canvas || entity.is_excalidraw) return true;
-  return false;
-}
-
-// node_modules/smart-directories/node_modules/smart-entities/smart_entity.js
-var SmartEntity3 = class extends CollectionItem {
-  /**
-   * Creates an instance of SmartEntity.
-   * @constructor
-   * @param {Object} env - The environment instance.
-   * @param {Object} [opts={}] - Configuration options.
-   */
-  constructor(env, opts = {}) {
-    super(env, opts);
-    this.entity_adapter = new DefaultEntityVectorAdapter3(this);
-  }
-  /**
-   * Provides default values for a SmartEntity instance.
-   * @static
-   * @readonly
-   * @returns {Object} The default values.
-   */
-  static get defaults() {
-    return {
-      data: {
-        path: null,
-        embeddings: {},
-        last_embed: {
-          hash: null
-        }
-      }
-    };
-  }
-  /**
-   * Initializes the SmartEntity instance.
-   * Checks if the entity has a vector and if it matches the model dimensions.
-   * If not, it queues an embed.
-   * Removes embeddings for inactive models.
-   * @returns {void}
-   */
-  init() {
-    super.init();
-    if (!this.vec) {
-      this.queue_embed();
-    } else if (this.vec.length !== this.embed_model.model_config.dims) {
-      this.vec = null;
-      this.queue_embed();
-    }
-    Object.entries(this.data.embeddings || {}).forEach(([model, embedding]) => {
-      if (model !== this.embed_model_key) {
-        this.data.embeddings[model] = null;
-        delete this.data.embeddings[model];
-      }
-    });
-  }
-  /**
-   * Queues the entity for embedding.
-   * @returns {void}
-   */
-  queue_embed() {
-    this._queue_embed = true;
-  }
-  /**
-   * Finds the nearest entities to this entity.
-   * @param {Object} [filter={}] - Optional filters to apply.
-   * @returns {Array<{item:Object, score:number}>} An array of result objects with score and item.
-   */
-  async nearest(filter = {}) {
-    return await this.collection.nearest_to(this, filter);
-  }
-  /**
-   * Prepares the input for embedding.
-   * @async
-   * @param {string} [content=null] - Optional content to use instead of calling subsequent read()
-   * @returns {Promise<void>} Should be overridden in child classes.
-   */
-  async get_embed_input(content = null) {
-  }
-  // override in child class
-  /**
-   * Prepares filter options for finding connections based on parameters.
-   * @param {Object} [params={}] - Parameters for finding connections.
-   * @returns {Object} The prepared filter options.
-   */
-  prepare_find_connections_filter_opts(params = {}) {
-    const opts = {
-      ...this.env.settings.smart_view_filter || {},
-      ...params,
-      entity: this
-    };
-    if (opts.filter?.limit) delete opts.filter.limit;
-    if (opts.limit) delete opts.limit;
-    return opts;
-  }
-  /**
-   * Finds connections relevant to this entity based on provided parameters.
-   * @async
-   * @param {Object} [params={}] - Parameters for finding connections.
-   * @returns {Array<{item:Object, score:number}>} An array of result objects with score and item.
-   */
-  async find_connections(params = {}) {
-    const filter_opts = this.prepare_find_connections_filter_opts(params);
-    const limit = params.filter?.limit || params.limit || this.env.settings.smart_view_filter?.results_limit || 10;
-    const cache_key = this.key + JSON.stringify(params);
-    if (!this.env.connections_cache) this.env.connections_cache = {};
-    if (!this.env.connections_cache[cache_key]) {
-      const connections = (await this.nearest(filter_opts)).sort(sort_by_score3).slice(0, limit);
-      this.connections_to_cache(cache_key, connections);
-    }
-    return this.connections_from_cache(cache_key);
-  }
-  /**
-   * Retrieves connections from the cache based on the cache key.
-   * @param {string} cache_key - The cache key.
-   * @returns {Array<{item:Object, score:number}>} The cached connections.
-   */
-  connections_from_cache(cache_key) {
-    return this.env.connections_cache[cache_key];
-  }
-  /**
-   * Stores connections in the cache with the provided cache key.
-   * @param {string} cache_key - The cache key.
-   * @param {Array<{item:Object, score:number}>} connections - The connections to cache.
-   * @returns {void}
-   */
-  connections_to_cache(cache_key, connections) {
-    this.env.connections_cache[cache_key] = connections;
-  }
-  get read_hash() {
-    return this.data.last_read?.hash;
-  }
-  set read_hash(hash) {
-    if (!this.data.last_read) this.data.last_read = {};
-    this.data.last_read.hash = hash;
-  }
-  get embed_hash() {
-    return this.data.last_embed?.hash;
-  }
-  set embed_hash(hash) {
-    if (!this.data.last_embed) this.data.last_embed = {};
-    this.data.last_embed.hash = hash;
-  }
-  /**
-   * Gets the embed link for the entity.
-   * @readonly
-   * @returns {string} The embed link.
-   */
-  get embed_link() {
-    return `![[${this.path}]]`;
-  }
-  /**
-   * Gets the key of the embedding model.
-   * @readonly
-   * @returns {string} The embedding model key.
-   */
-  get embed_model_key() {
-    return this.collection.embed_model_key;
-  }
-  /**
-   * Gets the name of the entity, formatted based on settings.
-   * @readonly
-   * @returns {string} The entity name.
-   */
-  get name() {
-    return (!this.should_show_full_path ? this.path.split("/").pop() : this.path.split("/").join(" > ")).split("#").join(" > ").replace(".md", "");
-  }
-  /**
-   * Determines whether to show the full path of the entity.
-   * @readonly
-   * @returns {boolean} True if the full path should be shown, false otherwise.
-   */
-  get should_show_full_path() {
-    return this.env.settings.smart_view_filter?.show_full_path;
-  }
-  /**
-   * @deprecated Use embed_model instead.
-   * @readonly
-   * @returns {Object} The smart embedding model.
-   */
-  get smart_embed() {
-    return this.embed_model;
-  }
-  /**
-   * Gets the embedding model instance from the collection.
-   * @readonly
-   * @returns {Object} The embedding model instance.
-   */
-  get embed_model() {
-    return this.collection.embed_model;
-  }
-  /**
-   * Gets the number of tokens associated with the entity's embedding.
-   * @readonly
-   * @returns {number|undefined} The number of tokens, or undefined if not set.
-   */
-  get tokens() {
-    return this.data.embeddings[this.embed_model_key]?.tokens;
-  }
-  /**
-   * Determines if the entity should be embedded.
-   * @readonly
-   * @returns {boolean} True if no vector is set, false otherwise.
-   */
-  get should_embed() {
-    return !this.vec && this.size > (this.settings?.min_chars || 300);
-  }
-  /**
-   * Sets the error for the embedding model.
-   * @param {string} error - The error message.
-   */
-  set error(error) {
-    this.data.embeddings[this.embed_model_key].error = error;
-  }
-  /**
-   * Sets the number of tokens for the embedding.
-   * @param {number} tokens - The number of tokens.
-   */
-  set tokens(tokens) {
-    if (!this.data.embeddings) this.data.embeddings = {};
-    if (!this.data.embeddings[this.embed_model_key]) this.data.embeddings[this.embed_model_key] = {};
-    this.data.embeddings[this.embed_model_key].tokens = tokens;
-  }
-  /**
-   * Gets the vector representation from the entity adapter.
-   * @readonly
-   * @returns {Array<number>|undefined} The vector or undefined if not set.
-   */
-  get vec() {
-    return this.entity_adapter.vec;
-  }
-  /**
-   * Sets the vector representation in the entity adapter.
-   * @param {Array<number>} vec - The vector to set.
-   */
-  set vec(vec) {
-    this.entity_adapter.vec = vec;
-    this._queue_embed = false;
-    this._embed_input = null;
-    this.queue_save();
-  }
-  /**
-   * Removes all embeddings from the entity.
-   * @returns {void}
-   */
-  remove_embeddings() {
-    this.data.embeddings = null;
-    this.queue_save();
-  }
-  /**
-   * Retrieves the key of the entity.
-   * @returns {string} The entity key.
-   */
-  get_key() {
-    return this.data.key || this.data.path;
-  }
-  /**
-   * Retrieves the path of the entity.
-   * @readonly
-   * @returns {string|null} The entity path.
-   */
-  get path() {
-    return this.data.path;
-  }
-  /**
-   * Gets the component responsible for rendering the entity.
-   * @readonly
-   * @returns {Function} The render function for the entity component.
-   */
-  get component() {
-    return render15;
-  }
-  // COMPONENTS 2024-11-27
-  get connections_component() {
-    if (!this._connections_component) this._connections_component = this.components?.connections?.bind(this.smart_view);
-    return this._connections_component;
-  }
-  async render_connections(container, opts = {}) {
-    if (container) container.innerHTML = "Loading connections...";
-    const frag = await this.env.render_component("connections", this, opts);
-    if (container) {
-      container.innerHTML = "";
-      container.appendChild(frag);
-    }
-    return frag;
-  }
-};
-
-// node_modules/smart-directories/node_modules/smart-entities/smart_entities.js
-var SmartEntities3 = class extends Collection {
-  /**
-   * Creates an instance of SmartEntities.
-   * @constructor
-   * @param {Object} env - The environment instance.
-   * @param {Object} opts - Configuration options.
-   */
-  constructor(env, opts) {
-    super(env, opts);
-    this.entities_vector_adapter = new DefaultEntitiesVectorAdapter3(this);
-    this.model_instance_id = null;
-    this._embed_queue = [];
-  }
-  /**
-   * Initializes the SmartEntities instance by loading embeddings.
-   * @async
-   * @returns {Promise<void>}
-   */
-  async init() {
-    await super.init();
-    await this.load_smart_embed();
-    if (!this.embed_model) {
-      console.log(`SmartEmbed not loaded for ${this.collection_key}. Continuing without embedding capabilities.`);
-    }
-  }
-  /**
-   * Loads the smart embedding model.
-   * @async
-   * @returns {Promise<void>}
-   */
-  async load_smart_embed() {
-    if (this.embed_model_key === "None") return;
-    if (!this.embed_model) return;
-    if (this.embed_model.is_loading) return console.log(`SmartEmbedModel already loading for ${this.embed_model_key}`);
-    if (this.embed_model.is_loaded) return console.log(`SmartEmbedModel already loaded for ${this.embed_model_key}`);
-    try {
-      console.log(`Loading SmartEmbedModel in ${this.collection_key}, current state: ${this.embed_model.state}`);
-      await this.embed_model.load();
-    } catch (e) {
-      console.error(`Error loading SmartEmbedModel for ${this.embed_model.model_key}`);
-      console.error(e);
-    }
-  }
-  /**
-   * Unloads the smart embedding model.
-   * @async
-   * @returns {Promise<void>}
-   */
-  async unload() {
-    if (typeof this.embed_model?.unload === "function") {
-      await this.embed_model.unload();
-      this.embed_model = null;
-    }
-    super.unload();
-  }
-  /**
-   * Gets the key of the embedding model.
-   * @readonly
-   * @returns {string} The embedding model key.
-   */
-  get embed_model_key() {
-    return this.embed_model?.model_key;
-  }
-  /**
-   * Gets or creates the container for smart embeddings in the DOM.
-   * @readonly
-   * @returns {HTMLElement|undefined} The container element or undefined if not available.
-   */
-  get smart_embed_container() {
-    if (!this.model_instance_id) return console.log("model_key not set");
-    const id = this.model_instance_id.replace(/[^a-zA-Z0-9]/g, "_");
-    if (!window.document) return console.log("window.document not available");
-    if (window.document.querySelector(`#${id}`)) return window.document.querySelector(`#${id}`);
-    const container = window.document.createElement("div");
-    container.id = id;
-    window.document.body.appendChild(container);
-    return container;
-  }
-  /**
-   * @deprecated Use embed_model instead.
-   * @readonly
-   * @returns {Object} The smart embedding model.
-   */
-  get smart_embed() {
-    return this.embed_model;
-  }
-  /**
-   * Gets the embedding model instance.
-   * @readonly
-   * @returns {Object|null} The embedding model instance or null if none.
-   */
-  get embed_model() {
-    if (!this.env._embed_model && this.env.opts.modules.smart_embed_model?.class) this.env._embed_model = new this.env.opts.modules.smart_embed_model.class({
-      settings: this.settings.embed_model,
-      adapters: this.env.opts.modules.smart_embed_model?.adapters,
-      re_render_settings: this.re_render_settings.bind(this),
-      reload_model: this.reload_embed_model.bind(this)
-    });
-    return this.env._embed_model;
-  }
-  set embed_model(embed_model) {
-    this.env._embed_model = embed_model;
-  }
-  reload_embed_model() {
-    console.log("reload_embed_model");
-    this.embed_model.unload();
-    this.env._embed_model = null;
-  }
-  re_render_settings() {
-    this.settings_container.innerHTML = "";
-    this.render_settings();
-  }
-  /**
-   * Finds the nearest entities to a given entity.
-   * @async
-   * @param {Object} entity - The reference entity.
-   * @param {Object} [filter={}] - Optional filters to apply.
-   * @returns {Promise<Array<{item:Object, score:number}>>} An array of result objects with score and item.
-   */
-  async nearest_to(entity, filter = {}) {
-    return await this.nearest(entity.vec, filter);
-  }
-  /**
-   * Finds the nearest entities to a vector using the default adapter.
-   * @async
-   * @param {Array<number>} vec - The vector to compare against.
-   * @param {Object} [filter={}] - Optional filters to apply.
-   * @returns {Promise<Array<{item:Object, score:number}>>} An array of result objects with score and item.
-   */
-  async nearest(vec, filter = {}) {
-    if (!vec) return console.warn("nearest: no vec");
-    return await this.entities_vector_adapter.nearest(vec, filter);
-  }
-  /**
-   * Finds the furthest entities from a vector using the default adapter.
-   * @async
-   * @param {Array<number>} vec - The vector to compare against.
-   * @param {Object} [filter={}] - Optional filters to apply.
-   * @returns {Promise<Array<{item:Object, score:number}>>} An array of result objects with score and item.
-   */
-  async furthest(vec, filter = {}) {
-    if (!vec) return console.warn("furthest: no vec");
-    return await this.entities_vector_adapter.furthest(vec, filter);
-  }
-  /**
-   * Gets the file name based on collection key and embedding model key.
-   * @readonly
-   * @returns {string} The constructed file name.
-   */
-  get file_name() {
-    return this.collection_key + "-" + this.embed_model_key.split("/").pop();
-  }
-  /**
-   * Calculates the relevance of an item based on the search filter.
-   * @param {Object} item - The item to calculate relevance for.
-   * @param {Object} search_filter - The search filter containing keywords.
-   * @returns {number} The relevance score:
-   *                   1 if any keyword is found in the item's path,
-   *                   0 otherwise (default relevance for keyword in content).
-   */
-  calculate_relevance(item, search_filter) {
-    if (search_filter.keywords.some((keyword) => item.path?.includes(keyword))) return 1;
-    return 0;
-  }
-  /**
-   * Prepares the filter options by incorporating entity-based filters.
-   * @param {Object} [opts={}] - The filter options.
-   * @param {Object} [opts.entity] - The entity to base the filters on.
-   * @param {string|string[]} [opts.exclude_filter] - Keys or prefixes to exclude.
-   * @param {string|string[]} [opts.include_filter] - Keys or prefixes to include.
-   * @param {boolean} [opts.exclude_inlinks] - Whether to exclude inlinks of the entity.
-   * @param {boolean} [opts.exclude_outlinks] - Whether to exclude outlinks of the entity.
-   * @returns {Object} The modified filter options.
-   */
-  prepare_filter(opts = {}) {
-    const {
-      entity,
-      exclude_filter,
-      include_filter,
-      exclude_inlinks,
-      exclude_outlinks
-    } = opts;
-    if (entity) {
-      if (typeof opts.exclude_key_starts_with_any === "undefined") opts.exclude_key_starts_with_any = [];
-      if (opts.exclude_key_starts_with) {
-        opts.exclude_key_starts_with_any = [
-          opts.exclude_key_starts_with
-        ];
-        delete opts.exclude_key_starts_with;
-      }
-      opts.exclude_key_starts_with_any.push(entity.source_key || entity.key);
-      if (exclude_filter) {
-        if (typeof exclude_filter === "string") opts.exclude_key_starts_with_any.push(exclude_filter);
-        else if (Array.isArray(exclude_filter)) opts.exclude_key_starts_with_any.push(...exclude_filter);
-      }
-      if (include_filter) {
-        if (!Array.isArray(opts.key_starts_with_any)) opts.key_starts_with_any = [];
-        if (typeof include_filter === "string") opts.key_starts_with_any.push(include_filter);
-        else if (Array.isArray(include_filter)) opts.key_starts_with_any.push(...include_filter);
-      }
-      if (exclude_inlinks && this.links?.[entity.path]) {
-        if (!Array.isArray(opts.exclude_key_starts_with_any)) opts.exclude_key_starts_with_any = [];
-        opts.exclude_key_starts_with_any.push(...Object.keys(this.links?.[entity.path] || {}));
-      }
-      if (exclude_outlinks) {
-        if (!Array.isArray(opts.exclude_key_starts_with_any)) opts.exclude_key_starts_with_any = [];
-        opts.exclude_key_starts_with_any.push(...entity.outlinks);
-      }
-    }
-    return opts;
-  }
-  /**
-   * Looks up entities based on hypothetical content.
-   * @async
-   * @param {Object} [params={}] - The parameters for the lookup.
-   * @param {Array<string>} [params.hypotheticals=[]] - The hypothetical content to lookup.
-   * @param {Object} [params.filter] - The filter to use for the lookup.
-   * @param {number} [params.k] - Deprecated: Use `filter.limit` instead.
-   * @returns {Promise<Array<Result>|Object>} The lookup results or an error object.
-   */
-  async lookup(params = {}) {
-    const { hypotheticals = [] } = params;
-    if (!hypotheticals?.length) return { error: "hypotheticals is required" };
-    if (!this.embed_model) return { error: "Embedding search is not enabled." };
-    const hyp_vecs = await this.embed_model.embed_batch(hypotheticals.map((h) => ({ embed_input: h })));
-    const limit = params.filter?.limit || params.k || this.env.settings.lookup_k || 10;
-    if (params.filter?.limit) delete params.filter.limit;
-    const filter = {
-      ...this.env.chats?.current?.scope || {},
-      ...params.filter || {}
-    };
-    const results = await hyp_vecs.reduce(async (acc_promise, embedding, i) => {
-      const acc = await acc_promise;
-      const results2 = await this.nearest(embedding.vec, filter);
-      results2.forEach((result) => {
-        if (!acc[result.item.path] || result.score > acc[result.item.path].score) {
-          acc[result.item.path] = {
-            key: result.item.key,
-            score: result.score,
-            item: result.item,
-            entity: result.item,
-            // DEPRECATED: use item instead
-            hypothetical_i: i
-          };
-        } else {
-          result.score = acc[result.item.path].score;
-        }
-      });
-      return acc;
-    }, Promise.resolve({}));
-    const top_k = Object.values(results).sort(sort_by_score3).slice(0, limit);
-    console.log(`Found and returned ${top_k.length} ${this.collection_key}.`);
-    return top_k;
-  }
-  /**
-   * Gets the configuration for settings.
-   * @readonly
-   * @returns {Object} The settings configuration.
-   */
-  get settings_config() {
-    return settings_config4;
-  }
-  async render_settings(container = this.settings_container, opts = {}) {
-    container = await this.render_collection_settings(container, opts);
-    const embed_model_settings_frag = await this.env.render_component("settings", this.embed_model, opts);
-    container.appendChild(embed_model_settings_frag);
-    return container;
-  }
-  /**
-   * Gets the notices from the environment.
-   * @readonly
-   * @returns {Object} The notices object.
-   */
-  get notices() {
-    return this.env.smart_connections_plugin?.notices || this.env.main?.notices;
-  }
-  /**
-   * Gets the embed queue containing items to be embedded.
-   * @readonly
-   * @returns {Array<Object>} The embed queue.
-   */
-  get embed_queue() {
-    if (!this._embed_queue?.length) this._embed_queue = Object.values(this.items).filter((item) => item._queue_embed && item.should_embed);
-    return this._embed_queue;
-  }
-  /**
-   * Processes the embed queue by delegating to the default vector adapter.
-   * @async
-   * @returns {Promise<void>}
-   */
-  async process_embed_queue() {
-    await this.entities_vector_adapter.process_embed_queue();
-  }
-  /**
-   * Handles changes to the embedding model by reinitializing and processing the load queue.
-   * @async
-   * @returns {Promise<void>}
-   */
-  async embed_model_changed() {
-    await this.unload();
-    await this.init();
-    this.render_settings();
-    await this.process_load_queue();
-  }
-  async render_lookup(container, opts = {}) {
-    if (container) container.innerHTML = "Loading lookup...";
-    const frag = await this.env.render_component("lookup", this, opts);
-    if (container) {
-      container.innerHTML = "";
-      container.appendChild(frag);
-    }
-    return frag;
-  }
-  get connections_filter_config() {
-    return connections_filter_config3;
-  }
-};
-var settings_config4 = {
-  "min_chars": {
-    name: "Minimum length",
-    type: "number",
-    description: "Minimum length of entity to embed (in characters).",
-    placeholder: "Enter number ex. 300",
-    default: 300
-  }
-};
-var connections_filter_config3 = {
-  "smart_view_filter.show_full_path": {
-    "name": "Show Full Path",
-    "type": "toggle",
-    "description": "Show full path in view.",
-    "callback": "re_render"
-  },
-  "smart_view_filter.render_markdown": {
-    "name": "Render Markdown",
-    "type": "toggle",
-    "description": "Render markdown in results.",
-    "callback": "re_render"
-  },
-  "smart_view_filter.results_limit": {
-    "name": "Results Limit",
-    "type": "number",
-    "description": "Limit the number of results.",
-    "default": 20,
-    "callback": "re_render"
-  },
-  "smart_view_filter.exclude_inlinks": {
-    "name": "Exclude Inlinks",
-    "type": "toggle",
-    "description": "Exclude inlinks.",
-    "callback": "re_render_settings"
-  },
-  "smart_view_filter.exclude_outlinks": {
-    "name": "Exclude Outlinks",
-    "type": "toggle",
-    "description": "Exclude outlinks.",
-    "callback": "re_render_settings"
-  },
-  "smart_view_filter.include_filter": {
-    "name": "Include Filter",
-    "type": "text",
-    "description": "Require that results match this value.",
-    "callback": "re_render"
-  },
-  "smart_view_filter.exclude_filter": {
-    "name": "Exclude Filter",
-    "type": "text",
-    "description": "Exclude results that match this value.",
-    "callback": "re_render"
-  }
-};
-
-// node_modules/smart-directories/smart_directory.js
-var SmartDirectory = class extends SmartEntity3 {
-  static get defaults() {
-    return {
-      data: {
-        path: "",
-        median_vec: null,
-        median_block_vec: null,
-        sources: [],
-        // Cache of contained source keys
-        metadata: {
-          labels: {},
-          // Store directory labels/tags with q-scores
-          last_modified: 0,
-          // Track directory changes
-          stats: {
-            // Directory statistics
-            total_files: 0,
-            total_size: 0,
-            last_scan: 0
-          }
-        }
-      }
-    };
-  }
-  async init() {
-    this.data.path = this.data.path.replace(/\\/g, "/");
-    this.queue_save();
-  }
-  get fs() {
-    return this.env.smart_sources.fs;
-  }
-  get file_type() {
-    return "directory";
-  }
-  get smart_embed() {
-    return false;
-  }
-  async read() {
-    const contents = await this.fs.list(this.data.path);
-    return contents.map((item) => ({
-      path: item.path,
-      type: item.type
-    }));
-  }
-  async move_to(new_path) {
-    const old_path = this.data.path;
-    if (!await this.fs.exists(old_path)) {
-      throw new Error(`Directory not found: ${old_path}`);
-    }
-    const parent_dir = new_path.split("/").slice(0, -1).join("/");
-    if (parent_dir && !await this.fs.exists(parent_dir)) {
-      await this.fs.mkdir(parent_dir, { recursive: true });
-    }
-    await this.fs.rename(old_path, new_path);
-    this.data.path = new_path;
-    this.queue_save();
-  }
-  async remove() {
-    await this.fs.remove_dir(this.data.path);
-    await this.delete();
-  }
-  async create(path) {
-    if (await this.fs.exists(path)) {
-      const stat = await this.fs.stat(path);
-      if (stat.isFile()) {
-        throw new Error(`Cannot create directory: A file with the same name already exists at ${path}`);
-      }
-    } else {
-      await this.fs.mkdir(path, { recursive: true });
-    }
-  }
-  // These methods are not supported for directories
-  async append() {
-    throw new Error("append method not supported for directory");
-  }
-  async update() {
-    throw new Error("update method not supported for directory");
-  }
-  async _update() {
-    throw new Error("_update method not supported for directory");
-  }
-  async _read() {
-    throw new Error("_read method not supported for directory");
-  }
-  async merge() {
-    throw new Error("merge method not supported for directory");
-  }
-  /**
-   * Gets all SmartSources contained in this directory
-   * @returns {SmartSource[]} Array of SmartSource instances
-   */
-  get sources() {
-    return this.env.smart_sources.filter(
-      (source) => source.path.startsWith(this.data.path)
-    );
-  }
-  async get_nearest_sources_results() {
-    if (!this.median_vec) {
-      console.log(`no median vec for directory: ${this.data.path}`);
-      return [];
-    }
-    const filter = {
-      key_starts_with: this.data.path
-    };
-    const results = await this.env.smart_sources.nearest(this.median_vec, filter);
-    return results.sort(sort_by_score_descending);
-  }
-  async get_furthest_sources_results() {
-    if (!this.median_vec) {
-      console.log(`no median vec for directory: ${this.data.path}`);
-      return [];
-    }
-    const filter = {
-      key_starts_with: this.data.path
-    };
-    const results = await this.env.smart_sources.furthest(this.median_vec, filter);
-    return results.sort(sort_by_score_ascending);
-  }
-  /**
-   * Gets only direct child sources (excludes sources in subdirectories)
-   */
-  get direct_sources() {
-    return this.sources.filter((source) => {
-      const relative_path = source.path.slice(this.data.path.length);
-      return !relative_path.includes("/");
-    });
-  }
-  /**
-   * Gets all subdirectories
-   */
-  get subdirectories() {
-    return this.env.smart_directories.filter({
-      key_starts_with: this.data.path
-    });
-  }
-  /**
-   * Gets only direct child directories
-   */
-  get direct_subdirectories() {
-    return this.subdirectories.filter((dir) => {
-      const relative_path = dir.data.path.slice(this.data.path.length);
-      return !relative_path.slice(0, -1).includes("/");
-    });
-  }
-  /**
-   * Gets the median vector of all contained sources
-   */
-  get median_vec() {
-    if (this.data.median_vec) return this.data.median_vec;
-    const source_vecs = this.sources.map((source) => source.vec).filter((vec) => vec);
-    if (!source_vecs.length) return null;
-    const vec_length = source_vecs[0].length;
-    const median_vec = new Array(vec_length);
-    const mid = Math.floor(source_vecs.length / 2);
-    for (let i = 0; i < vec_length; i++) {
-      const values = source_vecs.map((vec) => vec[i]).sort((a, b) => a - b);
-      median_vec[i] = source_vecs.length % 2 !== 0 ? values[mid] : (values[mid - 1] + values[mid]) / 2;
-    }
-    this.data.median_vec = median_vec;
-    return median_vec;
-  }
-  get vec() {
-    return this.median_vec;
-  }
-  /**
-   * Gets the median vector of all contained blocks
-   */
-  get median_block_vec() {
-    if (this.data.median_block_vec) return this.data.median_block_vec;
-    const block_vecs = this.sources.flatMap((source) => source.blocks).map((block) => block.vec).filter((vec) => vec);
-    if (!block_vecs.length) return null;
-    const vec_length = block_vecs[0].length;
-    const median_vec = new Array(vec_length);
-    const mid = Math.floor(block_vecs.length / 2);
-    for (let i = 0; i < vec_length; i++) {
-      const values = block_vecs.map((vec) => vec[i]).sort((a, b) => a - b);
-      median_vec[i] = block_vecs.length % 2 !== 0 ? values[mid] : (values[mid - 1] + values[mid]) / 2;
-    }
-    this.data.median_block_vec = median_vec;
-    return median_vec;
-  }
-  /**
-   * Performs a lookup within this directory's sources
-   */
-  async lookup(opts = {}) {
-    return await this.env.smart_sources.lookup({
-      ...opts,
-      filter: {
-        ...opts.filter || {},
-        key_starts_with: this.data.path
-      }
-    });
-  }
-  // Add method to update directory statistics
-  async update_stats() {
-    const sources = this.sources;
-    this.data.metadata.stats = {
-      total_files: sources.length,
-      total_size: sources.reduce((sum, src) => sum + (src.size || 0), 0),
-      last_scan: Date.now()
-    };
-    this.queue_save();
-  }
-  // Add method to manage directory labels
-  async update_label(label, q_score, block_key = null) {
-    if (!this.data.metadata.labels[label]) {
-      this.data.metadata.labels[label] = {
-        q_score: 0,
-        supporting_blocks: {}
-      };
-    }
-    if (block_key) {
-      this.data.metadata.labels[label].supporting_blocks[block_key] = q_score;
-    }
-    const scores = Object.values(this.data.metadata.labels[label].supporting_blocks);
-    this.data.metadata.labels[label].q_score = scores.reduce((sum, score) => sum + score, 0) / scores.length;
-    this.queue_save();
-  }
-  // Track directory changes
-  async on_source_change(source_key) {
-    this.data.metadata.last_modified = Date.now();
-    await this.update_stats();
-    this.data.median_vec = null;
-    this.data.median_block_vec = null;
-    this.queue_save();
-  }
-  get component() {
-    return render10;
-  }
-};
-
-// node_modules/smart-directories/smart_directories.js
-var SmartDirectories = class extends SmartEntities3 {
-  static get defaults() {
-    return {
-      item_type: SmartDirectory,
-      collection_key: "smart_directories"
-    };
-  }
-  /**
-   * Creates a directory if it doesn't exist
-   */
-  async ensure_directory(path) {
-    path = path.replace(/\\/g, "/");
-    if (!path.endsWith("/")) path += "/";
-    let dir = this.get(path);
-    if (!dir) {
-      dir = await this.create_or_update({ path });
-      await dir.init();
-    }
-    dir.data.env_settings_expanded_view = this.env.settings.expanded_view;
-    return dir;
-  }
-  /**
-   * Gets or creates parent directories recursively
-   */
-  async ensure_parent_directories(path) {
-    const parts = path.split("/").filter((p) => p);
-    let current_path = "";
-    for (const part of parts) {
-      current_path += part + "/";
-      await this.ensure_directory(current_path);
-    }
-  }
-  /**
-   * Initializes directories based on existing sources
-   */
-  async init() {
-    await super.init();
-    const source_paths = Object.keys(this.env.smart_sources.items);
-    for (const path of source_paths) {
-      const dir_path = path.split("/").slice(0, -1).join("/") + "/";
-      await this.ensure_parent_directories(dir_path);
-    }
-  }
-  /**
-   * Updates directory metadata when sources change
-   */
-  async update_directory_metadata(dir_path) {
-    const dir = await this.ensure_directory(dir_path);
-    dir.data.median_vec = null;
-    dir.data.median_block_vec = null;
-    dir.queue_save();
-  }
-  async render_directories(container, opts = {}) {
-    opts.expanded_view = this.env.settings.expanded_view;
-    if (container) container.innerHTML = "Loading directories...";
-    const frag = await this.env.render_component("directories", this, opts);
-    if (container) {
-      container.innerHTML = "";
-      container.appendChild(frag);
-    }
-    return frag;
-  }
-  // disable embed_model for SmartDirectories
-  get embed_model() {
-    return null;
-  }
-  async process_embed_queue() {
-    console.log("skipping embed queue processing for SmartDirectories");
-  }
-};
-
 // node_modules/smart-chats/components/threads.js
-function build_html9(threads_collection, opts = {}) {
+function build_html7(threads_collection, opts = {}) {
   const top_bar_buttons = [
     { title: "Open Conversation Note", icon: "external-link" },
     { title: "Chat History", icon: "history" },
@@ -17138,12 +13448,12 @@ function build_html9(threads_collection, opts = {}) {
     ${opts.attribution || ""}
   `;
 }
-async function render16(threads_collection, opts = {}) {
-  const html = build_html9.call(this, threads_collection, opts);
+async function render12(threads_collection, opts = {}) {
+  const html = build_html7.call(this, threads_collection, opts);
   const frag = this.create_doc_fragment(html);
-  return await post_process13.call(this, threads_collection, frag, opts);
+  return await post_process9.call(this, threads_collection, frag, opts);
 }
-async function post_process13(threads_collection, frag, opts) {
+async function post_process9(threads_collection, frag, opts) {
   const chat_box = frag.querySelector(".sc-thread");
   const settings_button = frag.querySelector('button[title="Chat Settings"]');
   const overlay_container = frag.querySelector(".smart-chat-overlay");
@@ -17415,7 +13725,7 @@ var SmartThreads = class extends SmartSources {
   async render(container = this.container, opts = {}) {
     if (Object.keys(opts).length > 0) this.render_opts = opts;
     if (container && (!this.container || this.container !== container)) this.container = container;
-    const frag = await render16.call(this.smart_view, this, this.render_opts);
+    const frag = await render12.call(this.smart_view, this, this.render_opts);
     container.innerHTML = "";
     container.appendChild(frag);
     return frag;
@@ -17566,10 +13876,13 @@ var SmartThreads = class extends SmartSources {
   async process_embed_queue() {
     console.log("skipping embed queue processing for SmartThreads");
   }
+  async process_load_queue() {
+    console.log("skipping load queue processing for SmartThreads");
+  }
 };
 
 // node_modules/smart-chats/components/thread.js
-function build_html10(thread, opts = {}) {
+function build_html8(thread, opts = {}) {
   return `
     <div class="sc-thread" data-thread-key="${thread.key}">
       <div class="sc-message-container">
@@ -17604,14 +13917,14 @@ function build_html10(thread, opts = {}) {
     </div>
   `;
 }
-async function render17(thread, opts = {}) {
-  const html = build_html10.call(this, thread, {
+async function render13(thread, opts = {}) {
+  const html = build_html8.call(this, thread, {
     show_welcome: opts.show_welcome !== false
   });
   const frag = this.create_doc_fragment(html);
-  return await post_process14.call(this, thread, frag, opts);
+  return await post_process10.call(this, thread, frag, opts);
 }
-async function post_process14(thread, frag, opts) {
+async function post_process10(thread, frag, opts) {
   const container = frag.querySelector(".sc-message-container");
   if (thread.messages.length) {
     thread.messages.forEach((msg) => {
@@ -17748,7 +14061,7 @@ function extract_internal_embedded_links(user_input) {
 }
 
 // node_modules/smart-chats/components/error.js
-function build_html11(error, opts = {}) {
+function build_html9(error, opts = {}) {
   const error_message = error?.error?.message || error?.message || "An unknown error occurred";
   const error_code = error?.error?.code || error?.code;
   const error_type = error?.error?.type || error?.type || "Error";
@@ -17781,12 +14094,12 @@ function build_html11(error, opts = {}) {
     </div>
   `;
 }
-async function render18(error, opts = {}) {
-  const html = build_html11.call(this, error, opts);
+async function render14(error, opts = {}) {
+  const html = build_html9.call(this, error, opts);
   const frag = this.create_doc_fragment(html);
-  return await post_process15.call(this, error, frag, opts);
+  return await post_process11.call(this, error, frag, opts);
 }
-async function post_process15(error, frag, opts) {
+async function post_process11(error, frag, opts) {
   const close_button = frag.querySelector(".sc-error-close");
   if (close_button) {
     close_button.addEventListener("click", () => {
@@ -17817,7 +14130,7 @@ async function post_process15(error, frag, opts) {
         await opts.retry();
         container.remove();
       } catch (retry_error) {
-        const new_error_frag = await render18.call(this, retry_error, opts);
+        const new_error_frag = await render14.call(this, retry_error, opts);
         container.replaceWith(new_error_frag);
       }
     });
@@ -17899,7 +14212,7 @@ var SmartThread = class extends SmartSource {
    * @returns {Promise<DocumentFragment>} The rendered thread interface.
    */
   async render(container = this.container, opts = {}) {
-    const frag = await render17.call(this.smart_view, this, opts);
+    const frag = await render13.call(this.smart_view, this, opts);
     if (container) {
       container.empty();
       if (container.classList.contains("sc-thread")) {
@@ -18026,7 +14339,7 @@ var SmartThread = class extends SmartSource {
       request2.tools = null;
     }
     if (this.last_message_is_tool) {
-      request2.tool_choice = "none";
+      delete request2.tool_choice;
     }
     request2.temperature = 0.3;
     request2.top_p = 1;
@@ -18048,7 +14361,7 @@ var SmartThread = class extends SmartSource {
   async complete() {
     this.show_typing_indicator();
     const request2 = await this.to_request();
-    const should_stream = this.chat_model.can_stream && !request2.tool_choice;
+    const should_stream = this.chat_model.can_stream && (!request2.tool_choice || request2.tool_choice === "none");
     if (should_stream) {
       await this.chat_model.stream(request2, {
         chunk: this.chunk_handler.bind(this),
@@ -18101,7 +14414,7 @@ var SmartThread = class extends SmartSource {
    * @returns {Promise<DocumentFragment>}
    */
   async render_error(response, container = this.messages_container) {
-    const frag = await render18.call(this.smart_view, response);
+    const frag = await render14.call(this.smart_view, response);
     if (container) container.appendChild(frag);
     return frag;
   }
@@ -18530,7 +14843,7 @@ var SmartMessages = class extends SmartBlocks {
 };
 
 // node_modules/smart-chats/components/message.js
-function build_html12(message, opts = {}) {
+function build_html10(message, opts = {}) {
   const content = Array.isArray(message.content) ? message.content.map((part) => {
     if (part.type === "image_url") {
       return " ![[" + part.input.image_path + "]] ";
@@ -18540,7 +14853,7 @@ function build_html12(message, opts = {}) {
   }).join("\n") : message.content;
   const branches = message.thread.get_branches(message.msg_i);
   const has_branches = branches && branches.length > 0;
-  return `
+  let html = `
     <div class="sc-message ${message.role}" id="${message.data.id}">
       <div class="sc-message-content" data-content="${encodeURIComponent(content)}">
         <span>${content}</span>
@@ -18559,13 +14872,21 @@ function build_html12(message, opts = {}) {
       ${message.role === "user" ? `<textarea class="sc-message-edit" style="display: none;">${content}</textarea>` : ""}
     </div>
   `;
+  if (message.role === "user" && message.context?.has_self_ref === true) {
+    html += `
+      <div class="sc-tool-call-missing-indicator" style="font-style: italic; margin-top: 4px;">
+        expecting lookup
+      </div>
+    `;
+  }
+  return html;
 }
-async function render19(message, opts = {}) {
-  const html = build_html12.call(this, message, opts);
+async function render15(message, opts = {}) {
+  const html = build_html10.call(this, message, opts);
   const frag = this.create_doc_fragment(html);
-  return await post_process16.call(this, message, frag, opts);
+  return await post_process12.call(this, message, frag, opts);
 }
-async function post_process16(message, frag, opts) {
+async function post_process12(message, frag, opts) {
   const copy_button = frag.querySelector(".sc-msg-button:not(.regenerate)");
   if (copy_button) {
     copy_button.addEventListener("click", () => {
@@ -18648,7 +14969,7 @@ async function post_process16(message, frag, opts) {
 }
 
 // node_modules/smart-chats/components/context.js
-function build_html13(message, opts = {}) {
+function build_html11(message, opts = {}) {
   const lookup_results = message.tool_call_output || [];
   if (lookup_results.length === 0) {
     return "";
@@ -18677,13 +14998,13 @@ function build_html13(message, opts = {}) {
     </div>
   `;
 }
-async function render20(message, opts = {}) {
-  const html = build_html13.call(this, message, opts);
+async function render16(message, opts = {}) {
+  const html = build_html11.call(this, message, opts);
   if (!html) return document.createDocumentFragment();
   const frag = this.create_doc_fragment(html);
-  return await post_process17.call(this, message, frag, opts);
+  return await post_process13.call(this, message, frag, opts);
 }
-async function post_process17(message, frag, opts) {
+async function post_process13(message, frag, opts) {
   const header = frag.querySelector(".sc-context-header");
   const list = frag.querySelector(".sc-context-list");
   const toggle_icon = frag.querySelector(".sc-context-toggle-icon");
@@ -18730,7 +15051,7 @@ async function post_process17(message, frag, opts) {
 }
 
 // node_modules/smart-chats/components/tool_calls.js
-function build_html14(message, opts = {}) {
+function build_html12(message, opts = {}) {
   const tool_calls = message.tool_calls || [];
   if (tool_calls.length === 0) {
     return "";
@@ -18751,13 +15072,13 @@ function build_html14(message, opts = {}) {
     </div>
   `;
 }
-async function render21(message, opts = {}) {
-  const html = build_html14.call(this, message, opts);
+async function render17(message, opts = {}) {
+  const html = build_html12.call(this, message, opts);
   if (!html) return document.createDocumentFragment();
   const frag = this.create_doc_fragment(html);
-  return await post_process18.call(this, message, frag, opts);
+  return await post_process14.call(this, message, frag, opts);
 }
-async function post_process18(message, frag, opts) {
+async function post_process14(message, frag, opts) {
   const tool_call_headers = frag.querySelectorAll(".sc-tool-call-header");
   tool_call_headers.forEach((header) => {
     const content = header.nextElementSibling;
@@ -18783,7 +15104,7 @@ async function post_process18(message, frag, opts) {
 }
 
 // node_modules/smart-chats/components/system_message.js
-function build_html15(message, opts = {}) {
+function build_html13(message, opts = {}) {
   return `
     <div class="sc-system-message-container" id="${message.data.id}">
       <div class="sc-system-message-header" tabindex="0" role="button" aria-expanded="false" aria-controls="${message.data.id}-content">
@@ -18801,12 +15122,12 @@ function build_html15(message, opts = {}) {
     </div>
   `;
 }
-async function render22(message, opts = {}) {
-  const html = build_html15.call(this, message, opts);
+async function render18(message, opts = {}) {
+  const html = build_html13.call(this, message, opts);
   const frag = this.create_doc_fragment(html);
-  return await post_process19.call(this, message, frag, opts);
+  return await post_process15.call(this, message, frag, opts);
 }
-async function post_process19(message, frag, opts) {
+async function post_process15(message, frag, opts) {
   const header = frag.querySelector(".sc-system-message-header");
   const content = frag.querySelector(".sc-system-message-content");
   const toggle_icon = frag.querySelector(".sc-system-message-toggle-icon");
@@ -18927,13 +15248,13 @@ var SmartMessage = class extends SmartBlock {
   async render(container = this.thread.messages_container) {
     let frag;
     if (this.role === "system") {
-      frag = await render22.call(this.smart_view, this);
+      frag = await render18.call(this.smart_view, this);
     } else if (this.tool_calls?.length > 0) {
-      frag = await render21.call(this.smart_view, this);
+      frag = await render17.call(this.smart_view, this);
     } else if (this.role === "tool") {
-      frag = await render20.call(this.smart_view, this);
+      frag = await render16.call(this.smart_view, this);
     } else {
-      frag = await render19.call(this.smart_view, this);
+      frag = await render15.call(this.smart_view, this);
     }
     if (container) {
       this.elm = container.querySelector(`#${this.data.id}`);
@@ -19402,6 +15723,51 @@ var EnvJsonThreadSourceAdapter = class extends ThreadSourceAdapter {
   }
 };
 
+// node_modules/smart-blocks/adapters/data/ajson_multi_file.js
+var AjsonMultiFileBlocksDataAdapter = class extends AjsonMultiFileCollectionDataAdapter {
+  ItemDataAdapter = AjsonMultiFileBlockDataAdapter;
+  /**
+   * Transforms the item key into a safe filename.
+   * Replaces spaces, slashes, and dots with underscores.
+   * @returns {string} safe file name
+   */
+  get_data_file_name(key) {
+    return super.get_data_file_name(key.split("#")[0]);
+  }
+  /**
+   * Process any queued save operations.
+   * @async
+   * @returns {Promise<void>}
+   */
+  async process_save_queue() {
+    this.collection.notices?.show("saving", `Saving ${this.collection.collection_key}...`, { timeout: 0 });
+    const save_queue = Object.values(this.collection.items).filter((item) => item._queue_save);
+    console.log(`Saving ${this.collection.collection_key}: ${save_queue.length} items`);
+    const time_start = Date.now();
+    const save_files = Object.entries(save_queue.reduce((acc, item) => {
+      const file_name = this.get_item_data_path(item.key);
+      acc[file_name] = acc[file_name] || [];
+      acc[file_name].push(item);
+      return acc;
+    }, {}));
+    for (let i = 0; i < save_files.length; i++) {
+      const [file_name, items] = save_files[i];
+      await this.fs.append(
+        file_name,
+        items.map((item) => this.get_item_ajson(item)).join("\n") + "\n"
+      );
+      items.forEach((item) => item._queue_save = false);
+    }
+    console.log(`Saved ${this.collection.collection_key} in ${Date.now() - time_start}ms`);
+    this.collection.notices?.remove("saving");
+  }
+  process_load_queue() {
+    console.log(`Skipping loading ${this.collection.collection_key}...`);
+  }
+};
+var AjsonMultiFileBlockDataAdapter = class extends AjsonMultiFileItemDataAdapter {
+};
+
 // src/smart_env.config.js
 var smart_env_config = {
   global_ref: window,
@@ -19414,31 +15780,26 @@ var smart_env_config = {
     smart_sources: {
       class: SmartSources,
       data_adapter: AjsonMultiFileSourcesDataAdapter,
-      // data_adapter: JsonSingleFileCollectionDataAdapter,
       source_adapters: {
-        // "md": MarkdownSourceAdapter,
-        // "txt": MarkdownSourceAdapter, // temp
-        // "canvas": MarkdownSourceAdapter, // temp
         "md": MarkdownSourceContentAdapter,
-        "txt": MarkdownSourceContentAdapter,
-        "canvas": MarkdownSourceContentAdapter,
-        "default": SourceAdapter
+        "txt": MarkdownSourceContentAdapter
+        // "canvas": MarkdownSourceContentAdapter,
+        // "default": MarkdownSourceContentAdapter,
       }
     },
     smart_blocks: {
       class: SmartBlocks,
+      data_adapter: AjsonMultiFileBlocksDataAdapter,
       block_adapters: {
         "md": MarkdownBlockContentAdapter,
-        "txt": MarkdownBlockContentAdapter,
-        "canvas": MarkdownBlockContentAdapter
+        "txt": MarkdownBlockContentAdapter
+        // "canvas": MarkdownBlockContentAdapter,
       }
-    },
-    smart_directories: {
-      class: SmartDirectories
     },
     smart_threads: {
       class: SmartThreads,
       data_adapter: AjsonMultiFileCollectionDataAdapter,
+      // data_adapter: CollectionDataAdapter,
       source_adapters: {
         "json": EnvJsonThreadSourceAdapter,
         "default": EnvJsonThreadSourceAdapter
@@ -19451,7 +15812,6 @@ var smart_env_config = {
   item_types: {
     SmartSource,
     SmartBlock,
-    SmartDirectory,
     SmartThread: ScThread,
     SmartMessage
   },
@@ -19461,7 +15821,6 @@ var smart_env_config = {
       adapters: {
         openai: SmartChatModelOpenaiAdapter,
         anthropic: SmartChatModelAnthropicAdapter,
-        // cohere: SmartChatModelCohereAdapter,
         gemini: SmartChatModelGeminiAdapter,
         open_router: SmartChatModelOpenRouterAdapter,
         custom: SmartChatModelCustomAdapter,
@@ -19492,36 +15851,31 @@ var smart_env_config = {
     smart_notices: {
       class: SmartNotices,
       adapter: import_obsidian8.Notice
-    },
-    smart_settings: {
-      class: SmartSettings
     }
   },
   components: {
-    connections: render13,
-    lookup: render14,
-    results: render9,
-    // result: result_component,
+    lookup: render11,
+    results: render10,
+    connections: render8,
     smart_env: {
-      settings: render12
+      settings: render7
     },
     smart_sources: {
-      settings: render5
+      settings: render4,
+      connections: render8
     },
     smart_blocks: {
-      settings: render5
+      settings: render4,
+      connections: render8
     },
     smart_threads: {
-      settings: render6
-    },
-    smart_directories: {
-      directories: render11
+      settings: render5
     },
     smart_chat_model: {
-      settings: render7
+      settings: render6
     },
     smart_embed_model: {
-      settings: render7
+      settings: render6
     }
   },
   default_settings: {
@@ -19609,34 +15963,86 @@ var views_default = {
 `
 };
 
-// src/smart_obsidian_view2.js
+// src/views/smart_view2.obsidian.js
 var import_obsidian10 = require("obsidian");
 var SmartObsidianView2 = class extends import_obsidian10.ItemView {
+  /**
+   * Creates an instance of SmartObsidianView2.
+   * @param {any} leaf
+   * @param {any} plugin
+   */
   constructor(leaf, plugin) {
     super(leaf);
     this.app = plugin.app;
     this.plugin = plugin;
   }
-  // static
+  /**
+   * The unique view type. Must be implemented in subclasses.
+   * @returns {string}
+   */
   static get view_type() {
     throw new Error("view_type must be implemented in subclass");
   }
+  /**
+   * The display text for this view. Must be implemented in subclasses.
+   * @returns {string}
+   */
   static get display_text() {
     throw new Error("display_text must be implemented in subclass");
   }
+  /**
+   * The icon name for this view.
+   * @returns {string}
+   */
   static get icon_name() {
     return "smart-connections";
   }
+  /**
+   * Retrieves the Leaf instance for this view type if it exists.
+   * @param {import("obsidian").Workspace} workspace
+   * @returns {import("obsidian").WorkspaceLeaf | undefined}
+   */
   static get_leaf(workspace) {
     return workspace.getLeavesOfType(this.view_type)?.find((leaf) => leaf.view instanceof this);
   }
+  /**
+   * Retrieves the view instance if it exists.
+   * @param {import("obsidian").Workspace} workspace
+   * @returns {SmartObsidianView2 | undefined}
+   */
   static get_view(workspace) {
-    return this.get_leaf(workspace)?.view;
+    const leaf = this.get_leaf(workspace);
+    return leaf ? leaf.view : void 0;
   }
+  /**
+   * Opens the view. If `this.default_open_location` is `'root'`,
+   * it will open (or reveal) in a "root" leaf; otherwise, it will
+   * open (or reveal) in the right leaf.
+   *
+   * @param {import("obsidian").Workspace} workspace
+   * @param {boolean} [active=true] - Whether the view should be focused when opened.
+   */
   static open(workspace, active = true) {
-    if (this.get_leaf(workspace)) this.get_leaf(workspace).setViewState({ type: this.view_type, active });
-    else workspace.getRightLeaf(false).setViewState({ type: this.view_type, active });
-    if (workspace.rightSplit.collapsed) workspace.rightSplit.toggle();
+    const existing_leaf = this.get_leaf(workspace);
+    if (this.default_open_location === "root") {
+      if (existing_leaf) {
+        existing_leaf.setViewState({ type: this.view_type, active });
+      } else {
+        workspace.getLeaf(false).setViewState({ type: this.view_type, active });
+      }
+    } else {
+      if (existing_leaf) {
+        existing_leaf.setViewState({ type: this.view_type, active });
+      } else {
+        workspace.getRightLeaf(false).setViewState({
+          type: this.view_type,
+          active
+        });
+      }
+      if (workspace.rightSplit?.collapsed) {
+        workspace.rightSplit.toggle();
+      }
+    }
   }
   static is_open(workspace) {
     return this.get_leaf(workspace)?.view instanceof this;
@@ -19712,14 +16118,14 @@ var SmartObsidianView2 = class extends import_obsidian10.ItemView {
   }
 };
 
-// src/smart_entities_view.js
+// src/views/smart_entities.obsidian.js
 var SmartEntitiesView = class extends SmartObsidianView2 {
   add_result_listeners(elm) {
     this.plugin.add_result_listeners(elm, this.constructor.view_type);
   }
 };
 
-// src/sc_connections_view.js
+// src/views/sc_connections.obsidian.js
 var import_obsidian11 = require("obsidian");
 var ScConnectionsView = class extends SmartEntitiesView {
   static get view_type() {
@@ -19851,7 +16257,7 @@ var SmartNoteInspectModal = class extends import_obsidian11.Modal {
   }
 };
 
-// src/sc_lookup_view.js
+// src/views/sc_lookup.obsidian.js
 var ScLookupView = class extends SmartEntitiesView {
   static get view_type() {
     return "smart-lookup-view";
@@ -19863,15 +16269,21 @@ var ScLookupView = class extends SmartEntitiesView {
     return "search";
   }
   async render_view(query = "", container = this.container) {
-    await this.env.smart_sources.render_lookup(container, {
+    container.empty();
+    container.createEl("span", { text: "Loading lookup..." });
+    const frag = await this.env.render_component("lookup", this.env.smart_sources, {
       add_result_listeners: this.add_result_listeners.bind(this),
       attribution: this.attribution,
       query
     });
+    if (container) {
+      container.empty();
+      container.appendChild(frag);
+    }
   }
 };
 
-// src/smart_chat_view.js
+// src/views/smart_chat.obsidian.js
 var import_obsidian12 = require("obsidian");
 var SmartChatsView = class extends SmartObsidianView2 {
   static get view_type() {
@@ -20219,7 +16631,7 @@ var ScSystemPromptSelectModal = class extends import_obsidian12.FuzzySuggestModa
   }
 };
 
-// src/sc_chatgpt_view.js
+// src/views/sc_chatgpt.obsidian.js
 var import_obsidian13 = require("obsidian");
 var SmartChatGPTView = class extends import_obsidian13.ItemView {
   static get view_type() {
@@ -20274,7 +16686,7 @@ var SmartChatGPTView = class extends import_obsidian13.ItemView {
   }
 };
 
-// src/sc_private_chat_view.js
+// src/views/sc_private_chat.obsidian.js
 var import_obsidian14 = require("obsidian");
 var SmartPrivateChatView = class extends import_obsidian14.ItemView {
   static get view_type() {
@@ -20329,27 +16741,6 @@ var SmartPrivateChatView = class extends import_obsidian14.ItemView {
   }
 };
 
-// src/sc_dirs_view.js
-var ScDirsView = class extends SmartEntitiesView {
-  static get view_type() {
-    return "smart-directories-view";
-  }
-  static get display_text() {
-    return "Smart Directories";
-  }
-  static get icon_name() {
-    return "folder";
-  }
-  async render_view(container = this.container) {
-    this.container.empty();
-    await this.env.smart_directories.render_directories(container, {
-      add_result_listeners: this.add_result_listeners.bind(this),
-      attribution: this.attribution,
-      refresh_view: this.render_view.bind(this)
-    });
-  }
-};
-
 // src/smart_search.js
 var SmartSearch = class {
   constructor(plugin) {
@@ -20385,7 +16776,7 @@ var SmartSearch = class {
 var import_obsidian15 = require("obsidian");
 
 // src/components/main_settings.js
-async function render23(scope) {
+async function render19(scope) {
   if (!scope.env) {
     const load_frag = this.create_doc_fragment(`
       <div><button>Load Smart Environment</button></div>
@@ -20416,9 +16807,9 @@ async function render23(scope) {
     </div>
   `;
   const frag = this.create_doc_fragment(html);
-  return await post_process20.call(this, scope, frag);
+  return await post_process16.call(this, scope, frag);
 }
-async function post_process20(scope, frag) {
+async function post_process16(scope, frag) {
   await this.render_setting_components(frag, { scope });
   const smart_settings_containers = frag.querySelectorAll("[data-smart-settings]");
   for (const container of smart_settings_containers) {
@@ -20639,7 +17030,7 @@ var ScSettingsTab = class extends import_obsidian15.PluginSettingTab {
     if (!container) throw new Error("Container is required");
     container.innerHTML = "";
     container.innerHTML = '<div class="sc-loading">Loading main settings...</div>';
-    const frag = await render23.call(this.smart_view, this.plugin, opts);
+    const frag = await render19.call(this.smart_view, this.plugin, opts);
     container.innerHTML = "";
     container.appendChild(frag);
     return container;
@@ -20922,7 +17313,6 @@ var SmartConnectionsPlugin = class extends Plugin {
   get item_views() {
     return {
       ScConnectionsView,
-      ScDirsView,
       ScLookupView,
       SmartChatsView,
       SmartChatGPTView,
@@ -20976,7 +17366,7 @@ var SmartConnectionsPlugin = class extends Plugin {
   }
   async initialize() {
     this.obsidian = import_obsidian16.default;
-    await smart_env_config.modules.smart_settings.class.create(this);
+    await SmartSettings.create(this);
     this.notices = new this.smart_env_config.modules.smart_notices.class(this);
     this.smart_connections_view = null;
     this.add_commands();
@@ -21132,7 +17522,8 @@ var SmartConnectionsPlugin = class extends Plugin {
         let source = this.env.smart_sources.get(curr_file.path);
         if (source) {
           source.data = { path: curr_file.path };
-          await this.env.data_fs.remove(source.data_path);
+          const source_data_path = source.collection.data_adapter.get_item_data_path(source.key);
+          await this.env.data_fs.remove(source_data_path);
         } else {
           this.env.smart_sources.fs.include_file(curr_file.path);
           source = this.env.smart_sources.init_file_path(curr_file.path);
@@ -21231,30 +17622,49 @@ ${message ? "# " + message + "\n" : ""}${ignore}`);
   }
   // SUPPORTERS
   async render_code_block(contents, container, ctx) {
-    let frag;
+    container.empty();
+    container.createEl("span", { text: "Loading..." });
     if (contents.trim().length) {
-      frag = await this.env.smart_sources.render_lookup(
-        container,
+      const frag = await this.env.smart_sources.render_component(
+        "lookup",
         {
           add_result_listeners: this.add_result_listeners.bind(this),
           attribution: this.attribution,
           query: contents
         }
       );
+      container.empty();
+      container.appendChild(frag);
     } else {
       const entity = this.env.smart_sources.get(ctx.sourcePath);
       if (!entity) return container.innerHTML = "Entity not found: " + ctx.sourcePath;
-      frag = await entity.render_connections(
-        container,
-        {
-          add_result_listeners: this.add_result_listeners.bind(this),
-          attribution: this.attribution,
-          re_render: () => {
-            this.render_code_block(contents, container, ctx);
-          },
-          open_lookup_view: this.open_lookup_view.bind(this)
-        }
-      );
+      const component_opts = {
+        add_result_listeners: this.add_result_listeners.bind(this),
+        attribution: this.attribution,
+        re_render: () => {
+          this.render_code_block(contents, container, ctx);
+        },
+        open_lookup_view: this.open_lookup_view.bind(this)
+      };
+      const frag = await this.env.render_component("connections", entity, component_opts);
+      container.empty();
+      container.appendChild(frag);
+      const results = await entity.find_connections({
+        exclude_source_connections: entity.env.smart_blocks.settings.embed_blocks
+      });
+      const results_frag = await entity.env.render_component("results", results, component_opts);
+      const results_container = container.querySelector(".sc-list");
+      results_container.innerHTML = "";
+      Array.from(results_frag.children).forEach((elm) => {
+        results_container.appendChild(elm);
+      });
+      const header_status_elm = container.querySelector(".sc-top-bar .sc-context");
+      results_container.dataset.key = entity.key;
+      const context_name = entity.path.split("/").pop();
+      const status_elm = container.querySelector(".sc-bottom-bar .sc-context");
+      status_elm.innerText = context_name;
+      header_status_elm.innerText = context_name;
+      return results;
     }
   }
   async render_code_block_context(results, container, ctx) {

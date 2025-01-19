@@ -13,11 +13,12 @@
             "state": {
               "type": "kanban",
               "state": {
-                "file": "kanban/board.md",
-                "kanbanViewState": {}
+                "file": "kanban/tasks/Move fork of sibilant into git.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-trello",
-              "title": "board"
+              "icon": "lucide-file",
+              "title": "Move fork of sibilant into git"
             }
           }
         ]
@@ -149,10 +150,10 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "kanban/board.md"
+                "file": "kanban/tasks/Move fork of sibilant into git.md"
               },
               "icon": "lucide-list",
-              "title": "Outline of board"
+              "title": "Outline of Move fork of sibilant into git"
             }
           },
           {
@@ -180,23 +181,13 @@
             }
           },
           {
-            "id": "5ff5ed2df8f7125f",
+            "id": "c446c1100d2f9bc2",
             "type": "leaf",
             "state": {
-              "type": "todo",
+              "type": "smart-connections-view",
               "state": {},
-              "icon": "checkmark",
-              "title": "Todo List"
-            }
-          },
-          {
-            "id": "e5071d2afcf3667b",
-            "type": "leaf",
-            "state": {
-              "type": "code-execute-manage-executors",
-              "state": {},
-              "icon": "command-glyph",
-              "title": "Execution Runtimes"
+              "icon": "lucide-file",
+              "title": "Plugin no longer active"
             }
           }
         ],
@@ -246,34 +237,14 @@
                 "id": "a92ab7efc8193530",
                 "type": "leaf",
                 "state": {
-                  "type": "kanban",
+                  "type": "markdown",
                   "state": {
-                    "file": "kanban/board.md",
-                    "kanbanViewState": {
-                      "kanban-plugin": "board",
-                      "list-collapse": [
-                        true,
-                        true,
-                        true,
-                        true,
-                        true,
-                        false,
-                        true,
-                        false,
-                        true,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        null,
-                        false
-                      ]
-                    }
+                    "file": "notes/daily/2025-01-19.md",
+                    "mode": "source",
+                    "source": false
                   },
-                  "icon": "lucide-trello",
-                  "title": "board"
+                  "icon": "lucide-file",
+                  "title": "2025-01-19"
                 }
               }
             ]
@@ -286,10 +257,14 @@
                 "id": "fb8a0d5676f0972f",
                 "type": "leaf",
                 "state": {
-                  "type": "empty",
-                  "state": {},
+                  "type": "markdown",
+                  "state": {
+                    "file": "kanban/tasks/ranged attack system.md",
+                    "mode": "source",
+                    "source": false
+                  },
                   "icon": "lucide-file",
-                  "title": "New tab"
+                  "title": "ranged attack system"
                 }
               }
             ]
@@ -307,14 +282,9 @@
   },
   "active": "fd8adc03a0d2fd83",
   "lastOpenFiles": [
-    "kanban/tasks/Move fork of sibilant into git.md",
-    "kanban/board.md",
-    "Colors.md",
-    "notes/daily/2025-01-09.md",
-    "notes/daily/2025-01-07.md",
-    "notes/daily/2025-01-04.md",
     "colors.md",
     "kanban/tasks/DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files..md",
+    "kanban/board.md",
     "kanban/tasks/Threaded game systems.md",
     "kanban/tasks/Prevent agents from entering ungenerated parts of the world..md",
     "kanban/tasks/paralell processing for each system.md",
@@ -329,11 +299,26 @@
     "Create template for new tasks.md",
     "kanban/templates/New Task.md",
     "notes/unique/On proxy overhead.md",
-    "notes/daily/2025-01-18.md",
+    "notes/unique/2025-01-18-08.12.36.md",
     "notes/unique/2025-01-18-07.51.13.md",
     "notes/unique/2025-01-18-07.39.28.md",
+    "notes/unique/2025-01-10-11.43.23.md",
+    "notes/unique/2025-01-10-11.29.34.md",
+    "notes/unique/2025-01-10-11.17.32.md",
+    "notes/unique/2025-01-10-08.21.29.md",
+    "notes/unique",
+    "notes/daily/2025-01-18.md",
     "notes/daily/2025-01-15.md",
-    "kanban/tasks/Sprite sheets.md",
+    "notes/daily/2025-01-12.md",
+    "kanban/tasks/sprite generator.md",
+    "kanban/tasks/ranged attack system.md",
+    "kanban/tasks/implement binary heap.md",
+    "kanban/tasks/World building.md",
+    "kanban/tasks/Weapon loadout system.md",
+    "kanban/tasks/Symbiant.md",
+    "kanban/tasks/Process.md",
+    "kanban/tasks/Procedural Generation.md",
+    "kanban/tasks/Map generation.md",
     "notes/unique",
     "notes/daily",
     "notes",

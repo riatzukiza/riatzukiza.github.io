@@ -11,13 +11,12 @@ We want the agents to mimic this behavior. Agents should be able to use multiple
 - A new field for satiated ants returning home with food
 - A new field for satiated ants looking for food to bring home
 
+## Tasks
+
+- [ ] 
+
 ## Blocked by
 
-- Trail entities
-- [reverse navigation home](reverse%20navigation%20home.md)?
-  - These two tickets may need to be worked on at the same time or merged into one.
-  - Start by working on [reverse navigation home](reverse%20navigation%20home.md) using only the inverse of the existing field.
-  - If agents cannot make it home, the ticket is blocked and we start work on this one.
 
 ## Notes
 
@@ -28,7 +27,7 @@ The behavior of this field will be perpendicular to the direction of movement, t
 noise also works.
 
 I'm looking at the old algae code for inspiration and guidance regarding the implementation of interacting fields.
-
+x`
 I also found the work I did to handle any state space. As in fields who's values change over time. The logic here is to avoid updating values in place that other calculations on the same tick are going to be referencing. It is a semi immutable data structure, as in it has a component that is changing, and a prior which is not. It was implemented so that the arrays would swap places each tick. I can't take this work directly from there into here as it was a scalar field and most of the logic does not translate. I am not sure that a field of vectors can be called a matrix any more, I think this is a tensor.
 
 yea, it isn't. Even though the position space is still 2 dimentional, the values being vectors adds another dimension. 1 for x, 1 for y, and 1 for the tuple of the vectors
