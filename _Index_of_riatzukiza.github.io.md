@@ -2,7 +2,7 @@
  [[_Index_of_portfolio|_Index_of_portfolio]]
  [[Chats/_Index_of_Chats|_Index_of_Chats]]
  [[client/_Index_of_client|_Index_of_client]]
- [[Colors|Colors]]
+ [[colors|colors]]
  [[Create template for new tasks|Create template for new tasks]]
  [[dev/_Index_of_dev|_Index_of_dev]]
  [[docs/_Index_of_docs|_Index_of_docs]]

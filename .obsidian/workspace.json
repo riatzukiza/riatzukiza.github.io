@@ -292,6 +292,7 @@
   },
   "active": "fd8adc03a0d2fd83",
   "lastOpenFiles": [
+    "colors.md",
     "kanban/tasks/DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files..md",
     "kanban/board.md",
     "kanban/tasks/Threaded game systems.md",
@@ -318,7 +319,6 @@
     "kanban/tasks/Building system.md",
     "kanban/tasks/reverse navigation home.md",
     "kanban/tasks/Map generation.md",
-    "kanban/tasks/Implement A star algorithim.md",
     "notes/unique",
     "notes/daily",
     "notes",
