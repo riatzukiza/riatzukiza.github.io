@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "c17dc44ea64ca032",
+        "id": "4287a5116e3d7c8f",
         "type": "tabs",
         "children": [
           {
-            "id": "36ec7274abfa729c",
+            "id": "02ba21013b3ad7f9",
             "type": "leaf",
             "state": {
               "type": "kanban",
@@ -72,13 +72,22 @@
               "icon": "lucide-bookmark",
               "title": "Bookmarks"
             }
+          },
+          {
+            "id": "d8912b5d28154545",
+            "type": "leaf",
+            "state": {
+              "type": "tagfolder-view",
+              "state": {},
+              "icon": "stacked-levels",
+              "title": "Tag Folder"
+            }
           }
         ]
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "cb509b7f274d7b5e",
@@ -171,17 +180,7 @@
             }
           },
           {
-            "id": "0fe495545f43972f",
-            "type": "leaf",
-            "state": {
-              "type": "smart-connections-view",
-              "state": {},
-              "icon": "lucide-file",
-              "title": "Plugin no longer active"
-            }
-          },
-          {
-            "id": "11fb40a1ed2733ad",
+            "id": "0c0c0fb7b7b372b7",
             "type": "leaf",
             "state": {
               "type": "smart-chat-view",

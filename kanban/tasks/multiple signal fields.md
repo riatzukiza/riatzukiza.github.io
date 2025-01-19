@@ -33,3 +33,13 @@ I also found the work I did to handle any state space. As in fields who's values
 yea, it isn't. Even though the position space is still 2 dimentional, the values being vectors adds another dimension. 1 for x, 1 for y, and 1 for the tuple of the vectors
 
 so values are access `a[x][y][dx||dy]`
+
+## Update 1/8/25
+
+Things got away from me a bit as I started thinking aboout this problem. I wrote some thoughts down in a daily note about how I was going to solve this problem. 
+
+I got graphics and what have you working, and since I wanted an infinite worled instead of a fixed one, I had to change how I was holding data related to space.
+
+So I have tiles now, and a rudementry idea of how I want to hold onto vectors in those tiles.
+
+This started when I realized I was going to be holding a lot of data in a redundent set of 2 level tries if each vector field got its own sparse matrix representation, so I started working on a tile system so I could hold meta data like this in one data structure and navigate it easily. now everything that is associated with a point in space will be held neatly in once space, with easy access to its neighborhood

@@ -174,6 +174,8 @@ kanban-plugin: board
 - [ ] [Text editor program](tasks/Text%20editor%20program.md)
 - [ ] [browser based lisp shell](tasks/browser%20based%20lisp%20shell.md)
 - [ ] [neural network for signal field hyerparameter adjustments](tasks/neural%20network%20for%20signal%20field%20hyerparameter%20adjustments.md)
+- [ ] [Agenda system](tasks/Agenda%20system.md)
+- [ ] [Vector based file system search](tasks/Vector%20based%20file%20system%20search.md)
 - [ ] [Question answering system for file system](tasks/Question%20answering%20system%20for%20file%20system.md)
 - [ ] [Image editor program](tasks/Image%20editor%20program.md)
 - [ ] [Individual ant neural networks](tasks/Individual%20ant%20neural%20networks.md)
