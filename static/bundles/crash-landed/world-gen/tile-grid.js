@@ -11331,56 +11331,17 @@ var Tile = GridCell.define("Tile", {
        };
     
    },
-  get heap(  ){ 
-    
-      return this.chunk.cellHeap.heap;
-    
-   },
-  get superPosition(  ){ 
-    
-      return (function() {
-        if (this._superPosition) {
-          return this._superPosition;
-        } else {
-          return this._superPosition = (function() {
-            /* inc/misc.sibilant:1:3986 */
-          
-            return SuperPosition.spawn(this);
-          }).call(this);
-        }
-      }).call(this);
-    
-   },
-  get parentIndex(  ){ 
-    
-      return Heapable.getParentIndex(this.index);
-    
-   },
-  get entropy(  ){ 
-    
-      return this.superPosition.entropy;
-    
-   },
-  compareTo( s ){ 
-    
-      return (function() {
-        if (this.entropy > s.entropy) {
-          return 1;
-        } else {
-          return -1;
-        }
-      }).call(this);
-    
-   },
   collapse(  ){ 
     
-      this.superPosition.collapse();
+      const s=SuperPosition.spawn(this);
+      s.collapse();
+      s.despawn();
       return this.data;
     
    }
  });
 var sleep = (function sleep$(n) {
-  /* sleep eval.sibilant:27:0 */
+  /* sleep eval.sibilant:19:0 */
 
   return (new Promise(((success, fail) => {
   	
@@ -11399,31 +11360,6 @@ var Chunk = GridChunk.define("Chunk", {
   get heap(  ){ 
     
       return this.grid.heap.heap;
-    
-   },
-  get _cellFn(  ){ 
-    
-      return ((cell, i) => {
-      	
-        cell.index = i;
-        return cell.chunk = this;
-      
-      });
-    
-   },
-  get cellHeap(  ){ 
-    
-      return (function() {
-        if (this._cellHeap) {
-          return this._cellHeap;
-        } else {
-          return this._cellHeap = (function() {
-            /* inc/misc.sibilant:1:3986 */
-          
-            return BinaryHeap.spawn(this.cells);
-          }).call(this);
-        }
-      }).call(this);
     
    },
   get positionVector(  ){ 
@@ -11477,11 +11413,15 @@ var Chunk = GridChunk.define("Chunk", {
         return ;
        };
       this.collapsing = true;
-      this.cellHeap.heapify();
-      while( this.cellHeap.getMin() ){ 
-        yield(this.cellHeap.getMin().collapse());
-        this.cellHeap.heapify()
+      for (var cell of this.cells)
+      {
+      if( cell.type ){ 
+        console.log("previously collapsed cell detected");
+        continue
        };
+      yield(cell.collapse())
+      }
+      ;
       this.collapsed = true;
       return this.collapsing = false;
     

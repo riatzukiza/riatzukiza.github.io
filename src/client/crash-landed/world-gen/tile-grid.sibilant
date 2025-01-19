@@ -10,18 +10,10 @@
 
 (define Tile Grid-cell
   (gett data (lit (x this.x) (y this.y) (type this.type)))
-  (gett heap this.chunk.cell-heap.heap)
-  (cached super-position (.spawn Super-position this))
-  (gett parent-index (.get-parent-index Heapable this.index))
-  (gett entropy this.super-position.entropy)
-  (def compare-to (s)
-    (if (> this.entropy s.entropy)
-        1
-        -1
-        )
-    )
   (def collapse ()
-    (.collapse this.super-position)
+    (const s (.spawn Super-position this))
+    (.collapse s)
+    (.despawn s)
     (return this.data)))
 
 (def sleep (n) (make-promise (set-timeout resolve n)))
@@ -43,11 +35,6 @@
 (define Chunk Grid-chunk
   (gett data (Array.from (.collapse this)))
   (gett heap this.grid.heap.heap)
-  (gett *cell-fn (=> (cell i)
-                     (assign cell.index i)
-                     (assign cell.chunk this)))
-
-  (cached cell-heap (.spawn Binary-heap this.cells))
   (cached position-vector (.spawn Vector this.grid-x this.grid-y))
   (gett parent-index (.get-parent-index Heapable this.index))
   (gett player-pos this.grid.player-pos)
@@ -65,11 +52,11 @@
     (print "collapsing chunk" this)
     (if! this.collapsed (return))
     (assign this.collapsing true)
-    (.heapify this.cell-heap)
-    (while! (.get-min this.cell-heap)
-      (yield (.collapse (.get-min this.cell-heap)))
-      (.heapify this.cell-heap))
-
+    (for-of! cell this.cells
+             (if! cell.type
+                  (print "previously collapsed cell detected")
+                  continue)
+             (yield (.collapse cell)))
     (set this 'collapsed true
          'collapsing false)))
 

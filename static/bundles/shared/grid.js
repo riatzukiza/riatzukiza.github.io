@@ -11495,11 +11495,6 @@ var GridChunk = GridView.define("GridChunk", {
       return this.grid.getChunk((this.x - 1), (this.y - 1));
     
    },
-  _cellFn:((cell, i) => {
-  	
-    return cell.chunkIndex = i;
-  
-  }),
   get cells(  ){ 
     
       return (function() {
@@ -11509,7 +11504,7 @@ var GridChunk = GridView.define("GridChunk", {
           return this._cells = (function() {
             /* inc/misc.sibilant:1:3986 */
           
-            return Array.from(this.grid.squareArea(this.gridX, this.gridY, this.size), this._cellFn);
+            return Array.from(this.grid.squareArea(this.gridX, this.gridY, this.size));
           }).call(this);
         }
       }).call(this);

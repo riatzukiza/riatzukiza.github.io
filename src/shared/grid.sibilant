@@ -60,11 +60,7 @@
   (gett north-west (.get-chunk this.grid (- this.x 1) (+ this.y 1)))
   (gett south-east (.get-chunk this.grid (+ this.x 1) (- this.y 1)))
   (gett south-west (.get-chunk this.grid (- this.x 1) (- this.y 1)))
-  (*cell-fn (=> (cell i) (assign cell.chunk-index i)))
-  (cached cells (Array.from (this.grid.square-area this.grid-x this.grid-y this.size)
-                            this.*cell-fn
-
-                            ))
+  (cached cells (Array.from (this.grid.square-area this.grid-x this.grid-y this.size)))
   (cached grid-x (* this.x this.size this.overlap-factor))
   (cached grid-y (* this.y this.size this.overlap-factor))
   (def-generic get (x y grid grid-x grid-y size)
