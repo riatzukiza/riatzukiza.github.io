@@ -135,7 +135,6 @@ kanban-plugin: board
 - [ ] [Governor System](tasks/Governor%20System.md)
 - [ ] [Add beautifier and beautifier to pipeline to pipeline](tasks/Add%20beautifier%20and%20beautifier%20to%20pipeline%20to%20pipeline.md)
 	  - Maybe this should be [done](done.md) at the same time as hot reloading? it is at least [blocked](blocked.md) by that task.
-- [ ] [Find unknown content warnings](tasks/Find%20unknown%20content%20warnings.md)
 - [ ] [Remove duplicate code included in headers.](tasks/Remove%20duplicate%20code%20included%20in%20headers..md)
 - [ ] [Cull duplicate macros](tasks/Cull%20duplicate%20macros.md)
 - [ ] [Make old algage work](tasks/Make%20old%20algage%20work.md)
@@ -271,12 +270,13 @@ kanban-plugin: board
 
 ## In Review (8)
 
-- [ ] [[implement binary heap]]
+- [ ] [Find unknown content warnings](tasks/Find%20unknown%20content%20warnings.md)
 
 
 ## Done
 
 **Complete**
+- [x] [[implement binary heap]] ✅ 2025-01-19
 - [x] [unit system](tasks/unit%20system.md) ✅ 2025-01-18
 	  - A unit is an abstraction over an entity.
 	  - Entities can be anything in the game
@@ -318,6 +318,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,false,false,true,false,true,false,false,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,false,true,false,true,false,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%

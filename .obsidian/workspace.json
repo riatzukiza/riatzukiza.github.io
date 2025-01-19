@@ -11,14 +11,14 @@
             "id": "fd8adc03a0d2fd83",
             "type": "leaf",
             "state": {
-              "type": "kanban",
+              "type": "markdown",
               "state": {
-                "file": "kanban/tasks/Move fork of sibilant into git.md",
+                "file": "Terrain features.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Move fork of sibilant into git"
+              "title": "Terrain features"
             }
           }
         ]
@@ -87,8 +87,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "cb509b7f274d7b5e",
@@ -150,10 +149,10 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "kanban/tasks/Move fork of sibilant into git.md"
+                "file": "kanban/board.md"
               },
               "icon": "lucide-list",
-              "title": "Outline of Move fork of sibilant into git"
+              "title": "Outline of board"
             }
           },
           {
@@ -181,13 +180,23 @@
             }
           },
           {
-            "id": "c446c1100d2f9bc2",
+            "id": "5ff5ed2df8f7125f",
             "type": "leaf",
             "state": {
-              "type": "smart-connections-view",
+              "type": "todo",
               "state": {},
-              "icon": "lucide-file",
-              "title": "Plugin no longer active"
+              "icon": "checkmark",
+              "title": "Todo List"
+            }
+          },
+          {
+            "id": "e5071d2afcf3667b",
+            "type": "leaf",
+            "state": {
+              "type": "code-execute-manage-executors",
+              "state": {},
+              "icon": "command-glyph",
+              "title": "Execution Runtimes"
             }
           }
         ],
@@ -237,34 +246,34 @@
                 "id": "a92ab7efc8193530",
                 "type": "leaf",
                 "state": {
-                  "type": "markdown",
+                  "type": "kanban",
                   "state": {
-                    "file": "notes/daily/2025-01-19.md",
-                    "mode": "source",
-                    "source": false
+                    "file": "kanban/board.md",
+                    "kanbanViewState": {
+                      "kanban-plugin": "board",
+                      "list-collapse": [
+                        true,
+                        true,
+                        true,
+                        true,
+                        true,
+                        false,
+                        true,
+                        false,
+                        true,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        null,
+                        false
+                      ]
+                    }
                   },
-                  "icon": "lucide-file",
-                  "title": "2025-01-19"
-                }
-              }
-            ]
-          },
-          {
-            "id": "b4b2ddbe47cb2679",
-            "type": "tabs",
-            "children": [
-              {
-                "id": "fb8a0d5676f0972f",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "kanban/tasks/ranged attack system.md",
-                    "mode": "source",
-                    "source": false
-                  },
-                  "icon": "lucide-file",
-                  "title": "ranged attack system"
+                  "icon": "lucide-trello",
+                  "title": "board"
                 }
               }
             ]
@@ -280,46 +289,36 @@
       }
     ]
   },
-  "active": "fd8adc03a0d2fd83",
+  "active": "a92ab7efc8193530",
   "lastOpenFiles": [
-    "colors.md",
-    "kanban/tasks/DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files..md",
+    "Terrain features.md",
     "kanban/board.md",
-    "kanban/tasks/Threaded game systems.md",
-    "kanban/tasks/Prevent agents from entering ungenerated parts of the world..md",
-    "kanban/tasks/paralell processing for each system.md",
-    "paralellism and multithreading game systems.md",
-    "Chats/New Chat.md",
-    "notes/daily/2025-01-19.md",
-    "Chats/_Index_of_Chats.md",
-    "Chats",
-    "notes/unique/2025-01-18-08.12.36.md",
-    "kanban/tasks/ranged attack system.md",
+    "implement binary heap.md",
+    "kanban/tasks/Move fork of sibilant into git.md",
+    "kanban/tasks/Find unknown content warnings.md",
     "kanban/tasks/devops pipeline.md",
-    "Create template for new tasks.md",
-    "kanban/templates/New Task.md",
+    "kanban/tasks/DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files..md",
+    "notes/unique/_Index_of_unique.md",
     "notes/unique/On proxy overhead.md",
     "notes/unique/2025-01-18-08.12.36.md",
     "notes/unique/2025-01-18-07.51.13.md",
     "notes/unique/2025-01-18-07.39.28.md",
     "notes/unique/2025-01-10-11.43.23.md",
-    "notes/unique/2025-01-10-11.29.34.md",
     "notes/unique/2025-01-10-11.17.32.md",
+    "notes/unique/2025-01-10-11.29.34.md",
     "notes/unique/2025-01-10-08.21.29.md",
     "notes/unique",
-    "notes/daily/2025-01-18.md",
-    "notes/daily/2025-01-15.md",
-    "notes/daily/2025-01-12.md",
-    "kanban/tasks/sprite generator.md",
-    "kanban/tasks/ranged attack system.md",
-    "kanban/tasks/implement binary heap.md",
-    "kanban/tasks/World building.md",
-    "kanban/tasks/Weapon loadout system.md",
-    "kanban/tasks/Symbiant.md",
-    "kanban/tasks/Process.md",
     "kanban/tasks/Procedural Generation.md",
-    "kanban/tasks/Map generation.md",
-    "notes/unique",
+    "kanban/tasks/Prevent agents from entering ungenerated parts of the world..md",
+    "kanban/tasks/Implement A star algorithim.md",
+    "kanban/tasks/Game design.md",
+    "kanban/tasks/Digital Assistants.md",
+    "kanban/tasks/Crash Landed.md",
+    "kanban/tasks/Benchmarking.md",
+    "kanban/tasks/Algorithims.md",
+    "kanban/tasks/Abstractions.md",
+    "_Index_of_riatzukiza.github.io.md",
+    "Chats",
     "notes/daily",
     "notes",
     "static/docs/readme.html",
