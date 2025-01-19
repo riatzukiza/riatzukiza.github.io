@@ -122,6 +122,8 @@ kanban-plugin: board
 
 ## Ice Box
 
+- [ ] [multiple signal fields](tasks/multiple%20signal%20fields.md)
+- [ ] [reverse navigation home](tasks/reverse%20navigation%20home.md)
 - [ ] [Better sprite rotation](tasks/Better%20sprite%20rotation.md)
 - [ ] [multiple signal fields](tasks/multiple%20signal%20fields.md)
 - [ ] [reverse navigation home](tasks/reverse%20navigation%20home.md)
@@ -202,7 +204,6 @@ kanban-plugin: board
 - [ ] Cleanup path finding system
 - [ ] cleanup needs system
 - [ ] cleanup container system
-- [ ] [[ranged attack system]]
 - [ ] [[Threaded game systems]]
 - [ ] projectile system
 - [ ] [minimap](tasks/minimap.md)
@@ -222,12 +223,12 @@ kanban-plugin: board
 
 ## Breakdown (13)
 
+- [ ] [[ranged attack system]]
 - [ ] cleanup item system
 - [ ] Implement action system
 - [ ] [[Prevent agents from entering ungenerated parts of the world.]]
 - [ ] [Mineral Resource](tasks/Mineral%20Resource.md)
 - [ ] [night day cycle](tasks/night%20day%20cycle.md)
-- [ ] [[Terrain features]]
 - [ ] [Building system](tasks/Building%20system.md)
 - [ ] [Priority management system](tasks/Priority%20management%20system.md)
 - [ ] [Water resource](tasks/Water%20resource.md)
@@ -236,6 +237,7 @@ kanban-plugin: board
 ## Ready (21)
 
 - [ ] [predator agents](tasks/predator%20agents.md)
+- [ ] [[Threaded game systems]]
 - [ ] [multiple factions](tasks/multiple%20factions.md)
 - [ ] [Dynamic pools for renderables.](tasks/Dynamic%20pools%20for%20renderables..md)
 - [ ] [attack system](tasks/attack%20system.md)
@@ -262,6 +264,7 @@ kanban-plugin: board
 
 ## In Progress (3)
 
+- [ ] [[Terrain features]]
 
 
 ## In Review (8)
