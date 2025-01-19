@@ -83,6 +83,7 @@
  [[kanban/tasks/peer to peer networking|peer to peer networking]]
  [[kanban/tasks/placeable entities (rocks, plants, bases)|placeable entities (rocks, plants, bases)]]
  [[kanban/tasks/predator agents|predator agents]]
+ [[kanban/tasks/Prevent agents from entering ungenerated parts of the world.|Prevent agents from entering ungenerated parts of the world.]]
  [[kanban/tasks/Priority management system|Priority management system]]
  [[kanban/tasks/Procedural Generation|Procedural Generation]]
  [[kanban/tasks/Process|Process]]

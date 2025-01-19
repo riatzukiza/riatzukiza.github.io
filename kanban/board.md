@@ -116,6 +116,8 @@ kanban-plugin: board
 - [ ] [[Algorithims]]
 - [ ] [[World building]]
 - [ ] [[Game design]]
+- [ ] [paralell processing for each system](tasks/paralell%20processing%20for%20each%20system.md)
+	  - [blocked](blocked.md) by backend task
 
 
 ## Ice Box
@@ -133,13 +135,10 @@ kanban-plugin: board
 	  - Maybe this should be [done](done.md) at the same time as hot reloading? it is at least [blocked](blocked.md) by that task.
 - [ ] [Find unknown content warnings](tasks/Find%20unknown%20content%20warnings.md)
 - [ ] [Remove duplicate code included in headers.](tasks/Remove%20duplicate%20code%20included%20in%20headers..md)
-- [ ] [paralell processing for each system](tasks/paralell%20processing%20for%20each%20system.md)
-	  - [blocked](blocked.md) by backend task
 - [ ] [Cull duplicate macros](tasks/Cull%20duplicate%20macros.md)
 - [ ] [Make old algage work](tasks/Make%20old%20algage%20work.md)
 - [ ] Ampibious units
 - [ ] [Implement tests for existing shared components.](tasks/Implement%20tests%20for%20existing%20shared%20components..md)
-- [ ] [DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files.](tasks/DevOps%20Sibilant%20transpiler%20should%20create%20less%20noise%20in%20pull%20requests%20when%20acting%20on%20unchanged%20files..md)
 - [ ] [add game of life to portfolio](tasks/add%20game%20of%20life%20to%20portfolio.md)
 - [ ] [Make old symbiants work](tasks/Make%20old%20symbiants%20work.md)
 - [ ] [move kit fs](tasks/move%20kit%20fs.md)
@@ -186,14 +185,6 @@ kanban-plugin: board
 ## New (50)
 
 - [ ] Optional/removable components
-- [ ] [[Threaded game systems]]
-- [ ] Prevent agents from entering ungenerated parts of the world.
-- [ ] cleanup needs system
-- [ ] Cleanup path finding system
-- [ ] clean up mental state system
-- [ ] cleanup item system
-- [ ] cleanup container system
-- [ ] Implement action system
 - [ ] Add sound effects
 - [ ] Add music
 
@@ -206,7 +197,13 @@ kanban-plugin: board
 
 ## Accepted (21)
 
+- [ ] [DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files.](tasks/DevOps%20Sibilant%20transpiler%20should%20create%20less%20noise%20in%20pull%20requests%20when%20acting%20on%20unchanged%20files..md)
+- [ ] clean up mental state system
+- [ ] Cleanup path finding system
+- [ ] cleanup needs system
+- [ ] cleanup container system
 - [ ] [[ranged attack system]]
+- [ ] [[Threaded game systems]]
 - [ ] projectile system
 - [ ] [minimap](tasks/minimap.md)
 - [ ] In game unit designer
@@ -225,6 +222,9 @@ kanban-plugin: board
 
 ## Breakdown (13)
 
+- [ ] cleanup item system
+- [ ] Implement action system
+- [ ] [[Prevent agents from entering ungenerated parts of the world.]]
 - [ ] [Mineral Resource](tasks/Mineral%20Resource.md)
 - [ ] [night day cycle](tasks/night%20day%20cycle.md)
 - [ ] [[Terrain features]]
@@ -313,6 +313,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,true,false,true,false,true,false,false,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,false,false,true,false,true,false,false,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
