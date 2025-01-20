@@ -188,7 +188,6 @@ kanban-plugin: board
 
 ## New (50)
 
-- [ ] Static world objects
 - [ ] Optional/removable components
 - [ ] Add sound effects
 - [ ] Add music
@@ -201,6 +200,7 @@ kanban-plugin: board
 
 ## Accepted (21)
 
+- [ ] [[Static world objects]]
 - [ ] [minimap](tasks/minimap.md)
 - [ ] In game unit designer
 - [ ] [sprite lighting](tasks/sprite%20lighting.md)

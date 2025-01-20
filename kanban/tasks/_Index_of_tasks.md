@@ -109,6 +109,7 @@
  [[kanban/tasks/sprite lighting|sprite lighting]]
  [[kanban/tasks/Sprite sheets|Sprite sheets]]
  [[kanban/tasks/sprites|sprites]]
+ [[kanban/tasks/Static world objects|Static world objects]]
  [[kanban/tasks/Symbiant|Symbiant]]
  [[kanban/tasks/Terrain features|Terrain features]]
  [[kanban/tasks/Text editor program|Text editor program]]
