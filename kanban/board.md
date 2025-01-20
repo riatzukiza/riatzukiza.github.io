@@ -205,31 +205,34 @@ kanban-plugin: board
 - [ ] In game unit designer
 - [ ] [sprite lighting](tasks/sprite%20lighting.md)
 - [ ] [[sprite generator]]
-- [ ] [[Weapon loadout system]]
 - [ ] [shadows](tasks/shadows.md)
 - [ ] [Agenda system](tasks/Agenda%20system.md)
-- [ ] Implement graph datastructure
-- [ ] Random events system
 - [ ] Dynamic story teller
 - [ ] Implement Feed Forward Neural network
 - [ ] Neural network visualization
 
 
+## Rejected
+
+- [ ] clean up mental state system
+- [ ] cleanup item system
+- [ ] Cleanup path finding system
+- [ ] cleanup needs system
+- [ ] cleanup container system
+
+
 ## Breakdown (13)
 
-- [ ] cleanup container system
-- [ ] cleanup needs system
-- [ ] Cleanup path finding system
-- [ ] cleanup item system
-- [ ] clean up mental state system
-- [ ] projectile system
 - [ ] Implement action system
+- [ ] Implement graph datastructure
+- [ ] Random events system
+- [ ] projectile system
+- [ ] [[Weapon loadout system]]
 - [ ] [Mineral Resource](tasks/Mineral%20Resource.md)
 - [ ] [night day cycle](tasks/night%20day%20cycle.md)
 - [ ] [Building system](tasks/Building%20system.md)
 - [ ] [Priority management system](tasks/Priority%20management%20system.md)
 - [ ] [Water resource](tasks/Water%20resource.md)
-- [ ] [[Cleanup systems related to mental state and path finding]]
 
 
 ## Ready (21)
@@ -265,13 +268,14 @@ kanban-plugin: board
 
 ## In Progress (3)
 
+- [ ] [[Cleanup systems related to mental state and path finding]]
 - [ ] [[Terrain features]]
-- [ ] [[Prevent agents from entering ungenerated parts of the world.]]
 
 
 ## In Review (8)
 
 - [ ] [Find unknown content warnings](tasks/Find%20unknown%20content%20warnings.md)
+- [ ] [[Prevent agents from entering ungenerated parts of the world.]]
 
 
 ## Done
@@ -305,10 +309,6 @@ kanban-plugin: board
 - [x] trail entities ✅ 2024-12-23
 
 
-## Rejected
-
-
-
 ***
 
 ## Archive
@@ -320,6 +320,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,true,false,true,true,true,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,true,true,true,true,true,false,true,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
