@@ -94,7 +94,7 @@ var SuperPosition = Spawnable.define("SuperPosition", {
         if (this.weights.length) {
           return this.weights;
         } else {
-          return [ CurrentDistrobution.grass, CurrentDistrobution.stone, CurrentDistrobution.floweryGrass ];
+          return [ ((1 * Math.random()) + CurrentDistrobution.grass), ((1 * Math.random()) + CurrentDistrobution.stone), ((1 * Math.random()) + CurrentDistrobution.floweryGrass) ];
         }
       }).call(this));
       (function() {
@@ -122,8 +122,18 @@ var SuperPosition = Spawnable.define("SuperPosition", {
    },
   get edges(  ){ 
     
-      const tile=this.cell;
-      return [ tile.north, tile.south, tile.east, tile.west, tile.northEast, tile.northWest, tile.southEast, tile.southWest ];
+      return (function() {
+        if (this._edges) {
+          return this._edges;
+        } else {
+          return this._edges = (function() {
+            /* inc/misc.sibilant:1:3986 */
+          
+            const tile=this.cell;
+            return [ tile.north, tile.south, tile.east, tile.west, tile.northEast, tile.northWest, tile.southEast, tile.southWest ];
+          }).call(this);
+        }
+      }).call(this);
     
    },
   get neighbors(  ){ 
@@ -137,7 +147,7 @@ var SuperPosition = Spawnable.define("SuperPosition", {
           
             return this.edges.map(((neighbor) => {
             	
-              return SuperPosition.spawn(neighbor);
+              return neighbor.superPosition;
             
             }));
           }).call(this);
@@ -163,11 +173,11 @@ var SuperPosition = Spawnable.define("SuperPosition", {
     
       return this.neighbors.filter(((superPosition) => {
       	
-        return (superPosition.validStates.length && !(superPosition.state));
+        return !(superPosition.state);
       
       })).sort(((a, b) => {
       	
-        return (b.entropy - a.entropy);
+        return (a.entropy - b.entropy);
       
       }));
     
@@ -239,7 +249,7 @@ var SuperPosition = Spawnable.define("SuperPosition", {
       }), 0) / this.totalWeight);
     
    },
-  collapse( testing = false,depth = 0,maxDepth = 1,overlap = 1,cell = this.cell ){ 
+  collapse( depth = 0,maxDepth = 3,overlap = 2,cell = this.cell ){ 
     
       if( this.state ){ 
         return ;
@@ -249,40 +259,45 @@ var SuperPosition = Spawnable.define("SuperPosition", {
           return this.validStates[0].collapsedState;
         } else if (this.validStates.length === 0) {
           return ExpectedLikelyhoodGivenCurrentState.sample();
-        } else if (depth >= maxDepth) {
+        } else if ((depth >= maxDepth || !(this.collapsedNeighbors.length))) {
           return this.probabilityDistrobution.sample();
         } else {
           const temp=[];
           var newState = null;
-          for (var neighbor of this.uncollapsedNeighbors)
+          const neighbors=this.uncollapsedNeighbors;
+          const newDepth=(depth + 1);
+          for (var neighbor of neighbors)
           {
           temp.push(neighbor);
-          neighbor.collapse(true, (depth + 1), maxDepth, overlap);
+          neighbor.collapse(newDepth, maxDepth, overlap);
           if( this.validStates.length === 1 ){ 
             newState = this.validStates[0].state;;
             break
            };
           if( this.validStates.length === 0 ){ 
-            temp.state = null;
+            neighbor.state = null;
            }
           }
           ;
-          for (var neighbor of temp)
-          {
-          neighbor.state = null;
-          }
-          ;
-          return (function() {
+          const r=(function() {
             if (!(newState)) {
               return this.probabilityDistrobution.sample();
             } else {
               return newState;
             }
           }).call(this);
+          if( !(newDepth < overlap) ){ 
+            for (var neighbor of temp)
+            {
+            neighbor.state = null;
+            }
+            
+           };
+          return r;
         }
       }).call(this);
       return (function() {
-        if (!(testing)) {
+        if (depth < overlap) {
           return ((CurrentDistrobution[(this.state + "Instances")])++);
         }
       }).call(this);

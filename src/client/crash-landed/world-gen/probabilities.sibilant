@@ -69,9 +69,9 @@
 
 (define Current-distrobution Probability-distrobution
 
-  (grass-instances 0)
-  (stone-instances 0)
-  (flowery-grass-instances 0)
+  (grass-instances 1)
+  (stone-instances 1)
+  (flowery-grass-instances 1)
 
   (gett total-instances (+ this.grass-instances
                            this.stone-instances

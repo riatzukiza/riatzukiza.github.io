@@ -11331,17 +11331,30 @@ var Tile = GridCell.define("Tile", {
        };
     
    },
+  get superPosition(  ){ 
+    
+      return (function() {
+        if (this._superPosition) {
+          return this._superPosition;
+        } else {
+          return this._superPosition = (function() {
+            /* inc/misc.sibilant:1:3986 */
+          
+            return SuperPosition.spawn(this);
+          }).call(this);
+        }
+      }).call(this);
+    
+   },
   collapse(  ){ 
     
-      const s=SuperPosition.spawn(this);
-      s.collapse();
-      s.despawn();
+      this.superPosition.collapse();
       return this.data;
     
    }
  });
 var sleep = (function sleep$(n) {
-  /* sleep eval.sibilant:19:0 */
+  /* sleep eval.sibilant:18:0 */
 
   return (new Promise(((success, fail) => {
   	
@@ -11399,9 +11412,9 @@ var Chunk = GridChunk.define("Chunk", {
     
       return (function() {
         if (this.distanceFromPlayer > chunk.distanceFromPlayer) {
-          return -1;
-        } else {
           return 1;
+        } else {
+          return -1;
         }
       }).call(this);
     
@@ -11413,15 +11426,28 @@ var Chunk = GridChunk.define("Chunk", {
         return ;
        };
       this.collapsing = true;
-      for (var cell of this.cells)
-      {
-      if( cell.type ){ 
-        console.log("previously collapsed cell detected");
-        continue
+      var cell = this.cells[(Math.floor((Math.random() * ( - this.cells.length))) + this.cells.length)];
+      const visited=(new Set());
+      while( cell ){ 
+        yield(cell.collapse());
+        visited.add(cell);
+        const lowestEntropyNeighbor=cell.superPosition.uncollapsedNeighbors.find(((superPosition) => {
+        	
+          return superPosition.cell.chunk === this;
+        
+        }));;
+        (function() {
+          if (lowestEntropyNeighbor) {
+            return cell = lowestEntropyNeighbor.cell;
+          } else {
+            return cell = this.cells.find(((cell) => {
+            	
+              return !(visited.has(cell));
+            
+            }));
+          }
+        }).call(this)
        };
-      yield(cell.collapse())
-      }
-      ;
       this.collapsed = true;
       return this.collapsing = false;
     
@@ -11487,7 +11513,7 @@ var TileGrid = Grid.define("TileGrid", {
    async step(  ){ 
   
     const value=await this.chunkProcessor.next();
-    console.log("stepping with value", value.value);
+    console.log("stepping with value", value.value, this.playerChunk, this.playerPos);
     return this.unsentChunks.push(value.value);
   
  },
@@ -11507,7 +11533,7 @@ var TileGrid = Grid.define("TileGrid", {
    },
   addToHeap( chunk ){ 
     
-      if( !((chunk.collapsed || this.loadingChunks.has(chunk))) ){ 
+      if( (!((chunk.collapsed || this.loadingChunks.has(chunk))) && !(this.heap.includes(chunk))) ){ 
         this.loadingChunks.add(chunk);
         this.heap.insert(chunk)
        };
@@ -11526,7 +11552,7 @@ var TileGrid = Grid.define("TileGrid", {
         ;
         nextChunk = this.heap.extractMin();
        };
-      console.log("next chunk", nextChunk);
+      console.log("next chunk", nextChunk, this.playerChunk);
       this.loadingChunks.delete(nextChunk);
       return nextChunk;
     
@@ -11543,14 +11569,15 @@ var TileGrid = Grid.define("TileGrid", {
    },
   updatePlayerPos( pos ){ 
     
-      (function() {
+      console.log("Updating player position", pos, this.playerPos, this.getNearestChunk(pos.x, pos.y), this.playerChunk);
+      return (function() {
         if (this.getNearestChunk(pos.x, pos.y) !== this.playerChunk) {
           this.resetSearchRadius();
-          return this.heap.heapify();
+          this.heap.heapify();
+          this.playerPos.x = pos.x;
+          return this.playerPos.y = pos.y;
         }
       }).call(this);
-      this.playerPos.x = pos.x;
-      return this.playerPos.y = pos.y;
     
    },
   init( events = create(EventEmitter)() ){ 

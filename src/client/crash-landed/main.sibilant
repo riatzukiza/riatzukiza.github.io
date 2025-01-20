@@ -122,6 +122,7 @@
                      (const nearest-tile (.get-closest-from-world-pos
                                           tiles
                                           p.pos.x p.pos.y))
+                     (print "sending nearest tile" p.pos nearest-tile)
                      (pipe (.get-loaded-tiles generator nearest-tile)
                            (then data
                                  (each data.tiles (tile-data)

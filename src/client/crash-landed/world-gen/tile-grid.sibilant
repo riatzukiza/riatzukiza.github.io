@@ -10,10 +10,9 @@
 
 (define Tile Grid-cell
   (gett data (lit (x this.x) (y this.y) (type this.type)))
+  (cached super-position (.spawn Super-position this))
   (def collapse ()
-    (const s (.spawn Super-position this))
-    (.collapse s)
-    (.despawn s)
+    (.collapse this.super-position)
     (return this.data)))
 
 (def sleep (n) (make-promise (set-timeout resolve n)))
@@ -45,18 +44,31 @@
         (return d))
   (def compare-to (chunk)
     (if (> this.distance-from-player chunk.distance-from-player)
-        -1
-        1))
+        1
+        -1))
   (def-generic* collapse ()
 
     (print "collapsing chunk" this)
     (if! this.collapsed (return))
     (assign this.collapsing true)
-    (for-of! cell this.cells
-             (if! cell.type
-                  (print "previously collapsed cell detected")
-                  continue)
-             (yield (.collapse cell)))
+
+    ;; (const cells (.sort this.cells (-> (- (Math.random) (Math.random)))))
+    (var cell (get this.cells (random-int this.cells.length)))
+    (const visited (new Set))
+    (while! cell
+            (yield (.collapse cell))
+            (.add visited cell)
+            (const lowest-entropy-neighbor (.find cell.super-position.uncollapsed-neighbors
+                                                  (=> (super-position)
+                                                      (= super-position.cell.chunk this))))
+            (if lowest-entropy-neighbor
+                (assign cell lowest-entropy-neighbor.cell)
+                (assign cell (.find this.cells (=> (cell) (not (.has visited cell)))))))
+    ;; (for-of! cell this.cells
+    ;;          (if! cell.type
+    ;;               (print "previously collapsed cell detected")
+    ;;               continue)
+    ;;          (yield (.collapse cell)))
     (set this 'collapsed true
          'collapsing false)))
 
@@ -84,7 +96,7 @@
   (gett chunks-in-search-radius (.get-chunks-in-search-radius this))
   (def-async step ()
     (const value (await (.next this.chunk-processor)))
-    (print "stepping with value" value.value)
+    (print "stepping with value" value.value this.player-chunk this.player-pos)
     (.push this.unsent-chunks value.value))
   (def-async* process-chunks ()
     (while! true
@@ -94,8 +106,10 @@
     )
   (gett next-chunk (.get-next-chunk this))
   (def add-to-heap (chunk)
-    (if! (not (or  chunk.collapsed
-                   (.has this.loading-chunks chunk)))
+    (if! (and (not (or  chunk.collapsed
+                    (.has this.loading-chunks chunk)))
+              (not (.includes this.heap chunk))
+              )
         (.add this.loading-chunks chunk)
         (.insert this.heap chunk))
     null)
@@ -108,7 +122,7 @@
          (for-of! chunk this.chunks-in-search-radius
                   (.add-to-heap this chunk))
          (assign next-chunk (.extract-min this.heap) ))
-    (print "next chunk" next-chunk)
+    (print "next chunk" next-chunk this.player-chunk)
     (.delete this.loading-chunks next-chunk)
     (return next-chunk))
 
@@ -119,17 +133,16 @@
                          this.search-radius)
     )
   (def update-player-pos (pos)
+    (print "Updating player position" pos this.player-pos
+           (.get-nearest-chunk this pos.x pos.y)
+           this.player-chunk)
     (when (!= (.get-nearest-chunk this pos.x pos.y)
               this.player-chunk)
       (.reset-search-radius this)
       (.heapify this.heap)
-
-        )
-
-    (set this.player-pos
-         'x pos.x
-         'y pos.y)
-)
+      (set this.player-pos
+           'x pos.x
+           'y pos.y)))
   (init ((events ((create Event-emitter))))
         (.call Grid.init this))
   (chunk-size 16)

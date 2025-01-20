@@ -10900,9 +10900,9 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
  });
 exports.BaseDistrobution = BaseDistrobution;
 var CurrentDistrobution = ProbabilityDistrobution.define("CurrentDistrobution", { 
-  grassInstances:0,
-  stoneInstances:0,
-  floweryGrassInstances:0,
+  grassInstances:1,
+  stoneInstances:1,
+  floweryGrassInstances:1,
   get totalInstances(  ){ 
     
       return (this.grassInstances + this.stoneInstances + this.floweryGrassInstances);

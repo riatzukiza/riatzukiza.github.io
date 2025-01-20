@@ -2,7 +2,7 @@
 (import-namespace interface)
 
 (define base-weights Interface
-  (grass 500)
-  (stone 0.01)
-  (flowery-grass 500))
+  (grass 10)
+  (stone 1)
+  (flowery-grass 10))
 (export base-weights)

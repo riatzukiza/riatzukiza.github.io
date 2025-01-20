@@ -8,7 +8,7 @@
   (gett explored? this.entity.visible-status.explored?)
   (gett alpha (if this.visible? 1
                   this.explored? 0.8
-                  this.entity.ground.type 0.2
+                  this.entity.ground.type 0.4
                   0))
 
 

@@ -1,6 +1,7 @@
 (require! straight "@crash-landed/world-gen/modules/roads/straight.js"
           turns "@crash-landed/world-gen/modules/roads/turns.js"
-          intersections "@crash-landed/world-gen/modules/roads/intersections.js")
+          intersections "@crash-landed/world-gen/modules/roads/intersections.js"
+          )
 
 
 (export straight)

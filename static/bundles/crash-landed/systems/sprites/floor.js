@@ -10591,7 +10591,7 @@ var FloorSprite = AnimatedSprite.define("FloorSprite", {
         } else if (this.explored__QUERY) {
           return 0.8;
         } else if (this.entity.ground.type) {
-          return 0.2;
+          return 0.4;
         } else {
           return 0;
         }

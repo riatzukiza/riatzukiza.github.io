@@ -26,8 +26,8 @@ var {
   Interface
  } = require("@kit-js/interface");
 var baseWeights = Interface.define("baseWeights", { 
-  grass:500,
-  stone:0.01,
-  floweryGrass:500
+  grass:10,
+  stone:1,
+  floweryGrass:10
  });
 exports.baseWeights = baseWeights;
