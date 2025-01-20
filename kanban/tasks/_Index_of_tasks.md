@@ -53,6 +53,7 @@
  [[kanban/tasks/Identify and write useful templates for obsidian|Identify and write useful templates for obsidian]]
  [[kanban/tasks/Image editor program|Image editor program]]
  [[kanban/tasks/Implement A star algorithim|Implement A star algorithim]]
+ [[kanban/tasks/Implement action system|Implement action system]]
  [[kanban/tasks/implement binary heap|implement binary heap]]
  [[kanban/tasks/Implement tests for existing shared components.|Implement tests for existing shared components.]]
  [[kanban/tasks/Import other projects|Import other projects]]

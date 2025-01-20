@@ -188,10 +188,10 @@ kanban-plugin: board
 
 ## New (50)
 
+- [ ] Static world objects
 - [ ] Optional/removable components
 - [ ] Add sound effects
 - [ ] Add music
-- [ ] Static world objects
 
 
 ## Bugs (8)
@@ -223,7 +223,6 @@ kanban-plugin: board
 
 ## Breakdown (13)
 
-- [ ] Implement action system
 - [ ] Implement graph datastructure
 - [ ] Random events system
 - [ ] projectile system
@@ -232,11 +231,12 @@ kanban-plugin: board
 - [ ] [night day cycle](tasks/night%20day%20cycle.md)
 - [ ] [Building system](tasks/Building%20system.md)
 - [ ] [Priority management system](tasks/Priority%20management%20system.md)
-- [ ] [Water resource](tasks/Water%20resource.md)
 
 
 ## Ready (21)
 
+- [ ] [Water resource](tasks/Water%20resource.md)
+- [ ] [[Implement action system]]
 - [ ] [DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files.](tasks/DevOps%20Sibilant%20transpiler%20should%20create%20less%20noise%20in%20pull%20requests%20when%20acting%20on%20unchanged%20files..md)
 - [ ] [[ranged attack system]]
 - [ ] [[Threaded game systems]]
@@ -320,6 +320,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,true,true,true,true,true,false,true,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,true,true,true,false,true,false,true,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
