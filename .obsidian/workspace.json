@@ -11,14 +11,49 @@
             "id": "fd8adc03a0d2fd83",
             "type": "leaf",
             "state": {
+              "type": "kanban",
+              "state": {
+                "file": "kanban/board.md",
+                "kanbanViewState": {
+                  "kanban-plugin": "board",
+                  "list-collapse": [
+                    true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    false,
+                    true,
+                    true,
+                    true,
+                    false,
+                    null,
+                    false
+                  ]
+                }
+              },
+              "icon": "lucide-trello",
+              "title": "board"
+            }
+          }
+        ]
+      },
+      {
+        "id": "14aff9efe11b651b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "025ec530b348e151",
+            "type": "leaf",
+            "state": {
               "type": "markdown",
               "state": {
-                "file": "Terrain features.md",
+                "file": "kanban/tasks/Cleanup systems related to mental state and path finding.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Terrain features"
+              "title": "Cleanup systems related to mental state and path finding"
             }
           }
         ]
@@ -87,7 +122,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "cb509b7f274d7b5e",
@@ -226,7 +262,8 @@
       "githobs:Manage a github issue": false,
       "webpage-html-export:Export Vault to HTML": false,
       "obisidian-note-linker:Note Linker": false,
-      "smart-second-brain:Open S2B Chat": false
+      "smart-second-brain:Open S2B Chat": false,
+      "card-board:CardBoard": false
     }
   },
   "floating": {
@@ -268,16 +305,19 @@
       }
     ]
   },
-  "active": "a92ab7efc8193530",
+  "active": "025ec530b348e151",
   "lastOpenFiles": [
     "kanban/board.md",
-    "notes/daily/2025-01-20.md",
+    "kanban/tasks/Cleanup systems related to mental state and path finding.md",
+    "kanban/tasks/DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files..md",
+    "kanban/tasks/Mineral Resource.md",
+    "kanban/tasks/ranged attack system.md",
     "Terrain features.md",
+    "notes/daily/2025-01-20.md",
     "implement binary heap.md",
     "kanban/tasks/Move fork of sibilant into git.md",
     "kanban/tasks/Find unknown content warnings.md",
     "kanban/tasks/devops pipeline.md",
-    "kanban/tasks/DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files..md",
     "notes/unique/_Index_of_unique.md",
     "notes/unique/On proxy overhead.md",
     "notes/unique/2025-01-18-08.12.36.md",
@@ -294,9 +334,6 @@
     "kanban/tasks/Game design.md",
     "kanban/tasks/Digital Assistants.md",
     "kanban/tasks/Crash Landed.md",
-    "kanban/tasks/Benchmarking.md",
-    "kanban/tasks/Algorithims.md",
-    "kanban/tasks/Abstractions.md",
     "Chats",
     "notes/daily",
     "notes",

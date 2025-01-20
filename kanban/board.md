@@ -126,17 +126,17 @@ kanban-plugin: board
 - [ ] [reverse navigation home](tasks/reverse%20navigation%20home.md)
 - [ ] [Better sprite rotation](tasks/Better%20sprite%20rotation.md)
 - [ ] [multiple signal fields](tasks/multiple%20signal%20fields.md)
+- [ ] [Add beautifier and beautifier to pipeline to pipeline](tasks/Add%20beautifier%20and%20beautifier%20to%20pipeline%20to%20pipeline.md)
+	  - Maybe this should be [done](done.md) at the same time as hot reloading? it is at least [blocked](blocked.md) by that task.
+- [ ] [Cull duplicate macros](tasks/Cull%20duplicate%20macros.md)
 - [ ] [reverse navigation home](tasks/reverse%20navigation%20home.md)
 - [ ] [weather system](tasks/weather%20system.md)
 - [ ] [flying units](tasks/flying%20units.md)
 - [ ] [chat app MVP](tasks/chat%20app%20MVP.md)
-- [ ] [Pure p2p video text chat](tasks/Pure%20p2p%20video%20text%20chat.md)
 - [ ] [peer to peer networking](tasks/peer%20to%20peer%20networking.md)
+- [ ] Implement AVL trees
 - [ ] [Governor System](tasks/Governor%20System.md)
-- [ ] [Add beautifier and beautifier to pipeline to pipeline](tasks/Add%20beautifier%20and%20beautifier%20to%20pipeline%20to%20pipeline.md)
-	  - Maybe this should be [done](done.md) at the same time as hot reloading? it is at least [blocked](blocked.md) by that task.
 - [ ] [Remove duplicate code included in headers.](tasks/Remove%20duplicate%20code%20included%20in%20headers..md)
-- [ ] [Cull duplicate macros](tasks/Cull%20duplicate%20macros.md)
 - [ ] [Make old algage work](tasks/Make%20old%20algage%20work.md)
 - [ ] Ampibious units
 - [ ] [Implement tests for existing shared components.](tasks/Implement%20tests%20for%20existing%20shared%20components..md)
@@ -162,8 +162,11 @@ kanban-plugin: board
 - [ ] [move kit repl](tasks/move%20kit%20repl.md)
 - [ ] [Mirror board to github](tasks/Mirror%20board%20to%20github.md)
 - [ ] [blog](tasks/blog.md)
+- [ ] [Pure p2p video text chat](tasks/Pure%20p2p%20video%20text%20chat.md)
 - [ ] [file explorer](tasks/file%20explorer.md)
+- [ ] [neural network for signal field hyerparameter adjustments](tasks/neural%20network%20for%20signal%20field%20hyerparameter%20adjustments.md)
 - [ ] [Enhance document macros](tasks/Enhance%20document%20macros.md)
+- [ ] [Agenda system](tasks/Agenda%20system.md)
 - [ ] [move kit html](tasks/move%20kit%20html.md)
 - [ ] [Rewrite andy lib in lisp](tasks/Rewrite%20andy%20lib%20in%20lisp.md)
 - [ ] [move kit core](tasks/move%20kit%20core.md)
@@ -172,8 +175,6 @@ kanban-plugin: board
 - [ ] [Electron client](tasks/Electron%20client.md)
 - [ ] [Text editor program](tasks/Text%20editor%20program.md)
 - [ ] [browser based lisp shell](tasks/browser%20based%20lisp%20shell.md)
-- [ ] [neural network for signal field hyerparameter adjustments](tasks/neural%20network%20for%20signal%20field%20hyerparameter%20adjustments.md)
-- [ ] [Agenda system](tasks/Agenda%20system.md)
 - [ ] [Vector based file system search](tasks/Vector%20based%20file%20system%20search.md)
 - [ ] [Question answering system for file system](tasks/Question%20answering%20system%20for%20file%20system.md)
 - [ ] [Image editor program](tasks/Image%20editor%20program.md)
@@ -190,23 +191,16 @@ kanban-plugin: board
 - [ ] Optional/removable components
 - [ ] Add sound effects
 - [ ] Add music
+- [ ] Static world objects
 
 
 ## Bugs (8)
 
-- [ ] [BUG Rendering background color setter never seems to work.](tasks/BUG%20Rendering%20background%20color%20setter%20never%20seems%20to%20work..md)
 - [ ] [BUG Collision doesn't work correctly in some circumstances.](tasks/BUG%20Collision%20doesn't%20work%20correctly%20in%20some%20circumstances..md)
 
 
 ## Accepted (21)
 
-- [ ] [DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files.](tasks/DevOps%20Sibilant%20transpiler%20should%20create%20less%20noise%20in%20pull%20requests%20when%20acting%20on%20unchanged%20files..md)
-- [ ] clean up mental state system
-- [ ] Cleanup path finding system
-- [ ] cleanup needs system
-- [ ] cleanup container system
-- [ ] [[Threaded game systems]]
-- [ ] projectile system
 - [ ] [minimap](tasks/minimap.md)
 - [ ] In game unit designer
 - [ ] [sprite lighting](tasks/sprite%20lighting.md)
@@ -217,26 +211,32 @@ kanban-plugin: board
 - [ ] Implement graph datastructure
 - [ ] Random events system
 - [ ] Dynamic story teller
-- [ ] Implement AVL trees
 - [ ] Implement Feed Forward Neural network
 - [ ] Neural network visualization
 
 
 ## Breakdown (13)
 
-- [ ] [[ranged attack system]]
+- [ ] cleanup container system
+- [ ] cleanup needs system
+- [ ] Cleanup path finding system
 - [ ] cleanup item system
+- [ ] clean up mental state system
+- [ ] projectile system
 - [ ] Implement action system
-- [ ] [[Prevent agents from entering ungenerated parts of the world.]]
 - [ ] [Mineral Resource](tasks/Mineral%20Resource.md)
 - [ ] [night day cycle](tasks/night%20day%20cycle.md)
 - [ ] [Building system](tasks/Building%20system.md)
 - [ ] [Priority management system](tasks/Priority%20management%20system.md)
 - [ ] [Water resource](tasks/Water%20resource.md)
+- [ ] [[Cleanup systems related to mental state and path finding]]
 
 
 ## Ready (21)
 
+- [ ] [DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files.](tasks/DevOps%20Sibilant%20transpiler%20should%20create%20less%20noise%20in%20pull%20requests%20when%20acting%20on%20unchanged%20files..md)
+- [ ] [[ranged attack system]]
+- [ ] [[Threaded game systems]]
 - [ ] [predator agents](tasks/predator%20agents.md)
 - [ ] [[Threaded game systems]]
 - [ ] [multiple factions](tasks/multiple%20factions.md)
@@ -266,6 +266,7 @@ kanban-plugin: board
 ## In Progress (3)
 
 - [ ] [[Terrain features]]
+- [ ] [[Prevent agents from entering ungenerated parts of the world.]]
 
 
 ## In Review (8)
@@ -276,6 +277,7 @@ kanban-plugin: board
 ## Done
 
 **Complete**
+- [x] [BUG Rendering background color setter never seems to work.](tasks/BUG%20Rendering%20background%20color%20setter%20never%20seems%20to%20work..md) ✅ 2025-01-20
 - [x] [[implement binary heap]] ✅ 2025-01-19
 - [x] [unit system](tasks/unit%20system.md) ✅ 2025-01-18
 	  - A unit is an abstraction over an entity.
@@ -318,6 +320,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[false,false,true,false,true,false,false,false,false,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,true,false,true,true,true,false,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
