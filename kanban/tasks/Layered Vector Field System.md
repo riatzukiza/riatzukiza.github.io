@@ -1,5 +1,4 @@
-
-# Multiple Signal Fields
+## Description
 
 Ants of the real world have a complex cocktail of pheremones they use to communicate different things. Different amounts of [each](../docs/Pools/Dynamic/each.md) pheremone can create varied behavior.
 
@@ -8,16 +7,19 @@ We want the agents to mimic this behavior. Agents should be able to use multiple
 ## Requirements
 
 - A system for handling multiple fields.
-- A new field for satiated ants returning home with food
-- A new field for satiated ants looking for food to bring home
+- The two currently implement fields work as before
+	- noise
+	- signal
+- Field system is generic enough to use in both symbiants and crash landed
 
 ## Tasks
 
-- [ ] 
+- [ ] Implement a multi field system using grid datastructures written for crash landed
+- [ ] Refactor obstacles/symbiants to use the new field layering system
 
 ## Blocked by
 
-
+- [[sparse vector fields]]
 ## Notes
 
 The first new field will be a collision field. I don't know if this is something I want to use in a real game, but I think that it is an easy target for implementing the mechanics of interacting fields.

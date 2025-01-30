@@ -4,37 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "82269f109be22a0f",
+        "id": "4e6b57503275451e",
         "type": "tabs",
         "children": [
           {
             "id": "8f9686408cbdbd84",
             "type": "leaf",
             "state": {
-              "type": "kanban",
+              "type": "markdown",
               "state": {
-                "file": "kanban/board.md",
-                "kanbanViewState": {
-                  "kanban-plugin": "board",
-                  "list-collapse": [
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    false,
-                    true,
-                    null,
-                    false
-                  ]
-                }
+                "file": "kanban/tasks/Move all kit code.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-trello",
-              "title": "board"
+              "icon": "lucide-file",
+              "title": "Move all kit code"
             }
           }
         ]
@@ -243,8 +227,7 @@
       "githobs:Manage a github issue": false,
       "webpage-html-export:Export Vault to HTML": false,
       "obisidian-note-linker:Note Linker": false,
-      "smart-second-brain:Open S2B Chat": false,
-      "card-board:CardBoard": false
+      "smart-second-brain:Open S2B Chat": false
     }
   },
   "floating": {
@@ -265,12 +248,12 @@
                 "state": {
                   "type": "markdown",
                   "state": {
-                    "file": "notes/daily/2025-01-27.md",
+                    "file": "notes/daily/2025-01-30.md",
                     "mode": "source",
                     "source": false
                   },
                   "icon": "lucide-file",
-                  "title": "2025-01-27"
+                  "title": "2025-01-30"
                 }
               }
             ]
@@ -286,34 +269,34 @@
       }
     ]
   },
-  "active": "8f9686408cbdbd84",
+  "active": "a92ab7efc8193530",
   "lastOpenFiles": [
-    "kanban/tasks/rename files using new Lithp extension.md",
+    "notes/daily/2025-01-27.md",
+    "notes/daily/2025-01-30.md",
     "kanban/board.md",
     "kanban/tasks/Browerify NPM node_modules bundle.md",
-    "notes/daily/2025-01-27.md",
-    "kanban/tasks/Terrain features.md",
-    "notes/daily/2025-01-26.md",
-    "notes/daily/2025-01-20.md",
+    "kanban/tasks/Layered Vector Field System.md",
+    "kanban/tasks/minimap.md",
+    "kanban/tasks/Order queues.md",
+    "kanban/tasks/elevation.md",
+    "kanban/tasks/Update physics engine to increase accuracy and performance.md",
+    "kanban/tasks/attack system.md",
+    "kanban/tasks/Governor System.md",
+    "kanban/tasks/Implement tests for existing shared components..md",
+    "kanban/tasks/Round trip path finding.md",
+    "kanban/tasks/Add A star to Obstacles.md",
+    "kanban/tasks/placeable entities (rocks, plants, bases).md",
     "kanban/tasks/Static world objects.md",
-    "kanban/tasks/Threaded game systems.md",
-    "kanban/tasks/Implement action system.md",
-    "Terrain features.md",
-    "kanban/tasks/Cleanup systems related to mental state and path finding.md",
-    "kanban/tasks/DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files..md",
-    "kanban/tasks/Mineral Resource.md",
-    "kanban/tasks/ranged attack system.md",
-    "implement binary heap.md",
-    "kanban/tasks/Move fork of sibilant into git.md",
-    "kanban/tasks/Find unknown content warnings.md",
-    "kanban/tasks/devops pipeline.md",
-    "notes/unique/_Index_of_unique.md",
-    "notes/unique/On proxy overhead.md",
-    "notes/unique/2025-01-18-08.12.36.md",
-    "notes/unique/2025-01-18-07.51.13.md",
-    "notes/unique/2025-01-18-07.39.28.md",
-    "notes/unique/2025-01-10-11.43.23.md",
-    "notes/unique/2025-01-10-11.17.32.md",
+    "kanban/tasks/Building system.md",
+    "kanban/tasks/Agenda system.md",
+    "kanban/tasks/vector field visualization.md",
+    "kanban/tasks/weather system.md",
+    "kanban/tasks/shadows.md",
+    "kanban/tasks/sparse vector fields.md",
+    "kanban/tasks/Add fields to crash landed.md",
+    "kanban/tasks/predator agents.md",
+    "kanban/tasks/multiple factions.md",
+    "kanban/tasks/selection box.md",
     "notes/unique",
     "Chats",
     "notes/daily",

@@ -83,7 +83,6 @@ kanban-plugin: board
 
 ## Inactive Epics
 
-- [ ] [Move all outside work into the portfolio git](tasks/Move%20all%20outside%20work%20into%20the%20portfolio%20git.md)
 - [ ] [Import other projects](tasks/Import%20other%20projects.md)
 - [ ] [Natural language information systems](tasks/Natural%20language%20information%20systems.md)
 - [ ] [[Digital Assistants]]
@@ -92,6 +91,7 @@ kanban-plugin: board
 
 ## Passive Epics (8)
 
+- [ ] [Move all outside work into the portfolio git](tasks/Move%20all%20outside%20work%20into%20the%20portfolio%20git.md)
 - [ ] [devops pipeline](tasks/devops%20pipeline.md)
 - [ ] [[Audio Design]]
 - [ ] [Optimizations](tasks/Optimizations.md)
@@ -99,7 +99,6 @@ kanban-plugin: board
 	  - Documenting a little bit at a time, especially when we find outselves having to look at older code to use or change it for use with new features.
 - [ ] [[Benchmarking]]
 - [ ] [[Abstractions]]
-- [ ] [[kanban/tasks/Process]]
 
 
 ## Active Epics (13)
@@ -122,110 +121,43 @@ kanban-plugin: board
 
 ## Ice Box
 
-- [ ] [multiple signal fields](tasks/multiple%20signal%20fields.md)
-- [ ] [reverse navigation home](tasks/reverse%20navigation%20home.md)
-- [ ] [Better sprite rotation](tasks/Better%20sprite%20rotation.md)
-- [ ] [multiple signal fields](tasks/multiple%20signal%20fields.md)
-- [ ] [reverse navigation home](tasks/reverse%20navigation%20home.md)
-- [ ] [weather system](tasks/weather%20system.md)
-- [ ] [Update physics engine to increase accuracy and performance](tasks/Update%20physics%20engine%20to%20increase%20accuracy%20and%20performance.md)
-	  - Consolodate position and velocity into physics
-	  - When performing updates, do not mutate the state of the
-	last tick. Use two data structures, and swap them out [each](../docs/Pools/Dynamic/each.md) tick.
-- [ ] [flying units](tasks/flying%20units.md)
-- [ ] [chat app MVP](tasks/chat%20app%20MVP.md)
-- [ ] [peer to peer networking](tasks/peer%20to%20peer%20networking.md)
-- [ ] Neural network visualization
-- [ ] Implement Feed Forward Neural network
-- [ ] [Agenda system](tasks/Agenda%20system.md)
-- [ ] Dynamic story teller
-- [ ] [shadows](tasks/shadows.md)
 - [ ] [[sprite generator]]
-- [ ] [sprite lighting](tasks/sprite%20lighting.md)
+- [ ] [neural network for signal field hyerparameter adjustments](tasks/neural%20network%20for%20signal%20field%20hyerparameter%20adjustments.md)
+- [ ] [simulation backend](tasks/simulation%20backend.md)
+- [ ] [a gpu implementation for signal fields and vector math.](tasks/a%20gpu%20implementation%20for%20signal%20fields%20and%20vector%20math..md)
 - [ ] In game unit designer
-- [ ] [minimap](tasks/minimap.md)
-- [ ] [[Static world objects]]
+- [ ] Dynamic story teller
 - [ ] Implement AVL trees
-- [ ] [Governor System](tasks/Governor%20System.md)
-- [ ] [Make old algage work](tasks/Make%20old%20algage%20work.md)
+- [ ] Implement Feed Forward Neural network
+- [ ] Neural network visualization
 - [ ] Ampibious units
-- [ ] [Implement tests for existing shared components.](tasks/Implement%20tests%20for%20existing%20shared%20components..md)
-- [ ] [add game of life to portfolio](tasks/add%20game%20of%20life%20to%20portfolio.md)
-- [ ] [Make old symbiants work](tasks/Make%20old%20symbiants%20work.md)
 - [ ] Process diagram
 - [ ] naval units
-- [ ] worker units
-- [ ] Faction Central building/townsquare
-- [ ] [Side scroller](tasks/Side%20scroller.md)
-- [ ] [SPIKE can we simplify object pools (2 hrs)](tasks/SPIKE%20can%20we%20simplify%20object%20pools%20(2%20hrs).md)
-- [ ] [selection box](tasks/selection%20box.md)
-- [ ] [Order queues](tasks/Order%20queues.md)
-- [ ] [[Threaded game systems]]
-- [ ] [predator agents](tasks/predator%20agents.md)
-- [ ] [elevation](tasks/elevation.md)
-- [ ] [deletable entites](tasks/deletable%20entites.md)
-	  - Entities can be deleted from a panel
-- [ ] [multiple factions](tasks/multiple%20factions.md)
-- [ ] [attack system](tasks/attack%20system.md)
-- [ ] [[Threaded game systems]]
-- [ ] [Dynamic pools for renderables.](tasks/Dynamic%20pools%20for%20renderables..md)
-- [ ] [[ranged attack system]]
-- [ ] [[Implement action system]]
-- [ ] [Water resource](tasks/Water%20resource.md)
-- [ ] [vector field visualization](tasks/vector%20field%20visualization.md)
-- [ ] [sparse vector fields](tasks/sparse%20vector%20fields.md)
-- [ ] [resource mechanics](tasks/resource%20mechanics.md)
-- [ ] [placeable entities (rocks, plants, bases)](tasks/placeable%20entities%20(rocks,%20plants,%20bases).md)
-- [ ] [[Terrain features]]
-- [ ] [a gpu implementation for signal fields and vector math.](tasks/a%20gpu%20implementation%20for%20signal%20fields%20and%20vector%20math..md)
-	  - Use tensorflow.js
-- [ ] [simulation backend](tasks/simulation%20backend.md)
-	  - Realizing after adding a toggle for the trail dots that rendering was not what was slowing the sim down
-	We have decided to move this out of the todo backlog, as it will not be as much of a value add as we'd 
-	have liked. The simulation needs more [Optimizations](tasks/Optimizations.md), and we don't currently have a place to host such an intensive backend.
-- [ ] [3d gravity using babylon](tasks/3d%20gravity%20using%20babylon.md)
-- [ ] [Mirror board to github](tasks/Mirror%20board%20to%20github.md)
-- [ ] [blog](tasks/blog.md)
-- [ ] [Pure p2p video text chat](tasks/Pure%20p2p%20video%20text%20chat.md)
-- [ ] [file explorer](tasks/file%20explorer.md)
-- [ ] [neural network for signal field hyerparameter adjustments](tasks/neural%20network%20for%20signal%20field%20hyerparameter%20adjustments.md)
-- [ ] [Agenda system](tasks/Agenda%20system.md)
 - [ ] projectile system
-- [ ] Random events system
 - [ ] Implement graph datastructure
-- [ ] [Priority management system](tasks/Priority%20management%20system.md)
-- [ ] [Building system](tasks/Building%20system.md)
-- [ ] [Mineral Resource](tasks/Mineral%20Resource.md)
-- [ ] [night day cycle](tasks/night%20day%20cycle.md)
-- [ ] [[Weapon loadout system]]
-- [ ] [Electron client](tasks/Electron%20client.md)
+- [ ] Random events system
+- [ ] [Side scroller](tasks/Side%20scroller.md)
+- [ ] [Make old symbiants work](tasks/Make%20old%20symbiants%20work.md)
+- [ ] [Make old algage work](tasks/Make%20old%20algage%20work.md)
+- [ ] [Pure p2p video text chat](tasks/Pure%20p2p%20video%20text%20chat.md)
+- [ ] [add game of life to portfolio](tasks/add%20game%20of%20life%20to%20portfolio.md)
+- [ ] [3d gravity using babylon](tasks/3d%20gravity%20using%20babylon.md)
 - [ ] [Text editor program](tasks/Text%20editor%20program.md)
 - [ ] [browser based lisp shell](tasks/browser%20based%20lisp%20shell.md)
+- [ ] [file explorer](tasks/file%20explorer.md)
 - [ ] [Vector based file system search](tasks/Vector%20based%20file%20system%20search.md)
+- [ ] [peer to peer networking](tasks/peer%20to%20peer%20networking.md)
 - [ ] [Question answering system for file system](tasks/Question%20answering%20system%20for%20file%20system.md)
 - [ ] [Image editor program](tasks/Image%20editor%20program.md)
 - [ ] [Individual ant neural networks](tasks/Individual%20ant%20neural%20networks.md)
+- [ ] [chat app MVP](tasks/chat%20app%20MVP.md)
 - [ ] [Vector based file system search](tasks/Vector%20based%20file%20system%20search.md)
-
-
-## Blocked (21)
-
+- [ ] worker units
+- [ ] Faction Central building/townsquare
 
 
 ## New (50)
 
-- [ ] Optional/removable components
-- [ ] Add sound effects
-- [ ] Add music
-- [ ] WASD camera controls
-- [ ] action hotbar
-- [ ] camera macros
-- [ ] selection macros
-- [ ] hotkeys
-- [ ] tooltips
-- [ ] stats view
-- [ ] seeded random number generator
-- [ ] pathing markers
 
 
 ## Bugs (8)
@@ -233,94 +165,135 @@ kanban-plugin: board
 - [ ] [BUG Collision doesn't work correctly in some circumstances.](tasks/BUG%20Collision%20doesn't%20work%20correctly%20in%20some%20circumstances..md)
 
 
-## Accepted (21)
-
-
-
 ## Rejected
 
-- [ ] clean up mental state system
+- [ ] [[Add A star to Obstacles]]
+- [ ] clean up mental state 
+	system
+	- consolidated
+- [ ] [Layered Vector Field System](Layered%20Vector%20Field%20System.md)
 - [ ] cleanup item system
+	- consolidated
 - [ ] Cleanup path finding system
-- [ ] cleanup needs system
+	- consolidated
+- [ ] [[cleanup needs system]]
+	- consolidated
+- [ ] [Round trip path finding](Round%20trip%20path%20finding.md)
 - [ ] cleanup container system
-
-
-## Breakdown (13)
-
-- [ ] add error handling to repl environments
-- [ ] track file shasums
-- [ ] Migrate module system to `imports`
-
-
-## Ready (21)
-
-- [ ] [move kit html](tasks/move%20kit%20html.md)
+	- consolidated
+- [ ] [[Threaded game systems]]
+	- duplicate
 - [ ] [move kit core](tasks/move%20kit%20core.md)
 - [ ] [move kit http](tasks/move%20kit%20http.md)
 - [ ] [move kit repl](tasks/move%20kit%20repl.md)
 - [ ] [move kit shell](tasks/move%20kit%20shell.md)
 - [ ] [move kit fs](tasks/move%20kit%20fs.md)
+- [ ] [move kit html](tasks/move%20kit%20html.md)
+
+
+## Accepted (21)
+
+- [ ] [[Add fields to crash landed]]
+- [ ] Rename Obstacles
+- [ ] stats view
+- [ ] tooltips
+- [ ] Add sound effects
+- [ ] action hotbar
+- [ ] Add music
+- [ ] camera macros
+- [ ] selection macros
+- [ ] hotkeys
+
+
+## Blocked (21)
+
+- [ ] [shadows](tasks/shadows.md)
+- [ ] [Round trip path finding](Round%20trip%20path%20finding.md)
+- [ ] [vector field visualization](tasks/vector%20field%20visualization.md)
+- [ ] [Layered Vector Field System](Layered%20Vector%20Field%20System.md)
+- [ ] [Water resource](tasks/Water%20resource.md)
+- [ ] [elevation](tasks/elevation.md)
+- [ ] [Order queues](tasks/Order%20queues.md)
+- [ ] [Governor System](tasks/Governor%20System.md)
+- [ ] [Mineral Resource](tasks/Mineral%20Resource.md)
+- [ ] [predator agents](tasks/predator%20agents.md)
+- [ ] [[Weapon loadout system]]
+- [ ] [Building system](tasks/Building%20system.md)
+- [ ] [[ranged attack system]]
+- [ ] [Priority management system](tasks/Priority%20management%20system.md)
+- [ ] [Agenda system](tasks/Agenda%20system.md)
+- [ ] [weather system](tasks/weather%20system.md)
+
+
+## Breakdown (13)
+
+- [ ] [[Static world objects]]
+- [ ] [placeable entities (rocks, plants, bases)](tasks/placeable%20entities%20(rocks,%20plants,%20bases).md)
+- [ ] [selection box](tasks/selection%20box.md)
+- [ ] [resource mechanics](tasks/resource%20mechanics.md)
+- [ ] [minimap](tasks/minimap.md)
+- [ ] [flying units](tasks/flying%20units.md)
+- [ ] [attack system](tasks/attack%20system.md)
+- [ ] [multiple factions](tasks/multiple%20factions.md)
+- [ ] [Update physics engine to increase accuracy and performance](tasks/Update%20physics%20engine%20to%20increase%20accuracy%20and%20performance.md)
+- [ ] WASD camera controls
+- [ ] Optional/removable components
+- [ ] pathing markers
+- [ ] seeded random number generator
+
+
+## Ready (21)
+
+- [ ] [sparse vector fields](tasks/sparse%20vector%20fields.md)
+- [ ] [blog](tasks/blog.md)
 - [ ] [Cull duplicate macros](tasks/Cull%20duplicate%20macros.md)
-- [ ] [Remove duplicate code included in headers.](tasks/Remove%20duplicate%20code%20included%20in%20headers..md)
 - [ ] [Enhance document macros](tasks/Enhance%20document%20macros.md)
-- [ ] [Add beautifier and beautifier to pipeline to pipeline](tasks/Add%20beautifier%20and%20beautifier%20to%20pipeline%20to%20pipeline.md)
-	  - Maybe this should be [done](done.md) at the same time as hot reloading? it is at least [blocked](blocked.md) by that task.
+- [ ] [[Terrain features]]
+- [ ] [Remove duplicate code included in headers.](tasks/Remove%20duplicate%20code%20included%20in%20headers..md)
+- [ ] [Electron client](tasks/Electron%20client.md)
 - [ ] [Commit messages generated by LLM](tasks/Commit%20messages%20generated%20by%20LLM.md)
 - [ ] [github readme](tasks/github%20readme.md)
 	  - The [readme](../readme.md) can be generated from this kanban through simple concatonation.
+- [ ] [Mirror board to github](tasks/Mirror%20board%20to%20github.md)
 - [ ] [Rewrite andy lib in lisp](tasks/Rewrite%20andy%20lib%20in%20lisp.md)
+- [ ] [Implement tests for existing shared components.](tasks/Implement%20tests%20for%20existing%20shared%20components..md)
+- [ ] [[Threaded game systems]]
+- [ ] [night day cycle](tasks/night%20day%20cycle.md)
+- [ ] [sprite lighting](tasks/sprite%20lighting.md)
+- [ ] [deletable entites](tasks/deletable%20entites.md)
+	  - Entities can be deleted from a panel
+- [ ] [[Implement action system]]
+- [ ] [Dynamic pools for renderables.](tasks/Dynamic%20pools%20for%20renderables..md)
+- [ ] [Better sprite rotation](tasks/Better%20sprite%20rotation.md)
+- [ ] [SPIKE can we simplify object pools (2 hrs)](tasks/SPIKE%20can%20we%20simplify%20object%20pools%20(2%20hrs).md)
 
 
 ## Todo (8)
 
-- [ ] [[Browerify NPM node_modules bundle]]
 - [ ] [[rename files using new Lithp extension]]
+- [ ] [[add error handling to repl environments]]
+- [ ] [Add beautifier and beautifier to pipeline to pipeline](tasks/Add%20beautifier%20and%20beautifier%20to%20pipeline%20to%20pipeline.md)
+	  - Maybe this should be [done](done.md) at the same time as hot reloading? it is at least [blocked](blocked.md) by that task.
 - [ ] [DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files.](tasks/DevOps%20Sibilant%20transpiler%20should%20create%20less%20noise%20in%20pull%20requests%20when%20acting%20on%20unchanged%20files..md)
 - [ ] [Hot reload system](tasks/Hot%20reload%20system.md)
 	  - Create a seperate pipeline for development and production
+- [ ] [[track file shasums]]
 
 
 ## In Progress (3)
 
+- [ ] [[Move all kit code]]
+- [ ] [[Browerify NPM node_modules bundle]]
+- [ ] [[Migrate module system to `imports`]]
 
 
 ## In Review (8)
 
-- [ ] [[Cleanup systems related to mental state and path finding]]
-- [ ] [Find unknown content warnings](tasks/Find%20unknown%20content%20warnings.md)
-- [ ] [[Prevent agents from entering ungenerated parts of the world.]]
 
 
 ## Done
 
 **Complete**
-- [x] [BUG Rendering background color setter never seems to work.](tasks/BUG%20Rendering%20background%20color%20setter%20never%20seems%20to%20work..md) ✅ 2025-01-20
-- [x] [[implement binary heap]] ✅ 2025-01-19
-- [x] [unit system](tasks/unit%20system.md) ✅ 2025-01-18
-	  - A unit is an abstraction over an entity.
-	  - Entities can be anything in the game
-	  - A unit is a dynamic collection of entities
-	- Like say a weapon, a shield
-- [x] [[Map generation]] ✅ 2025-01-15
-- [x] [metabolism system](tasks/metabolism%20system.md) ✅ 2025-01-15
-- [x] [[Implement A star algorithim]] ✅ 2025-01-15
-- [x] [Sprite sheets](tasks/Sprite%20sheets.md) ✅ 2025-01-15
-- [x] [Toggle coordinate wrap around](tasks/Toggle%20coordinate%20wrap%20around.md) ✅ 2025-01-15
-- [x] [camera system](tasks/camera%20system.md) ✅ 2025-01-15
-- [x] [ground tiles](tasks/ground%20tiles.md) ✅ 2025-01-15
-- [x] [Add a project page to the website](tasks/Add%20a%20project%20page%20to%20the%20website.md) ✅ 2024-12-23
-- [x] [Brain storm new projects](tasks/Brain%20storm%20new%20projects.md) ✅ 2025-01-12
-- [x] [Design theme for website.](tasks/Design%20theme%20for%20website..md) ✅ 2024-12-23
-- [x] [sprites](tasks/sprites.md) ✅ 2024-12-23
-- [x] [Home page](tasks/Home%20page.md) ✅ 2024-12-23
-- [x] [settings interface](tasks/settings%20interface.md) ✅ 2024-12-22
-- [x] [config system](tasks/config%20system.md) ✅ 2024-12-23
-	  - we just kinda did this one before moving it through the board :shrug:
-- [x] Github pages static site [high priority] ✅ 2024-12-23
-- [x] Entity inspector ✅ 2024-12-23
-- [x] [Simulation reset](tasks/Simulation%20reset.md) ✅ 2024-12-23
-- [x] trail entities ✅ 2024-12-23
 
 
 ***
@@ -331,9 +304,39 @@ kanban-plugin: board
 	  - Duplicate
 - [ ] 2024-12-23 18:27 Components as data views
 	  - Redundent by entity panel, provides data view
+- [ ] 2025-01-27 14:27 [[kanban/tasks/Process]]
+- [x] 2025-01-27 12:58 [[Prevent agents from entering ungenerated parts of the world.]] ✅ 2025-01-27
+- [x] 2025-01-27 12:58 [Find unknown content warnings](tasks/Find%20unknown%20content%20warnings.md) ✅ 2025-01-27
+- [x] 2025-01-27 12:58 [[Cleanup systems related to mental state and path finding]] ✅ 2025-01-27
+- [x] 2025-01-27 12:58 [BUG Rendering background color setter never seems to work.](tasks/BUG%20Rendering%20background%20color%20setter%20never%20seems%20to%20work..md) ✅ 2025-01-20
+- [x] 2025-01-27 12:58 [[implement binary heap]] ✅ 2025-01-19
+- [x] 2025-01-27 12:58 [unit system](tasks/unit%20system.md) ✅ 2025-01-18
+	  - A unit is an abstraction over an entity.
+	  - Entities can be anything in the game
+	  - A unit is a dynamic collection of entities
+	- Like say a weapon, a shield
+- [x] 2025-01-27 12:58 [[Map generation]] ✅ 2025-01-15
+- [x] 2025-01-27 12:58 [metabolism system](tasks/metabolism%20system.md) ✅ 2025-01-15
+- [x] 2025-01-27 12:58 [[Implement A star algorithim]] ✅ 2025-01-15
+- [x] 2025-01-27 12:58 [Sprite sheets](tasks/Sprite%20sheets.md) ✅ 2025-01-15
+- [x] 2025-01-27 12:58 [Toggle coordinate wrap around](tasks/Toggle%20coordinate%20wrap%20around.md) ✅ 2025-01-15
+- [x] 2025-01-27 12:58 [camera system](tasks/camera%20system.md) ✅ 2025-01-15
+- [x] 2025-01-27 12:58 [ground tiles](tasks/ground%20tiles.md) ✅ 2025-01-15
+- [x] 2025-01-27 12:58 [Add a project page to the website](tasks/Add%20a%20project%20page%20to%20the%20website.md) ✅ 2024-12-23
+- [x] 2025-01-27 12:58 [Brain storm new projects](tasks/Brain%20storm%20new%20projects.md) ✅ 2025-01-12
+- [x] 2025-01-27 12:58 [Design theme for website.](tasks/Design%20theme%20for%20website..md) ✅ 2024-12-23
+- [x] 2025-01-27 12:58 [sprites](tasks/sprites.md) ✅ 2024-12-23
+- [x] 2025-01-27 12:58 [Home page](tasks/Home%20page.md) ✅ 2024-12-23
+- [x] 2025-01-27 12:58 [settings interface](tasks/settings%20interface.md) ✅ 2024-12-22
+- [x] 2025-01-27 12:58 [config system](tasks/config%20system.md) ✅ 2024-12-23
+	  - we just kinda did this one before moving it through the board :shrug:
+- [x] 2025-01-27 12:58 Github pages static site [high priority] ✅ 2024-12-23
+- [x] 2025-01-27 12:58 Entity inspector ✅ 2024-12-23
+- [x] 2025-01-27 12:58 [Simulation reset](tasks/Simulation%20reset.md) ✅ 2024-12-23
+- [x] 2025-01-27 12:58 trail entities ✅ 2024-12-23
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,true,true,true,true,true,false,true,null,false],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,true,true,true,true,true,true,true,true,false,false,false,true,true],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%

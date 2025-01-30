@@ -10,7 +10,3 @@ Since we use webgl to render our content, the logic for pooling these components
 
 - [ ] Implement dynamic pools around typed buffers
 - [ ] Test pools performance using browser benchmarking tools.
-## Blocked by 
-
-
-## Blocks

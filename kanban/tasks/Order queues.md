@@ -16,3 +16,5 @@ To allow insight into agents decision making, and allow better control over agen
 	- [ ] Exploration orders (for when the agent does not have any needs to fulfil)
 	- [ ] Hungry queue (Our first need system, behaviors to be added when the agent is hungry.)
 	- [ ] Player orders (Orders added manually by a player, overriding orders added automaticly (IE Placed at the front of the queue))
+## Blocked by
+- [[Implement action system]]
