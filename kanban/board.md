@@ -244,9 +244,9 @@ kanban-plugin: board
 
 ## Ready (21)
 
+- [ ] [Cull duplicate macros](tasks/Cull%20duplicate%20macros.md)
 - [ ] [sparse vector fields](tasks/sparse%20vector%20fields.md)
 - [ ] [blog](tasks/blog.md)
-- [ ] [Cull duplicate macros](tasks/Cull%20duplicate%20macros.md)
 - [ ] [Enhance document macros](tasks/Enhance%20document%20macros.md)
 - [ ] [[Terrain features]]
 - [ ] [Remove duplicate code included in headers.](tasks/Remove%20duplicate%20code%20included%20in%20headers..md)
@@ -270,25 +270,25 @@ kanban-plugin: board
 
 ## Todo (8)
 
-- [ ] [[rename files using new Lithp extension]]
+- [ ] [[track file shasums]]
 - [ ] [[add error handling to repl environments]]
 - [ ] [Add beautifier and beautifier to pipeline to pipeline](tasks/Add%20beautifier%20and%20beautifier%20to%20pipeline%20to%20pipeline.md)
 	  - Maybe this should be [done](done.md) at the same time as hot reloading? it is at least [blocked](blocked.md) by that task.
 - [ ] [DevOps Sibilant transpiler should create less noise in pull requests when acting on unchanged files.](tasks/DevOps%20Sibilant%20transpiler%20should%20create%20less%20noise%20in%20pull%20requests%20when%20acting%20on%20unchanged%20files..md)
 - [ ] [Hot reload system](tasks/Hot%20reload%20system.md)
 	  - Create a seperate pipeline for development and production
-- [ ] [[track file shasums]]
+- [ ] [[rename files using new Lithp extension]]
 
 
 ## In Progress (3)
 
 - [ ] [[Move all kit code]]
-- [ ] [[Browerify NPM node_modules bundle]]
 - [ ] [[Migrate module system to `imports`]]
 
 
 ## In Review (8)
 
+- [ ] [[Browerify NPM node_modules bundle]]
 
 
 ## Done
@@ -337,6 +337,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,true,true,true,true,true,true,true,true,false,false,false,true,true],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","new-note-folder":"kanban/tasks","list-collapse":[true,true,true,true,true,true,true,true,true,true,true,true,false,false,false,false,true],"tag-sort":[{"tag":"#highPriority"},{"tag":"#mediumPriority"},{"tag":"#lowPriority"},{"tag":"#wontdo"}],"new-note-template":"kanban/templates/New Task.md","archive-with-date":true,"metadata-keys":[{"metadataKey":"#Task","label":"Task","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%

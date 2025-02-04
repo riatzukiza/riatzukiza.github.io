@@ -20,8 +20,43 @@
               "icon": "lucide-file",
               "title": "Move all kit code"
             }
+          },
+          {
+            "id": "eaab9506e44d0d81",
+            "type": "leaf",
+            "state": {
+              "type": "kanban",
+              "state": {
+                "file": "kanban/board.md",
+                "kanbanViewState": {
+                  "kanban-plugin": "board",
+                  "list-collapse": [
+                    true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    false,
+                    false,
+                    false,
+                    false,
+                    true
+                  ]
+                }
+              },
+              "icon": "lucide-trello",
+              "title": "board"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -227,7 +262,8 @@
       "githobs:Manage a github issue": false,
       "webpage-html-export:Export Vault to HTML": false,
       "obisidian-note-linker:Note Linker": false,
-      "smart-second-brain:Open S2B Chat": false
+      "smart-second-brain:Open S2B Chat": false,
+      "card-board:CardBoard": false
     }
   },
   "floating": {
@@ -284,8 +320,9 @@
       }
     ]
   },
-  "active": "44ca6954c7d74efa",
+  "active": "eaab9506e44d0d81",
   "lastOpenFiles": [
+    "kanban/tasks/Move all kit code.md",
     "notes/daily/2025-02-04.md",
     "notes/daily/2025-01-27.md",
     "notes/daily/2025-01-30.md",
@@ -311,7 +348,6 @@
     "kanban/tasks/sparse vector fields.md",
     "kanban/tasks/Add fields to crash landed.md",
     "kanban/tasks/predator agents.md",
-    "kanban/tasks/multiple factions.md",
     "notes/unique",
     "Chats",
     "notes/daily",
