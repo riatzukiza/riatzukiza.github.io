@@ -37,12 +37,12 @@
                     true,
                     true,
                     true,
+                    false,
                     true,
                     true,
                     true,
                     true,
-                    true,
-                    true,
+                    false,
                     false,
                     false,
                     false,
@@ -70,7 +70,7 @@
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -276,10 +276,11 @@
       "githobs:Manage a github issue": false,
       "webpage-html-export:Export Vault to HTML": false,
       "obisidian-note-linker:Note Linker": false,
-      "smart-second-brain:Open S2B Chat": false
+      "smart-second-brain:Open S2B Chat": false,
+      "card-board:CardBoard": false
     }
   },
-  "active": "00e7c678afcbd616",
+  "active": "eaab9506e44d0d81",
   "lastOpenFiles": [
     "notes/daily/2025-02-05.md",
     "notes/daily/2025-02-04.md",
