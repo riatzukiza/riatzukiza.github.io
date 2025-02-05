@@ -14,4 +14,8 @@ The system should be refactored to use `import` over `require`
 - All code continues to work as before.
 ## Tasks 
 
-- [ ] Refactor all current code to use import pattern
+- [x] Refactor shared code to use import pattern ✅ 2025-02-05
+- [ ] Refactor obstacles code to use import pattern
+- [x] Refactor crash-landed code to use import pattern ✅ 2025-02-05
+- [ ] Refactor red-black-tree visualization code to use import pattern
+- [ ] Refactor benchmarking code to use import pattern

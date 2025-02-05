@@ -24,6 +24,6 @@ Move all kit code from their individual repositories into this one.
 - [x] Move kit html ✅ 2025-01-28
 - [x] Move kit async ✅ 2025-01-28
 - [x] move kit actor ✅ 2025-01-28
-- [ ] Refactor all modules to work in the new context.
+- [x] Refactor all modules to work in the new context. ✅ 2025-02-05
 
 

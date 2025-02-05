@@ -105,6 +105,7 @@
  [[kanban/tasks/Rewrite andy lib in lisp|Rewrite andy lib in lisp]]
  [[kanban/tasks/Round trip path finding|Round trip path finding]]
  [[kanban/tasks/RTS Game MVP|RTS Game MVP]]
+ [[kanban/tasks/Save mechanisim|Save mechanisim]]
  [[kanban/tasks/selection box|selection box]]
  [[kanban/tasks/settings interface|settings interface]]
  [[kanban/tasks/shadows|shadows]]
