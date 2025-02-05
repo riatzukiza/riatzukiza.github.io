@@ -1,11 +1,8 @@
-
-(include "kit-interface/header")
-(import-namespace interface)
-
-(require! (lit Entity-system) "@shared/ecs.js"
-          (lit Event-emitter) "kit-events"
-          (lit Ticker) "@shared/ticker.js"
-          (lit Ordered-map) "@shared/data-structures/maps/ordered.js")
+(import Entity-system "./ecs.js")
+(import Event-emitter "./kit/events/index.js")
+(import Ticker "./ticker.js")
+(import Ordered-map "./data-structures/maps/ordered.js")
+(import Interface "./kit/interface/index.js")
 
 
 (define Game Interface
@@ -22,8 +19,8 @@
              set-system-by-symbol systems.set)
 
         (assign systems.get-by-symbol get-system-by-symbol)
-        (def systems.get (interface ent)
-             (var sys (get-system-by-symbol.call systems interface.symbol))
+        (def systems.get (proto ent)
+             (var sys (get-system-by-symbol.call systems proto.symbol))
 
              (if ent (.get sys ent)
                sys))

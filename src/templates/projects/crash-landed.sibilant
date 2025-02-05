@@ -1,5 +1,6 @@
 
 (html (.head
+       ;; (.link .rel "modulepreload" .href "/client/crash-landed/world-gen/worker-index.js")
        (.style "
         .panel {
             float: left;
@@ -20,31 +21,7 @@ position:absolute;
 
 
       (.script `(assign window.*worker-scripts []))
-      (scoped (require! (lit File-system) "kit-file-system"
-                        Path 'path)
-              (each (.load File-system "./shared") (file)
-                    (markup (.div (.script .src (Path.join "/bundles/shared" file.rel))
-                                  (.script (+ 'window.*worker-scripts ".push("
-                                              'location.origin
-                                              "+"  "'"
-                                              (Path.join "/bundles/shared" file.rel)
-                                              "'"
-                                              ")"))))))
-      (scoped (require! (lit File-system) "kit-file-system"
-                        Path 'path)
-
-              (each (.load File-system "./client/crash-landed") (file)
-                    (unless (= (Path.basename file.path) "main.js")
-                      (markup (.div (.script .src (Path.join "/bundles/crash-landed" file.rel))
-                                    (.script (+ 'window.*worker-scripts ".push("
-                                                'location.origin
-                                                "+"  "'"
-                                                (Path.join "/bundles/crash-landed" file.rel)
-                                                "'"
-                                                ")"))
-                                    )))))
-
-
+      (.script .src "/bundles/external.js")
 
       (.body
 
@@ -52,11 +29,9 @@ position:absolute;
 
        (.img .id "grass-sprite" .src "/sprites/Pixel_art_top_down_basic_v1.1.2/TX_Tileset_Grass.png" .hidden "true")
        (.img .id "cliff-sprite" .src "/sprites/Pixel_art_top_down_basic_v1.1.2/TX_Tileset_Wall.png" .hidden "true")
-       (.img .id "props-sprite" .src "/sprites/Cute_Fantasy_Free/Outdoor_decoration/Outdoor_Decor_Free.png" .hidden "true")
-       
-       
-       )
+       (.img .id "props-sprite" .src "/sprites/Cute_Fantasy_Free/Outdoor_decoration/Outdoor_Decor_Free.png" .hidden "true"))
 
-      (.script .src "/bundles/crash-landed/main.js")
+      (.script .src "/client/crash-landed/main.js" .type "module")
+
 
       )

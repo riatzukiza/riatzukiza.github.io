@@ -1,6 +1,5 @@
-(require! (lit Animated-sprite Sprite-atlas) "@shared/systems/rendering/sprite-atlas.js")
+(import Animated-sprite Sprite-atlas "/shared/systems/rendering/sprite-atlas.js")
 (const sprite-image (.get-element-by-id document "props-sprite"))
-
 
 
 (define Props-sprite Animated-sprite
@@ -23,7 +22,7 @@
 
 (define Props-sprites Sprite-atlas
   (max-sprites 100000)
-  (interface Props-sprite)
+  (Component Props-sprite)
 
   (frame-dimensions [ 16 16 ])
   ;; how many frames vertically

@@ -1,8 +1,5 @@
-(namespace shared)
-(include "kit-interface/header")
-(import-namespace interface)
-(import-namespace misc)
-(require! (lit List) "@shared/data-structures/list.js")
+(import  List "../list.js")
+(import Interface "../../kit/interface/index.js")
 
 (define Ordered-map Interface
   (init ((*members (new Map))

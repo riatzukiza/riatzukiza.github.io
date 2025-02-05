@@ -10658,9 +10658,9 @@ var MindState = Component.define("MindState", {
 exports.MindState = MindState;
 var MentalState = System.define("MentalState", { 
   interface:MindState,
-  _updateComponent( c ){ 
+  addVisibleFoodToTree( c ){ 
     
-      c.visibleTiles.each(((tile) => {
+      return c.visibleTiles.each(((tile) => {
       	
         return (function() {
           if ((tile.entity.container.objects.head && !(c.food.has(tile.entity.container.objects.head.item.itemInterface)) && tile.entity.container.objects.head.item.itemInterface.type === "food")) {
@@ -10670,85 +10670,107 @@ var MentalState = System.define("MentalState", {
         }).call(this);
       
       }));
+    
+   },
+  wakeupStarving( c ){ 
+    
+      c.needs.isResting__QUERY = false;
+      return console.log("i'm starving, I have to wake up.", c);
+    
+   },
+  handleTired( c ){ 
+    
+      c.needs.isResting__QUERY = true;
+      c.entity.velocityInterface.vector.setLength(0);
+      c.target = null;
+      return console.log("I'm tired, it's time to rest", c);
+    
+   },
+  handleFoodInSameTile( c ){ 
+    
+      console.log("I'm hungry, and there's food right here", c);
+      return c.tile.entity.container.objects.head.item.itemInterface.consume(c.entity);
+    
+   },
+  handleKnownFoodLocation( c ){ 
+    
+      console.log("I'm hungry and I know where food is");
+      c.target = items.values.head.item;
+      return c.knownFoodItems.remove(key, items.values.head.item);
+    
+   },
+  handleExploreForFood( c ){ 
+    
+      console.log("I'm hungry and I don't know where food is.");
+      return this.exploreMap(c);
+    
+   },
+  searchForFood( c ){ 
+    
+      const key=(c.pos.x + c.pos.y);
+      const items=c.knownFoodItems.search(key);
+      return (function() {
+        if ((!(c.target) && items.values.head)) {
+          return this.handleKnownFoodLocation(c);
+        } else {
+          return this.handleExploreForFood(c);
+        }
+      }).call(this);
+    
+   },
+  handleHungry( c ){ 
+    
+      c.knownFoodItems = c.knownFoodItems.root;
+      return (function() {
+        if (c.tile.entity.container.hasType("food")) {
+          return this.handleFoodInSameTile(c);
+        } else if (!(c.tile.entity.container.hasType("food"))) {
+          return this.searchForFood(c);
+        }
+      }).call(this);
+    
+   },
+  exploreMap( c ){ 
+    
+      var newX = c.entity.positionInterface.x,
+          newY = c.entity.positionInterface.y;
+      const searchLimit=10;
+      var i = 0;
+      return (function() {
+        var while$271 = undefined;
+        while (!((c.entity.currentPath.end || i > searchLimit))) {
+          while$271 = (function() {
+            const noiseV=getMoveNoise(newX, newY, this.game.ticker.ticks, (1 * config.gameScale));
+            ((i)++);
+            newX = (newX + (20 * noiseV.x));
+            newY = (newY + (20 * noiseV.y));
+            const tiles=c.tile.graph;
+            const possibleEnd=tiles.getClosestFromWorldPos(newX, newY);
+            (function() {
+              if (!((possibleEnd.entity.visibleStatus.explored__QUERY))) {
+                c.entity.currentPath.start = tiles.getClosestFromWorldPos(c.entity.positionInterface.x, c.entity.positionInterface.y);
+                return c.entity.currentPath.end = possibleEnd;
+              }
+            }).call(this);
+            return noiseV.despawn();
+          }).call(this);
+        };
+        return while$271;
+      }).call(this);
+    
+   },
+  _updateComponent( c ){ 
+    
+      c.addVisibileFoodToTree();
       return (function() {
         if ((c.isTired__QUERY && !(c.isHungry__QUERY) && !(c.needs.isResting__QUERY))) {
-          c.needs.isResting__QUERY = true;
-          c.entity.velocityInterface.vector.setLength(0);
-          c.target = null;
-          return console.log("I'm tired, it's time to rest", c);
+          return this.handleTired(c);
         } else if ((c.needs.isResting__QUERY && c.needs.isStarving__QUERY)) {
-          c.needs.isResting__QUERY = false;
-          return console.log("i'm starving, I have to wake up.", c);
+          return this.wakeupStarving(c);
         } else if ((c.isHungry__QUERY && !(c.isResting__QUERY))) {
-          c.knownFoodItems = c.knownFoodItems.root;
-          return (function() {
-            if (c.tile.entity.container.hasType("food")) {
-              console.log("I'm hungry, and there's food right here", c);
-              return c.tile.entity.container.objects.head.item.itemInterface.consume(c.entity);
-            } else if (!(c.tile.entity.container.hasType("food"))) {
-              const key=(c.pos.x + c.pos.y);
-              const items=c.knownFoodItems.search(key);
-              return (function() {
-                if ((!(c.target) && items.values.head)) {
-                  console.log("I'm hungry and I know where food is");
-                  c.target = items.values.head.item;
-                  return c.knownFoodItems.remove(key, items.values.head.item);
-                } else {
-                  var newX = c.entity.positionInterface.x,
-                      newY = c.entity.positionInterface.y;
-                  const searchLimit=10;
-                  var i = 0;
-                  return (function() {
-                    var while$161 = undefined;
-                    while (!((c.entity.currentPath.end || i > searchLimit))) {
-                      while$161 = (function() {
-                        const noiseV=getMoveNoise(newX, newY, this.game.ticker.ticks, (1 * config.gameScale));
-                        ((i)++);
-                        newX = (newX + (20 * noiseV.x));
-                        newY = (newY + (20 * noiseV.y));
-                        const tiles=c.tile.graph;
-                        const possibleEnd=tiles.getClosestFromWorldPos(newX, newY);
-                        (function() {
-                          if (!((possibleEnd.entity.visibleStatus.explored__QUERY))) {
-                            c.entity.currentPath.start = tiles.getClosestFromWorldPos(c.entity.positionInterface.x, c.entity.positionInterface.y);
-                            return c.entity.currentPath.end = possibleEnd;
-                          }
-                        }).call(this);
-                        return noiseV.despawn();
-                      }).call(this);
-                    };
-                    return while$161;
-                  }).call(this);
-                }
-              }).call(this);
-            }
-          }).call(this);
+          return this.handleHungry(c);
         } else if (!(c.needs.isResting__QUERY)) {
-          var newX = c.entity.positionInterface.x,
-              newY = c.entity.positionInterface.y;
-          const searchLimit=10;
-          var i = 0;
-          return (function() {
-            var while$163 = undefined;
-            while (!((c.entity.currentPath.end || i > searchLimit))) {
-              while$163 = (function() {
-                const noiseV=getMoveNoise(newX, newY, this.game.ticker.ticks, (1 * config.gameScale));
-                ((i)++);
-                newX = (newX + (20 * noiseV.x));
-                newY = (newY + (20 * noiseV.y));
-                const tiles=c.tile.graph;
-                const possibleEnd=tiles.getClosestFromWorldPos(newX, newY);
-                (function() {
-                  if (!((possibleEnd.entity.visibleStatus.explored__QUERY))) {
-                    c.entity.currentPath.start = tiles.getClosestFromWorldPos(c.entity.positionInterface.x, c.entity.positionInterface.y);
-                    return c.entity.currentPath.end = possibleEnd;
-                  }
-                }).call(this);
-                return noiseV.despawn();
-              }).call(this);
-            };
-            return while$163;
-          }).call(this);
+          return this.exploreMap(c);
         }
       }).call(this);
     

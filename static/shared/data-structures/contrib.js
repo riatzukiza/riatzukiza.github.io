@@ -1,3 +1,21 @@
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+
+  return Object.keys(this).forEach(((k) => {
+  	return f(this[k], k);
+  }));
+});
+import { 
+  mixin,
+  create,
+  extend
+ } from "/shared/kit/core/util.js";
 var { 
   Matrix,
   MatrixView,
@@ -7,14 +25,33 @@ var {
   Tree,
   TreeMap
  } = require("tree-kit");
-exports.Matrix = Matrix;
-exports.MatrixView = MatrixView;
-exports.kernel = kernel;
+import { 
+  Matrix,
+  MatrixView,
+  Kernel
+ } from "../kit/core/matrix/index.js";
+export { 
+  Matrix
+ };
+export { 
+  MatrixView
+ };
+export { 
+  kernel
+ };
 var matrix = create(Matrix);
-exports.matrix = matrix;
+export { 
+  matrix
+ };
 var kernel = create(Kernel);
-exports.kernel = kernel;
+export { 
+  kernel
+ };
 var matrixView = create(MatrixView);
-exports.matrixView = matrixView;
+export { 
+  matrixView
+ };
 var treeMap = create(TreeMap);
-exports.treeMap = treeMap;
+export { 
+  treeMap
+ };

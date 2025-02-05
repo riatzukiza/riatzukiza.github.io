@@ -1,12 +1,3 @@
-var R = require("ramda");
-var { 
-  create,
-  extend,
-  mixin,
-  conditional,
-  cond,
-  partiallyApplyAfter
- } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
   /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
@@ -17,9 +8,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
-  	
-    return f(this[k], k);
-  
+  	return f(this[k], k);
   }));
 });
 var R = require("ramda");
@@ -34,7 +23,7 @@ var {
 var mimeTypes = require("mime-types"),
     Path = require("path");
 var serveStaticFiles = (function serveStaticFiles$(sys) {
-  /* serve-static-files eval.sibilant:1:487 */
+  /* serve-static-files eval.sibilant:1:567 */
 
   return async function serve({ 
     request,
@@ -56,7 +45,7 @@ var serveStaticFiles = (function serveStaticFiles$(sys) {
     }).call(this);
     console.log("serving path", path);
     var serveFile = (function serveFile$(file) {
-      /* serve-file eval.sibilant:1:793 */
+      /* serve-file eval.sibilant:1:873 */
     
       var ext = Path.extname(file.path),
           mime = mimeTypes.lookup(ext);
@@ -65,13 +54,13 @@ var serveStaticFiles = (function serveStaticFiles$(sys) {
       return file.readStream.pipe(response);
     });
     var serveDirectory = (function serveDirectory$(index) {
-      /* serve-directory eval.sibilant:1:1048 */
+      /* serve-directory eval.sibilant:1:1128 */
     
       console.log("serving directory");
       return response.end("directory");
     });
     var handleDirectory = (function handleDirectory$(file) {
-      /* handle-directory eval.sibilant:1:1155 */
+      /* handle-directory eval.sibilant:1:1235 */
     
       return file.get("index.html").then(serveFile).catch((() => {
       	

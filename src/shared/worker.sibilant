@@ -1,9 +1,9 @@
-(require! (lit Spawnable) "@shared/data-structures/spawnable.js"
-          (lit Event-emitter) "kit-events")
+(import Spawnable "./data-structures/spawnable.js")
+(import Event-emitter "./kit/events/index.js")
 (define Web-worker Spawnable
 
   (init ((events ((create Event-emitter)))))
-  (cached worker (new Worker this.url))
+  (cached worker (new Worker this.url (lit (type "module"))))
   (expects url)
 
   (def clear ()
@@ -15,39 +15,49 @@
     (def this.worker.onmessage (m)
       (.emit self.events 'message m.data))
     (def this.worker.onerror (e)
+      (print "error:" e)
       (.emit self.events 'error e.message))
     (.emit self.events 'start)
     )
 
   (def *send (data) (.post-message this.worker data))
-  (expects send)
-  )
-(export Worker)
+  (expects send))
+
+(export Web-worker)
+
 (define Inline-worker Web-worker
   (expects code)
   (cached url  (window.URL.create-objectURL this.blob))
   (cached blob (new Blob [this.code] (lit (type "text/javascript")))))
+
 (export Inline-worker)
 
+(def send-thread (data)
+  (do-after-accumulating this.promise
+    (print "sending message" data)
+    (assign this.busy true)
+    (.*send this data)
+    (make-promise
+     (.once this.events 'message
+            (=> (data)
+                (assign this.busy false)
+                (print "recieved message from thread" data)
+                (resolve data)))
+     (.once this.events 'error
+            (=> (message)
 
-(define Thread Inline-worker
+                (print "recieved error from thread" message)
+                (reject message))))))
+
+(define Inline-thread Inline-worker
   (init (code (promise (Promise.resolve)))
         (.call Web-worker.init this))
-  (def send (data)
-    (do-after-accumulating this.promise
-      (print "sending message" data)
-      (assign this.busy true)
-      (.*send this data)
-      (make-promise
-       (.once this.events 'message
-              (=> (data)
-                  (assign this.busy false)
-                  (print "recieved message from thread" data)
-                  (resolve data)))
-       (.once this.events 'error
-              (=> (message)
+  (send send-thread)
+  )
 
-                  (print "recieved error from thread" message)
-                  (reject message)))))))
-
+(export Inline-thread)
+(define Thread Web-worker
+  (init (url (promise (Promise.resolve)))
+        (.call Web-worker.init this))
+  (send send-thread))
 (export Thread)

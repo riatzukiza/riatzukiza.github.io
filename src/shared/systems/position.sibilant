@@ -1,8 +1,5 @@
 
-(include "kit-interface/header")
-(import-namespace interface)
-
-(require! (lit Component System) "@shared/ecs.js")
+(import Component System "../ecs.js")
 
 (define Position-interface Component
   (*x 0)
@@ -30,7 +27,7 @@
 
 (define Position System
 
-  (interface Position-interface)
+  (Component Position-interface)
   (queue [])
 
   (def shift (c [xshift yshift])

@@ -1,12 +1,27 @@
-var { 
-  Interface
- } = require("@kit-js/interface");
-var { 
-  Renderable
- } = require("@shared/systems/rendering/renderable.js"),
-    { 
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+
+  return Object.keys(this).forEach(((k) => {
+  	return f(this[k], k);
+  }));
+});
+import { 
+  mixin,
+  create,
+  extend
+ } from "/shared/kit/core/util.js";
+import { 
   Andy
- } = require("@shared/gl.js");
+ } from "../../andy.js";
+import { 
+  Renderable
+ } from "./renderable.js";
 var ScalingVertex = Renderable.define("ScalingVertex", { 
   init( layer = this.layer ){ 
     
@@ -23,3 +38,6 @@ var ScalingVertex = Renderable.define("ScalingVertex", {
     size:Andy.Type.float
    }))
  });
+export { 
+  ScalingVertex
+ };

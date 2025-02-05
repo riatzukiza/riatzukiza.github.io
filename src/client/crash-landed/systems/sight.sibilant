@@ -1,6 +1,6 @@
-(require! (lit Component System) "@shared/ecs.js"
-          (lit List) "@shared/data-structures/list.js"
-          )
+(import System Component "/shared/ecs.js")
+(import List "/shared/data-structures/list.js")
+
 (define Field-of-view Component
   (visible-tiles (.spawn List))
   (unloaded-tiles (.spawn List))
@@ -11,7 +11,7 @@
   (collapse-range 64)
   )
 (define Sight System
-  (interface Field-of-view)
+  (Component Field-of-view)
   (def register-tile-graph (tiles)
     (assign this.tiles tiles)
     )

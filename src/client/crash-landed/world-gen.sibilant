@@ -1,21 +1,16 @@
 (namespace crash-landed)
 
-(include "kit/header" )
-(import-namespace kit)
+(import Super-position "./world-gen/super-position.js")
+(import Possible-state "./world-gen/possible-state.js")
+(import Terrain-module "./world-gen/terrain-module.js")
+(import base-weights "./world-gen/base-weights.js")
+(import Base-distrobution "./world-gen/probabilities.js")
+(import horizontal-road "./world-gen/modules.js")
 
-(require! (lit Super-position) "@crash-landed/world-gen/super-position.js"
-          (lit Possible-state) "@crash-landed/world-gen/possible-state.js"
-          (lit Terrain-module) "@crash-landed/world-gen/terrain-module.js"
-          (lit base-weights) "@crash-landed/world-gen/base-weights.js"
-          probabilities "@crash-landed/world-gen/probabilities.js"
-          modules "@crash-landed/world-gen/modules.js"
-          )
 
-(require "@crash-landed/world-gen/tile-setup.js")
 (export Super-position)
 (export Possible-state)
 (export Terrain-module)
-(export Terrain-module)
 (export base-weights)
-(export probabilities)
-(export modules)
+(export Base-distrobution)
+(export horizontal-road)

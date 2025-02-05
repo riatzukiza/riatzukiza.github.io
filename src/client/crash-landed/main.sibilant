@@ -1,38 +1,16 @@
-(namespace crash-landed)
+(namespace crashlanded)
 
-
-(include "kit/header" )
-(import-namespace kit)
-
-(include "kit-interface/header" )
-(import-namespace interface)
-
-(include "../../../inc/rand.sibilant")
-(include "../../../inc/misc.sibilant")
-(include "../../../inc/docs.sibilant")
-(import-namespace docs)
-
-(set global 'mixin mixin 'create create)
-
-(require! (lit game active-game-systems ) "@crash-landed/game.js")
-(require! (lit start-interface) "@crash-landed/dom.js"
-          (lit Position) "@shared/systems/position.js"
-          (lit Sight) "@crash-landed/systems/sight.js"
-          (lit  player) "@crash-landed/units.js"
-          (lit get-cardinal-direction-name) "@crash-landed/directions.js"
-          (lit generate-main-road) "@crash-landed/world-gen.js"
-          (lit tiles) "@crash-landed/tiles.js"
-          (lit Path-finding) "@crash-landed/systems/path-finding.js"
-          (lit Velocity) "@shared/systems/velocity.js"
-          (lit get-tile-noise) "@crash-landed/noise.js"
-          (lit Item-group) "@crash-landed/units.js"
-          noise "@shared/noise.js"
-
-          config "@crash-landed/config.js"
-          ;; world-gen "@crash-landed/world-gen.js"
-          )
-
-
+(import game active-game-systems "./game.js")
+(import start-interface "./dom.js")
+(import Position "/shared/systems/position.js")
+(import Sight "./systems/sight.js")
+(import player Item-group "./units.js")
+(import get-cardinal-direction-name "./directions.js")
+(import tiles "./tiles.js")
+(import Path-finding "./systems/path-finding.js")
+(import Velocity "/shared/systems/velocity.js")
+(import get-tile-noise "./noise.js")
+(import config "./config.js")
 
 
 (macro import-worker-scripts (...paths)
@@ -44,6 +22,7 @@
 
 
 
+(macro each (o args ...body) `(.each @o (=> @args ...@body)))
 (const p player)
 (const v p.velocity.vector)
 
@@ -64,9 +43,8 @@
 
 
 
-(require! (lit Tile-generator) "@crash-landed/world-gen/worker.js")
+(import  Tile-generator "./world-gen/worker.js")
 
-(const generator (.spawn Tile-generator))
 
 (def setup-tile (tile-data)
 
@@ -104,36 +82,40 @@
 
   (.select-tile tile.entity.floor-sprite
                 (dots coords)))
-(.start generator)
-(pipe (.load generator)
-      (then-do (.get-starting-tiles generator 0 0 2) )
-      (then initial-tiles
+(add-event-listener 'load
+                    (->
 
-            (each initial-tiles.tiles (data)
-                  (setup-tile data))
+                     (const generator (.spawn Tile-generator))
+                     (.start generator)
+                     (pipe (.get-starting-tiles generator 0 0 2)
+                           (then initial-tiles
 
-            (.start game)
-            (on game.events 'tick (t)
-
-                ;; (const pos p.pos)
-                (if! (= (mod t 20) 0)
-                     (.step p.sprite))
-                (if! (not generator.busy)
-                     (const nearest-tile (.get-closest-from-world-pos
-                                          tiles
-                                          p.pos.x p.pos.y))
-                     (print "sending nearest tile" p.pos nearest-tile)
-                     (pipe (.get-loaded-tiles generator nearest-tile)
-                           (then data
-                                 (each data.tiles (tile-data)
-                                       (setup-tile tile-data)))))
-                (const direction-name (get-cardinal-direction-name v))
-
-                (.select-sequence p.sprite direction-name))))
+                                 (each initial-tiles.tiles (data)
+                                       (setup-tile data))
 
 
+                                 (.start game)
+                                 (on game.events 'tick (t)
+
+                                     ;; (const pos p.pos)
+                                     (if! (= (mod t 20) 0)
+                                          (.step p.sprite))
+                                     (if! (not generator.busy)
+                                          (const nearest-tile (.get-closest-from-world-pos
+                                                               tiles
+                                                               p.pos.x p.pos.y))
+                                          (print "sending nearest tile" p.pos nearest-tile)
+                                          (pipe (.get-loaded-tiles generator nearest-tile)
+                                                (then data
+                                                      (each data.tiles (tile-data)
+                                                            (setup-tile tile-data)))))
+                                     (const direction-name (get-cardinal-direction-name v))
+
+                                     (.select-sequence p.sprite direction-name))))))
 
 
 
-(start-interface)
+
+
+(start-interface game)
 

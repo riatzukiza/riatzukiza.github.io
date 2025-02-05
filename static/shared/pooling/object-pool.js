@@ -1,30 +1,46 @@
-var { 
-  Interface
- } = require("@kit-js/interface");
-var { 
-  Group
- } = require("@shared/data-structures/group.js");
-var _assignId = ((m, k) => {
-	
-  m.id = k;
-  return m;
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+
+  return Object.keys(this).forEach(((k) => {
+  	return f(this[k], k);
+  }));
+});
+import { 
+  mixin,
+  create,
+  extend
+ } from "/shared/kit/core/util.js";
+import { 
+  Group
+ } from "../data-structures/group.js";
+import { 
+  Interface
+ } from "/shared/kit/interface/index.js";
+var _assignId = ((m, k) => {
+	m.id = k;
+return m;
 });
 var ObjectPool = Interface.define("ObjectPool", { 
   init( size = this.size,_interface = null,_array = (function(array) {
-    /* eval.sibilant:1:381 */
+    /* eval.sibilant:1:661 */
   
     (function() {
-      /* node_modules/kit/inc/loops.sibilant:26:8 */
+      /* inc/loops.sibilant:26:8 */
     
       var $for = null;
       for (var i = 0;i < size;++(i))
       {
       $for = (function() {
-        /* node_modules/kit/inc/loops.sibilant:28:35 */
+        /* inc/loops.sibilant:28:35 */
       
         array.push((function() {
-          /* eval.sibilant:1:369 */
+          /* eval.sibilant:1:732 */
         
           return Object.create(_interface);
         }).call(this));
@@ -61,9 +77,7 @@ var ObjectPool = Interface.define("ObjectPool", {
   clear( size = this.size,_interface = this._interface,_array = this._array,_inUse = this._inUse ){ 
     
       _inUse.each(((o) => {
-      	
-        return o.clear();
-      
+      	return o.clear();
       }));
       return this.init(size, _interface, _array);
     
@@ -72,7 +86,7 @@ var ObjectPool = Interface.define("ObjectPool", {
     
       "remove an object from the collection of available ones,\n"+"adding it to the collection of objects currently in use,\n"+"and return it to the caller.";
       return (function(member) {
-        /* eval.sibilant:1:381 */
+        /* eval.sibilant:1:661 */
       
         _inUse.add(member);
         return member;
@@ -82,9 +96,12 @@ var ObjectPool = Interface.define("ObjectPool", {
   release( obj = this.obj,_available = this._available,_members = this._members,_inUse = this._inUse ){ 
     
       "take an object that is a member of this pool, and remove it\n"+"from the collection of in use objects, and adding it to the collection of\n"+"available ones, for later use";
+      obj.clear();
       _inUse.remove(obj);
       return _available.add(obj);
     
    }
  });
-exports.ObjectPool = ObjectPool;
+export { 
+  ObjectPool
+ };

@@ -1,5 +1,6 @@
-(require! (lit System Component) "@shared/ecs.js"
-          (lit List) "@shared/data-structures/list.js")
+(import System Component "/shared/ecs.js")
+(import List "/shared/data-structures/list.js")
+
 (define Container Component
   (item-limit 1)
   (objects null)

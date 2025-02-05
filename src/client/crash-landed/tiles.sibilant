@@ -1,11 +1,12 @@
-(require! (lit Tile-graph Tile-node) "@shared/tiles.js"
-          (lit Floor-sprites) "@crash-landed/systems/sprites/floor.js"
-          (lit Tile-visibility) "@crash-landed/systems/visibility.js"
-          (lit Ground-types) "@crash-landed/systems/floor-type.js"
-          (lit Containers) "@crash-landed/systems/containers.js"
-          (lit game) "@crash-landed/game.js"
-          config "@crash-landed/config.js"
-          )
+(import Tile-generator  "./world-gen/worker.js")
+(import Tile-graph "/shared/tiles.js")
+(import Floor-sprites "./systems/sprites/floor.js")
+(import Tile-visibility "./systems/visibility.js")
+(import Ground-types "./systems/floor-type.js")
+(import Containers "./systems/containers.js")
+(import game "./game.js")
+(import config "./config.js")
+
 
 (const game-scale config.game-scale)
 (const tile-systems [Floor-sprites Tile-visibility Ground-types Containers])

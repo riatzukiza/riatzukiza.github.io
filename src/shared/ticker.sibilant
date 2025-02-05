@@ -1,10 +1,6 @@
-
-(include "kit-interface/header")
- 
-(import-namespace interface)
-(require! (lit Event-emitter) "kit-events"
-          (lit List) "@shared/data-structures/list.js"
-          )
+(import Event-emitter "./kit/events/index.js")
+(import List "./data-structures/list.js")
+(import Interface "/shared/kit/interface/index.js")
 
 (define Ticker Interface
 

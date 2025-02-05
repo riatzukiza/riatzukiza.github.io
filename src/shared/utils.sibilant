@@ -1,16 +1,7 @@
-(include "kit/header"
-         "../../inc/async")
-
-(import-namespace async)
-(import-namespace kit)
-
-(include "../../inc/misc")
 
 (require! m 'mathjs
-          (lit Event-emitter) "kit-events"
           'events)
-
-
+(import Event-emitter "./kit/events/index.js")
 
 
 (def Event-emitter.remove-all-listeners ((dots args))

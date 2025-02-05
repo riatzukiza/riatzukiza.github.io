@@ -1,20 +1,11 @@
-(include "kit-interface/header")
-(import-namespace interface)
-
-
-
-(require! (lit Component System) "@shared/ecs.js"
-
-          (lit Physics) "@shared/systems/physics/index.js"
-
-          (lit Position) "@shared/systems/position.js"
-          (lit Gl ) "@shared/gl.js"
-          (lit Vector) "@shared/vectors.js"
-          )
-
-
-(require! (lit Andy) "@shared/gl.js")
-(require! (lit Renderable) "@shared/systems/rendering/renderable.js")
+(import Component  System "../../ecs.js")
+(import Physics "../physics.js")
+(import Position "../position.js")
+(import Gl "../../gl.js")
+(import Vector "../../vectors.js")
+(import Andy "../../andy.js")
+(import Renderable "./renderable.js")
+(import Interface "/shared/kit/interface/index.js")
 
 
 

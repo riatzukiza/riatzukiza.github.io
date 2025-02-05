@@ -1,4 +1,4 @@
-(require! (lit Terrain-module) "@crash-landed/world-gen/terrain-module.js")
+(import Terrain-module "../terrain-module.js")
 (const adjacent-stone-weight 0)
 (const paralell-horizontal-roads (.create Terrain-module adjacent-stone-weight
                                           'stone 'stone 'stone

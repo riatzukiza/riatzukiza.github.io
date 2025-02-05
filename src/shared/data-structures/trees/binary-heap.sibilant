@@ -1,4 +1,4 @@
-(require! (lit Spawnable) "@shared/data-structures/spawnable.js")
+(import  Spawnable "../spawnable.js")
 (define Heapable Spawnable
   (expects heap)
   (expects index)

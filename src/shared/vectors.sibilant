@@ -1,14 +1,7 @@
-(namespace vector)
-(include "kit/header" )
-(import-namespace kit)
-(include "kit-interface/header" )
-
-
-(require! (lit List) "@shared/data-structures/list.js"
-          (lit Pooled-data-structure) "@shared/data-structures/pooled.js"
-          (lit Dynamic-pool) "@shared/pooling/dynamic-pool.js"
-          (lit Spawnable) "@shared/data-structures/spawnable.js"
-          )
+(import List "./data-structures/list.js")
+(import Pooled-data-structure "./data-structures/pooled.js")
+(import Dynamic-pool "./pooling/dynamic-pool.js")
+(import Spawnable "./data-structures/spawnable.js")
 
 (define Vector Spawnable
   (init ((*x 0) (*y 0))

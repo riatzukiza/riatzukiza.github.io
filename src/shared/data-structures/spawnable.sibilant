@@ -1,5 +1,5 @@
-(include "kit-interface/header")
-(import-namespace interface)
+(import Interface "../kit/interface/index.js")
+
 (define Spawnable Interface
   (def build ()
     (assign this.pool []))

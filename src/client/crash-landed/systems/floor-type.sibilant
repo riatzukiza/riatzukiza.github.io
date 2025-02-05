@@ -1,9 +1,7 @@
-(require! (lit Spawnable) "@shared/data-structures/spawnable.js"
-          (lit System Component) "@shared/ecs.js"
-          )
+(import Spawnable "/shared/data-structures/spawnable.js")
+(import System Component "/shared/ecs.js")
+(import Interface "/shared/kit/interface/index.js")
 
-(include "kit-interface/header" )
-(import-namespace interface)
 (define Ground-type Spawnable 
   (init ((sprite-coord-min-x 0)
          (sprite-coord-min-y 0)
@@ -17,7 +15,7 @@
   (gett stats (get this.system 'types this.type)))
 
 (define Ground-types System
-  (interface Ground)
+  (Component Ground)
   (define types Interface
     (grass (.spawn Ground-type
                    0 0

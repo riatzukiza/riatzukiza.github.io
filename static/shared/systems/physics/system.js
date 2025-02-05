@@ -1,16 +1,34 @@
-var { 
-  Interface
- } = require("@kit-js/interface");
-var { 
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+
+  return Object.keys(this).forEach(((k) => {
+  	return f(this[k], k);
+  }));
+});
+import { 
+  mixin,
+  create,
+  extend
+ } from "/shared/kit/core/util.js";
+import { 
   Component,
   System
- } = require("@shared/ecs.js"),
-    { 
+ } from "/shared/ecs.js";
+import { 
   Velocity
- } = require("@shared/systems/velocity.js"),
-    { 
+ } from "/shared/systems/velocity.js";
+import { 
   Position
- } = require("@shared/systems/position.js");
+ } from "/shared/systems/position.js";
+import { 
+  Interface
+ } from "/shared/kit/interface/index.js";
 var PhysicalProperties = Component.define("PhysicalProperties", { 
   _scale:1,
   _mass:1,
@@ -61,23 +79,34 @@ var PhysicalProperties = Component.define("PhysicalProperties", {
    },
   get velocity(  ){ 
     
-      return this.system.process.systems.get(Velocity, this.entity);
+      return this.entity.velocityInterface;
     
    },
   get position(  ){ 
     
-      return this.system.process.systems.get(Position, this.entity);
+      return this.entity.positionInterface;
     
    },
   get location(  ){ 
     
       return this.position;
     
+   },
+  _clear(  ){ 
+    
+      this._mass = null;
+      this._scale = null;
+      this.priorScale = null;
+      this.priorMass = null;
+      return this.forces = [];
+    
    }
  });
-exports.PhysicalProperties = PhysicalProperties;
+export { 
+  PhysicalProperties
+ };
 var Physics = System.define("Physics", { 
-  interface:PhysicalProperties,
+  Component:PhysicalProperties,
   _forces:[],
   registerForce( F = this.F,_forces = this._forces ){ 
     
@@ -88,9 +117,7 @@ var Physics = System.define("Physics", {
   register( forces = this.forces ){ 
     
       return this._forces = forces.map(((F) => {
-      	
-        return this.registerForce(F, forces);
-      
+      	return this.registerForce(F, forces);
       }));
     
    },
@@ -102,25 +129,29 @@ var Physics = System.define("Physics", {
   _updateComponent( c ){ 
     
       return c.forces.each((function() {
-        /* eval.sibilant:1:1485 */
+        /* eval.sibilant:1:1969 */
       
         return arguments[0].apply(c);
       }));
     
    }
  });
-exports.Physics = Physics;
+export { 
+  Physics
+ };
 Physics.Force = Interface.define("Physics.Force", { 
   init( physics = this.physics ){ 
     
       this.physics = physics;
+      this.register();
       return this;
     
    },
+  template:true,
   build(  ){ 
     
       return (function() {
-        if (!(this.name === "Physics.Force")) {
+        if (!((this.template || this.name === "Physics.Force"))) {
           console.log("Physics.Force.build", "adding force to physics", this);
           return Physics.forces.push(this);
         }

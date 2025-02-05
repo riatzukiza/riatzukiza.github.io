@@ -1,7 +1,8 @@
 (namespace vector-ants)
 (const dim      [(Math.round (* 0.8 window.innerWidth)), (Math.round (- window.innerHeight 3))])
 (const size 1)
-(set module.exports
+(const config {})
+(set config
      'size size
      'ui-polling-rate 10
      'trail-resolution 5
@@ -48,3 +49,4 @@
      'step-wise-update true
      'game-speed 1
      )
+(export config)

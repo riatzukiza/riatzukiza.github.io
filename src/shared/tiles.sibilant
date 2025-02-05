@@ -1,10 +1,8 @@
-
-(require! (lit Spawnable) "@shared/data-structures/spawnable.js"
-          (lit Trie) "@shared/data-structures/trees/trie.js"
-          (lit Entity-group) "@shared/ecs.js"
-          (lit Position) "@shared/systems/position.js"
-          (lit Physics) "@shared/systems/physics/system.js"
-          )
+(import Spawnable "./data-structures/spawnable.js")
+(import Trie "./data-structures/trees/trie.js")
+(import Entity-group "./ecs.js")
+(import Position "./systems/position.js")
+(import Physics "./systems/physics.js")
 (define Tile-node Spawnable
   (init (*x *y entity graph )
         (set entity.position-interface

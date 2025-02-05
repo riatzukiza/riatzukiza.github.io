@@ -1,14 +1,13 @@
-
-(include "kit-interface/header")
-(import-namespace interface)
-
-(require! (lit Layer) "@shared/systems/rendering/layer.js"
-          (lit Pooled-system) "@shared/pooling/pooled-system.js"
-          (lit System) "@shared/ecs.js"
-          (lit Gl) "@shared/gl.js"
-          (lit Scalar) "@shared/math/scalar.js")
+(import Layer "./layer.js")
+(import Pooled-system "../../pooling/pooled-system.js")
+(import System "../../ecs.js")
+(import Gl "../../gl.js")
+(import Scalar "../../math/scalar.js")
 
 
+(def window.size ()
+  [window.inner-width window.inner-height]
+  )
 
 (var bound (#-> .bind )
      clear (#-> .clear )
@@ -82,14 +81,14 @@
      )
    (if! blend (allow-alpha-blending context))
 
-   (set this.interface
+   (set this.Interface
         'context context
         'rendering this)
 
 
    (.call Pooled-system.init this ))
 
-  (interface Layer)
+  (Interface Layer)
 
   (sett background-color (lit r g b a)
         (pipe this.context

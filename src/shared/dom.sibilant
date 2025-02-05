@@ -1,9 +1,8 @@
-(include "kit/header")
-(import-namespace kit)
-(include "kit-events/header")
-(include "../../inc/dom.sibilant")
-(include "kit-interface/header")
-(import-namespace interface)
+
+(import Event-emitter "./kit/events/index.js")
+(macro instance-of? (item type)
+       ["("  type " " 'instanceof " "item ")"])
+(require! R 'ramda)
 
 (def-curried render-children ( *parent c i a)
   (if (undefined? c) null
@@ -115,6 +114,7 @@
   (*node document.head)
   (*children [])
   )
+(export Document-head)
 (export Document-body)
 
 (var create-document-node (create Document-node))

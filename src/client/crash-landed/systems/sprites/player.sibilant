@@ -1,4 +1,4 @@
-(require! (lit Animated-sprite Sprite-atlas) "@shared/systems/rendering/sprite-atlas.js")
+(import Animated-sprite Sprite-atlas "/shared/systems/rendering/sprite-atlas.js")
 (const sprite-image (.get-element-by-id document "player-sprite"))
 
 
@@ -27,7 +27,7 @@
 (define Player-sprites Sprite-atlas
   (max-sprites 1)
   (id 0)
-  (interface Player-sprite)
+  (Component Player-sprite)
 
   (sequence-map
    (lit (north 0)

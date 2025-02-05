@@ -1,5 +1,5 @@
-(require! (lit System Component) "@shared/ecs.js"
-          (lit List) "@shared/data-structures/list.js")
+(import System Component "/shared/ecs.js")
+(import List "/shared/data-structures/list.js")
 (define Needs Component
   (calories-stored 2000) ;; negative calories 
   (calories-max 5000)
@@ -63,7 +63,7 @@
   )
 (export Needs)
 (define Metabolisim System
-  (interface Needs)
+  (Component Needs)
   (def *update-component (c)
     (if c.is-resting?
         (do (incr-by c.rest c.rest-efficiency)

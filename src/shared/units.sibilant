@@ -1,12 +1,8 @@
-
-(include "kit-interface/header")
-(import-namespace interface)
-
-(require! (lit Spawnable) "@shared/data-structures/spawnable.js"
-          (lit Entity-group) "@shared/ecs.js"
-          (lit Position) "@shared/systems/position.js"
-          (lit Physics) "@shared/systems/physics.js"
-          )
+(import Spawnable "./data-structures/spawnable.js")
+(import Entity-group "./ecs.js")
+(import Position "./systems/position.js")
+(import Physics "./systems/physics.js")
+(import Interface "/shared/kit/interface/index.js")
 
 (define Unit-instance Spawnable
   (init (entity group))

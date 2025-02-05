@@ -1,29 +1,24 @@
-(require! (lit start-interface) "@crash-landed/dom.js"
 
-          (lit Physics) "@shared/systems/physics/index.js"
-          (lit Friction) "@crash-landed/forces.js"
-          (lit Position) "@shared/systems/position.js"
-          (lit Velocity) "@shared/systems/velocity.js"
-          (lit Player-sprites) "@crash-landed/systems/sprites/player.js"
-          (lit Floor-sprites) "@crash-landed/systems/sprites/floor.js"
-          (lit Props-sprites) "@crash-landed/systems/sprites/basic-props.js"
-          ;; (lit Cliff-sprites) "@crash-landed/systems/sprites/cliff.js"
-          (lit Sight) "@crash-landed/systems/sight.js"
-          (lit Tile-visibility) "@crash-landed/systems/visibility.js"
-          (lit Path-finding) "@crash-landed/systems/path-finding.js"
-          (lit Ground-types) "@crash-landed/systems/floor-type.js"
-          (lit Metabolisim) "@crash-landed/systems/metabolisim.js"
-          (lit Containers) "@crash-landed/systems/containers.js"
-          (lit Mental-state) "@crash-landed/systems/mental-state.js"
-          (lit Item) "@crash-landed/systems/item.js"
-          (lit Entity-group) "@shared/ecs/entity-group.js"
-          (lit Unit-group Unit-instance) "@shared/units.js"
-          (lit Vector) "@shared/vectors.js"
-          (lit Trie) "@shared/data-structures/trees/trie.js"
-          noise "@shared/noise.js"
-          config "@crash-landed/config.js"
-          (lit game) "@crash-landed/game.js"
-          )
+(import Game "/shared/game.js")
+(import Physics "/shared/systems/physics.js")
+(import Player-sprites "./systems/sprites/player.js")
+(import Props-sprites "./systems/sprites/basic-props.js")
+(import rendering "./rendering.js")
+(import Velocity "/shared/systems/velocity.js")
+(import Sight "./systems/sight.js")
+(import Ground-types "./systems/floor-type.js")
+(import Tile-visibility "./systems/visibility.js")
+(import Path-finding "./systems/path-finding.js")
+(import Metabolisim "./systems/metabolisim.js")
+(import Containers "./systems/containers.js")
+(import Mental-state "./systems/mental-state.js")
+(import Item "./systems/item.js")
+(import config "./config.js")
+(import Floor-sprites "./systems/sprites/floor.js")
+(import Cliff-sprites "./systems/sprites/cliff.js")
+(import Unit-instance Unit-group "/shared/units.js")
+(import game "./game.js")
+
 (print "game" game)
 (assign Unit-group.game game)
 (define Item-unit Unit-instance

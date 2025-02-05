@@ -1,134 +1,152 @@
-var { 
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+
+  return Object.keys(this).forEach(((k) => {
+  	return f(this[k], k);
+  }));
+});
+import { 
+  mixin,
+  create,
+  extend
+ } from "/shared/kit/core/util.js";
+import { 
+  List
+ } from "../list.js";
+import { 
   Interface
- } = require("@kit-js/interface");
+ } from "../../kit/interface/index.js";
 var OrderedMap = Interface.define("OrderedMap", { 
-  init( _members = (new Map()),_keyPointers = (new Map()),_keys = [],_values = [] ){ 
+  init( _members = (new Map()),_values = create(List)() ){ 
     
-      this._members = _members;this._keyPointers = _keyPointers;this._keys = _keys;this._values = _values;
+      this._members = _members;this._values = _values;
       return this;
     
    },
-  has( key = this.key,[ _members ] = [ this._members ] ){ 
+  get values(  ){ 
+    
+      return this._values;
+    
+   },
+  get members(  ){ 
+    
+      return this._members;
+    
+   },
+  get size(  ){ 
+    
+      return this._values.length;
+    
+   },
+  get length(  ){ 
+    
+      return this._values.length;
+    
+   },
+  clear( _members = this._members,_values = this._values ){ 
+    
+      members.clear();
+      return _values.clear();
+    
+   },
+  has( key = this.key,_members = this._members ){ 
     
       return _members.has(key);
     
    },
-  get( key = this.key,[ _members, _, _keys ] = [ this._members, this._, this._keys ] ){ 
+  get( key = this.key,_members = this._members,_keys = this._keys ){ 
     
-      return _members.get(key);
+      return _members.get(key).item;
     
    },
-  each( callback = this.callback,_values = this._values ){ 
+  each( callback = this.callback,_members = this._members ){ 
     
-      _values.each(callback);
+      var node = this._values.head;
+      while( node ){ 
+        callback(node.item, node.key);
+        node = node.next;
+       };
       return this;
     
    },
-  map( callback = this.callback,[ _members, _, _keys, _values ] = [ this._members, this._, this._keys, this._values ] ){ 
+  map( callback = this.callback,_members = this._members,_values = this._values ){ 
     
       return (function(r) {
-        /* node_modules/kit/inc/scope.sibilant:12:9 */
+        /* eval.sibilant:1:661 */
       
-        _keys.each(((k) => {
-        	
-          return r.set(k, f(_members[k], k, r));
-        
+        _values.each(((item, node) => {
+        	return r.set(node.key, f(item, node.key, r));
         }));
         return r;
-      })(create(OrderedMap)());
+      }).call(this, create(OrderedMap)());
     
    },
-  delete( key = this.key,[ _members, _keyPointers, _keys, _values ] = [ this._members, this._keyPointers, this._keys, this._values ] ){ 
+  _delete( key = this.key,_members = this._members,_values = this._values ){ 
     
-      var i = _keyPointers[key];
-      _members.delete(key);
-      _keyPointers.delete(key);
-      delete _keys;
-      delete i;
-      delete _values;
-      return delete i;
+      const node=_members.get(key);
+      _values.removeNode(node);
+      return _members.delete(key);
     
    },
-  push( [ key, value ] = [ this.key, this.value ],[ _members, _keyPointers, _keys, _values ] = [ this._members, this._keyPointers, this._keys, this._values ] ){ 
+  delete( key = this.key,_members = this._members ){ 
+    
+      return this._delete(key);
+    
+   },
+  push( [ key, value ] = [ this.key, this.value ],_members = this._members,_values = this._values ){ 
     
       return (function() {
-        if (_members.has(key)) {
-          return _members.get(key);
-        } else {
-          return (function(value) {
-            /* node_modules/kit/inc/scope.sibilant:12:9 */
-          
-            _members.set(key, value);
-            return value;
-          })((function() {
-            /* node_modules/kit/inc/macros.sibilant:30:25 */
-          
-            _keys.push(key);
-            _keyPointers.set(_values.push(value));
-            return value;
-          }).call(this));
+        if (!(_members.has(key))) {
+          _values.push(value);
+          _values.tail.key = key;
+          _members.set(key, _values.tail);
+          return _values.length;
         }
       }).call(this);
     
    },
-  pop( [ _members, _keyPointers, _keys, _values ] = [ this._members, this._keyPointers, this._keys, this._values ] ){ 
-    
-      var key = _keys.pop(),
-          value = _values.pop();
-      _keyPointers.pop();
-      members.delete(key);
-      return value;
-    
-   },
-  shift( [ _members, _keyPointers, _keys, _values ] = [ this._members, this._keyPointers, this._keys, this._values ] ){ 
-    
-      var key = _keys.shift(),
-          value = _values.shift();
-      _keyPointers.shift();
-      _members.delete(key);
-      return value;
-    
-   },
-  unshift( [ key, value ] = [ this.key, this.value ],[ _members, _keyPointers, _keys, _values ] = [ this._members, this._keyPointers, this._keys, this._values ] ){ 
+  unshift( [ key, value ] = [ this.key, this.value ],_members = this._members,_values = this._values ){ 
     
       return (function() {
-        if (_members.has(key)) {
-          return _members.get(key);
-        } else {
-          return (function(value) {
-            /* node_modules/kit/inc/scope.sibilant:12:9 */
-          
-            _members.set(key, value);
-            return value;
-          })((function() {
-            /* node_modules/kit/inc/macros.sibilant:30:25 */
-          
-            _keys.unshift(key);
-            _keyPointers.set(_values.unshift(value));
-            return value;
-          }).call(this));
+        if (!(_members.has(key))) {
+          _values.unshift(key);
+          _values.head.key = key;
+          _members.set(key, _values.head);
+          return _values.length;
         }
       }).call(this);
     
    },
-  set( key = this.key,value = this.value,[ _members, _keyPointers, _keys, _values ] = [ this._members, this._keyPointers, this._keys, this._values ] ){ 
+  pop( _members = this._members,_values = this._values ){ 
+    
+      _members.delete(_values.tail.key);
+      return _values.pop();
+    
+   },
+  shift( _members = this._members,_values = this._values ){ 
+    
+      _members.delete(_values.head.key);
+      return _values.shift();
+    
+   },
+  set( key = this.key,value = this.value,_members = this._members,_values = this._values ){ 
     
       return (function() {
-        if (_members.has(key)) {
-          return (function(i) {
-            /* node_modules/kit/inc/scope.sibilant:12:9 */
-          
-            _values[i] = value;
-            return _members.set(key, value);
-          })(_keyPointers[key]);
-        } else {
-          _keys.push(key);
-          _keyPointers.set(_values.push(value));
-          _members.set(key, value);
-          return value;
+        if (!(_members.has(key))) {
+          _values.push(value);
+          _values.tail.key = key;
+          return _members.set(key, _values.tail);
         }
       }).call(this);
     
    }
  });
-exports.OrderedMap = OrderedMap;
+export { 
+  OrderedMap
+ };

@@ -1,5 +1,4 @@
-(require! (lit Physics) "@shared/systems/physics/system.js"
-          )
+(import Physics "../system.js")
 
 (define Friction Physics.Force
 

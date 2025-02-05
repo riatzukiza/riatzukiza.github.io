@@ -1,6 +1,6 @@
+(import System Component "/shared/ecs.js")
+(import List "/shared/data-structures/list.js")
 
-(require! (lit Component System) "@shared/ecs.js"
-          (lit List) "@shared/data-structures/list.js")
 (define Visible-status Component
   (*visible? false)
   (*explored? false)
@@ -25,7 +25,7 @@
   (gett sprite this.entity.floor-sprite)
   )
 (define Tile-visibility System
-  (interface Visible-status)
+  (Component Visible-status)
   (def *update-all ())
   (def *update-component (c)
     ;; noop/data only component

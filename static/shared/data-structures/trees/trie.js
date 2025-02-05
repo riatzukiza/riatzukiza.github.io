@@ -1,12 +1,27 @@
-var { 
-  Interface
- } = require("@kit-js/interface");
-var { 
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+
+  return Object.keys(this).forEach(((k) => {
+  	return f(this[k], k);
+  }));
+});
+import { 
+  mixin,
+  create,
+  extend
+ } from "/shared/kit/core/util.js";
+import { 
   Table
- } = require("@shared/data-structures/table.js"),
-    { 
+ } from "/shared/data-structures/table.js";
+import { 
   Tree
- } = require("@shared/data-structures/trees/base.js");
+ } from "/shared/data-structures/trees/base.js";
 var Trie = Tree.define("Trie", { 
   init( value = this.value,parent = this.parent,_children = Table.spawn() ){ 
     
@@ -26,14 +41,12 @@ var Trie = Tree.define("Trie", {
    },
   clear( value = this.value,_children = this._children,tree = this ){ 
     
+      _children.each(((child) => {
+      	return child.despawn();
+      }));
       tree.value = null;
       tree.parent = null;
-      return _children.each(((child) => {
-      	
-        child.clear();
-        return _children.delete(tree.key);
-      
-      }));
+      return tree.key = null;
     
    },
   add( key = this.key,tree = this,_children = tree._children ){ 
@@ -46,8 +59,8 @@ var Trie = Tree.define("Trie", {
   delete( seq = this.seq,tree = this ){ 
     
       var node = tree.find(seq);
-      node.clear();
-      return node.parent._children.delete(seq.slice(-1)[0]);
+      node.parent._children.delete(seq.slice(-1)[0]);
+      return node.despawn();
     
    },
   _find( seq = this.seq,node = this._children.get(seq[0]) ){ 
@@ -68,4 +81,6 @@ var Trie = Tree.define("Trie", {
     
    }
  });
-exports.Trie = Trie;
+export { 
+  Trie
+ };

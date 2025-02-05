@@ -1,17 +1,32 @@
-var { 
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+
+  return Object.keys(this).forEach(((k) => {
+  	return f(this[k], k);
+  }));
+});
+import { 
+  mixin,
+  create,
+  extend
+ } from "/shared/kit/core/util.js";
+import { 
   Position
- } = require("@shared/systems/position.js"),
-    { 
+ } from "/shared/systems/position.js";
+import { 
   Physics
- } = require("@shared/systems/physics/system.js"),
-    { 
-  createVectorField,
-  createParticleUpdater
- } = require("@shared/field.js"),
-    { 
+ } from "/shared/systems/physics/system.js";
+import { 
   Collision
- } = require("@shared/systems/collision.js");
+ } from "/shared/systems/collision.js";
 var SignalField = Physics.Force.define("SignalField", { 
+  template:true,
   get config(  ){ 
     
       throw Error("No config provided for signal-field force sub system")
@@ -47,15 +62,15 @@ var SignalField = Physics.Force.define("SignalField", {
       var v = c.velocity;
       var collision = c.system.process.systems.get(Collision, c.entity);
       updateParticle(v, v.pos, field, layer, game.ticker.ticks, false, false, entities.homePos);
-      var winRate = (v.winCount / ((1 + v.looseCount) || 1));
-      c.scale = (0.1 * (function() {
+      var winRate = (v.entity.antLife.winCount / ((1 + v.entity.antLife.looseCount) || 1));
+      c.scale = (5 + (2 * (function() {
         if (winRate > 1) {
           return winRate;
         } else {
           return 1;
         }
-      }).call(this));
-      return c.mass = (2 * (function() {
+      }).call(this)));
+      return c.mass = (10 * (function() {
         if (winRate > 1) {
           return winRate;
         } else {
@@ -65,4 +80,6 @@ var SignalField = Physics.Force.define("SignalField", {
     
    }
  });
-exports.SignalField = SignalField;
+export { 
+  SignalField
+ };

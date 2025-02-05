@@ -1,11 +1,10 @@
-(require! Andy "@shared/andy.js"
-          utils "@shared/utils.js")
+(import Andy "./andy.js")
 (var Gl {})
 
 
 (var (lit Buffer Program Shader Attribute Type Context Uniform) Andy.Gl
      (lit Blend-mode) Andy.Color)
-(assign global.Program Program)
+(assign window.Program Program)
 
 
 (def Gl.shader (type-name string context)

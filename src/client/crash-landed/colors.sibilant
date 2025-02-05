@@ -1,10 +1,10 @@
-(require! (lit Tree-map) "tree-kit")
+(import Trie "/shared/data-structures/trees/trie.js")
 
-(def Tree-map.get ((dots args))
+(def Trie.get ((dots args))
   (get (.find this (dots args)) 'value))
 
 (def memoize (f)
-  (var cache ((create Tree-map)))
+  (var cache ((create Trie)))
   (=> ((dots args))
       (remember cache args
                 (f (dots args)))))

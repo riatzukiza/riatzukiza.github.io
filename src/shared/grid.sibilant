@@ -1,6 +1,6 @@
-(require! (lit Event-emitter) "kit-events")
-(require! (lit Spawnable) "@shared/data-structures/spawnable.js"
-          (lit Trie) "@shared/data-structures/trees/trie.js")
+(import Event-emitter "./kit/events/index.js")
+(import Spawnable "./data-structures/spawnable.js")
+(import Trie "./data-structures/trees/trie.js")
 
 (define Grid-view Spawnable
   (doc-string "Shared.Grid.Grid-view"

@@ -1,4 +1,4 @@
-(require! (lit Terrain-module) "@crash-landed/world-gen/terrain-module.js")
+(import Terrain-module "../terrain-module.js")
 (const field (.create Terrain-module 15.1
                       'grass 'grass 'grass
                       'grass 'grass 'grass

@@ -1,5 +1,13 @@
-(const tile-grid self.tile-grid)
+(import Tile-grid "/client/crash-landed/world-gen/tile-grid.js")
+(import field "/client/crash-landed/world-gen/modules.js")
+
+(print "world generator started")
+
+(const tile-grid (.spawn Tile-grid))
+
+
 (var pos (lit (x 0) (y 0)))
+
 (def send-message (type data)
   (.post-message
    self
@@ -36,6 +44,7 @@
           (.then (-> (.emit tile-grid.events '*step)))))
 
 (once tile-grid.events 'get-starting-tiles (data)
+      (print "generating tiles" data)
       (send-message 'initial-tiles
                     (lit (tiles (.collapse-nearest-chunks
                                  tile-grid
@@ -44,3 +53,4 @@
                                  data.n))))
       (.update-player-pos tile-grid data)
       (.emit tile-grid.events '*step))
+(export tile-grid)

@@ -1,12 +1,7 @@
-
-(include "kit-interface/header")
-
-(import-namespace interface)
-
-(require! (lit Component System) "@shared/ecs.js"
-          (lit Velocity) "@shared/systems/velocity.js"
-          (lit Position) "@shared/systems/position.js")
-
+(import Component System "/shared/ecs.js")
+(import Velocity "/shared/systems/velocity.js")
+(import Position "/shared/systems/position.js")
+(import Interface "/shared/kit/interface/index.js")
 
 (define Physical-properties Component
 
@@ -48,7 +43,7 @@
 (export Physical-properties)
 
 (define Physics System
-  (interface Physical-properties)
+  (Component Physical-properties)
   (*forces [])
 
   (def-generic register-force (F *forces)

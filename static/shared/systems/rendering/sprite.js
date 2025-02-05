@@ -1,29 +1,44 @@
-var { 
-  Interface
- } = require("@kit-js/interface");
-var { 
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+
+  return Object.keys(this).forEach(((k) => {
+  	return f(this[k], k);
+  }));
+});
+import { 
+  mixin,
+  create,
+  extend
+ } from "/shared/kit/core/util.js";
+import { 
   MatrixMap
- } = require("@shared/data-structures/maps/matrix.js"),
-    { 
+ } from "../../data-structures/maps/matrix.js";
+import { 
   uniforms
- } = require("@shared/gl.js");
+ } from "../../gl.js";
 var SpriteInterface = Component.define("SpriteInterface", { 
   register( dim = this.dim,system = this.system ){ 
     
       return this.verts = create(MatrixMap)(dim, (function(array) {
-        /* node_modules/kit/inc/scope.sibilant:12:9 */
+        /* eval.sibilant:1:661 */
       
         (function() {
-          /* node_modules/kit/inc/loops.sibilant:26:8 */
+          /* inc/loops.sibilant:26:8 */
         
           var $for = null;
           for (var i = 0;i < productOf(dim);++(i))
           {
           $for = (function() {
-            /* node_modules/kit/inc/loops.sibilant:28:35 */
+            /* inc/loops.sibilant:28:35 */
           
             array.push((function() {
-              /* eval.sibilant:1:369 */
+              /* eval.sibilant:1:732 */
             
               return system.verts.spawn();
             }).call(this));
@@ -34,7 +49,7 @@ var SpriteInterface = Component.define("SpriteInterface", {
           return $for;
         }).call(this);
         return array;
-      })([]));
+      }).call(this, []));
     
    },
   frameId:0,
@@ -117,21 +132,19 @@ var SpriteInterface = Component.define("SpriteInterface", {
   draw( t = this.t,verts = this.verts,image = this.image,scale = this.scale,frameId = this.frameId,frameCount = this.frameCount,pos = this.pos,height = this.height,width = this.width ){ 
     
       return image.then(((bitMap) => {
-      	
-        return verts.each(((v, [ i, j ]) => {
-        	
-          var pixel = this.getFramePixel(i, j, bitMap);
-          this.moveVertex(i, j, scale, v);
-          v.size = scale;
-          return this.setColor(v, pixel);
-        
-        }));
-      
+      	return verts.each(((v, [ i, j ]) => {
+      	var pixel = this.getFramePixel(i, j, bitMap);
+      this.moveVertex(i, j, scale, v);
+      v.size = scale;
+      return this.setColor(v, pixel);
+      }));
       }));
     
    }
  });
-exports.SpriteInterface = SpriteInterface;
+export { 
+  SpriteInterface
+ };
 var Sprite = ComponentSystem.define("Sprite", { 
   register(  ){ 
     
@@ -145,4 +158,6 @@ var Sprite = ComponentSystem.define("Sprite", {
     
    }
  });
-exports.Sprite = Sprite;
+export { 
+  Sprite
+ };

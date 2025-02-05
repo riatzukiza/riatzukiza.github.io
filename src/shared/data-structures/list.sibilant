@@ -1,5 +1,5 @@
 (namespace shared)
-(require! (lit Spawnable) "@shared/data-structures/spawnable.js")
+(import Spawnable "./spawnable.js")
 
 (const empty-nodes [])
 (define Node Spawnable

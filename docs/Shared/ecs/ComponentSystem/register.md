@@ -25,13 +25,13 @@ var NewSystem = ComponentSystem.define("NewSystem", {
     
       this.neededThing = [];
       return (function() {
-        /* node_modules/kit/inc/loops.sibilant:26:8 */
+        /* inc/loops.sibilant:26:8 */
       
         var $for = null;
         for (var i = 0;i < 10;++(i))
         {
         $for = (function() {
-          /* node_modules/kit/inc/loops.sibilant:28:35 */
+          /* inc/loops.sibilant:28:35 */
         
           return this.neededThing.push(Math.random());
         }).call(this);

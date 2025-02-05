@@ -1,4 +1,4 @@
-(require! (lit Animated-sprite Sprite-atlas) "@shared/systems/rendering/sprite-atlas.js")
+(import Animated-sprite Sprite-atlas "/shared/systems/rendering/sprite-atlas.js")
 (const sprite-image (.get-element-by-id document "grass-sprite"))
 
 
@@ -24,7 +24,7 @@
 
 (define Floor-sprites Sprite-atlas
   (max-sprites 1000000)
-  (interface Floor-sprite)
+  (Component Floor-sprite)
 
   (frame-dimensions [ 32 32 ])
   ;; how many frames vertically

@@ -1,16 +1,7 @@
-(namespace crash-landed)
-
 (include "../../../inc/dom.sibilant")
-(import-namespace dom)
+(import rendering "./rendering.js")
+(import config "./config.js")
 
-(require! (lit rendering ) "@crash-landed/rendering.js"
-          (lit vector-pool trail-pool) "@shared/vectors.js"
-          (lit Physics) "@shared/systems/physics/index.js"
-          (lit Dot) "@shared/systems/rendering/dot.js"
-          (lit summate) "@shared/math/math.js"
-          (lit View-panel Property-view) "@crash-landed/systems/property-view.js"
-          config "@crash-landed/config.js"
-          )
 
 
 (def-generic display-decimal (d (n 6)) (/ (Math.round (* (Math.pow 10 n) d)) (Math.pow 10 n)))
@@ -42,8 +33,7 @@
 (export container)
 (export game-view)
 (export debug-view)
-(def start-interface ()
-  (require! (lit game) "@crash-landed/game.js")
+(def start-interface (game)
   (with-dom Document-body (.div .id 'frame container))
   (on game.events 'tick (t)
 

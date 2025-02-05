@@ -1,9 +1,24 @@
-var { 
-  Interface
- } = require("@kit-js/interface");
-var { 
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+
+  return Object.keys(this).forEach(((k) => {
+  	return f(this[k], k);
+  }));
+});
+import { 
+  mixin,
+  create,
+  extend
+ } from "/shared/kit/core/util.js";
+import { 
   PooledDataStructure
- } = require("@shared/data-structures/pooled.js");
+ } from "../pooled.js";
 var Tree = PooledDataStructure.define("Tree", { 
   value:null,
   parent:null,
@@ -70,7 +85,7 @@ var Tree = PooledDataStructure.define("Tree", {
           return tree;
         } else {
           return (function(node) {
-            /* node_modules/kit/inc/scope.sibilant:12:9 */
+            /* inc/scope.sibilant:12:9 */
           
             return node.insert(seq.slice(1));
           })(tree._insert(seq));
@@ -86,17 +101,17 @@ var Tree = PooledDataStructure.define("Tree", {
   each( f = this.f,condition = this.leaf__QUERY,_children = this._children ){ 
     
       return _children.each(((node, k) => {
-      	
-        return (function() {
-          if (condition(node)) {
-            return f(node, k);
-          } else {
-            return node.each(f, condition);
-          }
-        }).call(this);
-      
+      	return (function() {
+        if (condition(node)) {
+          return f(node, k);
+        } else {
+          return node.each(f, condition);
+        }
+      }).call(this);
       }));
     
    }
  });
-exports.Tree = Tree;
+export { 
+  Tree
+ };

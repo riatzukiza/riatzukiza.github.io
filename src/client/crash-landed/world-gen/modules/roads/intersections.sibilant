@@ -1,6 +1,6 @@
-(require! (lit intersection-weight) "@crash-landed/world-gen/modules/roads/weights.js")
 
-(require! (lit Terrain-module) "@crash-landed/world-gen/terrain-module.js")
+(import Terrain-module "../../terrain-module.js")
+(import intersection-weight "./weights.js")
 
 (const cross-roads
        (.create Terrain-module intersection-weight
@@ -32,4 +32,21 @@
                 'grass 'stone 'grass
                 'grass 'stone 'stone
                 'grass 'stone 'grass ))
+(const intersections (lit
+
+
+
+                      cross-roads
+                      diagonal-cross-roads
+                      north-t-junction
+                      south-t-junction
+                      east-t-junction
+                      west-t-junction
+                      ))
+(export intersections)
 (export cross-roads)
+(export diagonal-cross-roads)
+(export north-t-junction)
+(export south-t-junction)
+(export east-t-junction)
+(export west-t-junction)

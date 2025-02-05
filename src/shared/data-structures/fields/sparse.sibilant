@@ -1,6 +1,7 @@
-(require! (lit Vector) "@shared/vectors.js")
-(require! (lit Trie) "@shared/data-structures/trees/trie.js")
-(require! (lit Spawnable) "@shared/data-structures/spawnable.js")
+(import Vector "../../vectors.js")
+(import Trie "../../data-structures/trees/trie.js")
+(import Spawnable "../../data-structures/spawnable.js")
+
 (define Sparse-vector-field Spawnable
   (doc-string "DataStructures.fields.Sparse")
 
@@ -17,10 +18,7 @@
   (def *context (x y t t* v v*)
     (doc-string "DataStructures.Fields.Sparse.*context"
                 "x y t t* v v* "
-                "If defined, configures variables specific to the given implementation."
-
-                )
-    )
+                "If defined, configures variables specific to the given implementation."))
 
   (def-generic equation (x y t data)
     (doc-string "DataStructures.Fields.Sparse.equation"

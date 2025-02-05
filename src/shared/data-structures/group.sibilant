@@ -1,7 +1,8 @@
-(include "kit-interface/header")
+(include "../../../headers/interface.sibilant")
 (import-namespace interface)
-(require! (lit List) "@shared/data-structures/list.js"
-          (lit Spawnable) "@shared/data-structures/spawnable.js")
+
+(import List "../data-structures/list.js")
+(import Spawnable "../data-structures/spawnable.js")
 
 (define Group Spawnable
   (init ((*list (.spawn List))

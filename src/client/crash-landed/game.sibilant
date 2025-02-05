@@ -1,36 +1,27 @@
-(namespace vector-ants)
-(include "kit/header" )
-(import-namespace kit)
-
-(require! (lit Game) "@shared/game.js"
-
-          (lit Physics) "@shared/systems/physics/index.js"
-          (lit Position) "@shared/systems/position.js"
-          (lit Player-sprites) "@crash-landed/systems/sprites/player.js"
-          (lit Props-sprites) "@crash-landed/systems/sprites/basic-props.js"
-          (lit rendering) "@crash-landed/rendering.js"
-          (lit Velocity) "@shared/systems/velocity.js"
-          (lit Sight) "@crash-landed/systems/sight.js"
-          (lit Ground-types) "@crash-landed/systems/floor-type.js"
-          (lit Tile-visibility) "@crash-landed/systems/visibility.js"
-          (lit Path-finding) "@crash-landed/systems/path-finding.js"
-
-          (lit Metabolisim) "@crash-landed/systems/metabolisim.js"
-          (lit Containers) "@crash-landed/systems/containers.js"
-          (lit Mental-state) "@crash-landed/systems/mental-state.js"
-          (lit Item) "@crash-landed/systems/item.js"
-          config "@crash-landed/config.js"
-          )
-
-
-
-(require! (lit Floor-sprites) "@crash-landed/systems/sprites/floor.js")
-(require! (lit Cliff-sprites) "@crash-landed/systems/sprites/cliff.js")
+(import Game "/shared/game.js")
+(import Physics "/shared/systems/physics.js")
+(import Player-sprites "./systems/sprites/player.js")
+(import Props-sprites "./systems/sprites/basic-props.js")
+(import rendering "./rendering.js")
+(import Velocity "/shared/systems/velocity.js")
+(import Sight "./systems/sight.js")
+(import Ground-types "./systems/floor-type.js")
+(import Tile-visibility "./systems/visibility.js")
+(import Path-finding "./systems/path-finding.js")
+(import Metabolisim "./systems/metabolisim.js")
+(import Containers "./systems/containers.js")
+(import Mental-state "./systems/mental-state.js")
+(import Item "./systems/item.js")
+(import config "./config.js")
+(import Floor-sprites "./systems/sprites/floor.js")
+(import Cliff-sprites "./systems/sprites/cliff.js")
+(import Position "/shared/systems/position.js")
 
 (var active-game-systems [Position  Physics Velocity Tile-visibility  Sight
                                     Floor-sprites Cliff-sprites Player-sprites
                                     Props-sprites
-                                    Ground-types Path-finding Metabolisim Containers Mental-state Item
+                                    Ground-types Path-finding
+                                    Metabolisim Containers Mental-state Item
                                     ])
 
 

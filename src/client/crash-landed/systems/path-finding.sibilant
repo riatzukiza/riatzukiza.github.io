@@ -1,11 +1,12 @@
-(require! (lit Spawnable) "@shared/data-structures/spawnable.js"
-          (lit List) "@shared/data-structures/list.js"
-          (lit Vector) "@shared/vectors.js"
-          (lit System Component) "@shared/ecs.js"
-          (lit Heapable Binary-heap) "@shared/data-structures/trees/binary-heap.js"
-          config "@crash-landed/config.js"
 
-          )
+(import System Component "/shared/ecs.js")
+(import Spawnable "/shared/data-structures/spawnable.js")
+(import List "/shared/data-structures/list.js")
+(import Vector "/shared/vectors.js")
+(import config "../config.js")
+(import Heapable Binary-heap "/shared/data-structures/trees/binary-heap.js")
+
+
 (def remove-from-array (el array)
   (const index (.index-of array el))
   (if (> index -1)
@@ -114,82 +115,9 @@
   )
 
 (define Path-finding System
-  (interface Current-path)
+  (Component Current-path)
   (tiles null)
-
-
-  (def *update-component (c)
-    ;; If it has an assigned starting and end point, but is not assign
-    ;; a location with in the path, it does not have a path, and it needs one.
-    (if! (and (!= c.start null) (!= c.end null) (= c.start c.end))
-        (assign c.start null c.end null
-                c.current-node null))
-    (when c.current-node
-      (const pos c.pos)
-      (const vel c.vel.vector)
-      (const occupied-tile (.get-closest-from-world-pos this.tiles pos.x pos.y))
-      ;; (print occupied-tile c.current-node.item.tile c.next-node.item.tile)
-
-      (if (= occupied-tile c.current-node.item.tile)
-          (do
-
-           (const pos-v (.spawn Vector pos.x pos.y))
-           (const tile-pos-v (.spawn Vector
-                                     c.next-node.item.tile.world-pos.x
-                                     c.next-node.item.tile.world-pos.y))
-            (const d (.distance-to  tile-pos-v pos-v))
-            (.set-length vel (* occupied-tile.entity.ground.stats.movement-speed
-
-                                (* 0.1 config.game-scale)))
-            (.set-angle vel (.get-angle d))
-            (.despawn d)
-            (.despawn pos-v)
-            (.despawn tile-pos-v)
-            )
-          (or (= occupied-tile c.end)
-              (!= c.end c.current-node.item.end))
-          (do (print "found end")
-              (.set-length vel 0)
-
-            (for-of! [tile node] c.active-nodes
-                     (.delete c.active-nodes tile)
-                       (.despawn node))
-
-              (.despawn c.node-list)
-              ;; (.clear this.active-nodes)
-              (assign c.current-node null
-                      c.start null
-                      c.end null
-                      c.node-list null
-                      ))
-            (= occupied-tile c.next-node.item.tile)
-            (do
-             (assign c.current-node c.next-node)
-             (const pos-v (.spawn Vector pos.x pos.y))
-              (const tile-pos-v (.spawn Vector
-                                        c.next-node.item.tile.world-pos.x
-                                        c.next-node.item.tile.world-pos.y))
-              (const d (.distance-to  tile-pos-v pos-v))
-
-              (.set-length vel (* occupied-tile.entity.ground.stats.movement-speed
-
-                                  (* 0.1 config.game-scale)))
-              (.set-angle vel (.get-angle d))
-              (.despawn pos-v)
-              (.despawn tile-pos-v)
-              (.despawn d))
-            
-            ;; (do (print "gone off path, recalculating" c occupied-tile c.next-node.item.tile)
-            ;;     (each c.node-list (value)
-            ;;           (.delete this.active-nodes value.tile))
-            ;;   (.clear c.node-list)
-            ;;   (assign c.current-node null
-            ;;           c.start occupied-tile))
-            ))
-
-    
-
-    (when (and c.start c.end (not c.current-node) )
+  (def find-shortest-path (c)
 
       ;; (assign c.open.length 0)
       (.clear c.closed)
@@ -220,8 +148,6 @@
                                                 c.end
                                                 c.open)))
 
-
-                       
                        (when (< (+ current-node.g-cost
                                    (calculate-distance-cost
                                     current-node.tile
@@ -231,6 +157,87 @@
                          (if (not (.includes c.open neighbor-node))
                              (.insert c.open neighbor-node))))
 
-              null))))))
+              null))))
+  (def continue-to-next-tile (c pos vel occupied-tile)
+
+    (const pos-v (.spawn Vector pos.x pos.y))
+    (const tile-pos-v (.spawn Vector
+                              c.next-node.item.tile.world-pos.x
+                              c.next-node.item.tile.world-pos.y))
+    (const d (.distance-to  tile-pos-v pos-v))
+    (.set-length vel (* occupied-tile.entity.ground.stats.movement-speed
+
+                        (* 0.1 config.game-scale)))
+    (.set-angle vel (.get-angle d))
+    (.despawn d)
+    (.despawn pos-v)
+    (.despawn tile-pos-v)
+    )
+  (def found-end (c pos vel occupied-tile)
+    (print "found end")
+    (.set-length vel 0)
+
+    (for-of! [tile node] c.active-nodes
+             (.delete c.active-nodes tile)
+             (.despawn node))
+
+    (.despawn c.node-list)
+    ;; (.clear this.active-nodes)
+    (assign c.current-node null
+            c.start null
+            c.end null
+            c.node-list null))
+  (def arrived-at-next-tile (c pos vel occupied-tile)
+    (assign c.current-node c.next-node)
+    (const pos-v (.spawn Vector pos.x pos.y))
+    (const tile-pos-v (.spawn Vector
+                              c.next-node.item.tile.world-pos.x
+                              c.next-node.item.tile.world-pos.y))
+    (const d (.distance-to  tile-pos-v pos-v))
+
+    (.set-length vel (* occupied-tile.entity.ground.stats.movement-speed
+
+                        (* 0.1 config.game-scale)))
+    (.set-angle vel (.get-angle d))
+    (.despawn pos-v)
+    (.despawn tile-pos-v)
+    (.despawn d)
+    )
+  (def traverse-current-path (c)
+
+    (const pos c.pos)
+    (const vel c.vel.vector)
+    (const occupied-tile (.get-closest-from-world-pos this.tiles pos.x pos.y))
+    ;; (print occupied-tile c.current-node.item.tile c.next-node.item.tile)
+
+    (if (= occupied-tile c.current-node.item.tile)
+        (.continue-to-next-tile this c pos vel occupied-tile)
+        (or (= occupied-tile c.end) (!= c.end c.current-node.item.end))
+        (.found-end this c pos vel occupied-tile)
+        (= occupied-tile c.next-node.item.tile)
+        (.arrived-at-next-tile this c pos vel occupied-tile)
+        
+        
+        ;; (do (print "gone off path, recalculating" c occupied-tile c.next-node.item.tile)
+        ;;     (each c.node-list (value)
+        ;;           (.delete this.active-nodes value.tile))
+        ;;   (.clear c.node-list)
+        ;;   (assign c.current-node null
+        ;;           c.start occupied-tile))
+        )
+    )
+
+  (def *update-component (c)
+    ;; If it has an assigned starting and end point, but is not assign
+    ;; a location with in the path, it does not have a path, and it needs one.
+    (if! (and (!= c.start null) (!= c.end null) (= c.start c.end))
+        (assign c.start null c.end null
+                c.current-node null))
+    (when c.current-node (.traverse-current-path c))
+
+    (when (and c.start c.end (not c.current-node) )
+      (.find-shortest-path this c)
+
+      )))
 (export Path-finding)
 (export Current-path)

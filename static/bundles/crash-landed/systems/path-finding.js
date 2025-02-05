@@ -10772,15 +10772,15 @@ var PathNode = Heapable.define("PathNode", {
       var path = List.spawn();
       var node = this;
       return (function() {
-        var while$166 = undefined;
+        var while$288 = undefined;
         while (node) {
-          while$166 = (function() {
+          while$288 = (function() {
             path.unshift(node);
             node = node.parent;
             return path;
           }).call(this);
         };
-        return while$166;
+        return while$288;
       }).call(this);
     
    },
@@ -10860,6 +10860,132 @@ var CurrentPath = Component.define("CurrentPath", {
 var PathFinding = System.define("PathFinding", { 
   interface:CurrentPath,
   tiles:null,
+  findShortestPath( c ){ 
+    
+      c.closed.clear();
+      const startingNode=(function() {
+        if (c.activeNodes.has(c.start)) {
+          return c.activeNodes.get(c.start);
+        } else {
+          var r = (function() {
+            /* inc/misc.sibilant:1:1260 */
+          
+            return PathNode.spawn(c.start, c.start, c.end, c.open);
+          }).call(this);
+          c.activeNodes.set(c.start, r);
+          return r;
+        }
+      }).call(this);
+      c.open.insert(startingNode);
+      return (function() {
+        var while$289 = undefined;
+        while (c.open.root) {
+          while$289 = (function() {
+            const currentNode=c.nextOpenNode;
+            return (function() {
+              if (currentNode.tile === c.end) {
+                c.nodeList = currentNode.pathTo;
+                c.currentNode = c.nodeList.head;
+                return c.open.clear();
+              } else {
+                c.closed.add(currentNode.tile);
+                for (var neighbor of currentNode.tile.edges)
+                {
+                if( c.closed.has(neighbor) ){ 
+                  continue
+                 };
+                const neighborNode=(function() {
+                  if (c.activeNodes.has(neighbor)) {
+                    return c.activeNodes.get(neighbor);
+                  } else {
+                    var r = (function() {
+                      /* inc/misc.sibilant:1:1260 */
+                    
+                      return PathNode.spawn(neighbor, c.start, c.end, c.open);
+                    }).call(this);
+                    c.activeNodes.set(neighbor, r);
+                    return r;
+                  }
+                }).call(this);;
+                (function() {
+                  if ((currentNode.gCost + calculateDistanceCost(currentNode.tile, neighborNode.tile)) < neighborNode.gCost) {
+                    neighborNode.parent = currentNode;
+                    return (function() {
+                      if (!(c.open.includes(neighborNode))) {
+                        return c.open.insert(neighborNode);
+                      }
+                    }).call(this);
+                  }
+                }).call(this)
+                }
+                ;
+                return null;
+              }
+            }).call(this);
+          }).call(this);
+        };
+        return while$289;
+      }).call(this);
+    
+   },
+  continueToNextTile( c,pos,vel,occupiedTile ){ 
+    
+      const posV=Vector.spawn(pos.x, pos.y);
+      const tilePosV=Vector.spawn(c.nextNode.item.tile.worldPos.x, c.nextNode.item.tile.worldPos.y);
+      const d=tilePosV.distanceTo(posV);
+      vel.setLength((occupiedTile.entity.ground.stats.movementSpeed * (0.1 * config.gameScale)));
+      vel.setAngle(d.getAngle());
+      d.despawn();
+      posV.despawn();
+      return tilePosV.despawn();
+    
+   },
+  foundEnd( c,pos,vel,occupiedTile ){ 
+    
+      console.log("found end");
+      vel.setLength(0);
+      for (var [ tile, node ] of c.activeNodes)
+      {
+      c.activeNodes.delete(tile);
+      node.despawn()
+      }
+      ;
+      c.nodeList.despawn();
+      c.currentNode = null;
+      c.start = null;
+      c.end = null;
+      return c.nodeList = null;
+    
+   },
+  arrivedAtNextTile( c,pos,vel,occupiedTile ){ 
+    
+      c.currentNode = c.nextNode;
+      const posV=Vector.spawn(pos.x, pos.y);
+      const tilePosV=Vector.spawn(c.nextNode.item.tile.worldPos.x, c.nextNode.item.tile.worldPos.y);
+      const d=tilePosV.distanceTo(posV);
+      vel.setLength((occupiedTile.entity.ground.stats.movementSpeed * (0.1 * config.gameScale)));
+      vel.setAngle(d.getAngle());
+      posV.despawn();
+      tilePosV.despawn();
+      return d.despawn();
+    
+   },
+  traverseCurrentPath( c ){ 
+    
+      const pos=c.pos;
+      const vel=c.vel.vector;
+      const occupiedTile=this.tiles.getClosestFromWorldPos(pos.x, pos.y);
+      return (function() {
+        if (occupiedTile === c.currentNode.item.tile) {
+          return this.continueToNextTile(c, occupiedTile);
+        } else if ((occupiedTile === c.end || c.end !== c.currentNode.item.end)) {
+          return this.foundEnd(c);
+        } else if (occupiedTile === c.nextNode.item.tile) {
+          return this.arrivedAtNextTile(c);
+        }
+      }).call(this);
+    
+   },
   _updateComponent( c ){ 
     
       if( (c.start !== null && c.end !== null && c.start === c.end) ){ 
@@ -10869,113 +10995,12 @@ var PathFinding = System.define("PathFinding", {
        };
       (function() {
         if (c.currentNode) {
-          const pos=c.pos;
-          const vel=c.vel.vector;
-          const occupiedTile=this.tiles.getClosestFromWorldPos(pos.x, pos.y);
-          return (function() {
-            if (occupiedTile === c.currentNode.item.tile) {
-              const posV=Vector.spawn(pos.x, pos.y);
-              const tilePosV=Vector.spawn(c.nextNode.item.tile.worldPos.x, c.nextNode.item.tile.worldPos.y);
-              const d=tilePosV.distanceTo(posV);
-              vel.setLength((occupiedTile.entity.ground.stats.movementSpeed * (0.1 * config.gameScale)));
-              vel.setAngle(d.getAngle());
-              d.despawn();
-              posV.despawn();
-              return tilePosV.despawn();
-            } else if ((occupiedTile === c.end || c.end !== c.currentNode.item.end)) {
-              console.log("found end");
-              vel.setLength(0);
-              for (var [ tile, node ] of c.activeNodes)
-              {
-              c.activeNodes.delete(tile);
-              node.despawn()
-              }
-              ;
-              c.nodeList.despawn();
-              c.currentNode = null;
-              c.start = null;
-              c.end = null;
-              return c.nodeList = null;
-            } else if (occupiedTile === c.nextNode.item.tile) {
-              c.currentNode = c.nextNode;
-              const posV=Vector.spawn(pos.x, pos.y);
-              const tilePosV=Vector.spawn(c.nextNode.item.tile.worldPos.x, c.nextNode.item.tile.worldPos.y);
-              const d=tilePosV.distanceTo(posV);
-              vel.setLength((occupiedTile.entity.ground.stats.movementSpeed * (0.1 * config.gameScale)));
-              vel.setAngle(d.getAngle());
-              posV.despawn();
-              tilePosV.despawn();
-              return d.despawn();
-            }
-          }).call(this);
+          return c.traverseCurrentPath();
         }
       }).call(this);
       return (function() {
         if ((c.start && c.end && !(c.currentNode))) {
-          c.closed.clear();
-          const startingNode=(function() {
-            if (c.activeNodes.has(c.start)) {
-              return c.activeNodes.get(c.start);
-            } else {
-              var r = (function() {
-                /* inc/misc.sibilant:1:1260 */
-              
-                return PathNode.spawn(c.start, c.start, c.end, c.open);
-              }).call(this);
-              c.activeNodes.set(c.start, r);
-              return r;
-            }
-          }).call(this);
-          c.open.insert(startingNode);
-          return (function() {
-            var while$167 = undefined;
-            while (c.open.root) {
-              while$167 = (function() {
-                const currentNode=c.nextOpenNode;
-                return (function() {
-                  if (currentNode.tile === c.end) {
-                    c.nodeList = currentNode.pathTo;
-                    c.currentNode = c.nodeList.head;
-                    return c.open.clear();
-                  } else {
-                    c.closed.add(currentNode.tile);
-                    for (var neighbor of currentNode.tile.edges)
-                    {
-                    if( c.closed.has(neighbor) ){ 
-                      continue
-                     };
-                    const neighborNode=(function() {
-                      if (c.activeNodes.has(neighbor)) {
-                        return c.activeNodes.get(neighbor);
-                      } else {
-                        var r = (function() {
-                          /* inc/misc.sibilant:1:1260 */
-                        
-                          return PathNode.spawn(neighbor, c.start, c.end, c.open);
-                        }).call(this);
-                        c.activeNodes.set(neighbor, r);
-                        return r;
-                      }
-                    }).call(this);;
-                    (function() {
-                      if ((currentNode.gCost + calculateDistanceCost(currentNode.tile, neighborNode.tile)) < neighborNode.gCost) {
-                        neighborNode.parent = currentNode;
-                        return (function() {
-                          if (!(c.open.includes(neighborNode))) {
-                            return c.open.insert(neighborNode);
-                          }
-                        }).call(this);
-                      }
-                    }).call(this)
-                    }
-                    ;
-                    return null;
-                  }
-                }).call(this);
-              }).call(this);
-            };
-            return while$167;
-          }).call(this);
+          return this.findShortestPath(c);
         }
       }).call(this);
     

@@ -1,12 +1,10 @@
-(require! (lit Event-emitter) "kit-events")
-(require! (lit Spawnable) "@shared/data-structures/spawnable.js"
-          (lit Trie) "@shared/data-structures/trees/trie.js"
-          (lit Super-position) "@crash-landed/world-gen/super-position.js"
-          (lit Grid-cell Grid Grid-chunk) "@shared/grid.js"
-          (lit Binary-heap Heapable) "@shared/data-structures/trees/binary-heap.js"
-          (lit Vector) "@shared/vectors.js"
-
-          )
+(import Event-emitter "/shared/kit/events/index.js")
+(import Spawnable "/shared/data-structures/spawnable.js")
+(import Trie "/shared/data-structures/trees/trie.js")
+(import Super-position "./super-position.js")
+(import Grid-cell Grid Grid-chunk "/shared/grid.js")
+(import Binary-heap Heapable "/shared/data-structures/trees/binary-heap.js")
+(import Vector "/shared/vectors.js")
 
 (define Tile Grid-cell
   (gett data (lit (x this.x) (y this.y) (type this.type)))

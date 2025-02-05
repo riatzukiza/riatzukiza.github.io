@@ -1,6 +1,14 @@
-(require! (lit Dot-interface Dot) "@shared/systems/rendering/dot.js"
-          (lit Layer) "@shared/systems/rendering/layer.js"
-          (lit Renderable) "@shared/systems/rendering/renderable.js"
-          (lit Scaling-vertex) "@shared/systems/rendering/scaling-vertex.js"
-          (lit Sprite-interface  Sprite) "@shared/systems/rendering/sprite.js"
-          (lit Vertex) "@shared/systems/rendering/vertex.js")
+(import Dot-interface Dot "./rendering/dot.js")
+(import Layer "./rendering/layer.js")
+(import Renderable "./rendering/renderable.js")
+(import Scaling-vertex "./rendering/scaling-vertex.js")
+(import Sprite-interface Sprite "./rendering/sprite.sibilant")
+(import Vertex "./rendering/vertex.js")
+
+
+(export Dot-interface Dot )
+(export Layer )
+(export Renderable )
+(export Scaling-vertex )
+(export Sprite-interface Sprite )
+(export Vertex )

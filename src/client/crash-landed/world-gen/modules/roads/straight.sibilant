@@ -1,6 +1,5 @@
-(require! (lit road-weight turn-weight) "@crash-landed/world-gen/modules/roads/weights.js")
-
-(require! (lit Terrain-module) "@crash-landed/world-gen/terrain-module.js")
+(import Terrain-module "../../terrain-module.js")
+(import road-weight "./weights.js")
 (const horizontal-road
        (.create Terrain-module road-weight
                 'grass 'grass 'grass

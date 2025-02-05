@@ -1,21 +1,15 @@
-(require! (lit Thread) "@shared/worker.js"
+(import Thread Inline-thread "/shared/worker.js")
 
-          )
 (define Tile-generator Thread
-  (code `((->
 
-           (def self.onmessage (m)
-             (if (= m.data.type "load")
-                 (if (not self.tile-grid)
-                     (do (import-scripts ...m.data.scripts)
-                         (require "@crash-landed/hack.js")
-                       (require! (lit Tile-grid) "@crash-landed/world-gen/tile-grid.js"
-                                 modules "@crash-landed/world-gen/modules.js")
-                       (assign self.tile-grid (.spawn Tile-grid))
-                       (require "@crash-landed/world-gen/events.js")
-                       (.post-message self (lit (type "done") (message "done loading"))))
-                     (throw (new Error "Trying to load after loading.")))
-                 (.emit tile-grid.events m.data.type m.data))))))
+  (url "/client/crash-landed/world-gen/worker-index.js")
+  ;; (code (+ '(import tile-grid "http://localhost:8000/client/crash-landed/world-gen/events.js") ";\n"
+  ;;          '(print "sup?") ";\n"
+  ;;          '(add-event-listener 'message (=> (m)
+  ;;                                         (print "got somthin")
+  ;;                                         (.emit tile-grid.events m.data.type m.data)))))
+
+
   (def load ()
     (.send this (lit (type 'load)
                      (scripts window.*worker-scripts))))

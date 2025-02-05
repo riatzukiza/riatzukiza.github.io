@@ -1,4 +1,4 @@
-
+(import Interface "../kit/interface/index.js")
 (define Matrix Interface
   (init (  width height  (array [])))
   (def-generic size (height width) (*  width height))

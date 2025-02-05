@@ -1,5 +1,5 @@
-(require! (lit System Component) "@shared/ecs.js"
-          (lit List) "@shared/data-structures/list.js")
+(import System Component "/shared/ecs.js")
+(import List "/shared/data-structures/list.js")
 (define Item-interface Component
   (type "food") ;; only type of item right now.
   (calories 500)
@@ -19,7 +19,7 @@
         (assign this.container null))))
 (export Item-interface)
 (define Item System
-  (interface Item-interface)
+  (Component Item-interface)
   (def *update-component ())
   )
 (export Item)

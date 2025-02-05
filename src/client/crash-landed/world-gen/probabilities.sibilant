@@ -1,10 +1,9 @@
-(require! (lit Spawnable) "@shared/data-structures/spawnable.js"
-          (lit Terrain-module) "@crash-landed/world-gen/terrain-module.js"
-          (lit Possible-state) "@crash-landed/world-gen/possible-state.js"
-          (lit base-weights) "@crash-landed/world-gen/base-weights.js"
+(import Spawnable "/shared/data-structures/spawnable.js")
+(import Terrain-module "./terrain-module.js")
+(import Possible-state "./possible-state.js")
+(import base-weights "./base-weights.js")
+(import summate "/shared/math/math.js")
 
-          (lit summate) "@shared/math/math.js"
-          )
 (define Probability-distrobution Spawnable
 
   (expects grass)

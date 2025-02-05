@@ -1,9 +1,27 @@
-var { 
-  Interface
- } = require("@kit-js/interface");
-var { 
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+
+  return Object.keys(this).forEach(((k) => {
+  	return f(this[k], k);
+  }));
+});
+import { 
+  mixin,
+  create,
+  extend
+ } from "/shared/kit/core/util.js";
+import { 
   DynamicPool
- } = require("@shared/pooling/dynamic-pool.js");
+ } from "../pooling/dynamic-pool.js";
+import { 
+  Interface
+ } from "/shared/kit/interface/index.js";
 const pools=(new Map());
 var PooledDataStructure = Interface.define("PooledDataStructure", { 
   init(  ){ 
@@ -21,29 +39,23 @@ var PooledDataStructure = Interface.define("PooledDataStructure", {
   get dataPool(  ){ 
     
       const symbol=this.symbol;
-      console.log("finding pool");
       return (function() {
         if (pools.has(symbol)) {
           return pools.get(symbol);
         } else {
-          return (function(value) {
-            /* node_modules/kit/inc/scope.sibilant:12:9 */
+          var r = (function() {
+            /* inc/misc.sibilant:1:1260 */
           
-            pools.set(symbol, value);
-            return value;
-          })((function() {
-            /* node_modules/kit/inc/macros.sibilant:30:25 */
-          
-            console.log("pool cache miss");
             return create(DynamicPool)(this);
-          }).call(this));
+          }).call(this);
+          pools.set(symbol, r);
+          return r;
         }
       }).call(this);
     
    },
   spawn( ...args ){ 
     
-      console.log("spawning", this, this.dataPool);
       return this.dataPool.aquire().init(...args);
     
    },
@@ -53,4 +65,6 @@ var PooledDataStructure = Interface.define("PooledDataStructure", {
     
    }
  });
-exports.PooledDataStructure = PooledDataStructure;
+export { 
+  PooledDataStructure
+ };

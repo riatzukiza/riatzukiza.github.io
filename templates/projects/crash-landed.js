@@ -1,12 +1,3 @@
-var R = require("ramda");
-var { 
-  create,
-  extend,
-  mixin,
-  conditional,
-  cond,
-  partiallyApplyAfter
- } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
   /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
@@ -17,40 +8,10 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
-  	
-    return f(this[k], k);
-  
+  	return f(this[k], k);
   }));
 });
-create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(HtmlElement)("style", {  }, [ "\n"+"        .panel {\n"+"            float: left;\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"        .bordered {\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"img {\n"+"position:absolute;\n"+"}\n"+"\n"+"" ]) ]), create(HtmlElement)("script", {  }, [ "window._workerScripts = [];" ]), (function() {
-  /* eval.sibilant:23:6 */
-
-  var { 
-    FileSystem
-   } = require("kit-file-system"),
-      Path = require("path");
-  return FileSystem.load("./shared").each(((file) => {
-  	
-    return create(HtmlElement)("div", {  }, [ create(HtmlElement)("script", { 'src': Path.join("/bundles/shared", file.rel) }, []), create(HtmlElement)("script", {  }, [ ("window._workerScripts" + ".push(" + "location.origin" + "+" + "'" + Path.join("/bundles/shared", file.rel) + "'" + ")") ]) ]);
-  
-  }));
-}).call(this), (function() {
-  /* eval.sibilant:33:6 */
-
-  var { 
-    FileSystem
-   } = require("kit-file-system"),
-      Path = require("path");
-  return FileSystem.load("./client/crash-landed").each(((file) => {
-  	
-    return (function() {
-      if (!(Path.basename(file.path) === "main.js")) {
-        return create(HtmlElement)("div", {  }, [ create(HtmlElement)("script", { 'src': Path.join("/bundles/crash-landed", file.rel) }, []), create(HtmlElement)("script", {  }, [ ("window._workerScripts" + ".push(" + "location.origin" + "+" + "'" + Path.join("/bundles/crash-landed", file.rel) + "'" + ")") ]) ]);
-      }
-    }).call(this);
-  
-  }));
-}).call(this), create(HtmlElement)("body", {  }, [ create(HtmlElement)("img", {
+create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(HtmlElement)("style", {  }, [ "\n"+"        .panel {\n"+"            float: left;\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"        .bordered {\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"img {\n"+"position:absolute;\n"+"}\n"+"\n"+"" ]) ]), create(HtmlElement)("script", {  }, [ "window._workerScripts = [];" ]), create(HtmlElement)("script", { 'src': "/bundles/external.js" }, []), create(HtmlElement)("body", {  }, [ create(HtmlElement)("img", {
   'id': "player-sprite",
   'src': "/sprites/Small-8-Direction-Characters_by_AxulArt/8-way-128-72.png",
   'hidden': "true"
@@ -66,4 +27,7 @@ create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(H
   'id': "props-sprite",
   'src': "/sprites/Cute_Fantasy_Free/Outdoor_decoration/Outdoor_Decor_Free.png",
   'hidden': "true"
-}, []) ]), create(HtmlElement)("script", { 'src': "/bundles/crash-landed/main.js" }, []) ]);
+}, []) ]), create(HtmlElement)("script", {
+  'src': "/client/crash-landed/main.js",
+  'type': "module"
+}, []) ]);
