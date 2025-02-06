@@ -11,34 +11,14 @@
             "id": "8f9686408cbdbd84",
             "type": "leaf",
             "state": {
-              "type": "kanban",
+              "type": "markdown",
               "state": {
-                "file": "kanban/board.md",
-                "kanbanViewState": {
-                  "kanban-plugin": "board",
-                  "list-collapse": [
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    false,
-                    false,
-                    true,
-                    false,
-                    true,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false
-                  ]
-                }
+                "file": "notes/daily/2025-02-06.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-trello",
-              "title": "board"
+              "icon": "lucide-file",
+              "title": "2025-02-06"
             }
           },
           {
@@ -275,14 +255,14 @@
       "githobs:Manage a github issue": false,
       "webpage-html-export:Export Vault to HTML": false,
       "obisidian-note-linker:Note Linker": false,
-      "smart-second-brain:Open S2B Chat": false,
-      "card-board:CardBoard": false
+      "smart-second-brain:Open S2B Chat": false
     }
   },
   "active": "8f9686408cbdbd84",
   "lastOpenFiles": [
-    "kanban/tasks/Move all kit code.md",
     "kanban/board.md",
+    "notes/daily/2025-02-06.md",
+    "kanban/tasks/Move all kit code.md",
     "kanban/tasks/Migrate module system to `imports`.md",
     "kanban/tasks/Save mechanisim.md",
     "kanban/tasks/placeable entities (rocks, plants, bases).md",
@@ -306,7 +286,6 @@
     "kanban/tasks/Agenda system.md",
     "kanban/tasks/vector field visualization.md",
     "kanban/tasks/weather system.md",
-    "kanban/tasks/shadows.md",
     "notes/unique",
     "Chats",
     "notes/daily",
