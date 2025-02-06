@@ -25,3 +25,6 @@ Even as I add new elements for world gen, I would like to have a base world to t
 - [ ] Implement save button and menu
 - [ ] Implement load button and menu
 - [ ] Implement start new world button and menu
+## Related links
+
+[Using IndexedDB - Web APIs \| MDN](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB)

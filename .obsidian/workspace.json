@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "notes/daily/2025-02-06.md",
+                "file": "kanban/tasks/Save mechanisim.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2025-02-06"
+              "title": "Save mechanisim"
             }
           },
           {
@@ -255,7 +255,8 @@
       "githobs:Manage a github issue": false,
       "webpage-html-export:Export Vault to HTML": false,
       "obisidian-note-linker:Note Linker": false,
-      "smart-second-brain:Open S2B Chat": false
+      "smart-second-brain:Open S2B Chat": false,
+      "card-board:CardBoard": false
     }
   },
   "active": "8f9686408cbdbd84",
