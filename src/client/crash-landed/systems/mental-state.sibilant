@@ -52,7 +52,8 @@
                    (= tile.entity.container.objects.head.item.item-interface.type "food"))
               (do (.add c.food tile.entity.container.objects.head.item.item-interface)
                   (.set c.known-food-items (+ "" tile.world-pos.x tile.world-pos.y)
-                        tile ;; currently the only containers are tiles, and tiles can have at most 1 object.
+                        tile
+                        ;; currently the only containers are tiles, and tiles can have at most 1 object.
                         )))))
   (def wakeup-starving (c)
     (do (assign c.needs.is-resting? false)
@@ -67,7 +68,7 @@
     (do (print "I'm hungry, and there's food right here" c)
         (c.tile.entity.container.objects.head.item.item-interface.consume
          c.entity)))
-  (def handle-known-food-location (c)
+  (def handle-known-food-location (c items key)
     (print "I'm hungry and I know where food is")
     (assign c.target items.values.head.item)
     (.remove c.known-food-items key items.values.head.item))
@@ -76,8 +77,8 @@
     (print "I'm hungry and I don't know where food is.")
     (.explore-map this c))
 
-  (def search-for-food (c)
-    (const key (+ c.pos.x c.pos.y))
+  (def search-for-food (c )
+    (const key (+ "" c.pos.x c.pos.y))
     ;; adding the coordinates together should
     ;; loosely correspond with the distance somthing is from that location
     ;; this is a hack to make the high level behavior work.
@@ -87,9 +88,10 @@
 
     (const items (.search c.known-food-items key))
     (if (and (not c.target) items.values.head)
-        (.handle-known-food-location this c)
+        (.handle-known-food-location this c items key)
+        (not c.target)
         (.handle-explore-for-food this c)))
-  (def handle-hungry (c)
+  (def handle-hungry (c key)
     (assign c.known-food-items c.known-food-items.root)
     (if (c.tile.entity.container.has-type 'food)
         (.handle-food-in-same-tile this c)
@@ -116,11 +118,9 @@
              (assign c.entity.current-path.end
                      possible-end))
 
-           (.despawn noise-v))
-
-    )
+           (.despawn noise-v)))
   (def *update-component (c)
-    (.add-visibile-food-to-tree c)
+    (.add-visible-food-to-tree this c)
     (if (and c.is-tired? (not c.is-hungry?) (not c.needs.is-resting?))
         (.handle-tired this c)
         (and c.needs.is-resting? c.needs.is-starving?)

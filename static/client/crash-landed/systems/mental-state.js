@@ -145,7 +145,7 @@ var MentalState = System.define("MentalState", {
       return c.tile.entity.container.objects.head.item.itemInterface.consume(c.entity);
     
    },
-  handleKnownFoodLocation( c ){ 
+  handleKnownFoodLocation( c,items,key ){ 
     
       console.log("I'm hungry and I know where food is");
       c.target = items.values.head.item;
@@ -160,18 +160,18 @@ var MentalState = System.define("MentalState", {
    },
   searchForFood( c ){ 
     
-      const key=(c.pos.x + c.pos.y);
+      const key=("" + c.pos.x + c.pos.y);
       const items=c.knownFoodItems.search(key);
       return (function() {
         if ((!(c.target) && items.values.head)) {
-          return this.handleKnownFoodLocation(c);
-        } else {
+          return this.handleKnownFoodLocation(c, items, key);
+        } else if (!(c.target)) {
           return this.handleExploreForFood(c);
         }
       }).call(this);
     
    },
-  handleHungry( c ){ 
+  handleHungry( c,key ){ 
     
       c.knownFoodItems = c.knownFoodItems.root;
       return (function() {
@@ -190,9 +190,9 @@ var MentalState = System.define("MentalState", {
       const searchLimit=10;
       var i = 0;
       return (function() {
-        var while$148 = undefined;
+        var while$144 = undefined;
         while (!((c.entity.currentPath.end || i > searchLimit))) {
-          while$148 = (function() {
+          while$144 = (function() {
             const noiseV=getMoveNoise(newX, newY, this.game.ticker.ticks, (1 * config.gameScale));
             ((i)++);
             newX = (newX + (20 * noiseV.x));
@@ -208,13 +208,13 @@ var MentalState = System.define("MentalState", {
             return noiseV.despawn();
           }).call(this);
         };
-        return while$148;
+        return while$144;
       }).call(this);
     
    },
   _updateComponent( c ){ 
     
-      c.addVisibileFoodToTree();
+      this.addVisibleFoodToTree(c);
       return (function() {
         if ((c.isTired__QUERY && !(c.isHungry__QUERY) && !(c.needs.isResting__QUERY))) {
           return this.handleTired(c);

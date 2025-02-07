@@ -219,15 +219,15 @@ var PathNode = Heapable.define("PathNode", {
       var path = List.spawn();
       var node = this;
       return (function() {
-        var while$145 = undefined;
+        var while$146 = undefined;
         while (node) {
-          while$145 = (function() {
+          while$146 = (function() {
             path.unshift(node);
             node = node.parent;
             return path;
           }).call(this);
         };
-        return while$145;
+        return while$146;
       }).call(this);
     
    },
@@ -321,9 +321,9 @@ var PathFinding = System.define("PathFinding", {
       }).call(this);
       c.open.insert(startingNode);
       return (function() {
-        var while$146 = undefined;
+        var while$147 = undefined;
         while (c.open.root) {
-          while$146 = (function() {
+          while$147 = (function() {
             const currentNode=c.nextOpenNode;
             return (function() {
               if (currentNode.tile === c.end) {
@@ -367,7 +367,7 @@ var PathFinding = System.define("PathFinding", {
             }).call(this);
           }).call(this);
         };
-        return while$146;
+        return while$147;
       }).call(this);
     
    },
@@ -438,7 +438,7 @@ var PathFinding = System.define("PathFinding", {
        };
       (function() {
         if (c.currentNode) {
-          return c.traverseCurrentPath();
+          return this.traverseCurrentPath(c);
         }
       }).call(this);
       return (function() {

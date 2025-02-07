@@ -171,8 +171,7 @@
     (.set-angle vel (.get-angle d))
     (.despawn d)
     (.despawn pos-v)
-    (.despawn tile-pos-v)
-    )
+    (.despawn tile-pos-v))
   (def found-end (c pos vel occupied-tile)
     (print "found end")
     (.set-length vel 0)
@@ -233,7 +232,7 @@
     (if! (and (!= c.start null) (!= c.end null) (= c.start c.end))
         (assign c.start null c.end null
                 c.current-node null))
-    (when c.current-node (.traverse-current-path c))
+    (when c.current-node (.traverse-current-path this c))
 
     (when (and c.start c.end (not c.current-node) )
       (.find-shortest-path this c)

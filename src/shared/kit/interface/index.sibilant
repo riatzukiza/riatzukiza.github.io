@@ -6,6 +6,20 @@
 
 
 (var Interface (lit  ( *symbols {}) ( *types {}) (init (name *obj (*types {}) (*symbols {})))
+                     (def *filter-serializable (key value) (not (.includes this.*non-serializable-keys key)))
+                     (*non-serializable-keys [])
+                     (def serialize ()
+                       (pipe (Object.get-own-property-descriptors this)
+                             (Object.entries)
+                             (filter ([key describer])
+                                     (and (.has-own-property describer 'value)
+                                          (!= (typeof describer.value) 'function)
+                                          (.*filter-serializable this key describer.value)))
+                             (reduce { type-name this.name } (result [key describer])
+                                     (if describer.value.serialize
+                                         (set result key (.serialize describer.value))
+                                         (set result key describer.value))
+                                     result)))
                      (def-generic define
                          (name
 

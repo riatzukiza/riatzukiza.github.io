@@ -1,19 +1,13 @@
 (def-async bundle-external ()
-
   (print "bundling external" dependencies)
   (const bundle (browserify ))
-
-
-
   (each [
          'events
          'assert
-
          ...dependencies] (name)
         (print "requiring" name)
         (.require bundle name))
   (print "external dependencies added to bundle")
-
 
   (const reader (.bundle bundle))
 
@@ -28,7 +22,4 @@
     (.pipe reader writer)))
   (const bundle-string (await bundle-file.string))
   ;;hacks for workers
-  (assign bundle-file.string (+ "self." bundle-string))
-
-
-    )
+  (assign bundle-file.string (+ "self." bundle-string)))

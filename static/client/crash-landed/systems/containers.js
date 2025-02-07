@@ -84,7 +84,7 @@ export {
   Container
  };
 var Containers = System.define("Containers", { 
-  interface:Container,
+  Component:Container,
   _updateAll(  ){ 
     
    },

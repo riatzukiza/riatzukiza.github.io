@@ -160,8 +160,6 @@ var TileGraph = Spawnable.define("TileGraph", {
           const entity=this.tileEntities.spawn();
           entity.physicalProperties.scale = (this.tileSize - 2);
           const tile=TileNode.spawn(x, y, entity, this);
-          tile.x = x;
-          tile.y = y;
           return this.trie.set([ x, y ], tile);
         }
       }).call(this);

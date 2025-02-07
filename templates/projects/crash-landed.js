@@ -11,7 +11,10 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
-create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(HtmlElement)("style", {  }, [ "\n"+"        .panel {\n"+"            float: left;\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"        .bordered {\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"img {\n"+"position:absolute;\n"+"}\n"+"\n"+"" ]) ]), create(HtmlElement)("script", {  }, [ "window._workerScripts = [];" ]), create(HtmlElement)("script", { 'src': "/bundles/external.js" }, []), create(HtmlElement)("body", {  }, [ create(HtmlElement)("img", {
+create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(HtmlElement)("link", {
+  'rel': "modulepreload",
+  'href': "/client/crash-landed/world-gen/worker-index.js"
+}, []), create(HtmlElement)("style", {  }, [ "\n"+"        .panel {\n"+"            float: left;\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"        .bordered {\n"+"            border-style: solid;\n"+"            border-width: 1px;\n"+"        }\n"+"img {\n"+"position:absolute;\n"+"}\n"+"\n"+"" ]) ]), create(HtmlElement)("script", {  }, [ "window._workerScripts = [];" ]), create(HtmlElement)("script", { 'src': "/bundles/external.js" }, []), create(HtmlElement)("body", {  }, [ create(HtmlElement)("img", {
   'id': "player-sprite",
   'src': "/sprites/Small-8-Direction-Characters_by_AxulArt/8-way-128-72.png",
   'hidden': "true"

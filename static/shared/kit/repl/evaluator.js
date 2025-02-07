@@ -30,10 +30,12 @@ var {
  } = require("util"),
     vm = require("vm");
 var id = 0;
-var runIn = R.curry(((string) => {
-	return vm.runInThisContext(string, { 
-  filename:("kit" + ((id)++))
- });
+var runIn = R.curry((function(string) {
+  /* eval.sibilant:10:34 */
+
+  return vm.runInThisContext(string, { 
+    filename:("kit" + ((id)++))
+   });
 }));
 var Evaluator = Actor.define("Evaluator", { 
   init(  ){ 

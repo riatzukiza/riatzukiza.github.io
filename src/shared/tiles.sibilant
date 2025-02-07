@@ -68,7 +68,6 @@
         (do (const entity (.spawn this.tile-entities))
             (assign entity.physical-properties.scale (-  this.tile-size 2))
             (const tile (.spawn Tile-node x y entity this))
-          (set tile 'x x 'y y)
           (.set this.trie [x y] tile)))))
 
 (export Tile-graph)

@@ -10,10 +10,13 @@
   (init (config rendering
          (system-types [])
          (game-speed 1)
+         (units [])
+         (entity-groups [])
          (entities ((create Entity-system) this) )
          (events ((create Event-emitter)))
          (ticker ((create Ticker) (* game-speed 60) events))
-         (systems ((create Ordered-map))))
+         (systems ((create Ordered-map)))
+         )
 
         (var get-system-by-symbol systems.get
              set-system-by-symbol systems.set)
@@ -34,6 +37,20 @@
   (gett process this)
 
   (def-generic add (s systems game) (.push systems [s.symbol ((create s) this)]))
+
+  (def-generic save (save-name systems rendering entities units)
+    (each entities)
+    (.save entities)
+    (.save units)
+    (each systems (system)
+          (if! (!= systems rendering)
+               (.save system save-name ))))
+  (def-generic load (save-name)
+    (each systems (system)
+          (if! (!= systems rendering)
+               (.load system save-name )))
+
+    )
 
 
   (def-generic start (systems events ticker rendering)

@@ -1,6 +1,6 @@
 
 (html (.head
-       ;; (.link .rel "modulepreload" .href "/client/crash-landed/world-gen/worker-index.js")
+       (.link .rel "modulepreload" .href "/client/crash-landed/world-gen/worker-index.js")
        (.style "
         .panel {
             float: left;

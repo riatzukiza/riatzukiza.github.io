@@ -35,7 +35,7 @@
 (export Container)
 
 (define Containers System
-  (interface Container)
+  (Component Container)
   (def *update-all ()
     ;; nothing to see here.
     )
