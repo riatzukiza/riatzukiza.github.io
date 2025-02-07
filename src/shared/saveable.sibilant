@@ -1,0 +1,59 @@
+(define Reference Interface)
+(define Saveable Interface
+  (expects save-name)
+  (*non-serializable-keys [])
+  (cached database ((create Database) this.save-name))
+  (cached loaded-instances (new Map))
+  (cached save-index
+          (if this.current-save-index
+              (++ this.current-save-index)
+              (assign this.current-save-index 0)))
+  (def *filter-serializable (key value)
+    (not (.includes this.*non-serializable-keys key)))
+  (def get-serializable-properties ())
+  (def *injestion-target () (Object.create this))
+  (def-generic injest (serialized-object (r (this.*injestion-target)))
+    (each (Object.keys serialized-object) (key)
+          (const data (get serialized-object key))
+          (set r key (if data.save-index
+                            (.load (get this.*types data.save-index))
+                            data.interface-reference
+                            (get this.*types data.interface-reference)
+                            data)))
+    (return r)
+    )
+  (def-generic serialize ()
+    (const serialized-object
+           (lit
+            serialized-objects
+            (type-name this.name)
+            (save-id  this.save-id)))
+    (pipe (Object.get-own-property-descriptors this)
+          (Object.entries)
+          (filter ([key describer])
+                  (and (.has-own-property describer 'value)
+                       (!= key '*save-id)
+                       (!= (typeof describer.value) 'function)
+                       (.*filter-serializable this key describer.value)))
+          (reduce  serialized-object (result  [key describer])
+                   (set result key (if describer.value.save
+                                       (lit (collection-name describer.value.name)
+                                            (save-index describer.value.save-index))
+                                       describer.value.symbol
+                                       (lit (interface-reference describer.value.name))
+                                       (set result key describer.value)))
+                   result)))
+
+  (def-async save () (.put this.database this.name (.serialize this)))
+  (def-async load-all ()
+    (const r [])
+    (for-of! p (.get-cursor this.db this.name)
+             (const obj (await p))
+             (cache this.loaded-instances save-index
+                    (.injest this obj)))
+    (return r))
+  (def-async load (save-index)
+    (cache this.loaded-instances save-index
+           (pipe (.get this.database [this.name this.save-index])
+                 (then data (.injest this data)))))
+  (def-async delete ()))

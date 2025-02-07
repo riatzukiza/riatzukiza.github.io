@@ -6,8 +6,8 @@
 
 
 (define Game Interface
-
-  (init (config rendering
+  (init (config
+         rendering
          (system-types [])
          (game-speed 1)
          (units [])
@@ -15,18 +15,17 @@
          (entities ((create Entity-system) this) )
          (events ((create Event-emitter)))
          (ticker ((create Ticker) (* game-speed 60) events))
-         (systems ((create Ordered-map)))
-         )
+         (systems ((create Ordered-map))))
 
         (var get-system-by-symbol systems.get
              set-system-by-symbol systems.set)
 
         (assign systems.get-by-symbol get-system-by-symbol)
         (def systems.get (proto ent)
-             (var sys (get-system-by-symbol.call systems proto.symbol))
+          (var sys (get-system-by-symbol.call systems proto.symbol))
 
-             (if ent (.get sys ent)
-               sys))
+          (if ent (.get sys ent)
+              sys))
 
         (.each system-types (=> (s) (.push systems [s.symbol ((create s) this)])))
 
@@ -39,7 +38,8 @@
   (def-generic add (s systems game) (.push systems [s.symbol ((create s) this)]))
 
   (def-generic save (save-name systems rendering entities units)
-    (each entities)
+    (each entities (entity) )
+    (each units (units) )
     (.save entities)
     (.save units)
     (each systems (system)
@@ -48,9 +48,7 @@
   (def-generic load (save-name)
     (each systems (system)
           (if! (!= systems rendering)
-               (.load system save-name )))
-
-    )
+               (.load system save-name ))))
 
 
   (def-generic start (systems events ticker rendering)

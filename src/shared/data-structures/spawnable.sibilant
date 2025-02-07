@@ -1,7 +1,8 @@
-(import Interface "../kit/interface/index.js")
+(import Saveable "../saveable.js")
 
-(define Spawnable Interface
+(define Spawnable Saveable
   (def build ()
+    (.call Saveable.init this)
     (assign this.pool []))
   (def spawn ((dots args))
     (if (> this.pool.length 0)
