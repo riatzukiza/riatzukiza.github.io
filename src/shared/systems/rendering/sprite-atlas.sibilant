@@ -126,6 +126,7 @@
   (*column 0)
   (*row 0)
   (*alpha 1)
+  (*non-serializable-keys ['sprite])
   (gett column this.*column)
   (gett row this.*row)
   (sett column c (assign this.*column c)
