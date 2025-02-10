@@ -25,7 +25,10 @@ import {
 import { 
   Interface
  } from "/shared/kit/interface/index.js";
-var Ticker = Interface.define("Ticker", { 
+import { 
+  Saveable
+ } from "/shared/saveable.sibilant";
+var Ticker = Saveable.define("Ticker", { 
   state:false,
   ticks:0,
   get rate(  ){ 

@@ -17,23 +17,29 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 import { 
-  Interface
- } from "../kit/interface/index.js";
-var Spawnable = Interface.define("Spawnable", { 
+  Saveable
+ } from "../saveable.js";
+var Spawnable = Saveable.define("Spawnable", { 
   build(  ){ 
     
+      Saveable.init.call(this);
       return this.pool = [];
+    
+   },
+  aquire(  ){ 
+    
+      return (function() {
+        if (this.pool.length > 0) {
+          return this.pool.pop();
+        } else {
+          return Object.create(this);
+        }
+      }).call(this);
     
    },
   spawn( ...args ){ 
     
-      return (function() {
-        if (this.pool.length > 0) {
-          return this.pool.pop().init(...args);
-        } else {
-          return create(this)(...args);
-        }
-      }).call(this);
+      return this.aquire().init(...args);
     
    },
   clear(  ){ 

@@ -3,6 +3,7 @@
 
 (require! R "ramda")
 
+(import Saveable "/shared/saveable.sibilant")
 (import Ordered-map "../data-structures/maps/ordered.js")
 (import Dynamic-pool "../pooling/dynamic-pool.js")
 (import Group "../data-structures/group.js")
@@ -20,7 +21,7 @@
 (def capitalize (string) (+ (.to-upper-case (.char-at string 0)) (.slice string 1)))
 (def decapitalize (string) (+ (.to-lower-case (.char-at string 0)) (.slice string 1)))
 
-(define Component Interface
+(define Component Saveable
   
   (def register ()
     (doc-string "shared.ecs.Component.register"

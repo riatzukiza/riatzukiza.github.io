@@ -17,24 +17,27 @@
 
 
 (const debug-view
-       (dom (.div .id "debug-view" .className "panel"
-                  .style (lit (height (+  (second config.dimensions)"px"))
-                              (width (+ (Math.round (- (* window.innerWidth 0.2) 42)) "px"))
-                              ("overflow-y" "scroll")))))
+       (dom ))
 
 
 
 
 
-(var container (dom (.div .id "container"
-                          game-view
-                          debug-view
-                          )))
+(var container (dom ))
 (export container)
 (export game-view)
 (export debug-view)
 (def start-interface (game)
-  (with-dom Document-body (.div .id 'frame container))
+  (with-dom Document-body
+    (.div .id 'frame (.div .id "container"
+                           game-view
+                           (.div .id "debug-view" .className "panel"
+                                 .style (lit (height (+  (second config.dimensions)"px"))
+                                             (width (+ (Math.round (- (* window.innerWidth 0.2) 42)) "px"))
+                                             ("overflow-y" "scroll"))
+
+                                 (.buton .onclick (-> (.save game 'test-save)))
+                                 ))))
   (on game.events 'tick (t)
 
       (when (= (mod t config.ui-polling-rate) 0)

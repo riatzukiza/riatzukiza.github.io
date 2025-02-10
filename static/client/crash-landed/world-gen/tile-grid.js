@@ -16,30 +16,6 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
-  EventEmitter
- } = require("kit-events");
-var { 
-  Spawnable
- } = require("@shared/data-structures/spawnable.js"),
-    { 
-  Trie
- } = require("@shared/data-structures/trees/trie.js"),
-    { 
-  SuperPosition
- } = require("@crash-landed/world-gen/super-position.js"),
-    { 
-  GridCell,
-  Grid,
-  GridChunk
- } = require("@shared/grid.js"),
-    { 
-  BinaryHeap,
-  Heapable
- } = require("@shared/data-structures/trees/binary-heap.js"),
-    { 
-  Vector
- } = require("@shared/vectors.js");
 import { 
   EventEmitter
  } from "/shared/kit/events/index.js";
@@ -97,7 +73,7 @@ var Tile = GridCell.define("Tile", {
    }
  });
 var sleep = (function sleep$(n) {
-  /* sleep eval.sibilant:25:0 */
+  /* sleep eval.sibilant:16:0 */
 
   return (new Promise(((success, fail) => {
   	var resolve = success,

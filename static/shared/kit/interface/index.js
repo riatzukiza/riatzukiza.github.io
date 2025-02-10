@@ -25,29 +25,6 @@ var Interface = {
       return this;
     
    },
-  _filterSerializable( key,value ){ 
-    
-      return !(this._nonSerializableKeys.includes(key));
-    
-   },
-  _nonSerializableKeys:[],
-  serialize(  ){ 
-    
-      return Object.entries(Object.getOwnPropertyDescriptors(this)).filter((([ key, describer ]) => {
-      	return (describer.hasOwnProperty("value") && typeof describer.value !== "function" && this._filterSerializable(key, describer.value));
-      })).reduce(((typeName, this.name) => {
-      	result([ key, describer ]);
-      (function() {
-        if (describer.value.serialize) {
-          return result[key] = describer.value.serialize();
-        } else {
-          return result[key] = describer.value;
-        }
-      }).call(this);
-      return result;
-      }));
-    
-   },
   define( name = this.name,_obj = this._obj,_types = this._types,_symbols = this._symbols,_shares = (_obj.borrows || _obj.shares || []),_ext = (_obj.extend || this),_build = _obj.build ){ 
     
       return (function() {
@@ -65,7 +42,7 @@ var Interface = {
         /* inc/scope.sibilant:12:9 */
       
         proto.construct = (function proto$construct$() {
-          /* proto.construct eval.sibilant:44:32 */
+          /* proto.construct eval.sibilant:32:32 */
         
           return Object.create(proto).init(...arguments);
         });

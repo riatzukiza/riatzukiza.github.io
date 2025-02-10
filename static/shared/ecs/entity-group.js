@@ -29,35 +29,38 @@ import {
 import { 
   Interface
  } from "/shared/kit/interface/index.js";
+import { 
+  Saveable
+ } from "/shared/saveable.sibilant";
 var spawnComponent = (function spawnComponent$(entity, systems) {
-  /* spawn-component eval.sibilant:11:0 */
+  /* spawn-component eval.sibilant:13:0 */
 
   return (function() {
-    /* eval.sibilant:11:39 */
+    /* eval.sibilant:13:39 */
   
     return systems.get(arguments[0]).spawn(entity);
   });
 });
 var componentList = (function componentList$(entity) {
-  /* component-list eval.sibilant:13:0 */
+  /* component-list eval.sibilant:15:0 */
 
   return R.map(spawnComponent(entity));
 });
 var remove = (function remove$(entity) {
-  /* remove eval.sibilant:15:0 */
+  /* remove eval.sibilant:17:0 */
 
   return (function() {
-    /* eval.sibilant:15:21 */
+    /* eval.sibilant:17:21 */
   
     return arguments[0].system.clear(entity);
   });
 });
 var clear = (function() {
-  /* eval.sibilant:17:11 */
+  /* eval.sibilant:19:11 */
 
   return arguments[0].clear();
 });
-var EntityGroup = Interface.define("EntityGroup", { 
+var EntityGroup = Saveable.define("EntityGroup", { 
   init( name = this.name,aspects = this.aspects,system = this.system,group = create(Group)() ){ 
     
       this.name = name;this.aspects = aspects;this.system = system;this.group = group;
@@ -73,7 +76,7 @@ var EntityGroup = Interface.define("EntityGroup", {
     
       const self=this;
       return (function(e) {
-        /* inc/misc.sibilant:1:1369 */
+        /* eval.sibilant:1:661 */
       
         e.group = self;
         group.add(e);

@@ -8,6 +8,8 @@
 (import Group "../data-structures/group.js")
 (import Interface "/shared/kit/interface/index.js")
 
+(import Saveable "/shared/saveable.sibilant")
+
 
 (def spawn-component  (entity systems) (#-> systems.get (.spawn  entity)))
 
@@ -16,7 +18,7 @@
 (def remove (entity) (#-> (get 'system) (.clear entity)))
 
 (var clear (#->  .clear))
-(define Entity Interface
+(define Entity Saveable
 
   (doc "used as a key to retrieve related components from different systems.")
 

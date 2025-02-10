@@ -8,6 +8,8 @@
 (import Group "../data-structures/group.js")
 (import Interface "/shared/kit/interface/index.js")
 
+(import Saveable "/shared/saveable.sibilant")
+
 (def spawn-component  (entity systems) (#-> systems.get (.spawn  entity)))
 
 (def component-list  (entity) (R.map (spawn-component entity)))
@@ -15,7 +17,7 @@
 (def remove (entity) (#-> (get 'system) (.clear entity)))
 
 (var clear (#->  .clear))
-(define Entity-group Interface
+(define Entity-group Saveable
 
   (init (name aspects system (group ((create Group)))))
   (gett size this.group.size)

@@ -31,7 +31,10 @@ import {
 import { 
   Interface
  } from "./kit/interface/index.js";
-var Game = Interface.define("Game", { 
+import { 
+  Saveable
+ } from "/shared/saveable.sibilant";
+var Game = Saveable.define("Game", { 
   init( config = this.config,rendering = this.rendering,systemTypes = [],gameSpeed = 1,units = [],entityGroups = [],entities = create(EntitySystem)(this),events = create(EventEmitter)(),ticker = create(Ticker)((gameSpeed * 60), events),systems = create(OrderedMap)() ){ 
     
       this.config = config;this.rendering = rendering;this.systemTypes = systemTypes;this.gameSpeed = gameSpeed;this.units = units;this.entityGroups = entityGroups;this.entities = entities;this.events = events;this.ticker = ticker;this.systems = systems;
@@ -39,7 +42,7 @@ var Game = Interface.define("Game", {
           setSystemBySymbol = systems.set;
       systems.getBySymbol = getSystemBySymbol;
       systems.get = (function systems$get$(proto, ent) {
-        /* systems.get eval.sibilant:1:1213 */
+        /* systems.get eval.sibilant:1:1267 */
       
         var sys = getSystemBySymbol.call(systems, proto.symbol);
         return (function() {
@@ -77,33 +80,14 @@ var Game = Interface.define("Game", {
       return systems.push([ s.symbol, create(s)(this) ]);
     
    },
-  save( saveName = this.saveName,systems = this.systems,rendering = this.rendering,entities = this.entities,units = this.units ){ 
-    
-      entities.save();
-      units.save();
-      return systems.each(((system) => {
-      	return if( systems !== rendering ){ 
-        system.save(saveName)
-       };
-      }));
-    
-   },
-  load( saveName = this.saveName ){ 
-    
-      return systems.each(((system) => {
-      	return if( systems !== rendering ){ 
-        system.load(saveName)
-       };
-      }));
-    
-   },
   start( systems = this.systems,events = this.events,ticker = this.ticker,rendering = this.rendering ){ 
     
       this.stop();
       ticker.start();
+      events.emit("start", this);
       return events.on("tick", ((t) => {
       	return systems.each((function() {
-        /* eval.sibilant:1:2200 */
+        /* eval.sibilant:1:1903 */
       
         return arguments[0].update();
       }));
@@ -125,7 +109,7 @@ var Game = Interface.define("Game", {
       entities.clear();
       events.removeAllListeners();
       return systems.each((function() {
-        /* eval.sibilant:1:2479 */
+        /* eval.sibilant:1:2182 */
       
         return arguments[0].clear();
       }));

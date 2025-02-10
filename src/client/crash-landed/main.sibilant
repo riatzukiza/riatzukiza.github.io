@@ -82,36 +82,38 @@
 
   (.select-tile tile.entity.floor-sprite
                 (dots coords)))
+(on game.events 'start
+    (const generator (.spawn Tile-generator))
+    (.start generator)
+    (pipe (.get-starting-tiles generator 0 0 2)
+          (then initial-tiles
+
+                (each initial-tiles.tiles (data)
+                      (setup-tile data))
+
+
+                (on game.events 'tick (t)
+
+                    ;; (const pos p.pos)
+                    (if! (= (mod t 20) 0)
+                         (.step p.sprite))
+                    (if! (not generator.busy)
+                         (const nearest-tile (.get-closest-from-world-pos
+                                              tiles
+                                              p.pos.x p.pos.y))
+                         (print "sending nearest tile" p.pos nearest-tile)
+                         (pipe (.get-loaded-tiles generator nearest-tile)
+                               (then data
+                                     (each data.tiles (tile-data)
+                                           (setup-tile tile-data)))))
+                    (const direction-name (get-cardinal-direction-name v))
+
+                    (.select-sequence p.sprite direction-name))))
+    )
 (add-event-listener 'load
                     (->
 
-                     (const generator (.spawn Tile-generator))
-                     (.start generator)
-                     (pipe (.get-starting-tiles generator 0 0 2)
-                           (then initial-tiles
-
-                                 (each initial-tiles.tiles (data)
-                                       (setup-tile data))
-
-
-                                 (.start game)
-                                 (on game.events 'tick (t)
-
-                                     ;; (const pos p.pos)
-                                     (if! (= (mod t 20) 0)
-                                          (.step p.sprite))
-                                     (if! (not generator.busy)
-                                          (const nearest-tile (.get-closest-from-world-pos
-                                                               tiles
-                                                               p.pos.x p.pos.y))
-                                          (print "sending nearest tile" p.pos nearest-tile)
-                                          (pipe (.get-loaded-tiles generator nearest-tile)
-                                                (then data
-                                                      (each data.tiles (tile-data)
-                                                            (setup-tile tile-data)))))
-                                     (const direction-name (get-cardinal-direction-name v))
-
-                                     (.select-sequence p.sprite direction-name))))))
+                     ))
 
 
 

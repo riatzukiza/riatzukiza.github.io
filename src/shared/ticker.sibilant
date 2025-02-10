@@ -1,8 +1,8 @@
 (import Event-emitter "./kit/events/index.js")
 (import List "./data-structures/list.js")
 (import Interface "/shared/kit/interface/index.js")
-
-(define Ticker Interface
+(import Saveable "/shared/saveable.sibilant")
+(define Ticker Saveable
 
   (state false)
   (ticks 0)

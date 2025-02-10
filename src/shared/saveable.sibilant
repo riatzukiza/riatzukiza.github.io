@@ -1,31 +1,40 @@
-(define Reference Interface)
+(import Interface "/shared/kit/interface/index.js")
+(import Database "/shared/database.js")
+(const dbs (new Map))
+(def get-database (name) (remember dbs name ((create Database) name )))
 (define Saveable Interface
   (expects save-name)
+
   (*non-serializable-keys [])
+
   (cached database ((create Database) this.save-name))
   (cached loaded-instances (new Map))
   (cached save-index
           (if this.current-save-index
               (++ this.current-save-index)
               (assign this.current-save-index 0)))
+
   (def *filter-serializable (key value)
     (not (.includes this.*non-serializable-keys key)))
+
   (def get-serializable-properties ())
+
   (def *injestion-target () (Object.create this))
+
   (def-generic injest (serialized-object (r (this.*injestion-target)))
     (each (Object.keys serialized-object) (key)
           (const data (get serialized-object key))
           (set r key (if data.save-index
-                            (.load (get this.*types data.save-index))
+                            (.load (get this.*types data.collection-name))
                             data.interface-reference
-                            (get this.*types data.interface-reference)
+                            (if (= data.interface-reference.name 'Event-emitter)
+                                ((create (get this.*types data.interface-reference)))
+                                (get this.*types data.interface-reference))
                             data)))
-    (return r)
-    )
+    (return r))
   (def-generic serialize ()
     (const serialized-object
            (lit
-            serialized-objects
             (type-name this.name)
             (save-id  this.save-id)))
     (pipe (Object.get-own-property-descriptors this)
@@ -57,3 +66,4 @@
            (pipe (.get this.database [this.name this.save-index])
                  (then data (.injest this data)))))
   (def-async delete ()))
+(export Saveable)

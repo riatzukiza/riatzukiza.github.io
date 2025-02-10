@@ -87,14 +87,12 @@ var setupTile = (function setupTile$(tileData) {
   const coords=[ (x_ + tile.entity.ground.stats.spriteCoordMinX), (y_ + tile.entity.ground.stats.spriteCoordMinY) ];
   return tile.entity.floorSprite.selectTile(...coords);
 });
-addEventListener("load", (() => {
-	const generator=TileGenerator.spawn();
-generator.start();
+game.events.on("start", ((const, generator, TileGenerator.spawn()) => {
+	generator.start();
 return generator.getStartingTiles(0, 0, 2).then(((initialTiles) => {
 	initialTiles.tiles.each(((data) => {
 	return setupTile(data);
 }));
-game.start();
 return game.events.on("tick", ((t) => {
 	if( (t % 20) === 0 ){ 
   p.sprite.step()
@@ -115,5 +113,11 @@ return p.sprite.selectSequence(directionName);
 return console.log(err);
 }));
 }));
+})).once("error", ((err) => {
+	console.log("error on", "start", "of", "game.events", "given", "const generator=TileGenerator.spawn();");
+return console.log(err);
+}));
+addEventListener("load", (() => {
+	
 }));
 startInterface(game);

@@ -247,6 +247,7 @@ var AnimatedSprite = Component.define("AnimatedSprite", {
   _column:0,
   _row:0,
   _alpha:1,
+  _nonSerializableKeys:[ "sprite" ],
   get column(  ){ 
     
       return this._column;
@@ -356,13 +357,13 @@ var SpriteAtlas = System.define("SpriteAtlas", {
     
       this.prepare();
       return (function() {
-        var while$94 = undefined;
+        var while$97 = undefined;
         while (this.queue.length) {
-          while$94 = (function() {
+          while$97 = (function() {
             return this._updateComponent(this.queue.pop());
           }).call(this);
         };
-        return while$94;
+        return while$97;
       }).call(this);
     
    },

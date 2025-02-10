@@ -24,6 +24,11 @@
 (on tile-grid.events 'player-tile-pos (data)
     (send-message 'player-pos-update
                   (lit (success true))))
+(on tile-grid.events 'save (save-name)
+    (.save tile-grid save-name))
+(on tile-grid.events 'load (save-name)
+    (.load tile-grid save-name)
+    )
 
 (on tile-grid.events 'get-loaded-tiles (data)
     (.update-player-pos tile-grid data)

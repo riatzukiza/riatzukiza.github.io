@@ -9,6 +9,8 @@
 (import Component "./component.js")
 (import Interface "../kit/interface/index.js")
 
+(import Saveable "/shared/saveable.sibilant")
+
 
 (def spawn-component  (entity systems) (#-> systems.get (.spawn  entity)))
 
@@ -17,7 +19,7 @@
 (def remove (entity) (#-> (get 'system) (.clear entity)))
 
 (var clear (#->  .clear))
-(define System Interface
+(define System Saveable
   (doc-string "Shared.ecs.ComponentSystem"
               "(process Component
                  (components ((create Ordered-map)))

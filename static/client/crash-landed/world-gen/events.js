@@ -60,6 +60,18 @@ tileGrid.events.on("playerTilePos", ((data) => {
 	console.log("error on", "playerTilePos", "of", "tileGrid.events", "given", "data()");
 return console.log(err);
 }));
+tileGrid.events.on("save", ((saveName) => {
+	return tileGrid.save(saveName);
+})).once("error", ((err) => {
+	console.log("error on", "save", "of", "tileGrid.events", "given", "saveName()");
+return console.log(err);
+}));
+tileGrid.events.on("load", ((saveName) => {
+	return tileGrid.load(saveName);
+})).once("error", ((err) => {
+	console.log("error on", "load", "of", "tileGrid.events", "given", "saveName()");
+return console.log(err);
+}));
 tileGrid.events.on("getLoadedTiles", ((data) => {
 	tileGrid.updatePlayerPos(data);
 return tileGrid.readyTiles.then(((tiles) => {

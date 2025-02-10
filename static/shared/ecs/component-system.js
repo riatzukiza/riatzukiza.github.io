@@ -32,35 +32,38 @@ import {
 import { 
   Interface
  } from "../kit/interface/index.js";
+import { 
+  Saveable
+ } from "/shared/saveable.sibilant";
 var spawnComponent = (function spawnComponent$(entity, systems) {
-  /* spawn-component eval.sibilant:13:0 */
+  /* spawn-component eval.sibilant:15:0 */
 
   return (function() {
-    /* eval.sibilant:13:39 */
+    /* eval.sibilant:15:39 */
   
     return systems.get(arguments[0]).spawn(entity);
   });
 });
 var componentList = (function componentList$(entity) {
-  /* component-list eval.sibilant:15:0 */
+  /* component-list eval.sibilant:17:0 */
 
   return R.map(spawnComponent(entity));
 });
 var remove = (function remove$(entity) {
-  /* remove eval.sibilant:17:0 */
+  /* remove eval.sibilant:19:0 */
 
   return (function() {
-    /* eval.sibilant:17:21 */
+    /* eval.sibilant:19:21 */
   
     return arguments[0].system.clear(entity);
   });
 });
 var clear = (function() {
-  /* eval.sibilant:19:11 */
+  /* eval.sibilant:21:11 */
 
   return arguments[0].clear();
 });
-var System = Interface.define("System", { 
+var System = Saveable.define("System", { 
   docString:"Shared.ecs.ComponentSystem",
   Component:Component,
   register(  ){ 
@@ -165,7 +168,7 @@ var System = Interface.define("System", {
   spawn( entity = this.entity,pool = this.pool,components = this.components ){ 
     
       return (function(c) {
-        /* inc/misc.sibilant:1:1369 */
+        /* eval.sibilant:1:661 */
       
         components.set(entity, c);
         return c;
@@ -211,7 +214,7 @@ var System = Interface.define("System", {
    }
  });
 System.build = (function System$build$() {
-  /* System.build eval.sibilant:101:0 */
+  /* System.build eval.sibilant:103:0 */
 
   return (function() {
     if (!((this.template))) {
@@ -231,7 +234,7 @@ System.get = (function System$get$(entity = this.entity, components = this.compo
   return components.get(entity);
 });
 System.update = (function System$update$(t) {
-  /* System.update eval.sibilant:113:0 */
+  /* System.update eval.sibilant:115:0 */
 
   return this.thread = this.thread.then(((nil) => {
   	return this._updateAll(t);

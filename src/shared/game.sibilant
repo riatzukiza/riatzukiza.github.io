@@ -4,8 +4,9 @@
 (import Ordered-map "./data-structures/maps/ordered.js")
 (import Interface "./kit/interface/index.js")
 
+(import Saveable "/shared/saveable.sibilant")
 
-(define Game Interface
+(define Game Saveable
   (init (config
          rendering
          (system-types [])
@@ -37,24 +38,11 @@
 
   (def-generic add (s systems game) (.push systems [s.symbol ((create s) this)]))
 
-  (def-generic save (save-name systems rendering entities units)
-    (each entities (entity) )
-    (each units (units) )
-    (.save entities)
-    (.save units)
-    (each systems (system)
-          (if! (!= systems rendering)
-               (.save system save-name ))))
-  (def-generic load (save-name)
-    (each systems (system)
-          (if! (!= systems rendering)
-               (.load system save-name ))))
-
-
   (def-generic start (systems events ticker rendering)
 
     (.stop this)
     (.start ticker)
+    (.emit events 'start this)
 
     (on events 'tick (t) (.each systems (#-> (.update )))))
 
