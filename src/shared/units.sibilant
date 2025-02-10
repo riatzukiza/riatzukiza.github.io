@@ -46,26 +46,21 @@ We've chosen to implement this layer of abstraction as an encapsulation of entit
 This may change as these are to be used instead of entity groups for the most part instead of along side. Though we may decide differntly.
 "
               )
+  (init (group-name component-types))
+
   (base-components [Position Physics])
   (interface Unit-instance)
   (template true)
 
-  (init (group-name
-         types
-         game
-         (components (.flat [types this.base-components]))
-         (group ((create Entity-group)
-                 (+ group-name "Unit")
-                 components
-                 game.ent)))
+  (cached components (.flat [this.component-types this.base-components]))
+  (cached group ((create Entity-group)
+          (+ this.group-name "Unit")
+          this.components
+          this.game.ent))
 
-        (print "hi there" game.ent this.group game)
-        )
   (def build ()
-    (print "I build" this)
     (if (not this.template)
         (do (.init this)
-            (print "and I built")
             )
         )
     )

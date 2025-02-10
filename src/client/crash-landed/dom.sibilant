@@ -1,6 +1,6 @@
 (include "../../../inc/dom.sibilant")
-(import rendering "./rendering.js")
 (import config "./config.js")
+(import get-game start-game load-game save-game "./game.js")
 
 
 
@@ -11,23 +11,20 @@
 (macro sum-of (reducable ...keys)
        `(.reduce @reducable  (=> ( sum el) (+ sum (or (get el ...@keys) 0))) 0))
 
-(const game-view (dom (.div .id "game-view" .className "panel"
-                            .style (lit ("background-color" "black"))
-                            rendering.context.canvas)))
-
-
-(const debug-view
-       (dom ))
 
 
 
 
 
-(var container (dom ))
-(export container)
-(export game-view)
-(export debug-view)
-(def start-interface (game)
+
+
+
+(def start-interface ()
+  (const game (get-game))
+  (const game-view (dom (.div .id "game-view" .className "panel"
+                              .style (lit ("background-color" "black"))
+                              (-> (if game game.rendering.context.canvas
+                                      "")))))
   (with-dom Document-body
     (.div .id 'frame (.div .id "container"
                            game-view
@@ -35,15 +32,27 @@
                                  .style (lit (height (+  (second config.dimensions)"px"))
                                              (width (+ (Math.round (- (* window.innerWidth 0.2) 42)) "px"))
                                              ("overflow-y" "scroll"))
-
-                                 (.buton .onclick (-> (.save game 'test-save)))
-                                 ))))
-  (on game.events 'tick (t)
-
-      (when (= (mod t config.ui-polling-rate) 0)
-        ;; (.render stats)
-        ;; (.render pools-view)
-        )))
+                                 (.div .id 'start-game (.button .onclick (-> (start-game)
+                                                                             (start-interface)) "start game"))
+                                 (.div .id 'load-game
+                                       (.button .onclick (-> (load-game
+                                                                   (get (.get-element-by-id
+                                                                         document
+                                                                         'load-save-name-field)
+                                                                        'value)))
+                                                "load game"
+                                                )
+                                       (.input .type 'text
+                                               .id 'load-name-field))
+                                 (.div .id 'save-game
+                                       (.button .onclick (-> (save-game
+                                                                   (get (.get-element-by-id
+                                                                         document
+                                                                         'save-name-field)
+                                                                        'value)))
+                                                "save game")
+                                       (.input .type 'text
+                                               .id 'save-name-field)))))))
 
 (export start-interface)
 

@@ -1,3 +1,8 @@
+(import Interface "/shared/kit/interface/index.js")
+(import Event-emitter "/shared/kit/events/index.js")
+(def-lit-macro def-async (name args ...body)
+  [" async "name  `(parenthetic (comma @args.contents))
+            `(curly (do-block ...@body))])
 (define Collection Interface
   (init (name database))
   (def *state-transaction ()
@@ -52,7 +57,9 @@
             (if! (not c)  break)
             (yield c)
             (assign p (get-next))
-            (.continue c)))
+            (.continue c))
+    null
+    )
 
   (def-async clear (collection-name)
 
@@ -87,7 +94,7 @@
        (success event.result))
      (def request.onerror (event)
        (reject event))))
-  (def put (collection-name value)
+  (def-async put (collection-name value)
 
     (const db (await this.db))
     (const transaction (.transaction db [collection-name] 'readwrite))
@@ -106,3 +113,4 @@
      (def request.onsuccess (e)
        (.emit this.events 'start this.db)
        (success this)))))
+(export Database)

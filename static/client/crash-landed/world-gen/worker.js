@@ -22,11 +22,19 @@ import {
  } from "/shared/worker.js";
 var TileGenerator = Thread.define("TileGenerator", { 
   url:"/client/crash-landed/world-gen/worker-index.js",
-  load(  ){ 
+  load( saveName ){ 
     
       return this.send({ 
         type:"load",
-        scripts:window._workerScripts
+        saveName
+       });
+    
+   },
+  save( saveName ){ 
+    
+      return this.send({ 
+        type:"save",
+        saveName
        });
     
    },

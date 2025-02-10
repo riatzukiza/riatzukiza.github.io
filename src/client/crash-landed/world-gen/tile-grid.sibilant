@@ -6,33 +6,36 @@
 (import Binary-heap Heapable "/shared/data-structures/trees/binary-heap.js")
 (import Vector "/shared/vectors.js")
 
-(define Tile Grid-cell
-  (gett data (lit (x this.x) (y this.y) (type this.type)))
-  (cached super-position (.spawn Super-position this))
-  (def collapse ()
-    (.collapse this.super-position)
-    (return this.data)))
-
-(def sleep (n) (make-promise (set-timeout resolve n)))
 
 (macro method* (name args ..body)
        ["*"name  `(parenthetic (comma @args.contents))
            `(curly (do-block ...@body))])
 (def-lit-macro def-async (name args ...body)
   [" async "name  `(parenthetic (comma @args.contents))
-      `(curly (do-block ...@body))])
+            `(curly (do-block ...@body))])
 
 (def-lit-macro def-async* (name args ...body)
   [" async *"name  `(parenthetic (comma @args.contents))
-            `(curly (do-block ...@body))])
+             `(curly (do-block ...@body))])
 
 (def-lit-macro def-generic* (name args ...body)
   `(generic @name (method*) @args ...@body))
+(define Tile Grid-cell
+  (cached super-position (.spawn Super-position this))
+
+  (gett data (lit (x this.x) (y this.y) (type this.type)))
+
+  (def collapse ()
+    (.collapse this.super-position)
+    (return this.data)))
+
+(def sleep (n) (make-promise (set-timeout resolve n)))
 
 (define Chunk Grid-chunk
+  (cached position-vector (.spawn Vector this.grid-x this.grid-y))
+
   (gett data (Array.from (.collapse this)))
   (gett heap this.grid.heap.heap)
-  (cached position-vector (.spawn Vector this.grid-x this.grid-y))
   (gett parent-index (.get-parent-index Heapable this.index))
   (gett player-pos this.grid.player-pos)
   (gett distance-from-player
@@ -40,6 +43,7 @@
         (const d (Math.abs (.get-length dv)))
         (.despawn dv)
         (return d))
+
   (def compare-to (chunk)
     (if (> this.distance-from-player chunk.distance-from-player)
         1
@@ -72,37 +76,44 @@
 
 (export Tile)
 (define Tile-grid Grid
+
+  (init () (.call Grid.init this))
+
+  (events ((create Event-emitter)))
+  (chunk-size 16)
+  (overlap-factor 2)
   (Chunk Chunk)
   (Cell Tile)
   (player-pos (.spawn Vector 0 0))
   (heap (.spawn Binary-heap))
   (loading-chunks (new Set))
   (unsent-chunks [])
-  (def* request-chunks ()
-    (while! this.unsent-chunks.length
-            (yield (.pop this.unsent-chunks)))
-    null
-    )
-
+  (search-radius 1)
+  (cached chunk-processor (.process-chunks this))
   (gett ready-chunks (Promise.all (Array.from (.request-chunks this))))
   (gett ready-tiles (then this.ready-chunks chunks
                           (print "flattening chunks" chunks)
                           (.flat chunks)))
-  (cached chunk-processor (.process-chunks this))
-  (search-radius 1)
   (gett player-chunk (.get-nearest-chunk this this.player-pos.x this.player-pos.y))
   (gett chunks-in-search-radius (.get-chunks-in-search-radius this))
+  (gett next-chunk (.get-next-chunk this))
+
+  (def* request-chunks ()
+    (while! this.unsent-chunks.length
+            (yield (.pop this.unsent-chunks)))
+    null)
+
   (def-async step ()
     (const value (await (.next this.chunk-processor)))
     (print "stepping with value" value.value this.player-chunk this.player-pos)
     (.push this.unsent-chunks value.value))
+
   (def-async* process-chunks ()
     (while! true
             (await (sleep 0))
             (yield this.next-chunk.data))
     null
     )
-  (gett next-chunk (.get-next-chunk this))
   (def add-to-heap (chunk)
     (if! (and (not (or  chunk.collapsed
                     (.has this.loading-chunks chunk)))
@@ -124,12 +135,12 @@
     (.delete this.loading-chunks next-chunk)
     (return next-chunk))
 
-  (def reset-search-radius ()
-    (assign this.search-radius 1))
+  (def reset-search-radius () (assign this.search-radius 1))
+
   (def get-chunks-in-search-radius ()
     (.get-nearest-chunks this this.player-pos.x this.player-pos.y
-                         this.search-radius)
-    )
+                         this.search-radius))
+
   (def update-player-pos (pos)
     (print "Updating player position" pos this.player-pos
            (.get-nearest-chunk this pos.x pos.y)
@@ -141,15 +152,17 @@
       (set this.player-pos
            'x pos.x
            'y pos.y)))
-  (init ((events ((create Event-emitter))))
-        (.call Grid.init this))
-  (chunk-size 16)
-  (overlap-factor 2)
+
   (def collapse-area (x y w h))
+
   (def collapse-cell (x y) (.collapse (.get this x y)))
+
   (def collapse-chunk (x y) (get (.get-chunk this x y) 'data))
+
   (def collapse-nearest-chunk (x y) (get (.get-nearest-chunk this x y) 'data))
+
   (def collapse-cells (coords) (map coords (p) (.collapse (.get this p.x p.y))))
+
   (def collapse-nearest-chunks (x y n)
     (pipe (.get-nearest-chunks this x y n)
           (Array.from (=> (chunk) chunk.data))

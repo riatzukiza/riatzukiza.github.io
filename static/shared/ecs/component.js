@@ -19,7 +19,7 @@ import {
 var R = require("ramda");
 import { 
   Saveable
- } from "/shared/saveable.sibilant";
+ } from "/shared/saveable.js";
 import { 
   OrderedMap
  } from "../data-structures/maps/ordered.js";

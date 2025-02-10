@@ -41,15 +41,6 @@ import {
   Vector
  } from "/shared/vectors.js";
 var Tile = GridCell.define("Tile", { 
-  get data(  ){ 
-    
-      return { 
-        x:this.x,
-        y:this.y,
-        type:this.type
-       };
-    
-   },
   get superPosition(  ){ 
     
       return (function() {
@@ -65,6 +56,15 @@ var Tile = GridCell.define("Tile", {
       }).call(this);
     
    },
+  get data(  ){ 
+    
+      return { 
+        x:this.x,
+        y:this.y,
+        type:this.type
+       };
+    
+   },
   collapse(  ){ 
     
       this.superPosition.collapse();
@@ -73,7 +73,7 @@ var Tile = GridCell.define("Tile", {
    }
  });
 var sleep = (function sleep$(n) {
-  /* sleep eval.sibilant:16:0 */
+  /* sleep eval.sibilant:32:0 */
 
   return (new Promise(((success, fail) => {
   	var resolve = success,
@@ -82,16 +82,6 @@ var sleep = (function sleep$(n) {
   })));
 });
 var Chunk = GridChunk.define("Chunk", { 
-  get data(  ){ 
-    
-      return Array.from(this.collapse());
-    
-   },
-  get heap(  ){ 
-    
-      return this.grid.heap.heap;
-    
-   },
   get positionVector(  ){ 
     
       return (function() {
@@ -105,6 +95,16 @@ var Chunk = GridChunk.define("Chunk", {
           }).call(this);
         }
       }).call(this);
+    
+   },
+  get data(  ){ 
+    
+      return Array.from(this.collapse());
+    
+   },
+  get heap(  ){ 
+    
+      return this.grid.heap.heap;
     
    },
   get parentIndex(  ){ 
@@ -170,33 +170,23 @@ export {
   Tile
  };
 var TileGrid = Grid.define("TileGrid", { 
+  init(  ){ 
+    
+      
+      Grid.init.call(this);
+      return this;
+    
+   },
+  events:create(EventEmitter)(),
+  chunkSize:16,
+  overlapFactor:2,
   Chunk:Chunk,
   Cell:Tile,
   playerPos:Vector.spawn(0, 0),
   heap:BinaryHeap.spawn(),
   loadingChunks:(new Set()),
   unsentChunks:[],
-  *requestChunks(  ){ 
-  
-    while( this.unsentChunks.length ){ 
-      yield(this.unsentChunks.pop())
-     };
-    return null;
-  
- },
-  get readyChunks(  ){ 
-    
-      return Promise.all(Array.from(this.requestChunks()));
-    
-   },
-  get readyTiles(  ){ 
-    
-      return this.readyChunks.then(((chunks) => {
-      	console.log("flattening chunks", chunks);
-      return chunks.flat();
-      }));
-    
-   },
+  searchRadius:1,
   get chunkProcessor(  ){ 
     
       return (function() {
@@ -212,7 +202,19 @@ var TileGrid = Grid.define("TileGrid", {
       }).call(this);
     
    },
-  searchRadius:1,
+  get readyChunks(  ){ 
+    
+      return Promise.all(Array.from(this.requestChunks()));
+    
+   },
+  get readyTiles(  ){ 
+    
+      return this.readyChunks.then(((chunks) => {
+      	console.log("flattening chunks", chunks);
+      return chunks.flat();
+      }));
+    
+   },
   get playerChunk(  ){ 
     
       return this.getNearestChunk(this.playerPos.x, this.playerPos.y);
@@ -223,6 +225,19 @@ var TileGrid = Grid.define("TileGrid", {
       return this.getChunksInSearchRadius();
     
    },
+  get nextChunk(  ){ 
+    
+      return this.getNextChunk();
+    
+   },
+  *requestChunks(  ){ 
+  
+    while( this.unsentChunks.length ){ 
+      yield(this.unsentChunks.pop())
+     };
+    return null;
+  
+ },
    async step(  ){ 
   
     const value=await this.chunkProcessor.next();
@@ -239,11 +254,6 @@ var TileGrid = Grid.define("TileGrid", {
     return null;
   
  },
-  get nextChunk(  ){ 
-    
-      return this.getNextChunk();
-    
-   },
   addToHeap( chunk ){ 
     
       if( (!((chunk.collapsed || this.loadingChunks.has(chunk))) && !(this.heap.includes(chunk))) ){ 
@@ -293,15 +303,6 @@ var TileGrid = Grid.define("TileGrid", {
       }).call(this);
     
    },
-  init( events = create(EventEmitter)() ){ 
-    
-      this.events = events;
-      Grid.init.call(this);
-      return this;
-    
-   },
-  chunkSize:16,
-  overlapFactor:2,
   collapseArea( x,y,w,h ){ 
     
    },

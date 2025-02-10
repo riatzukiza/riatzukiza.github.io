@@ -27,10 +27,11 @@ import {
  } from "/shared/kit/interface/index.js";
 import { 
   Saveable
- } from "/shared/saveable.sibilant";
+ } from "/shared/saveable.js";
 var Ticker = Saveable.define("Ticker", { 
   state:false,
   ticks:0,
+  events:create(EventEmitter)(),
   get rate(  ){ 
     
       return (1000 / this.fps);
@@ -48,9 +49,9 @@ var Ticker = Saveable.define("Ticker", {
       return Math.round((1000 / this.averageLatency));
     
    },
-  init( fps = this.fps,events = create(EventEmitter)(),latencyAccumulator = create(List)() ){ 
+  init( fps = this.fps,latencyAccumulator = create(List)() ){ 
     
-      this.fps = fps;this.events = events;this.latencyAccumulator = latencyAccumulator;
+      this.fps = fps;this.latencyAccumulator = latencyAccumulator;
       return this;
     
    },

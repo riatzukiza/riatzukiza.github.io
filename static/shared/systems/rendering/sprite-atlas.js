@@ -329,6 +329,7 @@ export {
  };
 var SpriteAtlas = System.define("SpriteAtlas", { 
   maxSprites:100000,
+  _nonSerializableKeys:[ "sprites", "queue" ],
   register(  ){ 
     
       this.queue = [];
@@ -357,13 +358,13 @@ var SpriteAtlas = System.define("SpriteAtlas", {
     
       this.prepare();
       return (function() {
-        var while$97 = undefined;
+        var while$94 = undefined;
         while (this.queue.length) {
-          while$97 = (function() {
+          while$94 = (function() {
             return this._updateComponent(this.queue.pop());
           }).call(this);
         };
-        return while$97;
+        return while$94;
       }).call(this);
     
    },

@@ -2,7 +2,6 @@
 (import Physics "/shared/systems/physics.js")
 (import Player-sprites "./systems/sprites/player.js")
 (import Props-sprites "./systems/sprites/basic-props.js")
-(import rendering "./rendering.js")
 (import Velocity "/shared/systems/velocity.js")
 (import Sight "./systems/sight.js")
 (import Ground-types "./systems/floor-type.js")
@@ -16,26 +15,116 @@
 (import Floor-sprites "./systems/sprites/floor.js")
 (import Cliff-sprites "./systems/sprites/cliff.js")
 (import Position "/shared/systems/position.js")
+(import setup-tile "./world-gen/setup-tile.js")
+(import Tile-graph "/shared/tiles.js")
 
-(var active-game-systems [Position  Physics Velocity Tile-visibility  Sight
-                                    Floor-sprites Cliff-sprites Player-sprites
-                                    Props-sprites
-                                    Ground-types Path-finding
-                                    Metabolisim Containers Mental-state Item])
+(import  Unit-group "/shared/units.js")
+(import Player "./units.js")
+
+(var active-game-systems [Position
+                          Physics
+                          Velocity
+                          Tile-visibility
+                          Sight
+                          Floor-sprites
+                          Cliff-sprites
+                          Player-sprites
+                          Props-sprites
+                          Ground-types
+                          Path-finding
+                          Metabolisim
+                          Containers
+                          Mental-state
+                          Item])
 
 
 
-(var game ((create Game)
-           config
-           rendering
-           active-game-systems
-           config.game-speed))
+(var game null)
 
-(print (lit Player-sprites Floor-sprites))
+(import  Tile-generator "./world-gen/worker.js")
 
-(print "this is a game" game)
-(print "and these are it's entities" game.ent)
 
-(export game)
+(const generator (.spawn Tile-generator))
+
+(var player null)
+
+(var p player)
+(var v null)
+(const game-scale config.game-scale)
+(.start generator)
+
+(on Game.events 'start ()
+
+    (assign player (.spawn Player))
+    (assign p player)
+    (assign v  p.velocity.vector)
+
+    (assign player.pos.x 0)
+    (assign player.pos.y 0)
+
+    (assign p.physics.scale config.game-scale)
+    (set p.physics 'forces [])
+
+    (.select-sequence p.sprite "east"))
+
+(on Game.events 'load (save-name)
+    (.load generator save-name))
+
+(on Game.events 'save (save-name)
+    (.save generator save-name))
+
+(on Game.events 'tick (t)
+    ;; (const pos p.pos)
+
+    (if! (= (mod t 20) 0)
+         (.step p.sprite))
+    (if! (not generator.busy)
+         (const nearest-tile (.get-closest-from-world-pos
+                              tiles
+                              p.pos.x p.pos.y))
+         (print "sending nearest tile" p.pos nearest-tile)
+         (pipe (.get-loaded-tiles generator nearest-tile)
+               (then data
+                     (each data.tiles (tile-data)
+                           (setup-tile tile-data game.tiles)))))
+    (const direction-name (get-cardinal-direction-name v))
+
+    (.select-sequence p.sprite direction-name))
+
+(const tile-systems [Floor-sprites Tile-visibility Ground-types Containers])
+(def-async start-game ()
+
+  (if! (not game)
+
+       (assign game ((create Game) config active-game-systems config.game-speed))
+       (const tiles (.spawn Tile-graph game-scale tile-systems game))
+
+       (assign game.tiles tiles)
+
+       (assign Unit-group.game game)
+       (const initial-tiles (await (.get-starting-tiles generator 0 0 2)))
+
+       (each initial-tiles.tiles (data)
+             (setup-tile data tiles))
+       )
+  (assign Path-finding.tiles game.tiles)
+  (Sight.register-tile-graph game.tiles)
+  (.start game)
+  )
+
+(def-async save-game (save-name)
+  (await (.save game save-name))
+  (.emit game.events 'save save-name))
+
+(def-async load-game (save-name)
+  (assign game (await (.load Game save-name)))
+  (.emit game.events 'load 'save-name))
+(def get-game ()
+  game)
+
+(export get-game)
 (export active-game-systems)
+(export start-game)
+(export load-game)
+(export save-game)
 

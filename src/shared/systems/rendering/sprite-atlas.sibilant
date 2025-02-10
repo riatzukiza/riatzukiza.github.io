@@ -165,6 +165,7 @@
 (define Sprite-atlas System
   (max-sprites 100000)
   ;; (gett img (throw (new Error "no image defined for sprite system")))
+  (*non-serializable-keys ['sprites 'queue])
   (def register ()
     (assign this.queue [])
     (assign this.sprites (sprite-layer this.max-sprites this.img this.game)))

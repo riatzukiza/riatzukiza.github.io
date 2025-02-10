@@ -4,7 +4,6 @@
 (import Tile-visibility "./systems/visibility.js")
 (import Ground-types "./systems/floor-type.js")
 (import Containers "./systems/containers.js")
-(import game "./game.js")
 (import config "./config.js")
 
 

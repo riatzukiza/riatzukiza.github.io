@@ -1,123 +1,29 @@
 (namespace crashlanded)
 
-(import game active-game-systems "./game.js")
 (import start-interface "./dom.js")
 (import Position "/shared/systems/position.js")
 (import Sight "./systems/sight.js")
-(import player Item-group "./units.js")
 (import get-cardinal-direction-name "./directions.js")
-(import tiles "./tiles.js")
 (import Path-finding "./systems/path-finding.js")
 (import Velocity "/shared/systems/velocity.js")
 (import get-tile-noise "./noise.js")
 (import config "./config.js")
 
-
-(macro import-worker-scripts (...paths)
-       `(import-scripts ...@(map paths (p)
-                                 `(+ location.origin
-                                     "/bundles/" @p)))
-       )
-
-
-
-
 (macro each (o args ...body) `(.each @o (=> @args ...@body)))
-(const p player)
-(const v p.velocity.vector)
 
-(const game-scale config.game-scale)
-(assign p.physics.scale config.game-scale)
-(set p.physics 'forces [])
-
-(assign game.tiles tiles)
-(assign Path-finding.tiles tiles)
 
 (assign Velocity.real-time? false)
 (assign Position.wraps? false)
 
 
-(Sight.register-tile-graph tiles)
-(.select-sequence p.sprite "east")
 ;; (generate-main-road)
 
 
 
-(import  Tile-generator "./world-gen/worker.js")
-
-
-(def setup-tile (tile-data)
-
-  (const tile (.get tiles tile-data.x tile-data.y))
-
-  (assign tile.entity.ground.type tile-data.type)
-
-  (const v (get-tile-noise tile.x tile.y))
-
-
-  (when (and (> (+ v.x v.y) 16)
-             (= tile.entity.ground.type 'flowery-grass))
-    (const item (.spawn Item-group))
-    (assign item.physics.scale config.game-scale)
-    ;; (print "spawning food" this item)
-    (const tile-container tile.entity.container)
-    (set item.pos
-         'x tile.world-pos.x
-         'y tile.world-pos.y)
-    (.add tile-container item.entity))
-
-  (const ground-stats tile.entity.ground.stats)
-  (const x* (mod (Math.abs (Math.round (* tile.x v.x)) )
-                 (- ground-stats.sprite-coord-max-x
-                    ground-stats.sprite-coord-min-x)))
-  (const y* (mod (Math.abs (Math.round (* tile.y v.y)) )
-                 (- ground-stats.sprite-coord-max-y
-                    ground-stats.sprite-coord-min-y  )))
-
-  ;; (const x* 1)
-  ;; (const y* 1)
-  (const coords [(+ x* tile.entity.ground.stats.sprite-coord-min-x)
-                 (+ y* tile.entity.ground.stats.sprite-coord-min-y)
-                 ])
-
-  (.select-tile tile.entity.floor-sprite
-                (dots coords)))
-(on game.events 'start
-    (const generator (.spawn Tile-generator))
-    (.start generator)
-    (pipe (.get-starting-tiles generator 0 0 2)
-          (then initial-tiles
-
-                (each initial-tiles.tiles (data)
-                      (setup-tile data))
-
-
-                (on game.events 'tick (t)
-
-                    ;; (const pos p.pos)
-                    (if! (= (mod t 20) 0)
-                         (.step p.sprite))
-                    (if! (not generator.busy)
-                         (const nearest-tile (.get-closest-from-world-pos
-                                              tiles
-                                              p.pos.x p.pos.y))
-                         (print "sending nearest tile" p.pos nearest-tile)
-                         (pipe (.get-loaded-tiles generator nearest-tile)
-                               (then data
-                                     (each data.tiles (tile-data)
-                                           (setup-tile tile-data)))))
-                    (const direction-name (get-cardinal-direction-name v))
-
-                    (.select-sequence p.sprite direction-name))))
-    )
-(add-event-listener 'load
-                    (->
-
-                     ))
+(add-event-listener 'load (-> (start-interface )))
 
 
 
 
 
-(start-interface game)
 

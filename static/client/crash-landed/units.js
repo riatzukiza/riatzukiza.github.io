@@ -17,9 +17,6 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 import { 
-  Game
- } from "/shared/game.js";
-import { 
   Physics
  } from "/shared/systems/physics.js";
 import { 
@@ -71,11 +68,6 @@ import {
   UnitInstance,
   UnitGroup
  } from "/shared/units.js";
-import { 
-  game
- } from "./game.js";
-console.log("game", game);
-UnitGroup.game = game;
 var ItemUnit = UnitInstance.define("ItemUnit", { 
   get data(  ){ 
     
@@ -100,7 +92,7 @@ var ItemGroup = UnitGroup.define("ItemGroup", {
   interface:ItemUnit,
   template:false,
   groupName:"item",
-  types:[ PropsSprites, Item ]
+  componentTypes:[ PropsSprites, Item ]
  });
 export { 
   ItemGroup
@@ -149,14 +141,8 @@ var Player = UnitGroup.define("Player", {
   template:false,
   interface:PlayerUnit,
   groupName:"player",
-  types:[ PlayerSprites, Velocity, Sight, PathFinding, Metabolisim, MentalState ]
+  componentTypes:[ PlayerSprites, Velocity, Sight, PathFinding, Metabolisim, MentalState ]
  });
 export { 
   Player
- };
-const player=Player.spawn();
-player.pos.x = 0;
-player.pos.y = 0;
-export { 
-  player
  };

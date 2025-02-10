@@ -8,7 +8,7 @@
 (import Group "../data-structures/group.js")
 (import Interface "/shared/kit/interface/index.js")
 
-(import Saveable "/shared/saveable.sibilant")
+(import Saveable "/shared/saveable.js")
 
 
 (def spawn-component  (entity systems) (#-> systems.get (.spawn  entity)))

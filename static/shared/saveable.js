@@ -24,7 +24,7 @@ import {
  } from "/shared/database.js";
 const dbs=(new Map());
 var getDatabase = (function getDatabase$(name) {
-  /* get-database eval.sibilant:4:0 */
+  /* get-database eval.sibilant:6:0 */
 
   return (function() {
     if (dbs.has(name)) {
@@ -41,27 +41,7 @@ var getDatabase = (function getDatabase$(name) {
   }).call(this);
 });
 var Saveable = Interface.define("Saveable", { 
-  get saveName(  ){ 
-    
-      throw (new TypeError((this.name + " expects a definition of " + "saveName")))
-    
-   },
   _nonSerializableKeys:[],
-  get database(  ){ 
-    
-      return (function() {
-        if (this._database) {
-          return this._database;
-        } else {
-          return this._database = (function() {
-            /* inc/misc.sibilant:1:3986 */
-          
-            return create(Database)(this.saveName);
-          }).call(this);
-        }
-      }).call(this);
-    
-   },
   get loadedInstances(  ){ 
     
       return (function() {
@@ -103,35 +83,99 @@ var Saveable = Interface.define("Saveable", {
       return !(this._nonSerializableKeys.includes(key));
     
    },
-  getSerializableProperties(  ){ 
-    
-   },
   _injestionTarget(  ){ 
     
       return Object.create(this);
     
    },
-  injest( serializedObject = this.serializedObject,r = this._injestionTarget() ){ 
+  injestProperty( data = this.data ){ 
     
-      Object.keys(serializedObject).each(((key) => {
-      	const data=serializedObject[key];
-      return r[key] = (function() {
+      return (function() {
         if (data.saveIndex) {
-          return this._types[data.collectionName].load();
-        } else if (data.interfaceReference) {
-          return (function() {
-            if (data.interfaceReference.name === "EventEmitter") {
-              return create(this._types[data.interfaceReference])();
-            } else {
-              return this._types[data.interfaceReference];
+          const instance=_types[data.collectionName].load(saveName, data.saveIndex, database);
+          (function() {
+            if (instance.register) {
+              return instance.register();
             }
           }).call(this);
+          return instance;
+        } else if (data.interfaceReference) {
+          return _types[data.interfaceReference];
+        } else if (Array.isArray(data)) {
+          return data.map(((value) => {
+          	return Saveable.injestProperty(value, saveName, database);
+          }));
+        } else if ((Set instanceof data)) {
+          const set=(new Map());
+          for (var value of data)
+          {
+          set.add(Saveable.injestProperty(value, data))
+          }
+          ;
+          return map;
+        } else if ((Map instanceof data)) {
+          const map=(new Map());
+          for (var [ key, value ] of data)
+          {
+          map.set(key, Saveable.injestProperty(value, data))
+          }
+          ;
+          return map;
         } else {
           return data;
         }
       }).call(this);
+    
+   },
+  injest( serializedObject = this.serializedObject,saveName = this.saveName,database = create(Database)(saveName),r = this._injestionTarget(),_types = this._types ){ 
+    
+      Object.keys(serializedObject).each(((key) => {
+      	const data=serializedObject[key];
+      return r[key] = Saveable.injestProperty(data);
       }));
       return r;
+    
+   },
+  getSerializableProperties(  ){ 
+    
+      return Object.entries(Object.getOwnPropertyDescriptors(this)).filter((([ key, describer ]) => {
+      	return (describer.hasOwnProperty("value") && typeof describer.value !== "function" && this._filterSerializable(key, describer.value));
+      }));
+    
+   },
+  getSaveableMembers(  ){ 
+    
+      `
+      shared/saveable.md
+
+      # shared.saveable
+
+      ## arguments
+
+      no args
+
+      ## description
+
+      get all property entries which implement the saveable interface.`
+
+      ;
+      return this.getSerializableProperties().filter((([ key, describer ]) => {
+      	return ((Object.hasOwn(describer.value, "save") && Object.hasOwn(describer.value, "load")) || (Array.isArray(describer.value) && some(describer.value, value(), value.save)) || ((Map instanceof describer.value) && some(Array.from(describer.value.values()), value(), value.save)));
+      })).map((([ key, describer ]) => {
+      	return (function() {
+        if ((Map instanceof describer.value)) {
+          return Array.from(describer.value.values()).filter(((value) => {
+          	return value.save;
+          }));
+        } else if (Array.isArray()) {
+          return describer.value.filter(((value) => {
+          	return value.save;
+          }));
+        } else {
+          return describer.value;
+        }
+      }).call(this);
+      })).flat();
     
    },
   serialize(  ){ 
@@ -140,9 +184,7 @@ var Saveable = Interface.define("Saveable", {
         typeName:this.name,
         saveId:this.saveId
        };
-      return Object.entries(Object.getOwnPropertyDescriptors(this)).filter((([ key, describer ]) => {
-      	return (describer.hasOwnProperty("value") && key !== "_saveId" && typeof describer.value !== "function" && this._filterSerializable(key, describer.value));
-      })).reduce(((result, [ key, describer ]) => {
+      return this.getSerializableProperties().reduce(((result, [ key, describer ]) => {
       	result[key] = (function() {
         if (describer.value.save) {
           return { 
@@ -153,7 +195,21 @@ var Saveable = Interface.define("Saveable", {
           return { 
             interfaceReference:describer.value.name
            };
-        } else {
+        } else if ((Map instanceof describer.value)) {
+          const map=(new Map());
+          for (var [ key, value ] of describer.value)
+          {
+          map.set(key, (function() {
+            if (value.serialize) {
+              return value.serialize();
+            } else {
+              return value;
+            }
+          }).call(this))
+          }
+          ;
+          return map;
+        } else if (typeof describer.value !== "object") {
           return result[key] = describer.value;
         }
       }).call(this);
@@ -161,10 +217,60 @@ var Saveable = Interface.define("Saveable", {
       }), serializedObject);
     
    },
-  defAsync:save,
-  defAsync:loadAll,
-  defAsync:load,
-  defAsync:delete
+  save( saveName = this.saveName,database = create(Database)(saveName) ){ 
+    
+      database.put(this.name, this.serialize());
+      return this.getSaveableMembers().each(((key, describer) => {
+      	return describer.value.save(saveName, database);
+      }));
+    
+   },
+   async loadAll(  ){ 
+  
+    const r=[];
+    for (var p of this.db.getCursor(this.name))
+    {
+    const obj=await p;;
+    (function() {
+      if (this.loadedInstances.has(saveIndex)) {
+        return this.loadedInstances.get(saveIndex);
+      } else {
+        var r = (function() {
+          /* eval.sibilant:11:23 */
+        
+          return this.injest(obj);
+        }).call(this);
+        this.loadedInstances.set(saveIndex, r);
+        return r;
+      }
+    }).call(this)
+    }
+    ;
+    return r;
+  
+ },
+  load( saveName = this.saveName,saveIndex = 0,database = create(Database)(saveName) ){ 
+    
+      return (function() {
+        if (this.loadedInstances.has(saveIndex)) {
+          return this.loadedInstances.get(saveIndex);
+        } else {
+          var r = (function() {
+            /* eval.sibilant:11:23 */
+          
+            return database.get([ this.name, saveIndex ]).then(((data) => {
+            	return this.injest(data, saveName, saveIndex, database);
+            }));
+          }).call(this);
+          this.loadedInstances.set(saveIndex, r);
+          return r;
+        }
+      }).call(this);
+    
+   },
+   async delete(  ){ 
+  
+ }
  });
 export { 
   Saveable

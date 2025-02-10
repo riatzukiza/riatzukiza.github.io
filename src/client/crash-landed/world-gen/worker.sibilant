@@ -10,9 +10,12 @@
   ;;                                         (.emit tile-grid.events m.data.type m.data)))))
 
 
-  (def load ()
-    (.send this (lit (type 'load)
-                     (scripts window.*worker-scripts))))
+  (def load (save-name)
+    (.send this (lit (type 'load) save-name)))
+
+  (def save (save-name )
+    (.send this (lit (type 'save) save-name)))
+
   (def get-tile (x y)
     (.send this (lit (type 'tile) x y)))
   (def get-tiles (tiles)

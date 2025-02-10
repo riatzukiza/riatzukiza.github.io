@@ -33,16 +33,36 @@ import {
  } from "./kit/interface/index.js";
 import { 
   Saveable
- } from "/shared/saveable.sibilant";
+ } from "/shared/saveable.js";
+import { 
+  Rendering
+ } from "/shared/systems/rendering/rendering.js";
 var Game = Saveable.define("Game", { 
-  init( config = this.config,rendering = this.rendering,systemTypes = [],gameSpeed = 1,units = [],entityGroups = [],entities = create(EntitySystem)(this),events = create(EventEmitter)(),ticker = create(Ticker)((gameSpeed * 60), events),systems = create(OrderedMap)() ){ 
+  init( config = this.config,systemTypes = [],gameSpeed = 1,units = [],entityGroups = [],entities = create(EntitySystem)(this),ticker = create(Ticker)((gameSpeed * 60)),systems = create(OrderedMap)() ){ 
     
-      this.config = config;this.rendering = rendering;this.systemTypes = systemTypes;this.gameSpeed = gameSpeed;this.units = units;this.entityGroups = entityGroups;this.entities = entities;this.events = events;this.ticker = ticker;this.systems = systems;
+      this.config = config;this.systemTypes = systemTypes;this.gameSpeed = gameSpeed;this.units = units;this.entityGroups = entityGroups;this.entities = entities;this.ticker = ticker;this.systems = systems;
+      this.register();
+      return this;
+    
+   },
+  _nonSerializableKeys:[ "rendering" ],
+  register( systems = this.systems,systemTypes = this.systemTypes,config = this.config ){ 
+    
+      this.rendering = Rendering.load({ 
+        dimensions:[ (1 * config.dimensions[0]), (1 * config.dimensions[1]) ],
+        blend:true
+       });
+      this.rendering.backgroundColor = { 
+        r:0,
+        g:0,
+        b:0,
+        a:255
+       };
       var getSystemBySymbol = systems.get,
           setSystemBySymbol = systems.set;
       systems.getBySymbol = getSystemBySymbol;
       systems.get = (function systems$get$(proto, ent) {
-        /* systems.get eval.sibilant:1:1267 */
+        /* systems.get eval.sibilant:1:1742 */
       
         var sys = getSystemBySymbol.call(systems, proto.symbol);
         return (function() {
@@ -56,8 +76,7 @@ var Game = Saveable.define("Game", {
       systemTypes.each(((s) => {
       	return systems.push([ s.symbol, create(s)(this) ]);
       }));
-      this.systems.push([ rendering.symbol, rendering ]);
-      return this;
+      return this.systems.push([ this.rendering.symbol, this.rendering ]);
     
    },
   get ent(  ){ 
@@ -75,6 +94,11 @@ var Game = Saveable.define("Game", {
       return this;
     
    },
+  get events(  ){ 
+    
+      return Ticker.events;
+    
+   },
   add( s = this.s,systems = this.systems,game = this.game ){ 
     
       return systems.push([ s.symbol, create(s)(this) ]);
@@ -87,7 +111,7 @@ var Game = Saveable.define("Game", {
       events.emit("start", this);
       return events.on("tick", ((t) => {
       	return systems.each((function() {
-        /* eval.sibilant:1:1903 */
+        /* eval.sibilant:1:2412 */
       
         return arguments[0].update();
       }));
@@ -109,7 +133,7 @@ var Game = Saveable.define("Game", {
       entities.clear();
       events.removeAllListeners();
       return systems.each((function() {
-        /* eval.sibilant:1:2182 */
+        /* eval.sibilant:1:2733 */
       
         return arguments[0].clear();
       }));

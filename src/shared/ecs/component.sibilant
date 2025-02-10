@@ -3,7 +3,7 @@
 
 (require! R "ramda")
 
-(import Saveable "/shared/saveable.sibilant")
+(import Saveable "/shared/saveable.js")
 (import Ordered-map "../data-structures/maps/ordered.js")
 (import Dynamic-pool "../pooling/dynamic-pool.js")
 (import Group "../data-structures/group.js")

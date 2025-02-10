@@ -25,56 +25,60 @@ import {
   DocumentRoot
  } from "/shared/dom.js";
 import { 
-  rendering
- } from "./rendering.js";
-import { 
   config
  } from "./config.js";
+import { 
+  getGame,
+  startGame,
+  loadGame,
+  saveGame
+ } from "./game.js";
 var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
   /* display-decimal inc/core/function-expressions.sibilant:28:8 */
 
   return (Math.round((Math.pow(10, n) * d)) / Math.pow(10, n));
 });
-const gameView=createDocumentNode("div", {
-  'id': "game-view",
-  'className': "panel",
-  'style': { 
-    "background-color":"black"
-   }
-}, [ rendering.context.canvas ]);
-const debugView=createDocumentNode("div", {
-  'id': "debug-view",
-  'className': "panel",
-  'style': { 
-    height:(config.dimensions[1] + "px"),
-    width:(Math.round(((window.innerWidth * 0.2) - 42)) + "px"),
-    "overflow-y":"scroll"
-   }
-}, []);
-var container = createDocumentNode("div", { 'id': "container" }, [ gameView, debugView ]);
-export { 
-  container
- };
-export { 
-  gameView
- };
-export { 
-  debugView
- };
-var startInterface = (function startInterface$(game) {
-  /* start-interface eval.sibilant:36:0 */
+var startInterface = (function startInterface$() {
+  /* start-interface eval.sibilant:22:0 */
 
-  createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentBody);
-  return game.events.on("tick", ((t) => {
+  const game=getGame();
+  const gameView=createDocumentNode("div", {
+    'id': "game-view",
+    'className': "panel",
+    'style': { 
+      "background-color":"black"
+     }
+  }, [ (() => {
   	return (function() {
-    if ((t % config.uiPollingRate) === 0) {
-      
+    if (game) {
+      return game.rendering.context.canvas;
+    } else {
+      return "";
     }
   }).call(this);
-  })).once("error", ((err) => {
-  	console.log("error on", "tick", "of", "game.events", "given", "t()");
-  return console.log(err);
-  }));
+  }) ]);
+  return createDocumentNode("div", { 'id': "frame" }, [ createDocumentNode("div", { 'id': "container" }, [ gameView, createDocumentNode("div", {
+    'id': "debug-view",
+    'className': "panel",
+    'style': { 
+      height:(config.dimensions[1] + "px"),
+      width:(Math.round(((window.innerWidth * 0.2) - 42)) + "px"),
+      "overflow-y":"scroll"
+     }
+  }, [ createDocumentNode("div", { 'id': "startGame" }, [ createDocumentNode("button", { 'onclick': (() => {
+  	startGame();
+  return startInterface();
+  }) }, [ "start game" ]) ]), createDocumentNode("div", { 'id': "loadGame" }, [ createDocumentNode("button", { 'onclick': (() => {
+  	return loadGame(document.getElementById("loadSaveNameField").value);
+  }) }, [ "load game" ]), createDocumentNode("input", {
+    'type': "text",
+    'id': "loadNameField"
+  }, []) ]), createDocumentNode("div", { 'id': "saveGame" }, [ createDocumentNode("button", { 'onclick': (() => {
+  	return saveGame(document.getElementById("saveNameField").value);
+  }) }, [ "save game" ]), createDocumentNode("input", {
+    'type': "text",
+    'id': "saveNameField"
+  }, []) ]) ]) ]) ]).render(DocumentBody);
 });
 export { 
   startInterface

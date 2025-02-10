@@ -16,6 +16,12 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
+import { 
+  Interface
+ } from "/shared/kit/interface/index.js";
+import { 
+  EventEmitter
+ } from "/shared/kit/events/index.js";
 var Collection = Interface.define("Collection", { 
   init( name = this.name,database = this.database ){ 
     
@@ -134,7 +140,7 @@ var Database = Interface.define("Database", {
     	var resolve = success,
         reject = fail;
     cursor.onsuccess = (function cursor$onsuccess$(e) {
-      /* cursor.onsuccess eval.sibilant:48:25 */
+      /* cursor.onsuccess eval.sibilant:53:25 */
     
       return success(e.target.result);
     });
@@ -142,7 +148,7 @@ var Database = Interface.define("Database", {
     })));
     });
     var p = getNext();
-    return while( true ){ 
+    while( true ){ 
       const c=await p;;
       if( !(c) ){ 
         break
@@ -151,33 +157,132 @@ var Database = Interface.define("Database", {
       p = getNext();;
       c.continue()
      };
+    return null;
   
  },
-  defAsync:clear,
-  defAsync:get,
-  defAsync:delete,
-  put( collectionName,value ){ 
+   async clear( collectionName ){ 
+  
+    const db=await this.db;
+    const transaction=db.transaction([ collectionName ], "readwrite");
+    const objectStore=transaction.objectStore(collectionName);
+    const cursor=objectStore.openCursor();
+    return (new Promise(((success, fail) => {
+    	var resolve = success,
+        reject = fail;
+    cursor.onsuccess = (function cursor$onsuccess$(e) {
+      /* cursor.onsuccess eval.sibilant:71:5 */
     
-      const db=await this.db;
-      const transaction=db.transaction([ collectionName ], "readwrite");
-      const objectStore=transaction.objectStore(collectionName);
-      const request=objectStore.put(value);
-      return (new Promise(((success, fail) => {
-      	var resolve = success,
-          reject = fail;
-      request.onsuccess = (function request$onsuccess$(event) {
-        /* request.onsuccess eval.sibilant:97:5 */
-      
-        return success(event);
-      });
-      request.onerror = (function request$onerror$(event) {
-        /* request.onerror eval.sibilant:99:5 */
-      
-        return reject(event);
-      });
-      return request.onerror;
-      })));
+      const c=e.target.result;
+      return (function() {
+        if (c) {
+          return this.delete([ collectionName, c.key ]).then(((nil) => {
+          	return c.continue();
+          }));
+        } else {
+          return success();
+        }
+      }).call(this);
+    });
+    return cursor.onsuccess;
+    })));
+  
+ },
+   async get( [ collectionName, key ] ){ 
+  
+    const db=await this.db;
+    const transaction=db.transaction([ collectionName ], "readwrite");
+    const objectStore=transaction.objectStore(collectionName);
+    const request=objectStore.get(key);
+    return (new Promise(((success, fail) => {
+    	var resolve = success,
+        reject = fail;
+    request.onsuccess = (function request$onsuccess$(event) {
+      /* request.onsuccess eval.sibilant:83:5 */
     
-   },
-  defAsync:start
+      return success(event.result);
+    });
+    request.onerror = (function request$onerror$(event) {
+      /* request.onerror eval.sibilant:85:5 */
+    
+      return reject(event);
+    });
+    return request.onerror;
+    })));
+  
+ },
+   async delete( [ collectionName, key ] ){ 
+  
+    const db=await this.db;
+    const transaction=db.transaction([ collectionName ], "readwrite");
+    const objectStore=transaction.objectStore(collectionName);
+    const request=objectStore.delete(key);
+    return (new Promise(((success, fail) => {
+    	var resolve = success,
+        reject = fail;
+    request.onsuccess = (function request$onsuccess$(event) {
+      /* request.onsuccess eval.sibilant:93:5 */
+    
+      return success(event.result);
+    });
+    request.onerror = (function request$onerror$(event) {
+      /* request.onerror eval.sibilant:95:5 */
+    
+      return reject(event);
+    });
+    return request.onerror;
+    })));
+  
+ },
+   async put( collectionName,value ){ 
+  
+    const db=await this.db;
+    const transaction=db.transaction([ collectionName ], "readwrite");
+    const objectStore=transaction.objectStore(collectionName);
+    const request=objectStore.put(value);
+    return (new Promise(((success, fail) => {
+    	var resolve = success,
+        reject = fail;
+    request.onsuccess = (function request$onsuccess$(event) {
+      /* request.onsuccess eval.sibilant:104:5 */
+    
+      return success(event);
+    });
+    request.onerror = (function request$onerror$(event) {
+      /* request.onerror eval.sibilant:106:5 */
+    
+      return reject(event);
+    });
+    return request.onerror;
+    })));
+  
+ },
+   async start(  ){ 
+  
+    const request=indexedDB.open(this.name, this.version);
+    request.onupgradeneeded = (function request$onupgradeneeded$(e) {
+      /* request.onupgradeneeded eval.sibilant:110:4 */
+    
+      return this.upgrade(e.target.result);
+    });
+    return (new Promise(((success, fail) => {
+    	var resolve = success,
+        reject = fail;
+    request.onerror = (function request$onerror$(e) {
+      /* request.onerror eval.sibilant:112:5 */
+    
+      return reject(e);
+    });
+    request.onsuccess = (function request$onsuccess$(e) {
+      /* request.onsuccess eval.sibilant:113:5 */
+    
+      this.events.emit("start", this.db);
+      return success(this);
+    });
+    return request.onsuccess;
+    })));
+  
+ }
  });
+export { 
+  Database
+ };

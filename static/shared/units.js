@@ -78,23 +78,50 @@ export {
  };
 var UnitGroup = Interface.define("UnitGroup", { 
   docString:"Shared.Units.Unit-group",
+  init( groupName = this.groupName,componentTypes = this.componentTypes ){ 
+    
+      this.groupName = groupName;this.componentTypes = componentTypes;
+      return this;
+    
+   },
   baseComponents:[ Position, Physics ],
   interface:UnitInstance,
   template:true,
-  init( groupName = this.groupName,types = this.types,game = this.game,components = [ types, this.baseComponents ].flat(),group = create(EntityGroup)((groupName + "Unit"), components, game.ent) ){ 
+  get components(  ){ 
     
-      this.groupName = groupName;this.types = types;this.game = game;this.components = components;this.group = group;
-      console.log("hi there", game.ent, this.group, game);
-      return this;
+      return (function() {
+        if (this._components) {
+          return this._components;
+        } else {
+          return this._components = (function() {
+            /* inc/misc.sibilant:1:3986 */
+          
+            return [ this.componentTypes, this.baseComponents ].flat();
+          }).call(this);
+        }
+      }).call(this);
+    
+   },
+  get group(  ){ 
+    
+      return (function() {
+        if (this._group) {
+          return this._group;
+        } else {
+          return this._group = (function() {
+            /* inc/misc.sibilant:1:3986 */
+          
+            return create(EntityGroup)((this.groupName + "Unit"), this.components, this.game.ent);
+          }).call(this);
+        }
+      }).call(this);
     
    },
   build(  ){ 
     
-      console.log("I build", this);
       return (function() {
         if (!(this.template)) {
-          this.init();
-          return console.log("and I built");
+          return this.init();
         }
       }).call(this);
     

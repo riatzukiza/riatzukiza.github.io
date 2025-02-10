@@ -35,9 +35,6 @@ import {
   Containers
  } from "./systems/containers.js";
 import { 
-  game
- } from "./game.js";
-import { 
   config
  } from "./config.js";
 const gameScale=config.gameScale;
