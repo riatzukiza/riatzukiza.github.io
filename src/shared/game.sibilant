@@ -43,7 +43,7 @@
           sys))
 
     (.each system-types (=> (s) (.push systems [s.symbol ((create s) this)])))
-    (.push this.systems [this.rendering.symbol this.rendering])
+    ;; (.push this.systems [this.rendering.symbol this.rendering])
     )
 
   (gett ent this.entities)
@@ -61,7 +61,7 @@
 
     (on events 'tick (t)
         (.each systems (#-> (.update )))
-        ;; (.update rendering)
+        (.update rendering)
         ))
 
   (def-generic stop (ticker events)

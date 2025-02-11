@@ -39,7 +39,7 @@ var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
   return (Math.round((Math.pow(10, n) * d)) / Math.pow(10, n));
 });
 var startInterface = (function startInterface$() {
-  /* start-interface eval.sibilant:22:0 */
+  /* start-interface eval.sibilant:10:0 */
 
   const game=getGame();
   const gameView=createDocumentNode("div", {

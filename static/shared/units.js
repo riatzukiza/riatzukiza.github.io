@@ -31,6 +31,9 @@ import {
 import { 
   Interface
  } from "/shared/kit/interface/index.js";
+import { 
+  Saveable
+ } from "/shared/saveable.js";
 var UnitInstance = Spawnable.define("UnitInstance", { 
   init( entity = this.entity,group = this.group ){ 
     
@@ -76,7 +79,7 @@ var UnitInstance = Spawnable.define("UnitInstance", {
 export { 
   UnitInstance
  };
-var UnitGroup = Interface.define("UnitGroup", { 
+var UnitGroup = Saveable.define("UnitGroup", { 
   docString:"Shared.Units.Unit-group",
   init( groupName = this.groupName,componentTypes = this.componentTypes ){ 
     
@@ -85,7 +88,7 @@ var UnitGroup = Interface.define("UnitGroup", {
     
    },
   baseComponents:[ Position, Physics ],
-  interface:UnitInstance,
+  instanceInterface:UnitInstance,
   template:true,
   get components(  ){ 
     
@@ -129,7 +132,7 @@ var UnitGroup = Interface.define("UnitGroup", {
   spawn( args ){ 
     
       const entity=this.group.spawn();
-      const unit=this.interface.spawn(entity, this);
+      const unit=this.instanceInterface.spawn(entity, this);
       entity.unit = unit;
       for (var c of entity.components)
       {

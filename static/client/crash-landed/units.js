@@ -89,7 +89,7 @@ export {
   ItemUnit
  };
 var ItemGroup = UnitGroup.define("ItemGroup", { 
-  interface:ItemUnit,
+  instanceInterface:ItemUnit,
   template:false,
   groupName:"item",
   componentTypes:[ PropsSprites, Item ]
@@ -139,7 +139,7 @@ export {
  };
 var Player = UnitGroup.define("Player", { 
   template:false,
-  interface:PlayerUnit,
+  instanceInterface:PlayerUnit,
   groupName:"player",
   componentTypes:[ PlayerSprites, Velocity, Sight, PathFinding, Metabolisim, MentalState ]
  });

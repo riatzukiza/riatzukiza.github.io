@@ -170,7 +170,7 @@
     (assign this.queue [])
     (assign this.sprites (sprite-layer this.max-sprites this.img this.game)))
 
-  (interface Animated-sprite)
+  (Component Animated-sprite)
 
   (def spawn (entity )
     (var c (.call System.spawn this entity ))

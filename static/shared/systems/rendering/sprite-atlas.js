@@ -336,7 +336,7 @@ var SpriteAtlas = System.define("SpriteAtlas", {
       return this.sprites = spriteLayer(this.maxSprites, this.img, this.game);
     
    },
-  interface:AnimatedSprite,
+  Component:AnimatedSprite,
   spawn( entity ){ 
     
       var c = System.spawn.call(this, entity);
@@ -358,13 +358,13 @@ var SpriteAtlas = System.define("SpriteAtlas", {
     
       this.prepare();
       return (function() {
-        var while$94 = undefined;
+        var while$298 = undefined;
         while (this.queue.length) {
-          while$94 = (function() {
+          while$298 = (function() {
             return this._updateComponent(this.queue.pop());
           }).call(this);
         };
-        return while$94;
+        return while$298;
       }).call(this);
     
    },

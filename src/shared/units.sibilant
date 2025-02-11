@@ -3,6 +3,7 @@
 (import Position "./systems/position.js")
 (import Physics "./systems/physics.js")
 (import Interface "/shared/kit/interface/index.js")
+(import Saveable "/shared/saveable.js")
 
 (define Unit-instance Spawnable
   (init (entity group))
@@ -17,7 +18,7 @@
             this.group null)))
 (export Unit-instance)
 
-(define Unit-group Interface
+(define Unit-group Saveable
   (doc-string "Shared.Units.Unit-group"
               "
 
@@ -49,7 +50,7 @@ This may change as these are to be used instead of entity groups for the most pa
   (init (group-name component-types))
 
   (base-components [Position Physics])
-  (interface Unit-instance)
+  (instance-interface Unit-instance)
   (template true)
 
   (cached components (.flat [this.component-types this.base-components]))
@@ -66,7 +67,7 @@ This may change as these are to be used instead of entity groups for the most pa
     )
   (def spawn (...args)
     (const entity (.spawn this.group))
-    (const unit (.spawn this.interface entity this))
+    (const unit (.spawn this.instance-interface entity this))
     (assign entity.unit unit)
     (for-of! c entity.components
              (assign c.unit unit))

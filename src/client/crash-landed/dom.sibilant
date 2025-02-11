@@ -2,22 +2,10 @@
 (import config "./config.js")
 (import get-game start-game load-game save-game "./game.js")
 
-
-
 (def-generic display-decimal (d (n 6)) (/ (Math.round (* (Math.pow 10 n) d)) (Math.pow 10 n)))
-
-
 
 (macro sum-of (reducable ...keys)
        `(.reduce @reducable  (=> ( sum el) (+ sum (or (get el ...@keys) 0))) 0))
-
-
-
-
-
-
-
-
 
 (def start-interface ()
   (const game (get-game))

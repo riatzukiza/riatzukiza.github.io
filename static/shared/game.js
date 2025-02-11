@@ -73,10 +73,9 @@ var Game = Saveable.define("Game", {
           }
         }).call(this);
       });
-      systemTypes.each(((s) => {
+      return systemTypes.each(((s) => {
       	return systems.push([ s.symbol, create(s)(this) ]);
       }));
-      return this.systems.push([ this.rendering.symbol, this.rendering ]);
     
    },
   get ent(  ){ 
@@ -110,11 +109,12 @@ var Game = Saveable.define("Game", {
       ticker.start();
       events.emit("start", this);
       return events.on("tick", ((t) => {
-      	return systems.each((function() {
-        /* eval.sibilant:1:2412 */
+      	systems.each((function() {
+        /* eval.sibilant:1:2415 */
       
         return arguments[0].update();
       }));
+      return rendering.update();
       })).once("error", ((err) => {
       	console.log("error on", "tick", "of", "events", "given", "t()");
       return console.log(err);

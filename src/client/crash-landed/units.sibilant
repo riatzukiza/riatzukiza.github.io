@@ -25,7 +25,7 @@
 (export Item-unit)
 
 (define Item-group Unit-group
-  (interface Item-unit)
+  (instance-interface Item-unit)
   (template false)
   (group-name 'item)
   (component-types [Props-sprites Item ]))
@@ -45,7 +45,7 @@
 (define Player Unit-group
 
   (template false)
-  (interface Player-unit)
+  (instance-interface Player-unit)
   (group-name 'player)
   (component-types [Player-sprites Velocity Sight Path-finding Metabolisim Mental-state]))
 (export Player)
