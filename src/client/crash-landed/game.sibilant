@@ -17,6 +17,7 @@
 (import Position "/shared/systems/position.js")
 (import setup-tile "./world-gen/setup-tile.js")
 (import Tile-graph "/shared/tiles.js")
+(import get-cardinal-direction-name "./directions.js")
 
 (import  Unit-group "/shared/units.js")
 (import Player "./units.js")
@@ -74,13 +75,12 @@
     (.save generator save-name))
 
 (on Game.events 'tick (t)
-    ;; (const pos p.pos)
 
     (if! (= (mod t 20) 0)
          (.step p.sprite))
     (if! (not generator.busy)
          (const nearest-tile (.get-closest-from-world-pos
-                              tiles
+                              game.tiles
                               p.pos.x p.pos.y))
          (print "sending nearest tile" p.pos nearest-tile)
          (pipe (.get-loaded-tiles generator nearest-tile)

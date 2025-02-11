@@ -16,7 +16,7 @@
   (init (name (events ((create Event-emitter)))))
   (cached db (.start this))
   (gett version-key (+ this.name 'Version))
-  (gett version (.get-item local-storage this.version-key))
+  (gett version (or (.get-item local-storage this.version-key) 1))
   (sett version v (.set-item local-storage this.version-key v))
   (gett collection-names-key  (+ this.name 'Collection-names))
   (sett collection-names v

@@ -74,6 +74,9 @@ import {
   TileGraph
  } from "/shared/tiles.js";
 import { 
+  getCardinalDirectionName
+ } from "./directions.js";
+import { 
   UnitGroup
  } from "/shared/units.js";
 import { 
@@ -120,7 +123,7 @@ Game.events.on("tick", ((t) => {
   p.sprite.step()
  };
 if( !(generator.busy) ){ 
-  const nearestTile=tiles.getClosestFromWorldPos(p.pos.x, p.pos.y);;
+  const nearestTile=game.tiles.getClosestFromWorldPos(p.pos.x, p.pos.y);;
   console.log("sending nearest tile", p.pos, nearestTile);
   generator.getLoadedTiles(nearestTile).then(((data) => {
   	return data.tiles.each(((tileData) => {

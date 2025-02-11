@@ -41,8 +41,8 @@
                this.south-west
                ])
   (def-generic traverse-area (f n  (visited (new Set)))
-    (for! (x (- this.x n)) (< x (+ this.x n) ) (++ x)
-          (for! (y (- this.y n)) (< y (+ this.y n) ) (++ y)
+    (for! (x (- this.x n)) (<= x (+ this.x n) ) (++ x)
+          (for! (y (- this.y n)) (<= y (+ this.y n) ) (++ y)
                 (const tile (.get this.graph x y))
                 (f tile x y)
                 ))

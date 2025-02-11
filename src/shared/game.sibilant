@@ -55,7 +55,6 @@
 
   (def-generic start (systems events ticker rendering)
 
-    (.stop this)
     (.start ticker)
     (.emit events 'start this)
 

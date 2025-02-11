@@ -122,9 +122,9 @@ var TileNode = Spawnable.define("TileNode", {
    },
   traverseArea( f = this.f,n = this.n,visited = (new Set()) ){ 
     
-      for (var x = (this.x - n);x < (this.x + n);++(x))
+      for (var x = (this.x - n);x <= (this.x + n);++(x))
       {
-      for (var y = (this.y - n);y < (this.y + n);++(y))
+      for (var y = (this.y - n);y <= (this.y + n);++(y))
       {
       const tile=this.graph.get(x, y);;
       f(tile, x, y)

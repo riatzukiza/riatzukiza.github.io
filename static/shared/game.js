@@ -105,12 +105,11 @@ var Game = Saveable.define("Game", {
    },
   start( systems = this.systems,events = this.events,ticker = this.ticker,rendering = this.rendering ){ 
     
-      this.stop();
       ticker.start();
       events.emit("start", this);
       return events.on("tick", ((t) => {
       	systems.each((function() {
-        /* eval.sibilant:1:2415 */
+        /* eval.sibilant:1:2397 */
       
         return arguments[0].update();
       }));
@@ -133,7 +132,7 @@ var Game = Saveable.define("Game", {
       entities.clear();
       events.removeAllListeners();
       return systems.each((function() {
-        /* eval.sibilant:1:2733 */
+        /* eval.sibilant:1:2715 */
       
         return arguments[0].clear();
       }));

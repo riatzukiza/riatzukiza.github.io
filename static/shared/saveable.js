@@ -105,7 +105,7 @@ var Saveable = Interface.define("Saveable", {
           return data.map(((value) => {
           	return Saveable.injestProperty(value, saveName, database);
           }));
-        } else if ((Set instanceof data)) {
+        } else if ((data instanceof Set)) {
           const set=(new Map());
           for (var value of data)
           {
@@ -113,7 +113,7 @@ var Saveable = Interface.define("Saveable", {
           }
           ;
           return map;
-        } else if ((Map instanceof data)) {
+        } else if ((data instanceof Map)) {
           const map=(new Map());
           for (var [ key, value ] of data)
           {
@@ -160,10 +160,10 @@ var Saveable = Interface.define("Saveable", {
 
       ;
       return this.getSerializableProperties().filter((([ key, describer ]) => {
-      	return ((Object.hasOwn(describer.value, "save") && Object.hasOwn(describer.value, "load")) || (Array.isArray(describer.value) && some(describer.value, value(), value.save)) || ((Map instanceof describer.value) && some(Array.from(describer.value.values()), value(), value.save)));
+      	return ((Object.hasOwn(describer.value, "save") && Object.hasOwn(describer.value, "load")) || (Array.isArray(describer.value) && some(describer.value, value(), value.save)) || ((describer.value instanceof Map) && some(Array.from(describer.value.values()), value(), value.save)));
       })).map((([ key, describer ]) => {
       	return (function() {
-        if ((Map instanceof describer.value)) {
+        if ((describer.value instanceof Map)) {
           return Array.from(describer.value.values()).filter(((value) => {
           	return value.save;
           }));
@@ -195,7 +195,7 @@ var Saveable = Interface.define("Saveable", {
           return { 
             interfaceReference:describer.value.name
            };
-        } else if ((Map instanceof describer.value)) {
+        } else if ((describer.value instanceof Map)) {
           const map=(new Map());
           for (var [ key, value ] of describer.value)
           {

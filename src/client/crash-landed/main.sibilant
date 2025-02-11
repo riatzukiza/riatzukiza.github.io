@@ -16,9 +16,6 @@
 (assign Position.wraps? false)
 
 
-;; (generate-main-road)
-
-
 
 (add-event-listener 'load (-> (start-interface )))
 

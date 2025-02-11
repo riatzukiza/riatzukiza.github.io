@@ -34,7 +34,6 @@
             (.shift this.latency-accumulator))
 
         (++ this.ticks)
-
         (assign this.previous now)
 
         (this.events.emit 'tick  this.ticks ))) this)

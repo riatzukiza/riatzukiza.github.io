@@ -71,7 +71,7 @@ var Database = Interface.define("Database", {
    },
   get version(  ){ 
     
-      return localStorage.getItem(this.versionKey);
+      return (localStorage.getItem(this.versionKey) || 1);
     
    },
   set version( v ){ 

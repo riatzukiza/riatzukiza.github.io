@@ -49,12 +49,12 @@
         (map data (value)
              (.injest-property Saveable value save-name database))
 
-        (instance-of? data Set)
+        (instance-of?  Set data)
         (do (const set (new Map))
             (for-of!  value data
                      (.add set  (.injest-property Saveable value data)))
          map)
-        (instance-of? data Map)
+        (instance-of?  Map data)
         (do (const map (new Map))
             (for-of! [key value] data
                      (.set map key (.injest-property Saveable value data)))
@@ -88,11 +88,11 @@
                       (and (Array.is-array describer.value)
                            (some describer.value (value)
                                  value.save))
-                      (and (instance-of? describer.value Map)
+                      (and (instance-of?  Map describer.value)
                            (some (Array.from (.values describer.value)) ( value)
                                   value.save))))
           (map ([key describer])
-               (if (instance-of? describer.value Map)
+               (if (instance-of?  Map describer.value)
                    (filter  (Array.from (.values describer.value)) ( value) value.save)
                    (Array.is-array)
                    (filter describer.value (value) value.save)
@@ -110,7 +110,7 @@
                                             (save-index describer.value.save-index))
                                        describer.value.symbol
                                        (lit (interface-reference describer.value.name))
-                                       (instance-of? describer.value Map)
+                                       (instance-of?  Map describer.value)
                                        (do (const map (new Map))
                                            (for-of! [key value] describer.value
                                                     (.set map key (if value.serialize
