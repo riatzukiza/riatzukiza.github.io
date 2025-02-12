@@ -65,6 +65,7 @@
   (gett game this.process)
 
   (def build ()
+    (.call Saveable.build this)
     (unless (or this.template )
       (.init this)))
 
@@ -98,20 +99,5 @@
 
   (def update (t) (accumulate this.thread (then-do (.*update-all this t)))))
 
-
-
-(def System.build ()
-  (unless (or this.template )
-    (.init this)))
-
-(def-generic System.clear (pool components  )
-  (.clear components)
-  (.clear pool))
-
-(def-generic System.get (entity components)
-  (.get components entity))
-
-
-(def System.update (t) (accumulate this.thread (then-do (.*update-all this t))))
 
 (export System)

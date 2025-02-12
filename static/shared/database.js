@@ -64,52 +64,21 @@ var Database = Interface.define("Database", {
       }).call(this);
     
    },
-  get versionKey(  ){ 
-    
-      return (this.name + "Version");
-    
-   },
-  get version(  ){ 
-    
-      return (localStorage.getItem(this.versionKey) || 1);
-    
-   },
-  set version( v ){ 
-    
-      return localStorage.setItem(this.versionKey, v);
-    
-   },
-  get collectionNamesKey(  ){ 
-    
-      return (this.name + "CollectionNames");
-    
-   },
-  set collectionNames( v ){ 
-    
-      this.version = (1 + this.version);
-      return localStorage.setItem(this.collectionNamesKey, JSON.stringify(v));
-    
-   },
-  get collectionNames(  ){ 
-    
-      return JSON.parse(localStorage.getItem(this.collectionNamesKey));
-    
-   },
+  version:3,
+  collections:[],
   addCollection( name ){ 
     
-      const names=this.collectionNames;
-      if( names.includes(name) ){ 
+      if( this.collections.includes(name) ){ 
         return ;
        };
-      names.push(name);
-      return this.collectionNames = names;
+      return this.collections.push(name);
     
    },
   upgrade( db ){ 
     
       return this.collections.each(((c) => {
       	return (function() {
-        if (!(db.objectStoreNames.includes(c))) {
+        if (!(Array.from(db.objectStoreNames).includes(c))) {
           return db.createObjectStore(c, { 
             keyPath:"saveIndex"
            });
@@ -140,7 +109,7 @@ var Database = Interface.define("Database", {
     	var resolve = success,
         reject = fail;
     cursor.onsuccess = (function cursor$onsuccess$(e) {
-      /* cursor.onsuccess eval.sibilant:53:25 */
+      /* cursor.onsuccess eval.sibilant:44:25 */
     
       return success(e.target.result);
     });
@@ -170,7 +139,7 @@ var Database = Interface.define("Database", {
     	var resolve = success,
         reject = fail;
     cursor.onsuccess = (function cursor$onsuccess$(e) {
-      /* cursor.onsuccess eval.sibilant:71:5 */
+      /* cursor.onsuccess eval.sibilant:62:5 */
     
       const c=e.target.result;
       return (function() {
@@ -197,12 +166,12 @@ var Database = Interface.define("Database", {
     	var resolve = success,
         reject = fail;
     request.onsuccess = (function request$onsuccess$(event) {
-      /* request.onsuccess eval.sibilant:83:5 */
+      /* request.onsuccess eval.sibilant:74:5 */
     
-      return success(event.result);
+      return success(event.target.result);
     });
     request.onerror = (function request$onerror$(event) {
-      /* request.onerror eval.sibilant:85:5 */
+      /* request.onerror eval.sibilant:76:5 */
     
       return reject(event);
     });
@@ -220,12 +189,12 @@ var Database = Interface.define("Database", {
     	var resolve = success,
         reject = fail;
     request.onsuccess = (function request$onsuccess$(event) {
-      /* request.onsuccess eval.sibilant:93:5 */
+      /* request.onsuccess eval.sibilant:84:5 */
     
       return success(event.result);
     });
     request.onerror = (function request$onerror$(event) {
-      /* request.onerror eval.sibilant:95:5 */
+      /* request.onerror eval.sibilant:86:5 */
     
       return reject(event);
     });
@@ -243,12 +212,12 @@ var Database = Interface.define("Database", {
     	var resolve = success,
         reject = fail;
     request.onsuccess = (function request$onsuccess$(event) {
-      /* request.onsuccess eval.sibilant:104:5 */
+      /* request.onsuccess eval.sibilant:95:5 */
     
       return success(event);
     });
     request.onerror = (function request$onerror$(event) {
-      /* request.onerror eval.sibilant:106:5 */
+      /* request.onerror eval.sibilant:97:5 */
     
       return reject(event);
     });
@@ -259,24 +228,25 @@ var Database = Interface.define("Database", {
    async start(  ){ 
   
     const request=indexedDB.open(this.name, this.version);
+    const self=this;
     request.onupgradeneeded = (function request$onupgradeneeded$(e) {
-      /* request.onupgradeneeded eval.sibilant:110:4 */
+      /* request.onupgradeneeded eval.sibilant:102:4 */
     
-      return this.upgrade(e.target.result);
+      return self.upgrade(e.target.result);
     });
     return (new Promise(((success, fail) => {
     	var resolve = success,
         reject = fail;
     request.onerror = (function request$onerror$(e) {
-      /* request.onerror eval.sibilant:112:5 */
+      /* request.onerror eval.sibilant:104:5 */
     
       return reject(e);
     });
     request.onsuccess = (function request$onsuccess$(e) {
-      /* request.onsuccess eval.sibilant:113:5 */
+      /* request.onsuccess eval.sibilant:105:5 */
     
-      this.events.emit("start", this.db);
-      return success(this);
+      self.events.emit("start", e.target.result);
+      return success(e.target.result);
     });
     return request.onsuccess;
     })));

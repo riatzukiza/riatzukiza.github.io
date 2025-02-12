@@ -60,16 +60,20 @@ tileGrid.events.on("playerTilePos", ((data) => {
 	console.log("error on", "playerTilePos", "of", "tileGrid.events", "given", "data()");
 return console.log(err);
 }));
-tileGrid.events.on("save", ((saveName) => {
-	return tileGrid.save(saveName);
+tileGrid.events.on("save", ((data) => {
+	return tileGrid.save(("worker-" + data.saveName)).then(((nil) => {
+	return sendMessage("saveSuuccessful", {  });
+}));
 })).once("error", ((err) => {
-	console.log("error on", "save", "of", "tileGrid.events", "given", "saveName()");
+	console.log("error on", "save", "of", "tileGrid.events", "given", "data()");
 return console.log(err);
 }));
-tileGrid.events.on("load", ((saveName) => {
-	return tileGrid.load(saveName);
+tileGrid.events.on("load", ((data) => {
+	return tileGrid.load(("worker-" + data.saveName)).then(((nil) => {
+	return sendMessage("loadSuccessful", {  });
+}));
 })).once("error", ((err) => {
-	console.log("error on", "load", "of", "tileGrid.events", "given", "saveName()");
+	console.log("error on", "load", "of", "tileGrid.events", "given", "data()");
 return console.log(err);
 }));
 tileGrid.events.on("getLoadedTiles", ((data) => {

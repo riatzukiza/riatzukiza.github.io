@@ -18,6 +18,9 @@
 
 (def-lit-macro def-generic* (name args ...body)
   `(generic @name (method*) @args ...@body))
+(macro some (array args ...body)
+       `(.some @array (=> @args ...@body))
+       )
 (define Saveable Interface
 
   (*non-serializable-keys [])
@@ -34,9 +37,9 @@
 
   (def *injestion-target () (Object.create this))
 
-  (def-generic injest-property (data)
+  (def-generic injest-property (data *types *symbols)
     (if data.save-index
-        (do (const instance (.load (get *types data.collection-name)
+        (do (const instance (.load (get *types (get *symbols data.collection-name))
                                    save-name
                                    data.save-index
                                    database))
@@ -44,7 +47,7 @@
                 (.register instance))
          instance)
         data.interface-reference
-        (get *types data.interface-reference)
+        (get *types (get *symbols data.interface-reference))
         (Array.is-array data)
         (map data (value)
              (.injest-property Saveable value save-name database))
@@ -76,6 +79,9 @@
           (Object.entries)
           (filter ([key describer])
                   (and (.has-own-property describer 'value)
+                       describer.value
+                       (!= (typeof  describer.value) "symbol")
+                       (!= (typeof  key) "symbol")
                        (!= (typeof describer.value) 'function)
                        (.*filter-serializable this key describer.value)))))
   (def get-saveable-members ()
@@ -98,34 +104,41 @@
                    (filter describer.value (value) value.save)
                    describer.value))
           (.flat)))
-  (def-generic serialize ()
-    (const serialized-object
-           (lit
-            (type-name this.name)
-            (save-id  this.save-id)))
+  (def build () (.add-collection Database this.name))
+  (def-generic serialize-property (value *types *symbols)
+    (if (and value.symbol (= this (get *types value.symbol)))
+        (lit (interface-reference value.name))
+
+        value.save
+        (lit (collection-name value.name)
+             (save-index value.save-index))
+        (Array.is-array value)
+        (map value (v) (.serialize-property this v *types *symbols))
+        (instance-of?  Map value)
+        (do (const map (new Map))
+            (for-of! [key v] value
+                     (if (and key (!= (typeof key) 'symbol))
+                         (.set map key (if v.serialize
+                                           (.serialize v *types *symbols)
+                                           v))))
+         map)
+
+        value)
+    )
+  (def-generic serialize (*types *symbols)
     (pipe (this.get-serializable-properties)
-          (reduce  serialized-object (result  [key describer])
-                   (set result key (if describer.value.save
-                                       (lit (collection-name describer.value.name)
-                                            (save-index describer.value.save-index))
-                                       describer.value.symbol
-                                       (lit (interface-reference describer.value.name))
-                                       (instance-of?  Map describer.value)
-                                       (do (const map (new Map))
-                                           (for-of! [key value] describer.value
-                                                    (.set map key (if value.serialize
-                                                                      (.serialize value)
-                                                                      value)))
-                                         map)
-                                       (!= (typeof describer.value) "object")
-                                       (set result key describer.value)))
+          (reduce  (lit
+                    (type-name this.name)
+                    (save-index  this.save-index)) (result  [key describer])
+                   (print "Serializing key" key describer)
+                   (set result key (.serialize-property this describer.value *types *symbols))
                    result)))
 
   (def-generic save (save-name (database ((create Database) save-name)))
-    (.put database this.name (.serialize this))
-    (each (.get-saveable-members this) (key describer )
-          (.save describer.value save-name database)))
-
+    (pipe (.put database this.name (.serialize this))
+          (then-do
+           (Promise.all (map (.get-saveable-members this) (value )
+                             (.save value save-name database))))))
   (def-async load-all ()
     (const r [])
     (for-of! p (.get-cursor this.db this.name)

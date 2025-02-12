@@ -7,7 +7,6 @@
 
 (var Interface (lit  ( *symbols {})
                      ( *types {})
-                     (init (name *obj (*types {}) (*symbols {})))
                      (def-generic define
                          (name
 
@@ -18,7 +17,6 @@
                           ( *build *obj.build))
 
                        (if (in  *symbols name)
-
                            (mixin *obj (get *types (get *symbols name)))
                            (.*construct  Interface name *obj *ext *shares *symbols *types *build)))
 
@@ -26,15 +24,17 @@
                        (collect proto (extend  *ext (mixin  [ (lit name (symbol (Symbol name))
                                                                    (define Interface.define)
                                                                    (proto *ext)
-                                                                   (*construct Interface.*construct))
+
+                                                                   (*construct Interface.*construct)
+                                                                   )
                                                               (dots *shares) ]
                                                             *obj))
                                 (def proto.construct ()
                                      (.init (Object.create proto)
                                             (dots arguments)))
 
-                                (.call Interface.init proto)
 
+                                (set *ext '*types *types '*symbols *symbols)
                                 (set *symbols name proto.symbol)
                                 (set *types  proto.symbol proto)
 

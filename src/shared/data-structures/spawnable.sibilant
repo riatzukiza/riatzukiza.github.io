@@ -2,7 +2,7 @@
 
 (define Spawnable Saveable
   (def build ()
-    (.call Saveable.init this)
+    (.call Saveable.build this)
     (assign this.pool []))
   (def aquire ()
     (if (> this.pool.length 0)

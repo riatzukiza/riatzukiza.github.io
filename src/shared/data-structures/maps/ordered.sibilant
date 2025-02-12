@@ -1,7 +1,8 @@
 (import  List "../list.js")
 (import Interface "../../kit/interface/index.js")
+(import Saveable "/shared/saveable.js")
 
-(define Ordered-map Interface
+(define Ordered-map Saveable
   (init ((*members (new Map))
          (*values ((create List)))))
 

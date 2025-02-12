@@ -22,7 +22,10 @@ import {
 import { 
   Interface
  } from "../../kit/interface/index.js";
-var OrderedMap = Interface.define("OrderedMap", { 
+import { 
+  Saveable
+ } from "/shared/saveable.js";
+var OrderedMap = Saveable.define("OrderedMap", { 
   init( _members = (new Map()),_values = create(List)() ){ 
     
       this._members = _members;this._values = _values;

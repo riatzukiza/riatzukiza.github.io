@@ -19,12 +19,6 @@ import {
 var Interface = { 
   _symbols:{  },
   _types:{  },
-  init( name = this.name,_obj = this._obj,_types = {  },_symbols = {  } ){ 
-    
-      this.name = name;this._obj = _obj;this._types = _types;this._symbols = _symbols;
-      return this;
-    
-   },
   define( name = this.name,_obj = this._obj,_types = this._types,_symbols = this._symbols,_shares = (_obj.borrows || _obj.shares || []),_ext = (_obj.extend || this),_build = _obj.build ){ 
     
       return (function() {
@@ -46,7 +40,8 @@ var Interface = {
         
           return Object.create(proto).init(...arguments);
         });
-        Interface.init.call(proto);
+        _ext._types = _types;
+        _ext._symbols = _symbols;
         _symbols[name] = proto.symbol;
         _types[proto.symbol] = proto;
         (function() {

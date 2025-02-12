@@ -69,7 +69,7 @@ var startInterface = (function startInterface$() {
   	startGame();
   return startInterface();
   }) }, [ "start game" ]) ]), createDocumentNode("div", { 'id': "loadGame" }, [ createDocumentNode("button", { 'onclick': (() => {
-  	return loadGame(document.getElementById("loadSaveNameField").value);
+  	return loadGame(document.getElementById("loadNameField").value);
   }) }, [ "load game" ]), createDocumentNode("input", {
     'type': "text",
     'id': "loadNameField"

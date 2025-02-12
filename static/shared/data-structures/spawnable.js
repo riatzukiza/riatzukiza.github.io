@@ -22,7 +22,7 @@ import {
 var Spawnable = Saveable.define("Spawnable", { 
   build(  ){ 
     
-      Saveable.init.call(this);
+      Saveable.build.call(this);
       return this.pool = [];
     
    },

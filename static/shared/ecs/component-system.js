@@ -141,6 +141,7 @@ var System = Saveable.define("System", {
    },
   build(  ){ 
     
+      Saveable.build.call(this);
       return (function() {
         if (!((this.template))) {
           return this.init();
@@ -213,33 +214,6 @@ var System = Saveable.define("System", {
     
    }
  });
-System.build = (function System$build$() {
-  /* System.build eval.sibilant:103:0 */
-
-  return (function() {
-    if (!((this.template))) {
-      return this.init();
-    }
-  }).call(this);
-});
-System.clear = (function System$clear$(pool = this.pool, components = this.components) {
-  /* System.clear inc/core/function-expressions.sibilant:28:8 */
-
-  components.clear();
-  return pool.clear();
-});
-System.get = (function System$get$(entity = this.entity, components = this.components) {
-  /* System.get inc/core/function-expressions.sibilant:28:8 */
-
-  return components.get(entity);
-});
-System.update = (function System$update$(t) {
-  /* System.update eval.sibilant:115:0 */
-
-  return this.thread = this.thread.then(((nil) => {
-  	return this._updateAll(t);
-  }));
-});
 export { 
   System
  };

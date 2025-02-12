@@ -24,10 +24,13 @@
 (on tile-grid.events 'player-tile-pos (data)
     (send-message 'player-pos-update
                   (lit (success true))))
-(on tile-grid.events 'save (save-name)
-    (.save tile-grid save-name))
-(on tile-grid.events 'load (save-name)
-    (.load tile-grid save-name)
+(on tile-grid.events 'save (data)
+    (pipe (.save tile-grid (+ "worker-" data.save-name))
+          (then-do (send-message 'save-suuccessful {}))
+          ))
+(on tile-grid.events 'load (data)
+    (pipe (.load tile-grid (+ "worker-" data.save-name))
+          (then-do (send-message 'load-successful {})))
     )
 
 (on tile-grid.events 'get-loaded-tiles (data)

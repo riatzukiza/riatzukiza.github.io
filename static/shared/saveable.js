@@ -88,11 +88,11 @@ var Saveable = Interface.define("Saveable", {
       return Object.create(this);
     
    },
-  injestProperty( data = this.data ){ 
+  injestProperty( data = this.data,_types = this._types,_symbols = this._symbols ){ 
     
       return (function() {
         if (data.saveIndex) {
-          const instance=_types[data.collectionName].load(saveName, data.saveIndex, database);
+          const instance=_types[_symbols[data.collectionName]].load(saveName, data.saveIndex, database);
           (function() {
             if (instance.register) {
               return instance.register();
@@ -100,7 +100,7 @@ var Saveable = Interface.define("Saveable", {
           }).call(this);
           return instance;
         } else if (data.interfaceReference) {
-          return _types[data.interfaceReference];
+          return _types[_symbols[data.interfaceReference]];
         } else if (Array.isArray(data)) {
           return data.map(((value) => {
           	return Saveable.injestProperty(value, saveName, database);
@@ -139,7 +139,7 @@ var Saveable = Interface.define("Saveable", {
   getSerializableProperties(  ){ 
     
       return Object.entries(Object.getOwnPropertyDescriptors(this)).filter((([ key, describer ]) => {
-      	return (describer.hasOwnProperty("value") && typeof describer.value !== "function" && this._filterSerializable(key, describer.value));
+      	return (describer.hasOwnProperty("value") && describer.value && typeof describer.value !== "symbol" && typeof key !== "symbol" && typeof describer.value !== "function" && this._filterSerializable(key, describer.value));
       }));
     
    },
@@ -160,7 +160,11 @@ var Saveable = Interface.define("Saveable", {
 
       ;
       return this.getSerializableProperties().filter((([ key, describer ]) => {
-      	return ((Object.hasOwn(describer.value, "save") && Object.hasOwn(describer.value, "load")) || (Array.isArray(describer.value) && some(describer.value, value(), value.save)) || ((describer.value instanceof Map) && some(Array.from(describer.value.values()), value(), value.save)));
+      	return ((Object.hasOwn(describer.value, "save") && Object.hasOwn(describer.value, "load")) || (Array.isArray(describer.value) && describer.value.some(((value) => {
+      	return value.save;
+      }))) || ((describer.value instanceof Map) && Array.from(describer.value.values()).some(((value) => {
+      	return value.save;
+      }))));
       })).map((([ key, describer ]) => {
       	return (function() {
         if ((describer.value instanceof Map)) {
@@ -178,50 +182,69 @@ var Saveable = Interface.define("Saveable", {
       })).flat();
     
    },
-  serialize(  ){ 
+  build(  ){ 
     
-      const serializedObject={ 
-        typeName:this.name,
-        saveId:this.saveId
-       };
-      return this.getSerializableProperties().reduce(((result, [ key, describer ]) => {
-      	result[key] = (function() {
-        if (describer.value.save) {
+      return Database.addCollection(this.name);
+    
+   },
+  serializeProperty( value = this.value,_types = this._types,_symbols = this._symbols ){ 
+    
+      return (function() {
+        if ((value.symbol && this === _types[value.symbol])) {
           return { 
-            collectionName:describer.value.name,
-            saveIndex:describer.value.saveIndex
+            interfaceReference:value.name
            };
-        } else if (describer.value.symbol) {
+        } else if (value.save) {
           return { 
-            interfaceReference:describer.value.name
+            collectionName:value.name,
+            saveIndex:value.saveIndex
            };
-        } else if ((describer.value instanceof Map)) {
+        } else if (Array.isArray(value)) {
+          return value.map(((v) => {
+          	return this.serializeProperty(v, _types, _symbols);
+          }));
+        } else if ((value instanceof Map)) {
           const map=(new Map());
-          for (var [ key, value ] of describer.value)
+          for (var [ key, v ] of value)
           {
-          map.set(key, (function() {
-            if (value.serialize) {
-              return value.serialize();
-            } else {
-              return value;
+          (function() {
+            if ((key && typeof key !== "symbol")) {
+              return map.set(key, (function() {
+                if (v.serialize) {
+                  return v.serialize(_types, _symbols);
+                } else {
+                  return v;
+                }
+              }).call(this));
             }
-          }).call(this))
+          }).call(this)
           }
           ;
           return map;
-        } else if (typeof describer.value !== "object") {
-          return result[key] = describer.value;
+        } else {
+          return value;
         }
       }).call(this);
+    
+   },
+  serialize( _types = this._types,_symbols = this._symbols ){ 
+    
+      return this.getSerializableProperties().reduce(((result, [ key, describer ]) => {
+      	console.log("Serializing key", key, describer);
+      result[key] = this.serializeProperty(describer.value, _types, _symbols);
       return result;
-      }), serializedObject);
+      }), { 
+        typeName:this.name,
+        saveIndex:this.saveIndex
+       });
     
    },
   save( saveName = this.saveName,database = create(Database)(saveName) ){ 
     
-      database.put(this.name, this.serialize());
-      return this.getSaveableMembers().each(((key, describer) => {
-      	return describer.value.save(saveName, database);
+      return database.put(this.name, this.serialize()).then(((nil) => {
+      	return Promise.all(this.getSaveableMembers().map(((value) => {
+      	return value.save(saveName, database);
+      })));
       }));
     
    },
