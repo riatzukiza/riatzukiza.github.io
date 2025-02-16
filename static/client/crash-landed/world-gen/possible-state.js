@@ -42,11 +42,11 @@ var PossibleState = Spawnable.define("PossibleState", {
   get likelyhood(  ){ 
     
       return (function() {
-        if (this._likelyhood) {
+        if (typeof this._likelyhood !== "undefined") {
           return this._likelyhood;
         } else {
           return this._likelyhood = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:3997 */
           
             return (this.superPosition.totalWeight / this.weight);
           }).call(this);
@@ -57,11 +57,11 @@ var PossibleState = Spawnable.define("PossibleState", {
   get weight(  ){ 
     
       return (function() {
-        if (this._weight) {
+        if (typeof this._weight !== "undefined") {
           return this._weight;
         } else {
           return this._weight = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:3997 */
           
             return this.calculateWeight();
           }).call(this);

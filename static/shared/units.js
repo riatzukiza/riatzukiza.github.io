@@ -93,11 +93,11 @@ var UnitGroup = Saveable.define("UnitGroup", {
   get components(  ){ 
     
       return (function() {
-        if (this._components) {
+        if (typeof this._components !== "undefined") {
           return this._components;
         } else {
           return this._components = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:3997 */
           
             return [ this.componentTypes, this.baseComponents ].flat();
           }).call(this);
@@ -108,11 +108,11 @@ var UnitGroup = Saveable.define("UnitGroup", {
   get group(  ){ 
     
       return (function() {
-        if (this._group) {
+        if (typeof this._group !== "undefined") {
           return this._group;
         } else {
           return this._group = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:3997 */
           
             return create(EntityGroup)((this.groupName + "Unit"), this.components, this.game.ent);
           }).call(this);

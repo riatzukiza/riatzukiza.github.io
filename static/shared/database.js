@@ -43,20 +43,20 @@ var Collection = Interface.define("Collection", {
    }
  });
 var Database = Interface.define("Database", { 
-  init( name = this.name,events = create(EventEmitter)() ){ 
+  init( name = this.name,events = create(EventEmitter)(),writerPromises = {  } ){ 
     
-      this.name = name;this.events = events;
+      this.name = name;this.events = events;this.writerPromises = writerPromises;
       return this;
     
    },
   get db(  ){ 
     
       return (function() {
-        if (this._db) {
+        if (typeof this._db !== "undefined") {
           return this._db;
         } else {
           return this._db = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:3997 */
           
             return this.start();
           }).call(this);
@@ -64,7 +64,7 @@ var Database = Interface.define("Database", {
       }).call(this);
     
    },
-  version:3,
+  version:4,
   collections:[],
   addCollection( name ){ 
     
@@ -109,7 +109,7 @@ var Database = Interface.define("Database", {
     	var resolve = success,
         reject = fail;
     cursor.onsuccess = (function cursor$onsuccess$(e) {
-      /* cursor.onsuccess eval.sibilant:44:25 */
+      /* cursor.onsuccess eval.sibilant:46:25 */
     
       return success(e.target.result);
     });
@@ -139,7 +139,7 @@ var Database = Interface.define("Database", {
     	var resolve = success,
         reject = fail;
     cursor.onsuccess = (function cursor$onsuccess$(e) {
-      /* cursor.onsuccess eval.sibilant:62:5 */
+      /* cursor.onsuccess eval.sibilant:64:5 */
     
       const c=e.target.result;
       return (function() {
@@ -158,21 +158,24 @@ var Database = Interface.define("Database", {
  },
    async get( [ collectionName, key ] ){ 
   
+    console.log("getting from db", this, collectionName, key);
     const db=await this.db;
-    const transaction=db.transaction([ collectionName ], "readwrite");
+    const transaction=db.transaction([ collectionName ], "readonly");
     const objectStore=transaction.objectStore(collectionName);
     const request=objectStore.get(key);
     return (new Promise(((success, fail) => {
     	var resolve = success,
         reject = fail;
     request.onsuccess = (function request$onsuccess$(event) {
-      /* request.onsuccess eval.sibilant:74:5 */
+      /* request.onsuccess eval.sibilant:77:5 */
     
+      console.log("gotten from db", event);
       return success(event.target.result);
     });
     request.onerror = (function request$onerror$(event) {
-      /* request.onerror eval.sibilant:76:5 */
+      /* request.onerror eval.sibilant:80:5 */
     
+      console.log("error!", event);
       return reject(event);
     });
     return request.onerror;
@@ -189,12 +192,12 @@ var Database = Interface.define("Database", {
     	var resolve = success,
         reject = fail;
     request.onsuccess = (function request$onsuccess$(event) {
-      /* request.onsuccess eval.sibilant:84:5 */
+      /* request.onsuccess eval.sibilant:89:5 */
     
       return success(event.result);
     });
     request.onerror = (function request$onerror$(event) {
-      /* request.onerror eval.sibilant:86:5 */
+      /* request.onerror eval.sibilant:91:5 */
     
       return reject(event);
     });
@@ -204,25 +207,36 @@ var Database = Interface.define("Database", {
  },
    async put( collectionName,value ){ 
   
-    const db=await this.db;
-    const transaction=db.transaction([ collectionName ], "readwrite");
+    return this.writerPromises[collectionName] = Promise.resolve(this.writerPromises[collectionName]).then(((nil) => {
+    	return this.db.then(((db) => {
+    	const transaction=db.transaction([ collectionName ], "readwrite");
     const objectStore=transaction.objectStore(collectionName);
     const request=objectStore.put(value);
     return (new Promise(((success, fail) => {
     	var resolve = success,
         reject = fail;
+    var success__QUERY = false;
+    setTimeout((() => {
+    	return (function() {
+      if (!(success__QUERY)) {
+        return reject((new Error("Took too long.")));
+      }
+    }).call(this);
+    }), 10000);
     request.onsuccess = (function request$onsuccess$(event) {
-      /* request.onsuccess eval.sibilant:95:5 */
+      /* request.onsuccess eval.sibilant:108:20 */
     
       return success(event);
     });
     request.onerror = (function request$onerror$(event) {
-      /* request.onerror eval.sibilant:97:5 */
+      /* request.onerror eval.sibilant:110:20 */
     
       return reject(event);
     });
     return request.onerror;
     })));
+    }));
+    }));
   
  },
    async start(  ){ 
@@ -230,7 +244,7 @@ var Database = Interface.define("Database", {
     const request=indexedDB.open(this.name, this.version);
     const self=this;
     request.onupgradeneeded = (function request$onupgradeneeded$(e) {
-      /* request.onupgradeneeded eval.sibilant:102:4 */
+      /* request.onupgradeneeded eval.sibilant:115:4 */
     
       return self.upgrade(e.target.result);
     });
@@ -238,12 +252,12 @@ var Database = Interface.define("Database", {
     	var resolve = success,
         reject = fail;
     request.onerror = (function request$onerror$(e) {
-      /* request.onerror eval.sibilant:104:5 */
+      /* request.onerror eval.sibilant:117:5 */
     
       return reject(e);
     });
     request.onsuccess = (function request$onsuccess$(e) {
-      /* request.onsuccess eval.sibilant:105:5 */
+      /* request.onsuccess eval.sibilant:118:5 */
     
       self.events.emit("start", e.target.result);
       return success(e.target.result);

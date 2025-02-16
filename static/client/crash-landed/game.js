@@ -113,7 +113,12 @@ Game.events.on("load", ((saveName) => {
 return console.log(err);
 }));
 Game.events.on("save", ((saveName) => {
+	alert("all done saving main thread!!");
+return generator.thread.then(((nil) => {
 	return generator.save(saveName);
+})).then(((nil) => {
+	return alert("done saving world generator thread");
+}));
 })).once("error", ((err) => {
 	console.log("error on", "save", "of", "Game.events", "given", "saveName()");
 return console.log(err);
@@ -168,7 +173,7 @@ async function loadGame(saveName){
 
 };
 var getGame = (function getGame$() {
-  /* get-game eval.sibilant:122:0 */
+  /* get-game eval.sibilant:126:0 */
 
   return game;
 });

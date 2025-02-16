@@ -169,7 +169,7 @@ var System = Saveable.define("System", {
   spawn( entity = this.entity,pool = this.pool,components = this.components ){ 
     
       return (function(c) {
-        /* eval.sibilant:1:661 */
+        /* inc/misc.sibilant:1:1369 */
       
         components.set(entity, c);
         return c;
@@ -208,6 +208,7 @@ var System = Saveable.define("System", {
    },
   update( t ){ 
     
+      this.thread = Promise.resolve(this.thread);
       return this.thread = this.thread.then(((nil) => {
       	return this._updateAll(t);
       }));

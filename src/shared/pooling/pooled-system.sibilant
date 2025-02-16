@@ -1,8 +1,8 @@
 (import Dynamic-pool "./dynamic-pool.js")
-(import Interface "../kit/interface/index.js")
 
+(import Saveable "/shared/saveable.js")
 
-(define  Pooled-system  Interface
+(define  Pooled-system  Saveable
   (init ( Interface (*pool ((create Dynamic-pool) Interface)))
         (.register this Interface))
 
@@ -14,21 +14,21 @@
 
   (def spawn ((dots args))
 
-       "aquire an object from the systems pool, and initialize it."
+    "aquire an object from the systems pool, and initialize it."
 
-       (collect r (pipe this.*pool (.aquire))
-                (.init r (dots args))))
+    (collect r (pipe this.*pool (.aquire))
+             (.init r (dots args))))
 
   (def despawn (obj)
-       "remove an object from the system, and release it back into the pool."
+    "remove an object from the system, and release it back into the pool."
 
-       (.clear obj)
-       (pipe this.*pool
-             (.release obj)))
+    (.clear obj)
+    (pipe this.*pool
+          (.release obj)))
 
   (def register (Interface)
 
-       "Associate a Interfacetype interface with a system,and add the system to the collection of all active systems."
+    "Associate a Interfacetype interface with a system,and add the system to the collection of all active systems."
 
        (assign Interface.system this)
 

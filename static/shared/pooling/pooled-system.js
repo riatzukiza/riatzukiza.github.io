@@ -20,9 +20,9 @@ import {
   DynamicPool
  } from "./dynamic-pool.js";
 import { 
-  Interface
- } from "../kit/interface/index.js";
-var PooledSystem = Interface.define("PooledSystem", { 
+  Saveable
+ } from "/shared/saveable.js";
+var PooledSystem = Saveable.define("PooledSystem", { 
   init( Interface = this.Interface,_pool = create(DynamicPool)(Interface) ){ 
     
       this.Interface = Interface;this._pool = _pool;
@@ -41,7 +41,7 @@ var PooledSystem = Interface.define("PooledSystem", {
     
       "aquire an object from the systems pool, and initialize it.";
       return (function(r) {
-        /* eval.sibilant:1:661 */
+        /* eval.sibilant:1:656 */
       
         r.init(...args);
         return r;

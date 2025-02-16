@@ -44,11 +44,11 @@ var Tile = GridCell.define("Tile", {
   get superPosition(  ){ 
     
       return (function() {
-        if (this._superPosition) {
+        if (typeof this._superPosition !== "undefined") {
           return this._superPosition;
         } else {
           return this._superPosition = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:3997 */
           
             return SuperPosition.spawn(this);
           }).call(this);
@@ -85,11 +85,11 @@ var Chunk = GridChunk.define("Chunk", {
   get positionVector(  ){ 
     
       return (function() {
-        if (this._positionVector) {
+        if (typeof this._positionVector !== "undefined") {
           return this._positionVector;
         } else {
           return this._positionVector = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:3997 */
           
             return Vector.spawn(this.gridX, this.gridY);
           }).call(this);
@@ -190,11 +190,11 @@ var TileGrid = Grid.define("TileGrid", {
   get chunkProcessor(  ){ 
     
       return (function() {
-        if (this._chunkProcessor) {
+        if (typeof this._chunkProcessor !== "undefined") {
           return this._chunkProcessor;
         } else {
           return this._chunkProcessor = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:3997 */
           
             return this.processChunks();
           }).call(this);

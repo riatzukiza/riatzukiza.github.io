@@ -61,9 +61,9 @@ var clear = (function() {
   return arguments[0].clear();
 });
 var EntityGroup = Saveable.define("EntityGroup", { 
-  init( name = this.name,aspects = this.aspects,system = this.system,group = create(Group)() ){ 
+  init( groupName = this.groupName,aspects = this.aspects,system = this.system,group = create(Group)() ){ 
     
-      this.name = name;this.aspects = aspects;this.system = system;this.group = group;
+      this.groupName = groupName;this.aspects = aspects;this.system = system;this.group = group;
       return this;
     
    },
@@ -76,7 +76,7 @@ var EntityGroup = Saveable.define("EntityGroup", {
     
       const self=this;
       return (function(e) {
-        /* eval.sibilant:1:661 */
+        /* inc/misc.sibilant:1:1369 */
       
         e.group = self;
         group.add(e);

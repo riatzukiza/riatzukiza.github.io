@@ -159,9 +159,9 @@ var Reader = Actor.define("Reader", {
         var chars = line.split("");
         this.comment = false;
         (function() {
-          var while$84 = undefined;
+          var while$83 = undefined;
           while ((looping && !(this.comment))) {
-            while$84 = (function() {
+            while$83 = (function() {
               var char = chars[((i)++)];
               (function() {
                 if (readers[char]) {
@@ -191,7 +191,7 @@ var Reader = Actor.define("Reader", {
               }).call(this);
             }).call(this);
           };
-          return while$84;
+          return while$83;
         }).call(this);
         return this.fragment.push("\n");
       }));

@@ -97,7 +97,9 @@
     (.each components (fpipe (this.*update-component t)))
     (.cleanup this))
 
-  (def update (t) (accumulate this.thread (then-do (.*update-all this t)))))
+  (def update (t)
+    (assign this.thread (Promise.resolve this.thread))
+    (accumulate this.thread (then-do (.*update-all this t)))))
 
 
 (export System)

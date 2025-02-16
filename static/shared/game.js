@@ -120,6 +120,11 @@ var Game = Saveable.define("Game", {
       }));
     
    },
+  pause( ticker = this.ticker,events = this.events ){ 
+    
+      return ticker.stop();
+    
+   },
   stop( ticker = this.ticker,events = this.events ){ 
     
       ticker.stop();
@@ -132,7 +137,7 @@ var Game = Saveable.define("Game", {
       entities.clear();
       events.removeAllListeners();
       return systems.each((function() {
-        /* eval.sibilant:1:2715 */
+        /* eval.sibilant:1:2774 */
       
         return arguments[0].clear();
       }));

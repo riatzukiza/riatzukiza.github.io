@@ -13,9 +13,11 @@
 
 (define Database Interface
 
-  (init (name (events ((create Event-emitter)))))
+  (init (name (events ((create Event-emitter)))
+              (writer-promises {})
+              ))
   (cached db (.start this))
-  (version 3)
+  (version 4)
   (collections [])
 
   (def add-collection (name)
@@ -66,14 +68,17 @@
                     (.continue c))
            (success)))))
   (def-async get ([collection-name  key])
+    (print "getting from db" this collection-name key)
     (const db (await this.db))
-    (const transaction (.transaction db [collection-name] 'readwrite))
+    (const transaction (.transaction db [collection-name] 'readonly))
     (const object-store (.object-store transaction collection-name))
     (const request (.get object-store key))
     (make-promise
      (def request.onsuccess (event)
+       (print "gotten from db" event)
        (success event.target.result))
      (def request.onerror (event)
+       (print "error!" event)
        (reject event))))
   (def-async delete ([collection-name  key])
     (const db (await this.db))
@@ -86,16 +91,24 @@
      (def request.onerror (event)
        (reject event))))
   (def-async put (collection-name value)
+    ;; (print "putting" value "in" collection-name)
+    (set this.writer-promises collection-name
+         (then-do (Promise.resolve (get this.writer-promises collection-name))
+             (then this.db db
+                   (const transaction (.transaction db [collection-name] 'readwrite))
 
-    (const db (await this.db))
-    (const transaction (.transaction db [collection-name] 'readwrite))
-    (const object-store (.object-store transaction collection-name))
-    (const request (.put object-store value))
-    (make-promise
-     (def request.onsuccess (event)
-       (success event))
-     (def request.onerror (event)
-       (reject event))))
+                   (const object-store (.object-store transaction collection-name))
+                   (const request (.put object-store value))
+                   (make-promise
+                    (var success? false)
+                    (set-timeout (-> (if (not success?)
+                                         (reject (new Error "Took too long."))))
+                                 10000
+                                 )
+                    (def request.onsuccess (event)
+                      (success event))
+                    (def request.onerror (event)
+                      (reject event)))))))
   (def-async start ()
     (const request (.open indexedDB this.name this.version))
     (const self this)

@@ -20,15 +20,15 @@ import {
   Group
  } from "../data-structures/group.js";
 import { 
-  Interface
- } from "/shared/kit/interface/index.js";
+  Saveable
+ } from "/shared/saveable.js";
 var _assignId = ((m, k) => {
 	m.id = k;
 return m;
 });
-var ObjectPool = Interface.define("ObjectPool", { 
+var ObjectPool = Saveable.define("ObjectPool", { 
   init( size = this.size,_interface = null,_array = (function(array) {
-    /* inc/misc.sibilant:1:1369 */
+    /* eval.sibilant:1:656 */
   
     (function() {
       /* inc/loops.sibilant:26:8 */
@@ -40,7 +40,7 @@ var ObjectPool = Interface.define("ObjectPool", {
         /* inc/loops.sibilant:28:35 */
       
         array.push((function() {
-          /* eval.sibilant:1:732 */
+          /* eval.sibilant:1:720 */
         
           return Object.create(_interface);
         }).call(this));
@@ -86,7 +86,7 @@ var ObjectPool = Interface.define("ObjectPool", {
     
       "remove an object from the collection of available ones,\n"+"adding it to the collection of objects currently in use,\n"+"and return it to the caller.";
       return (function(member) {
-        /* inc/misc.sibilant:1:1369 */
+        /* eval.sibilant:1:656 */
       
         _inUse.add(member);
         return member;

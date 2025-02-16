@@ -16,10 +16,6 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-import { 
-  Spawnable
- } from "/shared/data-structures/spawnable.js";
-const PooledDataStructure=Spawnable;
-export { 
-  PooledDataStructure
- };
+var { 
+  createHash
+ } = require("crypto");

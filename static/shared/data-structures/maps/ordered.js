@@ -81,7 +81,7 @@ var OrderedMap = Saveable.define("OrderedMap", {
   map( callback = this.callback,_members = this._members,_values = this._values ){ 
     
       return (function(r) {
-        /* eval.sibilant:1:661 */
+        /* eval.sibilant:1:656 */
       
         _values.each(((item, node) => {
         	return r.set(node.key, f(item, node.key, r));

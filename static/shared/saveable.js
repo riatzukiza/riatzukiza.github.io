@@ -45,11 +45,26 @@ var Saveable = Interface.define("Saveable", {
   get loadedInstances(  ){ 
     
       return (function() {
-        if (this._loadedInstances) {
+        if (typeof this._loadedInstances !== "undefined") {
           return this._loadedInstances;
         } else {
           return this._loadedInstances = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:3997 */
+          
+            return (new Map());
+          }).call(this);
+        }
+      }).call(this);
+    
+   },
+  get savedInstances(  ){ 
+    
+      return (function() {
+        if (typeof this._savedInstances !== "undefined") {
+          return this._savedInstances;
+        } else {
+          return this._savedInstances = (function() {
+            /* inc/misc.sibilant:1:3997 */
           
             return (new Map());
           }).call(this);
@@ -60,17 +75,18 @@ var Saveable = Interface.define("Saveable", {
   get saveIndex(  ){ 
     
       return (function() {
-        if (this._saveIndex) {
+        if (typeof this._saveIndex !== "undefined") {
           return this._saveIndex;
         } else {
           return this._saveIndex = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:3997 */
           
+            const _type=this._types[this.symbol];
             return (function() {
-              if (this.currentSaveIndex) {
-                return ++(this.currentSaveIndex);
+              if (!(typeof _type.currentSaveIndex === "undefined")) {
+                return ++(_type.currentSaveIndex);
               } else {
-                return this.currentSaveIndex = 0;
+                return _type.currentSaveIndex = 0;
               }
             }).call(this);
           }).call(this);
@@ -88,62 +104,88 @@ var Saveable = Interface.define("Saveable", {
       return Object.create(this);
     
    },
-  injestProperty( data = this.data,_types = this._types,_symbols = this._symbols ){ 
+  injestProperty( saveName = this.saveName,data = this.data,database = this.database,_types = this._types,_symbols = this._symbols ){ 
     
-      return (function() {
-        if (data.saveIndex) {
-          const instance=_types[_symbols[data.collectionName]].load(saveName, data.saveIndex, database);
-          (function() {
+      return Promise.resolve((function() {
+        if (data.collectionName) {
+          return _types[_symbols[data.collectionName]].load(saveName, data.saveIndex, database).then(((instance) => {
+          	(function() {
             if (instance.register) {
               return instance.register();
             }
           }).call(this);
           return instance;
+          }));
         } else if (data.interfaceReference) {
           return _types[_symbols[data.interfaceReference]];
         } else if (Array.isArray(data)) {
-          return data.map(((value) => {
-          	return Saveable.injestProperty(value, saveName, database);
-          }));
+          return Promise.all(data.map(((value) => {
+          	return Saveable.injestProperty(saveName, value, database);
+          })));
         } else if ((data instanceof Set)) {
-          const set=(new Map());
+          const set=(new Set());
+          const promises=[];
           for (var value of data)
           {
-          set.add(Saveable.injestProperty(value, data))
+          promises.push(Saveable.injestProperty(saveName, value, database).then(((value) => {
+          	return set.add(value);
+          })))
           }
           ;
-          return map;
+          return Promise.all(promises).then(((nil) => {
+          	return set;
+          }));
         } else if ((data instanceof Map)) {
           const map=(new Map());
+          const promises=[];
           for (var [ key, value ] of data)
           {
-          map.set(key, Saveable.injestProperty(value, data))
+          promises.push(Saveable.injestProperty(saveName, value, database).then(((value) => {
+          	return map.set((function() {
+            if (key.collectionName) {
+              return _types[_symbols[key.collectionName]].load(saveName, key.saveIndex, database);
+            } else {
+              return key;
+            }
+          }).call(this), value);
+          })))
           }
           ;
-          return map;
+          return Promise.all(promises).then(((nil) => {
+          	return map;
+          }));
         } else {
           return data;
         }
-      }).call(this);
+      }).call(this));
     
    },
   injest( serializedObject = this.serializedObject,saveName = this.saveName,database = create(Database)(saveName),r = this._injestionTarget(),_types = this._types ){ 
     
-      Object.keys(serializedObject).each(((key) => {
+      r._saveIndex = serializedObject.saveIndex;
+      return Promise.all(Object.keys(serializedObject).filter(((key) => {
+      	return ("collectionName" !== key && "saveIndex" !== key);
+      })).map(((key) => {
       	const data=serializedObject[key];
-      return r[key] = Saveable.injestProperty(data);
+      return Saveable.injestProperty(saveName, data, database).then(((value) => {
+      	return [ key, value ];
       }));
-      return r;
+      }))).then(((properties) => {
+      	return properties.reduce(((result, [ key, value ]) => {
+      	result[key] = value;
+      return result;
+      }), r);
+      }));
     
    },
   getSerializableProperties(  ){ 
     
       return Object.entries(Object.getOwnPropertyDescriptors(this)).filter((([ key, describer ]) => {
-      	return (describer.hasOwnProperty("value") && describer.value && typeof describer.value !== "symbol" && typeof key !== "symbol" && typeof describer.value !== "function" && this._filterSerializable(key, describer.value));
+      	return (describer.hasOwnProperty("value") && describer.value && !(describer.value.then) && typeof describer.value !== "symbol" && typeof key !== "symbol" && typeof describer.value !== "function" && this._filterSerializable(key, describer.value));
       }));
     
    },
-  getSaveableMembers(  ){ 
+  getSaveableMembers( _types = this._types ){ 
     
       `
       shared/saveable.md
@@ -160,7 +202,7 @@ var Saveable = Interface.define("Saveable", {
 
       ;
       return this.getSerializableProperties().filter((([ key, describer ]) => {
-      	return ((Object.hasOwn(describer.value, "save") && Object.hasOwn(describer.value, "load")) || (Array.isArray(describer.value) && describer.value.some(((value) => {
+      	return ((describer.value.save && describer.value.load) || (Array.isArray(describer.value) && describer.value.some(((value) => {
       	return value.save;
       }))) || ((describer.value instanceof Map) && Array.from(describer.value.values()).some(((value) => {
       	return value.save;
@@ -179,7 +221,9 @@ var Saveable = Interface.define("Saveable", {
           return describer.value;
         }
       }).call(this);
-      })).flat();
+      })).flat().filter(((value) => {
+      	return value !== _types[value.symbol];
+      }));
     
    },
   build(  ){ 
@@ -190,15 +234,10 @@ var Saveable = Interface.define("Saveable", {
   serializeProperty( value = this.value,_types = this._types,_symbols = this._symbols ){ 
     
       return (function() {
-        if ((value.symbol && this === _types[value.symbol])) {
-          return { 
-            interfaceReference:value.name
-           };
+        if ((value.symbol && value === _types[value.symbol])) {
+          return value.serializedSelfInterfaceReference;
         } else if (value.save) {
-          return { 
-            collectionName:value.name,
-            saveIndex:value.saveIndex
-           };
+          return value.serializedSelfReference;
         } else if (Array.isArray(value)) {
           return value.map(((v) => {
           	return this.serializeProperty(v, _types, _symbols);
@@ -209,9 +248,9 @@ var Saveable = Interface.define("Saveable", {
           {
           (function() {
             if ((key && typeof key !== "symbol")) {
-              return map.set(key, (function() {
+              return map.set(this.serializeProperty(key, _types, _symbols), (function() {
                 if (v.serialize) {
-                  return v.serialize(_types, _symbols);
+                  return this.serializeProperty(v, _types, _symbols);
                 } else {
                   return v;
                 }
@@ -221,8 +260,72 @@ var Saveable = Interface.define("Saveable", {
           }
           ;
           return map;
+        } else if ((value instanceof Set)) {
+          const set=(new Set());
+          for (var v of value)
+          {
+          map.add((function() {
+            if (v.serialize) {
+              return this.serializeProperty(v, _types, _symbols);
+            } else {
+              return v;
+            }
+          }).call(this))
+          }
+          ;
+          return map;
         } else {
           return value;
+        }
+      }).call(this);
+    
+   },
+  get serializedSelfInterfaceReference(  ){ 
+    
+      return (function() {
+        if (typeof this._serializedSelfInterfaceReference !== "undefined") {
+          return this._serializedSelfInterfaceReference;
+        } else {
+          return this._serializedSelfInterfaceReference = (function() {
+            /* inc/misc.sibilant:1:3997 */
+          
+            return { 
+              interfaceReference:this.name
+             };
+          }).call(this);
+        }
+      }).call(this);
+    
+   },
+  get serializedSelfReference(  ){ 
+    
+      return (function() {
+        if (typeof this._serializedSelfReference !== "undefined") {
+          return this._serializedSelfReference;
+        } else {
+          return this._serializedSelfReference = (function() {
+            /* inc/misc.sibilant:1:3997 */
+          
+            return { 
+              collectionName:this.name,
+              saveIndex:this.saveIndex
+             };
+          }).call(this);
+        }
+      }).call(this);
+    
+   },
+  get serializedObject(  ){ 
+    
+      return (function() {
+        if (typeof this._serializedObject !== "undefined") {
+          return this._serializedObject;
+        } else {
+          return this._serializedObject = (function() {
+            /* inc/misc.sibilant:1:3997 */
+          
+            return this.serialize();
+          }).call(this);
         }
       }).call(this);
     
@@ -230,50 +333,31 @@ var Saveable = Interface.define("Saveable", {
   serialize( _types = this._types,_symbols = this._symbols ){ 
     
       return this.getSerializableProperties().reduce(((result, [ key, describer ]) => {
-      	console.log("Serializing key", key, describer);
-      result[key] = this.serializeProperty(describer.value, _types, _symbols);
+      	result[key] = this.serializeProperty(describer.value, _types, _symbols);
       return result;
       }), { 
-        typeName:this.name,
+        collectionName:this.name,
         saveIndex:this.saveIndex
        });
     
    },
-  save( saveName = this.saveName,database = create(Database)(saveName) ){ 
+  save( saveName = this.saveName,database = create(Database)(saveName),_types = this._types,_symbols = this._symbols ){ 
     
-      return database.put(this.name, this.serialize()).then(((nil) => {
-      	return Promise.all(this.getSaveableMembers().map(((value) => {
-      	return value.save(saveName, database);
-      })));
-      }));
+      return Promise.resolve((function() {
+        if ((!(this.saved__QUERY) && this !== _types[this.symbol])) {
+          return database.put(this.name, this.serializedObject).then(((nil) => {
+          	this.saved__QUERY = true;
+          return Promise.all(this.getSaveableMembers().map(((value) => {
+          	return value.save(saveName, database, _types, _symbols);
+          })));
+          }));
+        }
+      }).call(this));
     
    },
-   async loadAll(  ){ 
-  
-    const r=[];
-    for (var p of this.db.getCursor(this.name))
-    {
-    const obj=await p;;
-    (function() {
-      if (this.loadedInstances.has(saveIndex)) {
-        return this.loadedInstances.get(saveIndex);
-      } else {
-        var r = (function() {
-          /* eval.sibilant:11:23 */
-        
-          return this.injest(obj);
-        }).call(this);
-        this.loadedInstances.set(saveIndex, r);
-        return r;
-      }
-    }).call(this)
-    }
-    ;
-    return r;
-  
- },
-  load( saveName = this.saveName,saveIndex = 0,database = create(Database)(saveName) ){ 
+  load( saveName = this.saveName,saveIndex = this.saveIndex,database = create(Database)(saveName) ){ 
     
+      console.log("loading", saveName, saveIndex, this);
       return (function() {
         if (this.loadedInstances.has(saveIndex)) {
           return this.loadedInstances.get(saveIndex);
@@ -282,7 +366,7 @@ var Saveable = Interface.define("Saveable", {
             /* eval.sibilant:11:23 */
           
             return database.get([ this.name, saveIndex ]).then(((data) => {
-            	return this.injest(data, saveName, saveIndex, database);
+            	return this.injest(data, saveName, database);
             }));
           }).call(this);
           this.loadedInstances.set(saveIndex, r);

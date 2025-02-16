@@ -118,11 +118,11 @@ var GridCell = Spawnable.define("GridCell", {
   get edges(  ){ 
     
       return (function() {
-        if (this._edges) {
+        if (typeof this._edges !== "undefined") {
           return this._edges;
         } else {
           return this._edges = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:3997 */
           
             return Array.from(this.area(1));
           }).call(this);
@@ -219,11 +219,11 @@ var GridChunk = GridView.define("GridChunk", {
   get cells(  ){ 
     
       return (function() {
-        if (this._cells) {
+        if (typeof this._cells !== "undefined") {
           return this._cells;
         } else {
           return this._cells = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:3997 */
           
             return Array.from(this.grid.squareArea(this.gridX, this.gridY, this.size), ((cell, i) => {
             	cell.chunk = this;
@@ -238,11 +238,11 @@ var GridChunk = GridView.define("GridChunk", {
   get gridX(  ){ 
     
       return (function() {
-        if (this._gridX) {
+        if (typeof this._gridX !== "undefined") {
           return this._gridX;
         } else {
           return this._gridX = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:3997 */
           
             return (this.x * this.size * this.overlapFactor);
           }).call(this);
@@ -253,11 +253,11 @@ var GridChunk = GridView.define("GridChunk", {
   get gridY(  ){ 
     
       return (function() {
-        if (this._gridY) {
+        if (typeof this._gridY !== "undefined") {
           return this._gridY;
         } else {
           return this._gridY = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:3997 */
           
             return (this.y * this.size * this.overlapFactor);
           }).call(this);
@@ -298,11 +298,11 @@ var RectangularView = GridView.define("RectangularView", {
   get gridX(  ){ 
     
       return (function() {
-        if (this._gridX) {
+        if (typeof this._gridX !== "undefined") {
           return this._gridX;
         } else {
           return this._gridX = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:3997 */
           
             return (this.x * this.w * 2);
           }).call(this);
@@ -313,11 +313,11 @@ var RectangularView = GridView.define("RectangularView", {
   get gridY(  ){ 
     
       return (function() {
-        if (this._gridY) {
+        if (typeof this._gridY !== "undefined") {
           return this._gridY;
         } else {
           return this._gridY = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:3997 */
           
             return (this.y * this.h * 2);
           }).call(this);
@@ -328,11 +328,11 @@ var RectangularView = GridView.define("RectangularView", {
   get cells(  ){ 
     
       return (function() {
-        if (this._cells) {
+        if (typeof this._cells !== "undefined") {
           return this._cells;
         } else {
           return this._cells = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:3997 */
           
             return this.grid.area(this.gridX, this.gridY, this.w, this.h);
           }).call(this);

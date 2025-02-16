@@ -62,7 +62,7 @@ return console.log(err);
 }));
 tileGrid.events.on("save", ((data) => {
 	return tileGrid.save(("worker-" + data.saveName)).then(((nil) => {
-	return sendMessage("saveSuuccessful", {  });
+	return sendMessage("saveSuccessful", {  });
 }));
 })).once("error", ((err) => {
 	console.log("error on", "save", "of", "tileGrid.events", "given", "data()");

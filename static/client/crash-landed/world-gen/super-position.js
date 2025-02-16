@@ -96,11 +96,11 @@ var SuperPosition = Spawnable.define("SuperPosition", {
   get probabilityDistrobution(  ){ 
     
       return (function() {
-        if (this._probabilityDistrobution) {
+        if (typeof this._probabilityDistrobution !== "undefined") {
           return this._probabilityDistrobution;
         } else {
           return this._probabilityDistrobution = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:3997 */
           
             return SuperPositionDistrobution.spawn(this);
           }).call(this);
@@ -111,11 +111,11 @@ var SuperPosition = Spawnable.define("SuperPosition", {
   get edges(  ){ 
     
       return (function() {
-        if (this._edges) {
+        if (typeof this._edges !== "undefined") {
           return this._edges;
         } else {
           return this._edges = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:3997 */
           
             const tile=this.cell;
             return [ tile.north, tile.south, tile.east, tile.west, tile.northEast, tile.northWest, tile.southEast, tile.southWest ];
@@ -127,11 +127,11 @@ var SuperPosition = Spawnable.define("SuperPosition", {
   get neighbors(  ){ 
     
       return (function() {
-        if (this._neighbors) {
+        if (typeof this._neighbors !== "undefined") {
           return this._neighbors;
         } else {
           return this._neighbors = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:3997 */
           
             return this.edges.map(((neighbor) => {
             	return neighbor.superPosition;

@@ -23,16 +23,16 @@ import {
   List
  } from "../data-structures/list.js";
 import { 
-  Interface
- } from "../kit/interface/index.js";
+  Saveable
+ } from "/shared/saveable.js";
 var sumOf = (function sumOf$(list, p) {
-  /* sum-of eval.sibilant:1:710 */
+  /* sum-of eval.sibilant:1:705 */
 
   return list.reduce(((total, e) => {
   	return (total + e[p]);
   }), 0);
 });
-var DynamicPool = Interface.define("DynamicPool", { 
+var DynamicPool = Saveable.define("DynamicPool", { 
   bucketSize:256,
   init( proto = this.proto,bucketSize = this.bucketSize,buckets = List.of(create(ObjectPool)(this.bucketSize, proto)) ){ 
     
@@ -72,7 +72,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(newPool) {
-        /* eval.sibilant:1:661 */
+        /* eval.sibilant:1:656 */
       
         buckets.unshift(newPool);
         return newPool;
@@ -129,7 +129,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(object) {
-        /* eval.sibilant:1:661 */
+        /* eval.sibilant:1:656 */
       
         object.bucket = this.current;
         (function() {
@@ -232,7 +232,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(r) {
-        /* eval.sibilant:1:661 */
+        /* eval.sibilant:1:656 */
       
         r.init(...args);
         return r;

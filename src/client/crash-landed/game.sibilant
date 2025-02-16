@@ -72,7 +72,11 @@
     (.load generator save-name))
 
 (on Game.events 'save (save-name)
-    (.save generator save-name))
+    (alert "all done saving main thread!!")
+    (pipe (then-do generator.thread
+              (.save generator save-name))
+          (then-do (alert "done saving world generator thread"))
+          ))
 
 (on Game.events 'tick (t)
 

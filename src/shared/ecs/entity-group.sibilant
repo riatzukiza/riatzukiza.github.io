@@ -19,7 +19,7 @@
 (var clear (#->  .clear))
 (define Entity-group Saveable
 
-  (init (name aspects system (group ((create Group)))))
+  (init (group-name aspects system (group ((create Group)))))
   (gett size this.group.size)
 
   (def-generic spawn ( aspects system group)

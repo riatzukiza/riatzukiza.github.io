@@ -1,14 +1,15 @@
 
 (import Object-pool "./object-pool.js")
 (import List "../data-structures/list.js")
-(import Interface "../kit/interface/index.js")
+
+(import Saveable "/shared/saveable.js")
 
 (macro collect (name value ...body)
        `(.call (lambda (@name) ...@body @name) this @value))
 
 (def sum-of (list p) (.reduce list (=> (total e) (+ total (get e p))) 0))
 
-(define Dynamic-pool Interface
+(define Dynamic-pool Saveable
   (bucket-size 256)
   (init (proto
          bucket-size

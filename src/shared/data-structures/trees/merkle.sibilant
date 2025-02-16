@@ -1,0 +1,4 @@
+(require! (lit create-hash) 'crypto )
+
+;; (define Merkle-tree Interface
+;;   (init ))
