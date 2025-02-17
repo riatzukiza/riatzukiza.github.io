@@ -4,12 +4,13 @@
 (require! R "ramda")
 
 (import Ordered-map "../data-structures/maps/ordered.js")
-(import Dynamic-pool "../pooling/dynamic-pool.js")
+(import Object-pool "../pooling/object-pool.js")
 (import Group "../data-structures/group.js")
 (import Component "./component.js")
 (import Interface "../kit/interface/index.js")
 
 (import Saveable "/shared/saveable.js")
+
 
 
 (def spawn-component  (entity systems) (#-> systems.get (.spawn  entity)))
@@ -54,8 +55,7 @@
                 )
     )
   (init (process Component
-                 (components ((create Ordered-map)))
-                 (pool ((create Dynamic-pool)  Component))
+                 (components (new Map))
                  (thread (Promise.resolve)))
         (.register this))
 
@@ -69,7 +69,7 @@
     (unless (or this.template )
       (.init this)))
 
-  (def-generic clear (pool components entity )
+  (def-generic clear (components entity )
     (.delete components entity)
     (.clear pool))
 
@@ -77,10 +77,10 @@
     (.get components entity))
   (def release (c)
     (.delete this.components c.entity)
-    (.release this.pool c))
+    (.despawn c))
 
-  (def-generic spawn (entity pool components)
-    (collect c (.spawn pool entity  this)
+   (def-generic spawn (entity Component components)
+    (collect c (.spawn  Component entity  this)
              (.set components entity c)))
 
 

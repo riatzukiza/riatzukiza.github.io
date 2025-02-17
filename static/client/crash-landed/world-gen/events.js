@@ -96,10 +96,35 @@ tileGrid.events.on("chunksNear", ((data) => {
 	console.log("error on", "chunksNear", "of", "tileGrid.events", "given", "data()");
 return console.log(err);
 }));
-tileGrid.events.on("_step", (() => {
-	return tileGrid.step().then((() => {
-	return tileGrid.events.emit("_step");
+tileGrid.events.on("pause", (() => {
+	tileGrid.started__QUERY = false;
+return sendMessage("paused", {  });
+})).once("error", ((err) => {
+	console.log("error on", "pause", "of", "tileGrid.events", "given", "null");
+return console.log(err);
 }));
+tileGrid.events.on("unpause", (() => {
+	return (function() {
+  if (!(tileGrid.started__QUERY)) {
+    tileGrid.started__QUERY = true;
+    tileGrid.events.emit("_step");
+    return sendMessage("unpaused");
+  } else {
+    throw (new Error("cannot unpause, tile grid is already running"))
+  }
+}).call(this);
+})).once("error", ((err) => {
+	console.log("error on", "unpause", "of", "tileGrid.events", "given", "null");
+return console.log(err);
+}));
+tileGrid.events.on("_step", (() => {
+	return (function() {
+  if (tileGrid.started__QUERY) {
+    return tileGrid.step().then((() => {
+    	return tileGrid.events.emit("_step");
+    }));
+  }
+}).call(this);
 })).once("error", ((err) => {
 	console.log("error on", "_step", "of", "tileGrid.events", "given", "null");
 return console.log(err);
@@ -110,6 +135,7 @@ sendMessage("initialTiles", {
   tiles:tileGrid.collapseNearestChunks(data.x, data.y, data.n)
  });
 tileGrid.updatePlayerPos(data);
+tileGrid.started__QUERY = true;
 return tileGrid.events.emit("_step");
 })).once("error", ((err) => {
 	console.log("error on", "getStartingTiles", "of", "tileGrid.events", "given", "data()");

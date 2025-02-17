@@ -20,12 +20,6 @@ import {
   List
  } from "./data-structures/list.js";
 import { 
-  PooledDataStructure
- } from "./data-structures/pooled.js";
-import { 
-  DynamicPool
- } from "./pooling/dynamic-pool.js";
-import { 
   Spawnable
  } from "./data-structures/spawnable.js";
 var Vector = Spawnable.define("Vector", { 
@@ -226,12 +220,4 @@ var TrailVector = Spawnable.define("TrailVector", {
  });
 export { 
   TrailVector
- };
-const vectorPool=create(DynamicPool)(Vector);
-const trailPool=create(DynamicPool)(TrailVector);
-export { 
-  vectorPool
- };
-export { 
-  trailPool
  };

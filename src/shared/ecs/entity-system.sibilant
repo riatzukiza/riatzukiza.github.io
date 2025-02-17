@@ -3,7 +3,8 @@
 (require! R "ramda")
 
 (import Ordered-map "../data-structures/maps/ordered.js")
-(import Dynamic-pool "../pooling/dynamic-pool.js")
+
+(import Object-pool "../pooling/object-pool.js")
 (import Group "../data-structures/group.js")
 (import Entity "./entity.js")
 (import Interface "/shared/kit/interface/index.js")
@@ -18,13 +19,13 @@
 (var clear (#->  .clear))
 (define Entity-system Saveable
   (current-id 0)
-  (init (process (pool ((create Dynamic-pool) Entity 256))))
+  (init (process ))
   (gett game this.process)
 
   (def clear () (.clear this.pool))
 
   (def spawn (aspects )
-    (.spawn this.pool this (incr this.current-id) aspects )))
+    (.spawn Entity this (incr this.current-id) aspects )))
 
 
 (export Entity-system)

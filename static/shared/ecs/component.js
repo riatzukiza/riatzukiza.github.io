@@ -24,9 +24,6 @@ import {
   OrderedMap
  } from "../data-structures/maps/ordered.js";
 import { 
-  DynamicPool
- } from "../pooling/dynamic-pool.js";
-import { 
   Group
  } from "../data-structures/group.js";
 import { 
@@ -36,40 +33,40 @@ import {
   Renderable
  } from "/shared/systems/rendering/renderable.js";
 var spawnComponent = (function spawnComponent$(entity, systems) {
-  /* spawn-component eval.sibilant:14:0 */
+  /* spawn-component eval.sibilant:13:0 */
 
   return (function() {
-    /* eval.sibilant:14:39 */
+    /* eval.sibilant:13:39 */
   
     return systems.get(arguments[0]).spawn(entity);
   });
 });
 var componentList = (function componentList$(entity) {
-  /* component-list eval.sibilant:16:0 */
+  /* component-list eval.sibilant:15:0 */
 
   return R.map(spawnComponent(entity));
 });
 var remove = (function remove$(entity) {
-  /* remove eval.sibilant:18:0 */
+  /* remove eval.sibilant:17:0 */
 
   return (function() {
-    /* eval.sibilant:18:21 */
+    /* eval.sibilant:17:21 */
   
     return arguments[0].system.clear(entity);
   });
 });
 var clear = (function() {
-  /* eval.sibilant:20:11 */
+  /* eval.sibilant:19:11 */
 
   return arguments[0].clear();
 });
 var capitalize = (function capitalize$(string) {
-  /* capitalize eval.sibilant:21:0 */
+  /* capitalize eval.sibilant:20:0 */
 
   return (string.charAt(0).toUpperCase() + string.slice(1));
 });
 var decapitalize = (function decapitalize$(string) {
-  /* decapitalize eval.sibilant:22:0 */
+  /* decapitalize eval.sibilant:21:0 */
 
   return (string.charAt(0).toLowerCase() + string.slice(1));
 });

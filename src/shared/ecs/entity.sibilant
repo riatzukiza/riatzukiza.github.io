@@ -18,11 +18,11 @@
 (def remove (entity) (#-> (get 'system) (.clear entity)))
 
 (var clear (#->  .clear))
-(define Entity Saveable
+(define Entity Spawnable
 
   (doc "used as a key to retrieve related components from different systems.")
 
-  (init (system id aspects (components (map aspects (aspect i)
+  (init (id aspects (components (map aspects (aspect i)
                                             (pipe system.process.systems
                                                   (.get aspect)
                                                   (.spawn this))))))

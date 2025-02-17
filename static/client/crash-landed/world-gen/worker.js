@@ -38,6 +38,20 @@ var TileGenerator = Thread.define("TileGenerator", {
        });
     
    },
+  pause(  ){ 
+    
+      return this.send({ 
+        type:"pause"
+       });
+    
+   },
+  unpause(  ){ 
+    
+      return this.send({ 
+        type:"unpause"
+       });
+    
+   },
   getTile( x,y ){ 
     
       return this.send({ 
@@ -57,7 +71,6 @@ var TileGenerator = Thread.define("TileGenerator", {
    },
   getLoadedTiles( playerTile ){ 
     
-      console.log(playerTile);
       return this.send({ 
         type:"getLoadedTiles",
         x:playerTile.x,

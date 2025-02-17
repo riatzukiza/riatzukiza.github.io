@@ -103,13 +103,35 @@ var Game = Saveable.define("Game", {
       return systems.push([ s.symbol, create(s)(this) ]);
     
    },
+  pause( ticker = this.ticker,events = this.events ){ 
+    
+      return (new Promise(((success, fail) => {
+      	var resolve = success,
+          reject = fail;
+      return events.once("tick", (() => {
+      	ticker.stop();
+      return success();
+      }));
+      })));
+    
+   },
+  unpause( ticker = this.ticker,events = this.events ){ 
+    
+      return (new Promise(((success, fail) => {
+      	var resolve = success,
+          reject = fail;
+      events.once("tick", success);
+      return ticker.start();
+      })));
+    
+   },
   start( systems = this.systems,events = this.events,ticker = this.ticker,rendering = this.rendering ){ 
     
       ticker.start();
       events.emit("start", this);
       return events.on("tick", ((t) => {
       	systems.each((function() {
-        /* eval.sibilant:1:2397 */
+        /* eval.sibilant:1:2663 */
       
         return arguments[0].update();
       }));
@@ -118,11 +140,6 @@ var Game = Saveable.define("Game", {
       	console.log("error on", "tick", "of", "events", "given", "t()");
       return console.log(err);
       }));
-    
-   },
-  pause( ticker = this.ticker,events = this.events ){ 
-    
-      return ticker.stop();
     
    },
   stop( ticker = this.ticker,events = this.events ){ 
@@ -137,7 +154,7 @@ var Game = Saveable.define("Game", {
       entities.clear();
       events.removeAllListeners();
       return systems.each((function() {
-        /* eval.sibilant:1:2774 */
+        /* eval.sibilant:1:2981 */
       
         return arguments[0].clear();
       }));

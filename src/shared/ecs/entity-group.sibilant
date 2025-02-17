@@ -4,10 +4,7 @@
 (require! R "ramda")
 
 (import Ordered-map "../data-structures/maps/ordered.js")
-(import Dynamic-pool "../pooling/dynamic-pool.js")
-(import Group "../data-structures/group.js")
 (import Interface "/shared/kit/interface/index.js")
-
 (import Saveable "/shared/saveable.js")
 
 (def spawn-component  (entity systems) (#-> systems.get (.spawn  entity)))
@@ -19,7 +16,7 @@
 (var clear (#->  .clear))
 (define Entity-group Saveable
 
-  (init (group-name aspects system (group ((create Group)))))
+  (init (group-name aspects system (group (new Set))))
   (gett size this.group.size)
 
   (def-generic spawn ( aspects system group)

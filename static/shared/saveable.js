@@ -42,6 +42,21 @@ var getDatabase = (function getDatabase$(name) {
 });
 var Saveable = Interface.define("Saveable", { 
   _nonSerializableKeys:[],
+  get nonSerializableKeys(  ){ 
+    
+      return (function() {
+        if (typeof this._nonSerializableKeys !== "undefined") {
+          return this._nonSerializableKeys;
+        } else {
+          return this._nonSerializableKeys = (function() {
+            /* inc/misc.sibilant:1:3997 */
+          
+            return this._nonSerializableKeys.concat([ "serializedSelfReference", "_saveIndex", "collectionName" ]);
+          }).call(this);
+        }
+      }).call(this);
+    
+   },
   get loadedInstances(  ){ 
     
       return (function() {
@@ -81,12 +96,18 @@ var Saveable = Interface.define("Saveable", {
           return this._saveIndex = (function() {
             /* inc/misc.sibilant:1:3997 */
           
-            const _type=this._types[this.symbol];
             return (function() {
-              if (!(typeof _type.currentSaveIndex === "undefined")) {
-                return ++(_type.currentSaveIndex);
+              if (this.id) {
+                return this.id;
               } else {
-                return _type.currentSaveIndex = 0;
+                const _type=this._types[this.symbol];
+                return (function() {
+                  if (!(typeof _type.currentSaveIndex === "undefined")) {
+                    return ++(_type.currentSaveIndex);
+                  } else {
+                    return _type.currentSaveIndex = 0;
+                  }
+                }).call(this);
               }
             }).call(this);
           }).call(this);
@@ -96,7 +117,7 @@ var Saveable = Interface.define("Saveable", {
    },
   _filterSerializable( key,value ){ 
     
-      return !(this._nonSerializableKeys.includes(key));
+      return !(this.nonSerializableKeys.includes(key));
     
    },
   _injestionTarget(  ){ 
@@ -181,7 +202,7 @@ var Saveable = Interface.define("Saveable", {
   getSerializableProperties(  ){ 
     
       return Object.entries(Object.getOwnPropertyDescriptors(this)).filter((([ key, describer ]) => {
-      	return (describer.hasOwnProperty("value") && describer.value && !(describer.value.then) && typeof describer.value !== "symbol" && typeof key !== "symbol" && typeof describer.value !== "function" && this._filterSerializable(key, describer.value));
+      	return (describer.hasOwnProperty("value") && (describer.value === null || (typeof describer.value !== "undefined" && !(describer.value.then) && typeof describer.value !== "symbol" && typeof key !== "symbol" && typeof describer.value !== "function" && this._filterSerializable(key, describer.value))));
       }));
     
    },
@@ -202,11 +223,11 @@ var Saveable = Interface.define("Saveable", {
 
       ;
       return this.getSerializableProperties().filter((([ key, describer ]) => {
-      	return ((describer.value.save && describer.value.load) || (Array.isArray(describer.value) && describer.value.some(((value) => {
+      	return (describer.value !== null && ((describer.value.save && describer.value.load) || (Array.isArray(describer.value) && describer.value.some(((value) => {
       	return value.save;
       }))) || ((describer.value instanceof Map) && Array.from(describer.value.values()).some(((value) => {
       	return value.save;
-      }))));
+      })))));
       })).map((([ key, describer ]) => {
       	return (function() {
         if ((describer.value instanceof Map)) {
@@ -234,7 +255,9 @@ var Saveable = Interface.define("Saveable", {
   serializeProperty( value = this.value,_types = this._types,_symbols = this._symbols ){ 
     
       return (function() {
-        if ((value.symbol && value === _types[value.symbol])) {
+        if (value === null) {
+          return null;
+        } else if ((value.symbol && value === _types[value.symbol])) {
           return value.serializedSelfInterfaceReference;
         } else if (value.save) {
           return value.serializedSelfReference;
@@ -336,7 +359,6 @@ var Saveable = Interface.define("Saveable", {
       	result[key] = this.serializeProperty(describer.value, _types, _symbols);
       return result;
       }), { 
-        collectionName:this.name,
         saveIndex:this.saveIndex
        });
     

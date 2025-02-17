@@ -17,9 +17,6 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 import { 
-  Group
- } from "../data-structures/group.js";
-import { 
   Saveable
  } from "/shared/saveable.js";
 var _assignId = ((m, k) => {
@@ -40,7 +37,7 @@ var ObjectPool = Saveable.define("ObjectPool", {
         /* inc/loops.sibilant:28:35 */
       
         array.push((function() {
-          /* eval.sibilant:1:720 */
+          /* eval.sibilant:1:674 */
         
           return Object.create(_interface);
         }).call(this));
@@ -51,7 +48,7 @@ var ObjectPool = Saveable.define("ObjectPool", {
       return $for;
     }).call(this);
     return array;
-  }).call(this, []),_available = Group.from(_array),_inUse = Group.create() ){ 
+  }).call(this, []),_available = (new Set()),_inUse = (new Set()) ){ 
     
       this.size = size;this._interface = _interface;this._array = _array;this._available = _available;this._inUse = _inUse;
       _array.each(_assignId);

@@ -38,16 +38,17 @@
     (assign this.busy true)
     (.*send this data)
     (make-promise
+     (const error-handler (=> (message)
+                              (print "recieved error from thread" message)
+                              (reject message)))
      (.once this.events 'message
             (=> (data)
                 (assign this.busy false)
                 (print "recieved message from thread" data)
-                (resolve data)))
+                (resolve data)
+                (.remove-listener this.events 'error error-handler)))
      (.once this.events 'error
-            (=> (message)
-
-                (print "recieved error from thread" message)
-                (reject message))))))
+            error-handler))))
 
 (define Inline-thread Inline-worker
   (init (code (promise (Promise.resolve)))

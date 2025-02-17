@@ -48,9 +48,22 @@
                                data.x
                                data.y
                                data.n)))))
+(on tile-grid.events 'pause ()
+    (assign tile-grid.started? false)
+    (send-message 'paused {}))
+
+(on tile-grid.events 'unpause ()
+    (if (not tile-grid.started?)
+        (do (assign tile-grid.started? true)
+            (.emit tile-grid.events '*step)
+          (send-message 'unpaused))
+        (throw (new Error "cannot unpause, tile grid is already running"))))
+
 (on tile-grid.events '*step ()
-    (pipe (.step tile-grid)
-          (.then (-> (.emit tile-grid.events '*step)))))
+
+    (if tile-grid.started?
+        (pipe (.step tile-grid)
+              (.then (-> (.emit tile-grid.events '*step))))))
 
 (once tile-grid.events 'get-starting-tiles (data)
       (print "generating tiles" data)
@@ -61,5 +74,6 @@
                                  data.y
                                  data.n))))
       (.update-player-pos tile-grid data)
+      (assign tile-grid.started? true)
       (.emit tile-grid.events '*step))
 (export tile-grid)

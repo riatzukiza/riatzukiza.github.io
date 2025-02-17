@@ -72,42 +72,122 @@ var GridCell = Spawnable.define("GridCell", {
    },
   get north(  ){ 
     
-      return this.grid.get(this.x, (this.y + 1));
+      return (function() {
+        if (typeof this._north !== "undefined") {
+          return this._north;
+        } else {
+          return this._north = (function() {
+            /* inc/misc.sibilant:1:3997 */
+          
+            return this.grid.get(this.x, (this.y + 1));
+          }).call(this);
+        }
+      }).call(this);
     
    },
   get south(  ){ 
     
-      return this.grid.get(this.x, (this.y - 1));
+      return (function() {
+        if (typeof this._south !== "undefined") {
+          return this._south;
+        } else {
+          return this._south = (function() {
+            /* inc/misc.sibilant:1:3997 */
+          
+            return this.grid.get(this.x, (this.y - 1));
+          }).call(this);
+        }
+      }).call(this);
     
    },
   get east(  ){ 
     
-      return this.grid.get((this.x + 1), this.y);
+      return (function() {
+        if (typeof this._east !== "undefined") {
+          return this._east;
+        } else {
+          return this._east = (function() {
+            /* inc/misc.sibilant:1:3997 */
+          
+            return this.grid.get((this.x + 1), this.y);
+          }).call(this);
+        }
+      }).call(this);
     
    },
   get west(  ){ 
     
-      return this.grid.get((this.x - 1), this.y);
+      return (function() {
+        if (typeof this._west !== "undefined") {
+          return this._west;
+        } else {
+          return this._west = (function() {
+            /* inc/misc.sibilant:1:3997 */
+          
+            return this.grid.get((this.x - 1), this.y);
+          }).call(this);
+        }
+      }).call(this);
     
    },
   get northEast(  ){ 
     
-      return this.grid.get((this.x + 1), (this.y + 1));
+      return (function() {
+        if (typeof this._northEast !== "undefined") {
+          return this._northEast;
+        } else {
+          return this._northEast = (function() {
+            /* inc/misc.sibilant:1:3997 */
+          
+            return this.grid.get((this.x + 1), (this.y + 1));
+          }).call(this);
+        }
+      }).call(this);
     
    },
   get northWest(  ){ 
     
-      return this.grid.get((this.x - 1), (this.y + 1));
+      return (function() {
+        if (typeof this._northWest !== "undefined") {
+          return this._northWest;
+        } else {
+          return this._northWest = (function() {
+            /* inc/misc.sibilant:1:3997 */
+          
+            return this.grid.get((this.x - 1), (this.y + 1));
+          }).call(this);
+        }
+      }).call(this);
     
    },
   get southEast(  ){ 
     
-      return this.grid.get((this.x + 1), (this.y - 1));
+      return (function() {
+        if (typeof this._southEast !== "undefined") {
+          return this._southEast;
+        } else {
+          return this._southEast = (function() {
+            /* inc/misc.sibilant:1:3997 */
+          
+            return this.grid.get((this.x + 1), (this.y - 1));
+          }).call(this);
+        }
+      }).call(this);
     
    },
   get southWest(  ){ 
     
-      return this.grid.get((this.x - 1), (this.y - 1));
+      return (function() {
+        if (typeof this._southWest !== "undefined") {
+          return this._southWest;
+        } else {
+          return this._southWest = (function() {
+            /* inc/misc.sibilant:1:3997 */
+          
+            return this.grid.get((this.x - 1), (this.y - 1));
+          }).call(this);
+        }
+      }).call(this);
     
    },
   *area( n ){ 
@@ -178,42 +258,122 @@ var GridChunk = GridView.define("GridChunk", {
    },
   get north(  ){ 
     
-      return this.grid.getChunk(this.x, (this.y + 1));
+      return (function() {
+        if (typeof this._north !== "undefined") {
+          return this._north;
+        } else {
+          return this._north = (function() {
+            /* inc/misc.sibilant:1:3997 */
+          
+            return this.grid.getChunk(this.x, (this.y + 1));
+          }).call(this);
+        }
+      }).call(this);
     
    },
   get south(  ){ 
     
-      return this.grid.getChunk(this.x, (this.y - 1));
+      return (function() {
+        if (typeof this._south !== "undefined") {
+          return this._south;
+        } else {
+          return this._south = (function() {
+            /* inc/misc.sibilant:1:3997 */
+          
+            return this.grid.getChunk(this.x, (this.y - 1));
+          }).call(this);
+        }
+      }).call(this);
     
    },
   get east(  ){ 
     
-      return this.grid.getChunk((this.x + 1), this.y);
+      return (function() {
+        if (typeof this._east !== "undefined") {
+          return this._east;
+        } else {
+          return this._east = (function() {
+            /* inc/misc.sibilant:1:3997 */
+          
+            return this.grid.getChunk((this.x + 1), this.y);
+          }).call(this);
+        }
+      }).call(this);
     
    },
   get west(  ){ 
     
-      return this.grid.getChunk((this.x - 1), this.y);
+      return (function() {
+        if (typeof this._west !== "undefined") {
+          return this._west;
+        } else {
+          return this._west = (function() {
+            /* inc/misc.sibilant:1:3997 */
+          
+            return this.grid.getChunk((this.x - 1), this.y);
+          }).call(this);
+        }
+      }).call(this);
     
    },
   get northEast(  ){ 
     
-      return this.grid.getChunk((this.x + 1), (this.y + 1));
+      return (function() {
+        if (typeof this._northEast !== "undefined") {
+          return this._northEast;
+        } else {
+          return this._northEast = (function() {
+            /* inc/misc.sibilant:1:3997 */
+          
+            return this.grid.getChunk((this.x + 1), (this.y + 1));
+          }).call(this);
+        }
+      }).call(this);
     
    },
   get northWest(  ){ 
     
-      return this.grid.getChunk((this.x - 1), (this.y + 1));
+      return (function() {
+        if (typeof this._northWest !== "undefined") {
+          return this._northWest;
+        } else {
+          return this._northWest = (function() {
+            /* inc/misc.sibilant:1:3997 */
+          
+            return this.grid.getChunk((this.x - 1), (this.y + 1));
+          }).call(this);
+        }
+      }).call(this);
     
    },
   get southEast(  ){ 
     
-      return this.grid.getChunk((this.x + 1), (this.y - 1));
+      return (function() {
+        if (typeof this._southEast !== "undefined") {
+          return this._southEast;
+        } else {
+          return this._southEast = (function() {
+            /* inc/misc.sibilant:1:3997 */
+          
+            return this.grid.getChunk((this.x + 1), (this.y - 1));
+          }).call(this);
+        }
+      }).call(this);
     
    },
   get southWest(  ){ 
     
-      return this.grid.getChunk((this.x - 1), (this.y - 1));
+      return (function() {
+        if (typeof this._southWest !== "undefined") {
+          return this._southWest;
+        } else {
+          return this._southWest = (function() {
+            /* inc/misc.sibilant:1:3997 */
+          
+            return this.grid.getChunk((this.x - 1), (this.y - 1));
+          }).call(this);
+        }
+      }).call(this);
     
    },
   get cells(  ){ 

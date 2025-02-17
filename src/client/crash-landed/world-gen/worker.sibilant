@@ -10,23 +10,20 @@
   ;;                                         (.emit tile-grid.events m.data.type m.data)))))
 
 
-  (def load (save-name)
-    (.send this (lit (type 'load) save-name)))
+  (def load (save-name) (.send this (lit (type 'load) save-name)))
+  (def save (save-name ) (.send this (lit (type 'save) save-name)))
 
-  (def save (save-name )
-    (.send this (lit (type 'save) save-name)))
+  (def pause () (.send this (lit (type 'pause))))
+  (def unpause () (.send this (lit (type 'unpause))))
 
-  (def get-tile (x y)
-    (.send this (lit (type 'tile) x y)))
-  (def get-tiles (tiles)
-    (.send this (lit (type 'tiles)
-                     tiles)))
+  (def get-tile (x y) (.send this (lit (type 'tile) x y)))
+  (def get-tiles (tiles) (.send this (lit (type 'tiles) tiles)))
+
+
   (def get-loaded-tiles (player-tile)
-    (print player-tile)
     (.send this (lit (type 'get-loaded-tiles)
                      (x player-tile.x)
-                     (y player-tile.y)
-                     )))
+                     (y player-tile.y))))
 
   (def get-starting-tiles (x y n)
     (.send this (lit (type 'get-starting-tiles)

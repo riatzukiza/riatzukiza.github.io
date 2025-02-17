@@ -1,5 +1,4 @@
 
-(import Group "../data-structures/group.js")
 (import Saveable "/shared/saveable.js")
 
 (var *assign-id (=> (m k) (assign  m.id k) m))
@@ -14,9 +13,9 @@
          (*interface null)
          (*array (array-of size (Object.create *interface)))
 
-         (*available (Group.from *array))
+         (*available (new Set))
 
-         (*in-use (.create Group )))
+         (*in-use (new Set)))
         (.each *array *assign-id)
         )
 

@@ -60,13 +60,13 @@ var clear = (function() {
 
   return arguments[0].clear();
 });
-var Entity = Saveable.define("Entity", { 
+var Entity = Spawnable.define("Entity", { 
   doc:"used as a key to retrieve related components from different systems.",
-  init( system = this.system,id = this.id,aspects = this.aspects,components = aspects.map(((aspect, i) => {
+  init( id = this.id,aspects = this.aspects,components = aspects.map(((aspect, i) => {
   	return system.process.systems.get(aspect).spawn(this);
   })) ){ 
     
-      this.system = system;this.id = id;this.aspects = aspects;this.components = components;
+      this.id = id;this.aspects = aspects;this.components = components;
       return this;
     
    },

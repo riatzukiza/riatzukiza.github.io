@@ -53,6 +53,16 @@
 
   (def-generic add (s systems game) (.push systems [s.symbol ((create s) this)]))
 
+  (def-generic pause (ticker events)
+    (make-promise
+     (.once events 'tick
+            (-> (.stop ticker)
+                (success)))))
+  (def-generic unpause (ticker events)
+    (make-promise
+     (.once events 'tick success)
+     (.start ticker)))
+
   (def-generic start (systems events ticker rendering)
 
     (.start ticker)
@@ -63,8 +73,6 @@
         (.update rendering)
         ))
 
-  (def-generic pause (ticker events)
-    (.stop ticker))
   (def-generic stop (ticker events)
     (.stop ticker)
     (.remove-all-listeners events 'tick))

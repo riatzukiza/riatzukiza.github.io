@@ -167,15 +167,17 @@ var sendThread = (function sendThread$(data) {
   return (new Promise(((success, fail) => {
   	var resolve = success,
       reject = fail;
+  const errorHandler=((message) => {
+  	console.log("recieved error from thread", message);
+  return reject(message);
+  });
   this.events.once("message", ((data) => {
   	this.busy = false;
   console.log("recieved message from thread", data);
-  return resolve(data);
+  resolve(data);
+  return this.events.removeListener("error", errorHandler);
   }));
-  return this.events.once("error", ((message) => {
-  	console.log("recieved error from thread", message);
-  return reject(message);
-  }));
+  return this.events.once("error", errorHandler);
   })));
   }));
 });

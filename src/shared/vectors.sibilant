@@ -1,6 +1,4 @@
 (import List "./data-structures/list.js")
-(import Pooled-data-structure "./data-structures/pooled.js")
-(import Dynamic-pool "./pooling/dynamic-pool.js")
 (import Spawnable "./data-structures/spawnable.js")
 
 (define Vector Spawnable
@@ -86,8 +84,6 @@
   (def equals (v))
 
 
-  ;; (def despawn () (.release vector-pool this))
-  ;; (def spawn (x y) (.init (.aquire vector-pool) x y))
   (def clear ()
     (assign this.x 0)
     (assign this.y 0)
@@ -102,13 +98,7 @@
     (assign this.y null)
     (assign this.pheremones null)
     )
-  ;; (def spawn (x y pheremones) (.init (.aquire trail-pool) x y pheremones))
-  ;; (def despawn () (.release trail-pool this))
   )
 
 (export Trail-vector)
 
-(const  vector-pool ((create Dynamic-pool) Vector))
-(const  trail-pool ((create Dynamic-pool) Trail-vector))
-(export vector-pool)
-(export trail-pool)

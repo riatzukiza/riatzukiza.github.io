@@ -24,16 +24,19 @@
 (define Saveable Interface
 
   (*non-serializable-keys [])
+  (cached non-serializable-keys [...this.*non-serializable-keys 'serialized-self-reference '*save-index 'collection-name])
 
   (cached loaded-instances (new Map))
   (cached saved-instances (new Map))
   (cached save-index
-          (const *type (get this.*types this.symbol ))
-          (if (not (undefined? *type.current-save-index))
-              (++ *type.current-save-index)
-              (assign *type.current-save-index 0)))
+          (if this.id
+              this.id
+              (do (const *type (get this.*types this.symbol ))
+               (if (not (undefined? *type.current-save-index))
+                   (++ *type.current-save-index)
+                   (assign *type.current-save-index 0)))))
   (def *filter-serializable (key value)
-    (not (.includes this.*non-serializable-keys key)))
+    (not (.includes this.non-serializable-keys key)))
 
 
   (def *injestion-target () (Object.create this))
@@ -113,25 +116,28 @@
           (Object.entries)
           (filter ([key describer])
                   (and (.has-own-property describer 'value)
-                       describer.value
-                       (not describer.value.then)
-                       (!= (typeof  describer.value) "symbol")
-                       (!= (typeof  key) "symbol")
-                       (!= (typeof describer.value) 'function)
-                       (.*filter-serializable this key describer.value)))))
+                       (or (= describer.value null)
+                           (and (defined? describer.value)
+                                (not describer.value.then)
+                                (!= (typeof  describer.value) "symbol")
+                                (!= (typeof  key) "symbol")
+                                (!= (typeof describer.value) 'function)
+                                (.*filter-serializable this key describer.value)))))))
   (def-generic get-saveable-members (*types)
     (doc-string "shared.saveable" "no args"
                 "get all property entries which implement the saveable interface.")
     (pipe (.get-serializable-properties this)
           (filter ([key describer])
-                  (or (and describer.value.save
-                        describer.value.load)
-                      (and (Array.is-array describer.value)
-                           (some describer.value (value)
-                                 value.save))
-                      (and (instance-of?  Map describer.value)
-                           (some (Array.from (.values describer.value)) ( value)
-                                  value.save))))
+                  (and (!= describer.value null)
+                       (or (and describer.value.save
+                                describer.value.load)
+                           (and (Array.is-array describer.value)
+                                (some describer.value (value)
+                                      value.save))
+                           (and (instance-of?  Map describer.value)
+                                (some (Array.from (.values describer.value)) ( value)
+                                      value.save)))
+                       ))
           (map ([key describer])
                (if (instance-of?  Map describer.value)
                    (filter  (Array.from (.values describer.value)) ( value) value.save)
@@ -142,7 +148,9 @@
           (filter (value) (!= value (get *types value.symbol)))))
   (def build () (.add-collection Database this.name))
   (def-generic serialize-property (value *types *symbols)
-    (if (and value.symbol (= value (get *types value.symbol)))
+    (if (= value null)
+        null
+        (and value.symbol (= value (get *types value.symbol)))
         value.serialized-self-interface-reference
 
         value.save
@@ -180,9 +188,7 @@
 
   (def-generic serialize (*types *symbols)
     (pipe (this.get-serializable-properties)
-          (reduce  (lit
-                    (collection-name this.name)
-                    (save-index  this.save-index)) (result  [key describer])
+          (reduce  (lit (save-index  this.save-index)) (result  [key describer])
                    (set result key (.serialize-property this describer.value *types *symbols))
                    result)))
 

@@ -1,9 +1,9 @@
-(import Dynamic-pool "./dynamic-pool.js")
+(import Object-pool "./object-pool.js")
 
 (import Saveable "/shared/saveable.js")
 
 (define  Pooled-system  Saveable
-  (init ( Interface (*pool ((create Dynamic-pool) Interface)))
+  (init ( Interface (*pool ((create Object-pool) Interface)))
         (.register this Interface))
 
   (systems (new Map))

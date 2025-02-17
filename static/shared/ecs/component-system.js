@@ -21,8 +21,8 @@ import {
   OrderedMap
  } from "../data-structures/maps/ordered.js";
 import { 
-  DynamicPool
- } from "../pooling/dynamic-pool.js";
+  ObjectPool
+ } from "../pooling/object-pool.js";
 import { 
   Group
  } from "../data-structures/group.js";
@@ -36,30 +36,30 @@ import {
   Saveable
  } from "/shared/saveable.js";
 var spawnComponent = (function spawnComponent$(entity, systems) {
-  /* spawn-component eval.sibilant:15:0 */
+  /* spawn-component eval.sibilant:16:0 */
 
   return (function() {
-    /* eval.sibilant:15:39 */
+    /* eval.sibilant:16:39 */
   
     return systems.get(arguments[0]).spawn(entity);
   });
 });
 var componentList = (function componentList$(entity) {
-  /* component-list eval.sibilant:17:0 */
+  /* component-list eval.sibilant:18:0 */
 
   return R.map(spawnComponent(entity));
 });
 var remove = (function remove$(entity) {
-  /* remove eval.sibilant:19:0 */
+  /* remove eval.sibilant:20:0 */
 
   return (function() {
-    /* eval.sibilant:19:21 */
+    /* eval.sibilant:20:21 */
   
     return arguments[0].system.clear(entity);
   });
 });
 var clear = (function() {
-  /* eval.sibilant:21:11 */
+  /* eval.sibilant:22:11 */
 
   return arguments[0].clear();
 });
@@ -121,9 +121,9 @@ var System = Saveable.define("System", {
       ;
     
    },
-  init( process = this.process,Component = this.Component,components = create(OrderedMap)(),pool = create(DynamicPool)(Component),thread = Promise.resolve() ){ 
+  init( process = this.process,Component = this.Component,components = (new Map()),thread = Promise.resolve() ){ 
     
-      this.process = process;this.Component = Component;this.components = components;this.pool = pool;this.thread = thread;
+      this.process = process;this.Component = Component;this.components = components;this.thread = thread;
       this.register();
       return this;
     
@@ -149,7 +149,7 @@ var System = Saveable.define("System", {
       }).call(this);
     
    },
-  clear( pool = this.pool,components = this.components,entity = this.entity ){ 
+  clear( components = this.components,entity = this.entity ){ 
     
       components.delete(entity);
       return pool.clear();
@@ -163,17 +163,17 @@ var System = Saveable.define("System", {
   release( c ){ 
     
       this.components.delete(c.entity);
-      return this.pool.release(c);
+      return c.despawn();
     
    },
-  spawn( entity = this.entity,pool = this.pool,components = this.components ){ 
+  spawn( entity = this.entity,Component = this.Component,components = this.components ){ 
     
       return (function(c) {
-        /* inc/misc.sibilant:1:1369 */
+        /* eval.sibilant:1:656 */
       
         components.set(entity, c);
         return c;
-      }).call(this, pool.spawn(entity, this));
+      }).call(this, Component.spawn(entity, this));
     
    },
   _updateComponent( component,t ){ 

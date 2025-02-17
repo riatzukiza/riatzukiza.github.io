@@ -162,8 +162,12 @@ async function startGame(){
 };
 async function saveGame(saveName){
 
+  await game.pause();
+  await generator.pause();
   await game.save(saveName);
-  return game.events.emit("save", saveName);
+  await generator.save(saveName);
+  await game.unpause();
+  return alert("Game saved!");
 
 };
 async function loadGame(saveName){
@@ -173,7 +177,7 @@ async function loadGame(saveName){
 
 };
 var getGame = (function getGame$() {
-  /* get-game eval.sibilant:126:0 */
+  /* get-game eval.sibilant:132:0 */
 
   return game;
 });
