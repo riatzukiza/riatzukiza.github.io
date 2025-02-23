@@ -1,0 +1,8 @@
+(macro import (...names)
+       (const path (.pop names))
+       ["import " `(lit ...@names) " from " path ])
+(macro export (...names)
+       ;; (const path (.pop names))
+       ["export " `(lit ...@names)
+                  ;; " " path
+                  ])

@@ -18,15 +18,6 @@ position:absolute;
 
 
       (.script .src "/socket.io/socket.io.js")
-      (scoped (require! (lit File-system) "kit-file-system"
-                        Path 'path)
-              (each (.load File-system "./shared") (file)
-                    (markup (.script .src (Path.join "/bundles/shared" file.rel)))))
-      (scoped (require! (lit File-system) "kit-file-system"
-                        Path 'path)
-              (each (.load File-system "./client/obstacles") (file)
-                    (unless (= (Path.basename file.path) "main.js")
-                      (markup (.script .src (Path.join "/bundles/obstacles" file.rel))))))
 
 
       (.body (.img .id "ant-texture".src "/ant.png" .hidden "true")

@@ -1,17 +1,15 @@
-
-(include "kit-interface/header")
-(import-namespace interface)
-
-
-(require! (lit Component System) "@shared/ecs.js"
-          (lit Vector) "@shared/vectors.js"
-          (lit Position) "@shared/systems/position.js")
+(import Component  System "../ecs.js")
+(import Vector "../vectors.js")
+(import Position "./position.js")
 
 (define Velocity-interface Component
   (gett xd this.vector.x)
   (gett yd this.vector.y)
-  (sett xd x (assign this.vector.x x))
-  (sett yd y (assign this.vector.y y))
+  (sett xd x (if (isNaN x) (throw (new Error "assigning non number to velocity")))
+        (assign this.vector.x x))
+  (sett yd y
+        (if (isNaN y) (throw (new Error "assigning non number to velocity")))
+        (assign this.vector.y y))
 
 
   (def register ()
@@ -36,7 +34,8 @@
 
 (define Velocity System
 
-  (interface Velocity-interface)
+  (Component Velocity-interface)
+  (real-time? true)
   (def *update-component (m)
 
     (var p m.pos (lit xd yd) m)
@@ -50,8 +49,12 @@
       (assign m.moved true)
 
       (.emit this.game.events 'move m)
-      (set p
-           'x (+ p.x (* xd (/ this.game.ticker.elapsed 1000)))
-           'y (+ p.y (* yd (/ this.game.ticker.elapsed 1000)))))))
+      (if this.real-time?
+          (set p
+               'x (+ p.x (* xd (/ this.game.ticker.elapsed 1000)))
+               'y (+ p.y (* yd (/ this.game.ticker.elapsed 1000))))
+          (set p
+               'x (+ p.x xd)
+               'y (+ p.y yd))))))
 
 (export Velocity)

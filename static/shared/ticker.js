@@ -1,20 +1,57 @@
-var { 
-  Interface
- } = require("@kit-js/interface");
-var { 
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+
+  return Object.keys(this).forEach(((k) => {
+  	return f(this[k], k);
+  }));
+});
+import { 
+  mixin,
+  create,
+  extend
+ } from "/shared/kit/core/util.js";
+import { 
   EventEmitter
- } = require("kit-events");
-var Ticker = Interface.define("Ticker", { 
+ } from "./kit/events/index.js";
+import { 
+  List
+ } from "./data-structures/list.js";
+import { 
+  Interface
+ } from "/shared/kit/interface/index.js";
+import { 
+  Saveable
+ } from "/shared/saveable.js";
+var Ticker = Saveable.define("Ticker", { 
   state:false,
   ticks:0,
+  events:create(EventEmitter)(),
   get rate(  ){ 
     
       return (1000 / this.fps);
     
    },
-  init( fps = this.fps,events = create(EventEmitter)() ){ 
+  get averageLatency(  ){ 
     
-      this.fps = fps;this.events = events;
+      return (this.latencyAccumulator.reduce(((sum, n) => {
+      	return (sum + n);
+      }), 0) / this.latencyAccumulator.length);
+    
+   },
+  get averageFps(  ){ 
+    
+      return Math.round((1000 / this.averageLatency));
+    
+   },
+  init( fps = this.fps,latencyAccumulator = create(List)() ){ 
+    
+      this.fps = fps;this.latencyAccumulator = latencyAccumulator;
       return this;
     
    },
@@ -24,13 +61,17 @@ var Ticker = Interface.define("Ticker", {
         if (this.state) {
           var now = Date.now();
           this.elapsed = (now - previous);
-          window.requestAnimationFrame((() => {
-          	
-            return this.update();
-          
+          setTimeout((() => {
+          	return this.update();
           }));
           return (function() {
             if (this.elapsed > rate) {
+              this.latencyAccumulator.push(this.elapsed);
+              (function() {
+                if (20 < this.latencyAccumulator.length) {
+                  return this.latencyAccumulator.shift();
+                }
+              }).call(this);
               ++(this.ticks);
               this.previous = now;
               return this.events.emit("tick", this.ticks);
@@ -55,4 +96,6 @@ var Ticker = Interface.define("Ticker", {
     
    }
  });
-exports.Ticker = Ticker;
+export { 
+  Ticker
+ };

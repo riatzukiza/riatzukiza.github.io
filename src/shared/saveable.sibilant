@@ -1,0 +1,203 @@
+(namespace shared)
+(import-namespace async)
+(import Interface "/shared/kit/interface/index.js")
+(import Database "/shared/database.js")
+(const dbs (new Map))
+(def get-database (name) (remember dbs name ((create Database) name )))
+
+(macro method* (name args ..body)
+       ["*"name  `(parenthetic (comma @args.contents))
+           `(curly (do-block ...@body))])
+(def-lit-macro def-async (name args ...body)
+  [" async "name  `(parenthetic (comma @args.contents))
+            `(curly (do-block ...@body))])
+
+(def-lit-macro def-async* (name args ...body)
+  [" async *"name  `(parenthetic (comma @args.contents))
+             `(curly (do-block ...@body))])
+
+(def-lit-macro def-generic* (name args ...body)
+  `(generic @name (method*) @args ...@body))
+(macro some (array args ...body)
+       `(.some @array (=> @args ...@body))
+       )
+(define Saveable Interface
+
+  (*non-serializable-keys [])
+  (cached non-serializable-keys [...this.*non-serializable-keys 'serialized-self-reference 'collection-name])
+
+  (cached loaded-instances (new Map))
+  (cached saved-instances (new Map))
+  
+  (def *filter-serializable (key value)
+    (not (.includes this.non-serializable-keys key)))
+
+
+  (def *injestion-target () (Object.create this))
+
+  (def-generic injest-property (save-name data database *types *symbols)
+    (Promise.resolve (if data.collection-name
+                         (then (.load (get *types (get *symbols data.collection-name))
+                                      save-name
+                                      data.id
+                                      database) instance
+                                      (if instance.register
+                                          (.register instance))
+                                      instance)
+                         data.interface-reference
+                         (get *types (get *symbols data.interface-reference))
+                         (Array.is-array data)
+                         (Promise.all (map data (value)
+                                           (.injest-property Saveable
+                                                             save-name
+                                                             value
+                                                             database)))
+
+                         (instance-of?  Set data)
+                         (do (const set (new Set))
+                             (const promises [])
+                           (for-of!  value data
+                                     (.push promises (then (.injest-property Saveable
+                                                                             save-name
+                                                                             value
+                                                                             database) value
+                                                           (.add set  value))))
+                           (then-do (Promise.all promises)
+                                    set))
+                         (instance-of?  Map data)
+                         (do (const map (new Map))
+                             (const promises [])
+                           (for-of! [key value] data
+                                    (.push promises (then (.injest-property Saveable
+                                                                            save-name
+                                                                            value
+                                                                            database) value
+                                                                            (.set map (if key.collection-name
+                                                                                          (.load (get *types (get *symbols key.collection-name))
+                                                                                                 save-name
+                                                                                                 key.id
+                                                                                                 database)
+                                                                                          key) value))))
+                           (then-do (Promise.all promises) map))
+
+                         data)))
+  (def-generic injest (serialized-object
+                       save-name
+                       (database ((create Database) save-name))
+                       (r (this.*injestion-target))
+                       *types)
+    (pipe (Object.keys serialized-object)
+          (filter (key) (and (!= 'collection-name key)))
+          (map  (key)
+                (const data (get serialized-object key))
+                (then (.injest-property Saveable save-name data database) value
+
+                      [key value]
+                      )
+
+                )
+          (Promise.all )
+          (then properties
+                (reduce properties r (result [key value])
+                        (set result key value)
+                        result)))
+    )
+
+  (def get-serializable-properties ()
+    (pipe (Object.get-own-property-descriptors this)
+          (Object.entries)
+          (filter ([key describer])
+                  (and (.has-own-property describer 'value)
+                       (or (= describer.value null)
+                           (and (defined? describer.value)
+                                (not describer.value.then)
+                                (!= (typeof  describer.value) "symbol")
+                                (!= (typeof  key) "symbol")
+                                (!= (typeof describer.value) 'function)
+                                (.*filter-serializable this key describer.value)))))))
+  (def-generic get-saveable-members (*types)
+    (doc-string "shared.saveable" "no args"
+                "get all property entries which implement the saveable interface.")
+    (pipe (.get-serializable-properties this)
+          (filter ([key describer])
+                  (and (!= describer.value null)
+                       (or (and describer.value.save
+                                describer.value.load)
+                           (and (Array.is-array describer.value)
+                                (some describer.value (value)
+                                      value.save))
+                           (and (instance-of?  Map describer.value)
+                                (some (Array.from (.values describer.value)) ( value)
+                                      value.save)))
+                       ))
+          (map ([key describer])
+               (if (instance-of?  Map describer.value)
+                   (filter  (Array.from (.values describer.value)) ( value) value.save)
+                   (Array.is-array)
+                   (filter describer.value (value) value.save)
+                   describer.value))
+          (.flat)
+          (filter (value) (!= value (get *types value.symbol)))))
+  (def build () (.add-collection Database this.name))
+  (def-generic serialize-property (value *types *symbols)
+    (if (= value null)
+        null
+        (and value.symbol (= value (get *types value.symbol)))
+        value.serialized-self-interface-reference
+
+        value.save
+        value.serialized-self-reference
+
+        (Array.is-array value)
+        (map value (v) (.serialize-property this v *types *symbols))
+
+        (instance-of?  Map value)
+        (do (const map (new Map))
+            (for-of! [key v] value
+                     (if (and key (!= (typeof key) 'symbol))
+                         (.set map (.serialize-property this key *types *symbols)
+                               (if v.serialize
+                                   (.serialize-property this v *types *symbols)
+                                   v))))
+         map)
+        (instance-of? Set  value)
+        (do (const set (new Set))
+            (for-of! v value
+                     (.add map (if v.serialize
+                                   (.serialize-property this v *types *symbols)
+                                   v)))
+         map)
+
+        value))
+  (cached serialized-self-interface-reference
+
+          (lit (interface-reference this.name))
+          )
+  (cached serialized-self-reference
+          (lit (collection-name this.name)
+               ))
+  (cached serialized-object (.serialize this))
+
+  (def-generic serialize (*types *symbols)
+    (pipe (this.get-serializable-properties)
+          (reduce  (lit ) (result  [key describer])
+                   (set result key (.serialize-property this describer.value *types *symbols))
+                   result)))
+
+  (def-generic save (save-name  (database ((create Database) save-name) )
+                                *types *symbols)
+    (Promise.resolve (if (and (not this.saved?)
+                              (!= this (get *types this.symbol)))
+                         (pipe  (.put database this.name this.serialized-object)
+                                (then-do
+                                 (assign this.saved? true)
+                                 (Promise.all (map (.get-saveable-members this) (value )
+                                                   (.save value save-name database *types *symbols)))))))
+    )
+  (def-generic load (save-name id (database ((create Database) save-name)))
+    (print "loading" save-name id this)
+    (cache this.loaded-instances id
+           (pipe (.get database [this.name id])
+                 (then data (.injest this data save-name  database)))))
+  (def-async delete ()))
+(export Saveable)

@@ -1,3 +1,4 @@
+
 /*
  * A speed-improved perlin and simplex noise algorithms for 2D.
  *
@@ -50,31 +51,31 @@ var gradP = new Array(512);
 
 // This isn't a very good seeding function, but it works ok. It supports 2^16
 // different seed values. Write something better if you need more seeds.
-module.exports.seed = function(seed) {
-  if(seed > 0 && seed < 1) {
-    // Scale the seed out
-    seed *= 65536;
-  }
-
-  seed = Math.floor(seed);
-  if(seed < 256) {
-    seed |= seed << 8;
-  }
-
-  for(var i = 0; i < 256; i++) {
-    var v;
-    if (i & 1) {
-      v = p[i] ^ (seed & 255);
-    } else {
-      v = p[i] ^ ((seed>>8) & 255);
+function seed(seed) {
+    if (seed > 0 && seed < 1) {
+        // Scale the seed out
+        seed *= 65536;
     }
 
-    perm[i] = perm[i + 256] = v;
-    gradP[i] = gradP[i + 256] = grad3[v % 12];
-  }
-};
+    seed = Math.floor(seed);
+    if (seed < 256) {
+        seed |= seed << 8;
+    }
 
-module.exports.seed(0);
+    for (var i = 0; i < 256; i++) {
+        var v;
+        if (i & 1) {
+            v = p[i] ^ (seed & 255);
+        } else {
+            v = p[i] ^ ((seed >> 8) & 255);
+        }
+
+        perm[i] = perm[i + 256] = v;
+        gradP[i] = gradP[i + 256] = grad3[v % 12];
+    }
+}
+seed(0);
+
 
 /*
   for(var i=0; i<256; i++) {
@@ -90,7 +91,7 @@ var F3 = 1/3;
 var G3 = 1/6;
 
 // 2D simplex noise
-module.exports.simplex2 = function(xin, yin) {
+function simplex2(xin, yin) {
   var n0, n1, n2; // Noise contributions from the three corners
   // Skew the input space to determine which simplex cell we're in
   var s = (xin+yin)*F2; // Hairy factor for 2D
@@ -148,7 +149,7 @@ module.exports.simplex2 = function(xin, yin) {
 };
 
 // 3D simplex noise
-module.exports.simplex3 = function(xin, yin, zin) {
+function simplex3 (xin, yin, zin) {
   var n0, n1, n2, n3; // Noise contributions from the four corners
 
   // Skew the input space to determine which simplex cell we're in
@@ -246,7 +247,7 @@ function lerp(a, b, t) {
 }
 
 // 2D Perlin Noise
-module.exports.perlin2 = function(x, y) {
+function perlin2(x, y) {
   // Find unit grid cell containing point
   var X = Math.floor(x), Y = Math.floor(y);
   // Get relative xy coordinates of point within that cell
@@ -271,7 +272,7 @@ module.exports.perlin2 = function(x, y) {
 };
 
 // 3D Perlin Noise
-module.exports.perlin3 = function(x, y, z) {
+function perlin3(x, y, z) {
   // Find unit grid cell containing point
   var X = Math.floor(x), Y = Math.floor(y), Z = Math.floor(z);
   // Get relative xyz coordinates of point within that cell
@@ -306,3 +307,5 @@ module.exports.perlin3 = function(x, y, z) {
 };
 
 
+
+export {seed,simplex2,simplex3, perlin3,perlin2};

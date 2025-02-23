@@ -1,10 +1,26 @@
-var { 
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+
+  return Object.keys(this).forEach(((k) => {
+  	return f(this[k], k);
+  }));
+});
+import { 
+  mixin,
+  create,
+  extend
+ } from "/shared/kit/core/util.js";
+import { 
   Physics
- } = require("@shared/systems/physics/system.js"),
-    { 
-  Collision
- } = require("@shared/systems/collision.js");
+ } from "../system.js";
 var Friction = Physics.Force.define("Friction", { 
+  template:true,
   get config(  ){ 
     
       throw (new Error("No config provided to friction force sub system."))
@@ -13,7 +29,6 @@ var Friction = Physics.Force.define("Friction", {
   apply( c = this.c,config = this.config ){ 
     
       var v = c.velocity;
-      var collision = c.system.process.systems.get(Collision, c.entity);
       var physics = c.system.process.systems.get(Physics, c.entity);
       return (function() {
         if (!((v.xd === 0 && v.yd === 0))) {
@@ -25,4 +40,6 @@ var Friction = Physics.Force.define("Friction", {
     
    }
  });
-exports.Friction = Friction;
+export { 
+  Friction
+ };

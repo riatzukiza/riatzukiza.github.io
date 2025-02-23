@@ -1,8 +1,6 @@
 
-(include "kit-interface/header")
-(import-namespace interface)
-(require! (lit Group) "@shared/data-structures/group.js")
-
+(import Group "../data-structures/group.js")
+(import Interface "/shared/kit/interface/index.js")
 
 (var *assign-id (=> (m k) (assign  m.id k) m))
 

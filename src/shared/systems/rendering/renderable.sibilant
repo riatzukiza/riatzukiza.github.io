@@ -1,6 +1,4 @@
-(include "kit-interface/header")
-(import-namespace interface)
-
+(import Interface "../../kit/interface/index.js")
 (define Renderable Interface
   (init ( layer structure))
   (def clear ()

@@ -1,40 +1,33 @@
-var R = require("ramda");
-var { 
-  create,
-  extend,
-  mixin,
-  conditional,
-  cond,
-  partiallyApplyAfter
- } = require("@kit-js/core/js/util");
-;
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1105 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1167 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
-  	
-    return f(this[k], k);
-  
+  	return f(this[k], k);
   }));
 });
+import { 
+  mixin,
+  create,
+  extend
+ } from "/shared/kit/core/util.js";
 var m = require("mathjs"),
-    { 
-  EventEmitter
- } = require("kit-events"),
     events = require("events");
+import { 
+  EventEmitter
+ } from "./kit/events/index.js";
 EventEmitter.removeAllListeners = (function EventEmitter$removeAllListeners$(...args) {
-  /* Event-emitter.remove-all-listeners eval.sibilant:1:304 */
+  /* Event-emitter.remove-all-listeners eval.sibilant:1:559 */
 
   return events.EventEmitter.prototype.removeAllListeners.call(this, ...args);
 });
 var rgb = (function rgb$(r, g, b) {
-  /* rgb eval.sibilant:1:473 */
+  /* rgb eval.sibilant:1:728 */
 
   return { 
     r,
@@ -42,97 +35,107 @@ var rgb = (function rgb$(r, g, b) {
     b
    };
 });
-exports.rgb = rgb;
+export { 
+  rgb
+ };
 var memoize = (function memoize$(f) {
-  /* memoize eval.sibilant:1:523 */
+  /* memoize eval.sibilant:1:778 */
 
   "create a memoized version of any function. A memoized function will return\n"+"previously calculated results from a cache if the arguments given to it are the same";
   var m = {  };
   return cond(R.has, R.prop, ((...args) => {
-  	
-    return f.apply(this, args);
-  
+  	return f.apply(this, args);
   }));
 });
-exports.memoize = memoize;
+export { 
+  memoize
+ };
 var setValue = R.curry(((value, entity) => {
-	
-  return entity.value = value;
-
+	return entity.value = value;
 }));
-exports.setValue = setValue;
+export { 
+  setValue
+ };
 var { 
   not:fnot,
   pipe:fpipe,
   equals
  } = R;
-exports.fnot = fnot;
-exports.fpipe = fpipe;
-exports.equals = equals;
+export { 
+  fnot
+ };
+export { 
+  fpipe
+ };
+export { 
+  equals
+ };
 Object.prototype.each = (function Object$prototype$each$(f) {
   /* Object.prototype.each eval.sibilant:2:389 */
 
   return Object.keys(this).each(((k) => {
-  	
-    return f(this[k], k);
-  
+  	return f(this[k], k);
   }));
 });
 var curry = R.curry;
-exports.curry = curry;
+export { 
+  curry
+ };
 var fmap = R.curry(((f, a) => {
-	
-  return a.map(f);
-
+	return a.map(f);
 }));
-exports.fmap = fmap;
+export { 
+  fmap
+ };
 var fset = R.curry(((o, k, v) => {
-	
-  return o[k] = v;
-
+	return o[k] = v;
 }));
-exports.fset = fset;
+export { 
+  fset
+ };
 window.size = (function window$size$() {
   /* window.size eval.sibilant:2:647 */
 
   return [ window.innerWidth, window.innerHeight ];
 });
 var search = R.curry(((value, array) => {
-	
-  return array.find(((v) => {
-  	
-    return v === value;
-  
-  }));
-
+	return array.find(((v) => {
+	return v === value;
 }));
-exports.search = search;
+}));
+export { 
+  search
+ };
 var identity = (function identity$(a) {
   /* identity eval.sibilant:2:803 */
 
   return a;
 });
-exports.identity = identity;
+export { 
+  identity
+ };
 var searchIfGiven = (function searchIfGiven$(array, value) {
   /* search-if-given eval.sibilant:2:846 */
 
   return conditional(array, (() => {
-  	
-    return typeof value !== "undefined";
-  
+  	return typeof value !== "undefined";
   }), search(value), identity);
 });
-exports.searchIfGiven = searchIfGiven;
+export { 
+  searchIfGiven
+ };
 var fprint = (function fprint$($value, ...args) {
   /* fprint eval.sibilant:2:1026 */
 
   console.log($value, ...args);
   return $value;
 });
-exports.fprint = fprint;
+export { 
+  fprint
+ };
 var feach = R.curry(((f, a) => {
-	
-  return a.each(f);
-
+	return a.each(f);
 }));
-exports.feach = feach;
+export { 
+  feach
+ };

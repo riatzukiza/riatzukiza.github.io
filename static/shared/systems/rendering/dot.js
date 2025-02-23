@@ -1,22 +1,37 @@
-var { 
-  Interface
- } = require("@kit-js/interface");
-var { 
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+
+  return Object.keys(this).forEach(((k) => {
+  	return f(this[k], k);
+  }));
+});
+import { 
+  mixin,
+  create,
+  extend
+ } from "/shared/kit/core/util.js";
+import { 
   Component,
   System
- } = require("@shared/ecs.js"),
-    { 
+ } from "../../ecs.js";
+import { 
   Physics
- } = require("@shared/systems/physics/index.js"),
-    { 
-  Vertex
- } = require("@shared/systems/rendering/vertex.js"),
-    { 
+ } from "../physics.js";
+import { 
   Position
- } = require("@shared/systems/position.js"),
-    { 
+ } from "../position.js";
+import { 
   Gl
- } = require("@shared/gl.js");
+ } from "../../gl.js";
+import { 
+  Interface
+ } from "../../kit/interface/index.";
 var uniforms = Interface.define("uniforms", { 
   init( game = this.game ){ 
     
@@ -26,10 +41,32 @@ var uniforms = Interface.define("uniforms", {
    },
   get res(  ){ 
     
-      return Gl.uniform("Vector2", "Resolution", this.game.config.dimensions);
+      return (() => {
+      	return Gl.uniform("Vector2", "Resolution", this.game.config.dimensions);
+      });
     
    },
-  scale:Gl.uniform("Float", "Scale", 1)
+  get zoom(  ){ 
+    
+      return (() => {
+      	return Gl.uniform("Vector3", "Zoom", [ 1, 1, this.game.rendering.zoomLevel ]);
+      });
+    
+   },
+  get offset(  ){ 
+    
+      return (() => {
+      	return Gl.uniform("Vector3", "Offset", [ this.game.rendering.xOffset, this.game.rendering.yOffset, 0 ]);
+      });
+    
+   },
+  get scale(  ){ 
+    
+      return (() => {
+      	return Gl.uniform("Float", "Scale", this.game.rendering.zoomLevel);
+      });
+    
+   }
  });
 var shaders = Interface.define("shaders", { 
   vert:`#version 300 es
@@ -41,9 +78,12 @@ var shaders = Interface.define("shaders", {
 
   uniform vec2  u_Resolution;
   uniform float u_Scale;
+  uniform vec3 u_Zoom;
+  uniform vec3 u_Offset;
+
   vec4 clipspace_coordinate (vec3 xyz, float scale, vec2 res)
   {
-    return (vec4(((xyz * vec3(1.0,1.0,1.0) * scale)
+    return (vec4((((xyz ) * u_Zoom * scale) + u_Offset
                   / vec3(res,1.0) * 1.98 - 0.99), 1.0)
             * vec4( 1.0,-1.0,1.0,1.0 ));
 
@@ -56,7 +96,9 @@ var shaders = Interface.define("shaders", {
     p.z = 1.0;
 
     gl_Position  = clipspace_coordinate( p, u_Scale, u_Resolution );
-    gl_PointSize = a_size + zAxis;
+    // gl_PointSize = a_size + zAxis;
+
+    gl_PointSize = (a_size + zAxis) * u_Scale;
 
     //size * z
     // so that the closer the vertex is (the larger z is), the larger the vertex will be relative to its physical size
@@ -75,41 +117,80 @@ var shaders = Interface.define("shaders", {
   `
  });
 var vertexLayer = (function vertexLayer$(limit, game) {
-  /* vertex-layer eval.sibilant:1:908 */
+  /* vertex-layer eval.sibilant:1:1397 */
 
   uniforms.init(game);
-  return game.rendering.spawn(limit, Vertex, [ uniforms.res, uniforms.scale ], [ shaders.vert, shaders.frag ]);
+  const context=game.rendering.context;
+  return game.rendering.spawn(limit, Vertex, [ uniforms.res, uniforms.scale, uniforms.zoom, uniforms.offset ], [ shaders.vert, shaders.frag ]);
 });
 var DotInterface = Component.define("DotInterface", { 
-  color:{
+  _color:{
     r: 0,
     g: 0,
     b: 0,
     a: 0
   },
+  get color(  ){ 
+    
+      return this._color;
+    
+   },
+  set color( c ){ 
+    
+      return this._color = c;
+    
+   },
   get pos(  ){ 
     
-      return this.system.process.systems.get(Position, this.entity);
+      return this.entity.positionInterface;
     
    },
   get scale(  ){ 
     
-      return this.system.process.systems.get(Physics, this.entity).scale;
+      return this.entity.physicalProperties.scale;
+    
+   },
+  get point(  ){ 
+    
+      return this.vertex.point;
+    
+   },
+  register(  ){ 
+    
+      return (function() {
+        if (!(this.vertex)) {
+          return this.vertex = this.system.verts.spawn();
+        }
+      }).call(this);
+    
+   },
+  _clear(  ){ 
+    
+      this.point.x = 0;
+      this.point.y = 0;
+      this.point.z = 0;
+      this.vertex.size = 0;
+      this.vertex.color.r = 0;
+      this.vertex.color.g = 0;
+      this.vertex.color.b = 0;
+      return this.vertex.color.a = 0;
     
    }
  });
-exports.DotInterface = DotInterface;
+export { 
+  DotInterface
+ };
 var Dot = System.define("Dot", { 
+  maxVerts:100000,
   register(  ){ 
     
-      return this.verts = vertexLayer(100000, this.game);
+      return this.verts = vertexLayer(this.maxVerts, this.game);
     
    },
   interface:DotInterface,
   spawn( entity ){ 
     
       var c = System.spawn.call(this, entity);
-      c.vertex = this.verts.spawn();
       return c;
     
    },
@@ -126,4 +207,6 @@ var Dot = System.define("Dot", {
     
    }
  });
-exports.Dot = Dot;
+export { 
+  Dot
+ };

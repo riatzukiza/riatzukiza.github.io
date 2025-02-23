@@ -1,6 +1,6 @@
-(require! (lit Spawnable) "@shared/data-structures/spawnable.js"
-          (lit List) "@shared/data-structures/list.js"
-          )
+(import Spawnable "../spawnable.js")
+(import List "../list.js")
+
 (define Fixed-bst  Spawnable
   (init ((key null)
          (depth 20)

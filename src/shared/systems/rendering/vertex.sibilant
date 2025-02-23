@@ -1,12 +1,5 @@
-
-(include "kit-interface/header")
-(import-namespace interface)
-
-
-(require! (lit Andy) "@shared/gl.js")
-(require! (lit Renderable) "@shared/systems/rendering/renderable.js")
-
-
+(import Andy "../../andy.js")
+(import Renderable "./renderable.js")
 
 (def set-color (r g b a vert)
   (set vert.color

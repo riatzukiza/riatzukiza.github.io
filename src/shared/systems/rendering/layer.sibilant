@@ -1,10 +1,7 @@
-(include "kit-interface/header")
-(import-namespace interface)
-
-(require! (lit Object-pool) "@shared/pooling/object-pool.js"
-          (lit Pooled-system) "@shared/pooling/pooled-system.js"
-          (lit Renderable) "@shared/systems/rendering/renderable.js"
-          (lit Gl) "@shared/gl.js")
+(import Object-pool "../../pooling/object-pool.js")
+(import Pooled-system "../../pooling/pooled-system.js")
+(import Renderable "./renderable.js")
+(import Gl "../../gl.js")
 
 (var bound (#-> .bind )
      clear (#-> .clear )
@@ -18,24 +15,24 @@
 
 (define Layer  Pooled-system
   (render? true)
-
+  (Renderable Renderable)
   (init (limit
-         (interface Renderable)
+         Renderable
          (uniform [])
          (shaders [])
          context
          (program (Gl.program (first shaders) (second shaders) context))
-         (*members (interface.structure.Array limit))
+         (*members (Renderable.structure.Array limit))
          (buffer (Gl.buffer *members context)))
 
 
         (.call Pooled-system.init this
-               interface
+               Renderable
                ;; totally want a dynamic pool here, but because the members
                ;; array is a fixed sized element, I will need to extend the base
                ;; object pool to use structs, and extend the dyn pool to use the new obj
                ;; pool type for its buckets.
-               ((create Object-pool) limit interface *members))
+               ((create Object-pool) limit Renderable *members))
 
         (.push this.rendering.layers this))
 
@@ -55,8 +52,14 @@
     (.bind buffer)
 
     (.enable program)
-    (.each uniform enabled)
-    (.enable-gl-attributes this.interface.structure))
+    (each uniform (uniform)
+          (if (function? uniform)
+              (.enable (uniform context))
+              (.enable uniform)
+
+              )
+          )
+    (.enable-gl-attributes this.Renderable.structure))
 
   (def-generic disable (buffer uniform program)
 

@@ -1,54 +1,70 @@
-var { 
-  Interface
- } = require("@kit-js/interface");
-var { 
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+
+  return Object.keys(this).forEach(((k) => {
+  	return f(this[k], k);
+  }));
+});
+import { 
+  mixin,
+  create,
+  extend
+ } from "/shared/kit/core/util.js";
+import { 
   ObjectPool
- } = require("@shared/pooling/object-pool.js"),
-    { 
+ } from "../../pooling/object-pool.js";
+import { 
   PooledSystem
- } = require("@shared/pooling/pooled-system.js"),
-    { 
+ } from "../../pooling/pooled-system.js";
+import { 
   Renderable
- } = require("@shared/systems/rendering/renderable.js"),
-    { 
+ } from "./renderable.js";
+import { 
   Gl
- } = require("@shared/gl.js");
+ } from "../../gl.js";
 var bound = (function() {
-  /* eval.sibilant:1:407 */
+  /* eval.sibilant:1:671 */
 
   return arguments[0].bind();
 }),
     clear = (function() {
-  /* eval.sibilant:1:432 */
+  /* eval.sibilant:1:696 */
 
   return arguments[0].clear();
 }),
     rendered = (function() {
-  /* eval.sibilant:1:461 */
+  /* eval.sibilant:1:725 */
 
   return arguments[0].render();
 }),
     unbound = (function() {
-  /* eval.sibilant:1:491 */
+  /* eval.sibilant:1:755 */
 
   return arguments[0].unbind();
 }),
     disabled = (function() {
-  /* eval.sibilant:1:520 */
+  /* eval.sibilant:1:784 */
 
   return arguments[0].disable();
 }),
     enabled = (function() {
-  /* eval.sibilant:1:551 */
+  /* eval.sibilant:1:815 */
 
   return arguments[0].enable();
 });
 var Layer = PooledSystem.define("Layer", { 
-  init( limit = this.limit,interface = Renderable,uniform = [],shaders = [],context = this.context,program = Gl.program(shaders[0], shaders[1], context),_members = interface.structure.Array(limit),buffer = Gl.buffer(_members, context) ){ 
+  render__QUERY:true,
+  Renderable:Renderable,
+  init( limit = this.limit,Renderable = this.Renderable,uniform = [],shaders = [],context = this.context,program = Gl.program(shaders[0], shaders[1], context),_members = Renderable.structure.Array(limit),buffer = Gl.buffer(_members, context) ){ 
     
-      this.limit = limit;this.interface = interface;this.uniform = uniform;this.shaders = shaders;this.context = context;this.program = program;this._members = _members;this.buffer = buffer;
-      console.log("creating layer", _members);
-      PooledSystem.init.call(this, interface, create(ObjectPool)(limit, interface, _members));
+      this.limit = limit;this.Renderable = Renderable;this.uniform = uniform;this.shaders = shaders;this.context = context;this.program = program;this._members = _members;this.buffer = buffer;
+      PooledSystem.init.call(this, Renderable, create(ObjectPool)(limit, Renderable, _members));
       this.rendering.layers.push(this);
       return this;
     
@@ -72,8 +88,16 @@ var Layer = PooledSystem.define("Layer", {
     
       buffer.bind();
       program.enable();
-      uniform.each(enabled);
-      return this.interface.structure.enableGlAttributes();
+      uniform.each(((uniform) => {
+      	return (function() {
+        if (typeof uniform === "function") {
+          return uniform(context).enable();
+        } else {
+          return uniform.enable();
+        }
+      }).call(this);
+      }));
+      return this.Renderable.structure.enableGlAttributes();
     
    },
   disable( buffer = this.buffer,uniform = this.uniform,program = this.program ){ 
@@ -93,11 +117,17 @@ var Layer = PooledSystem.define("Layer", {
    },
   render(  ){ 
     
-      this.clear();
-      this.enable();
-      this.draw();
-      return this.disable();
+      return (function() {
+        if (this.render__QUERY) {
+          this.clear();
+          this.enable();
+          this.draw();
+          return this.disable();
+        }
+      }).call(this);
     
    }
  });
-exports.Layer = Layer;
+export { 
+  Layer
+ };

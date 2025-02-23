@@ -1,13 +1,15 @@
 
-(include "kit-interface/header")
-(import-namespace interface)
 (macro accumulate (name ...body) `(assign @name (pipe @name ...@body)))
 
 (require! R "ramda")
 
-(require! (lit Ordered-map) "@shared/data-structures/maps/ordered.js"
-          (lit Dynamic-pool) "@shared/pooling/dynamic-pool.js"
-          (lit Group) "@shared/data-structures/group.js")
+(import Spawnable "../data-structures/spawnable.js")
+(import Ordered-map "../data-structures/maps/ordered.js")
+(import Dynamic-pool "../pooling/dynamic-pool.js")
+(import Group "../data-structures/group.js")
+(import Interface "/shared/kit/interface/index.js")
+
+(import Saveable "/shared/saveable.js")
 
 
 (def spawn-component  (entity systems) (#-> systems.get (.spawn  entity)))
@@ -17,31 +19,21 @@
 (def remove (entity) (#-> (get 'system) (.clear entity)))
 
 (var clear (#->  .clear))
-(define Entity Interface
+(define Entity Spawnable
 
   (doc "used as a key to retrieve related components from different systems.")
 
-  (init (system id aspects (components (map aspects (aspect i)
-                                            (pipe system.process.systems
-                                                  (.get aspect)
-                                                  (.spawn this))))))
+
+  (init (aspects (components (map aspects (aspect i)
+                                  (pipe this.game.systems
+                                        (.get aspect)
+                                        (.spawn this))))))
   (gett entity this)
 
-  (def-generic despawn (entity components )
+  (def-generic clear (entity components )
     (.each entity.components (remove entity))
-    (assign entity.id null))
+    (assign entity.id null)))
 
-  (def spawn (  aspects system) (.spawn system aspects )))
 
-(def-generic Entity.despawn (entity components )
-  (.release this.system.pool this  ))
-
-(def-generic Entity.clear ()
-  (each this.components (c)
-        (.release c.system c)
-        (assign c.entity null)
-        )
-  (assign this.components [])
-  (assign this.id null))
 
 (export Entity)

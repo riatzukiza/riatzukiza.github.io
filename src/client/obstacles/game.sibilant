@@ -23,6 +23,7 @@
           config "@obstacles/config.js"
           )
 
+(assign Position.wraps? true)
 (var active-game-systems
      [
       Decaying-trails

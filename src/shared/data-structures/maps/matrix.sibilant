@@ -1,7 +1,4 @@
-(include "kit-interface/header")
-(import-namespace interface)
-
-(require! (lit Matrix) "@shared/data-structures/contrib.js")
+(import Matrix "../contrib.js")
 
 (def-interface Matrix-map (dim (array []))
   (extend Matrix)

@@ -1,0 +1,92 @@
+
+(namespace tests)
+
+(include "kit/header" )
+(import-namespace kit)
+
+(include "kit-interface/header" )
+(import-namespace interface)
+
+(include "../../../inc/rand.sibilant")
+(include "../../../inc/misc.sibilant")
+(include "../../../inc/docs.sibilant")
+(import-namespace docs)
+
+(set global 'mixin mixin 'create create)
+(require! (lit Binary-search-tree) "@shared/data-structures/trees/binary-search-tree.js"
+          (lit Red-black-tree) "@shared/data-structures/trees/red-black-tree.js"
+          (lit Ticker) "@shared/ticker.js"
+          (lit Spawnable ) "@shared/data-structures/spawnable.js"
+          )
+
+(include "../../../inc/dom.sibilant")
+(import-namespace dom)
+
+(const rb-tree (.spawn Red-black-tree))
+
+
+(const low (random-int 9000))
+(const high (+ low (random-int 10000)))
+(def timed-fn (f)
+  (=> ((dots args))
+      (const start (Date.now))
+      (const r (f (dots args)))
+      (const end (Date.now))
+      (- end start)))
+
+
+(def* random-numbers (max-value count)
+  (for-up-to i count
+             (const n (Math.round (* (Math.random) max-value)))
+             (yield n))
+  (return)
+
+  )
+
+(print "generating a large array of random numbers")
+(const really-big-array (Array.from (random-numbers Number.MAX_SAFE_INTEGER  1000)))
+(print "Done generating data" really-big-array)
+(define Array-wrapper Spawnable
+  (init ((array (or this.array []))))
+  (def clear ()
+    (assign this.array.length 0))
+  (def-generic filter (f array)
+    (const r (.spawn Array-wrapper))
+    (for-of! n array (if! (> n 10000) (.push r.array n)))
+    (return r)))
+
+(def array-dot-filter (array)
+  (.filter array (=> (n) (> n 10000))))
+
+(def for-of-filter (array)
+  (const r [])
+  (for-of! n array (if! (> n 10000) (.push r n)))
+  (return r))
+
+(def pooled-dot-filter (array)
+  (.despawn (.filter Array-wrapper (=> (n) (> n 10000)) array)))
+
+(def pooled-for-of-filter (array )
+  (const r (.spawn Array-wrapper))
+  (for-of! n array (if! (> n 10000) (.push r.array n)))
+  (.despawn r))
+
+
+(def array-dot-filters (array times) (for-up-to i times (array-dot-filter array)) null)
+(def for-of-filters (array times) (for-up-to i times (for-of-filter array)) null)
+(def pooled-for-of-filters (array times) (for-up-to i times (pooled-for-of-filter array)) null)
+(def pooled-dot-filters (array times) (for-up-to i times (pooled-dot-filter array))  null)
+
+
+
+
+(print "array.filter" ((timed-fn array-dot-filter) really-big-array))
+(print "for ... of array filter" ((timed-fn for-of-filter) really-big-array))
+(print "pooled for...of filter" ((timed-fn pooled-for-of-filter) really-big-array))
+(print "pooled.filter" ((timed-fn pooled-dot-filter) really-big-array))
+
+(const times 1000000)
+(print "array.filter" times "times" ((timed-fn array-dot-filters) really-big-array times))
+(print "for ... of array filter" times "times" ((timed-fn for-of-filters) really-big-array times))
+(print "pooled for...of filter" times "times" ((timed-fn pooled-for-of-filters) really-big-array times))
+(print "pooled.filter" times "times" ((timed-fn pooled-dot-filters) really-big-array times))

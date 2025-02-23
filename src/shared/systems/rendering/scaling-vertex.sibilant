@@ -1,9 +1,5 @@
-(include "kit-interface/header")
-(import-namespace interface)
-
-(require! (lit Renderable) "@shared/systems/rendering/renderable.js"
-          (lit Andy) "@shared/gl.js")
-
+(import Andy "../../andy.js")
+(import Renderable "./renderable.js")
 
 (define Scaling-vertex Renderable
 

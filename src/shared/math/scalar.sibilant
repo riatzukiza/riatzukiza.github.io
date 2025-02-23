@@ -1,9 +1,4 @@
-(include "kit/header"
-         "kit-interface/header")
-
-(import-namespace kit)
-(import-namespace interface)
-
+(import Interface "../kit/interface/index.js")
 (def-interface Scalar (value)
   (def-generic mul (array value)
     (.map array (#-> (* value))))

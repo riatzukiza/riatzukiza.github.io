@@ -1,16 +1,14 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
-  	
-    return f(this[k], k);
-  
+  	return f(this[k], k);
   }));
 });
 var navButton = (function navButton$(link, text) {
@@ -82,50 +80,4 @@ ${"footer"}{
 ${"a"}{
   color:${"#cccccc"};
 }
-` ]), create(HtmlElement)("script", { 'src': "https://cdn.jsdelivr.net/quicksettings/3.0/quicksettings.min.js" }, []) ]), create(HtmlElement)("script", { 'src': "/socket.io/socket.io.js" }, []), (function() {
-  /* eval.sibilant:90:6 */
-
-  var { 
-    FileSystem
-   } = require("kit-file-system"),
-      Path = require("path");
-  return FileSystem.load("./shared").each(((file) => {
-  	
-    return create(HtmlElement)("script", { 'src': Path.join("/bundles/shared", file.rel) }, []);
-  
-  }));
-}).call(this), (function() {
-  /* eval.sibilant:94:6 */
-
-  var { 
-    FileSystem
-   } = require("kit-file-system"),
-      Path = require("path");
-  return FileSystem.load("./client/obstacles").each(((file) => {
-  	
-    return (function() {
-      if (!(Path.basename(file.path) === "main.js")) {
-        return create(HtmlElement)("script", { 'src': Path.join("/bundles/obstacles", file.rel) }, []);
-      }
-    }).call(this);
-  
-  }));
-}).call(this), create(HtmlElement)("body", {  }, [ create(HtmlElement)("header", { 'id': "header" }, [ create(HtmlElement)("h1", {  }, [ "Welcome to the Error Log" ]), create(HtmlElement)("nav", {  }, [ navButton("/projects", "My Projects"), navButton("/prior-work", "My work for others"), navButton("/about-me", "Who am I?"), navButton("/kanban/board.html", "My kanban"), navButton("/docs", "Documentation for Lith"), navButton("/blog", "My Blog") ]) ]), create(HtmlElement)("main", { 'id': "main" }, [ FileSystem.load("./client").find(".").then(((clientDir) => {
-	
-  return clientDir.map(((dir) => {
-  	
-    return create(HtmlElement)("a", {
-      'href': ("/projects/" + Path.basename(dir.path) + ".html"),
-      'target': "_blank"
-    }, [ create(HtmlElement)("div", { 'class': "iframe-container" }, [ create(HtmlElement)("iframe", {
-      'class': "project-preview",
-      'frameborder': "0",
-      'height': "100%",
-      'width': "100%",
-      'src': ("/projects/" + Path.basename(dir.path) + ".html"),
-      'id': Path.basename(dir.path)
-    }, []) ]) ]);
-  
-  }));
-
-})) ]), create(HtmlElement)("footer", { 'id': "footer" }, [ create(HtmlElement)("section", { 'id': "links" }, [ create(HtmlElement)("a", { 'href': "https://www.linkedin.com/in/aaron-beavers-76b13aa7/" }, [ "linkedin" ]), create(HtmlElement)("a", { 'href': "https://x.com/anomalous_error" }, [ "Twitter/X" ]), create(HtmlElement)("a", { 'href': "https://bsky.app/profile/37707.bsky.social" }, [ "BlueSky" ]), create(HtmlElement)("a", { 'href': "https://github.com/riatzukiza" }, [ "github" ]), create(HtmlElement)("a", { 'href': "https://github.com/riatzukiza/riatzukiza.github.io" }, [ "Source code" ]), create(HtmlElement)("a", { 'href': "https://www.linkedin.com/in/aaron-beavers-76b13aa7/" }, [ "linkedin" ]) ]), create(HtmlElement)("section", { 'id': "contact-info" }, [ create(HtmlElement)("a", { 'href': "mailto:foamy125@gmail.com" }, []) ]) ]) ]) ]);
+` ]), create(HtmlElement)("script", { 'src': "https://cdn.jsdelivr.net/quicksettings/3.0/quicksettings.min.js" }, []) ]), create(HtmlElement)("script", { 'src': "/socket.io/socket.io.js" }, []), create(HtmlElement)("body", {  }, [ create(HtmlElement)("header", { 'id': "header" }, [ create(HtmlElement)("h1", {  }, [ "Welcome to the Error Log" ]), create(HtmlElement)("nav", {  }, [ navButton("/projects", "My Projects"), navButton("/prior-work", "My work for others"), navButton("/about-me", "Who am I?"), navButton("/kanban/board.html", "My kanban"), navButton("/docs", "Documentation for Lith"), navButton("/blog", "My Blog") ]) ]), create(HtmlElement)("main", { 'id': "main" }, []), create(HtmlElement)("footer", { 'id': "footer" }, [ create(HtmlElement)("section", { 'id': "links" }, [ create(HtmlElement)("a", { 'href': "https://www.linkedin.com/in/aaron-beavers-76b13aa7/" }, [ "linkedin" ]), create(HtmlElement)("a", { 'href': "https://x.com/anomalous_error" }, [ "Twitter/X" ]), create(HtmlElement)("a", { 'href': "https://bsky.app/profile/37707.bsky.social" }, [ "BlueSky" ]), create(HtmlElement)("a", { 'href': "https://github.com/riatzukiza" }, [ "github" ]), create(HtmlElement)("a", { 'href': "https://github.com/riatzukiza/riatzukiza.github.io" }, [ "Source code" ]), create(HtmlElement)("a", { 'href': "https://www.linkedin.com/in/aaron-beavers-76b13aa7/" }, [ "linkedin" ]) ]), create(HtmlElement)("section", { 'id': "contact-info" }, [ create(HtmlElement)("a", { 'href': "mailto:foamy125@gmail.com" }, []) ]) ]) ]) ]);

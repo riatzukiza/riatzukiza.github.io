@@ -2,8 +2,8 @@
 
 ## arguments
 
-interface
+proto
 
 ## description
 
-Associate an interface with a system,and add the system to the collection of all active systems.
+Associate an proto with a system,and add the system to the collection of all active systems.

@@ -1,7 +1,6 @@
-(require! (lit Position) "@shared/systems/position.js"
-          (lit Physics) "@shared/systems/physics/system.js"
-          (lit create-vector-field create-particle-updater) "@shared/field.js"
-          (lit Collision) "@shared/systems/collision.js")
+(import Position "/shared/systems/position.js")
+(import Physics "/shared/systems/physics/system.js")
+(import Collision "/shared/systems/collision.js")
 
 
 

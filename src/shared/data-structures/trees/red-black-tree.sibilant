@@ -1,7 +1,6 @@
 (namespace shared)
-(import-namespace misc)
-(require! (lit Binary-search-tree) "@shared/data-structures/trees/binary-search-tree.js")
-(require! (lit List) "@shared/data-structures/list.js")
+(import Binary-search-tree "./binary-search-tree.js")
+(import List "../list.js")
 
 (define Red-black-tree Binary-search-tree
   (init ((key null)

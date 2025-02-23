@@ -10608,14 +10608,23 @@ module.exports = _curry3(function zipWith(fn, a, b) {
 });
 
 },{"./internal/_curry3":109}],"@shared/vectors.js":[function(require,module,exports){
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -10648,10 +10657,45 @@ var {
   Spawnable
  } = require("@shared/data-structures/spawnable.js");
 var Vector = Spawnable.define("Vector", { 
-  init( x = 0,y = 0 ){ 
+  init( _x = 0,_y = 0 ){ 
     
-      this.x = x;this.y = y;
+      this._x = _x;this._y = _y;
+      (function() {
+        if ((isNaN(_x) || isNaN(_y))) {
+          throw (new Error("Vector parameter is NaN"))
+        }
+      }).call(this);
       return this;
+    
+   },
+  get x(  ){ 
+    
+      return this._x;
+    
+   },
+  get y(  ){ 
+    
+      return this._y;
+    
+   },
+  set x( x ){ 
+    
+      (function() {
+        if (isNaN(x)) {
+          throw (new Error("Setting vector x to nan"))
+        }
+      }).call(this);
+      return this._x = x;
+    
+   },
+  set y( y ){ 
+    
+      (function() {
+        if (isNaN(y)) {
+          throw (new Error("Setting vector y to nan"))
+        }
+      }).call(this);
+      return this._y = y;
     
    },
   add( v ){ 
@@ -10662,12 +10706,17 @@ var Vector = Spawnable.define("Vector", {
   addTo( v ){ 
     
       this.x += v.x;
-      return this.y += v.y;
+      this.y += v.y;
+      return (function() {
+        if ((isNaN(this.x) || isNaN(this.y))) {
+          throw (new Error("Vector parameter is NaN"))
+        }
+      }).call(this);
     
    },
   sub( v ){ 
     
-      return Vector.spawn((this.x + v.x), (this.y + v.y));
+      return Vector.spawn((this.x - v.x), (this.y - v.y));
     
    },
   subFrom( v ){ 
@@ -10695,14 +10744,24 @@ var Vector = Spawnable.define("Vector", {
   divTo( n ){ 
     
       this.x = (this.x / n);
-      return this.y = (this.y / n);
+      this.y = (this.y / n);
+      return (function() {
+        if ((isNaN(this.x) || isNaN(this.y))) {
+          throw (new Error("Vector parameter is NaN"))
+        }
+      }).call(this);
     
    },
   setAngle( angle ){ 
     
       const length=this.getLength();
       this.x = (Math.cos(angle) * length);
-      return this.y = (Math.sin(angle) * length);
+      this.y = (Math.sin(angle) * length);
+      return (function() {
+        if ((isNaN(this.x) || isNaN(this.y))) {
+          throw (new Error("Vector parameter is NaN"))
+        }
+      }).call(this);
     
    },
   setLength( length ){ 
@@ -10710,6 +10769,11 @@ var Vector = Spawnable.define("Vector", {
       const angle=this.getAngle();
       this.x = (Math.cos(angle) * length);
       this.y = (Math.sin(angle) * length);
+      (function() {
+        if ((isNaN(this.x) || isNaN(this.y))) {
+          throw (new Error("Vector parameter is NaN"))
+        }
+      }).call(this);
       return this;
     
    },
@@ -10765,8 +10829,8 @@ var Vector = Spawnable.define("Vector", {
    },
   clear(  ){ 
     
-      this.x = null;
-      return this.y = null;
+      this.x = 0;
+      return this.y = 0;
     
    }
  });

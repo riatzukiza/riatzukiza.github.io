@@ -1,0 +1,16 @@
+(define Set Data
+
+  (alias delete remove)
+  (gett set this.data)
+
+  (def construct (data) (new Set data))
+  (def add (member) (.set this.data member))
+
+  (def-generic remove (member data)
+    (.delete data member))
+
+  (def each (f))
+  (def map (f))
+
+
+  )

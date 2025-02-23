@@ -1,0 +1,12 @@
+(define Hash-map Data
+  (def-generic construct (key-value-pairs (map-fn (=> (v) v)))
+    (const result (Object.create null))
+    (for-of! key (Object.keys key-value-pairs)
+             (set result key (map-fn (get key-value-pairs key) key))))
+  (def set ())
+  (def get ())
+  (def each ())
+  (def some ())
+  (def every ())
+  (def where ())
+  (def when ()))

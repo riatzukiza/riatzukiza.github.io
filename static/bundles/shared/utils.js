@@ -37688,9 +37688,18 @@ const createDerivative = exports.createDerivative = /* #__PURE__ */(0, _factory.
     let options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {
       simplify: true
     };
-    const constNodes = {};
-    constTag(constNodes, expr, variable.name);
-    const res = _derivative(expr, constNodes);
+    const cache = new Map();
+    const variableName = variable.name;
+    function isConstCached(node) {
+      const cached = cache.get(node);
+      if (cached !== undefined) {
+        return cached;
+      }
+      const res = _isConst(isConstCached, node, variableName);
+      cache.set(node, res);
+      return res;
+    }
+    const res = _derivative(expr, isConstCached);
     return options.simplify ? simplify(res) : res;
   }
   function parseIdentifier(string) {
@@ -37710,9 +37719,8 @@ const createDerivative = exports.createDerivative = /* #__PURE__ */(0, _factory.
     'Node, SymbolNode, ConstantNode': function (expr, variable, {order}) {
       let res = expr
       for (let i = 0; i < order; i++) {
-        let constNodes = {}
-        constTag(constNodes, expr, variable.name)
-        res = _derivative(res, constNodes)
+        <create caching isConst>
+        res = _derivative(res, isConst)
       }
       return res
     }
@@ -37755,56 +37763,39 @@ const createDerivative = exports.createDerivative = /* #__PURE__ */(0, _factory.
   });
 
   /**
-   * Does a depth-first search on the expression tree to identify what Nodes
-   * are constants (e.g. 2 + 2), and stores the ones that are constants in
-   * constNodes. Classification is done as follows:
+   * Checks if a node is constants (e.g. 2 + 2).
+   * Accepts (usually memoized) version of self as the first parameter for recursive calls.
+   * Classification is done as follows:
    *
    *   1. ConstantNodes are constants.
    *   2. If there exists a SymbolNode, of which we are differentiating over,
    *      in the subtree it is not constant.
    *
-   * @param  {Object} constNodes  Holds the nodes that are constant
+   * @param  {function} isConst  Function that tells whether sub-expression is a constant
    * @param  {ConstantNode | SymbolNode | ParenthesisNode | FunctionNode | OperatorNode} node
    * @param  {string} varName     Variable that we are differentiating
    * @return {boolean}  if node is constant
    */
-  // TODO: can we rewrite constTag into a pure function?
-  const constTag = typed('constTag', {
-    'Object, ConstantNode, string': function (constNodes, node) {
-      constNodes[node] = true;
+  const _isConst = typed('_isConst', {
+    'function, ConstantNode, string': function () {
       return true;
     },
-    'Object, SymbolNode, string': function (constNodes, node, varName) {
+    'function, SymbolNode, string': function (isConst, node, varName) {
       // Treat other variables like constants. For reasoning, see:
       //   https://en.wikipedia.org/wiki/Partial_derivative
-      if (node.name !== varName) {
-        constNodes[node] = true;
-        return true;
-      }
-      return false;
+      return node.name !== varName;
     },
-    'Object, ParenthesisNode, string': function (constNodes, node, varName) {
-      return constTag(constNodes, node.content, varName);
+    'function, ParenthesisNode, string': function (isConst, node, varName) {
+      return isConst(node.content, varName);
     },
-    'Object, FunctionAssignmentNode, string': function (constNodes, node, varName) {
+    'function, FunctionAssignmentNode, string': function (isConst, node, varName) {
       if (!node.params.includes(varName)) {
-        constNodes[node] = true;
         return true;
       }
-      return constTag(constNodes, node.expr, varName);
+      return isConst(node.expr, varName);
     },
-    'Object, FunctionNode | OperatorNode, string': function (constNodes, node, varName) {
-      if (node.args.length > 0) {
-        let isConst = constTag(constNodes, node.args[0], varName);
-        for (let i = 1; i < node.args.length; ++i) {
-          isConst = constTag(constNodes, node.args[i], varName) && isConst;
-        }
-        if (isConst) {
-          constNodes[node] = true;
-          return true;
-        }
-      }
-      return false;
+    'function, FunctionNode | OperatorNode, string': function (isConst, node, varName) {
+      return node.args.every(arg => isConst(arg, varName));
     }
   });
 
@@ -37812,30 +37803,30 @@ const createDerivative = exports.createDerivative = /* #__PURE__ */(0, _factory.
    * Applies differentiation rules.
    *
    * @param  {ConstantNode | SymbolNode | ParenthesisNode | FunctionNode | OperatorNode} node
-   * @param  {Object} constNodes  Holds the nodes that are constant
+   * @param  {function} isConst  Function that tells if a node is constant
    * @return {ConstantNode | SymbolNode | ParenthesisNode | FunctionNode | OperatorNode}    The derivative of `expr`
    */
   const _derivative = typed('_derivative', {
-    'ConstantNode, Object': function (node) {
+    'ConstantNode, function': function () {
       return createConstantNode(0);
     },
-    'SymbolNode, Object': function (node, constNodes) {
-      if (constNodes[node] !== undefined) {
+    'SymbolNode, function': function (node, isConst) {
+      if (isConst(node)) {
         return createConstantNode(0);
       }
       return createConstantNode(1);
     },
-    'ParenthesisNode, Object': function (node, constNodes) {
-      return new ParenthesisNode(_derivative(node.content, constNodes));
+    'ParenthesisNode, function': function (node, isConst) {
+      return new ParenthesisNode(_derivative(node.content, isConst));
     },
-    'FunctionAssignmentNode, Object': function (node, constNodes) {
-      if (constNodes[node] !== undefined) {
+    'FunctionAssignmentNode, function': function (node, isConst) {
+      if (isConst(node)) {
         return createConstantNode(0);
       }
-      return _derivative(node.expr, constNodes);
+      return _derivative(node.expr, isConst);
     },
-    'FunctionNode, Object': function (node, constNodes) {
-      if (constNodes[node] !== undefined) {
+    'FunctionNode, function': function (node, isConst) {
+      if (isConst(node)) {
         return createConstantNode(0);
       }
       const arg0 = node.args[0];
@@ -37859,10 +37850,7 @@ const createDerivative = exports.createDerivative = /* #__PURE__ */(0, _factory.
           } else if (node.args.length === 2) {
             // Rearrange from nthRoot(x, a) -> x^(1/a)
             arg1 = new OperatorNode('/', 'divide', [createConstantNode(1), node.args[1]]);
-
-            // Is a variable?
-            constNodes[arg1] = constNodes[node.args[1]];
-            return _derivative(new OperatorNode('^', 'pow', [arg0, arg1]), constNodes);
+            return _derivative(new OperatorNode('^', 'pow', [arg0, arg1]), isConst);
           }
           break;
         case 'log10':
@@ -37873,20 +37861,19 @@ const createDerivative = exports.createDerivative = /* #__PURE__ */(0, _factory.
             // d/dx(log(x)) = 1 / x
             funcDerivative = arg0.clone();
             div = true;
-          } else if (node.args.length === 1 && arg1 || node.args.length === 2 && constNodes[node.args[1]] !== undefined) {
+          } else if (node.args.length === 1 && arg1 || node.args.length === 2 && isConst(node.args[1])) {
             // d/dx(log(x, c)) = 1 / (x*ln(c))
             funcDerivative = new OperatorNode('*', 'multiply', [arg0.clone(), new FunctionNode('log', [arg1 || node.args[1]])]);
             div = true;
           } else if (node.args.length === 2) {
             // d/dx(log(f(x), g(x))) = d/dx(log(f(x)) / log(g(x)))
-            return _derivative(new OperatorNode('/', 'divide', [new FunctionNode('log', [arg0]), new FunctionNode('log', [node.args[1]])]), constNodes);
+            return _derivative(new OperatorNode('/', 'divide', [new FunctionNode('log', [arg0]), new FunctionNode('log', [node.args[1]])]), isConst);
           }
           break;
         case 'pow':
           if (node.args.length === 2) {
-            constNodes[arg1] = constNodes[node.args[1]];
             // Pass to pow operator node parser
-            return _derivative(new OperatorNode('^', 'pow', [arg0, node.args[1]]), constNodes);
+            return _derivative(new OperatorNode('^', 'pow', [arg0, node.args[1]]), isConst);
           }
           break;
         case 'exp':
@@ -38032,51 +38019,51 @@ const createDerivative = exports.createDerivative = /* #__PURE__ */(0, _factory.
       /* Apply chain rule to all functions:
          F(x)  = f(g(x))
          F'(x) = g'(x)*f'(g(x)) */
-      let chainDerivative = _derivative(arg0, constNodes);
+      let chainDerivative = _derivative(arg0, isConst);
       if (negative) {
         chainDerivative = new OperatorNode('-', 'unaryMinus', [chainDerivative]);
       }
       return new OperatorNode(op, func, [chainDerivative, funcDerivative]);
     },
-    'OperatorNode, Object': function (node, constNodes) {
-      if (constNodes[node] !== undefined) {
+    'OperatorNode, function': function (node, isConst) {
+      if (isConst(node)) {
         return createConstantNode(0);
       }
       if (node.op === '+') {
         // d/dx(sum(f(x)) = sum(f'(x))
         return new OperatorNode(node.op, node.fn, node.args.map(function (arg) {
-          return _derivative(arg, constNodes);
+          return _derivative(arg, isConst);
         }));
       }
       if (node.op === '-') {
         // d/dx(+/-f(x)) = +/-f'(x)
         if (node.isUnary()) {
-          return new OperatorNode(node.op, node.fn, [_derivative(node.args[0], constNodes)]);
+          return new OperatorNode(node.op, node.fn, [_derivative(node.args[0], isConst)]);
         }
 
         // Linearity of differentiation, d/dx(f(x) +/- g(x)) = f'(x) +/- g'(x)
         if (node.isBinary()) {
-          return new OperatorNode(node.op, node.fn, [_derivative(node.args[0], constNodes), _derivative(node.args[1], constNodes)]);
+          return new OperatorNode(node.op, node.fn, [_derivative(node.args[0], isConst), _derivative(node.args[1], isConst)]);
         }
       }
       if (node.op === '*') {
         // d/dx(c*f(x)) = c*f'(x)
         const constantTerms = node.args.filter(function (arg) {
-          return constNodes[arg] !== undefined;
+          return isConst(arg);
         });
         if (constantTerms.length > 0) {
           const nonConstantTerms = node.args.filter(function (arg) {
-            return constNodes[arg] === undefined;
+            return !isConst(arg);
           });
           const nonConstantNode = nonConstantTerms.length === 1 ? nonConstantTerms[0] : new OperatorNode('*', 'multiply', nonConstantTerms);
-          const newArgs = constantTerms.concat(_derivative(nonConstantNode, constNodes));
+          const newArgs = constantTerms.concat(_derivative(nonConstantNode, isConst));
           return new OperatorNode('*', 'multiply', newArgs);
         }
 
         // Product Rule, d/dx(f(x)*g(x)) = f'(x)*g(x) + f(x)*g'(x)
         return new OperatorNode('+', 'add', node.args.map(function (argOuter) {
           return new OperatorNode('*', 'multiply', node.args.map(function (argInner) {
-            return argInner === argOuter ? _derivative(argInner, constNodes) : argInner.clone();
+            return argInner === argOuter ? _derivative(argInner, isConst) : argInner.clone();
           }));
         }));
       }
@@ -38085,31 +38072,31 @@ const createDerivative = exports.createDerivative = /* #__PURE__ */(0, _factory.
         const arg1 = node.args[1];
 
         // d/dx(f(x) / c) = f'(x) / c
-        if (constNodes[arg1] !== undefined) {
-          return new OperatorNode('/', 'divide', [_derivative(arg0, constNodes), arg1]);
+        if (isConst(arg1)) {
+          return new OperatorNode('/', 'divide', [_derivative(arg0, isConst), arg1]);
         }
 
         // Reciprocal Rule, d/dx(c / f(x)) = -c(f'(x)/f(x)^2)
-        if (constNodes[arg0] !== undefined) {
-          return new OperatorNode('*', 'multiply', [new OperatorNode('-', 'unaryMinus', [arg0]), new OperatorNode('/', 'divide', [_derivative(arg1, constNodes), new OperatorNode('^', 'pow', [arg1.clone(), createConstantNode(2)])])]);
+        if (isConst(arg0)) {
+          return new OperatorNode('*', 'multiply', [new OperatorNode('-', 'unaryMinus', [arg0]), new OperatorNode('/', 'divide', [_derivative(arg1, isConst), new OperatorNode('^', 'pow', [arg1.clone(), createConstantNode(2)])])]);
         }
 
         // Quotient rule, d/dx(f(x) / g(x)) = (f'(x)g(x) - f(x)g'(x)) / g(x)^2
-        return new OperatorNode('/', 'divide', [new OperatorNode('-', 'subtract', [new OperatorNode('*', 'multiply', [_derivative(arg0, constNodes), arg1.clone()]), new OperatorNode('*', 'multiply', [arg0.clone(), _derivative(arg1, constNodes)])]), new OperatorNode('^', 'pow', [arg1.clone(), createConstantNode(2)])]);
+        return new OperatorNode('/', 'divide', [new OperatorNode('-', 'subtract', [new OperatorNode('*', 'multiply', [_derivative(arg0, isConst), arg1.clone()]), new OperatorNode('*', 'multiply', [arg0.clone(), _derivative(arg1, isConst)])]), new OperatorNode('^', 'pow', [arg1.clone(), createConstantNode(2)])]);
       }
       if (node.op === '^' && node.isBinary()) {
         const arg0 = node.args[0];
         const arg1 = node.args[1];
-        if (constNodes[arg0] !== undefined) {
+        if (isConst(arg0)) {
           // If is secretly constant; 0^f(x) = 1 (in JS), 1^f(x) = 1
           if ((0, _is.isConstantNode)(arg0) && (isZero(arg0.value) || equal(arg0.value, 1))) {
             return createConstantNode(0);
           }
 
           // d/dx(c^f(x)) = c^f(x)*ln(c)*f'(x)
-          return new OperatorNode('*', 'multiply', [node, new OperatorNode('*', 'multiply', [new FunctionNode('log', [arg0.clone()]), _derivative(arg1.clone(), constNodes)])]);
+          return new OperatorNode('*', 'multiply', [node, new OperatorNode('*', 'multiply', [new FunctionNode('log', [arg0.clone()]), _derivative(arg1.clone(), isConst)])]);
         }
-        if (constNodes[arg1] !== undefined) {
+        if (isConst(arg1)) {
           if ((0, _is.isConstantNode)(arg1)) {
             // If is secretly constant; f(x)^0 = 1 -> d/dx(1) = 0
             if (isZero(arg1.value)) {
@@ -38117,17 +38104,17 @@ const createDerivative = exports.createDerivative = /* #__PURE__ */(0, _factory.
             }
             // Ignore exponent; f(x)^1 = f(x)
             if (equal(arg1.value, 1)) {
-              return _derivative(arg0, constNodes);
+              return _derivative(arg0, isConst);
             }
           }
 
           // Elementary Power Rule, d/dx(f(x)^c) = c*f'(x)*f(x)^(c-1)
           const powMinusOne = new OperatorNode('^', 'pow', [arg0.clone(), new OperatorNode('-', 'subtract', [arg1, createConstantNode(1)])]);
-          return new OperatorNode('*', 'multiply', [arg1.clone(), new OperatorNode('*', 'multiply', [_derivative(arg0, constNodes), powMinusOne])]);
+          return new OperatorNode('*', 'multiply', [arg1.clone(), new OperatorNode('*', 'multiply', [_derivative(arg0, isConst), powMinusOne])]);
         }
 
         // Functional Power Rule, d/dx(f^g) = f^g*[f'*(g/f) + g'ln(f)]
-        return new OperatorNode('*', 'multiply', [new OperatorNode('^', 'pow', [arg0.clone(), arg1.clone()]), new OperatorNode('+', 'add', [new OperatorNode('*', 'multiply', [_derivative(arg0, constNodes), new OperatorNode('/', 'divide', [arg1.clone(), arg0.clone()])]), new OperatorNode('*', 'multiply', [_derivative(arg1, constNodes), new FunctionNode('log', [arg0.clone()])])])]);
+        return new OperatorNode('*', 'multiply', [new OperatorNode('^', 'pow', [arg0.clone(), arg1.clone()]), new OperatorNode('+', 'add', [new OperatorNode('*', 'multiply', [_derivative(arg0, isConst), new OperatorNode('/', 'divide', [arg1.clone(), arg0.clone()])]), new OperatorNode('*', 'multiply', [_derivative(arg1, isConst), new FunctionNode('log', [arg0.clone()])])])]);
       }
       throw new Error('Cannot process operator "' + node.op + '" in derivative: ' + 'the operator is not supported, undefined, or the number of arguments passed to it are not supported');
     }
@@ -83007,7 +82994,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.version = void 0;
-const version = exports.version = '14.0.0';
+const version = exports.version = '14.0.1';
 // Note: This file is automatically generated when building math.js.
 // Changes made in this file will be overwritten.
 },{}],1029:[function(require,module,exports){
@@ -96295,14 +96282,23 @@ module.exports.TinyEmitter = E;
 
 
 },{}],"@shared/utils.js":[function(require,module,exports){
+var R = require("ramda");
+var { 
+  create,
+  extend,
+  mixin,
+  conditional,
+  cond,
+  partiallyApplyAfter
+ } = require("@kit-js/core/js/util");
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -96321,13 +96317,13 @@ var {
  } = require("@kit-js/core/js/util");
 ;
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1692 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1754 */
 
   return Object.keys(this).forEach(((k) => {
   	
@@ -96341,12 +96337,12 @@ var m = require("mathjs"),
  } = require("kit-events"),
     events = require("events");
 EventEmitter.removeAllListeners = (function EventEmitter$removeAllListeners$(...args) {
-  /* Event-emitter.remove-all-listeners eval.sibilant:1:412 */
+  /* Event-emitter.remove-all-listeners eval.sibilant:1:558 */
 
   return events.EventEmitter.prototype.removeAllListeners.call(this, ...args);
 });
 var rgb = (function rgb$(r, g, b) {
-  /* rgb eval.sibilant:1:581 */
+  /* rgb eval.sibilant:1:727 */
 
   return { 
     r,
@@ -96356,7 +96352,7 @@ var rgb = (function rgb$(r, g, b) {
 });
 exports.rgb = rgb;
 var memoize = (function memoize$(f) {
-  /* memoize eval.sibilant:1:631 */
+  /* memoize eval.sibilant:1:777 */
 
   "create a memoized version of any function. A memoized function will return\n"+"previously calculated results from a cache if the arguments given to it are the same";
   var m = {  };

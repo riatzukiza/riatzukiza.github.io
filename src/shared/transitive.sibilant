@@ -1,0 +1,9 @@
+(define Transitive Itterable
+  (cached states [this.data (.construct this)])
+  (def-generic map (map-fn states)
+    [(second states) (map-fn (first states))])
+
+  (def clone ())
+  (def each ())
+  (def filter ())
+  (def))

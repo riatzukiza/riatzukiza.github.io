@@ -7,9 +7,12 @@ out highp vec4 vColor;
 
 uniform vec2  u_Resolution;
 uniform float u_Scale;
+uniform vec3 u_Zoom;
+uniform vec3 u_Offset;
+
 vec4 clipspace_coordinate (vec3 xyz, float scale, vec2 res)
 {
-  return (vec4(((xyz * vec3(1.0,1.0,1.0) * scale)
+  return (vec4((((xyz ) * u_Zoom * scale) + u_Offset
                 / vec3(res,1.0) * 1.98 - 0.99), 1.0)
           * vec4( 1.0,-1.0,1.0,1.0 ));
 
@@ -22,7 +25,9 @@ void main (void)
   p.z = 1.0;
 
   gl_Position  = clipspace_coordinate( p, u_Scale, u_Resolution );
-  gl_PointSize = a_size + zAxis;
+  // gl_PointSize = a_size + zAxis;
+
+  gl_PointSize = (a_size + zAxis) * u_Scale;
 
   //size * z
   // so that the closer the vertex is (the larger z is), the larger the vertex will be relative to its physical size

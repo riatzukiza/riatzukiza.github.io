@@ -1,0 +1,62 @@
+(import Interface "/shared/kit/interface/index.sibilant")
+
+(define Serializer Actor
+  (def-generic serialize-property (value *types *symbols)
+    (if (= value null)
+        null
+        (and value.symbol (= value (get *types value.symbol)))
+        value.serialized-self-interface-reference
+
+        value.save
+        value.serialized-self-reference
+
+        (Array.is-array value)
+        (map value (v) (.serialize-property this v *types *symbols))
+
+        (instance-of?  Map value)
+        (do (const map (new Map))
+            (for-of! [key v] value
+                     (if (and key (!= (typeof key) 'symbol))
+                         (.set map (.serialize-property this key *types *symbols)
+                               (if v.serialize
+                                   (.serialize-property this v *types *symbols)
+                                   v))))
+         map)
+        (instance-of? Set  value)
+        (do (const set (new Set))
+            (for-of! v value
+                     (.add map (if v.serialize
+                                   (.serialize-property this v *types *symbols)
+                                   v)))
+         map)
+
+        value)
+
+    (def serialize-array (a)
+      (map value (v) (.serialize-property this v *types *symbols)))
+
+    (def serialize-set (s)
+      (const set (new Set))
+      (for-of! v value
+               (.add set (if v.serialize
+                             (.serialize-property this v *types *symbols)
+                             v)))
+      map
+      )
+
+    (def serialize-map (m)
+      (const map (new Map))
+      (for-of! [key v] value
+               (if (and key (!= (typeof key) 'symbol))
+                   (.set map (.serialize-property this key *types *symbols)
+                         (if v.serialize
+                             (.serialize-property this v *types *symbols)
+                             v))))
+      map)
+
+    (def-generic serialize (*types *symbols)
+      (pipe (this.get-serializable-properties)
+            (reduce  (lit ) (result  [key describer])
+                     (set result key (.serialize-property this describer.value *types *symbols))
+                     result))))
+  )

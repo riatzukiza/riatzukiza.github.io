@@ -1,14 +1,19 @@
-(include "kit-interface/header")
-(import-namespace interface)
-(define Spawnable Interface
+(import Saveable "../saveable.js")
+
+(define Spawnable Saveable
   (def build ()
+    (.call Saveable.build this)
+    (assign this.current-id 0)
     (assign this.pool []))
-  (def spawn ((dots args))
+  (def aquire ()
     (if (> this.pool.length 0)
-        (.init (.pop this.pool)
-               (dots args))
-        ((create this)
-         (dots args))))
+        (.pop this.pool)
+        (collect r (Object.create this)
+                 (assign r.id (++ this.current-id))))
+    )
+  (def spawn ((dots args))
+    (.init (.aquire this) (dots args))
+    )
 
   (def clear () (throw (new Error "No clear function defined for spawnable datatype")))
 
