@@ -211,8 +211,8 @@
             "state": {
               "type": "code-execute-manage-executors",
               "state": {},
-              "icon": "command-glyph",
-              "title": "Execution Runtimes"
+              "icon": "lucide-file",
+              "title": "Plugin no longer active"
             }
           }
         ],
@@ -241,9 +241,7 @@
       "obsidian-git:Open Git source control": false,
       "githobs:Manage a github issue": false,
       "webpage-html-export:Export Vault to HTML": false,
-      "obisidian-note-linker:Note Linker": false,
-      "smart-second-brain:Open S2B Chat": false,
-      "card-board:CardBoard": false
+      "obisidian-note-linker:Note Linker": false
     }
   },
   "floating": {
@@ -262,34 +260,14 @@
                 "id": "a92ab7efc8193530",
                 "type": "leaf",
                 "state": {
-                  "type": "kanban",
+                  "type": "markdown",
                   "state": {
-                    "file": "kanban/board.md",
-                    "kanbanViewState": {
-                      "kanban-plugin": "board",
-                      "list-collapse": [
-                        true,
-                        true,
-                        true,
-                        true,
-                        true,
-                        false,
-                        true,
-                        false,
-                        true,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        null,
-                        false
-                      ]
-                    }
+                    "file": "notes/daily/2025-02-23.md",
+                    "mode": "source",
+                    "source": false
                   },
-                  "icon": "lucide-trello",
-                  "title": "board"
+                  "icon": "lucide-file",
+                  "title": "2025-02-23"
                 }
               }
             ]
@@ -321,11 +299,12 @@
       }
     ]
   },
-  "active": "fd8adc03a0d2fd83",
+  "active": "a92ab7efc8193530",
   "lastOpenFiles": [
+    "kanban/board.md",
+    "notes/daily/2025-02-23.md",
     "notes/daily/2025-01-19.md",
     "notes/daily/2025-01-09.md",
-    "kanban/board.md",
     "kanban/tasks/Priority management system.md",
     "kanban/tasks/Agenda system.md",
     "kanban/tasks/Map generation.md",
@@ -348,19 +327,7 @@
     "paralellism and multithreading game systems.md",
     "Chats/New Chat.md",
     "notes/daily/2025-01-19.md",
-    "Chats/_Index_of_Chats.md",
     "Chats",
-    "notes/unique/2025-01-18-08.12.36.md",
-    "kanban/tasks/ranged attack system.md",
-    "kanban/tasks/devops pipeline.md",
-    "Create template for new tasks.md",
-    "kanban/templates/New Task.md",
-    "notes/unique/On proxy overhead.md",
-    "notes/daily/2025-01-18.md",
-    "notes/unique/2025-01-18-07.51.13.md",
-    "notes/unique/2025-01-18-07.39.28.md",
-    "notes/daily/2025-01-15.md",
-    "kanban/tasks/Sprite sheets.md",
     "notes/unique",
     "notes/daily",
     "notes",
@@ -370,8 +337,6 @@
     "static/docs/_index_of_docs.html",
     "static/docs/shared/_index_of_shared.html",
     "static/docs/shared/ecs/componentsystem/_index_of_componentsystem.html",
-    "static/docs/shared/ecs/componentsystem/register.html",
-    "static/docs/shared/ecs/component/_index_of_component.html",
     "Untitled.canvas"
   ]
 }
