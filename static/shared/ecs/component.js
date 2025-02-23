@@ -18,9 +18,6 @@ import {
  } from "/shared/kit/core/util.js";
 var R = require("ramda");
 import { 
-  Saveable
- } from "/shared/saveable.js";
-import { 
   OrderedMap
  } from "../data-structures/maps/ordered.js";
 import { 
@@ -32,6 +29,9 @@ import {
 import { 
   Renderable
  } from "/shared/systems/rendering/renderable.js";
+import { 
+  Spawnable
+ } from "/shared/data-structures/spawnable.js";
 var spawnComponent = (function spawnComponent$(entity, systems) {
   /* spawn-component eval.sibilant:13:0 */
 
@@ -70,7 +70,7 @@ var decapitalize = (function decapitalize$(string) {
 
   return (string.charAt(0).toLowerCase() + string.slice(1));
 });
-var Component = Saveable.define("Component", { 
+var Component = Spawnable.define("Component", { 
   register(  ){ 
     
       return `
@@ -89,9 +89,9 @@ var Component = Saveable.define("Component", {
       ;
     
    },
-  init( entity = this.entity,system = this.system ){ 
+  init( entity = this.entity ){ 
     
-      this.entity = entity;this.system = system;
+      this.entity = entity;
       entity[this.name.toLowerCase()] = this;
       entity[this.name] = this;
       entity[decapitalize(this.name)] = this;

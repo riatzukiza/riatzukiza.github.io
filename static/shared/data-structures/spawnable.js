@@ -23,6 +23,7 @@ var Spawnable = Saveable.define("Spawnable", {
   build(  ){ 
     
       Saveable.build.call(this);
+      this.currentId = 0;
       return this.pool = [];
     
    },
@@ -32,7 +33,12 @@ var Spawnable = Saveable.define("Spawnable", {
         if (this.pool.length > 0) {
           return this.pool.pop();
         } else {
-          return Object.create(this);
+          return (function(r) {
+            /* inc/misc.sibilant:1:1369 */
+          
+            r.id = ++(this.currentId);
+            return r;
+          }).call(this, Object.create(this));
         }
       }).call(this);
     

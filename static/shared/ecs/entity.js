@@ -18,6 +18,9 @@ import {
  } from "/shared/kit/core/util.js";
 var R = require("ramda");
 import { 
+  Spawnable
+ } from "../data-structures/spawnable.js";
+import { 
   OrderedMap
  } from "../data-structures/maps/ordered.js";
 import { 
@@ -33,40 +36,40 @@ import {
   Saveable
  } from "/shared/saveable.js";
 var spawnComponent = (function spawnComponent$(entity, systems) {
-  /* spawn-component eval.sibilant:14:0 */
+  /* spawn-component eval.sibilant:15:0 */
 
   return (function() {
-    /* eval.sibilant:14:39 */
+    /* eval.sibilant:15:39 */
   
     return systems.get(arguments[0]).spawn(entity);
   });
 });
 var componentList = (function componentList$(entity) {
-  /* component-list eval.sibilant:16:0 */
+  /* component-list eval.sibilant:17:0 */
 
   return R.map(spawnComponent(entity));
 });
 var remove = (function remove$(entity) {
-  /* remove eval.sibilant:18:0 */
+  /* remove eval.sibilant:19:0 */
 
   return (function() {
-    /* eval.sibilant:18:21 */
+    /* eval.sibilant:19:21 */
   
     return arguments[0].system.clear(entity);
   });
 });
 var clear = (function() {
-  /* eval.sibilant:20:11 */
+  /* eval.sibilant:21:11 */
 
   return arguments[0].clear();
 });
 var Entity = Spawnable.define("Entity", { 
   doc:"used as a key to retrieve related components from different systems.",
-  init( id = this.id,aspects = this.aspects,components = aspects.map(((aspect, i) => {
-  	return system.process.systems.get(aspect).spawn(this);
+  init( aspects = this.aspects,components = aspects.map(((aspect, i) => {
+  	return this.game.systems.get(aspect).spawn(this);
   })) ){ 
     
-      this.id = id;this.aspects = aspects;this.components = components;
+      this.aspects = aspects;this.components = components;
       return this;
     
    },
@@ -75,33 +78,13 @@ var Entity = Spawnable.define("Entity", {
       return this;
     
    },
-  despawn( entity = this.entity,components = this.components ){ 
+  clear( entity = this.entity,components = this.components ){ 
     
       entity.components.each(remove(entity));
       return entity.id = null;
     
-   },
-  spawn( aspects,system ){ 
-    
-      return system.spawn(aspects);
-    
    }
  });
-Entity.despawn = (function Entity$despawn$(entity = this.entity, components = this.components) {
-  /* Entity.despawn inc/core/function-expressions.sibilant:28:8 */
-
-  return this.system.pool.release(this);
-});
-Entity.clear = (function Entity$clear$() {
-  /* Entity.clear inc/core/function-expressions.sibilant:28:8 */
-
-  this.components.each(((c) => {
-  	c.system.release(c);
-  return c.entity = null;
-  }));
-  this.components.length = 0;
-  return this.id = null;
-});
 export { 
   Entity
  };

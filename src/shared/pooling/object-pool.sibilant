@@ -1,5 +1,6 @@
 
-(import Saveable "/shared/saveable.js")
+(import Group "../data-structures/group.js")
+(import Interface "/shared/kit/interface/index.js")
 
 (var *assign-id (=> (m k) (assign  m.id k) m))
 
@@ -8,14 +9,14 @@
        `(collect array []
                  (do-times @size (.push array (scoped ...@body)) array)))
 
-(define Object-pool Saveable
+(define Object-pool Interface
   (init (size
          (*interface null)
          (*array (array-of size (Object.create *interface)))
 
-         (*available (new Set))
+         (*available (Group.from *array))
 
-         (*in-use (new Set)))
+         (*in-use (.create Group )))
         (.each *array *assign-id)
         )
 

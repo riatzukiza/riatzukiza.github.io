@@ -17,9 +17,6 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 import { 
-  EntitySystem
- } from "./ecs.js";
-import { 
   EventEmitter
  } from "./kit/events/index.js";
 import { 
@@ -35,12 +32,15 @@ import {
   Saveable
  } from "/shared/saveable.js";
 import { 
+  Entity
+ } from "/shared/ecs.js";
+import { 
   Rendering
  } from "/shared/systems/rendering/rendering.js";
 var Game = Saveable.define("Game", { 
-  init( config = this.config,systemTypes = [],gameSpeed = 1,units = [],entityGroups = [],entities = create(EntitySystem)(this),ticker = create(Ticker)((gameSpeed * 60)),systems = create(OrderedMap)() ){ 
+  init( config = this.config,systemTypes = [],gameSpeed = 1,units = [],entityGroups = [],ticker = create(Ticker)((gameSpeed * 60)),systems = create(OrderedMap)() ){ 
     
-      this.config = config;this.systemTypes = systemTypes;this.gameSpeed = gameSpeed;this.units = units;this.entityGroups = entityGroups;this.entities = entities;this.ticker = ticker;this.systems = systems;
+      this.config = config;this.systemTypes = systemTypes;this.gameSpeed = gameSpeed;this.units = units;this.entityGroups = entityGroups;this.ticker = ticker;this.systems = systems;
       this.register();
       return this;
     
@@ -48,6 +48,7 @@ var Game = Saveable.define("Game", {
   _nonSerializableKeys:[ "rendering" ],
   register( systems = this.systems,systemTypes = this.systemTypes,config = this.config ){ 
     
+      Entity.game = this;
       this.rendering = Rendering.load({ 
         dimensions:[ (1 * config.dimensions[0]), (1 * config.dimensions[1]) ],
         blend:true
@@ -62,7 +63,7 @@ var Game = Saveable.define("Game", {
           setSystemBySymbol = systems.set;
       systems.getBySymbol = getSystemBySymbol;
       systems.get = (function systems$get$(proto, ent) {
-        /* systems.get eval.sibilant:1:1742 */
+        /* systems.get eval.sibilant:1:1720 */
       
         var sys = getSystemBySymbol.call(systems, proto.symbol);
         return (function() {
@@ -131,7 +132,7 @@ var Game = Saveable.define("Game", {
       events.emit("start", this);
       return events.on("tick", ((t) => {
       	systems.each((function() {
-        /* eval.sibilant:1:2663 */
+        /* eval.sibilant:1:2641 */
       
         return arguments[0].update();
       }));
@@ -154,7 +155,7 @@ var Game = Saveable.define("Game", {
       entities.clear();
       events.removeAllListeners();
       return systems.each((function() {
-        /* eval.sibilant:1:2981 */
+        /* eval.sibilant:1:2959 */
       
         return arguments[0].clear();
       }));

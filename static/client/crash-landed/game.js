@@ -23,6 +23,9 @@ import {
   Physics
  } from "/shared/systems/physics.js";
 import { 
+  Entity
+ } from "/shared/ecs.js";
+import { 
   PlayerSprites
  } from "./systems/sprites/player.js";
 import { 

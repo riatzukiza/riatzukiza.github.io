@@ -27,7 +27,7 @@
   (def upgrade (db)
     (each this.collections (c)
           (if (not (.includes (Array.from db.object-store-names) c))
-              (.create-object-store db c (lit (key-path 'save-index))))))
+              (.create-object-store db c (lit (key-path 'id))))))
   (def remove-collection (name)
 
     (const names this.collection-names)

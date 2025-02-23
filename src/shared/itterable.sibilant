@@ -1,0 +1,10 @@
+(define Itterable Data
+  (get target (.create this.proto))
+  (def-generic map (f data target)
+    (for-in! key data
+             (set target key (f data key)))
+    (return target))
+
+  (def generator ())
+  (def flat ())
+  (def filter ()))

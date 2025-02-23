@@ -1,5 +1,6 @@
 (import Game "/shared/game.js")
 (import Physics "/shared/systems/physics.js")
+(import Entity "/shared/ecs.js")
 (import Player-sprites "./systems/sprites/player.js")
 (import Props-sprites "./systems/sprites/basic-props.js")
 (import Velocity "/shared/systems/velocity.js")
@@ -109,8 +110,7 @@
        (const initial-tiles (await (.get-starting-tiles generator 0 0 2)))
 
        (each initial-tiles.tiles (data)
-             (setup-tile data tiles))
-       )
+             (setup-tile data tiles)))
   (assign Path-finding.tiles game.tiles)
   (Sight.register-tile-graph game.tiles)
   (.start game))

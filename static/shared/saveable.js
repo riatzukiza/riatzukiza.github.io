@@ -51,7 +51,7 @@ var Saveable = Interface.define("Saveable", {
           return this._nonSerializableKeys = (function() {
             /* inc/misc.sibilant:1:3997 */
           
-            return this._nonSerializableKeys.concat([ "serializedSelfReference", "_saveIndex", "collectionName" ]);
+            return this._nonSerializableKeys.concat([ "serializedSelfReference", "collectionName" ]);
           }).call(this);
         }
       }).call(this);
@@ -87,34 +87,6 @@ var Saveable = Interface.define("Saveable", {
       }).call(this);
     
    },
-  get saveIndex(  ){ 
-    
-      return (function() {
-        if (typeof this._saveIndex !== "undefined") {
-          return this._saveIndex;
-        } else {
-          return this._saveIndex = (function() {
-            /* inc/misc.sibilant:1:3997 */
-          
-            return (function() {
-              if (this.id) {
-                return this.id;
-              } else {
-                const _type=this._types[this.symbol];
-                return (function() {
-                  if (!(typeof _type.currentSaveIndex === "undefined")) {
-                    return ++(_type.currentSaveIndex);
-                  } else {
-                    return _type.currentSaveIndex = 0;
-                  }
-                }).call(this);
-              }
-            }).call(this);
-          }).call(this);
-        }
-      }).call(this);
-    
-   },
   _filterSerializable( key,value ){ 
     
       return !(this.nonSerializableKeys.includes(key));
@@ -129,7 +101,7 @@ var Saveable = Interface.define("Saveable", {
     
       return Promise.resolve((function() {
         if (data.collectionName) {
-          return _types[_symbols[data.collectionName]].load(saveName, data.saveIndex, database).then(((instance) => {
+          return _types[_symbols[data.collectionName]].load(saveName, data.id, database).then(((instance) => {
           	(function() {
             if (instance.register) {
               return instance.register();
@@ -164,7 +136,7 @@ var Saveable = Interface.define("Saveable", {
           promises.push(Saveable.injestProperty(saveName, value, database).then(((value) => {
           	return map.set((function() {
             if (key.collectionName) {
-              return _types[_symbols[key.collectionName]].load(saveName, key.saveIndex, database);
+              return _types[_symbols[key.collectionName]].load(saveName, key.id, database);
             } else {
               return key;
             }
@@ -183,9 +155,8 @@ var Saveable = Interface.define("Saveable", {
    },
   injest( serializedObject = this.serializedObject,saveName = this.saveName,database = create(Database)(saveName),r = this._injestionTarget(),_types = this._types ){ 
     
-      r._saveIndex = serializedObject.saveIndex;
       return Promise.all(Object.keys(serializedObject).filter(((key) => {
-      	return ("collectionName" !== key && "saveIndex" !== key);
+      	return "collectionName" !== key;
       })).map(((key) => {
       	const data=serializedObject[key];
       return Saveable.injestProperty(saveName, data, database).then(((value) => {
@@ -330,8 +301,7 @@ var Saveable = Interface.define("Saveable", {
             /* inc/misc.sibilant:1:3997 */
           
             return { 
-              collectionName:this.name,
-              saveIndex:this.saveIndex
+              collectionName:this.name
              };
           }).call(this);
         }
@@ -359,7 +329,7 @@ var Saveable = Interface.define("Saveable", {
       	result[key] = this.serializeProperty(describer.value, _types, _symbols);
       return result;
       }), { 
-        saveIndex:this.saveIndex
+        
        });
     
    },
@@ -377,24 +347,12 @@ var Saveable = Interface.define("Saveable", {
       }).call(this));
     
    },
-  load( saveName = this.saveName,saveIndex = this.saveIndex,database = create(Database)(saveName) ){ 
+  load( saveName = this.saveName,id = this.id,database = create(Database)(saveName) ){ 
     
-      console.log("loading", saveName, saveIndex, this);
-      return (function() {
-        if (this.loadedInstances.has(saveIndex)) {
-          return this.loadedInstances.get(saveIndex);
-        } else {
-          var r = (function() {
-            /* eval.sibilant:11:23 */
-          
-            return database.get([ this.name, saveIndex ]).then(((data) => {
-            	return this.injest(data, saveName, database);
-            }));
-          }).call(this);
-          this.loadedInstances.set(saveIndex, r);
-          return r;
-        }
-      }).call(this);
+      console.log("loading", saveName, id, this);
+      return cache(this.loadedInstances, id, database.get([ this.name, id ]).then(((data) => {
+      	return this.injest(data, saveName, database);
+      })));
     
    },
    async delete(  ){ 

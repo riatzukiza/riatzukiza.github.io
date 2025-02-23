@@ -80,7 +80,7 @@ var Database = Interface.define("Database", {
       	return (function() {
         if (!(Array.from(db.objectStoreNames).includes(c))) {
           return db.createObjectStore(c, { 
-            keyPath:"saveIndex"
+            keyPath:"id"
            });
         }
       }).call(this);

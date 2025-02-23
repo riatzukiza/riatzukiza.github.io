@@ -1,0 +1,32 @@
+(define Array-like Data
+  (doc-string 'Array-like
+              "array-like-data, map-fn"
+              "A wrapper around array like objects. "
+              "Arguements are the same as Array.from"
+              "Mostly implements aliases to Array.prototype functions"
+              "Some additional methods."
+              "All methods are generic, and functional."
+              )
+  (def construct (data f) (.from Array data f))
+  (def map (f data) (.from Array data f))
+  (def-generic each (f data)
+    (fluently (for-of! v data (f v))))
+  (def-generic some (condition data) (.some data condition))
+  (def-generic every (condition data) (.every data condition) )
+  (def-generic flat (depth data) (.flat data depth))
+  (def-generic flat-map (f data) (.flat-map data f))
+
+  (def-generic includes (search-element from-index data)
+    (.includes data search-element from-index))
+
+  (def-generic where (condition action data)
+    (.map (.filter this condition) action))
+
+  (def-generic when (condition action data)
+    (for-of! value data
+             (if! (condition value)
+                  (if! (action value)
+                       (return value)))))
+
+  (def filter (f data)
+    (.filter this data f)))

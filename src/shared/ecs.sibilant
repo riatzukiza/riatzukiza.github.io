@@ -2,13 +2,11 @@
 (import Component "./ecs/component.js")
 (import Entity "./ecs/entity.js")
 (import Entity-group "./ecs/entity-group.js")
-(import Entity-system "./ecs/entity-system.js")
 
 (export System)
 (export Component)
 (export Entity)
 (export Entity-group)
-(export Entity-system)
 
 
 

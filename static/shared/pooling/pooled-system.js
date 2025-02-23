@@ -17,13 +17,16 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 import { 
-  ObjectPool
- } from "./object-pool.js";
+  DynamicPool
+ } from "./dynamic-pool.js";
+import { 
+  Interface
+ } from "../kit/interface/index.js";
 import { 
   Saveable
  } from "/shared/saveable.js";
-var PooledSystem = Saveable.define("PooledSystem", { 
-  init( Interface = this.Interface,_pool = create(ObjectPool)(Interface) ){ 
+var PooledSystem = Interface.define("PooledSystem", { 
+  init( Interface = this.Interface,_pool = create(DynamicPool)(Interface) ){ 
     
       this.Interface = Interface;this._pool = _pool;
       this.register(Interface);

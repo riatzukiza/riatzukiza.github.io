@@ -1,0 +1,16 @@
+
+(def-generic* generate-id ((id 0)) (yield (incr id)))
+(const id-generator (generate-id))
+
+(define Data Interface
+  (init ((args [])
+         (*data (this.construct ...args ))
+         (id (.next id-generator))))
+
+  (gett data this.*data)
+
+  (expects construct)
+  (def clone ())
+  (def create (...args) (.init (Object.create this) ...args))
+  (def map (f) (.create this (f this.data)))
+  )

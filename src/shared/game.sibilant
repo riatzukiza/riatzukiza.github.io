@@ -1,10 +1,10 @@
-(import Entity-system "./ecs.js")
 (import Event-emitter "./kit/events/index.js")
 (import Ticker "./ticker.js")
 (import Ordered-map "./data-structures/maps/ordered.js")
 (import Interface "./kit/interface/index.js")
 
 (import Saveable "/shared/saveable.js")
+(import Entity "/shared/ecs.js")
 
 (import Rendering "/shared/systems/rendering/rendering.js")
 
@@ -14,13 +14,13 @@
          (game-speed 1)
          (units [])
          (entity-groups [])
-         (entities ((create Entity-system) this) )
          (ticker ((create Ticker) (* game-speed 60)))
          (systems ((create Ordered-map))))
         (.register this))
 
   (*non-serializable-keys ['rendering])
   (def-generic register (systems system-types config)
+    (assign Entity.game this)
 
     (assign this.rendering (.load Rendering
                             (lit (dimensions

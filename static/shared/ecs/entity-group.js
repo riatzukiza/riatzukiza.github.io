@@ -26,38 +26,41 @@ import {
 import { 
   Saveable
  } from "/shared/saveable.js";
+import { 
+  Entity
+ } from "./entity.js";
 var spawnComponent = (function spawnComponent$(entity, systems) {
-  /* spawn-component eval.sibilant:10:0 */
+  /* spawn-component eval.sibilant:12:0 */
 
   return (function() {
-    /* eval.sibilant:10:39 */
+    /* eval.sibilant:12:39 */
   
     return systems.get(arguments[0]).spawn(entity);
   });
 });
 var componentList = (function componentList$(entity) {
-  /* component-list eval.sibilant:12:0 */
+  /* component-list eval.sibilant:14:0 */
 
   return R.map(spawnComponent(entity));
 });
 var remove = (function remove$(entity) {
-  /* remove eval.sibilant:14:0 */
+  /* remove eval.sibilant:16:0 */
 
   return (function() {
-    /* eval.sibilant:14:21 */
+    /* eval.sibilant:16:21 */
   
     return arguments[0].system.clear(entity);
   });
 });
 var clear = (function() {
-  /* eval.sibilant:16:11 */
+  /* eval.sibilant:18:11 */
 
   return arguments[0].clear();
 });
 var EntityGroup = Saveable.define("EntityGroup", { 
-  init( groupName = this.groupName,aspects = this.aspects,system = this.system,group = (new Set()) ){ 
+  init( groupName = this.groupName,aspects = this.aspects,group = (new Set()) ){ 
     
-      this.groupName = groupName;this.aspects = aspects;this.system = system;this.group = group;
+      this.groupName = groupName;this.aspects = aspects;this.group = group;
       return this;
     
    },
@@ -70,12 +73,12 @@ var EntityGroup = Saveable.define("EntityGroup", {
     
       const self=this;
       return (function(e) {
-        /* eval.sibilant:1:656 */
+        /* inc/misc.sibilant:1:1369 */
       
         e.group = self;
         group.add(e);
         return e;
-      }).call(this, system.spawn(aspects));
+      }).call(this, Entity.spawn(aspects));
     
    },
   clear( group = this.group ){ 

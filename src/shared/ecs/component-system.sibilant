@@ -57,6 +57,8 @@
   (init (process Component
                  (components (new Map))
                  (thread (Promise.resolve)))
+        (assign Component.system this)
+
         (.register this))
 
   (gett system this)

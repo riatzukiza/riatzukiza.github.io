@@ -24,17 +24,11 @@
 (define Saveable Interface
 
   (*non-serializable-keys [])
-  (cached non-serializable-keys [...this.*non-serializable-keys 'serialized-self-reference '*save-index 'collection-name])
+  (cached non-serializable-keys [...this.*non-serializable-keys 'serialized-self-reference 'collection-name])
 
   (cached loaded-instances (new Map))
   (cached saved-instances (new Map))
-  (cached save-index
-          (if this.id
-              this.id
-              (do (const *type (get this.*types this.symbol ))
-               (if (not (undefined? *type.current-save-index))
-                   (++ *type.current-save-index)
-                   (assign *type.current-save-index 0)))))
+  
   (def *filter-serializable (key value)
     (not (.includes this.non-serializable-keys key)))
 
@@ -45,7 +39,7 @@
     (Promise.resolve (if data.collection-name
                          (then (.load (get *types (get *symbols data.collection-name))
                                       save-name
-                                      data.save-index
+                                      data.id
                                       database) instance
                                       (if instance.register
                                           (.register instance))
@@ -81,7 +75,7 @@
                                                                             (.set map (if key.collection-name
                                                                                           (.load (get *types (get *symbols key.collection-name))
                                                                                                  save-name
-                                                                                                 key.save-index
+                                                                                                 key.id
                                                                                                  database)
                                                                                           key) value))))
                            (then-do (Promise.all promises) map))
@@ -92,10 +86,8 @@
                        (database ((create Database) save-name))
                        (r (this.*injestion-target))
                        *types)
-    (assign  r.*save-index serialized-object.save-index)
     (pipe (Object.keys serialized-object)
-          (filter (key) (and (!= 'collection-name key)
-                             (!= 'save-index key)))
+          (filter (key) (and (!= 'collection-name key)))
           (map  (key)
                 (const data (get serialized-object key))
                 (then (.injest-property Saveable save-name data database) value
@@ -183,12 +175,12 @@
           )
   (cached serialized-self-reference
           (lit (collection-name this.name)
-               (save-index this.save-index)))
+               ))
   (cached serialized-object (.serialize this))
 
   (def-generic serialize (*types *symbols)
     (pipe (this.get-serializable-properties)
-          (reduce  (lit (save-index  this.save-index)) (result  [key describer])
+          (reduce  (lit ) (result  [key describer])
                    (set result key (.serialize-property this describer.value *types *symbols))
                    result)))
 
@@ -202,10 +194,10 @@
                                  (Promise.all (map (.get-saveable-members this) (value )
                                                    (.save value save-name database *types *symbols)))))))
     )
-  (def-generic load (save-name save-index (database ((create Database) save-name)))
-    (print "loading" save-name save-index this)
-    (cache this.loaded-instances save-index
-           (pipe (.get database [this.name save-index])
+  (def-generic load (save-name id (database ((create Database) save-name)))
+    (print "loading" save-name id this)
+    (cache this.loaded-instances id
+           (pipe (.get database [this.name id])
                  (then data (.injest this data save-name  database)))))
   (def-async delete ()))
 (export Saveable)

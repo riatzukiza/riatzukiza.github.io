@@ -1,0 +1,13 @@
+(def-generic* generate-id ((id 0)) (yield (incr id)))
+(const id-generator (generate-id))
+
+(define Model Data
+  (alias object-store-name name)
+  (alias model-name name)
+
+
+  (def save (database-name object-store-name))
+  (def load (database-name object-store-name))
+  (def delete (database-name object-store-name))
+  )
+

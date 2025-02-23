@@ -30,17 +30,24 @@ var define = (function define$(interfaceName = this.interfaceName, _obj = this._
 var _construct = (function _construct$(interfaceName = this.interfaceName, _obj = this._obj, _ext = this._ext, _shares = this._shares, _symbols = this._symbols, _types = this._types, _build = this._build) {
   /* *construct inc/core/function-expressions.sibilant:28:8 */
 
+  const shares=[ ..._shares, { 
+    interfaceName,
+    symbol:Symbol(interfaceName),
+    define:Interface.define,
+    proto:_ext,
+    _construct:Interface._construct
+   } ];
   return (function(proto) {
-    /* inc/misc.sibilant:1:1369 */
+    /* inc/scope.sibilant:12:9 */
   
     proto.construct = (function proto$construct$() {
-      /* proto.construct eval.sibilant:21:11 */
+      /* proto.construct eval.sibilant:28:11 */
     
       return Object.create(proto).init(...arguments);
     });
     Interface.init.call(proto);
-    _symbols[interfaceName] = proto.symbol;
-    _types[proto.symbol] = proto;
+    _symbols.set(proto, proto.symbol);
+    _types.set(proto.symbol, proto);
     (function() {
       if (proto.build) {
         return proto.build();
@@ -48,38 +55,23 @@ var _construct = (function _construct$(interfaceName = this.interfaceName, _obj 
     }).call(this);
     proto;
     return proto;
-  }).call(this, extend(_ext, mixin([ { 
-    interfaceName,
-    symbol:Symbol(interfaceName),
-    Interface.define:.define("Interface.define", { 
-      
-     }),
-    proto:_ext,
-    _construct:Interface._construct
-   }, ..._shares ], _obj)));
+  })(extend(_ext, mixin(_obj)));
 });
-var Interface = { 
-  _symbols:{  },
-  _types:{  },
-  init( interfaceName = this.interfaceName,_obj = this._obj,_types = {  },_symbols = {  } ){ 
-    
-      this.interfaceName = interfaceName;this._obj = _obj;this._types = _types;this._symbols = _symbols;
-      return this;
-    
-   },
-  get name(  ){ 
-    
-      return this.interfaceName;
-    
-   },
-  get typeName(  ){ 
-    
-      return this.interfaceName;
-    
-   },
-  define,
-  _construct
- };
+defObject(Interface, null, _symbols((new Map())), _interfaces((new Map())), cached(), init( interfaceName = this.interfaceName,_obj = this._obj,_types = {  },_symbols = {  } ){ 
+  
+    this.interfaceName = interfaceName;this._obj = _obj;this._types = _types;this._symbols = _symbols;
+    return this;
+  
+ }, get name(  ){ 
+  
+    return this.interfaceName;
+  
+ }, get typeName(  ){ 
+  
+    return this.interfaceName;
+  
+ }, define, _construct);
+var Interface = undefined;
 export { 
   Interface
  };

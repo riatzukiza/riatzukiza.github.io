@@ -17,13 +17,16 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 import { 
-  Saveable
- } from "/shared/saveable.js";
+  Group
+ } from "../data-structures/group.js";
+import { 
+  Interface
+ } from "/shared/kit/interface/index.js";
 var _assignId = ((m, k) => {
 	m.id = k;
 return m;
 });
-var ObjectPool = Saveable.define("ObjectPool", { 
+var ObjectPool = Interface.define("ObjectPool", { 
   init( size = this.size,_interface = null,_array = (function(array) {
     /* eval.sibilant:1:656 */
   
@@ -37,7 +40,7 @@ var ObjectPool = Saveable.define("ObjectPool", {
         /* inc/loops.sibilant:28:35 */
       
         array.push((function() {
-          /* eval.sibilant:1:674 */
+          /* eval.sibilant:1:732 */
         
           return Object.create(_interface);
         }).call(this));
@@ -48,7 +51,7 @@ var ObjectPool = Saveable.define("ObjectPool", {
       return $for;
     }).call(this);
     return array;
-  }).call(this, []),_available = (new Set()),_inUse = (new Set()) ){ 
+  }).call(this, []),_available = Group.from(_array),_inUse = Group.create() ){ 
     
       this.size = size;this._interface = _interface;this._array = _array;this._available = _available;this._inUse = _inUse;
       _array.each(_assignId);

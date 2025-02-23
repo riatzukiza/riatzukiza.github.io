@@ -16,27 +16,21 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-import { 
-  System
- } from "./ecs/component-system.js";
-import { 
-  Component
- } from "./ecs/component.js";
-import { 
-  Entity
- } from "./ecs/entity.js";
-import { 
-  EntityGroup
- } from "./ecs/entity-group.js";
-export { 
-  System
- };
-export { 
-  Component
- };
-export { 
-  Entity
- };
-export { 
-  EntityGroup
- };
+var Itterable = Data.define("Itterable", { 
+  get:target,
+  map( f = this.f,data = this.data,target = this.target ){ 
+    
+      forIn__BANG(key, data, target[key] = f(data, key););
+      return target;
+    
+   },
+  generator(  ){ 
+    
+   },
+  flat(  ){ 
+    
+   },
+  filter(  ){ 
+    
+   }
+ });
