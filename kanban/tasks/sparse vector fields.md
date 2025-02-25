@@ -1,15 +1,18 @@
 # Description
 
+In an infinite world we cannot have a vector for every point. We can only have vectors for active locations of the map.
+## Related Epics
 
-In order to represent fields in an infinite world, I need an infinite datastructure. A fixed size matrix was not going to work. I've already started work and completed a tile map system to hold meta data in a sparse array implemented as a trie.
-
-The work of this ticket is to create an abstraction to easily set up fields of vectors held in that tile map.
+- [[Data structures]]
+- [[Game Mechanics]]
+- [[Game AI]]
 ## Requirements
 
-- There is an abstract tile system type for holding vector data
+- There is an implementation of vector fields that tiles in with tiles to store vectors on active tiles.
 
 ## Tasks 
 
-- Implement abstract type
-- Create at least one working useful example of a field using this type to demonstrated how it is intended to be used.
+- [ ] Implement abstract vector field system
+- [ ] Implement a basic instance of vector field system using noise.
+## Blocked by 
 

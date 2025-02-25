@@ -26,3 +26,6 @@ Other examples of non unit entities would be like:
 - There are non interacting ghost entities that follow the fields
 - The number of ghosts is configurable.
 - The length of their trails is configurable.
+
+## Blocked by
+- [[sparse vector fields]]

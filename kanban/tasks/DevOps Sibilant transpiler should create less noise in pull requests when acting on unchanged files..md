@@ -1,6 +1,11 @@
 Lots of noise is made in the git history as sibilant changes the names on files through its unique naming scheme
 
 
-## Blocked by 
+## Requirements
 
-- [Move fork of sibilant into git](Move%20fork%20of%20sibilant%20into%20git.md)
+- lisp is only compiled when it is different than what is in git when dev mode starts
+- names of variables do not change in the compiled instance if they do not change in the lisp
+
+## Tasks
+- [ ] Add condition to initial compile step that checks the git status
+- [ ] update lithp's variable naming system. Most of the variables it is always changing are never used. There is no point in giving them a name in some cases.
