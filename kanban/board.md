@@ -286,11 +286,11 @@ kanban-plugin: board
 
 - [ ] [[Save mechanisim]]
 - [ ] [placeable entities (rocks, plants, bases)](tasks/placeable%20entities%20(rocks,%20plants,%20bases).md)
-- [ ] [[Migrate module system to `imports`]]
 
 
 ## In Review (8)
 
+- [ ] [[Migrate module system to `imports`]]
 
 
 ## Done
