@@ -1,0 +1,21 @@
+(define Model Interface )
+
+(define Component Model
+  (doc-string "Component" "data:any" "a piece of data in the game associated with an entity.")
+  (def connect (entity))
+
+  (def save ()))
+
+(define System Interface
+  (doc-string "System" "config" "An operation on data (components) with in the game through an update function."))
+
+(define Entity Model
+  (doc-string "Entity" "data-types: list[Component]"
+              "an id which associated several pieces of data in the game."
+              "If an entity is deleted, so are all components associated with it.")
+  (init (data-types)))
+(define Game Interface
+  (init (components systems entities database))
+  (def start ())
+  ()
+  )

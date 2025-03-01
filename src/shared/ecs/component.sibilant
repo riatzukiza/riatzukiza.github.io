@@ -22,15 +22,12 @@
 (def decapitalize (string) (+ (.to-lower-case (.char-at string 0)) (.slice string 1)))
 
 (define Component Saveable
-  
   (def register ()
     (doc-string "shared.ecs.Component.register"
                 "no arguements"
                 "An abstract function for subclassed components to optionally perform an action on creation."))
 
   (init (entity system)
-        (set entity (.to-lower-case this.name) this)
-        (set entity this.name this)
         (set entity (decapitalize this.name) this)
         (.register this)))
 

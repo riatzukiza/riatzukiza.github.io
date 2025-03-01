@@ -65,7 +65,6 @@ var clear = (function() {
 });
 var System = Saveable.define("System", { 
   docString:"Shared.ecs.ComponentSystem",
-  Component:Component,
   register(  ){ 
     
       return `
@@ -121,6 +120,7 @@ var System = Saveable.define("System", {
       ;
     
    },
+  Component:Component,
   init( process = this.process,Component = this.Component,components = create(OrderedMap)(),pool = create(DynamicPool)(Component),thread = Promise.resolve() ){ 
     
       this.process = process;this.Component = Component;this.components = components;this.pool = pool;this.thread = thread;
@@ -214,7 +214,7 @@ var System = Saveable.define("System", {
    }
  });
 System.build = (function System$build$() {
-  /* System.build eval.sibilant:103:0 */
+  /* System.build eval.sibilant:101:0 */
 
   return (function() {
     if (!((this.template))) {
@@ -234,7 +234,7 @@ System.get = (function System$get$(entity = this.entity, components = this.compo
   return components.get(entity);
 });
 System.update = (function System$update$(t) {
-  /* System.update eval.sibilant:115:0 */
+  /* System.update eval.sibilant:113:0 */
 
   return this.thread = this.thread.then(((nil) => {
   	return this._updateAll(t);

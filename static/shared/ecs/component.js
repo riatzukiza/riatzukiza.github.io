@@ -95,8 +95,6 @@ var Component = Saveable.define("Component", {
   init( entity = this.entity,system = this.system ){ 
     
       this.entity = entity;this.system = system;
-      entity[this.name.toLowerCase()] = this;
-      entity[this.name] = this;
       entity[decapitalize(this.name)] = this;
       this.register();
       return this;

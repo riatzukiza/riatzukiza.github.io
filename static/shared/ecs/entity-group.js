@@ -76,7 +76,7 @@ var EntityGroup = Saveable.define("EntityGroup", {
     
       const self=this;
       return (function(e) {
-        /* eval.sibilant:1:661 */
+        /* eval.sibilant:1:656 */
       
         e.group = self;
         group.add(e);

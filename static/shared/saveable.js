@@ -45,11 +45,11 @@ var Saveable = Interface.define("Saveable", {
   get loadedInstances(  ){ 
     
       return (function() {
-        if (this._loadedInstances) {
+        if (typeof this._loadedInstances !== "undefined") {
           return this._loadedInstances;
         } else {
           return this._loadedInstances = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:3997 */
           
             return (new Map());
           }).call(this);
@@ -60,11 +60,11 @@ var Saveable = Interface.define("Saveable", {
   get saveIndex(  ){ 
     
       return (function() {
-        if (this._saveIndex) {
+        if (typeof this._saveIndex !== "undefined") {
           return this._saveIndex;
         } else {
           return this._saveIndex = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:3997 */
           
             return (function() {
               if (this.currentSaveIndex) {
@@ -160,7 +160,11 @@ var Saveable = Interface.define("Saveable", {
 
       ;
       return this.getSerializableProperties().filter((([ key, describer ]) => {
-      	return ((Object.hasOwn(describer.value, "save") && Object.hasOwn(describer.value, "load")) || (Array.isArray(describer.value) && some(describer.value, value(), value.save)) || ((describer.value instanceof Map) && some(Array.from(describer.value.values()), value(), value.save)));
+      	return ((Object.hasOwn(describer.value, "save") && Object.hasOwn(describer.value, "load")) || (Array.isArray(describer.value) && describer.value.some(((value) => {
+      	return value.save;
+      }))) || ((describer.value instanceof Map) && Array.from(describer.value.values()).some(((value) => {
+      	return value.save;
+      }))));
       })).map((([ key, describer ]) => {
       	return (function() {
         if ((describer.value instanceof Map)) {

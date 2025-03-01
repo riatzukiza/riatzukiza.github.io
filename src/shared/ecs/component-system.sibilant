@@ -31,7 +31,6 @@
               "Requires an" (pre *update-component) "implementation"
               "Optionally accepts" (pre *prepare) "and" (pre *cleanup) "methods"
               )
-  (Component Component)
   (def register ()
     (doc-string "Shared.ecs.ComponentSystem.register"
                 "no args"
@@ -48,11 +47,10 @@
                    (def register ()
 
                      (assign this.needed-thing [])
-                     (do-times 10 (.push this.needed-thing (Math.random)))
-                     )
-                   ))
-                )
-    )
+                     (do-times 10 (.push this.needed-thing (Math.random))))))))
+
+
+  (Component Component)
   (init (process Component
                  (components ((create Ordered-map)))
                  (pool ((create Dynamic-pool)  Component))
