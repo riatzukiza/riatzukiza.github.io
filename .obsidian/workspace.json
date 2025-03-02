@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "notes/daily/2025-02-26.md",
+                "file": "notes/daily/2025-03-02.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2025-02-26"
+              "title": "2025-03-02"
             }
           },
           {
@@ -274,8 +274,9 @@
   },
   "active": "a66e5de5ee07ff77",
   "lastOpenFiles": [
-    "notes/daily/2025-02-25.md",
     "notes/daily/2025-02-26.md",
+    "notes/daily/2025-03-02.md",
+    "notes/daily/2025-02-25.md",
     "kanban/tasks/Save mechanisim.md",
     "kanban/board.md",
     "Save mechanisim.md",
@@ -301,7 +302,6 @@
     "Chats",
     "notes/daily/2025-01-19.md",
     "notes/daily/2025-01-09.md",
-    "kanban/tasks/Priority management system.md",
     "notes/daily",
     "notes",
     "src/client/red-black-tree-visualization/main.sibilant",
