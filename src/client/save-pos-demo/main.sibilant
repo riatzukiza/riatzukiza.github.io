@@ -5,17 +5,32 @@
   (def connect (entity))
 
   (def save ()))
+(define Physical-properties Component
+  ()
+  )
 
 (define System Interface
   (doc-string "System" "config" "An operation on data (components) with in the game through an update function."))
 
+(define Assembler System
+  (doc-string "Assembler" "config" "A system which creates new entities and components as a part of its operation."))
+
 (define Entity Model
   (doc-string "Entity" "data-types: list[Component]"
-              "an id which associated several pieces of data in the game."
-              "If an entity is deleted, so are all components associated with it.")
-  (init (data-types)))
+              "an id which associated several pieces of data in the game.")
+  (init (id components)))
+
+(define Entity-assembler Assembler
+  )
+
+
+
 (define Game Interface
   (init (components systems entities database))
   (def start ())
-  ()
+  (def-generic save (save-name entities)
+
+    )
   )
+
+(const game (.create Game))
