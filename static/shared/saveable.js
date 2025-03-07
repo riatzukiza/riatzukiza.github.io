@@ -45,11 +45,11 @@ var Saveable = Interface.define("Saveable", {
   get loadedInstances(  ){ 
     
       return (function() {
-        if (typeof this._loadedInstances !== "undefined") {
+        if (this._loadedInstances) {
           return this._loadedInstances;
         } else {
           return this._loadedInstances = (function() {
-            /* inc/misc.sibilant:1:3997 */
+            /* inc/misc.sibilant:1:3986 */
           
             return (new Map());
           }).call(this);
@@ -60,11 +60,11 @@ var Saveable = Interface.define("Saveable", {
   get saveIndex(  ){ 
     
       return (function() {
-        if (typeof this._saveIndex !== "undefined") {
+        if (this._saveIndex) {
           return this._saveIndex;
         } else {
           return this._saveIndex = (function() {
-            /* inc/misc.sibilant:1:3997 */
+            /* inc/misc.sibilant:1:3986 */
           
             return (function() {
               if (this.currentSaveIndex) {
@@ -160,11 +160,7 @@ var Saveable = Interface.define("Saveable", {
 
       ;
       return this.getSerializableProperties().filter((([ key, describer ]) => {
-      	return ((Object.hasOwn(describer.value, "save") && Object.hasOwn(describer.value, "load")) || (Array.isArray(describer.value) && describer.value.some(((value) => {
-      	return value.save;
-      }))) || ((describer.value instanceof Map) && Array.from(describer.value.values()).some(((value) => {
-      	return value.save;
-      }))));
+      	return ((Object.hasOwn(describer.value, "save") && Object.hasOwn(describer.value, "load")) || (Array.isArray(describer.value) && some(describer.value, value(), value.save)) || ((describer.value instanceof Map) && some(Array.from(describer.value.values()), value(), value.save)));
       })).map((([ key, describer ]) => {
       	return (function() {
         if ((describer.value instanceof Map)) {
@@ -235,19 +231,7 @@ var Saveable = Interface.define("Saveable", {
     for (var p of this.db.getCursor(this.name))
     {
     const obj=await p;;
-    (function() {
-      if (this.loadedInstances.has(saveIndex)) {
-        return this.loadedInstances.get(saveIndex);
-      } else {
-        var r = (function() {
-          /* eval.sibilant:11:23 */
-        
-          return this.injest(obj);
-        }).call(this);
-        this.loadedInstances.set(saveIndex, r);
-        return r;
-      }
-    }).call(this)
+    cache(this.loadedInstances, saveIndex, this.injest(obj))
     }
     ;
     return r;
@@ -255,21 +239,9 @@ var Saveable = Interface.define("Saveable", {
  },
   load( saveName = this.saveName,saveIndex = 0,database = create(Database)(saveName) ){ 
     
-      return (function() {
-        if (this.loadedInstances.has(saveIndex)) {
-          return this.loadedInstances.get(saveIndex);
-        } else {
-          var r = (function() {
-            /* eval.sibilant:11:23 */
-          
-            return database.get([ this.name, saveIndex ]).then(((data) => {
-            	return this.injest(data, saveName, saveIndex, database);
-            }));
-          }).call(this);
-          this.loadedInstances.set(saveIndex, r);
-          return r;
-        }
-      }).call(this);
+      return cache(this.loadedInstances, saveIndex, database.get([ this.name, saveIndex ]).then(((data) => {
+      	return this.injest(data, saveName, saveIndex, database);
+      })));
     
    },
    async delete(  ){ 

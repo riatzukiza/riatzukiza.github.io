@@ -52,11 +52,11 @@ var Database = Interface.define("Database", {
   get db(  ){ 
     
       return (function() {
-        if (typeof this._db !== "undefined") {
+        if (this._db) {
           return this._db;
         } else {
           return this._db = (function() {
-            /* inc/misc.sibilant:1:3997 */
+            /* inc/misc.sibilant:1:3986 */
           
             return this.start();
           }).call(this);

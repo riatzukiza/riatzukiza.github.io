@@ -79,61 +79,12 @@
 
   (init () (.call Grid.init this))
 
-  (events ((create Event-emitter)))
   (chunk-size 16)
   (overlap-factor 2)
   (Chunk Chunk)
   (Cell Tile)
-  (player-pos (.spawn Vector 0 0))
-  (heap (.spawn Binary-heap))
-  (loading-chunks (new Set))
-  (unsent-chunks [])
   (search-radius 1)
-  (cached chunk-processor (.process-chunks this))
-  (gett ready-chunks (Promise.all (Array.from (.request-chunks this))))
-  (gett ready-tiles (then this.ready-chunks chunks
-                          (print "flattening chunks" chunks)
-                          (.flat chunks)))
-  (gett player-chunk (.get-nearest-chunk this this.player-pos.x this.player-pos.y))
-  (gett chunks-in-search-radius (.get-chunks-in-search-radius this))
-  (gett next-chunk (.get-next-chunk this))
 
-  (def* request-chunks ()
-    (while! this.unsent-chunks.length
-            (yield (.pop this.unsent-chunks)))
-    null)
-
-  (def-async step ()
-    (const value (await (.next this.chunk-processor)))
-    (print "stepping with value" value.value this.player-chunk this.player-pos)
-    (.push this.unsent-chunks value.value))
-
-  (def-async* process-chunks ()
-    (while! true
-            (await (sleep 0))
-            (yield this.next-chunk.data))
-    null
-    )
-  (def add-to-heap (chunk)
-    (if! (and (not (or  chunk.collapsed
-                    (.has this.loading-chunks chunk)))
-              (not (.includes this.heap chunk))
-              )
-        (.add this.loading-chunks chunk)
-        (.insert this.heap chunk))
-    null)
-
-  (def get-next-chunk ()
-    (var next-chunk (.extract-min this.heap))
-
-    (while! (not next-chunk)
-         (incr this.search-radius)
-         (for-of! chunk this.chunks-in-search-radius
-                  (.add-to-heap this chunk))
-         (assign next-chunk (.extract-min this.heap) ))
-    (print "next chunk" next-chunk this.player-chunk)
-    (.delete this.loading-chunks next-chunk)
-    (return next-chunk))
 
   (def reset-search-radius () (assign this.search-radius 1))
 
@@ -142,9 +93,6 @@
                          this.search-radius))
 
   (def update-player-pos (pos)
-    (print "Updating player position" pos this.player-pos
-           (.get-nearest-chunk this pos.x pos.y)
-           this.player-chunk)
     (when (!= (.get-nearest-chunk this pos.x pos.y)
               this.player-chunk)
       (.reset-search-radius this)

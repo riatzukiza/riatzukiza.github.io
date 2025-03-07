@@ -177,109 +177,11 @@ var TileGrid = Grid.define("TileGrid", {
       return this;
     
    },
-  events:create(EventEmitter)(),
   chunkSize:16,
   overlapFactor:2,
   Chunk:Chunk,
   Cell:Tile,
-  playerPos:Vector.spawn(0, 0),
-  heap:BinaryHeap.spawn(),
-  loadingChunks:(new Set()),
-  unsentChunks:[],
   searchRadius:1,
-  get chunkProcessor(  ){ 
-    
-      return (function() {
-        if (this._chunkProcessor) {
-          return this._chunkProcessor;
-        } else {
-          return this._chunkProcessor = (function() {
-            /* inc/misc.sibilant:1:3986 */
-          
-            return this.processChunks();
-          }).call(this);
-        }
-      }).call(this);
-    
-   },
-  get readyChunks(  ){ 
-    
-      return Promise.all(Array.from(this.requestChunks()));
-    
-   },
-  get readyTiles(  ){ 
-    
-      return this.readyChunks.then(((chunks) => {
-      	console.log("flattening chunks", chunks);
-      return chunks.flat();
-      }));
-    
-   },
-  get playerChunk(  ){ 
-    
-      return this.getNearestChunk(this.playerPos.x, this.playerPos.y);
-    
-   },
-  get chunksInSearchRadius(  ){ 
-    
-      return this.getChunksInSearchRadius();
-    
-   },
-  get nextChunk(  ){ 
-    
-      return this.getNextChunk();
-    
-   },
-  *requestChunks(  ){ 
-  
-    while( this.unsentChunks.length ){ 
-      yield(this.unsentChunks.pop())
-     };
-    return null;
-  
- },
-   async step(  ){ 
-  
-    const value=await this.chunkProcessor.next();
-    console.log("stepping with value", value.value, this.playerChunk, this.playerPos);
-    return this.unsentChunks.push(value.value);
-  
- },
-   async *processChunks(  ){ 
-  
-    while( true ){ 
-      await sleep(0);
-      yield(this.nextChunk.data)
-     };
-    return null;
-  
- },
-  addToHeap( chunk ){ 
-    
-      if( (!((chunk.collapsed || this.loadingChunks.has(chunk))) && !(this.heap.includes(chunk))) ){ 
-        this.loadingChunks.add(chunk);
-        this.heap.insert(chunk)
-       };
-      return null;
-    
-   },
-  getNextChunk(  ){ 
-    
-      var nextChunk = this.heap.extractMin();
-      while( !(nextChunk) ){ 
-        ((this.searchRadius)++);
-        for (var chunk of this.chunksInSearchRadius)
-        {
-        this.addToHeap(chunk)
-        }
-        ;
-        nextChunk = this.heap.extractMin();
-       };
-      console.log("next chunk", nextChunk, this.playerChunk);
-      this.loadingChunks.delete(nextChunk);
-      return nextChunk;
-    
-   },
   resetSearchRadius(  ){ 
     
       return this.searchRadius = 1;
@@ -292,7 +194,6 @@ var TileGrid = Grid.define("TileGrid", {
    },
   updatePlayerPos( pos ){ 
     
-      console.log("Updating player position", pos, this.playerPos, this.getNearestChunk(pos.x, pos.y), this.playerChunk);
       return (function() {
         if (this.getNearestChunk(pos.x, pos.y) !== this.playerChunk) {
           this.resetSearchRadius();

@@ -1,0 +1,17 @@
+(define Movement System
+  (components [Position Velocity])
+  (target Position )
+  (def update (pos vel target)
+    (set target
+         'x (+ vel.x pos.x)
+         'y (+ vel.y pos.y))))
+(define Acceleration System
+  (components [Acceleration Velocity])
+  (def update (accel vel target)
+    (set target
+         'x (+ vel.x accel.x)
+         'y (+ vel.y accel.y))))
+(define Collision-detection System
+  (components [Position Geometry])
+  (target Position)
+  (def-threaded update (entity target)))

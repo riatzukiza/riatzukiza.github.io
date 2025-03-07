@@ -32,11 +32,11 @@ var WebWorker = Spawnable.define("WebWorker", {
   get worker(  ){ 
     
       return (function() {
-        if (typeof this._worker !== "undefined") {
+        if (this._worker) {
           return this._worker;
         } else {
           return this._worker = (function() {
-            /* inc/misc.sibilant:1:3997 */
+            /* inc/misc.sibilant:1:3986 */
           
             return (new Worker(this.url, { 
               type:"module"
@@ -124,11 +124,11 @@ var InlineWorker = WebWorker.define("InlineWorker", {
   get url(  ){ 
     
       return (function() {
-        if (typeof this._url !== "undefined") {
+        if (this._url) {
           return this._url;
         } else {
           return this._url = (function() {
-            /* inc/misc.sibilant:1:3997 */
+            /* inc/misc.sibilant:1:3986 */
           
             return window.URL.createObjectURL(this.blob);
           }).call(this);
@@ -139,11 +139,11 @@ var InlineWorker = WebWorker.define("InlineWorker", {
   get blob(  ){ 
     
       return (function() {
-        if (typeof this._blob !== "undefined") {
+        if (this._blob) {
           return this._blob;
         } else {
           return this._blob = (function() {
-            /* inc/misc.sibilant:1:3997 */
+            /* inc/misc.sibilant:1:3986 */
           
             return (new Blob([ this.code ], { 
               type:"text/javascript"
