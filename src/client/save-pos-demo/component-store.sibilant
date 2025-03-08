@@ -1,6 +1,5 @@
 (define Component Interface
-  (init (store id))
-  )
+  (init (store id)))
 (define Component-store Interface
   (Component null)
   (worker null)

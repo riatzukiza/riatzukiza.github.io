@@ -75,12 +75,6 @@
   (components [Position Harvestable])
   )
 
-(define System Interface
-  (doc-string "System" "config" "An operation on data (components) with in the game through an update function.")
-  (components [])
-  (target null)
-  (gett data (Promise.all (map this.dependencies (d)
-                               d.data))))
 
 (define Entity Interface
   (doc-string "Entity" "data-types: list[Component]"

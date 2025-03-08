@@ -1,0 +1,10 @@
+(define Byte-layout Interface
+  (init (structure))
+  
+  )
+(define Shared-data Interface
+  (init ((bytes 1024)
+         (buffer (new Shared-array-buffer size))
+         (array (new Data-view buffer))))
+
+  )
