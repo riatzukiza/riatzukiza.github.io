@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "kanban/tasks/Save mechanisim.md",
+                "file": "notes/daily/2025-03-10.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Save mechanisim"
+              "title": "2025-03-10"
             }
           },
           {
@@ -255,17 +255,17 @@
       "githobs:Manage a github issue": false,
       "webpage-html-export:Export Vault to HTML": false,
       "obisidian-note-linker:Note Linker": false,
-      "smart-second-brain:Open S2B Chat": false,
-      "card-board:CardBoard": false
+      "smart-second-brain:Open S2B Chat": false
     }
   },
   "active": "8f9686408cbdbd84",
   "lastOpenFiles": [
+    "kanban/tasks/Save mechanisim.md",
+    "notes/daily/2025-03-10.md",
     "kanban/board.md",
     "notes/daily/2025-02-06.md",
     "kanban/tasks/Move all kit code.md",
     "kanban/tasks/Migrate module system to `imports`.md",
-    "kanban/tasks/Save mechanisim.md",
     "kanban/tasks/placeable entities (rocks, plants, bases).md",
     "notes/daily/2025-02-05.md",
     "notes/daily/2025-02-04.md",
@@ -286,7 +286,6 @@
     "kanban/tasks/Building system.md",
     "kanban/tasks/Agenda system.md",
     "kanban/tasks/vector field visualization.md",
-    "kanban/tasks/weather system.md",
     "notes/unique",
     "Chats",
     "notes/daily",
