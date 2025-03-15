@@ -1,0 +1,10 @@
+(define Vector-2d-phase-space Double-buffered-array
+  (data-type Vector2d)
+
+  (def add-to (vector-2d-array)
+    (for-of! v this.current-state
+             (const v2 (get vector-2d-array 'data v.index ))
+
+             (assign v.x (+ v.x v2.x))
+             (assign v.y (+ v.y v2.y)))
+    this))

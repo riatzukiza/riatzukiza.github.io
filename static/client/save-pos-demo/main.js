@@ -16,123 +16,65 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var Model = Interface.define("Model", { 
-  docString:"Model",
-  init( modelName = this.modelName,_data = this._data ){ 
+import { 
+  simplex3
+ } from "/shared/noise.js";
+const velocities=VectorPhaseSpace.create(1024);
+const positions=VectorPhaseSpace.create(1024);
+const vertices=vertexLayer(1024);
+const movement=Thread.spawn("/client/save-pos-demo/workers/movement.js");
+const noiseField=Thread.spawn("/client/save-pos-demo/workers/noise-field.js");
+var ThreadedSystem = Interface.define("ThreadedSystem", { 
+  data:[],
+  init( thread = Thread.spawn(this.threadUrl) ){ 
     
-      this.modelName = modelName;this._data = _data;
+      this.thread = thread;
       return this;
     
    },
-  get data(  ){ 
+  update(  ){ 
     
-      return this._data;
-    
-   },
-  save( databaseName ){ 
-    
-   }
- });
-var Component = Interface.define("Component", { 
-  docString:"Component",
-  connect( entity ){ 
-    
-   },
-  save(  ){ 
-    
-   }
- });
-var DataComponent = Component.define("DataComponent", { 
-  
- });
-var ViewComponent = Component.define("ViewComponent", { 
-  
- });
-var VectorComponent = DataComponent.define("VectorComponent", { 
-  struct:x(Int)
- });
-var Position = VectorComponent.define("Position", { 
-  
- });
-var Velocity = VectorComponent.define("Velocity", { 
-  
- });
-var Acceleration = VectorComponent.define("Acceleration", { 
-  
- });
-var Resistance = VectorComponent.define("Resistance", { 
-  
- });
-var Needs = DataComponent.define("Needs", { 
-  struct:hunger(Int)
- });
-var OrderQueue = DataComponent.define("OrderQueue", { 
-  
- });
-var Order = DataComponent.define("Order", { 
-  struct:target()
- });
-var Navigation = Order.define("Navigation", { 
-  struct:start(Position)
- });
-var Character = Entity.define("Character", { 
-  views:[ SpriteAtlas.spawn("character.png"), Gauge.spawn("health"), Gauge.spawn("hunger"), Gauge.spawn("stamina"), Gauge.spawn("restedness"), Gauge.spawn("thirst"), SpeachBubble.spawn("mindState") ],
-  systems:[ Movement, Navigation, Memory, Sight, Sleep, Hunger, Priorities, Combat ],
-  components:[ Position, Velocity, Acceleration, Needs, TaskQueue, Stats, Experience, Personality ]
- });
-var Tile = Entity.define("Tile", { 
-  views:[ SpriteAtlas.spawn("tiles.png") ],
-  components:[ Position, TileContainer, GroundType ]
- });
-var Food = Entity.define("Food", { 
-  views:[ SpriteAtlas.spawn("items.png") ]
- });
-var Plant = Entity.define("Plant", { 
-  views:[ SpriteAtlas.spawn("plants.png") ],
-  components:[ Position, Harvestable ]
- });
-var System = Interface.define("System", { 
-  docString:"System",
-  components:[],
-  target:null,
-  get data(  ){ 
-    
-      return Promise.all(this.dependencies.map(((d) => {
-      	return d.data;
+      return this.thread.send(this.data.map(((data) => {
+      	return [ data.currentState.buffer, data.nextState.buffer ];
       })));
     
    }
  });
-var Entity = Interface.define("Entity", { 
-  docString:"Entity",
-  init( id = this.id,components = this.components ){ 
+var MovementSystem = Interface.define("MovementSystem", { 
+  update(  ){ 
     
-      this.id = id;this.components = components;
-      return this;
+      return movement.send([ velocities.currentState.buffer, movement.currentState.buffer, velocities.nextState.buffer, movement.nextState.buffer ]);
     
    }
  });
-var EntityAssembler = Assembler.define("EntityAssembler", { 
-  
- });
-var TileGenerator = EntityAssembler.define("TileGenerator", { 
-  
- });
-var FoodPlanter = EntityAssembler.define("FoodPlanter", { 
-  
- });
-var Game = Interface.define("Game", { 
-  init( components = this.components,systems = this.systems,entities = this.entities,database = this.database ){ 
+for (var p of positions.data)
+{
+vertices[p.index].color.r = 10;
+vertices[p.index].color.g = 10;
+vertices[p.index].color.b = 255;
+vertices[p.index].color.a = 1;;
+vertices[p.index].point.x = p.x = (100 * Math.random());
+vertices[p.index].point.y = p.y = (100 * Math.random());
+}
+;
+for (var v of velocities.data)
+{
+const p=positions.data[v.index];;
+setMoveNoise(v, p.x, p.y)
+}
+;
+async function main(){
+
+  return while( true ){ 
+    await Promise.all([ MovementSystem.update(), NoiseField.update() ]);
+    velocities.step();
+    positions.step();
+    for (var p of positions.data)
+    {
+    vertices[p.index].point.x = p.x;
+    vertices[p.index].point.y = p.y;
+    }
     
-      this.components = components;this.systems = systems;this.entities = entities;this.database = database;
-      return this;
-    
-   },
-  start(  ){ 
-    
-   },
-  save( saveName = this.saveName,entities = this.entities ){ 
-    
-   }
- });
-const game=Game.create();
+   };
+
+};

@@ -16,9 +16,18 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
+var System = Interface.define("System", { 
+  init( inputs = this.inputs,target = this.target,entities = this.entities ){ 
+    
+      this.inputs = inputs;this.target = target;this.entities = entities;
+      return this;
+    
+   },
+  defAsync:_update
+ });
 var Movement = System.define("Movement", { 
-  components:[ Position, Velocity ],
-  target:Position,
+  inputs:[ Position, Velocity ],
+  outputs:Position,
   update( pos,vel,target ){ 
     
       target.x = (vel.x + pos.x);
@@ -27,7 +36,7 @@ var Movement = System.define("Movement", {
    }
  });
 var Acceleration = System.define("Acceleration", { 
-  components:[ Acceleration, Velocity ],
+  inputs:[ Acceleration, Velocity ],
   update( accel,vel,target ){ 
     
       target.x = (vel.x + accel.x);

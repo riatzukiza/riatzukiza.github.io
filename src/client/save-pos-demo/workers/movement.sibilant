@@ -1,0 +1,9 @@
+
+(import Vector-phase-space "./typed-arrays.js")
+(def self.onmessage (e)
+  (const [vb1 pb1 vb2 pb2] e.data)
+  (const velocities (.from-buffers Vector-phase-space vb1 vb2))
+  (const positions (.from-buffers Vector-phase-space pb1 pb2))
+  (.add-to positions velocities)
+  (.post-message self [])
+  )

@@ -1,0 +1,18 @@
+(import simplex3 "/shared/noise.js")
+(import Vector-array "./typed-arrays.js")
+
+(def-generic set-move-noise (v x y (t 0) (force 16) )
+  (.set-angle v (* (simplex3 x y t) Math.PI 2))
+  (.set-length v (* (simplex3 x y t) force)))
+
+(def self.onmessage (e)
+
+  (const [vb1 pb1 vb2 pb2] e.data)
+
+  (const velocities (.from-buffers Vector-phase-space vb1 vb2))
+  (const positions (.from-buffers Vector-phase-space pb1 pb2))
+
+  (for-of! v* velocities.next-state.data
+           (const p (get positions.data v*.index))
+           (set-move-noise v* p.x p.y ))
+  null)

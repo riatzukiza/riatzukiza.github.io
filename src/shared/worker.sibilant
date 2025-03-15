@@ -34,19 +34,16 @@
 
 (def send-thread (data)
   (do-after-accumulating this.promise
-    (print "sending message" data)
     (assign this.busy true)
     (.*send this data)
     (make-promise
      (.once this.events 'message
             (=> (data)
                 (assign this.busy false)
-                (print "recieved message from thread" data)
                 (resolve data)))
      (.once this.events 'error
             (=> (message)
 
-                (print "recieved error from thread" message)
                 (reject message))))))
 
 (define Inline-thread Inline-worker
