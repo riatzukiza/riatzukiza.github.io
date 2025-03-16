@@ -1,0 +1,6 @@
+(import Interface "/shared/kit/interface/index.js")
+
+(define config Interface
+  (dimensions [(Math.round (* 0.8 window.innerWidth)), (Math.round (- window.innerHeight 3))]))
+
+(export config)

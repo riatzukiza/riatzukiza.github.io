@@ -180,9 +180,9 @@ var BinaryHeap = Heapable.define("BinaryHeap", {
   _siftUp( index = this.index,parentIndex = this.parentIndex,heap = this.heap ){ 
     
       return (function() {
-        var while$61 = undefined;
+        var while$68 = undefined;
         while ((index !== 0 && heap[index].compareTo(heap[parentIndex]) === -1)) {
-          while$61 = (function() {
+          while$68 = (function() {
             const currentNode=heap[index];
             currentNode.index = parentIndex;
             const parentNode=heap[parentIndex];
@@ -193,16 +193,16 @@ var BinaryHeap = Heapable.define("BinaryHeap", {
             return parentIndex = heap[index].parentIndex;
           }).call(this);
         };
-        return while$61;
+        return while$68;
       }).call(this);
     
    },
   _siftDown( index = this.index,leftIndex = this.leftIndex,rightIndex = this.rightIndex,heap = this.heap ){ 
     
       return (function() {
-        var while$62 = undefined;
+        var while$69 = undefined;
         while (((leftIndex < heap.length && heap[index].compareTo(heap[leftIndex]) === 1) || (rightIndex < heap.length && heap[index].compareTo(heap[rightIndex]) === 1))) {
-          while$62 = (function() {
+          while$69 = (function() {
             const smallestChildIndex=(function() {
               if ((rightIndex >= heap.length || heap[leftIndex].compareTo(heap[rightIndex]) === -1)) {
                 return leftIndex;
@@ -221,7 +221,7 @@ var BinaryHeap = Heapable.define("BinaryHeap", {
             return rightIndex = smallestNode.rightIndex;
           }).call(this);
         };
-        return while$62;
+        return while$69;
       }).call(this);
     
    }

@@ -14,7 +14,7 @@
     (var path (if (= (first key) "")
                   "./"
                   (pipe (.filter key (=> (k) (not (or (= k ".") (= k "..")))))
-                     (.join "/"))))
+                        (.join "/"))))
     (print "serving path" path)
     (def serve-file (file)
       (var ext (Path.extname file.path)
@@ -22,6 +22,8 @@
       (print "serving static file" file.path)
 
       (.set-header response "Content-Type" mime)
+      (.set-header response "Cross-origin-opener-policy"  "same-origin")
+      (.set-header response "Cross-origin-embedder-policy"  "credentialless")
       (.pipe file.read-stream response))
 
     (def serve-directory (index)
