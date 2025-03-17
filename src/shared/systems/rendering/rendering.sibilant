@@ -48,7 +48,7 @@
    (const self  this)
    (assign this.x-offset 0)
    (assign this.y-offset 0)
-   (assign this.zoom-level 0.2)
+   (assign this.zoom-level 0.5)
 
    (var mouse-held false)
    (def context.canvas.onmousedown (e)

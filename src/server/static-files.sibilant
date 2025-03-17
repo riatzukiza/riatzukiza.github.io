@@ -3,13 +3,14 @@
 (import-namespace async)
 (import-namespace kit)
 
-(require!
- mime-types "mime-types"
- Path 'path)
+(require! mime-types "mime-types"
+          Path 'path)
 
 (def serve-static-files (sys)
 
-  (def-async serve ((lit request response route key))
+  (def serve (message)
+
+    (const (lit request response route key) message)
 
     (var path (if (= (first key) "")
                   "./"
@@ -19,11 +20,12 @@
     (def serve-file (file)
       (var ext (Path.extname file.path)
            mime (.lookup mime-types ext))
+
       (print "serving static file" file.path)
 
       (.set-header response "Content-Type" mime)
-      (.set-header response "Cross-origin-opener-policy"  "same-origin")
-      (.set-header response "Cross-origin-embedder-policy"  "credentialless")
+      (.set-header response "Cross-Origin-Opener-Policy"  "same-origin")
+      (.set-header response "Cross-Origin-Embedder-Policy"  "credentialless")
       (.pipe file.read-stream response))
 
     (def serve-directory (index)

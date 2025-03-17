@@ -19,12 +19,11 @@ import {
 import { 
   VectorPhaseSpace
  } from "./typed-arrays.js";
-self.onmessage = (function self$onmessage$(e) {
-  /* self.onmessage eval.sibilant:3:0 */
-
-  const [ [ vb1, vb2 ], [ pb1, pb2 ] ]=e.data;
-  const velocities=VectorPhaseSpace.fromBuffers(vb1, vb2);
-  const positions=VectorPhaseSpace.fromBuffers(pb1, pb2);
-  positions.addTo(velocities);
-  return self.postMessage([]);
-});
+addEventListener("message", ((e) => {
+	console.log("got movement message", e);
+const [ [ vb1, vb2 ], [ pb1, pb2 ] ]=e.data;
+const velocities=VectorPhaseSpace.fromBuffers(vb1, vb2);
+const positions=VectorPhaseSpace.fromBuffers(pb1, pb2);
+positions.addTo(velocities);
+return self.postMessage([]);
+}));

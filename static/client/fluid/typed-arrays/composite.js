@@ -24,7 +24,7 @@ import {
  } from "../data-types/data-type.js";
 var CompositeTypedArray = Spawnable.define("CompositeTypedArray", { 
   dataType:DataType,
-  init( length = 0,buffer = this.dataType.buffer(),array = (new Float64Array(buffer)),currentState = this,nextState = this ){ 
+  init( length = 0,buffer = this.dataType.buffer(length),array = (new Float64Array(buffer)),currentState = this,nextState = this ){ 
     
       this.length = length;this.buffer = buffer;this.array = array;this.currentState = currentState;this.nextState = nextState;
       return this;
@@ -39,7 +39,7 @@ var CompositeTypedArray = Spawnable.define("CompositeTypedArray", {
           return this._data = (function() {
             /* inc/misc.sibilant:1:3986 */
           
-            return data(Array.from(this.generate()));
+            return Array.from(this.generate());
           }).call(this);
         }
       }).call(this);
@@ -52,7 +52,7 @@ var CompositeTypedArray = Spawnable.define("CompositeTypedArray", {
    },
   *generate(  ){ 
   
-    for (var i = 0;this.length;i += this.elementSize)
+    for (var i = 0;i < this.length;((i)++))
     {
     yield(this.dataType.spawn(i, this))
     }

@@ -1,83 +1,120 @@
+(include "../../../inc/dom.sibilant")
 (import simplex3 "/shared/noise.js")
 (import Vector-2D-phase-space "./typed-arrays/vector-2d.js")
 (import rendering vertex-layer "./rendering.js")
+(import Thread "/shared/worker.js")
+(import config "./config.js")
+(import Ticker "/shared/ticker.js")
+
+
+(add-event-listener 'load
+
+                    (->
 
 (const velocities (.spawn Vector-2D-phase-space 1024))
 (const positions (.spawn Vector-2D-phase-space 1024))
 (const vertices (vertex-layer 1024))
 
-(const movement (.spawn Thread "/client/fluid/workers/movement.js"))
-(const noise (.spawn Thread "/client/fluid/workers/noise.js"))
+(def-generic set-move-noise (v x y (t 0) (force 1) )
+  (.set-angle v (* (simplex3 x y t) Math.PI 2))
+  (.set-length v (* (simplex3 x y t) force)))
 
-(define Threaded-system Interface
+(define Threaded-system Thread
   (data [])
-  (init ((thread (.spawn Thread this.thread-url))))
   (def update ()
-    (.send this.thread (map this.data (data) [
+    (print "update" this)
+    (.send this (map this.data (data) [
                             data.current-state.buffer
                             data.next-state.buffer
-                            ]))
-    )
-  )
+                            ]))))
 
 (define Movement-system Threaded-system
+  (url "/client/fluid/workers/movement.js")
   (data [velocities positions]))
 
 (define Noise-system Threaded-system
+  (url "/client/fluid/workers/noise.js")
   (data [velocities positions]))
 
 
+
 (for-of! p positions.data
-         (set (get vertices p.index 'color) 'r 10 'g 10 'b 255 'a 1)
-         (set (get vertices p.index 'point)
-              'x (assign p.x (* 100 (Math.random)))
-              'y (assign p.y (* 100 (Math.random)))))
+         (set (get vertices p.id 'color) 'r 255 'g 10 'b 10 'a 255)
+         (set  (get vertices p.id)
+
+               'size 8
+               )
+         (set (get vertices p.id 'point)
+              'x (assign p.x (* 1000 (Math.random)))
+              'y (assign p.y (* 1000 (Math.random)))
+              'z 1
+              ))
+
+(.step positions)
+(.update rendering)
+;; (on ticker.events 'tick ()
+;;     (.update rendering))
+;; (.start ticker)
 
 (for-of! v velocities.data
-         (const p (get positions.data v.index))
+         (const p (get positions.data v.id))
          (set-move-noise v p.x p.y ))
 
+(.step velocities)
+
+(print vertices)
+(print positions)
+(print velocities)
+
 (def-async main ()
+  (print "click")
+
+
+  (.init Noise-system)
+  (.init Movement-system)
+  (.start Noise-system )
+  (.start Movement-system)
+
+  (var promise (Promise.resolve))
   (while! true
-          (await (Promise.all [ (.update Movement-system) (.update Noise-field) ]))
+          (print "step")
+          (await (Promise.all [ (.update Movement-system) (.update Noise-system) ]))
           (.step velocities)
           (.step positions)
-
           (for-of! p positions.data
-                   (set (get vertices p.index 'point)
+                   (set (get vertices p.id 'point)
                         'x p.x
                         'y p.y))
-    )
-  null
-  )
+          (.update rendering))
+  (return null))
+                     (const game-view (dom (.div .id "game-view" .className "panel"
+                                                 .style (lit ("background-color" "black"))
+                                                 (-> rendering.context.canvas))))
 
-(const game-view (dom (.div .id "game-view" .className "panel"
-                            .style (lit ("background-color" "black"))
-                            (-> (if game game.rendering.context.canvas "")))))
+                     (const load-selected-game (-> (load-game (get (.get-element-by-id document 'load-save-name-field) 'value))))
 
-(const load-selected-game (-> (load-game (get (.get-element-by-id document 'load-save-name-field) 'value))))
+                     (const load-button (dom (.button .onclick load-selected-game "load game")))
+                     (const load-name-field (dom (.input .type 'text .id 'load-name-field)))
 
-(const load-button (dom (.button .onclick load-selected-game "load game")))
-(const load-name-field (dom (.input .type 'text .id 'load-name-field)))
+                     (const load-widget (dom (.div .id 'load-game load-name-field load-button)))
 
-(const load-widget (dom (.div .id 'load-game load-name-field load-button)))
+                     (const save-selected-game (-> (save-game (get (.get-element-by-id document 'save-name-field) 'value))))
 
-(const save-selected-game (-> (save-game (get (.get-element-by-id document 'save-name-field) 'value))))
+                     (const save-button (dom (.button .onclick save-selected-game "save game")))
+                     (const save-name-field (dom (.input .type 'text .id 'save-name-field)))
 
-(const save-button (dom (.button .onclick save-selected-game "save game")))
-(const save-name-field (dom (.input .type 'text .id 'save-name-field)))
+                     (const save-widget (dom (.div .id 'save-game save-name-field save-button)))
 
-(const save-widget (dom (.div .id 'save-game save-name-field save-button)))
+                     (const start-button (dom (.div .id 'start-game (.button .onclick main "start game"))))
+                     (with-dom Document-body
+                       (.div .id 'frame (.div .id "container"
+                                              game-view
+                                              (.div .id "debug-view" .className "panel"
+                                                    .style (lit (height (+  (second config.dimensions)"px"))
+                                                                (width (+ (Math.round (- (* window.innerWidth 0.2) 42)) "px"))
+                                                                ("overflow-y" "scroll"))
+                                                    start-button
+                                                    )))))
+                    )
 
-(const start-button (dom (.div .id 'start-game (.button .onclick (-> (start-game)
-                                                                     (start-interface)) "start game"))))
-(with-dom Document-body
-  (.div .id 'frame (.div .id "container"
-                         game-view
-                         (.div .id "debug-view" .className "panel"
-                               .style (lit (height (+  (second config.dimensions)"px"))
-                                           (width (+ (Math.round (- (* window.innerWidth 0.2) 42)) "px"))
-                                           ("overflow-y" "scroll"))
-                               start-button
-                               ))))
 

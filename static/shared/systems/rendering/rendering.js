@@ -81,7 +81,7 @@ var Rendering = PooledSystem.define("Rendering", {
       const self=this;
       this.xOffset = 0;
       this.yOffset = 0;
-      this.zoomLevel = 0.2;
+      this.zoomLevel = 0.5;
       var mouseHeld = false;
       context.canvas.onmousedown = (function context$canvas$onmousedown$(e) {
         /* context.canvas.onmousedown eval.sibilant:1:1947 */

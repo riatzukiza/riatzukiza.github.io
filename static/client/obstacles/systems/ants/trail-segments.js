@@ -63,7 +63,7 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
         return this.views.get("view");
       } else {
         var r = (function() {
-          /* eval.sibilant:13:23 */
+          /* eval.sibilant:11:23 */
         
           return createDocumentNode("div", { 'className': "panel" }, [ "trail segment", createDocumentNode("div", {  }, [ "pos:", (() => {
           	return displayDecimal(this.x, 2);

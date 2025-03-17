@@ -4,7 +4,8 @@
        )
 (define Data-type Spawnable
   (keys [])
-  (init (index array ))
+  (init (id array ))
+  (gett index (* this.size this.id))
 
   (gett size this.keys.length)
 
@@ -19,10 +20,10 @@
           (define-property this key
             (def get ()
               (get this.array.current-state.array
-                   (+ (* this.index this.keys.length ) i)))
+                   (+ this.index i)))
             (def set (value)
               (set this.array.next-state.array
-                   (+ (* this.index this.keys.length ) i)
+                   (+ this.index i)
                    value))
             )
           )

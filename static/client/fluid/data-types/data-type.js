@@ -21,10 +21,15 @@ import {
  } from "/shared/data-structures/spawnable.js";
 var DataType = Spawnable.define("DataType", { 
   keys:[],
-  init( index = this.index,array = this.array ){ 
+  init( id = this.id,array = this.array ){ 
     
-      this.index = index;this.array = array;
+      this.id = id;this.array = array;
       return this;
+    
+   },
+  get index(  ){ 
+    
+      return (this.size * this.id);
     
    },
   get size(  ){ 
@@ -43,12 +48,12 @@ var DataType = Spawnable.define("DataType", {
       	return Object.defineProperty(this, key, { 
         get(  ){ 
           
-            return this.array.currentState.array[((this.index * this.keys.length) + i)];
+            return this.array.currentState.array[(this.index + i)];
           
          },
         set( value ){ 
           
-            return this.array.nextState.array[((this.index * this.keys.length) + i)] = value;
+            return this.array.nextState.array[(this.index + i)] = value;
           
          }
        });

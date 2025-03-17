@@ -26,9 +26,9 @@ import {
   Interface
  } from "/shared/kit/interface/index.js";
 import { 
-  Saveable
- } from "/shared/saveable.js";
-var Ticker = Saveable.define("Ticker", { 
+  Spawnable
+ } from "/shared/data-structures/spawnable.js";
+var Ticker = Spawnable.define("Ticker", { 
   state:false,
   ticks:0,
   events:create(EventEmitter)(),

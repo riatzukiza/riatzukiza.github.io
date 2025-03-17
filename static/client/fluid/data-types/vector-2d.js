@@ -33,6 +33,16 @@ var Vector2D = DataType.define("Vector2D", {
       }).call(this);
     
    },
+  getAngle(  ){ 
+    
+      return Math.atan2(this.y, this.x);
+    
+   },
+  getLength(  ){ 
+    
+      return Math.hypot(this.x, this.y);
+    
+   },
   setLength( length ){ 
     
       const angle=this.getAngle();

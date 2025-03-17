@@ -17,6 +17,14 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 import { 
+  renderChildren,
+  createDocumentNode,
+  DocumentNode,
+  DocumentBody,
+  DocumentHead,
+  DocumentRoot
+ } from "/shared/dom.js";
+import { 
   simplex3
  } from "/shared/noise.js";
 import { 
@@ -26,61 +34,88 @@ import {
   rendering,
   vertexLayer
  } from "./rendering.js";
-const velocities=Vector2DPhaseSpace.spawn(1024);
+import { 
+  Thread
+ } from "/shared/worker.js";
+import { 
+  config
+ } from "./config.js";
+import { 
+  Ticker
+ } from "/shared/ticker.js";
+addEventListener("load", (() => {
+	const velocities=Vector2DPhaseSpace.spawn(1024);
 const positions=Vector2DPhaseSpace.spawn(1024);
 const vertices=vertexLayer(1024);
-const movement=Thread.spawn("/client/fluid/workers/movement.js");
-const noise=Thread.spawn("/client/fluid/workers/noise.js");
-var ThreadedSystem = Interface.define("ThreadedSystem", { 
+var setMoveNoise = (function setMoveNoise$(v = this.v, x = this.x, y = this.y, t = 0, force = 1) {
+  /* set-move-noise inc/core/function-expressions.sibilant:28:8 */
+
+  v.setAngle((simplex3(x, y, t) * Math.PI * 2));
+  return v.setLength((simplex3(x, y, t) * force));
+});
+var ThreadedSystem = Thread.define("ThreadedSystem", { 
   data:[],
-  init( thread = Thread.spawn(this.threadUrl) ){ 
-    
-      this.thread = thread;
-      return this;
-    
-   },
   update(  ){ 
     
-      return this.thread.send(this.data.map(((data) => {
+      console.log("update", this);
+      return this.send(this.data.map(((data) => {
       	return [ data.currentState.buffer, data.nextState.buffer ];
       })));
     
    }
  });
 var MovementSystem = ThreadedSystem.define("MovementSystem", { 
+  url:"/client/fluid/workers/movement.js",
   data:[ velocities, positions ]
  });
 var NoiseSystem = ThreadedSystem.define("NoiseSystem", { 
+  url:"/client/fluid/workers/noise.js",
   data:[ velocities, positions ]
  });
 for (var p of positions.data)
 {
-vertices[p.index].color.r = 10;
-vertices[p.index].color.g = 10;
-vertices[p.index].color.b = 255;
-vertices[p.index].color.a = 1;;
-vertices[p.index].point.x = p.x = (100 * Math.random());
-vertices[p.index].point.y = p.y = (100 * Math.random());
+vertices[p.id].color.r = 255;
+vertices[p.id].color.g = 10;
+vertices[p.id].color.b = 10;
+vertices[p.id].color.a = 255;;
+vertices[p.id].size = 8;;
+vertices[p.id].point.x = p.x = (1000 * Math.random());
+vertices[p.id].point.y = p.y = (1000 * Math.random());
+vertices[p.id].point.z = 1;
 }
 ;
+positions.step();
+rendering.update();
 for (var v of velocities.data)
 {
-const p=positions.data[v.index];;
+const p=positions.data[v.id];;
 setMoveNoise(v, p.x, p.y)
 }
 ;
+velocities.step();
+console.log(vertices);
+console.log(positions);
+console.log(velocities);
 async function main(){
 
+  console.log("click");
+  NoiseSystem.init();
+  MovementSystem.init();
+  NoiseSystem.start();
+  MovementSystem.start();
+  var promise = Promise.resolve();
   while( true ){ 
-    await Promise.all([ MovementSystem.update(), NoiseField.update() ]);
+    console.log("step");
+    await Promise.all([ MovementSystem.update(), NoiseSystem.update() ]);
     velocities.step();
     positions.step();
     for (var p of positions.data)
     {
-    vertices[p.index].point.x = p.x;
-    vertices[p.index].point.y = p.y;
+    vertices[p.id].point.x = p.x;
+    vertices[p.id].point.y = p.y;
     }
-    
+    ;
+    rendering.update()
    };
   return null;
 
@@ -92,13 +127,7 @@ const gameView=createDocumentNode("div", {
     "background-color":"black"
    }
 }, [ (() => {
-	return (function() {
-  if (game) {
-    return game.rendering.context.canvas;
-  } else {
-    return "";
-  }
-}).call(this);
+	return rendering.context.canvas;
 }) ]);
 const loadSelectedGame=(() => {
 	return loadGame(document.getElementById("loadSaveNameField").value);
@@ -118,11 +147,8 @@ const saveNameField=createDocumentNode("input", {
   'id': "saveNameField"
 }, []);
 const saveWidget=createDocumentNode("div", { 'id': "saveGame" }, [ saveNameField, saveButton ]);
-const startButton=createDocumentNode("div", { 'id': "startGame" }, [ createDocumentNode("button", { 'onclick': (() => {
-	startGame();
-return startInterface();
-}) }, [ "start game" ]) ]);
-createDocumentNode("div", { 'id': "frame" }, [ createDocumentNode("div", { 'id': "container" }, [ gameView, createDocumentNode("div", {
+const startButton=createDocumentNode("div", { 'id': "startGame" }, [ createDocumentNode("button", { 'onclick': main }, [ "start game" ]) ]);
+return createDocumentNode("div", { 'id': "frame" }, [ createDocumentNode("div", { 'id': "container" }, [ gameView, createDocumentNode("div", {
   'id': "debug-view",
   'className': "panel",
   'style': { 
@@ -131,3 +157,4 @@ createDocumentNode("div", { 'id': "frame" }, [ createDocumentNode("div", { 'id':
     "overflow-y":"scroll"
    }
 }, [ startButton ]) ]) ]).render(DocumentBody);
+}));

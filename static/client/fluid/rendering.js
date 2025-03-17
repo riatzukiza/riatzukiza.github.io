@@ -26,12 +26,21 @@ import {
   Interface
  } from "/shared/kit/interface/index.js";
 import { 
+  Gl
+ } from "/shared/gl.js";
+import { 
   config
  } from "./config.js";
 const rendering=Rendering.load({ 
   dimensions:[ (1 * config.dimensions[0]), (1 * config.dimensions[1]) ],
   blend:true
  });
+rendering.backgroundColor = { 
+  r:0,
+  g:0,
+  b:0,
+  a:255
+ };
 export { 
   rendering
  };
@@ -50,8 +59,8 @@ var shaders = Interface.define("shaders", {
 
   vec4 clipspace_coordinate (vec3 xyz, float scale, vec2 res)
   {
-    return (vec4((((xyz ) * u_Zoom * scale) + u_Offset
-                  / vec3(res,1.0) * 1.98 - 0.99), 1.0)
+    return (vec4((((xyz + u_Offset) * u_Zoom * scale)
+                  / vec3(res,1.0)), 1.0)
             * vec4( 1.0,-1.0,1.0,1.0 ));
 
   }
@@ -114,7 +123,7 @@ var uniforms = Interface.define("uniforms", {
    }
  });
 var vertexLayer = (function vertexLayer$(limit) {
-  /* vertex-layer eval.sibilant:25:0 */
+  /* vertex-layer eval.sibilant:30:0 */
 
   const context=rendering.context;
   const layer=rendering.spawn(limit, Vertex, [ uniforms.res, uniforms.scale, uniforms.zoom, uniforms.offset ], [ shaders.vert, shaders.frag ]);
