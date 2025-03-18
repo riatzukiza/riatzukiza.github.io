@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -22,12 +23,12 @@ import {
   EventEmitter
  } from "./kit/events/index.js";
 EventEmitter.removeAllListeners = (function EventEmitter$removeAllListeners$(...args) {
-  /* Event-emitter.remove-all-listeners eval.sibilant:1:559 */
+  /* Event-emitter.remove-all-listeners eval.sibilant:2:225 */
 
   return events.EventEmitter.prototype.removeAllListeners.call(this, ...args);
 });
 var rgb = (function rgb$(r, g, b) {
-  /* rgb eval.sibilant:1:728 */
+  /* rgb eval.sibilant:2:394 */
 
   return { 
     r,
@@ -39,7 +40,7 @@ export {
   rgb
  };
 var memoize = (function memoize$(f) {
-  /* memoize eval.sibilant:1:778 */
+  /* memoize eval.sibilant:2:444 */
 
   "create a memoized version of any function. A memoized function will return\n"+"previously calculated results from a cache if the arguments given to it are the same";
   var m = {  };
@@ -71,7 +72,7 @@ export {
   equals
  };
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each eval.sibilant:2:389 */
+  /* Object.prototype.each eval.sibilant:3:389 */
 
   return Object.keys(this).each(((k) => {
   	return f(this[k], k);
@@ -94,7 +95,7 @@ export {
   fset
  };
 window.size = (function window$size$() {
-  /* window.size eval.sibilant:2:647 */
+  /* window.size eval.sibilant:3:647 */
 
   return [ window.innerWidth, window.innerHeight ];
 });
@@ -107,7 +108,7 @@ export {
   search
  };
 var identity = (function identity$(a) {
-  /* identity eval.sibilant:2:803 */
+  /* identity eval.sibilant:3:803 */
 
   return a;
 });
@@ -115,7 +116,7 @@ export {
   identity
  };
 var searchIfGiven = (function searchIfGiven$(array, value) {
-  /* search-if-given eval.sibilant:2:846 */
+  /* search-if-given eval.sibilant:3:846 */
 
   return conditional(array, (() => {
   	return typeof value !== "undefined";
@@ -125,7 +126,7 @@ export {
   searchIfGiven
  };
 var fprint = (function fprint$($value, ...args) {
-  /* fprint eval.sibilant:2:1026 */
+  /* fprint eval.sibilant:3:1026 */
 
   console.log($value, ...args);
   return $value;

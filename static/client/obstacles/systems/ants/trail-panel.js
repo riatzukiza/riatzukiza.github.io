@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -64,7 +65,7 @@ var TrailsPanel = ViewPanel.define("TrailsPanel", {
         return this.views.get("settingsPanel");
       } else {
         var r = (function() {
-          /* eval.sibilant:11:23 */
+          /* eval.sibilant:12:23 */
         
           return createDocumentNode("div", { 'className': "panel" }, [ createDocumentNode("button", { 'onclick': (() => {
           	return this.trailDots.toggleVisibility();

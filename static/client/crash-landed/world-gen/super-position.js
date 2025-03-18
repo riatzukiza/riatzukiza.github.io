@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -37,7 +38,7 @@ import {
   summate
  } from "/shared/math/math.js";
 var calculateEntropy = (function calculateEntropy$(weights) {
-  /* calculate-entropy eval.sibilant:12:0 */
+  /* calculate-entropy eval.sibilant:13:0 */
 
   const sumOfWeights=summate(weights);
   const sumOfLogWeights=weights.reduce(((sum, weight) => {

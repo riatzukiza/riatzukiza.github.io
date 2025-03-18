@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -26,7 +27,7 @@ import {
   Interface
  } from "../kit/interface/index.js";
 var sumOf = (function sumOf$(list, p) {
-  /* sum-of eval.sibilant:1:710 */
+  /* sum-of eval.sibilant:2:376 */
 
   return list.reduce(((total, e) => {
   	return (total + e[p]);
@@ -72,7 +73,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(newPool) {
-        /* eval.sibilant:1:661 */
+        /* eval.sibilant:2:327 */
       
         buckets.unshift(newPool);
         return newPool;
@@ -97,7 +98,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       var p = buckets.rotateUntil((function() {
-        /* eval.sibilant:2:127 */
+        /* eval.sibilant:3:127 */
       
         return arguments[0].free > 0;
       }));
@@ -129,7 +130,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(object) {
-        /* eval.sibilant:1:661 */
+        /* eval.sibilant:2:327 */
       
         object.bucket = this.current;
         (function() {
@@ -184,7 +185,7 @@ var DynamicPool = Interface.define("DynamicPool", {
       ;
       var self = this;
       return self.each((function() {
-        /* eval.sibilant:2:1799 */
+        /* eval.sibilant:3:1799 */
       
         return self.despawn(arguments[0]);
       }));
@@ -209,7 +210,7 @@ var DynamicPool = Interface.define("DynamicPool", {
       ;
       var self = this;
       return buckets.each((function() {
-        /* eval.sibilant:2:2085 */
+        /* eval.sibilant:3:2085 */
       
         return arguments[0]._inUse.each(f);
       }));
@@ -232,7 +233,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(r) {
-        /* eval.sibilant:1:661 */
+        /* eval.sibilant:2:327 */
       
         r.init(...args);
         return r;

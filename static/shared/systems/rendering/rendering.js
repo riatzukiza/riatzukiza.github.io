@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -32,42 +33,42 @@ import {
   Scalar
  } from "../../math/scalar.js";
 window.size = (function window$size$() {
-  /* window.size eval.sibilant:1:671 */
+  /* window.size eval.sibilant:2:337 */
 
   return [ window.innerWidth, window.innerHeight ];
 });
 var bound = (function() {
-  /* eval.sibilant:1:754 */
+  /* eval.sibilant:2:420 */
 
   return arguments[0].bind();
 }),
     clear = (function() {
-  /* eval.sibilant:1:779 */
+  /* eval.sibilant:2:445 */
 
   return arguments[0].clear();
 }),
     rendered = (function() {
-  /* eval.sibilant:1:808 */
+  /* eval.sibilant:2:474 */
 
   return arguments[0].render();
 }),
     unbound = (function() {
-  /* eval.sibilant:1:838 */
+  /* eval.sibilant:2:504 */
 
   return arguments[0].unbind();
 }),
     disabled = (function() {
-  /* eval.sibilant:1:867 */
+  /* eval.sibilant:2:533 */
 
   return arguments[0].disable();
 }),
     enabled = (function() {
-  /* eval.sibilant:1:898 */
+  /* eval.sibilant:2:564 */
 
   return arguments[0].enable();
 });
 var allowAlphaBlending = (function allowAlphaBlending$(context) {
-  /* allow-alpha-blending eval.sibilant:1:916 */
+  /* allow-alpha-blending eval.sibilant:2:582 */
 
   context.gl = context.canvas.getContext("webgl2");
   context.gl.enable(context.gl.BLEND);
@@ -84,19 +85,19 @@ var Rendering = PooledSystem.define("Rendering", {
       this.zoomLevel = 0.5;
       var mouseHeld = false;
       context.canvas.onmousedown = (function context$canvas$onmousedown$(e) {
-        /* context.canvas.onmousedown eval.sibilant:1:1947 */
+        /* context.canvas.onmousedown eval.sibilant:2:1613 */
       
         e.preventDefault();
         return mouseHeld = true;
       });
       context.canvas.onmouseup = (function context$canvas$onmouseup$(e) {
-        /* context.canvas.onmouseup eval.sibilant:1:2048 */
+        /* context.canvas.onmouseup eval.sibilant:2:1714 */
       
         e.preventDefault();
         return mouseHeld = false;
       });
       context.canvas.onmousemove = (function context$canvas$onmousemove$(e) {
-        /* context.canvas.onmousemove eval.sibilant:1:2146 */
+        /* context.canvas.onmousemove eval.sibilant:2:1812 */
       
         e.preventDefault();
         return (function() {
@@ -107,7 +108,7 @@ var Rendering = PooledSystem.define("Rendering", {
         }).call(this);
       });
       context.canvas.onwheel = (function context$canvas$onwheel$(e) {
-        /* context.canvas.onwheel eval.sibilant:1:2624 */
+        /* context.canvas.onwheel eval.sibilant:2:2290 */
       
         e.preventDefault();
         const oldScale=(1 / self.zoomLevel);

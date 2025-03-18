@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -54,12 +55,12 @@ var {
     config = require("@obstacles/config.js");
 const ants=create(EntityGroup)("Ants", [ Collision, AntSprites, AntPanel, Physics, Velocity, Position, AntTrails, AntLifeTimer ], game.ent);
 var clearAnts = (function clearAnts$() {
-  /* clear-ants eval.sibilant:29:0 */
+  /* clear-ants eval.sibilant:30:0 */
 
   return ants.clear();
 });
 var spawnAnt = (function spawnAnt$(x_y$1, home, startingLife) {
-  /* spawn-ant eval.sibilant:30:0 */
+  /* spawn-ant eval.sibilant:31:0 */
 
   var x = x_y$1[0],
       y = x_y$1[1];
@@ -75,12 +76,12 @@ var spawnAnt = (function spawnAnt$(x_y$1, home, startingLife) {
   (function() {
     if (!(config.spawnStatic === 0)) {
       return v.accelerate([ (1 + (function() {
-        /* eval.sibilant:1:792 */
+        /* eval.sibilant:2:458 */
       
         var rand = ((Math.random() * (config.spawnStatic - 0)) + 0);
         return (config.spawnStatic - (rand / 2));
       }).call(this)), (1 + (function() {
-        /* eval.sibilant:1:792 */
+        /* eval.sibilant:2:458 */
       
         var rand = ((Math.random() * (config.spawnStatic - 0)) + 0);
         return (config.spawnStatic - (rand / 2));

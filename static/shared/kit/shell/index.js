@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -54,12 +55,12 @@ mixin({
   partiallyApplyAfter
  }, global);
 var appendLine = R.curry((function(path, d) {
-  /* eval.sibilant:10:34 */
+  /* eval.sibilant:11:34 */
 
   return appendFile(path, (d + "\n"));
 }));
 var appendFile = R.curry((function(path, d) {
-  /* eval.sibilant:10:34 */
+  /* eval.sibilant:11:34 */
 
   return (new Promise(((success, fail) => {
   	var resolve = success,
@@ -77,7 +78,7 @@ var appendFile = R.curry((function(path, d) {
 }));
 var historyFilePath = "./history.sibilant";
 var readHistory = (function readHistory$(actor) {
-  /* read-history eval.sibilant:43:0 */
+  /* read-history eval.sibilant:44:0 */
 
   return console.log("reading history");
 });
@@ -85,13 +86,13 @@ var identity = ((a) => {
 	return a;
 });
 var pipeStreamToActor = R.curry((function(f, actor) {
-  /* eval.sibilant:10:34 */
+  /* eval.sibilant:11:34 */
 
   return (new Promise(((success, fail) => {
   	var resolve = success,
       reject = fail;
   return fs.createReadStream(historyFilePath).on("data", (function() {
-    /* eval.sibilant:50:21 */
+    /* eval.sibilant:51:21 */
   
     return actor.send((function() {
       /* src/macros/pipe.sibilant:66:9 */
@@ -114,12 +115,12 @@ var Reader = repl.Reader;
   })).then((() => {
   	var reader = repl[Reader.symbol];
   rl.on("line", (function() {
-    /* eval.sibilant:68:30 */
+    /* eval.sibilant:69:30 */
   
     return repl.send(arguments[0]);
   }));
   repl.on("result", (function() {
-    /* eval.sibilant:71:34 */
+    /* eval.sibilant:72:34 */
   
     return rl.prompt(arguments[0]);
   }));

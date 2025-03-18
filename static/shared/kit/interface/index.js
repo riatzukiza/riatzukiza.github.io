@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -42,7 +43,7 @@ var Interface = {
         /* inc/scope.sibilant:12:9 */
       
         proto.construct = (function proto$construct$() {
-          /* proto.construct eval.sibilant:32:32 */
+          /* proto.construct eval.sibilant:33:32 */
         
           return Object.create(proto).init(...arguments);
         });

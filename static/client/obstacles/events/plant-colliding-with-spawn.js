@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -35,13 +36,13 @@ game.events.on("plantCollidingWithSpawn", ((home, plant) => {
 	const v=plant.entity.velocityInterface;
 const pos=plant.pos;
 var xd = (function() {
-  /* eval.sibilant:1:792 */
+  /* eval.sibilant:2:458 */
 
   var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
   return (config.collisionStatic - (rand / 2));
 }).call(this);
 var yd = (function() {
-  /* eval.sibilant:1:792 */
+  /* eval.sibilant:2:458 */
 
   var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
   return (config.collisionStatic - (rand / 2));

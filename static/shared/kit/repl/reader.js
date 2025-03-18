@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -26,19 +27,19 @@ import {
   emit
  } from "../events/index.js";
 var scanning__QUERY = (function scanning__QUERY$(parser) {
-  /* scanning? eval.sibilant:16:0 */
+  /* scanning? eval.sibilant:17:0 */
 
   return !((parser.inQuote || parser.comment));
 });
 var readers = { 
   "\"":(function(c) {
-    /* eval.sibilant:20:12 */
+    /* eval.sibilant:21:12 */
   
     this.inQuote = !(this.inQuote);
     return c;
   }),
   ";":(function(c) {
-    /* eval.sibilant:21:11 */
+    /* eval.sibilant:22:11 */
   
     return (function() {
       if (this.inQuote) {
@@ -51,7 +52,7 @@ var readers = {
   })
  };
 readers["("] = (function(char) {
-  /* eval.sibilant:27:13 */
+  /* eval.sibilant:28:13 */
 
   return (function() {
     if (scanning__QUERY(this)) {
@@ -63,7 +64,7 @@ readers["("] = (function(char) {
   }).call(this);
 });
 readers[")"] = (function(char) {
-  /* eval.sibilant:27:13 */
+  /* eval.sibilant:28:13 */
 
   return (function() {
     if (scanning__QUERY(this)) {
@@ -75,7 +76,7 @@ readers[")"] = (function(char) {
   }).call(this);
 });
 readers["["] = (function(char) {
-  /* eval.sibilant:27:13 */
+  /* eval.sibilant:28:13 */
 
   return (function() {
     if (scanning__QUERY(this)) {
@@ -87,7 +88,7 @@ readers["["] = (function(char) {
   }).call(this);
 });
 readers["]"] = (function(char) {
-  /* eval.sibilant:27:13 */
+  /* eval.sibilant:28:13 */
 
   return (function() {
     if (scanning__QUERY(this)) {
@@ -99,7 +100,7 @@ readers["]"] = (function(char) {
   }).call(this);
 });
 readers["{"] = (function(char) {
-  /* eval.sibilant:27:13 */
+  /* eval.sibilant:28:13 */
 
   return (function() {
     if (scanning__QUERY(this)) {
@@ -111,7 +112,7 @@ readers["{"] = (function(char) {
   }).call(this);
 });
 readers["}"] = (function(char) {
-  /* eval.sibilant:27:13 */
+  /* eval.sibilant:28:13 */
 
   return (function() {
     if (scanning__QUERY(this)) {
@@ -152,16 +153,16 @@ var Reader = Actor.define("Reader", {
     
       var lines = string.split("\n");
       return line().forEach((function(lines) {
-        /* eval.sibilant:64:4 */
+        /* eval.sibilant:65:4 */
       
         var looping = true,
             i = 0;
         var chars = line.split("");
         this.comment = false;
         (function() {
-          var while$86 = undefined;
+          var while$66 = undefined;
           while ((looping && !(this.comment))) {
-            while$86 = (function() {
+            while$66 = (function() {
               var char = chars[((i)++)];
               (function() {
                 if (readers[char]) {
@@ -191,7 +192,7 @@ var Reader = Actor.define("Reader", {
               }).call(this);
             }).call(this);
           };
-          return while$86;
+          return while$66;
         }).call(this);
         return this.fragment.push("\n");
       }));

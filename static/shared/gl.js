@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -34,28 +35,28 @@ var {
  } = Andy.Color;
 window.Program = Program;
 Gl.shader = (function Gl$shader$(typeName, string, context) {
-  /* Gl.shader eval.sibilant:1:653 */
+  /* Gl.shader eval.sibilant:2:319 */
 
   return (new Andy.Gl.Shader(Andy.Gl.Shader[typeName], string));
 });
 Gl.buffer = (function Gl$buffer$(_members, context) {
-  /* Gl.buffer eval.sibilant:1:763 */
+  /* Gl.buffer eval.sibilant:2:429 */
 
   return (new Andy.Gl.Buffer(context.ARRAY_BUFFER, context.DYNAMIC_DRAW)).bind().data(_members.data).unbind();
 });
 Gl.context = (function Gl$context$(dimensions, blend) {
-  /* Gl.context eval.sibilant:1:943 */
+  /* Gl.context eval.sibilant:2:609 */
 
   const context=(new Andy.Context()).makeCurrent().resize(...dimensions).clearColor(0, 0, 0, 0).blend(blend).clear();
   return context;
 });
 Gl.uniform = (function Gl$uniform$(typeName, varName, value) {
-  /* Gl.uniform eval.sibilant:1:1253 */
+  /* Gl.uniform eval.sibilant:2:919 */
 
   return (new Andy.Gl.Uniform[typeName](varName, value));
 });
 Gl.program = (function Gl$program$(vert, frag, context) {
-  /* Gl.program eval.sibilant:1:1557 */
+  /* Gl.program eval.sibilant:2:1223 */
 
   return (new Andy.Gl.Program(Gl.shader("vertex", vert, context), Gl.shader("fragment", frag, context)));
 });

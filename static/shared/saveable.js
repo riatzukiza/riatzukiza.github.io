@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -24,7 +25,7 @@ import {
  } from "/shared/database.js";
 const dbs=(new Map());
 var getDatabase = (function getDatabase$(name) {
-  /* get-database eval.sibilant:6:0 */
+  /* get-database eval.sibilant:8:0 */
 
   return (function() {
     if (dbs.has(name)) {
@@ -231,7 +232,19 @@ var Saveable = Interface.define("Saveable", {
     for (var p of this.db.getCursor(this.name))
     {
     const obj=await p;;
-    cache(this.loadedInstances, saveIndex, this.injest(obj))
+    (function() {
+      if (this.loadedInstances.has(saveIndex)) {
+        return this.loadedInstances.get(saveIndex);
+      } else {
+        var r = (function() {
+          /* eval.sibilant:12:23 */
+        
+          return this.injest(obj);
+        }).call(this);
+        this.loadedInstances.set(saveIndex, r);
+        return r;
+      }
+    }).call(this)
     }
     ;
     return r;
@@ -239,9 +252,21 @@ var Saveable = Interface.define("Saveable", {
  },
   load( saveName = this.saveName,saveIndex = 0,database = create(Database)(saveName) ){ 
     
-      return cache(this.loadedInstances, saveIndex, database.get([ this.name, saveIndex ]).then(((data) => {
-      	return this.injest(data, saveName, saveIndex, database);
-      })));
+      return (function() {
+        if (this.loadedInstances.has(saveIndex)) {
+          return this.loadedInstances.get(saveIndex);
+        } else {
+          var r = (function() {
+            /* eval.sibilant:12:23 */
+          
+            return database.get([ this.name, saveIndex ]).then(((data) => {
+            	return this.injest(data, saveName, saveIndex, database);
+            }));
+          }).call(this);
+          this.loadedInstances.set(saveIndex, r);
+          return r;
+        }
+      }).call(this);
     
    },
    async delete(  ){ 

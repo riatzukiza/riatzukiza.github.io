@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -20,8 +21,8 @@ import {
   Rendering
  } from "/shared/systems/rendering/rendering.js";
 import { 
-  Vertex
- } from "/shared/systems/rendering/vertex.js";
+  Mote
+ } from "/shared/systems/rendering/mote.js";
 import { 
   Interface
  } from "/shared/kit/interface/index.js";
@@ -49,8 +50,12 @@ var shaders = Interface.define("shaders", {
   in vec3 a_point;
   in vec4 a_color;
   in float a_size;
+  in float a_intensity;
 
   out highp vec4 vColor;
+  out highp vec3 vPoint;
+  out highp float vSize;
+  out highp float vIntensity;
 
   uniform vec2  u_Resolution;
   uniform float u_Scale;
@@ -72,14 +77,13 @@ var shaders = Interface.define("shaders", {
     p.z = 1.0;
 
     gl_Position  = clipspace_coordinate( p, u_Scale, u_Resolution );
-    // gl_PointSize = a_size + zAxis;
 
     gl_PointSize = (a_size + zAxis) * u_Scale;
 
-    //size * z
-    // so that the closer the vertex is (the larger z is), the larger the vertex will be relative to its physical size
-
     vColor       = a_color;
+    vPoint       = p;
+    vSize = a_size;
+    vIntensity = a_intensity;
 
   }
   `,
@@ -87,9 +91,17 @@ var shaders = Interface.define("shaders", {
   precision mediump float;
 
   in  vec4 vColor;
+  in  vec3 vPoint;
+  in  float vSize;
+  in  float vIntensity;
+
   out vec4 FragColor;
 
-  void main(void) {FragColor = vColor;}
+  void main(void) {
+    FragColor = vColor;
+    float dist = distance(vec2(0.5,0.5),gl_PointCoord.xy)*vSize;
+    FragColor.a = vIntensity/dist;
+  }
   `
  });
 var uniforms = Interface.define("uniforms", { 
@@ -123,10 +135,10 @@ var uniforms = Interface.define("uniforms", {
    }
  });
 var vertexLayer = (function vertexLayer$(limit) {
-  /* vertex-layer eval.sibilant:30:0 */
+  /* vertex-layer eval.sibilant:37:0 */
 
   const context=rendering.context;
-  const layer=rendering.spawn(limit, Vertex, [ uniforms.res, uniforms.scale, uniforms.zoom, uniforms.offset ], [ shaders.vert, shaders.frag ]);
+  const layer=rendering.spawn(limit, Mote, [ uniforms.res, uniforms.scale, uniforms.zoom, uniforms.offset ], [ shaders.vert, shaders.frag ]);
   const verts=[];
   (function() {
     /* inc/loops.sibilant:26:8 */

@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -26,7 +27,7 @@ import {
   getTileNoise
  } from "../noise.js";
 var setupTile = (function setupTile$(tileData, tiles) {
-  /* setup-tile eval.sibilant:4:0 */
+  /* setup-tile eval.sibilant:5:0 */
 
   const tile=tiles.get(tileData.x, tileData.y);
   tile.entity.ground.type = tileData.type;

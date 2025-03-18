@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -48,6 +49,11 @@ var CompositeTypedArray = Spawnable.define("CompositeTypedArray", {
   get elementSize(  ){ 
     
       return this.dataType.size;
+    
+   },
+  fromBuffer( b1 ){ 
+    
+      return this.spawn((b1.byteLength / this.dataType.bytes), b1);
     
    },
   *generate(  ){ 

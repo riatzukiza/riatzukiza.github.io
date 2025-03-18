@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -57,7 +58,7 @@ export {
   trailSegments
  };
 var spawnAntTrailSegment = (function spawnAntTrailSegment$(ant) {
-  /* spawn-ant-trail-segment eval.sibilant:22:0 */
+  /* spawn-ant-trail-segment eval.sibilant:23:0 */
 
   `
   obstacles/entities/trail-segment/spawn-trail-segment.md

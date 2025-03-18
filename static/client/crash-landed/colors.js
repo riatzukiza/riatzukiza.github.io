@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -20,12 +21,12 @@ import {
   Trie
  } from "/shared/data-structures/trees/trie.js";
 Trie.get = (function Trie$get$(...args) {
-  /* Trie.get eval.sibilant:3:0 */
+  /* Trie.get eval.sibilant:4:0 */
 
   return this.find(...args).value;
 });
 var memoize = (function memoize$(f) {
-  /* memoize eval.sibilant:6:0 */
+  /* memoize eval.sibilant:7:0 */
 
   var cache = create(Trie)();
   return ((...args) => {

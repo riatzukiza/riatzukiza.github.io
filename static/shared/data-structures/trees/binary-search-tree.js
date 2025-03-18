@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -43,13 +44,13 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
     
       var node = this;
       (function() {
-        var while$66 = undefined;
+        var while$83 = undefined;
         while (node.parent) {
-          while$66 = (function() {
+          while$83 = (function() {
             return node = node.parent;
           }).call(this);
         };
-        return while$66;
+        return while$83;
       }).call(this);
       return node;
     
@@ -68,13 +69,13 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
     
       var temp = this;
       (function() {
-        var while$67 = undefined;
+        var while$84 = undefined;
         while (temp.left) {
-          while$67 = (function() {
+          while$84 = (function() {
             return temp = temp.left;
           }).call(this);
         };
-        return while$67;
+        return while$84;
       }).call(this);
       return temp;
     

@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -31,7 +32,7 @@ var {
     vm = require("vm");
 var id = 0;
 var runIn = R.curry((function(string) {
-  /* eval.sibilant:10:34 */
+  /* eval.sibilant:11:34 */
 
   return vm.runInThisContext(string, { 
     filename:("kit" + ((id)++))

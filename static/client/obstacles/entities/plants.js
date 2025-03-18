@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -46,11 +47,11 @@ var {
  } = require("@obstacles/game.js"),
     config = require("@obstacles/config.js");
 const plants=create(EntityGroup)("Plants", [ Dot, Position, Physics, Collision, Velocity ], game.ent);
-var spawnPlant = (function spawnPlant$(x_y$2, mass) {
-  /* spawn-plant eval.sibilant:21:0 */
+var spawnPlant = (function spawnPlant$(x_y$3, mass) {
+  /* spawn-plant eval.sibilant:22:0 */
 
-  var x = x_y$2[0],
-      y = x_y$2[1];
+  var x = x_y$3[0],
+      y = x_y$3[1];
 
   var plant = plants.spawn([ Dot, Position, Physics, Collision, Velocity ]);
   game.systems.get(Dot, plant).color = rgba(0, 255, 0, 255);

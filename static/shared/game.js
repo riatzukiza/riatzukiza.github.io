@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -62,7 +63,7 @@ var Game = Saveable.define("Game", {
           setSystemBySymbol = systems.set;
       systems.getBySymbol = getSystemBySymbol;
       systems.get = (function systems$get$(proto, ent) {
-        /* systems.get eval.sibilant:1:1742 */
+        /* systems.get eval.sibilant:2:1408 */
       
         var sys = getSystemBySymbol.call(systems, proto.symbol);
         return (function() {
@@ -109,7 +110,7 @@ var Game = Saveable.define("Game", {
       events.emit("start", this);
       return events.on("tick", ((t) => {
       	systems.each((function() {
-        /* eval.sibilant:1:2397 */
+        /* eval.sibilant:2:2063 */
       
         return arguments[0].update();
       }));
@@ -132,7 +133,7 @@ var Game = Saveable.define("Game", {
       entities.clear();
       events.removeAllListeners();
       return systems.each((function() {
-        /* eval.sibilant:1:2715 */
+        /* eval.sibilant:2:2381 */
       
         return arguments[0].clear();
       }));

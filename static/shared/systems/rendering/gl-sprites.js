@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -39,7 +40,7 @@ import {
   Renderable
  } from "./renderable.js";
 var setPoint = (function setPoint$(x, y, z, vert) {
-  /* set-point eval.sibilant:11:0 */
+  /* set-point eval.sibilant:12:0 */
 
   vert.point.x = x;
   vert.point.y = y;
@@ -198,7 +199,7 @@ var Texture = Interface.define("Texture", {
    }
  });
 var spriteLayer = (function spriteLayer$(limit, textureData, game) {
-  /* sprite-layer eval.sibilant:83:0 */
+  /* sprite-layer eval.sibilant:84:0 */
 
   uniforms.init(game);
   var id = uniforms.id;

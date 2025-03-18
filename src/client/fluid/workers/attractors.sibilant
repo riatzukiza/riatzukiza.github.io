@@ -1,0 +1,98 @@
+(meta "import '/bundles/external.js'")
+
+(import Vector-2D-phase-space "../typed-arrays/vector-2d.js")
+
+(require! Quad-tree  "@timohausmann/quadtree-js")
+(import Vector "/shared/vectors.js")
+
+(const bounds [1000000,1000000])
+(def self.onmessage (e)
+  (const [[vb1 vb2] [pb1 pb2] [ab1 ab2]] e.data.buffers)
+
+  (const (lit (bounds [min-x min-y max-x max-y])) e.data.args)
+
+  (const velocities (.from-buffers Vector-2D-phase-space vb1 vb2))
+  (const positions (.from-buffers Vector-2D-phase-space pb1 pb2))
+  (const attractors (.from-buffers Vector-2D-phase-space ab1 ab2))
+
+  (const quads (new Quad-tree (lit (x min-x) (y min-y)
+                                   (height (+ (Math.abs min-y) (Math.abs max-y)))
+                                   (width (+ (Math.abs min-x) (Math.abs max-x))))
+                    100
+                    1000
+                    ))
+  (for-of! pos positions.data
+           (.insert quads (lit (x pos.x) (y pos.y)
+                               (id pos.id)
+                               (height 256)
+                               (width 256))))
+
+
+  (const visited (new Set))
+  (const groups [])
+  (for-of! pos positions.data
+
+           (if! (.has visited pos.id) continue)
+           (.add visited pos.id)
+
+           (const elements (.retrieve quads (lit (x pos.x) (y pos.y) (height 9192) (width 9192))))
+           (const attraction (get attractors.data pos.id))
+
+
+           (const center (.spawn Vector pos.x pos.y))
+
+           (const group (.spawn Vector attraction.x attraction.y))
+           (assign group.center center)
+           (assign group.members [])
+
+           (const p (.spawn Vector pos.x pos.y))
+
+           (var i 0)
+
+           (.push groups group)
+           (for-of! neighbor elements
+
+
+                    (if! (= pos.id neighbor.id) continue)
+                    (if! (.has visited neighbor.id) continue)
+
+                    (.add visited neighbor.id)
+                    (.push group.members neighbor)
+
+                    (if! (>  i 100) break)
+                    (incr i)
+
+
+                    (const p* (.spawn Vector neighbor.x neighbor.y))
+                    (const dist (.distance-to p p*))
+                    (const middle-dist (.div dist 2))
+                    (.add-to center middle-dist)
+                    (.despawn middle-dist)
+
+                    (const intensity (/ 1 (.get-length dist)))
+
+                    (.set-length dist intensity)
+
+                    (.add-to group dist)
+                    (.add-to pos dist)
+
+                    (.despawn dist)
+                    (.despawn p*))
+           (.despawn p))
+  (for-of! group groups
+           (for-of! group.members
+                    )
+           )
+  (.clear quads)
+
+
+  ;; (.add-to positions velocities)
+  (.post-message self [[vb1 pb1] [vb2 pb2] [ab1 ab2]])
+
+
+  ;; (.pause Atomics)
+  ;; (.wait Atomics (new Big-int64-array vb2))
+
+  (.despawn velocities)
+  (.despawn positions)
+  )

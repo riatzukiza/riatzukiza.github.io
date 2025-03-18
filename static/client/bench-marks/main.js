@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -64,7 +65,7 @@ const rbTree=RedBlackTree.spawn();
 const low=Math.floor((Math.random() * 9000));
 const high=(low + Math.floor((Math.random() * 10000)));
 var timedFn = (function timedFn$(f) {
-  /* timed-fn eval.sibilant:30:0 */
+  /* timed-fn eval.sibilant:31:0 */
 
   return ((...args) => {
   	
@@ -116,7 +117,7 @@ var ArrayWrapper = Spawnable.define("ArrayWrapper", {
    }
  });
 var arrayDotFilter = (function arrayDotFilter$(array) {
-  /* array-dot-filter eval.sibilant:58:0 */
+  /* array-dot-filter eval.sibilant:59:0 */
 
   return array.filter(((n) => {
   	
@@ -125,7 +126,7 @@ var arrayDotFilter = (function arrayDotFilter$(array) {
   }));
 });
 var forOfFilter = (function forOfFilter$(array) {
-  /* for-of-filter eval.sibilant:61:0 */
+  /* for-of-filter eval.sibilant:62:0 */
 
   const r=[];
   for (var n of array)
@@ -138,7 +139,7 @@ var forOfFilter = (function forOfFilter$(array) {
   return r;
 });
 var pooledDotFilter = (function pooledDotFilter$(array) {
-  /* pooled-dot-filter eval.sibilant:66:0 */
+  /* pooled-dot-filter eval.sibilant:67:0 */
 
   return ArrayWrapper.filter(((n) => {
   	
@@ -147,7 +148,7 @@ var pooledDotFilter = (function pooledDotFilter$(array) {
   }), array).despawn();
 });
 var pooledForOfFilter = (function pooledForOfFilter$(array) {
-  /* pooled-for-of-filter eval.sibilant:69:0 */
+  /* pooled-for-of-filter eval.sibilant:70:0 */
 
   const r=ArrayWrapper.spawn();
   for (var n of array)
@@ -160,7 +161,7 @@ var pooledForOfFilter = (function pooledForOfFilter$(array) {
   return r.despawn();
 });
 var arrayDotFilters = (function arrayDotFilters$(array, times) {
-  /* array-dot-filters eval.sibilant:75:0 */
+  /* array-dot-filters eval.sibilant:76:0 */
 
   for (var i = 0;i < times;++(i))
   {
@@ -170,7 +171,7 @@ var arrayDotFilters = (function arrayDotFilters$(array, times) {
   return null;
 });
 var forOfFilters = (function forOfFilters$(array, times) {
-  /* for-of-filters eval.sibilant:76:0 */
+  /* for-of-filters eval.sibilant:77:0 */
 
   for (var i = 0;i < times;++(i))
   {
@@ -180,7 +181,7 @@ var forOfFilters = (function forOfFilters$(array, times) {
   return null;
 });
 var pooledForOfFilters = (function pooledForOfFilters$(array, times) {
-  /* pooled-for-of-filters eval.sibilant:77:0 */
+  /* pooled-for-of-filters eval.sibilant:78:0 */
 
   for (var i = 0;i < times;++(i))
   {
@@ -190,7 +191,7 @@ var pooledForOfFilters = (function pooledForOfFilters$(array, times) {
   return null;
 });
 var pooledDotFilters = (function pooledDotFilters$(array, times) {
-  /* pooled-dot-filters eval.sibilant:78:0 */
+  /* pooled-dot-filters eval.sibilant:79:0 */
 
   for (var i = 0;i < times;++(i))
   {

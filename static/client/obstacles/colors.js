@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -20,12 +21,12 @@ var {
   TreeMap
  } = require("tree-kit");
 TreeMap.get = (function TreeMap$get$(...args) {
-  /* Tree-map.get eval.sibilant:3:0 */
+  /* Tree-map.get eval.sibilant:4:0 */
 
   return this.find(...args).value;
 });
 var memoize = (function memoize$(f) {
-  /* memoize eval.sibilant:6:0 */
+  /* memoize eval.sibilant:7:0 */
 
   var cache = create(TreeMap)();
   return ((...args) => {

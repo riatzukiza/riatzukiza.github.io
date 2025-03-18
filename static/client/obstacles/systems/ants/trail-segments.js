@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -63,7 +64,7 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
         return this.views.get("view");
       } else {
         var r = (function() {
-          /* eval.sibilant:11:23 */
+          /* eval.sibilant:12:23 */
         
           return createDocumentNode("div", { 'className': "panel" }, [ "trail segment", createDocumentNode("div", {  }, [ "pos:", (() => {
           	return displayDecimal(this.x, 2);

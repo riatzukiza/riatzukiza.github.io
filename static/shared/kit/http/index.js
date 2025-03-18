@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -27,7 +28,7 @@ var http = require("http"),
     url = require("url");
 const TreeMap=Trie;
 var parse = (function parse$(path) {
-  /* parse eval.sibilant:19:0 */
+  /* parse eval.sibilant:20:0 */
 
   return (function(parsedUrl) {
     /* inc/scope.sibilant:12:9 */
@@ -94,7 +95,7 @@ Http.Message = Interface.define("Http.Message", {
    }
  });
 var notFound404 = (function() {
-  /* eval.sibilant:55:19 */
+  /* eval.sibilant:56:19 */
 
   return (function() {
     /* src/macros/pipe.sibilant:66:9 */
@@ -145,7 +146,7 @@ Http.MiddleWare = MiddleWare.define("Http.MiddleWare", {
    }
  });
 var keyOf = (function keyOf$(path) {
-  /* key-of eval.sibilant:86:0 */
+  /* key-of eval.sibilant:87:0 */
 
   return parse(path).key;
 });
@@ -174,13 +175,13 @@ var Router = Interface.define("Router", {
           return cond((() => {
           	return typeof route.value === "function";
           }), (function() {
-            /* eval.sibilant:107:15 */
+            /* eval.sibilant:108:15 */
           
             return route.value(arguments[0]);
           }), (() => {
           	return typeof route.value.send === "function";
           }), (function() {
-            /* eval.sibilant:109:15 */
+            /* eval.sibilant:110:15 */
           
             return route.value.send(arguments[0]);
           }))(extend(message, { 

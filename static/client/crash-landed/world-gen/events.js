@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -29,7 +30,7 @@ var pos = {
   y:0
  };
 var sendMessage = (function sendMessage$(type, data) {
-  /* send-message eval.sibilant:11:0 */
+  /* send-message eval.sibilant:12:0 */
 
   return self.postMessage({ 
     type,

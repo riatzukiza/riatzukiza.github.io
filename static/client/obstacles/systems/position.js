@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -66,7 +67,7 @@ var PositionInterface = PositionInterface.define("PositionInterface", {
         return this.views.get("view");
       } else {
         var r = (function() {
-          /* eval.sibilant:13:23 */
+          /* eval.sibilant:14:23 */
         
           return createDocumentNode("div", {
             'className': "panel",

@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -37,7 +38,7 @@ var Compiler = Actor.define("Compiler", {
   _send( data = (typeof data !== "undefined") ? data : this.data; ){ 
     
       return Promise.resolve(data).then((function() {
-        /* eval.sibilant:23:17 */
+        /* eval.sibilant:24:17 */
       
         return sibilant(arguments[0].toString()).js;
       })).then(R.tap(emit("message", this))).catch(((e) => {

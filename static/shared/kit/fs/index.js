@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -249,7 +250,7 @@ export {
   Directory
  };
 var _discoverNode = R.curry((function(rel, path, seq, _tree, sys, stats) {
-  /* eval.sibilant:10:34 */
+  /* eval.sibilant:11:34 */
 
   return _tree.set(seq, (function() {
     if (stats.isDirectory()) {
@@ -260,12 +261,12 @@ var _discoverNode = R.curry((function(rel, path, seq, _tree, sys, stats) {
   }).call(this));
 }));
 var _findAbsolutePath = (function _findAbsolutePath$(path, root) {
-  /* *find-absolute-path eval.sibilant:124:0 */
+  /* *find-absolute-path eval.sibilant:125:0 */
 
   return Path.resolve(root, path);
 });
 var itterate = R.curry((function(f, file) {
-  /* eval.sibilant:10:34 */
+  /* eval.sibilant:11:34 */
 
   return (function() {
     if (isDir(file)) {
@@ -343,7 +344,7 @@ var FileSystem = EventEmitter.define("FileSystem", {
   set( path = this.path,v = this.v,type = File,root = this.root,sys = this ){ 
     
       return sys.insert(path, type, root, sys).then((function() {
-        /* eval.sibilant:185:17 */
+        /* eval.sibilant:186:17 */
       
         return arguments[0].setValue(v);
       }));
@@ -372,14 +373,14 @@ var is = {
    }
  };
 var athrow = (function athrow$(errType, message) {
-  /* athrow eval.sibilant:208:0 */
+  /* athrow eval.sibilant:209:0 */
 
   return (() => {
   	return (new errType(message));
   });
 });
 var getValueOf = (function getValueOf$(o) {
-  /* get-value-of eval.sibilant:211:0 */
+  /* get-value-of eval.sibilant:212:0 */
 
   return o.getValue();
 });
@@ -387,28 +388,28 @@ var emit = R.invoker(2, "emit");
 var biCurry = R.curryN(2);
 var _ = R._;
 var feach = R.curry((function(f, a) {
-  /* eval.sibilant:10:34 */
+  /* eval.sibilant:11:34 */
 
   return a.each(f);
 }));
 var fmap = R.curry((function(f, a) {
-  /* eval.sibilant:10:34 */
+  /* eval.sibilant:11:34 */
 
   return a.map(f);
 }));
 var identity = (function identity$(a) {
-  /* identity eval.sibilant:239:0 */
+  /* identity eval.sibilant:240:0 */
 
   return a;
 });
 var setValue = R.curry((function(v, o) {
-  /* eval.sibilant:10:34 */
+  /* eval.sibilant:11:34 */
 
   return o.value = v;
 }));
 var fs = require("fs");
 var plift = (function plift$(f) {
-  /* plift eval.sibilant:254:0 */
+  /* plift eval.sibilant:255:0 */
 
   return ((...args) => {
   	return (new Promise(((success, fail) => {
@@ -433,7 +434,7 @@ var stat = plift(fs.stat),
     writeFile = plift(fs.writeFile),
     readdir = plift(fs.readdir);
 var isDir = (function isDir$(c) {
-  /* is-dir eval.sibilant:266:0 */
+  /* is-dir eval.sibilant:267:0 */
 
   return c.symbol === Directory.symbol;
 });
@@ -441,7 +442,7 @@ var _directory__QUERY = ((stats) => {
 	return stats.isDirectory();
 });
 var fillSubDir = (function fillSubDir$(p_subPath$1, seg) {
-  /* fill-sub-dir eval.sibilant:270:0 */
+  /* fill-sub-dir eval.sibilant:271:0 */
 
   var p = p_subPath$1[0],
       subPath = p_subPath$1[1];
@@ -465,7 +466,7 @@ var notSingleDot = ((token) => {
 	return $fpipe.split("/").filter(notSingleDot);
 });
 var reducePromise = R.curry((function(f, a) {
-  /* eval.sibilant:10:34 */
+  /* eval.sibilant:11:34 */
 
   return a.reduce(f, [ Promise.resolve(), "" ]);
 }));
@@ -479,7 +480,7 @@ var timeout = (function timeout$(t) {
   })));
 });
 var onceThen = (function onceThen$(event, emitter) {
-  /* once-then eval.sibilant:288:0 */
+  /* once-then eval.sibilant:289:0 */
 
   return (new Promise(((success, fail) => {
   	var resolve = success,
@@ -489,7 +490,7 @@ var onceThen = (function onceThen$(event, emitter) {
 });
 exports.System = FileSystem;
 FileSystem.load = (function FileSystem$load$(rootPath) {
-  /* File-system.load eval.sibilant:292:0 */
+  /* File-system.load eval.sibilant:293:0 */
 
   return create(FileSystem)(rootPath);
 });

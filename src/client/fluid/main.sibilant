@@ -1,120 +1,190 @@
 (include "../../../inc/dom.sibilant")
 (import simplex3 "/shared/noise.js")
 (import Vector-2D-phase-space "./typed-arrays/vector-2d.js")
+(import Double-buffered-array "./typed-arrays/double-buffered.js")
 (import rendering vertex-layer "./rendering.js")
 (import Thread "/shared/worker.js")
 (import config "./config.js")
 (import Ticker "/shared/ticker.js")
-
-
-(add-event-listener 'load
-
-                    (->
-
-(const velocities (.spawn Vector-2D-phase-space 1024))
-(const positions (.spawn Vector-2D-phase-space 1024))
-(const vertices (vertex-layer 1024))
-
-(def-generic set-move-noise (v x y (t 0) (force 1) )
-  (.set-angle v (* (simplex3 x y t) Math.PI 2))
-  (.set-length v (* (simplex3 x y t) force)))
+(import Vector "/shared/vectors.js")
 
 (define Threaded-system Thread
   (data [])
-  (def update ()
-    (print "update" this)
-    (.send this (map this.data (data) [
-                            data.current-state.buffer
-                            data.next-state.buffer
-                            ]))))
+  (def update (args)
+    (.send this (lit args (buffers (map this.data (data)
+                                   [data.current-state.buffer
+                                    data.next-state.buffer]))))))
+(define Physical-properties Double-buffered-array
+  (keys ['mass ]))
+
+(const particle-count 1024)
+
+
+(const velocities (.spawn Vector-2D-phase-space particle-count))
+(const attractors (.spawn Vector-2D-phase-space particle-count))
+(const physical-properties (.spawn Physical-properties))
+(const positions (.spawn Vector-2D-phase-space  particle-count ))
+(const vertices (vertex-layer particle-count))
+
 
 (define Movement-system Threaded-system
   (url "/client/fluid/workers/movement.js")
-  (data [velocities positions]))
+  (data [velocities positions attractors]))
 
 (define Noise-system Threaded-system
   (url "/client/fluid/workers/noise.js")
   (data [velocities positions]))
 
+(define Attractor-system Threaded-system
+  (url "/client/fluid/workers/attractors.js")
+  (data [velocities positions attractors]))
 
 
-(for-of! p positions.data
-         (set (get vertices p.id 'color) 'r 255 'g 10 'b 10 'a 255)
-         (set  (get vertices p.id)
 
-               'size 8
-               )
-         (set (get vertices p.id 'point)
-              'x (assign p.x (* 1000 (Math.random)))
-              'y (assign p.y (* 1000 (Math.random)))
-              'z 1
-              ))
+(def-generic set-move-noise (v x y (t 0) (force 1) (noise-z 100))
+  (const v* (.spawn Vector))
+  (const angle (*  (simplex3 x y (* noise-z 25 t)) Math.PI 2))
+  (const length (* (simplex3 x y (* noise-z t)) force))
+  (.set-length v*  length )
+  (.set-angle v* angle)
+  (.add-to v v*)
+  (.despawn v*))
+(def update-motes (positions verts)
+  (for-of! p positions.data
+           (set (get verts p.id 'color) 'r 255 'g 10 'b 10 'a 255)
+           (set  (get verts p.id)
 
-(.step positions)
-(.update rendering)
-;; (on ticker.events 'tick ()
-;;     (.update rendering))
-;; (.start ticker)
+                 'size 256
+                 'intensity 0.9)
+           (set (get verts p.id 'point)
+                'x p.x
+                'y p.y
+                'z 1))
+  null)
+(def randomly-place-particles ()
+  (for-of! p positions.data
+           (assign p.x (-  (* 10000 (Math.random)) 10000))
+           (assign p.y (-  (* 10000 (Math.random) ) 10000)))
+  null)
 
-(for-of! v velocities.data
-         (const p (get positions.data v.id))
-         (set-move-noise v p.x p.y ))
+(def get-bounds (positions)
+  (var min-x 0 min-y 0 max-x 0 max-y 0)
+  (for-of! p positions.data
+           (if (< p.x min-x) (assign min-x p.x))
+           (if (< p.y min-y) (assign min-y p.y))
 
-(.step velocities)
+           (if (> p.x max-x) (assign max-x p.x))
+           (if (> p.y max-y) (assign max-y p.y)))
+  (return [min-x min-y max-x max-y]))
 
-(print vertices)
-(print positions)
-(print velocities)
+(def handle-load ()
 
-(def-async main ()
-  (print "click")
+  (randomly-place-particles)
+  (update-motes positions vertices)
 
 
-  (.init Noise-system)
-  (.init Movement-system)
-  (.start Noise-system )
-  (.start Movement-system)
+  (.step positions)
+  ;; (for-of! v velocities.data
+  ;;          (const p (get positions.data v.id))
+  ;;          (set-move-noise v p.x p.y ))
 
-  (var promise (Promise.resolve))
-  (while! true
-          (print "step")
-          (await (Promise.all [ (.update Movement-system) (.update Noise-system) ]))
-          (.step velocities)
-          (.step positions)
-          (for-of! p positions.data
-                   (set (get vertices p.id 'point)
-                        'x p.x
-                        'y p.y))
-          (.update rendering))
-  (return null))
-                     (const game-view (dom (.div .id "game-view" .className "panel"
-                                                 .style (lit ("background-color" "black"))
-                                                 (-> rendering.context.canvas))))
 
-                     (const load-selected-game (-> (load-game (get (.get-element-by-id document 'load-save-name-field) 'value))))
+  (.step velocities)
 
-                     (const load-button (dom (.button .onclick load-selected-game "load game")))
-                     (const load-name-field (dom (.input .type 'text .id 'load-name-field)))
+  ;; (for-of! p positions.data (set p 'x p.x 'y p.y))
 
-                     (const load-widget (dom (.div .id 'load-game load-name-field load-button)))
+  ;; (.step positions)
+  ;; (for-of! v velocities.data
+  ;;          (set v 'x v.x 'y v.y))
 
-                     (const save-selected-game (-> (save-game (get (.get-element-by-id document 'save-name-field) 'value))))
 
-                     (const save-button (dom (.button .onclick save-selected-game "save game")))
-                     (const save-name-field (dom (.input .type 'text .id 'save-name-field)))
+  ;; (.step velocities)
+  (.update rendering)
 
-                     (const save-widget (dom (.div .id 'save-game save-name-field save-button)))
+  (print vertices)
+  (print positions)
+  (print velocities)
 
-                     (const start-button (dom (.div .id 'start-game (.button .onclick main "start game"))))
-                     (with-dom Document-body
-                       (.div .id 'frame (.div .id "container"
-                                              game-view
-                                              (.div .id "debug-view" .className "panel"
-                                                    .style (lit (height (+  (second config.dimensions)"px"))
-                                                                (width (+ (Math.round (- (* window.innerWidth 0.2) 42)) "px"))
-                                                                ("overflow-y" "scroll"))
-                                                    start-button
-                                                    )))))
-                    )
+  (def wait (n) (make-promise (set-timeout resolve n) ))
+  (def-async draw ()
+    (while! true
+            (await (make-promise
+                    (request-animation-frame (-> (.update rendering)
+                                                 (resolve)))))
+            )
+    (return null)
+    )
+  (def-async main ()
+
+
+    (.init Noise-system)
+    (.init Movement-system)
+    (.init Attractor-system)
+
+    (.start Noise-system )
+    (.start Movement-system)
+    (.start Attractor-system)
+    (const drawer (draw)) ;; heh
+
+    (var promise (Promise.resolve))
+    (while! true
+            (await (Promise.all
+                    [(.update Noise-system)
+                     (.update Attractor-system (lit (bounds (get-bounds positions))))
+                     (.update Movement-system )  ]))
+
+            (.step positions)
+            (.step velocities)
+            (.step attractors)
+            (for-of! p positions.data
+                     (const v (get velocities.data p.id))
+                     (const a (get attractors.data p.id))
+                     (set (get vertices p.id 'color)
+                          'g (Math.abs (Math.round (/ (* 256 (.get-length v))
+                                             2))))
+                     (set (get vertices p.id 'color)
+                          'b (Math.abs (Math.round (* 64 (.get-length a)))))
+                     ;; (print (.get-length a))
+                     ;; (set (get vertices p.id)
+                     ;;      'intensity (+ (.get-length a) (.get-length v)))
+                     (set (get vertices p.id 'point)
+                          'x p.x
+                          'y p.y))
+
+
+
+            ;; (await (wait 1000))
+            )
+
+    (return null))
+  (const game-view (dom (.div .id "game-view" .className "panel"
+                              .style (lit ("background-color" "black"))
+                              (-> rendering.context.canvas))))
+
+  (const load-selected-game (-> (load-game (get (.get-element-by-id document 'load-save-name-field) 'value))))
+
+  (const load-button (dom (.button .onclick load-selected-game "load game")))
+  (const load-name-field (dom (.input .type 'text .id 'load-name-field)))
+
+  (const load-widget (dom (.div .id 'load-game load-name-field load-button)))
+
+  (const save-selected-game (-> (save-game (get (.get-element-by-id document 'save-name-field) 'value))))
+
+  (const save-button (dom (.button .onclick save-selected-game "save game")))
+  (const save-name-field (dom (.input .type 'text .id 'save-name-field)))
+
+  (const save-widget (dom (.div .id 'save-game save-name-field save-button)))
+
+  (const start-button (dom (.div .id 'start-game (.button .onclick main "start game"))))
+  (with-dom Document-body
+    (.div .id 'frame (.div .id "container"
+                           game-view
+                           (.div .id "debug-view" .className "panel"
+                                 .style (lit (height (+  (second config.dimensions)"px"))
+                                             (width (+ (Math.round (- (* window.innerWidth 0.2) 42)) "px"))
+                                             ("overflow-y" "scroll"))
+                                 start-button
+                                 )))))
+(add-event-listener 'load handle-load)
 
 

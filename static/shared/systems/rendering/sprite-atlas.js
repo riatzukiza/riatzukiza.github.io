@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -42,7 +43,7 @@ import {
   Interface
  } from "/shared/kit/interface/index.js";
 var setPoint = (function setPoint$(x, y, z, vert) {
-  /* set-point eval.sibilant:12:0 */
+  /* set-point eval.sibilant:13:0 */
 
   vert.point.x = x;
   vert.point.y = y;
@@ -220,7 +221,7 @@ var Texture = Interface.define("Texture", {
    }
  });
 var spriteLayer = (function spriteLayer$(limit, textureData, game) {
-  /* sprite-layer eval.sibilant:95:0 */
+  /* sprite-layer eval.sibilant:96:0 */
 
   uniforms.init(game);
   var id = uniforms.id;
@@ -358,13 +359,13 @@ var SpriteAtlas = System.define("SpriteAtlas", {
     
       this.prepare();
       return (function() {
-        var while$97 = undefined;
+        var while$99 = undefined;
         while (this.queue.length) {
-          while$97 = (function() {
+          while$99 = (function() {
             return this._updateComponent(this.queue.pop());
           }).call(this);
         };
-        return while$97;
+        return while$99;
       }).call(this);
     
    },

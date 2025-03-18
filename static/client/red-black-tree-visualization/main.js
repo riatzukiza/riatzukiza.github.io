@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -61,7 +62,7 @@ const rbTree=RedBlackTree.spawn();
 const low=Math.floor((Math.random() * 9000));
 const high=(low + Math.floor((Math.random() * 10000)));
 var renderNode = (function renderNode$(node) {
-  /* render-node eval.sibilant:28:0 */
+  /* render-node eval.sibilant:29:0 */
 
   const foregroundColor=(function() {
     if (node.inRange__QUERY) {

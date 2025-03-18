@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -73,12 +74,12 @@ var WebWorker = Spawnable.define("WebWorker", {
     
       const self=this;
       this.worker.onmessage = (function this$worker$onmessage$(m) {
-        /* this.worker.onmessage eval.sibilant:17:4 */
+        /* this.worker.onmessage eval.sibilant:18:4 */
       
         return self.events.emit("message", m.data);
       });
       this.worker.onerror = (function this$worker$onerror$(e) {
-        /* this.worker.onerror eval.sibilant:20:4 */
+        /* this.worker.onerror eval.sibilant:21:4 */
       
         console.log("error:", e);
         return self.events.emit("error", e.message);

@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -36,30 +37,30 @@ import {
   Saveable
  } from "/shared/saveable.js";
 var spawnComponent = (function spawnComponent$(entity, systems) {
-  /* spawn-component eval.sibilant:15:0 */
+  /* spawn-component eval.sibilant:16:0 */
 
   return (function() {
-    /* eval.sibilant:15:39 */
+    /* eval.sibilant:16:39 */
   
     return systems.get(arguments[0]).spawn(entity);
   });
 });
 var componentList = (function componentList$(entity) {
-  /* component-list eval.sibilant:17:0 */
+  /* component-list eval.sibilant:18:0 */
 
   return R.map(spawnComponent(entity));
 });
 var remove = (function remove$(entity) {
-  /* remove eval.sibilant:19:0 */
+  /* remove eval.sibilant:20:0 */
 
   return (function() {
-    /* eval.sibilant:19:21 */
+    /* eval.sibilant:20:21 */
   
     return arguments[0].system.clear(entity);
   });
 });
 var clear = (function() {
-  /* eval.sibilant:21:11 */
+  /* eval.sibilant:22:11 */
 
   return arguments[0].clear();
 });
@@ -214,7 +215,7 @@ var System = Saveable.define("System", {
    }
  });
 System.build = (function System$build$() {
-  /* System.build eval.sibilant:101:0 */
+  /* System.build eval.sibilant:102:0 */
 
   return (function() {
     if (!((this.template))) {
@@ -234,7 +235,7 @@ System.get = (function System$get$(entity = this.entity, components = this.compo
   return components.get(entity);
 });
 System.update = (function System$update$(t) {
-  /* System.update eval.sibilant:113:0 */
+  /* System.update eval.sibilant:114:0 */
 
   return this.thread = this.thread.then(((nil) => {
   	return this._updateAll(t);

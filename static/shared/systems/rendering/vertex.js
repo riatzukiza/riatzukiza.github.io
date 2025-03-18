@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -23,7 +24,7 @@ import {
   Renderable
  } from "./renderable.js";
 var setColor = (function setColor$(r, g, b, a, vert) {
-  /* set-color eval.sibilant:1:554 */
+  /* set-color eval.sibilant:2:220 */
 
   vert.color.r = r;
   vert.color.g = g;
@@ -31,7 +32,7 @@ var setColor = (function setColor$(r, g, b, a, vert) {
   return vert.color.a = a;
 });
 var setPoint = (function setPoint$(x, y, z, vert) {
-  /* set-point eval.sibilant:1:660 */
+  /* set-point eval.sibilant:2:326 */
 
   vert.point.x = x;
   vert.point.y = y;

@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -18,15 +19,15 @@ import {
  } from "/shared/kit/core/util.js";
 var config = require("@obstacles/config.js");
 var randomLocation = (function randomLocation$() {
-  /* random-location eval.sibilant:2:0 */
+  /* random-location eval.sibilant:3:0 */
 
   return [ (function() {
-    /* eval.sibilant:1:792 */
+    /* eval.sibilant:2:458 */
   
     var rand = ((Math.random() * (config.dimensions[0] - 0)) + 0);
     return (config.dimensions[0] - (rand / 2));
   }).call(this), (function() {
-    /* eval.sibilant:1:792 */
+    /* eval.sibilant:2:458 */
   
     var rand = ((Math.random() * (config.dimensions[1] - 0)) + 0);
     return (config.dimensions[1] - (rand / 2));

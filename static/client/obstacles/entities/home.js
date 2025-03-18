@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -40,7 +41,7 @@ var {
   rgba
  } = require("@obstacles/colors.js");
 var entity = (function entity$(aspects) {
-  /* entity eval.sibilant:10:0 */
+  /* entity eval.sibilant:11:0 */
 
   return game.ent.spawn(aspects);
 });

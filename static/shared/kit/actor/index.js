@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -23,7 +24,7 @@ import {
   Interface
  } from "../interface/index.js";
 var resolve = (function resolve$(v) {
-  /* resolve eval.sibilant:34:0 */
+  /* resolve eval.sibilant:35:0 */
 
   return Promise.resolve(v);
 });

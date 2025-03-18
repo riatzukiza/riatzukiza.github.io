@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -29,32 +30,32 @@ import {
   Gl
  } from "../../gl.js";
 var bound = (function() {
-  /* eval.sibilant:1:671 */
+  /* eval.sibilant:2:337 */
 
   return arguments[0].bind();
 }),
     clear = (function() {
-  /* eval.sibilant:1:696 */
+  /* eval.sibilant:2:362 */
 
   return arguments[0].clear();
 }),
     rendered = (function() {
-  /* eval.sibilant:1:725 */
+  /* eval.sibilant:2:391 */
 
   return arguments[0].render();
 }),
     unbound = (function() {
-  /* eval.sibilant:1:755 */
+  /* eval.sibilant:2:421 */
 
   return arguments[0].unbind();
 }),
     disabled = (function() {
-  /* eval.sibilant:1:784 */
+  /* eval.sibilant:2:450 */
 
   return arguments[0].disable();
 }),
     enabled = (function() {
-  /* eval.sibilant:1:815 */
+  /* eval.sibilant:2:481 */
 
   return arguments[0].enable();
 });

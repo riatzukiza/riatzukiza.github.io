@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -50,7 +51,7 @@ var {
     config = require("@obstacles/config.js");
 const updateParticle=createParticleUpdater(config, game);
 Set.prototype.each = (function Set$prototype$each$(f) {
-  /* Set.prototype.each eval.sibilant:17:0 */
+  /* Set.prototype.each eval.sibilant:18:0 */
 
   this.forEach(f);
   return this;

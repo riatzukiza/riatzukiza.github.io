@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -190,9 +191,9 @@ var MentalState = System.define("MentalState", {
       const searchLimit=10;
       var i = 0;
       return (function() {
-        var while$151 = undefined;
+        var while$157 = undefined;
         while (!((c.entity.currentPath.end || i > searchLimit))) {
-          while$151 = (function() {
+          while$157 = (function() {
             const noiseV=getMoveNoise(newX, newY, this.game.ticker.ticks, (1 * config.gameScale));
             ((i)++);
             newX = (newX + (20 * noiseV.x));
@@ -208,7 +209,7 @@ var MentalState = System.define("MentalState", {
             return noiseV.despawn();
           }).call(this);
         };
-        return while$151;
+        return while$157;
       }).call(this);
     
    },

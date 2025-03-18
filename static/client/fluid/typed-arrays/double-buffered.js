@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -31,6 +32,18 @@ var DoubleBufferedArray = CompositeTypedArray.define("DoubleBufferedArray", {
     
       this.length = length;this.currentState = currentState;this.nextState = nextState;
       return this;
+    
+   },
+  clear(  ){ 
+    
+      this.length = 0;
+      this.currentState = null;
+      return this.nextState = null;
+    
+   },
+  fromBuffers( b1,b2 ){ 
+    
+      return this.spawn((b1.byteLength / this.dataType.bytes), this.arrayType.fromBuffer(b1), this.arrayType.fromBuffer(b2));
     
    },
   step(  ){ 

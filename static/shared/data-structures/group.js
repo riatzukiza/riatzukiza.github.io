@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -80,7 +81,7 @@ var Group = Spawnable.define("Group", {
     
       "remove and return the element last in the groups ordering.";
       return (function(item) {
-        /* inc/misc.sibilant:1:1369 */
+        /* eval.sibilant:2:327 */
       
         _members.delete(item);
         return item;
@@ -110,7 +111,7 @@ var Group = Spawnable.define("Group", {
       return (function() {
         if (!(_members.has(member))) {
           return (function(node) {
-            /* inc/misc.sibilant:1:1369 */
+            /* eval.sibilant:2:327 */
           
             _members.set(member, node);
             _list.pushNode(node);
@@ -135,7 +136,7 @@ var Group = Spawnable.define("Group", {
     
       "Remove a specific member from the group.";
       return (function(node) {
-        /* inc/misc.sibilant:1:1369 */
+        /* eval.sibilant:2:327 */
       
         (function() {
           if (node) {

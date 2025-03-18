@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -37,9 +38,14 @@ var DataType = Spawnable.define("DataType", {
       return this.keys.length;
     
    },
+  get bytes(  ){ 
+    
+      return (this.size * Float64Array.BYTES_PER_ELEMENT);
+    
+   },
   buffer( length ){ 
     
-      return (new SharedArrayBuffer((length * this.size * Float64Array.BYTES_PER_ELEMENT)));
+      return (new SharedArrayBuffer((length * this.bytes)));
     
    },
   build(  ){ 

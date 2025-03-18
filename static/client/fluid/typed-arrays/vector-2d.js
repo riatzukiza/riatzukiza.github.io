@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -26,9 +27,9 @@ var Vector2DPhaseSpace = DoubleBufferedArray.define("Vector2DPhaseSpace", {
   dataType:Vector2D,
   addTo( vector2dArray ){ 
     
-      for (var v of this.currentState)
+      for (var v of this.data)
       {
-      const v2=vector2dArray.data[v.index];;
+      const v2=vector2dArray.data[v.id];;
       v.x = (v.x + v2.x);;
       v.y = (v.y + v2.y);
       }

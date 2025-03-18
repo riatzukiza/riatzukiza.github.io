@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -168,7 +169,7 @@ async function loadGame(saveName){
 
 };
 var getGame = (function getGame$() {
-  /* get-game eval.sibilant:122:0 */
+  /* get-game eval.sibilant:123:0 */
 
   return game;
 });

@@ -5,8 +5,8 @@
   (data-type Vector2D)
 
   (def add-to (vector-2d-array)
-    (for-of! v this.current-state
-             (const v2 (get vector-2d-array 'data v.index ))
+    (for-of! v this.data
+             (const v2 (get vector-2d-array 'data v.id ))
 
              (assign v.x (+ v.x v2.x))
              (assign v.y (+ v.y v2.y)))

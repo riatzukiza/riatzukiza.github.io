@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -54,7 +55,7 @@ var {
  } = require("@obstacles/entities/home.js"),
     config = require("@obstacles/config.js");
 var clear = (function() {
-  /* eval.sibilant:19:11 */
+  /* eval.sibilant:20:11 */
 
   return arguments[0].clear();
 });

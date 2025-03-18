@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -34,14 +35,14 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
       var count = 1;
       var node = this;
       (function() {
-        var while$73 = undefined;
+        var while$90 = undefined;
         while (node) {
-          while$73 = (function() {
+          while$90 = (function() {
             node = node.left;
             return ((count)++);
           }).call(this);
         };
-        return while$73;
+        return while$90;
       }).call(this);
       return count;
     

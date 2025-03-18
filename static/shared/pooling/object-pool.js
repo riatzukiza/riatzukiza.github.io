@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -28,7 +29,7 @@ return m;
 });
 var ObjectPool = Interface.define("ObjectPool", { 
   init( size = this.size,_interface = null,_array = (function(array) {
-    /* eval.sibilant:1:661 */
+    /* eval.sibilant:2:327 */
   
     (function() {
       /* inc/loops.sibilant:26:8 */
@@ -40,7 +41,7 @@ var ObjectPool = Interface.define("ObjectPool", {
         /* inc/loops.sibilant:28:35 */
       
         array.push((function() {
-          /* eval.sibilant:1:732 */
+          /* eval.sibilant:2:398 */
         
           return Object.create(_interface);
         }).call(this));
@@ -86,7 +87,7 @@ var ObjectPool = Interface.define("ObjectPool", {
     
       "remove an object from the collection of available ones,\n"+"adding it to the collection of objects currently in use,\n"+"and return it to the caller.";
       return (function(member) {
-        /* eval.sibilant:1:661 */
+        /* eval.sibilant:2:327 */
       
         _inUse.add(member);
         return member;

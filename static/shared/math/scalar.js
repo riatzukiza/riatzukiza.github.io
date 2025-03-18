@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -29,7 +30,7 @@ var Scalar = Interface.define("Scalar", {
   mul( array = this.array,value = this.value ){ 
     
       return array.map((function() {
-        /* eval.sibilant:1:598 */
+        /* eval.sibilant:2:264 */
       
         return (arguments[0] * value);
       }));
@@ -38,7 +39,7 @@ var Scalar = Interface.define("Scalar", {
   div( array = this.array,value = this.value ){ 
     
       return array.map((function() {
-        /* eval.sibilant:1:667 */
+        /* eval.sibilant:2:333 */
       
         return (arguments[0] / value);
       }));
@@ -47,7 +48,7 @@ var Scalar = Interface.define("Scalar", {
   sub( array = this.array,value = this.value ){ 
     
       return array.map((function() {
-        /* eval.sibilant:1:736 */
+        /* eval.sibilant:2:402 */
       
         return (arguments[0] - value);
       }));

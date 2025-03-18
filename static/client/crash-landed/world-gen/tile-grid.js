@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -73,7 +74,7 @@ var Tile = GridCell.define("Tile", {
    }
  });
 var sleep = (function sleep$(n) {
-  /* sleep eval.sibilant:32:0 */
+  /* sleep eval.sibilant:33:0 */
 
   return (new Promise(((success, fail) => {
   	var resolve = success,

@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -24,6 +25,17 @@ var Vector2D = DataType.define("Vector2D", {
   setAngle( angle ){ 
     
       const length=this.getLength();
+      this.x = (Math.cos(angle) * length);
+      this.y = (Math.sin(angle) * length);
+      return (function() {
+        if ((isNaN(this.x) || isNaN(this.y))) {
+          throw (new Error("Vector parameter is NaN"))
+        }
+      }).call(this);
+    
+   },
+  setArrow( angle,length ){ 
+    
       this.x = (Math.cos(angle) * length);
       this.y = (Math.sin(angle) * length);
       return (function() {

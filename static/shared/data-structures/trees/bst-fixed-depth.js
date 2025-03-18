@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -45,13 +46,13 @@ var FixedBst = Spawnable.define("FixedBst", {
         } else {
           var node = this;
           return this._root = (function() {
-            var while$63 = undefined;
+            var while$87 = undefined;
             while (node.parent) {
-              while$63 = (function() {
+              while$87 = (function() {
                 return node = node.parent;
               }).call(this);
             };
-            return while$63;
+            return while$87;
           }).call(this);
         }
       }).call(this);
@@ -81,13 +82,13 @@ var FixedBst = Spawnable.define("FixedBst", {
     
       var temp = this;
       return (function() {
-        var while$64 = undefined;
+        var while$88 = undefined;
         while (temp.left) {
-          while$64 = (function() {
+          while$88 = (function() {
             return temp = temp.left;
           }).call(this);
         };
-        return while$64;
+        return while$88;
       }).call(this);
     
    },

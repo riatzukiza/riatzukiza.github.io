@@ -11,13 +11,14 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
   extend
  } from "/shared/kit/core/util.js";
 var writeElementAttribute = (function writeElementAttribute$(value, key) {
-  /* write-element-attribute eval.sibilant:18:0 */
+  /* write-element-attribute eval.sibilant:19:0 */
 
   return Promise.resolve(value).then(((value) => {
   	return promiseWriteToStream(stream, (key + "=" + "'" + value + "' "));
@@ -57,21 +58,21 @@ var renderChildren = R.curry(((stream, children) => {
 }), Promise.resolve());
 }));
 var endOpeningTag = (function endOpeningTag$(stream) {
-  /* end-opening-tag eval.sibilant:56:0 */
+  /* end-opening-tag eval.sibilant:57:0 */
 
   return (() => {
   	return promiseWriteToStream(stream, ">");
   });
 });
 var renderOpeningTag = (function renderOpeningTag$(stream, name) {
-  /* render-opening-tag eval.sibilant:59:0 */
+  /* render-opening-tag eval.sibilant:60:0 */
 
   return (() => {
   	return promiseWriteToStream(stream, ("<" + name));
   });
 });
 var renderClosingTag = (function renderClosingTag$(stream, name) {
-  /* render-closing-tag eval.sibilant:62:0 */
+  /* render-closing-tag eval.sibilant:63:0 */
 
   return (() => {
   	return promiseWriteToStream(stream, ("</" + name + ">\n"));

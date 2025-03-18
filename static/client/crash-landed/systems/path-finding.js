@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -37,7 +38,7 @@ import {
   BinaryHeap
  } from "/shared/data-structures/trees/binary-heap.js";
 var removeFromArray = (function removeFromArray$(el, array) {
-  /* remove-from-array eval.sibilant:10:0 */
+  /* remove-from-array eval.sibilant:11:0 */
 
   const index=array.indexOf(el);
   return (function() {
@@ -47,7 +48,7 @@ var removeFromArray = (function removeFromArray$(el, array) {
   }).call(this);
 });
 var calculateDistanceCost = (function calculateDistanceCost$(start, end) {
-  /* calculate-distance-cost eval.sibilant:14:0 */
+  /* calculate-distance-cost eval.sibilant:15:0 */
 
   const startV=Vector.spawn(start.x, start.y);
   const endV=Vector.spawn(end.x, end.y);
@@ -219,15 +220,15 @@ var PathNode = Heapable.define("PathNode", {
       var path = List.spawn();
       var node = this;
       return (function() {
-        var while$156 = undefined;
+        var while$165 = undefined;
         while (node) {
-          while$156 = (function() {
+          while$165 = (function() {
             path.unshift(node);
             node = node.parent;
             return path;
           }).call(this);
         };
-        return while$156;
+        return while$165;
       }).call(this);
     
    },
@@ -321,9 +322,9 @@ var PathFinding = System.define("PathFinding", {
       }).call(this);
       c.open.insert(startingNode);
       return (function() {
-        var while$157 = undefined;
+        var while$166 = undefined;
         while (c.open.root) {
-          while$157 = (function() {
+          while$166 = (function() {
             const currentNode=c.nextOpenNode;
             return (function() {
               if (currentNode.tile === c.end) {
@@ -367,7 +368,7 @@ var PathFinding = System.define("PathFinding", {
             }).call(this);
           }).call(this);
         };
-        return while$157;
+        return while$166;
       }).call(this);
     
    },

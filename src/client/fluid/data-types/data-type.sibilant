@@ -8,12 +8,13 @@
   (gett index (* this.size this.id))
 
   (gett size this.keys.length)
+  (gett bytes (* this.size Float-64-array.BYTES_PER_ELEMENT))
 
   (def buffer (length )
     (new Shared-array-buffer
          (* length
-            this.size
-            Float-64-array.BYTES_PER_ELEMENT)))
+            this.bytes
+            )))
 
   (def build ()
     (each this.keys (key i)
@@ -24,8 +25,5 @@
             (def set (value)
               (set this.array.next-state.array
                    (+ this.index i)
-                   value))
-            )
-          )
-    ))
+                   value))))))
 (export Data-type)

@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -40,7 +41,7 @@ export {
   directionNames
  };
 var getCardinalDirection = (function getCardinalDirection$(vector) {
-  /* get-cardinal-direction eval.sibilant:20:0 */
+  /* get-cardinal-direction eval.sibilant:21:0 */
 
   const angle=vector.getAngle();
   return directions[(Math.abs(Math.round((angle / eigthTurn))) % 8)];
@@ -62,7 +63,7 @@ export {
   directionActions
  };
 var getCardinalDirectionName = (function getCardinalDirectionName$(vector) {
-  /* get-cardinal-direction-name eval.sibilant:37:0 */
+  /* get-cardinal-direction-name eval.sibilant:38:0 */
 
   const angle=vector.getAngle();
   const i=(Math.abs(Math.round((angle / eigthTurn))) % 8);

@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -78,7 +79,7 @@ var OrderedMap = Interface.define("OrderedMap", {
   map( callback = this.callback,_members = this._members,_values = this._values ){ 
     
       return (function(r) {
-        /* eval.sibilant:1:661 */
+        /* eval.sibilant:2:327 */
       
         _values.each(((item, node) => {
         	return r.set(node.key, f(item, node.key, r));

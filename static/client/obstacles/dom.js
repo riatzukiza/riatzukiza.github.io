@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -156,7 +157,7 @@ export {
   debugView
  };
 var startInterface = (function startInterface$() {
-  /* start-interface eval.sibilant:125:0 */
+  /* start-interface eval.sibilant:126:0 */
 
   var { 
     game

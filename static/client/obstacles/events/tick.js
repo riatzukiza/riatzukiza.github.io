@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -78,25 +79,25 @@ return (function() {
             physics.mass = x;
             physics.scale = x;
             const plant_=spawnPlant([ ((function() {
-              /* eval.sibilant:1:792 */
+              /* eval.sibilant:2:458 */
             
               var rand = ((Math.random() * (physics.scale - 0)) + 0);
               return (physics.scale - (rand / 2));
             }).call(this) + physics.position.x), ((function() {
-              /* eval.sibilant:1:792 */
+              /* eval.sibilant:2:458 */
             
               var rand = ((Math.random() * (physics.scale - 0)) + 0);
               return (physics.scale - (rand / 2));
             }).call(this) + physics.position.y) ], physics.mass);
             const physics_=game.systems.get(Physics, plant_);
             const vx=(function() {
-              /* eval.sibilant:1:792 */
+              /* eval.sibilant:2:458 */
             
               var rand = ((Math.random() * (config.spawnStatic - 0)) + 0);
               return (config.spawnStatic - (rand / 2));
             }).call(this);
             const vy=(function() {
-              /* eval.sibilant:1:792 */
+              /* eval.sibilant:2:458 */
             
               var rand = ((Math.random() * (config.spawnStatic - 0)) + 0);
               return (config.spawnStatic - (rand / 2));

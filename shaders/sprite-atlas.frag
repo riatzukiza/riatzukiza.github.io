@@ -14,10 +14,7 @@ uniform sampler2D u_SpriteTexture;  // texture we are drawing
 
 out vec4 FragColor;
 void main() {
-  // this would normally come from a varying but lazy so using point sprite
-  vec2 texcoord = gl_PointCoord.xy;  // this * 3 could already be
-  // in your texcoords
-  
+  vec2 texcoord = gl_PointCoord.xy;
   vec2 spriteRange = (vSpriteEndUV - vSpriteStartUV);
   vec2 uv = vSpriteStartUV + texcoord * spriteRange;
 

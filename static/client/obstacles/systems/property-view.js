@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -70,7 +71,7 @@ var PropertyView = Component.define("PropertyView", {
         return this.views.get("view");
       } else {
         var r = (function() {
-          /* eval.sibilant:13:23 */
+          /* eval.sibilant:14:23 */
         
           return createDocumentNode("div", {
             'id': (() => {
@@ -182,7 +183,7 @@ var ViewPanel = System.define("ViewPanel", {
         return this.views.get("settingsPanel");
       } else {
         var r = (function() {
-          /* eval.sibilant:13:23 */
+          /* eval.sibilant:14:23 */
         
           return createDocumentNode("div", { 'className': "panel" }, []);
         }).call(this);
@@ -212,7 +213,7 @@ var ViewPanel = System.define("ViewPanel", {
         return this.views.get("pageNumberView");
       } else {
         var r = (function() {
-          /* eval.sibilant:13:23 */
+          /* eval.sibilant:14:23 */
         
           return createDocumentNode("span", {  }, [ (() => {
           	return ((1 + this.page) + "/" + this.pages);
@@ -244,7 +245,7 @@ var ViewPanel = System.define("ViewPanel", {
         return this.views.get("titleView");
       } else {
         var r = (function() {
-          /* eval.sibilant:13:23 */
+          /* eval.sibilant:14:23 */
         
           return createDocumentNode("b", { 'onclick': this.hide }, [ createDocumentNode("div", {
             'className': "panel",
@@ -293,7 +294,7 @@ var ViewPanel = System.define("ViewPanel", {
         return this.views.get("previousPageButton");
       } else {
         var r = (function() {
-          /* eval.sibilant:13:23 */
+          /* eval.sibilant:14:23 */
         
           return createDocumentNode("button", { 'onclick': this.previousPage }, [ "prev" ]);
         }).call(this);
@@ -323,7 +324,7 @@ var ViewPanel = System.define("ViewPanel", {
         return this.views.get("nextPageButton");
       } else {
         var r = (function() {
-          /* eval.sibilant:13:23 */
+          /* eval.sibilant:14:23 */
         
           return createDocumentNode("button", { 'onclick': this.nextPage }, [ "next" ]);
         }).call(this);
@@ -353,7 +354,7 @@ var ViewPanel = System.define("ViewPanel", {
         return this.views.get("header");
       } else {
         var r = (function() {
-          /* eval.sibilant:13:23 */
+          /* eval.sibilant:14:23 */
         
           return createDocumentNode("div", {
             'className': "panel",
@@ -393,7 +394,7 @@ var ViewPanel = System.define("ViewPanel", {
         return this.views.get("containerView");
       } else {
         var r = (function() {
-          /* eval.sibilant:13:23 */
+          /* eval.sibilant:14:23 */
         
           return createDocumentNode("div", {
             'id': (this.title + "-container"),
@@ -429,7 +430,7 @@ var ViewPanel = System.define("ViewPanel", {
         return this.views.get("contentView");
       } else {
         var r = (function() {
-          /* eval.sibilant:13:23 */
+          /* eval.sibilant:14:23 */
         
           return createDocumentNode("div", {
             'id': (this.title + "-content"),

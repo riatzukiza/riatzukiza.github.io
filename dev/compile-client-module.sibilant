@@ -4,5 +4,7 @@
                   (unless (or (= file.rel "kit/core/util.sibilant")
                               (= file.rel "crash-landed/world-gen/worker-index.sibilant")
                               )
-                    "(import mixin create extend \"/shared/kit/core/util.js\")"))
+
+                    " (meta \"import '/bundles/external.js'\")
+(import mixin create extend \"/shared/kit/core/util.js\")"))
   )

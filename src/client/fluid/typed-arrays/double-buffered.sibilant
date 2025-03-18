@@ -6,6 +6,12 @@
   (init ((length 0)
          (current-state (.spawn this.array-type length))
          (next-state (.spawn this.array-type length))))
+
+  (def clear () (set this 'length 0 'current-state null 'next-state null))
+  (def from-buffers (b1 b2)
+    (.spawn this (/  b1.byte-length this.data-type.bytes)
+            (.from-buffer this.array-type  b1)
+            (.from-buffer this.array-type  b2)))
   (def step ()
     (const state this.current-state)
     (const next-state this.next-state)

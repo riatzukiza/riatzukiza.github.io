@@ -11,6 +11,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   	return f(this[k], k);
   }));
 });
+import '/bundles/external.js';
 import { 
   mixin,
   create,
@@ -33,7 +34,7 @@ var Layer = Actor.define("Layer", {
     
       this.types = types;this.members = members;
       t(i).forEach((function(types) {
-        /* eval.sibilant:20:8 */
+        /* eval.sibilant:21:8 */
       
         return this[t.symbol] = members[i];
       }));
