@@ -232,19 +232,7 @@ var Saveable = Interface.define("Saveable", {
     for (var p of this.db.getCursor(this.name))
     {
     const obj=await p;;
-    (function() {
-      if (this.loadedInstances.has(saveIndex)) {
-        return this.loadedInstances.get(saveIndex);
-      } else {
-        var r = (function() {
-          /* eval.sibilant:12:23 */
-        
-          return this.injest(obj);
-        }).call(this);
-        this.loadedInstances.set(saveIndex, r);
-        return r;
-      }
-    }).call(this)
+    cache(this.loadedInstances, saveIndex, this.injest(obj))
     }
     ;
     return r;
@@ -252,21 +240,9 @@ var Saveable = Interface.define("Saveable", {
  },
   load( saveName = this.saveName,saveIndex = 0,database = create(Database)(saveName) ){ 
     
-      return (function() {
-        if (this.loadedInstances.has(saveIndex)) {
-          return this.loadedInstances.get(saveIndex);
-        } else {
-          var r = (function() {
-            /* eval.sibilant:12:23 */
-          
-            return database.get([ this.name, saveIndex ]).then(((data) => {
-            	return this.injest(data, saveName, saveIndex, database);
-            }));
-          }).call(this);
-          this.loadedInstances.set(saveIndex, r);
-          return r;
-        }
-      }).call(this);
+      return cache(this.loadedInstances, saveIndex, database.get([ this.name, saveIndex ]).then(((data) => {
+      	return this.injest(data, saveName, saveIndex, database);
+      })));
     
    },
    async delete(  ){ 

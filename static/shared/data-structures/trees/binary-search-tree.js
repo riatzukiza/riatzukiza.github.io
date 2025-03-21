@@ -44,13 +44,13 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
     
       var node = this;
       (function() {
-        var while$83 = undefined;
+        var while$67 = undefined;
         while (node.parent) {
-          while$83 = (function() {
+          while$67 = (function() {
             return node = node.parent;
           }).call(this);
         };
-        return while$83;
+        return while$67;
       }).call(this);
       return node;
     
@@ -69,13 +69,13 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
     
       var temp = this;
       (function() {
-        var while$84 = undefined;
+        var while$68 = undefined;
         while (temp.left) {
-          while$84 = (function() {
+          while$68 = (function() {
             return temp = temp.left;
           }).call(this);
         };
-        return while$84;
+        return while$68;
       }).call(this);
       return temp;
     

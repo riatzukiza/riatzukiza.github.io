@@ -100,7 +100,7 @@ var shaders = Interface.define("shaders", {
   void main(void) {
     FragColor = vColor;
     float dist = distance(vec2(0.5,0.5),gl_PointCoord.xy)*vSize;
-    FragColor.a = vIntensity/dist;
+    FragColor.a = vIntensity/pow(dist, 2);
   }
   `
  });
@@ -135,7 +135,7 @@ var uniforms = Interface.define("uniforms", {
    }
  });
 var vertexLayer = (function vertexLayer$(limit) {
-  /* vertex-layer eval.sibilant:37:0 */
+  /* vertex-layer eval.sibilant:34:0 */
 
   const context=rendering.context;
   const layer=rendering.spawn(limit, Mote, [ uniforms.res, uniforms.scale, uniforms.zoom, uniforms.offset ], [ shaders.vert, shaders.frag ]);

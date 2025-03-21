@@ -1,5 +1,5 @@
 (include "../../../inc/dom.sibilant")
-(import simplex3 "/shared/noise.js")
+(import simplex3 simplex2 "/shared/noise.js")
 (import Vector-2D-phase-space "./typed-arrays/vector-2d.js")
 (import Double-buffered-array "./typed-arrays/double-buffered.js")
 (import rendering vertex-layer "./rendering.js")
@@ -7,6 +7,7 @@
 (import config "./config.js")
 (import Ticker "/shared/ticker.js")
 (import Vector "/shared/vectors.js")
+(import Data-type "./data-types/data-type.js")
 
 (define Threaded-system Thread
   (data [])
@@ -14,15 +15,27 @@
     (.send this (lit args (buffers (map this.data (data)
                                    [data.current-state.buffer
                                     data.next-state.buffer]))))))
-(define Physical-properties Double-buffered-array
-  (keys ['mass ]))
 
-(const particle-count 1024)
+(define Physical-property Data-type
+  (keys ['mass ])
+  )
+(define Physical-properties Double-buffered-array
+  (data-type Physical-property))
+(const spawn-width 128)
+(const spawn-height 128)
+
+(const particle-count 2024)
+(const max-mass (* 1024))
+(const min-mass 512)
+(const actual-maximum-mass (Math.pow max-mass 3))
+(const particle-render-size 512)
+
 
 
 (const velocities (.spawn Vector-2D-phase-space particle-count))
 (const attractors (.spawn Vector-2D-phase-space particle-count))
-(const physical-properties (.spawn Physical-properties))
+(const physical-properties (.spawn Physical-properties particle-count))
+
 (const positions (.spawn Vector-2D-phase-space  particle-count ))
 (const vertices (vertex-layer particle-count))
 
@@ -37,24 +50,16 @@
 
 (define Attractor-system Threaded-system
   (url "/client/fluid/workers/attractors.js")
-  (data [velocities positions attractors]))
+  (data [velocities positions attractors physical-properties]))
 
 
 
-(def-generic set-move-noise (v x y (t 0) (force 1) (noise-z 100))
-  (const v* (.spawn Vector))
-  (const angle (*  (simplex3 x y (* noise-z 25 t)) Math.PI 2))
-  (const length (* (simplex3 x y (* noise-z t)) force))
-  (.set-length v*  length )
-  (.set-angle v* angle)
-  (.add-to v v*)
-  (.despawn v*))
 (def update-motes (positions verts)
   (for-of! p positions.data
            (set (get verts p.id 'color) 'r 255 'g 10 'b 10 'a 255)
            (set  (get verts p.id)
 
-                 'size 256
+                 'size particle-render-size
                  'intensity 0.9)
            (set (get verts p.id 'point)
                 'x p.x
@@ -62,9 +67,18 @@
                 'z 1))
   null)
 (def randomly-place-particles ()
+  (const spawn-pos (.spawn Vector (-  (* spawn-width (Math.random)) spawn-width)
+                           (-  (* spawn-height (Math.random) ) spawn-height)
+))
   (for-of! p positions.data
-           (assign p.x (-  (* 10000 (Math.random)) 10000))
-           (assign p.y (-  (* 10000 (Math.random) ) 10000)))
+           (const phys (get physical-properties.data p.id))
+           (assign phys.mass (Math.max min-mass (Math.pow (* max-mass (Math.random)) 3)))
+
+           (.add-to spawn-pos (lit (x (random-float (* -1 spawn-height) spawn-height))
+                                   (y (random-float (* -1 spawn-width) spawn-width))))
+
+           (assign p.x spawn-pos.x)
+           (assign p.y spawn-pos.y))
   null)
 
 (def get-bounds (positions)
@@ -82,6 +96,7 @@
   (randomly-place-particles)
   (update-motes positions vertices)
 
+  (.step physical-properties)
 
   (.step positions)
   ;; (for-of! v velocities.data
@@ -117,11 +132,11 @@
   (def-async main ()
 
 
-    (.init Noise-system)
+    ;; (.init Noise-system)
     (.init Movement-system)
     (.init Attractor-system)
 
-    (.start Noise-system )
+    ;; (.start Noise-system )
     (.start Movement-system)
     (.start Attractor-system)
     (const drawer (draw)) ;; heh
@@ -129,24 +144,26 @@
     (var promise (Promise.resolve))
     (while! true
             (await (Promise.all
-                    [(.update Noise-system)
+                    [;;(.update Noise-system)
                      (.update Attractor-system (lit (bounds (get-bounds positions))))
                      (.update Movement-system )  ]))
 
             (.step positions)
-            (.step velocities)
+            ;; (.step velocities)
             (.step attractors)
             (for-of! p positions.data
                      (const v (get velocities.data p.id))
                      (const a (get attractors.data p.id))
+                     (const phys (get physical-properties.data p.id))
+                     ;; (set (get vertices p.id 'color)
+                     ;;      'g (Math.abs (Math.round (/ (* 256 (.get-length v))
+                     ;;                                  2))))
                      (set (get vertices p.id 'color)
-                          'g (Math.abs (Math.round (/ (* 256 (.get-length v))
-                                             2))))
-                     (set (get vertices p.id 'color)
-                          'b (Math.abs (Math.round (* 64 (.get-length a)))))
-                     ;; (print (.get-length a))
-                     ;; (set (get vertices p.id)
-                     ;;      'intensity (+ (.get-length a) (.get-length v)))
+                          'b (Math.min 255 (Math.abs (Math.round (* 1 (.get-length a))))))
+
+                     (set (get vertices p.id)
+                          'intensity (Math.max min-mass (* max-mass (/ phys.mass actual-maximum-mass)))
+                           'size (Math.max min-mass (* max-mass (/ phys.mass actual-maximum-mass))))
                      (set (get vertices p.id 'point)
                           'x p.x
                           'y p.y))

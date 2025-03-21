@@ -32,11 +32,13 @@
     (assign this.x (* this.x n))
     (assign this.y (* this.y n)))
   (def div (n) (.spawn Vector  (/ this.x n) (/ this.y n)))
+
   (def div-to (n)
     (assign this.x (/ this.x n))
     (assign this.y (/ this.y n))
     (if (or (isNaN this.x) (isNaN this.y))
         (throw (new Error "Vector parameter is NaN")))
+    this
     )
   (def set-angle (angle)
     (const length (.get-length this))

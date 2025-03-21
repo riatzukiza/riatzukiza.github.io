@@ -1,88 +1,186 @@
 (meta "import '/bundles/external.js'")
 
 (import Vector-2D-phase-space "../typed-arrays/vector-2d.js")
+(import Double-buffered-array "../typed-arrays/double-buffered.js")
+
+(import Data-type "../data-types/data-type.js")
+
+(import Vector "/shared/vectors.js")
+(import Spawnable "/shared/data-structures/spawnable.js")
 
 (require! Quad-tree  "@timohausmann/quadtree-js")
-(import Vector "/shared/vectors.js")
 
-(const bounds [1000000,1000000])
+
+(const gravitational-constant 0.0000001)
+(const min-dist 1)
+(const particle-size 512)
+(const max-objects 100)
+(const max-levels 10)
+
+(define Physical-property Data-type
+  (keys ['mass ])
+  )
+(define Physical-properties Double-buffered-array
+  (data-type Physical-property)
+  )
+
+(define Attractor-group Spawnable
+  (init ((members (or this.members []))))
+  (cached center
+          (var center (.spawn Vector 0 0))
+          (for-of! member this.members
+
+                   (const a (.mult member.pos member.mass))
+                   (.add-to center a)
+                   (.despawn a))
+          (.div-to center this.mass)
+
+          (return center )
+          )
+  (cached mass (var mass 0)
+          (for-of! member this.members
+                   (incr-by mass member.mass))
+          mass)
+  (def clear ()
+    (clear-cache  this center)
+    (clear-cache this mass)
+    (assign this.members.length 0)))
+
+(define Particle Spawnable
+  (init (pos-source
+         attractor
+         mass
+         (height 256)
+         (width 256)
+
+         (pos (.spawn Vector pos-source.x pos-source.y))
+         (vel (.spawn Vector 0 0))))
+  (gett x this.pos-source.x)
+  (gett y this.pos-source.y)
+  (def clear ()
+    (assign this.pos-source null)
+    (.despawn this.pos)
+    (.despawn this.vel)
+    (assign this.pos null)
+    (assign this.vel null)
+    (assign this.width null)
+    (assign this.height null)
+    )
+
+  (gett id this.pos-source.id)
+
+  )
 (def self.onmessage (e)
-  (const [[vb1 vb2] [pb1 pb2] [ab1 ab2]] e.data.buffers)
+  (const [[vb1 vb2] [pb1 pb2] [ab1 ab2] [mb1 mb2]] e.data.buffers)
 
   (const (lit (bounds [min-x min-y max-x max-y])) e.data.args)
 
   (const velocities (.from-buffers Vector-2D-phase-space vb1 vb2))
   (const positions (.from-buffers Vector-2D-phase-space pb1 pb2))
   (const attractors (.from-buffers Vector-2D-phase-space ab1 ab2))
+  (const masses (.from-buffers Physical-properties mb1 mb2))
+  (const quads-config (lit (x min-x) (y min-y)
+                           (height (- max-y min-y))
+                           (width (- max-x min-x ))))
 
-  (const quads (new Quad-tree (lit (x min-x) (y min-y)
-                                   (height (+ (Math.abs min-y) (Math.abs max-y)))
-                                   (width (+ (Math.abs min-x) (Math.abs max-x))))
-                    100
-                    1000
+  (const quads (new Quad-tree quads-config
+                    max-objects
+                    max-levels
                     ))
+  (const particles [])
+  (var min-mass 0)
+  (var max-mass 0)
   (for-of! pos positions.data
-           (.insert quads (lit (x pos.x) (y pos.y)
-                               (id pos.id)
-                               (height 256)
-                               (width 256))))
+           (const attractor (get attractors.data pos.id))
+           (const mass (get masses.data pos.id 'mass))
+           (assign min-mass (Math.min min-mass mass))
+           (assign max-mass (Math.max max-mass mass))
+           (const particle (.spawn Particle pos attractor mass) )
+           (.push particles particle)
+           (.insert quads particle))
 
 
   (const visited (new Set))
   (const groups [])
+  (const loner-group (.spawn Attractor-group))
   (for-of! pos positions.data
 
            (if! (.has visited pos.id) continue)
            (.add visited pos.id)
-
-           (const elements (.retrieve quads (lit (x pos.x) (y pos.y) (height 9192) (width 9192))))
-           (const attraction (get attractors.data pos.id))
-
-
-           (const center (.spawn Vector pos.x pos.y))
-
-           (const group (.spawn Vector attraction.x attraction.y))
-           (assign group.center center)
-           (assign group.members [])
-
+           (const mass (get masses pos.id))
            (const p (.spawn Vector pos.x pos.y))
 
-           (var i 0)
 
-           (.push groups group)
+           ;; (const elements (.retrieve quads (lit (x pos.x) (y pos.y)
+           ;;                                       (height (*  2 particle-size))
+           ;;                                       (width (*  2 particle-size)))))
+           (const elements (sort (.retrieve quads (lit (x pos.x) (y pos.y)
+                                                  (height particle-size)
+                                                  (width particle-size)))
+                                 (a b)
+                                 (const d1 (Math.abs (.distance-to p a.pos)))
+                                 (const d2 (Math.abs (.distance-to p b.pos)))
+                                 (if (> d1 d2) 1 -1)))
+           ;; (if! (= elements.length 1)
+           ;;      (.push loner-group.members (first elements))
+           ;;      continue)
+           (const group (.spawn Attractor-group ))
+
            (for-of! neighbor elements
 
+                    ;; (if! (>  group.members.length 100) break)
+                    ;; (if! (>  group.members.length 10) break)
 
-                    (if! (= pos.id neighbor.id) continue)
                     (if! (.has visited neighbor.id) continue)
 
                     (.add visited neighbor.id)
                     (.push group.members neighbor)
-
-                    (if! (>  i 100) break)
-                    (incr i)
-
-
-                    (const p* (.spawn Vector neighbor.x neighbor.y))
-                    (const dist (.distance-to p p*))
-                    (const middle-dist (.div dist 2))
-                    (.add-to center middle-dist)
-                    (.despawn middle-dist)
-
-                    (const intensity (/ 1 (.get-length dist)))
-
-                    (.set-length dist intensity)
-
-                    (.add-to group dist)
-                    (.add-to pos dist)
-
-                    (.despawn dist)
-                    (.despawn p*))
-           (.despawn p))
-  (for-of! group groups
-           (for-of! group.members
+                    (assign neighbor.group group)
                     )
+           (if group.members.length
+               (.push groups group)
+               (.despawn group)))
+  ;; (if! (>  loner-group.members.length 0)
+  ;;      (.push groups loner-group))
+
+  (loop (for-of! group groups)
+   (for-of! target group.members
+            (for-of!  affector-group groups
+                      (if! (= target.group affector-group) continue)
+                      (const dist (.distance-to  affector-group.center target.pos))
+                      (const used-distance (Math.max min-dist (Math.abs (.get-length dist))))
+                      (const mag (Math.sqrt (+ (* dist.x dist.x)
+                                               (* dist.y dist.y))))
+
+                      (const intensity (Math.abs (/ (* gravitational-constant
+                                              affector-group.mass
+                                              used-distance)
+                                           (Math.pow mag 2))))
+
+                      (.set-length dist intensity)
+                      (.add-to target.vel dist)
+                      (.despawn dist)))
+   (for-of! affector group.members
+
+            (if! (= target.id affector.id) continue)
+            (const dist (.distance-to  affector.pos target.pos))
+            (const used-distance (Math.max min-dist (Math.abs (.get-length dist))))
+            (const mag (Math.sqrt (+ (* dist.x dist.x)
+                                     (* dist.y dist.y))))
+            (const intensity (Math.abs (/ (* gravitational-constant  affector.mass used-distance)
+                                          (Math.pow mag 2))))
+
+            (.set-length dist intensity)
+            (.add-to target.vel dist)
+            (.despawn dist)
+            ))
+  (for-of! particle particles
+           (.add-to particle.attractor particle.vel )
+           (.despawn particle)
+           ;; (.despawn particle.vel )
+           ;; (.despawn particle.pos)
            )
+  (for-of! group groups (.despawn group))
   (.clear quads)
 
 

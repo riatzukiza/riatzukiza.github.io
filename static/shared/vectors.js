@@ -118,11 +118,12 @@ var Vector = Spawnable.define("Vector", {
     
       this.x = (this.x / n);
       this.y = (this.y / n);
-      return (function() {
+      (function() {
         if ((isNaN(this.x) || isNaN(this.y))) {
           throw (new Error("Vector parameter is NaN"))
         }
       }).call(this);
+      return this;
     
    },
   setAngle( angle ){ 

@@ -74,8 +74,8 @@
      (const old-scale (/ 1 self.zoom-level))
 
      (if (> e.delta-y 0)
-         (assign self.zoom-level (Math.max (- self.zoom-level (* self.zoom-level 0.01)) 0.01))
-         (assign self.zoom-level (Math.min (+ self.zoom-level (* self.zoom-level 0.01)) 1.0)))
+         (assign self.zoom-level (Math.max (- self.zoom-level (* self.zoom-level 0.1)) 0.01))
+         (assign self.zoom-level (Math.min (+ self.zoom-level (* self.zoom-level 0.1)) 10.0)))
 
 
      )
@@ -93,10 +93,7 @@
   (sett background-color (lit r g b a)
         (pipe this.context
               .make-current
-              (.clear-color  0 0 0 1))
-
-        )
-
+              (.clear-color  0 0 0 1)))
 
   (def-generic resize ([ width height] context)
     (.resize context width height))

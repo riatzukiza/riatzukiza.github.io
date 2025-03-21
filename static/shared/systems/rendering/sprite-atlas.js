@@ -179,10 +179,7 @@ var shaders = Interface.define("shaders", {
 
   out vec4 FragColor;
   void main() {
-    // this would normally come from a varying but lazy so using point sprite
-    vec2 texcoord = gl_PointCoord.xy;  // this * 3 could already be
-    // in your texcoords
-
+    vec2 texcoord = gl_PointCoord.xy;
     vec2 spriteRange = (vSpriteEndUV - vSpriteStartUV);
     vec2 uv = vSpriteStartUV + texcoord * spriteRange;
 
@@ -359,13 +356,13 @@ var SpriteAtlas = System.define("SpriteAtlas", {
     
       this.prepare();
       return (function() {
-        var while$99 = undefined;
+        var while$101 = undefined;
         while (this.queue.length) {
-          while$99 = (function() {
+          while$101 = (function() {
             return this._updateComponent(this.queue.pop());
           }).call(this);
         };
-        return while$99;
+        return while$101;
       }).call(this);
     
    },

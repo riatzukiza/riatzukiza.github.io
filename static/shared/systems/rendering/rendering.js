@@ -114,9 +114,9 @@ var Rendering = PooledSystem.define("Rendering", {
         const oldScale=(1 / self.zoomLevel);
         return (function() {
           if (e.deltaY > 0) {
-            return self.zoomLevel = Math.max((self.zoomLevel - (self.zoomLevel * 0.01)), 0.01);
+            return self.zoomLevel = Math.max((self.zoomLevel - (self.zoomLevel * 0.1)), 0.01);
           } else {
-            return self.zoomLevel = Math.min((self.zoomLevel + (self.zoomLevel * 0.01)), 1);
+            return self.zoomLevel = Math.min((self.zoomLevel + (self.zoomLevel * 0.1)), 10);
           }
         }).call(this);
       });

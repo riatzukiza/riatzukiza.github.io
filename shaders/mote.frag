@@ -11,5 +11,5 @@ out vec4 FragColor;
 void main(void) {
   FragColor = vColor;
   float dist = distance(vec2(0.5,0.5),gl_PointCoord.xy)*vSize;
-  FragColor.a = vIntensity/dist;
+  FragColor.a = vIntensity/pow(0.1+dist, 2.0);
 }
