@@ -43,6 +43,16 @@ var DataType = Spawnable.define("DataType", {
       return (this.size * Float64Array.BYTES_PER_ELEMENT);
     
    },
+  clear(  ){ 
+    
+      for (var key of this.keys)
+      {
+      this[key] = 0;
+      }
+      ;
+      return null;
+    
+   },
   buffer( length ){ 
     
       return (new SharedArrayBuffer((length * this.bytes)));

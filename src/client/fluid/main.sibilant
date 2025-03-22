@@ -8,6 +8,7 @@
 (import Ticker "/shared/ticker.js")
 (import Vector "/shared/vectors.js")
 (import Data-type "./data-types/data-type.js")
+(import game-view start-button "./ui.js")
 
 (define Threaded-system Thread
   (data [])
@@ -17,19 +18,23 @@
                                     data.next-state.buffer]))))))
 
 (define Physical-property Data-type
-  (keys ['mass ])
+  (keys ['mass 'scale])
   )
 (define Physical-properties Double-buffered-array
   (data-type Physical-property))
-(const spawn-width 128)
-(const spawn-height 128)
 
-(const particle-count 2024)
-(const max-mass (* 1024))
-(const min-mass 512)
-(const actual-maximum-mass (Math.pow max-mass 3))
-(const particle-render-size 512)
+(const (lit spawn-width spawn-height
+            dimensions
 
+            particle-count
+
+            max-mass min-mass
+            actual-maximum-mass
+
+            particle-render-size
+
+
+            ) config)
 
 
 (const velocities (.spawn Vector-2D-phase-space particle-count))
@@ -72,10 +77,17 @@
 ))
   (for-of! p positions.data
            (const phys (get physical-properties.data p.id))
-           (assign phys.mass (Math.max min-mass (Math.pow (* max-mass (Math.random)) 3)))
 
-           (.add-to spawn-pos (lit (x (random-float (* -1 spawn-height) spawn-height))
-                                   (y (random-float (* -1 spawn-width) spawn-width))))
+           (var scale (* max-mass (Math.random)))
+           (var mass (Math.max min-mass (Math.pow  scale 3)))
+           (set phys 'mass mass 'scale scale)
+
+           (.add-to spawn-pos (lit (x (* (/ mass
+                                            actual-maximum-mass)
+                                         (random-float (* -1 spawn-height) spawn-height)))
+                                   (y (* (/  mass
+                                            actual-maximum-mass)
+                                         (random-float (* -1 spawn-width) spawn-width)))))
 
            (assign p.x spawn-pos.x)
            (assign p.y spawn-pos.y))
@@ -91,117 +103,99 @@
            (if (> p.y max-y) (assign max-y p.y)))
   (return [min-x min-y max-x max-y]))
 
-(def handle-load ()
 
-  (randomly-place-particles)
-  (update-motes positions vertices)
+(randomly-place-particles)
+(update-motes positions vertices)
 
-  (.step physical-properties)
+(.step physical-properties)
 
-  (.step positions)
-  ;; (for-of! v velocities.data
-  ;;          (const p (get positions.data v.id))
-  ;;          (set-move-noise v p.x p.y ))
-
-
-  (.step velocities)
-
-  ;; (for-of! p positions.data (set p 'x p.x 'y p.y))
-
-  ;; (.step positions)
-  ;; (for-of! v velocities.data
-  ;;          (set v 'x v.x 'y v.y))
+(.step positions)
+;; (for-of! v velocities.data
+;;          (const p (get positions.data v.id))
+;;          (set-move-noise v p.x p.y ))
 
 
-  ;; (.step velocities)
-  (.update rendering)
+(.step velocities)
 
-  (print vertices)
-  (print positions)
-  (print velocities)
+;; (for-of! p positions.data (set p 'x p.x 'y p.y))
 
-  (def wait (n) (make-promise (set-timeout resolve n) ))
-  (def-async draw ()
-    (while! true
-            (await (make-promise
-                    (request-animation-frame (-> (.update rendering)
-                                                 (resolve)))))
-            )
-    (return null)
-    )
-  (def-async main ()
+;; (.step positions)
+;; (for-of! v velocities.data
+;;          (set v 'x v.x 'y v.y))
 
 
-    ;; (.init Noise-system)
-    (.init Movement-system)
-    (.init Attractor-system)
+;; (.step velocities)
+(.update rendering)
 
-    ;; (.start Noise-system )
-    (.start Movement-system)
-    (.start Attractor-system)
-    (const drawer (draw)) ;; heh
+(print vertices)
+(print positions)
+(print velocities)
 
-    (var promise (Promise.resolve))
-    (while! true
-            (await (Promise.all
-                    [;;(.update Noise-system)
-                     (.update Attractor-system (lit (bounds (get-bounds positions))))
-                     (.update Movement-system )  ]))
-
-            (.step positions)
-            ;; (.step velocities)
-            (.step attractors)
-            (for-of! p positions.data
-                     (const v (get velocities.data p.id))
-                     (const a (get attractors.data p.id))
-                     (const phys (get physical-properties.data p.id))
-                     ;; (set (get vertices p.id 'color)
-                     ;;      'g (Math.abs (Math.round (/ (* 256 (.get-length v))
-                     ;;                                  2))))
-                     (set (get vertices p.id 'color)
-                          'b (Math.min 255 (Math.abs (Math.round (* 1 (.get-length a))))))
-
-                     (set (get vertices p.id)
-                          'intensity (Math.max min-mass (* max-mass (/ phys.mass actual-maximum-mass)))
-                           'size (Math.max min-mass (* max-mass (/ phys.mass actual-maximum-mass))))
-                     (set (get vertices p.id 'point)
-                          'x p.x
-                          'y p.y))
+(def wait (n) (make-promise (set-timeout resolve n) ))
+(def-async draw ()
+  (while! true
+          (await (make-promise
+                  (request-animation-frame (-> (.update rendering)
+                                               (resolve)))))
+          )
+  (return null)
+  )
+(def-async main ()
 
 
+  ;; (.init Noise-system)
+  (.init Movement-system)
+  (.init Attractor-system)
 
-            ;; (await (wait 1000))
-            )
+  ;; (.start Noise-system )
+  (.start Movement-system)
+  (.start Attractor-system)
+  (const drawer (draw)) ;; heh
 
-    (return null))
-  (const game-view (dom (.div .id "game-view" .className "panel"
-                              .style (lit ("background-color" "black"))
-                              (-> rendering.context.canvas))))
+  (var promise (Promise.resolve))
+  (while! true
+          (await (Promise.all
+                  [;;(.update Noise-system)
+                   (.update Attractor-system (lit (bounds (get-bounds positions))))
+                   (.update Movement-system )  ]))
 
-  (const load-selected-game (-> (load-game (get (.get-element-by-id document 'load-save-name-field) 'value))))
+          (.step positions)
+          ;; (.step velocities)
+          (.step attractors)
+          (for-of! p positions.data
+                   (const v (get velocities.data p.id))
+                   (const a (get attractors.data p.id))
+                   (const phys (get physical-properties.data p.id))
+                   ;; (set (get vertices p.id 'color)
+                   ;;      'g (Math.abs (Math.round (/ (* 256 (.get-length v))
+                   ;;                                  2))))
+                   (set (get vertices p.id 'color)
+                        'b (Math.min 255 (Math.abs (Math.round (* 16 (.get-length a))))))
 
-  (const load-button (dom (.button .onclick load-selected-game "load game")))
-  (const load-name-field (dom (.input .type 'text .id 'load-name-field)))
+                   (set (get vertices p.id)
+                        'intensity (+ (* (Math.random)
+                                         10)
+                                      phys.scale
+                                      )
+                        'size phys.scale)
+                   (set (get vertices p.id 'point)
+                        'x p.x
+                        'y p.y))
 
-  (const load-widget (dom (.div .id 'load-game load-name-field load-button)))
 
-  (const save-selected-game (-> (save-game (get (.get-element-by-id document 'save-name-field) 'value))))
 
-  (const save-button (dom (.button .onclick save-selected-game "save game")))
-  (const save-name-field (dom (.input .type 'text .id 'save-name-field)))
+          ;; (await (wait 1000))
+          )
 
-  (const save-widget (dom (.div .id 'save-game save-name-field save-button)))
-
-  (const start-button (dom (.div .id 'start-game (.button .onclick main "start game"))))
-  (with-dom Document-body
-    (.div .id 'frame (.div .id "container"
-                           game-view
-                           (.div .id "debug-view" .className "panel"
-                                 .style (lit (height (+  (second config.dimensions)"px"))
-                                             (width (+ (Math.round (- (* window.innerWidth 0.2) 42)) "px"))
-                                             ("overflow-y" "scroll"))
-                                 start-button
-                                 )))))
-(add-event-listener 'load handle-load)
+  (return null))
+(with-dom Document-body
+  (.div .id 'frame (.div .id "container"
+                         game-view
+                         (.div .id "debug-view" .className "panel"
+                               .style (lit (height (+  (second dimensions)"px"))
+                                           (width (+ (Math.round (- (* window.innerWidth 0.2) 42)) "px"))
+                                           ("overflow-y" "scroll"))
+                               (start-button main)
+                               ))))
 
 

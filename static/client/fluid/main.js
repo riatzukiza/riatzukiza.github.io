@@ -54,6 +54,10 @@ import {
 import { 
   DataType
  } from "./data-types/data-type.js";
+import { 
+  gameView,
+  startButton
+ } from "./ui.js";
 var ThreadedSystem = Thread.define("ThreadedSystem", { 
   data:[],
   update( args ){ 
@@ -68,18 +72,21 @@ var ThreadedSystem = Thread.define("ThreadedSystem", {
    }
  });
 var PhysicalProperty = DataType.define("PhysicalProperty", { 
-  keys:[ "mass" ]
+  keys:[ "mass", "scale" ]
  });
 var PhysicalProperties = DoubleBufferedArray.define("PhysicalProperties", { 
   dataType:PhysicalProperty
  });
-const spawnWidth=128;
-const spawnHeight=128;
-const particleCount=2024;
-const maxMass=(1024);
-const minMass=512;
-const actualMaximumMass=Math.pow(maxMass, 3);
-const particleRenderSize=512;
+const { 
+  spawnWidth,
+  spawnHeight,
+  dimensions,
+  particleCount,
+  maxMass,
+  minMass,
+  actualMaximumMass,
+  particleRenderSize
+ }=config;
 const velocities=Vector2DPhaseSpace.spawn(particleCount);
 const attractors=Vector2DPhaseSpace.spawn(particleCount);
 const physicalProperties=PhysicalProperties.spawn(particleCount);
@@ -98,7 +105,7 @@ var AttractorSystem = ThreadedSystem.define("AttractorSystem", {
   data:[ velocities, positions, attractors, physicalProperties ]
  });
 var updateMotes = (function updateMotes$(positions, verts) {
-  /* update-motes eval.sibilant:58:0 */
+  /* update-motes eval.sibilant:63:0 */
 
   for (var p of positions.data)
   {
@@ -116,16 +123,19 @@ var updateMotes = (function updateMotes$(positions, verts) {
   return null;
 });
 var randomlyPlaceParticles = (function randomlyPlaceParticles$() {
-  /* randomly-place-particles eval.sibilant:70:0 */
+  /* randomly-place-particles eval.sibilant:75:0 */
 
   const spawnPos=Vector.spawn(((spawnWidth * Math.random()) - spawnWidth), ((spawnHeight * Math.random()) - spawnHeight));
   for (var p of positions.data)
   {
   const phys=physicalProperties.data[p.id];;
-  phys.mass = Math.max(minMass, Math.pow((maxMass * Math.random()), 3));;
+  var scale = (maxMass * Math.random());;
+  var mass = Math.max(minMass, Math.pow(scale, 3));;
+  phys.mass = mass;
+  phys.scale = scale;;
   spawnPos.addTo({ 
-    x:((Math.random() * (spawnHeight - (-1 * spawnHeight))) + (-1 * spawnHeight)),
-    y:((Math.random() * (spawnWidth - (-1 * spawnWidth))) + (-1 * spawnWidth))
+    x:((mass / actualMaximumMass) * ((Math.random() * (spawnHeight - (-1 * spawnHeight))) + (-1 * spawnHeight))),
+    y:((mass / actualMaximumMass) * ((Math.random() * (spawnWidth - (-1 * spawnWidth))) + (-1 * spawnWidth)))
    });
   p.x = spawnPos.x;;
   p.y = spawnPos.y;
@@ -134,7 +144,7 @@ var randomlyPlaceParticles = (function randomlyPlaceParticles$() {
   return null;
 });
 var getBounds = (function getBounds$(positions) {
-  /* get-bounds eval.sibilant:85:0 */
+  /* get-bounds eval.sibilant:97:0 */
 
   var minX = 0,
       minY = 0,
@@ -166,108 +176,75 @@ var getBounds = (function getBounds$(positions) {
   ;
   return [ minX, minY, maxX, maxY ];
 });
-var handleLoad = (function handleLoad$() {
-  /* handle-load eval.sibilant:95:0 */
+randomlyPlaceParticles();
+updateMotes(positions, vertices);
+physicalProperties.step();
+positions.step();
+velocities.step();
+rendering.update();
+console.log(vertices);
+console.log(positions);
+console.log(velocities);
+var wait = (function wait$(n) {
+  /* wait eval.sibilant:135:0 */
 
-  randomlyPlaceParticles();
-  updateMotes(positions, vertices);
-  physicalProperties.step();
-  positions.step();
-  velocities.step();
-  rendering.update();
-  console.log(vertices);
-  console.log(positions);
-  console.log(velocities);
-  var wait = (function wait$(n) {
-    /* wait eval.sibilant:124:2 */
-  
-    return (new Promise(((success, fail) => {
+  return (new Promise(((success, fail) => {
+  	var resolve = success,
+      reject = fail;
+  return setTimeout(resolve, n);
+  })));
+});
+async function draw(){
+
+  while( true ){ 
+    await (new Promise(((success, fail) => {
     	var resolve = success,
         reject = fail;
-    return setTimeout(resolve, n);
-    })));
-  });
-  async function draw(){
-  
-    while( true ){ 
-      await (new Promise(((success, fail) => {
-      	var resolve = success,
-          reject = fail;
-      return requestAnimationFrame((() => {
-      	rendering.update();
-      return resolve();
-      }));
-      })))
-     };
-    return null;
-  
-  };
-  async function main(){
-  
-    MovementSystem.init();
-    AttractorSystem.init();
-    MovementSystem.start();
-    AttractorSystem.start();
-    const drawer=draw();
-    var promise = Promise.resolve();
-    while( true ){ 
-      await Promise.all([ AttractorSystem.update({ 
-        bounds:getBounds(positions)
-       }), MovementSystem.update() ]);
-      positions.step();
-      attractors.step();
-      for (var p of positions.data)
-      {
-      const v=velocities.data[p.id];;
-      const a=attractors.data[p.id];;
-      const phys=physicalProperties.data[p.id];;
-      vertices[p.id].color.b = Math.min(255, Math.abs(Math.round((1 * a.getLength()))));;
-      vertices[p.id].intensity = Math.max(minMass, (maxMass * (phys.mass / actualMaximumMass)));
-      vertices[p.id].size = Math.max(minMass, (maxMass * (phys.mass / actualMaximumMass)));;
-      vertices[p.id].point.x = p.x;
-      vertices[p.id].point.y = p.y;
-      }
-      
-     };
-    return null;
-  
-  };
-  const gameView=createDocumentNode("div", {
-    'id': "game-view",
-    'className': "panel",
-    'style': { 
-      "background-color":"black"
-     }
-  }, [ (() => {
-  	return rendering.context.canvas;
-  }) ]);
-  const loadSelectedGame=(() => {
-  	return loadGame(document.getElementById("loadSaveNameField").value);
-  });
-  const loadButton=createDocumentNode("button", { 'onclick': loadSelectedGame }, [ "load game" ]);
-  const loadNameField=createDocumentNode("input", {
-    'type': "text",
-    'id': "loadNameField"
-  }, []);
-  const loadWidget=createDocumentNode("div", { 'id': "loadGame" }, [ loadNameField, loadButton ]);
-  const saveSelectedGame=(() => {
-  	return saveGame(document.getElementById("saveNameField").value);
-  });
-  const saveButton=createDocumentNode("button", { 'onclick': saveSelectedGame }, [ "save game" ]);
-  const saveNameField=createDocumentNode("input", {
-    'type': "text",
-    'id': "saveNameField"
-  }, []);
-  const saveWidget=createDocumentNode("div", { 'id': "saveGame" }, [ saveNameField, saveButton ]);
-  const startButton=createDocumentNode("div", { 'id': "startGame" }, [ createDocumentNode("button", { 'onclick': main }, [ "start game" ]) ]);
-  return createDocumentNode("div", { 'id': "frame" }, [ createDocumentNode("div", { 'id': "container" }, [ gameView, createDocumentNode("div", {
-    'id': "debug-view",
-    'className': "panel",
-    'style': { 
-      height:(config.dimensions[1] + "px"),
-      width:(Math.round(((window.innerWidth * 0.2) - 42)) + "px"),
-      "overflow-y":"scroll"
-     }
-  }, [ startButton ]) ]) ]).render(DocumentBody);
-});
-addEventListener("load", handleLoad);
+    return requestAnimationFrame((() => {
+    	rendering.update();
+    return resolve();
+    }));
+    })))
+   };
+  return null;
+
+};
+async function main(){
+
+  MovementSystem.init();
+  AttractorSystem.init();
+  MovementSystem.start();
+  AttractorSystem.start();
+  const drawer=draw();
+  var promise = Promise.resolve();
+  while( true ){ 
+    await Promise.all([ AttractorSystem.update({ 
+      bounds:getBounds(positions)
+     }), MovementSystem.update() ]);
+    positions.step();
+    attractors.step();
+    for (var p of positions.data)
+    {
+    const v=velocities.data[p.id];;
+    const a=attractors.data[p.id];;
+    const phys=physicalProperties.data[p.id];;
+    vertices[p.id].color.b = Math.min(255, Math.abs(Math.round((16 * a.getLength()))));;
+    vertices[p.id].intensity = ((Math.random() * 10) + phys.scale);
+    vertices[p.id].size = phys.scale;;
+    vertices[p.id].point.x = p.x;
+    vertices[p.id].point.y = p.y;
+    }
+    
+   };
+  return null;
+
+};
+createDocumentNode("div", { 'id': "frame" }, [ createDocumentNode("div", { 'id': "container" }, [ gameView, createDocumentNode("div", {
+  'id': "debug-view",
+  'className': "panel",
+  'style': { 
+    height:(dimensions[1] + "px"),
+    width:(Math.round(((window.innerWidth * 0.2) - 42)) + "px"),
+    "overflow-y":"scroll"
+   }
+}, [ startButton(main) ]) ]) ]).render(DocumentBody);

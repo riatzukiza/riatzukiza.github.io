@@ -28,8 +28,10 @@ var resolve = (function resolve$(v) {
 
   return Promise.resolve(v);
 });
-var sendTo = R.curry(((actor, msg) => {
-	return actor.send(msg);
+var sendTo = R.curry((function(actor, msg) {
+  /* eval.sibilant:11:34 */
+
+  return actor.send(msg);
 }));
 var Actor = EventEmitter.define("Actor", { 
   init( promise = resolve() ){ 

@@ -191,9 +191,9 @@ var MentalState = System.define("MentalState", {
       const searchLimit=10;
       var i = 0;
       return (function() {
-        var while$155 = undefined;
+        var while$153 = undefined;
         while (!((c.entity.currentPath.end || i > searchLimit))) {
-          while$155 = (function() {
+          while$153 = (function() {
             const noiseV=getMoveNoise(newX, newY, this.game.ticker.ticks, (1 * config.gameScale));
             ((i)++);
             newX = (newX + (20 * noiseV.x));
@@ -209,7 +209,7 @@ var MentalState = System.define("MentalState", {
             return noiseV.despawn();
           }).call(this);
         };
-        return while$155;
+        return while$153;
       }).call(this);
     
    },

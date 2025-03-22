@@ -1,6 +1,6 @@
 (import Spawnable "/shared/data-structures/spawnable.js")
 (import Data-type "../data-types/data-type.js")
-(define Composite-typed-array Spawnable 
+(define Composite-typed-array Spawnable
   (data-type Data-type)
 
   (init ((length 0)

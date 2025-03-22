@@ -11,14 +11,14 @@
 (require! Quad-tree  "@timohausmann/quadtree-js")
 
 
-(const gravitational-constant 0.0000001)
-(const min-dist 1)
-(const particle-size 512)
-(const max-objects 100)
-(const max-levels 10)
+(import config "../config.js")
+(const (lit gravitational-constant min-dist max-objects max-levels max-mass min-mass) config)
+
+(const actual-maximum-mass (Math.pow max-mass 3))
+
 
 (define Physical-property Data-type
-  (keys ['mass ])
+  (keys ['mass 'scale])
   )
 (define Physical-properties Double-buffered-array
   (data-type Physical-property)
@@ -50,8 +50,9 @@
   (init (pos-source
          attractor
          mass
-         (height 256)
-         (width 256)
+         scale
+         (height scale)
+         (width scale)
 
          (pos (.spawn Vector pos-source.x pos-source.y))
          (vel (.spawn Vector 0 0))))
@@ -78,7 +79,7 @@
   (const velocities (.from-buffers Vector-2D-phase-space vb1 vb2))
   (const positions (.from-buffers Vector-2D-phase-space pb1 pb2))
   (const attractors (.from-buffers Vector-2D-phase-space ab1 ab2))
-  (const masses (.from-buffers Physical-properties mb1 mb2))
+  (const phys (.from-buffers Physical-properties mb1 mb2))
   (const quads-config (lit (x min-x) (y min-y)
                            (height (- max-y min-y))
                            (width (- max-x min-x ))))
@@ -88,14 +89,10 @@
                     max-levels
                     ))
   (const particles [])
-  (var min-mass 0)
-  (var max-mass 0)
   (for-of! pos positions.data
            (const attractor (get attractors.data pos.id))
-           (const mass (get masses.data pos.id 'mass))
-           (assign min-mass (Math.min min-mass mass))
-           (assign max-mass (Math.max max-mass mass))
-           (const particle (.spawn Particle pos attractor mass) )
+           (const object (get phys.data pos.id ))
+           (const particle (.spawn Particle pos attractor object.mass object.scale) )
            (.push particles particle)
            (.insert quads particle))
 
@@ -106,29 +103,29 @@
   (for-of! pos positions.data
 
            (if! (.has visited pos.id) continue)
-           (.add visited pos.id)
-           (const mass (get masses pos.id))
+           (const object (get phys.data pos.id))
            (const p (.spawn Vector pos.x pos.y))
 
-
-           ;; (const elements (.retrieve quads (lit (x pos.x) (y pos.y)
-           ;;                                       (height (*  2 particle-size))
-           ;;                                       (width (*  2 particle-size)))))
            (const elements (sort (.retrieve quads (lit (x pos.x) (y pos.y)
-                                                  (height particle-size)
-                                                  (width particle-size)))
+                                                       (height object.scale)
+                                                       (width object.scale)))
                                  (a b)
                                  (const d1 (Math.abs (.distance-to p a.pos)))
                                  (const d2 (Math.abs (.distance-to p b.pos)))
                                  (if (> d1 d2) 1 -1)))
-           ;; (if! (= elements.length 1)
-           ;;      (.push loner-group.members (first elements))
-           ;;      continue)
+           (.despawn p)
+           (if! (= elements.length 1)
+                (const el (first elements))
+                (.add visited el.id)
+                (.push loner-group.members el )
+                (assign el.group loner-group)
+                continue)
            (const group (.spawn Attractor-group ))
+           ;; (.push group.members (first elements))
 
            (for-of! neighbor elements
 
-                    ;; (if! (>  group.members.length 100) break)
+                    (if! (>  group.members.length 256) break)
                     ;; (if! (>  group.members.length 10) break)
 
                     (if! (.has visited neighbor.id) continue)
@@ -140,8 +137,8 @@
            (if group.members.length
                (.push groups group)
                (.despawn group)))
-  ;; (if! (>  loner-group.members.length 0)
-  ;;      (.push groups loner-group))
+  (if! (>  loner-group.members.length 0)
+       (.push groups loner-group))
 
   (loop (for-of! group groups)
    (for-of! target group.members
@@ -165,6 +162,10 @@
             (if! (= target.id affector.id) continue)
             (const dist (.distance-to  affector.pos target.pos))
             (const used-distance (Math.max min-dist (Math.abs (.get-length dist))))
+            ;; (if (> (Math.cbrt affector.mass) used-distance)
+            ;;     ;;deflect
+            ;;     (.rotate-to dist )
+            ;;     )
             (const mag (Math.sqrt (+ (* dist.x dist.x)
                                      (* dist.y dist.y))))
             (const intensity (Math.abs (/ (* gravitational-constant  affector.mass used-distance)

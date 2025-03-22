@@ -100,7 +100,7 @@ var shaders = Interface.define("shaders", {
   void main(void) {
     FragColor = vColor;
     float dist = distance(vec2(0.5,0.5),gl_PointCoord.xy)*vSize;
-    FragColor.a = vIntensity/pow(dist, 2);
+    FragColor.a = vIntensity/pow(dist, 2.0);
   }
   `
  });

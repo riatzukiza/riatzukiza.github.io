@@ -34,13 +34,20 @@ import {
   Spawnable
  } from "/shared/data-structures/spawnable.js";
 var QuadTree = require("@timohausmann/quadtree-js");
-const gravitationalConstant=1e-7;
-const minDist=1;
-const particleSize=512;
-const maxObjects=100;
-const maxLevels=10;
+import { 
+  config
+ } from "../config.js";
+const { 
+  gravitationalConstant,
+  minDist,
+  maxObjects,
+  maxLevels,
+  maxMass,
+  minMass
+ }=config;
+const actualMaximumMass=Math.pow(maxMass, 3);
 var PhysicalProperty = DataType.define("PhysicalProperty", { 
-  keys:[ "mass" ]
+  keys:[ "mass", "scale" ]
  });
 var PhysicalProperties = DoubleBufferedArray.define("PhysicalProperties", { 
   dataType:PhysicalProperty
@@ -132,9 +139,9 @@ var AttractorGroup = Spawnable.define("AttractorGroup", {
    }
  });
 var Particle = Spawnable.define("Particle", { 
-  init( posSource = this.posSource,attractor = this.attractor,mass = this.mass,height = 256,width = 256,pos = Vector.spawn(posSource.x, posSource.y),vel = Vector.spawn(0, 0) ){ 
+  init( posSource = this.posSource,attractor = this.attractor,mass = this.mass,scale = this.scale,height = scale,width = scale,pos = Vector.spawn(posSource.x, posSource.y),vel = Vector.spawn(0, 0) ){ 
     
-      this.posSource = posSource;this.attractor = attractor;this.mass = mass;this.height = height;this.width = width;this.pos = pos;this.vel = vel;
+      this.posSource = posSource;this.attractor = attractor;this.mass = mass;this.scale = scale;this.height = height;this.width = width;this.pos = pos;this.vel = vel;
       return this;
     
    },
@@ -166,7 +173,7 @@ var Particle = Spawnable.define("Particle", {
    }
  });
 self.onmessage = (function self$onmessage$(e) {
-  /* self.onmessage eval.sibilant:74:0 */
+  /* self.onmessage eval.sibilant:75:0 */
 
   const [ [ vb1, vb2 ], [ pb1, pb2 ], [ ab1, ab2 ], [ mb1, mb2 ] ]=e.data.buffers;
   const { 
@@ -175,7 +182,7 @@ self.onmessage = (function self$onmessage$(e) {
   const velocities=Vector2DPhaseSpace.fromBuffers(vb1, vb2);
   const positions=Vector2DPhaseSpace.fromBuffers(pb1, pb2);
   const attractors=Vector2DPhaseSpace.fromBuffers(ab1, ab2);
-  const masses=PhysicalProperties.fromBuffers(mb1, mb2);
+  const phys=PhysicalProperties.fromBuffers(mb1, mb2);
   const quadsConfig={ 
     x:minX,
     y:minY,
@@ -184,15 +191,11 @@ self.onmessage = (function self$onmessage$(e) {
    };
   const quads=(new QuadTree(quadsConfig, maxObjects, maxLevels));
   const particles=[];
-  var minMass = 0;
-  var maxMass = 0;
   for (var pos of positions.data)
   {
   const attractor=attractors.data[pos.id];;
-  const mass=masses.data[pos.id].mass;;
-  minMass = Math.min(minMass, mass);;
-  maxMass = Math.max(maxMass, mass);;
-  const particle=Particle.spawn(pos, attractor, mass);;
+  const object=phys.data[pos.id];;
+  const particle=Particle.spawn(pos, attractor, object.mass, object.scale);;
   particles.push(particle);
   quads.insert(particle)
   }
@@ -205,14 +208,13 @@ self.onmessage = (function self$onmessage$(e) {
   if( visited.has(pos.id) ){ 
     continue
    };
-  visited.add(pos.id);
-  const mass=masses[pos.id];;
+  const object=phys.data[pos.id];;
   const p=Vector.spawn(pos.x, pos.y);;
   const elements=quads.retrieve({ 
     x:pos.x,
     y:pos.y,
-    height:particleSize,
-    width:particleSize
+    height:object.scale,
+    width:object.scale
    }).sort(((a, b) => {
   	const d1=Math.abs(p.distanceTo(a.pos));
   const d2=Math.abs(p.distanceTo(b.pos));
@@ -224,9 +226,20 @@ self.onmessage = (function self$onmessage$(e) {
     }
   }).call(this);
   }));;
+  p.despawn();
+  if( elements.length === 1 ){ 
+    const el=elements[0];;
+    visited.add(el.id);
+    lonerGroup.members.push(el);
+    el.group = lonerGroup;;
+    continue
+   };
   const group=AttractorGroup.spawn();;
   for (var neighbor of elements)
   {
+  if( group.members.length > 256 ){ 
+    break
+   };
   if( visited.has(neighbor.id) ){ 
     continue
    };
@@ -244,6 +257,9 @@ self.onmessage = (function self$onmessage$(e) {
   }).call(this)
   }
   ;
+  if( lonerGroup.members.length > 0 ){ 
+    groups.push(lonerGroup)
+   };
   for (var group of groups)
   {
   for (var target of group.members)

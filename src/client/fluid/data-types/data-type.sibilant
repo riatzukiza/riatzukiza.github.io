@@ -10,6 +10,9 @@
   (gett size this.keys.length)
   (gett bytes (* this.size Float-64-array.BYTES_PER_ELEMENT))
 
+  (def clear () (for-of! key this.keys (set this key 0))
+       null)
+
   (def buffer (length )
     (new Shared-array-buffer
          (* length
