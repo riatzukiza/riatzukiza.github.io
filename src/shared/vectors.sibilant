@@ -22,6 +22,7 @@
     (incr-by this.y v.y)
     (if (or (isNaN this.x) (isNaN this.y))
         (throw (new Error "Vector parameter is NaN")))
+    this
     )
   (def sub (v) (.spawn Vector (- this.x v.x) (- this.y v.y)))
   (def sub-from (v)
@@ -30,7 +31,8 @@
   (def mult (n) (.spawn Vector (* this.x n) (* this.y n)))
   (def mult-to (n)
     (assign this.x (* this.x n))
-    (assign this.y (* this.y n)))
+    (assign this.y (* this.y n))
+    this)
   (def div (n) (.spawn Vector  (/ this.x n) (/ this.y n)))
 
   (def div-to (n)

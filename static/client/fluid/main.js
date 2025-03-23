@@ -104,17 +104,18 @@ var AttractorSystem = ThreadedSystem.define("AttractorSystem", {
   url:"/client/fluid/workers/attractors.js",
   data:[ velocities, positions, attractors, physicalProperties ]
  });
-var updateMotes = (function updateMotes$(positions, verts) {
-  /* update-motes eval.sibilant:63:0 */
+var initializeMotes = (function initializeMotes$(positions, verts) {
+  /* initialize-motes eval.sibilant:63:0 */
 
   for (var p of positions.data)
   {
+  const phys=physicalProperties.data[p.id];;
   verts[p.id].color.r = 255;
   verts[p.id].color.g = 10;
   verts[p.id].color.b = 10;
   verts[p.id].color.a = 255;;
-  verts[p.id].size = particleRenderSize;
-  verts[p.id].intensity = 0.9;;
+  verts[p.id].size = phys.scale;
+  verts[p.id].intensity = phys.scale;;
   verts[p.id].point.x = p.x;
   verts[p.id].point.y = p.y;
   verts[p.id].point.z = 1;
@@ -122,10 +123,13 @@ var updateMotes = (function updateMotes$(positions, verts) {
   ;
   return null;
 });
+const randomSignedFloat=((range) => {
+	return ((Math.random() * (range - (-1 * range))) + (-1 * range));
+});
 var randomlyPlaceParticles = (function randomlyPlaceParticles$() {
-  /* randomly-place-particles eval.sibilant:75:0 */
+  /* randomly-place-particles eval.sibilant:79:0 */
 
-  const spawnPos=Vector.spawn(((spawnWidth * Math.random()) - spawnWidth), ((spawnHeight * Math.random()) - spawnHeight));
+  const spawnPos=Vector.spawn(0, 0);
   for (var p of positions.data)
   {
   const phys=physicalProperties.data[p.id];;
@@ -134,8 +138,8 @@ var randomlyPlaceParticles = (function randomlyPlaceParticles$() {
   phys.mass = mass;
   phys.scale = scale;;
   spawnPos.addTo({ 
-    x:((mass / actualMaximumMass) * ((Math.random() * (spawnHeight - (-1 * spawnHeight))) + (-1 * spawnHeight))),
-    y:((mass / actualMaximumMass) * ((Math.random() * (spawnWidth - (-1 * spawnWidth))) + (-1 * spawnWidth)))
+    x:((mass / actualMaximumMass) * randomSignedFloat(spawnWidth)),
+    y:((mass / actualMaximumMass) * randomSignedFloat(spawnHeight))
    });
   p.x = spawnPos.x;;
   p.y = spawnPos.y;
@@ -144,7 +148,7 @@ var randomlyPlaceParticles = (function randomlyPlaceParticles$() {
   return null;
 });
 var getBounds = (function getBounds$(positions) {
-  /* get-bounds eval.sibilant:97:0 */
+  /* get-bounds eval.sibilant:99:0 */
 
   var minX = 0,
       minY = 0,
@@ -177,16 +181,13 @@ var getBounds = (function getBounds$(positions) {
   return [ minX, minY, maxX, maxY ];
 });
 randomlyPlaceParticles();
-updateMotes(positions, vertices);
 physicalProperties.step();
 positions.step();
 velocities.step();
+initializeMotes(positions, vertices);
 rendering.update();
-console.log(vertices);
-console.log(positions);
-console.log(velocities);
 var wait = (function wait$(n) {
-  /* wait eval.sibilant:135:0 */
+  /* wait eval.sibilant:123:0 */
 
   return (new Promise(((success, fail) => {
   	var resolve = success,
@@ -228,9 +229,8 @@ async function main(){
     const v=velocities.data[p.id];;
     const a=attractors.data[p.id];;
     const phys=physicalProperties.data[p.id];;
-    vertices[p.id].color.b = Math.min(255, Math.abs(Math.round((16 * a.getLength()))));;
-    vertices[p.id].intensity = ((Math.random() * 10) + phys.scale);
-    vertices[p.id].size = phys.scale;;
+    vertices[p.id].color.b = Math.min(255, Math.abs(Math.round((32 * a.x))));
+    vertices[p.id].color.g = Math.min(255, Math.abs(Math.round((32 * a.y))));;
     vertices[p.id].point.x = p.x;
     vertices[p.id].point.y = p.y;
     }

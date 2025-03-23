@@ -42,7 +42,7 @@ var PooledSystem = Interface.define("PooledSystem", {
     
       "aquire an object from the systems pool, and initialize it.";
       return (function(r) {
-        /* inc/misc.sibilant:1:1369 */
+        /* eval.sibilant:2:327 */
       
         r.init(...args);
         return r;

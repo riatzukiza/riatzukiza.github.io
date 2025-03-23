@@ -46,6 +46,14 @@ const {
   minMass
  }=config;
 const actualMaximumMass=Math.pow(maxMass, 3);
+var calculateGravitationalIntensity = (function calculateGravitationalIntensity$(target, affector) {
+  /* calculate-gravitational-intensity eval.sibilant:19:0 */
+
+  const dist=affector.pos.distanceTo(target.pos);
+  const usedDistance=Math.max(dist.getLength());
+  const mag=Math.sqrt(((dist.x * dist.x) + (dist.y * dist.y)));
+  return Math.abs(((gravitationalConstant * affector.mass * usedDistance) / Math.pow(mag, 2)));
+});
 var PhysicalProperty = DataType.define("PhysicalProperty", { 
   keys:[ "mass", "scale" ]
  });
@@ -139,9 +147,9 @@ var AttractorGroup = Spawnable.define("AttractorGroup", {
    }
  });
 var Particle = Spawnable.define("Particle", { 
-  init( posSource = this.posSource,attractor = this.attractor,mass = this.mass,scale = this.scale,height = scale,width = scale,pos = Vector.spawn(posSource.x, posSource.y),vel = Vector.spawn(0, 0) ){ 
+  init( posSource = this.posSource,attractor = this.attractor,mass = this.mass,scale = this.scale,height = scale,width = scale,baseVel = Vector.spawn(attractor.x, attractor.y),pos = Vector.spawn(posSource.x, posSource.y),vel = Vector.spawn(0, 0) ){ 
     
-      this.posSource = posSource;this.attractor = attractor;this.mass = mass;this.scale = scale;this.height = height;this.width = width;this.pos = pos;this.vel = vel;
+      this.posSource = posSource;this.attractor = attractor;this.mass = mass;this.scale = scale;this.height = height;this.width = width;this.baseVel = baseVel;this.pos = pos;this.vel = vel;
       return this;
     
    },
@@ -160,6 +168,7 @@ var Particle = Spawnable.define("Particle", {
       this.posSource = null;
       this.pos.despawn();
       this.vel.despawn();
+      this.baseVel.despawn();
       this.pos = null;
       this.vel = null;
       this.width = null;
@@ -173,7 +182,7 @@ var Particle = Spawnable.define("Particle", {
    }
  });
 self.onmessage = (function self$onmessage$(e) {
-  /* self.onmessage eval.sibilant:74:0 */
+  /* self.onmessage eval.sibilant:83:0 */
 
   const [ [ vb1, vb2 ], [ pb1, pb2 ], [ ab1, ab2 ], [ mb1, mb2 ] ]=e.data.buffers;
   const { 
@@ -201,38 +210,16 @@ self.onmessage = (function self$onmessage$(e) {
   ;
   const visited=(new Set());
   const groups=[];
-  const lonerGroup=AttractorGroup.spawn();
   for (var pos of positions.data)
   {
-  if( (target.scale + affector.scale) > Math.abs(usedDistance) ){ 
-    const vector1=Vector.spawn(target.attractor.x, target.attractor.y);;
-    const vector2=Vector.spawn(affector.attractor.x, affector.attractor.y);;
-    const theta=Math.atan2((vector1.y - vector2.y), (vector1.x - vector2.x));;
-    const v1=vector1.rotateTo((theta));;
-    const v2=vector2.rotateTo((theta));;
-    const m=target.mass;;
-    const m_=affector.mass;;
-    const u1=Vector.spawn((((v1.x * (m - m_)) / (m + m_)) + (v2.x * 2 * (m_ / (m + m_)))), v1.y).rotateTo(theta);;
-    const u2=Vector.spawn((((v2.x * (m_ - m)) / (m_ + m)) + (v1.x * 2 * (m / (m_ + m)))), v2.y).rotateTo(theta);;
-    target.attractor.x = u1.x;
-    target.attractor.y = u1.y;;
-    affector.attractor.x = u2.x;
-    affector.attractor.y = u2.y;;
-    u1.despawn();
-    u2.despawn();
-    v1.despawn();
-    v2.despawn()
-   };
-  if( visited.has(pos.id) ){ 
-    continue
-   };
+  const target=particles[pos.id];;
   const object=phys.data[pos.id];;
   const p=Vector.spawn(pos.x, pos.y);;
   const elements=quads.retrieve({ 
     x:pos.x,
     y:pos.y,
-    height:object.scale,
-    width:object.scale
+    height:(4 * object.scale),
+    width:(4 * object.scale)
    }).sort(((a, b) => {
   	const d1=Math.abs(p.distanceTo(a.pos));
   const d2=Math.abs(p.distanceTo(b.pos));
@@ -245,11 +232,37 @@ self.onmessage = (function self$onmessage$(e) {
   }).call(this);
   }));;
   p.despawn();
-  const group=AttractorGroup.spawn();;
+  for (var affector of elements)
+  {
+  if( target.id === affector.id ){ 
+    continue
+   };
+  const dist=affector.pos.distanceTo(target.pos);;
+  const usedDistance=Math.max(dist.getLength());;
+  dist.despawn();
+  if( Math.pow((target.scale + affector.scale), 2) > Math.abs(usedDistance) ){ 
+    const vector1=Vector.spawn(target.baseVel.x, target.baseVel.y);;
+    const vector2=Vector.spawn(affector.baseVel.x, affector.baseVel.y);;
+    const theta=Math.atan2((vector1.y - vector2.y), (vector1.x - vector2.x));;
+    const v1=vector1.rotateTo((theta));;
+    const v2=vector2.rotateTo((theta));;
+    const m=target.mass;;
+    const m_=affector.mass;;
+    const u1=Vector.spawn((((v1.x * (m - m_)) / (m + m_)) + (v2.x * 2 * (m_ / (m + m_)))), v1.y).rotateTo(theta);;
+    target.baseVel.x = u1.x;
+    target.baseVel.y = u1.y;;
+    u1.despawn();
+    v1.despawn();
+    v2.despawn()
+   }
+  }
+  ;
+  var group = AttractorGroup.spawn();;
   for (var neighbor of elements)
   {
-  if( group.members.length > 32 ){ 
-    break
+  if( group.members.length > 64 ){ 
+    groups.push(group);
+    group = AttractorGroup.spawn();
    };
   if( visited.has(neighbor.id) ){ 
     continue
@@ -268,9 +281,6 @@ self.onmessage = (function self$onmessage$(e) {
   }).call(this)
   }
   ;
-  if( lonerGroup.members.length > 0 ){ 
-    groups.push(lonerGroup)
-   };
   for (var group of groups)
   {
   for (var target of group.members)
@@ -309,7 +319,9 @@ self.onmessage = (function self$onmessage$(e) {
   ;
   for (var particle of particles)
   {
-  particle.attractor.addTo(particle.vel);
+  particle.baseVel.addTo(particle.vel);
+  particle.attractor.x = particle.baseVel.x;
+  particle.attractor.y = particle.baseVel.y;;
   particle.despawn()
   }
   ;

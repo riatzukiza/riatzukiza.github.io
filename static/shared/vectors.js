@@ -80,11 +80,12 @@ var Vector = Spawnable.define("Vector", {
     
       this.x += v.x;
       this.y += v.y;
-      return (function() {
+      (function() {
         if ((isNaN(this.x) || isNaN(this.y))) {
           throw (new Error("Vector parameter is NaN"))
         }
       }).call(this);
+      return this;
     
    },
   sub( v ){ 
@@ -106,7 +107,8 @@ var Vector = Spawnable.define("Vector", {
   multTo( n ){ 
     
       this.x = (this.x * n);
-      return this.y = (this.y * n);
+      this.y = (this.y * n);
+      return this;
     
    },
   div( n ){ 

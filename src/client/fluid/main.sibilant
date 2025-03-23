@@ -59,35 +59,37 @@
 
 
 
-(def update-motes (positions verts)
+(def initialize-motes (positions verts)
   (for-of! p positions.data
+           (const phys (get physical-properties.data p.id))
            (set (get verts p.id 'color) 'r 255 'g 10 'b 10 'a 255)
            (set  (get verts p.id)
 
-                 'size particle-render-size
-                 'intensity 0.9)
+                 'size phys.scale
+                 'intensity phys.scale
+                 )
            (set (get verts p.id 'point)
                 'x p.x
                 'y p.y
                 'z 1))
   null)
+
+(const random-signed-float (=> (range) (random-float (* -1 range) range)))
 (def randomly-place-particles ()
-  (const spawn-pos (.spawn Vector (-  (* spawn-width (Math.random)) spawn-width)
-                           (-  (* spawn-height (Math.random) ) spawn-height)
-))
+  (const spawn-pos (.spawn Vector 0 0)
+         )
   (for-of! p positions.data
+
            (const phys (get physical-properties.data p.id))
 
            (var scale (* max-mass (Math.random)))
            (var mass (Math.max min-mass (Math.pow  scale 3)))
            (set phys 'mass mass 'scale scale)
 
-           (.add-to spawn-pos (lit (x (* (/ mass
-                                            actual-maximum-mass)
-                                         (random-float (* -1 spawn-height) spawn-height)))
-                                   (y (* (/  mass
-                                            actual-maximum-mass)
-                                         (random-float (* -1 spawn-width) spawn-width)))))
+           (.add-to spawn-pos (lit (x (* (/ mass actual-maximum-mass)
+                                         (random-signed-float spawn-width)))
+                                   (y (* (/  mass actual-maximum-mass)
+                                         (random-signed-float spawn-height)))))
 
            (assign p.x spawn-pos.x)
            (assign p.y spawn-pos.y))
@@ -105,49 +107,31 @@
 
 
 (randomly-place-particles)
-(update-motes positions vertices)
 
 (.step physical-properties)
 
 (.step positions)
-;; (for-of! v velocities.data
-;;          (const p (get positions.data v.id))
-;;          (set-move-noise v p.x p.y ))
-
 
 (.step velocities)
 
-;; (for-of! p positions.data (set p 'x p.x 'y p.y))
-
-;; (.step positions)
-;; (for-of! v velocities.data
-;;          (set v 'x v.x 'y v.y))
+(initialize-motes positions vertices)
 
 
-;; (.step velocities)
 (.update rendering)
-
-(print vertices)
-(print positions)
-(print velocities)
 
 (def wait (n) (make-promise (set-timeout resolve n) ))
 (def-async draw ()
   (while! true
           (await (make-promise
                   (request-animation-frame (-> (.update rendering)
-                                               (resolve)))))
-          )
-  (return null)
-  )
+                                               (resolve))))))
+  (return null))
+
 (def-async main ()
 
-
-  ;; (.init Noise-system)
   (.init Movement-system)
   (.init Attractor-system)
 
-  ;; (.start Noise-system )
   (.start Movement-system)
   (.start Attractor-system)
   (const drawer (draw)) ;; heh
@@ -155,39 +139,25 @@
   (var promise (Promise.resolve))
   (while! true
           (await (Promise.all
-                  [;;(.update Noise-system)
-                   (.update Attractor-system (lit (bounds (get-bounds positions))))
+                  [ (.update Attractor-system (lit (bounds (get-bounds positions))))
                    (.update Movement-system )  ]))
 
           (.step positions)
-          ;; (.step velocities)
           (.step attractors)
+
           (for-of! p positions.data
                    (const v (get velocities.data p.id))
                    (const a (get attractors.data p.id))
                    (const phys (get physical-properties.data p.id))
-                   ;; (set (get vertices p.id 'color)
-                   ;;      'g (Math.abs (Math.round (/ (* 256 (.get-length v))
-                   ;;                                  2))))
                    (set (get vertices p.id 'color)
-                        'b (Math.min 255 (Math.abs (Math.round (* 16 (.get-length a))))))
-
-                   (set (get vertices p.id)
-                        'intensity (+ (* (Math.random)
-                                         10)
-                                      phys.scale
-                                      )
-                        'size phys.scale)
+                        'b (Math.min 255 (Math.abs (Math.round (* 32 a.x))))
+                        'g (Math.min 255 (Math.abs (Math.round (* 32 a.y))))
+                        )
                    (set (get vertices p.id 'point)
                         'x p.x
-                        'y p.y))
-
-
-
-          ;; (await (wait 1000))
-          )
-
+                        'y p.y)))
   (return null))
+
 (with-dom Document-body
   (.div .id 'frame (.div .id "container"
                          game-view

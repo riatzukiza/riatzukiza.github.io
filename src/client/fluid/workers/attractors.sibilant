@@ -15,6 +15,15 @@
 
 (const actual-maximum-mass (Math.pow max-mass 3))
 
+(def calculate-gravitational-intensity (target affector)
+
+  (const dist (.distance-to  affector.pos target.pos))
+  (const used-distance (Math.max (.get-length dist ) ))
+  
+  (const mag (Math.sqrt (+ (* dist.x dist.x)
+                           (* dist.y dist.y))))
+  (Math.abs (/ (* gravitational-constant  affector.mass used-distance)
+               (Math.pow mag 2))))
 
 (define Physical-property Data-type
   (keys ['mass 'scale])
@@ -52,7 +61,7 @@
          scale
          (height scale)
          (width scale)
-
+         (base-vel (.spawn Vector attractor.x attractor.y))
          (pos (.spawn Vector pos-source.x pos-source.y))
          (vel (.spawn Vector 0 0))))
   (gett x this.pos-source.x)
@@ -61,6 +70,7 @@
     (assign this.pos-source null)
     (.despawn this.pos)
     (.despawn this.vel)
+    (.despawn this.base-vel)
     (assign this.pos null)
     (assign this.vel null)
     (assign this.width null)
@@ -77,6 +87,7 @@
 
   (const positions (.from-buffers Vector-2D-phase-space pb1 pb2))
   (const attractors (.from-buffers Vector-2D-phase-space ab1 ab2))
+  ;; (.step attractors)
   (const phys (.from-buffers Physical-properties mb1 mb2))
   (const quads-config (lit (x min-x) (y min-y)
                            (height (- max-y min-y))
@@ -97,62 +108,79 @@
 
   (const visited (new Set))
   (const groups [])
-  (const loner-group (.spawn Attractor-group))
+  ;; (const loner-group (.spawn Attractor-group))
   (for-of! pos positions.data
-           (if! (>  (+ target.scale affector.scale) (Math.abs used-distance))
-
-
-                (const vector1 (.spawn Vector target.attractor.x target.attractor.y))
-                (const vector2 (.spawn Vector affector.attractor.x affector.attractor.y))
-
-                (const theta (Math.atan2 (- vector1.y vector2.y)
-                                         (- vector1.x vector2.x)))
-
-                (const v1 (pipe vector1 (.rotate-to (- theta))))
-                (const v2 (pipe vector2 (.rotate-to (- theta))))
-                (const m target.mass)
-                (const m* affector.mass)
-
-
-                (const u1 (pipe (.spawn Vector
-                                        (+ (/ (* v1.x (- m m*)) (+ m m*))
-                                           (* v2.x 2 (/ m* (+ m m*))))
-                                        v1.y)
-                                (.rotate-to theta)))
-
-                (const u2 (pipe (.spawn Vector
-                                        (+ (/ (* v2.x (- m* m))
-                                              (+ m* m))
-                                           (* v1.x 2 (/ m (+ m* m))))
-                                        v2.y)
-                                (.rotate-to theta)))
-
-
-                (set target.attractor 'x u1.x 'y u1.y)
-                (set affector.attractor 'x u2.x 'y u2.y)
-                (.despawn u1)
-                (.despawn u2)
-                (.despawn v1)
-                (.despawn v2)
-                )
-           (if! (.has visited pos.id) continue)
+           (const target (get particles pos.id) )
+           
            (const object (get phys.data pos.id))
            (const p (.spawn Vector pos.x pos.y))
 
            (const elements (sort (.retrieve quads (lit (x pos.x) (y pos.y)
-                                                       (height object.scale)
-                                                       (width object.scale)))
+                                                       (height (* 4 object.scale))
+                                                       (width (* 4 object.scale))))
                                  (a b)
                                  (const d1 (Math.abs (.distance-to p a.pos)))
                                  (const d2 (Math.abs (.distance-to p b.pos)))
                                  (if (> d1 d2) 1 -1)))
            (.despawn p)
-           (const group (.spawn Attractor-group ))
+           (for-of! affector elements
+                    (if! (= target.id affector.id) continue)
+
+                    (const dist (.distance-to  affector.pos target.pos))
+                    (const used-distance (Math.max (.get-length dist ) ))
+                    (.despawn dist)
+                    (if! (>  (Math.pow (+ target.scale affector.scale) 2) (Math.abs used-distance))
+
+
+                         (const vector1 (.spawn Vector target.base-vel.x target.base-vel.y))
+                         (const vector2 (.spawn Vector affector.base-vel.x affector.base-vel.y))
+
+                         (const theta (Math.atan2 (- vector1.y vector2.y)
+                                                  (- vector1.x vector2.x)))
+
+                         (const v1 (pipe vector1 (.rotate-to (- theta))))
+                         (const v2 (pipe vector2 (.rotate-to (- theta))))
+                         (const m target.mass)
+                         (const m* affector.mass)
+
+
+                         (const u1 (pipe (.spawn Vector
+                                                 (+ (/ (* v1.x (- m m*)) (+ m m*))
+                                                    (* v2.x 2 (/ m* (+ m m*))))
+                                                 v1.y)
+                                         (.rotate-to theta)
+                                         ;; (.mult-to (/ (+ target.scale affector.scale)  used-distance))
+                                         ;; (.mult-to (/ (Math.pow used-distance 2) (Math.pow (+ target.scale affector.scale) 2) ))
+                                         ))
+
+                         ;; (const u2 (pipe (.spawn Vector
+                         ;;                         (+ (/ (* v2.x (- m* m))
+                         ;;                               (+ m* m))
+                         ;;                            (* v1.x 2 (/ m (+ m* m))))
+                         ;;                         v2.y)
+                         ;;                 (.rotate-to theta)
+                         ;;                 ))
+
+
+                         (set target.base-vel 'x u1.x 'y u1.y)
+                         ;; (set affector.base-vel 'x u1.x 'y u1.y)
+                         (.despawn u1)
+                         ;; (.despawn u2)
+                         (.despawn v1)
+                         (.despawn v2)
+                         )
+
+                    )
+
+           ;; (if! (.has visited pos.id) continue)
+           (var group (.spawn Attractor-group ))
            ;; (.push group.members (first elements))
 
            (for-of! neighbor elements
 
-                    (if! (>  group.members.length 32) break)
+                    (if! (>  group.members.length 64)
+                         (.push groups group)
+                         (assign group (.spawn Attractor-group)))
                     ;; (if! (>  group.members.length 10) break)
 
                     (if! (.has visited neighbor.id) continue)
@@ -164,8 +192,9 @@
            (if group.members.length
                (.push groups group)
                (.despawn group)))
-  (if! (>  loner-group.members.length 0)
-       (.push groups loner-group))
+  ;; (if! (>  loner-group.members.length 0)
+  ;;      (.push groups loner-group))
+  ;; (.step attractors)
 
   (loop (for-of! group groups)
    (for-of! target group.members
@@ -199,8 +228,13 @@
             (.add-to target.vel dist)
             (.despawn dist)
             ))
+
   (for-of! particle particles
-           (.add-to particle.attractor particle.vel )
+
+           (.add-to particle.base-vel particle.vel )
+           (set particle.attractor
+                'x particle.base-vel.x
+                'y particle.base-vel.y)
            (.despawn particle)
            ;; (.despawn particle.vel )
            ;; (.despawn particle.pos)
