@@ -10,7 +10,6 @@
 
 (require! Quad-tree  "@timohausmann/quadtree-js")
 
-
 (import config "../config.js")
 (const (lit gravitational-constant min-dist max-objects max-levels max-mass min-mass) config)
 
@@ -76,7 +75,6 @@
 
   (const (lit (bounds [min-x min-y max-x max-y])) e.data.args)
 
-  (const velocities (.from-buffers Vector-2D-phase-space vb1 vb2))
   (const positions (.from-buffers Vector-2D-phase-space pb1 pb2))
   (const attractors (.from-buffers Vector-2D-phase-space ab1 ab2))
   (const phys (.from-buffers Physical-properties mb1 mb2))
@@ -101,7 +99,42 @@
   (const groups [])
   (const loner-group (.spawn Attractor-group))
   (for-of! pos positions.data
+           (if! (>  (+ target.scale affector.scale) (Math.abs used-distance))
 
+
+                (const vector1 (.spawn Vector target.attractor.x target.attractor.y))
+                (const vector2 (.spawn Vector affector.attractor.x affector.attractor.y))
+
+                (const theta (Math.atan2 (- vector1.y vector2.y)
+                                         (- vector1.x vector2.x)))
+
+                (const v1 (pipe vector1 (.rotate-to (- theta))))
+                (const v2 (pipe vector2 (.rotate-to (- theta))))
+                (const m target.mass)
+                (const m* affector.mass)
+
+
+                (const u1 (pipe (.spawn Vector
+                                        (+ (/ (* v1.x (- m m*)) (+ m m*))
+                                           (* v2.x 2 (/ m* (+ m m*))))
+                                        v1.y)
+                                (.rotate-to theta)))
+
+                (const u2 (pipe (.spawn Vector
+                                        (+ (/ (* v2.x (- m* m))
+                                              (+ m* m))
+                                           (* v1.x 2 (/ m (+ m* m))))
+                                        v2.y)
+                                (.rotate-to theta)))
+
+
+                (set target.attractor 'x u1.x 'y u1.y)
+                (set affector.attractor 'x u2.x 'y u2.y)
+                (.despawn u1)
+                (.despawn u2)
+                (.despawn v1)
+                (.despawn v2)
+                )
            (if! (.has visited pos.id) continue)
            (const object (get phys.data pos.id))
            (const p (.spawn Vector pos.x pos.y))
@@ -114,18 +147,12 @@
                                  (const d2 (Math.abs (.distance-to p b.pos)))
                                  (if (> d1 d2) 1 -1)))
            (.despawn p)
-           (if! (= elements.length 1)
-                (const el (first elements))
-                (.add visited el.id)
-                (.push loner-group.members el )
-                (assign el.group loner-group)
-                continue)
            (const group (.spawn Attractor-group ))
            ;; (.push group.members (first elements))
 
            (for-of! neighbor elements
 
-                    (if! (>  group.members.length 256) break)
+                    (if! (>  group.members.length 32) break)
                     ;; (if! (>  group.members.length 10) break)
 
                     (if! (.has visited neighbor.id) continue)
@@ -161,11 +188,8 @@
 
             (if! (= target.id affector.id) continue)
             (const dist (.distance-to  affector.pos target.pos))
-            (const used-distance (Math.max min-dist (Math.abs (.get-length dist))))
-            ;; (if (> (Math.cbrt affector.mass) used-distance)
-            ;;     ;;deflect
-            ;;     (.rotate-to dist )
-            ;;     )
+            (const used-distance (Math.max (.get-length dist ) ))
+            
             (const mag (Math.sqrt (+ (* dist.x dist.x)
                                      (* dist.y dist.y))))
             (const intensity (Math.abs (/ (* gravitational-constant  affector.mass used-distance)
@@ -192,6 +216,5 @@
   ;; (.pause Atomics)
   ;; (.wait Atomics (new Big-int64-array vb2))
 
-  (.despawn velocities)
   (.despawn positions)
   )

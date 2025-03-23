@@ -37,22 +37,7 @@ var QuadTree = require("@timohausmann/quadtree-js");
 import { 
   config
  } from "../config.js";
-const { 
-  gravitationalConstant,
-  minDist,
-  maxObjects,
-  maxLevels,
-  maxMass,
-  minMass
- }=config;
-const actualMaximumMass=Math.pow(maxMass, 3);
-var PhysicalProperty = DataType.define("PhysicalProperty", { 
-  keys:[ "mass", "scale" ]
- });
-var PhysicalProperties = DoubleBufferedArray.define("PhysicalProperties", { 
-  dataType:PhysicalProperty
- });
-var AttractorGroup = Spawnable.define("AttractorGroup", { 
+var ParticleGroup = Spawnable.define("ParticleGroup", { 
   init( members = (this.members || []) ){ 
     
       this.members = members;
@@ -139,9 +124,9 @@ var AttractorGroup = Spawnable.define("AttractorGroup", {
    }
  });
 var Particle = Spawnable.define("Particle", { 
-  init( posSource = this.posSource,attractor = this.attractor,mass = this.mass,scale = this.scale,height = scale,width = scale,pos = Vector.spawn(posSource.x, posSource.y),vel = Vector.spawn(0, 0) ){ 
+  init( posSource = this.posSource,mass = this.mass,scale = this.scale,height = scale,width = scale,pos = Vector.spawn(posSource.x, posSource.y) ){ 
     
-      this.posSource = posSource;this.attractor = attractor;this.mass = mass;this.scale = scale;this.height = height;this.width = width;this.pos = pos;this.vel = vel;
+      this.posSource = posSource;this.mass = mass;this.scale = scale;this.height = height;this.width = width;this.pos = pos;
       return this;
     
    },
@@ -173,15 +158,19 @@ var Particle = Spawnable.define("Particle", {
    }
  });
 self.onmessage = (function self$onmessage$(e) {
-  /* self.onmessage eval.sibilant:74:0 */
+  /* self.onmessage eval.sibilant:63:0 */
 
-  const [ [ vb1, vb2 ], [ pb1, pb2 ], [ ab1, ab2 ], [ mb1, mb2 ] ]=e.data.buffers;
+  const [ [ pb1, pb2 ], [ mb1, mb2 ] ]=e.data.buffers;
+  const groupBuffers=e.data.groupBuffers;
+  const groups=groupBuffers.map((([ gb1, gb2 ]) => {
+  	return Vector2DPhaseSpace.fromBuffers(gb1, gb2);
+  }));
   const { 
     bounds:[ minX, minY, maxX, maxY ]
    }=e.data.args;
   const positions=Vector2DPhaseSpace.fromBuffers(pb1, pb2);
-  const attractors=Vector2DPhaseSpace.fromBuffers(ab1, ab2);
   const phys=PhysicalProperties.fromBuffers(mb1, mb2);
+  const particles=[];
   const quadsConfig={ 
     x:minX,
     y:minY,
@@ -189,40 +178,19 @@ self.onmessage = (function self$onmessage$(e) {
     width:(maxX - minX)
    };
   const quads=(new QuadTree(quadsConfig, maxObjects, maxLevels));
-  const particles=[];
   for (var pos of positions.data)
   {
-  const attractor=attractors.data[pos.id];;
   const object=phys.data[pos.id];;
-  const particle=Particle.spawn(pos, attractor, object.mass, object.scale);;
+  const particle=Particle.spawn(pos, object.mass, object.scale);;
   particles.push(particle);
   quads.insert(particle)
   }
   ;
   const visited=(new Set());
   const groups=[];
-  const lonerGroup=AttractorGroup.spawn();
+  var currentGroup = ParticleGroup.spawn();
   for (var pos of positions.data)
   {
-  if( (target.scale + affector.scale) > Math.abs(usedDistance) ){ 
-    const vector1=Vector.spawn(target.attractor.x, target.attractor.y);;
-    const vector2=Vector.spawn(affector.attractor.x, affector.attractor.y);;
-    const theta=Math.atan2((vector1.y - vector2.y), (vector1.x - vector2.x));;
-    const v1=vector1.rotateTo((theta));;
-    const v2=vector2.rotateTo((theta));;
-    const m=target.mass;;
-    const m_=affector.mass;;
-    const u1=Vector.spawn((((v1.x * (m - m_)) / (m + m_)) + (v2.x * 2 * (m_ / (m + m_)))), v1.y).rotateTo(theta);;
-    const u2=Vector.spawn((((v2.x * (m_ - m)) / (m_ + m)) + (v1.x * 2 * (m / (m_ + m)))), v2.y).rotateTo(theta);;
-    target.attractor.x = u1.x;
-    target.attractor.y = u1.y;;
-    affector.attractor.x = u2.x;
-    affector.attractor.y = u2.y;;
-    u1.despawn();
-    u2.despawn();
-    v1.despawn();
-    v2.despawn()
-   };
   if( visited.has(pos.id) ){ 
     continue
    };
@@ -245,80 +213,25 @@ self.onmessage = (function self$onmessage$(e) {
   }).call(this);
   }));;
   p.despawn();
-  const group=AttractorGroup.spawn();;
   for (var neighbor of elements)
   {
-  if( group.members.length > 32 ){ 
-    break
+  if( currentGroup.members.length > config.groupSize ){ 
+    groups.push(currentGroup);
+    currentGroup = ParticleGroup.spawn();
    };
   if( visited.has(neighbor.id) ){ 
     continue
    };
   visited.add(neighbor.id);
-  group.members.push(neighbor);
-  neighbor.group = group;
-  }
-  ;
-  (function() {
-    if (group.members.length) {
-      return groups.push(group);
-    } else {
-      return group.despawn();
-    }
-  }).call(this)
-  }
-  ;
-  if( lonerGroup.members.length > 0 ){ 
-    groups.push(lonerGroup)
-   };
-  for (var group of groups)
-  {
-  for (var target of group.members)
-  {
-  for (var affectorGroup of groups)
-  {
-  if( target.group === affectorGroup ){ 
-    continue
-   };
-  const dist=affectorGroup.center.distanceTo(target.pos);;
-  const usedDistance=Math.max(minDist, Math.abs(dist.getLength()));;
-  const mag=Math.sqrt(((dist.x * dist.x) + (dist.y * dist.y)));;
-  const intensity=Math.abs(((gravitationalConstant * affectorGroup.mass * usedDistance) / Math.pow(mag, 2)));;
-  dist.setLength(intensity);
-  target.vel.addTo(dist);
-  dist.despawn()
-  }
-  ;
-  for (var affector of group.members)
-  {
-  if( target.id === affector.id ){ 
-    continue
-   };
-  const dist=affector.pos.distanceTo(target.pos);;
-  const usedDistance=Math.max(dist.getLength());;
-  const mag=Math.sqrt(((dist.x * dist.x) + (dist.y * dist.y)));;
-  const intensity=Math.abs(((gravitationalConstant * affector.mass * usedDistance) / Math.pow(mag, 2)));;
-  dist.setLength(intensity);
-  target.vel.addTo(dist);
-  dist.despawn()
-  }
-  
+  currentGroup.members.push(neighbor);
+  neighbor.group = currentGroup;
   }
   
   }
   ;
-  for (var particle of particles)
+  return for (var group of groups)
   {
-  particle.attractor.addTo(particle.vel);
-  particle.despawn()
+  
   }
   ;
-  for (var group of groups)
-  {
-  group.despawn()
-  }
-  ;
-  quads.clear();
-  self.postMessage([ [ vb1, pb1 ], [ vb2, pb2 ], [ ab1, ab2 ] ]);
-  return positions.despawn();
 });

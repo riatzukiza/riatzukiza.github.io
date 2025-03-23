@@ -1,7 +1,7 @@
 (import Interface "/shared/kit/interface/index.js")
 
-(const max-mass (* 64 1024))
-(const spawn-area (* 8 4096))
+(const max-mass (* 2 8 1024))
+(const spawn-area (*  8 1024))
 
 (define config Interface
 
@@ -9,11 +9,11 @@
   ( spawn-width spawn-area)
   ( spawn-height spawn-area)
 
-  ( particle-count (* 1 2048))
+  ( particle-count (* 1 128))
   ( max-mass max-mass)
 
-  ( gravitational-constant 0.00000000001)
-  ( min-dist 1)
+  ( gravitational-constant 0.000000000000041)
+  ( min-dist 512)
   ( max-objects 200)
   ( max-levels 10)
 

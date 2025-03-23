@@ -20,16 +20,16 @@ import {
 import { 
   Interface
  } from "/shared/kit/interface/index.js";
-const maxMass=(64 * 1024);
-const spawnArea=(8 * 4096);
+const maxMass=(2 * 8 * 1024);
+const spawnArea=(8 * 1024);
 var config = Interface.define("config", { 
   spawnArea:spawnArea,
   spawnWidth:spawnArea,
   spawnHeight:spawnArea,
-  particleCount:(1 * 2048),
+  particleCount:(1 * 128),
   maxMass:maxMass,
-  gravitationalConstant:1e-11,
-  minDist:1,
+  gravitationalConstant:4.1e-14,
+  minDist:512,
   maxObjects:200,
   maxLevels:10,
   minMass:512,
