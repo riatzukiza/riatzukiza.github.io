@@ -240,7 +240,7 @@ self.onmessage = (function self$onmessage$(e) {
   const dist=affector.pos.distanceTo(target.pos);;
   const usedDistance=Math.max(dist.getLength());;
   dist.despawn();
-  if( Math.pow((target.scale + affector.scale), 2) > Math.abs(usedDistance) ){ 
+  if( (target.scale * affector.scale) > Math.abs(usedDistance) ){ 
     const vector1=Vector.spawn(target.baseVel.x, target.baseVel.y);;
     const vector2=Vector.spawn(affector.baseVel.x, affector.baseVel.y);;
     const theta=Math.atan2((vector1.y - vector2.y), (vector1.x - vector2.x));;

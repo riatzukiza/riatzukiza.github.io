@@ -12,7 +12,7 @@
   ( particle-count (* 512))
   ( max-mass max-mass)
 
-  ( gravitational-constant 0.00000003191)
+  ( gravitational-constant 0.00000000000003191)
   ( min-dist 512)
   ( max-objects 256)
   ( max-levels 64)

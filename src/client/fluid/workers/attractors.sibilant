@@ -129,7 +129,7 @@
                     (const dist (.distance-to  affector.pos target.pos))
                     (const used-distance (Math.max (.get-length dist ) ))
                     (.despawn dist)
-                    (if! (>  (Math.pow (+ target.scale affector.scale) 2) (Math.abs used-distance))
+                    (if! (>  (* target.scale affector.scale) (Math.abs used-distance))
 
 
                          (const vector1 (.spawn Vector target.base-vel.x target.base-vel.y))

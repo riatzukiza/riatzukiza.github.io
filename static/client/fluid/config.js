@@ -28,7 +28,7 @@ var config = Interface.define("config", {
   spawnHeight:spawnArea,
   particleCount:(512),
   maxMass:maxMass,
-  gravitationalConstant:3.191e-8,
+  gravitationalConstant:3.191e-14,
   minDist:512,
   maxObjects:256,
   maxLevels:64,
