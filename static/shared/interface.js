@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
 
   return Object.keys(this).forEach(((k) => {
   	return f(this[k], k);
@@ -32,7 +32,7 @@ var _construct = (function _construct$(interfaceName = this.interfaceName, _obj 
   /* *construct inc/core/function-expressions.sibilant:28:8 */
 
   return (function(proto) {
-    /* inc/misc.sibilant:1:1369 */
+    /* inc/misc.sibilant:1:1508 */
   
     proto.construct = (function proto$construct$() {
       /* proto.construct eval.sibilant:22:11 */

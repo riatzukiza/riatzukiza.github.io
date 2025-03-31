@@ -46,15 +46,12 @@
 
 
 (define Movement-system Threaded-system
-  (url "/client/fluid/workers/movement.js")
+  (url (+ "/client/simple-gravity/workers/movement.js"))
   (data [velocities positions attractors]))
 
-(define Noise-system Threaded-system
-  (url "/client/fluid/workers/noise.js")
-  (data [velocities positions]))
 
 (define Attractor-system Threaded-system
-  (url "/client/fluid/workers/attractors.js")
+  (url "/client/simple-gravity/workers/attractors.js")
   (data [velocities positions attractors physical-properties]))
 
 

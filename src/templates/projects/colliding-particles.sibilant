@@ -31,7 +31,7 @@ position:absolute;
        (.img .id "cliff-sprite" .src "/sprites/Pixel_art_top_down_basic_v1.1.2/TX_Tileset_Wall.png" .hidden "true")
        (.img .id "props-sprite" .src "/sprites/Cute_Fantasy_Free/Outdoor_decoration/Outdoor_Decor_Free.png" .hidden "true"))
 
-      (.script .src "/client/fluid/main.js" .type "module")
+      (.script .src "/client/colliding-particles/main.js" .type "module")
 
 
       )

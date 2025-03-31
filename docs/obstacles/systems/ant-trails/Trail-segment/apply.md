@@ -6,4 +6,4 @@
 
 ## description
 
-Apply the trail segment backward
+Apply the trail segment forwardd

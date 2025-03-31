@@ -1,0 +1,19 @@
+(define Binary-tree-node Data-type
+  (gett left  (get this.array.data (+ (* 2 this.index) 1)))
+  (gett right (get this.array.data (+ (* 2 this.index) 2)))
+  (gett parent (get this.data.array (Math.floor (/ (- this.index 1) 2))))
+
+  (def bind-type (t)
+    (mixin  t this)
+    )
+
+  )
+(define Binary-tree Double-buffered-array
+  (element-type null)
+  (node-type Binary-tree-node)
+
+  (cached data-type (.bind-type this.node-type this.element-type))
+  (cached root (get this.data 0)))
+
+(define K-means-trees Binary-tree
+  )

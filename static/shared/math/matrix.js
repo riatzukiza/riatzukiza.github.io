@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
 
   return Object.keys(this).forEach(((k) => {
   	return f(this[k], k);
@@ -42,7 +42,7 @@ var Matrix = Interface.define("Matrix", {
     
       "perform a kernel filter convolution of two matricies '";
       return (function(m) {
-        /* inc/misc.sibilant:1:1369 */
+        /* eval.sibilant:2:327 */
       
         for (var x = 0;x < width;++(x))
         {
@@ -113,7 +113,7 @@ var Matrix = Interface.define("Matrix", {
       return (function() {
         if (A.width === B.height) {
           return (function(m) {
-            /* inc/misc.sibilant:1:1369 */
+            /* eval.sibilant:2:327 */
           
             for (var r = 0;r < A.width;++(r))
             {
@@ -155,7 +155,7 @@ var Matrix = Interface.define("Matrix", {
     
       "standard itterative operator, takes a produces a new Matrix from the successive\n"+"application of that function to every element of the input matrix";
       return (function(r) {
-        /* inc/misc.sibilant:1:1369 */
+        /* eval.sibilant:2:327 */
       
         m.each(((v, x, y, m) => {
         	return r.set(x, y, (f(v, x, y, m) || 0));

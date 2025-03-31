@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
 
   return Object.keys(this).forEach(((k) => {
   	return f(this[k], k);
@@ -37,7 +37,7 @@ var WebWorker = Spawnable.define("WebWorker", {
           return this._worker;
         } else {
           return this._worker = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return (new Worker(this.url, { 
               type:"module"
@@ -45,11 +45,6 @@ var WebWorker = Spawnable.define("WebWorker", {
           }).call(this);
         }
       }).call(this);
-    
-   },
-  get url(  ){ 
-    
-      throw (new TypeError((this.name + " expects a definition of " + "url")))
     
    },
   clear(  ){ 
@@ -89,12 +84,12 @@ var WebWorker = Spawnable.define("WebWorker", {
     
       const self=this;
       this.worker.onmessage = (function this$worker$onmessage$(m) {
-        /* this.worker.onmessage eval.sibilant:16:4 */
+        /* this.worker.onmessage eval.sibilant:15:4 */
       
         return self.events.emit("message", m.data);
       });
       this.worker.onerror = (function this$worker$onerror$(e) {
-        /* this.worker.onerror eval.sibilant:18:4 */
+        /* this.worker.onerror eval.sibilant:17:4 */
       
         console.log("error:", e);
         return self.events.emit("error", e.message);
@@ -129,7 +124,7 @@ var InlineWorker = WebWorker.define("InlineWorker", {
           return this._url;
         } else {
           return this._url = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return window.URL.createObjectURL(this.blob);
           }).call(this);
@@ -144,7 +139,7 @@ var InlineWorker = WebWorker.define("InlineWorker", {
           return this._blob;
         } else {
           return this._blob = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return (new Blob([ this.code ], { 
               type:"text/javascript"
@@ -159,7 +154,7 @@ export {
   InlineWorker
  };
 var sendThread = (function sendThread$(data) {
-  /* send-thread eval.sibilant:36:0 */
+  /* send-thread eval.sibilant:35:0 */
 
   return this.promise = this.promise.then(((resolved) => {
   	this.busy = true;

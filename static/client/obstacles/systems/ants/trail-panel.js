@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
 
   return Object.keys(this).forEach(((k) => {
   	return f(this[k], k);
@@ -65,7 +65,7 @@ var TrailsPanel = ViewPanel.define("TrailsPanel", {
         return this.views.get("settingsPanel");
       } else {
         var r = (function() {
-          /* eval.sibilant:14:23 */
+          /* eval.sibilant:12:23 */
         
           return createDocumentNode("div", { 'className': "panel" }, [ createDocumentNode("button", { 'onclick': (() => {
           	return this.trailDots.toggleVisibility();

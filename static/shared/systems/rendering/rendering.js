@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
 
   return Object.keys(this).forEach(((k) => {
   	return f(this[k], k);
@@ -82,22 +82,22 @@ var Rendering = PooledSystem.define("Rendering", {
       const self=this;
       this.xOffset = 0;
       this.yOffset = 0;
-      this.zoomLevel = 0.5;
+      this.zoomLevel = 0.001;
       var mouseHeld = false;
       context.canvas.onmousedown = (function context$canvas$onmousedown$(e) {
-        /* context.canvas.onmousedown eval.sibilant:2:1613 */
+        /* context.canvas.onmousedown eval.sibilant:2:1615 */
       
         e.preventDefault();
         return mouseHeld = true;
       });
       context.canvas.onmouseup = (function context$canvas$onmouseup$(e) {
-        /* context.canvas.onmouseup eval.sibilant:2:1714 */
+        /* context.canvas.onmouseup eval.sibilant:2:1716 */
       
         e.preventDefault();
         return mouseHeld = false;
       });
       context.canvas.onmousemove = (function context$canvas$onmousemove$(e) {
-        /* context.canvas.onmousemove eval.sibilant:2:1812 */
+        /* context.canvas.onmousemove eval.sibilant:2:1814 */
       
         e.preventDefault();
         return (function() {
@@ -108,15 +108,15 @@ var Rendering = PooledSystem.define("Rendering", {
         }).call(this);
       });
       context.canvas.onwheel = (function context$canvas$onwheel$(e) {
-        /* context.canvas.onwheel eval.sibilant:2:2290 */
+        /* context.canvas.onwheel eval.sibilant:2:2292 */
       
         e.preventDefault();
         const oldScale=(1 / self.zoomLevel);
         return (function() {
           if (e.deltaY > 0) {
-            return self.zoomLevel = Math.max((self.zoomLevel - (self.zoomLevel * 0.01)), 0.01);
+            return self.zoomLevel = Math.max((self.zoomLevel - (self.zoomLevel * 0.1)), 1e-19);
           } else {
-            return self.zoomLevel = Math.min((self.zoomLevel + (self.zoomLevel * 0.01)), 10000);
+            return self.zoomLevel = Math.min((self.zoomLevel + (self.zoomLevel * 0.1)), 10000000000000000000);
           }
         }).call(this);
       });

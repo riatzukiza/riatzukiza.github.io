@@ -4,7 +4,6 @@
 
   (init ((events ((create Event-emitter)))))
   (cached worker (new Worker this.url (lit (type "module"))))
-  (expects url)
 
   (def clear ()
     (clear-cache this blob)

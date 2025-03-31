@@ -123,54 +123,55 @@
                                  (const d2 (Math.abs (.distance-to p b.pos)))
                                  (if (> d1 d2) 1 -1)))
            (.despawn p)
-           (for-of! affector elements
-                    (if! (= target.id affector.id) continue)
+           ;; (for-of! affector elements
+           ;;          (if! (= target.id affector.id) continue)
 
-                    (const dist (.distance-to  affector.pos target.pos))
-                    (const used-distance (Math.max (.get-length dist ) ))
-                    (.despawn dist)
-                    (if! (>  (Math.pow (+ target.scale affector.scale) 2) (Math.abs used-distance))
-
-
-                         (const vector1 (.spawn Vector target.base-vel.x target.base-vel.y))
-                         (const vector2 (.spawn Vector affector.base-vel.x affector.base-vel.y))
-
-                         (const theta (Math.atan2 (- vector1.y vector2.y)
-                                                  (- vector1.x vector2.x)))
-
-                         (const v1 (pipe vector1 (.rotate-to (- theta))))
-                         (const v2 (pipe vector2 (.rotate-to (- theta))))
-                         (const m target.mass)
-                         (const m* affector.mass)
+           ;;          (const dist (.distance-to  affector.pos target.pos))
+           ;;          (const used-distance (Math.max (.get-length dist ) ))
+           ;;          (.despawn dist)
+           ;;          (if! (>  (+ target.scale affector.scale) (Math.abs used-distance))
 
 
-                         (const u1 (pipe (.spawn Vector
-                                                 (+ (/ (* v1.x (- m m*)) (+ m m*))
-                                                    (* v2.x 2 (/ m* (+ m m*))))
-                                                 v1.y)
-                                         (.rotate-to theta)
-                                         ;; (.mult-to (/ (+ target.scale affector.scale)  used-distance))
-                                         ;; (.mult-to (/ (Math.pow used-distance 2) (Math.pow (+ target.scale affector.scale) 2) ))
-                                         ))
+           ;;               (const vector1 (.spawn Vector target.attractor.x target.attractor.y))
+           ;;               (const vector2 (.spawn Vector affector.attractor.x affector.attractor.y))
 
-                         ;; (const u2 (pipe (.spawn Vector
-                         ;;                         (+ (/ (* v2.x (- m* m))
-                         ;;                               (+ m* m))
-                         ;;                            (* v1.x 2 (/ m (+ m* m))))
-                         ;;                         v2.y)
-                         ;;                 (.rotate-to theta)
-                         ;;                 ))
+           ;;               (const theta (Math.atan2 (- vector1.y vector2.y)
+           ;;                                        (- vector1.x vector2.x)))
+
+           ;;               (const v1 (pipe vector1 (.rotate-to (- theta))))
+           ;;               (const v2 (pipe vector2 (.rotate-to (- theta))))
+           ;;               (const m target.mass)
+           ;;               (const m* affector.mass)
 
 
-                         (set target.base-vel 'x u1.x 'y u1.y)
-                         ;; (set affector.base-vel 'x u1.x 'y u1.y)
-                         (.despawn u1)
-                         ;; (.despawn u2)
-                         (.despawn v1)
-                         (.despawn v2)
-                         )
+           ;;               (const u1 (pipe (.spawn Vector
+           ;;                                       (+ (/ (* v1.x (- m m*)) (+ m m*))
+           ;;                                          (* v2.x 2 (/ m* (+ m m*))))
+           ;;                                       v1.y)
+           ;;                               (.rotate-to theta)
+           ;;                               ;; (.mult-to (/ (+ target.scale affector.scale)  used-distance))
+           ;;                               ;; (.mult-to (/ (Math.pow used-distance 2) (Math.pow (+ target.scale affector.scale) 2) ))
+           ;;                               ))
 
-                    )
+           ;;               ;; (const u2 (pipe (.spawn Vector
+           ;;               ;;                         (+ (/ (* v2.x (- m* m))
+           ;;               ;;                               (+ m* m))
+           ;;               ;;                            (* v1.x 2 (/ m (+ m* m))))
+           ;;               ;;                         v2.y)
+           ;;               ;;                 (.rotate-to theta)
+           ;;               ;;                 ))
+
+
+           ;;               ;; (set target.base-vel 'x u1.x 'y u1.y)
+           ;;               (.add-to target.base-vel u1)
+           ;;               ;; (set affector.base-vel 'x u1.x 'y u1.y)
+           ;;               (.despawn u1)
+           ;;               ;; (.despawn u2)
+           ;;               (.despawn v1)
+           ;;               (.despawn v2)
+           ;;               )
+
+           ;;          )
 
            ;; (if! (.has visited pos.id) continue)
            (var group (.spawn Attractor-group ))
@@ -243,7 +244,6 @@
   (.clear quads)
 
 
-  ;; (.add-to positions velocities)
   (.post-message self [[vb1 pb1] [vb2 pb2] [ab1 ab2]])
 
 

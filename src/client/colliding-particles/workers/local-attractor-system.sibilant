@@ -1,0 +1,113 @@
+
+(meta "import '/bundles/external.js'")
+
+(import Vector "/shared/vectors.js")
+(import Spawnable "/shared/data-structures/spawnable.js")
+(import Physics-array "../typed-arrays/physics-array.js")
+(import Group-id-array "../typed-arrays/group-id-array.js")
+(import Vector-2D-array "../typed-arrays/vector-2d.js")
+
+(import config "../config.js")
+(const (lit gravitational-constant ) config)
+
+(def calculate-gravitational-intensity (target affector)
+
+  (const dist (.distance-to  affector.pos target.pos))
+  (const used-distance (Math.abs (.get-length dist )))
+  (if! (< (Math.pow used-distance 2) (Math.pow (* 2 target.scale) 2))
+       (set dist 'x 0 'y 0)
+       (return dist))
+  (const mag (Math.sqrt (+ (* dist.x dist.x)
+                           (* dist.y dist.y))))
+  (.set-length dist (Math.abs (/ (* -1
+                                    gravitational-constant
+                                    affector.mass
+                                    target.mass
+                                    used-distance)
+                                 (Math.pow mag 2))))
+  (return dist)
+  )
+
+
+
+(define Local-particle Spawnable
+  (init (pos-source
+         phys-source
+         group-id-source
+         near-gravity-source
+
+         (mass phys-source.mass)
+         (scale phys-source.scale)
+
+         (group-id group-id-source.group-id)
+
+         (height scale)
+         (width scale)
+
+         (pos (.spawn Vector pos-source.x pos-source.y))
+         (vel (.spawn Vector 0 0))))
+  (gett x this.pos-source.x)
+  (gett y this.pos-source.y)
+  (def clear ()
+    (assign this.pos-source null)
+    (.despawn this.pos)
+    (.despawn this.vel)
+    (assign this.pos null)
+    (assign this.vel null)
+    (assign this.width null)
+    (assign this.height null)
+    )
+
+  (gett id this.pos-source.id)
+
+  )
+(def self.onmessage (e)
+  (const [[pb1 pb2] [mb1 mb2] [gb1 gb2] [nb1 nb2]] e.data.buffers)
+  (const (lit group-id) e.data.args)
+
+  (const positions (.from-buffers Vector-2D-array pb1 pb2))
+  (const phys (.from-buffers Physics-array mb1 mb2))
+  (const group-ids (.from-buffers Group-id-array gb1 gb2))
+
+  (const near-gravity (.from-buffers Vector-2D-array nb1 nb2))
+
+  (const particles [])
+  (for-of! pos positions.data
+
+           (const gid (get group-ids.data pos.id))
+           (if! (= gid.group-id group-id)
+                (const particle (.spawn Local-particle
+                                        pos
+                                        (get phys.data pos.id)
+                                        gid
+                                        (get near-gravity.data pos.id)))
+                (.push particles particle)))
+
+  ;; (print "group" group-id particles)
+
+  (loop
+   (for-of! target particles)
+   (for-of! affector particles
+            (if! (= target.id affector.id) continue)
+            (const intensity (calculate-gravitational-intensity target affector))
+            (.add-to target.vel intensity)
+            (.despawn intensity)))
+
+
+  (for-of! particle particles
+
+           (set particle.near-gravity-source
+                'x particle.vel.x
+                'y particle.vel.y)
+           (.despawn particle)
+           )
+
+
+  (.post-message self [])
+
+
+  (.despawn positions)
+  (.despawn near-gravity)
+  (.despawn phys)
+  (.despawn group-ids)
+  )

@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
 
   return Object.keys(this).forEach(((k) => {
   	return f(this[k], k);
@@ -101,7 +101,7 @@ var SuperPosition = Spawnable.define("SuperPosition", {
           return this._probabilityDistrobution;
         } else {
           return this._probabilityDistrobution = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return SuperPositionDistrobution.spawn(this);
           }).call(this);
@@ -116,7 +116,7 @@ var SuperPosition = Spawnable.define("SuperPosition", {
           return this._edges;
         } else {
           return this._edges = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             const tile=this.cell;
             return [ tile.north, tile.south, tile.east, tile.west, tile.northEast, tile.northWest, tile.southEast, tile.southWest ];
@@ -132,7 +132,7 @@ var SuperPosition = Spawnable.define("SuperPosition", {
           return this._neighbors;
         } else {
           return this._neighbors = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return this.edges.map(((neighbor) => {
             	return neighbor.superPosition;

@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
 
   return Object.keys(this).forEach(((k) => {
   	return f(this[k], k);
@@ -49,7 +49,7 @@ var Tile = GridCell.define("Tile", {
           return this._superPosition;
         } else {
           return this._superPosition = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return SuperPosition.spawn(this);
           }).call(this);
@@ -90,7 +90,7 @@ var Chunk = GridChunk.define("Chunk", {
           return this._positionVector;
         } else {
           return this._positionVector = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return Vector.spawn(this.gridX, this.gridY);
           }).call(this);

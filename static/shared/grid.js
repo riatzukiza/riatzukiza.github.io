@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
 
   return Object.keys(this).forEach(((k) => {
   	return f(this[k], k);
@@ -123,7 +123,7 @@ var GridCell = Spawnable.define("GridCell", {
           return this._edges;
         } else {
           return this._edges = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return Array.from(this.area(1));
           }).call(this);
@@ -224,7 +224,7 @@ var GridChunk = GridView.define("GridChunk", {
           return this._cells;
         } else {
           return this._cells = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return Array.from(this.grid.squareArea(this.gridX, this.gridY, this.size), ((cell, i) => {
             	cell.chunk = this;
@@ -243,7 +243,7 @@ var GridChunk = GridView.define("GridChunk", {
           return this._gridX;
         } else {
           return this._gridX = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return (this.x * this.size * this.overlapFactor);
           }).call(this);
@@ -258,7 +258,7 @@ var GridChunk = GridView.define("GridChunk", {
           return this._gridY;
         } else {
           return this._gridY = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return (this.y * this.size * this.overlapFactor);
           }).call(this);
@@ -303,7 +303,7 @@ var RectangularView = GridView.define("RectangularView", {
           return this._gridX;
         } else {
           return this._gridX = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return (this.x * this.w * 2);
           }).call(this);
@@ -318,7 +318,7 @@ var RectangularView = GridView.define("RectangularView", {
           return this._gridY;
         } else {
           return this._gridY = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return (this.y * this.h * 2);
           }).call(this);
@@ -333,7 +333,7 @@ var RectangularView = GridView.define("RectangularView", {
           return this._cells;
         } else {
           return this._cells = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return this.grid.area(this.gridX, this.gridY, this.w, this.h);
           }).call(this);
@@ -373,7 +373,7 @@ var Grid = Spawnable.define("Grid", {
           return this.chunks.get([ x, y ]);
         } else {
           var r = (function() {
-            /* inc/misc.sibilant:1:1260 */
+            /* inc/misc.sibilant:1:1399 */
           
             return this.Chunk.spawn(x, y, this);
           }).call(this);
@@ -429,7 +429,7 @@ var Grid = Spawnable.define("Grid", {
           return this.cells.get([ x, y ]);
         } else {
           var r = (function() {
-            /* inc/misc.sibilant:1:1260 */
+            /* inc/misc.sibilant:1:1399 */
           
             return (function() {
               if (this.cells.has([ x, y ])) {

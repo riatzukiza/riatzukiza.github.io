@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
 
   return Object.keys(this).forEach(((k) => {
   	return f(this[k], k);
@@ -191,9 +191,9 @@ var MentalState = System.define("MentalState", {
       const searchLimit=10;
       var i = 0;
       return (function() {
-        var while$178 = undefined;
+        var while$205 = undefined;
         while (!((c.entity.currentPath.end || i > searchLimit))) {
-          while$178 = (function() {
+          while$205 = (function() {
             const noiseV=getMoveNoise(newX, newY, this.game.ticker.ticks, (1 * config.gameScale));
             ((i)++);
             newX = (newX + (20 * noiseV.x));
@@ -209,7 +209,7 @@ var MentalState = System.define("MentalState", {
             return noiseV.despawn();
           }).call(this);
         };
-        return while$178;
+        return while$205;
       }).call(this);
     
    },

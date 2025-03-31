@@ -1,0 +1,134 @@
+
+
+(meta "import '/bundles/external.js'")
+
+(import Vector-2D-array "../typed-arrays/vector-2d.js")
+
+(import Vector "/shared/vectors.js")
+(import Spawnable "/shared/data-structures/spawnable.js")
+(import Physics-array "../typed-arrays/physics-array.js")
+(import Barycenter-array "../typed-arrays/barycenter-array.js")
+(import Group-id-array "../typed-arrays/group-id-array.js")
+
+(import config "../config.js")
+(const (lit gravitational-constant min-dist ) config)
+
+
+
+(define Particle-group Spawnable
+  (init (barycenter groups (members (or this.members [])))
+        (set groups barycenter.id this))
+  (gett id this.barycenter.id)
+  (cached center (.spawn Vector this.barycenter.x this.barycenter.y))
+  (gett mass this.barycenter.mass)
+  (def clear ()
+    (clear-cache  this center)
+    (clear-cache this mass)
+    (set this.groups this.id null)
+    (assign this.members.length 0)))
+
+(define Distant-particle Spawnable
+  (init (pos-source
+         phys-source
+         group-id-source
+         far-gravity-source
+
+         (mass phys-source.mass)
+         (scale phys-source.scale)
+
+         (group-id group-id-source.group-id)
+
+         (height scale)
+         (width scale)
+
+         (pos (.spawn Vector pos-source.x pos-source.y))
+         (vel (.spawn Vector 0 0))))
+  (gett x this.pos-source.x)
+  (gett y this.pos-source.y)
+  (def clear ()
+    (assign this.pos-source null)
+    (.despawn this.pos)
+    (.despawn this.vel)
+    (assign this.group null)
+
+    (assign this.pos null)
+    (assign this.vel null)
+    (assign this.width null)
+    (assign this.height null)
+    )
+
+  (gett id this.pos-source.id)
+
+  )
+(def self.onmessage (e)
+  (const [[pb1 pb2] [mb1 mb2] [gb1 gb2] [cb1 cb2] [fb1 fb2]] e.data.buffers)
+
+
+  (const positions (.from-buffers Vector-2D-array pb1 pb2))
+  (const phys (.from-buffers Physics-array mb1 mb2))
+  (const group-id (.from-buffers Group-id-array gb1 gb2))
+  (const barycenters (.from-buffers Barycenter-array cb1 cb2))
+
+  (const far-gravity (.from-buffers Vector-2D-array fb1 fb2))
+
+  (const groups [])
+  (const particles [])
+  (for-of! pos positions.data
+
+
+           (const particle (.spawn Distant-particle
+                                   pos
+                                   (get phys.data pos.id)
+                                   (get group-id.data pos.id)
+                                   (get far-gravity.data pos.id)))
+           (const group (if (not (get groups particle.group-id))
+                            (.spawn Particle-group (get barycenters.data particle.group-id) groups)
+                            (get groups particle.group-id)))
+           (assign particle.group group)
+           (.push particles particle)
+           (.push group.members particle)
+           )
+
+  (loop (for-of! target-group groups)
+   (for-of! target target-group.members)
+   (for-of!  affector-group groups
+             (if! (= target-group affector-group) continue)
+             (const dist (.distance-to  affector-group.center target.pos))
+             (const used-distance (Math.abs (.get-length dist)))
+             (if! (< used-distance (Math.pow (* 2 target.scale) 2))
+                  (set dist 'x 0 'y 0)
+                  (.despawn dist)
+                  continue)
+             (const mag (Math.sqrt (+ (* dist.x dist.x)
+                                      (* dist.y dist.y))))
+
+             (const intensity (Math.abs (/ (* -1 gravitational-constant
+                                              affector-group.mass
+                                              target.mass
+                                              used-distance)
+                                           (Math.pow mag 2))))
+
+             (.set-length dist intensity)
+             (.add-to target.vel dist)
+             (.despawn dist)))
+
+  (for-of! particle particles
+
+           (set particle.far-gravity-source
+                'x particle.vel.x
+                'y particle.vel.y)
+           (.despawn particle)
+           )
+  (for-of! group groups (.despawn group))
+
+
+  (.post-message self [])
+
+
+  (.despawn positions)
+  (.despawn phys)
+  (.despawn group-id)
+  (.despawn barycenters)
+  (.despawn far-gravity)
+
+  )

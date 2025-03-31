@@ -1,5 +1,6 @@
 (macro import (...names)
        (const path (.pop names))
+       (assign path.token (.replace path.token ".sibilant" ".js"))
        ["import " `(lit ...@names) " from " path ])
 (macro export (...names)
        ;; (const path (.pop names))

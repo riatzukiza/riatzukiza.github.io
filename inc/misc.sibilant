@@ -12,6 +12,9 @@
 (macro accumulate (name ...body) `(assign @name (pipe @name ...@body)))
 (macro do-after (name ...body) `(accumulate @name (then resolved ...@body)))
 (alias-macro do-after do-after-accumulating)
+
+(def-lit-macro def-async (name args ..body)
+  ["async "  name  `(parenthetic (comma ...@args.contents)) `(curly (do-block ...@body))])
 (macro def-accumulator (name args ...body)
        (const accumulated-value (.shift args.contents))
        `(def-generic @name (args)

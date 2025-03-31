@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
 
   return Object.keys(this).forEach(((k) => {
   	return f(this[k], k);
@@ -139,7 +139,7 @@ var Reader = Actor.define("Reader", {
           return this.parsers.get(compiler);
         } else {
           var r = (function() {
-            /* inc/misc.sibilant:1:1260 */
+            /* inc/misc.sibilant:1:1399 */
           
             return create(Parser)().start();
           }).call(this);
@@ -160,9 +160,9 @@ var Reader = Actor.define("Reader", {
         var chars = line.split("");
         this.comment = false;
         (function() {
-          var while$84 = undefined;
+          var while$87 = undefined;
           while ((looping && !(this.comment))) {
-            while$84 = (function() {
+            while$87 = (function() {
               var char = chars[((i)++)];
               (function() {
                 if (readers[char]) {
@@ -192,7 +192,7 @@ var Reader = Actor.define("Reader", {
               }).call(this);
             }).call(this);
           };
-          return while$84;
+          return while$87;
         }).call(this);
         return this.fragment.push("\n");
       }));

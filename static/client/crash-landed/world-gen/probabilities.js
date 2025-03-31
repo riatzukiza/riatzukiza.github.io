@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
 
   return Object.keys(this).forEach(((k) => {
   	return f(this[k], k);
@@ -130,7 +130,7 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
           return this._totalWeight;
         } else {
           return this._totalWeight = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return summate(this.weights);
           }).call(this);
@@ -145,7 +145,7 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
           return this._weights;
         } else {
           return this._weights = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return this.states.map(((state) => {
             	return (state.weight * baseWeights[state.collapsedState]);
@@ -162,7 +162,7 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
           return this._states;
         } else {
           return this._states = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return TerrainModule.modules.map(((chunkType) => {
             	return PossibleState.spawn(this, chunkType);
@@ -179,7 +179,7 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
           return this._grass;
         } else {
           return this._grass = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return (this.states.reduce(((weight, state) => {
             	return (function() {
@@ -202,7 +202,7 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
           return this._stone;
         } else {
           return this._stone = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return (this.states.reduce(((weight, state) => {
             	return (function() {
@@ -225,7 +225,7 @@ var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", {
           return this._floweryGrass;
         } else {
           return this._floweryGrass = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return (this.states.reduce(((weight, state) => {
             	return (function() {

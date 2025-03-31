@@ -48,7 +48,7 @@
    (const self  this)
    (assign this.x-offset 0)
    (assign this.y-offset 0)
-   (assign this.zoom-level 0.5)
+   (assign this.zoom-level 0.001)
 
    (var mouse-held false)
    (def context.canvas.onmousedown (e)
@@ -74,8 +74,8 @@
      (const old-scale (/ 1 self.zoom-level))
 
      (if (> e.delta-y 0)
-         (assign self.zoom-level (Math.max (- self.zoom-level (* self.zoom-level 0.01)) 0.01))
-         (assign self.zoom-level (Math.min (+ self.zoom-level (* self.zoom-level 0.01)) 10000)))
+         (assign self.zoom-level (Math.max (- self.zoom-level (* self.zoom-level 0.1)) 0.0000000000000000001))
+         (assign self.zoom-level (Math.min (+ self.zoom-level (* self.zoom-level 0.1)) 10000000000000000000)))
 
 
      )
