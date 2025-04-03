@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
 
   return Object.keys(this).forEach(((k) => {
   	return f(this[k], k);
@@ -35,14 +35,14 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
       var count = 1;
       var node = this;
       (function() {
-        var while$73 = undefined;
+        var while$62 = undefined;
         while (node) {
-          while$73 = (function() {
+          while$62 = (function() {
             node = node.left;
             return ((count)++);
           }).call(this);
         };
-        return while$73;
+        return while$62;
       }).call(this);
       return count;
     

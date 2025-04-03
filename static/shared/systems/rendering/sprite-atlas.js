@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
 
   return Object.keys(this).forEach(((k) => {
   	return f(this[k], k);
@@ -356,13 +356,13 @@ var SpriteAtlas = System.define("SpriteAtlas", {
     
       this.prepare();
       return (function() {
-        var while$102 = undefined;
+        var while$98 = undefined;
         while (this.queue.length) {
-          while$102 = (function() {
+          while$98 = (function() {
             return this._updateComponent(this.queue.pop());
           }).call(this);
         };
-        return while$102;
+        return while$98;
       }).call(this);
     
    },

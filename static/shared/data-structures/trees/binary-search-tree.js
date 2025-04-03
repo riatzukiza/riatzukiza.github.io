@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
 
   return Object.keys(this).forEach(((k) => {
   	return f(this[k], k);
@@ -44,13 +44,13 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
     
       var node = this;
       (function() {
-        var while$69 = undefined;
+        var while$64 = undefined;
         while (node.parent) {
-          while$69 = (function() {
+          while$64 = (function() {
             return node = node.parent;
           }).call(this);
         };
-        return while$69;
+        return while$64;
       }).call(this);
       return node;
     
@@ -69,13 +69,13 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
     
       var temp = this;
       (function() {
-        var while$70 = undefined;
+        var while$65 = undefined;
         while (temp.left) {
-          while$70 = (function() {
+          while$65 = (function() {
             return temp = temp.left;
           }).call(this);
         };
-        return while$70;
+        return while$65;
       }).call(this);
       return temp;
     

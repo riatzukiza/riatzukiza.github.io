@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
 
   return Object.keys(this).forEach(((k) => {
   	return f(this[k], k);
@@ -46,13 +46,13 @@ var FixedBst = Spawnable.define("FixedBst", {
         } else {
           var node = this;
           return this._root = (function() {
-            var while$66 = undefined;
+            var while$68 = undefined;
             while (node.parent) {
-              while$66 = (function() {
+              while$68 = (function() {
                 return node = node.parent;
               }).call(this);
             };
-            return while$66;
+            return while$68;
           }).call(this);
         }
       }).call(this);
@@ -82,13 +82,13 @@ var FixedBst = Spawnable.define("FixedBst", {
     
       var temp = this;
       return (function() {
-        var while$67 = undefined;
+        var while$69 = undefined;
         while (temp.left) {
-          while$67 = (function() {
+          while$69 = (function() {
             return temp = temp.left;
           }).call(this);
         };
-        return while$67;
+        return while$69;
       }).call(this);
     
    },

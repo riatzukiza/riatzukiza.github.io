@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
 
   return Object.keys(this).forEach(((k) => {
   	return f(this[k], k);
@@ -98,7 +98,7 @@ var UnitGroup = Saveable.define("UnitGroup", {
           return this._components;
         } else {
           return this._components = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return [ this.componentTypes, this.baseComponents ].flat();
           }).call(this);
@@ -113,7 +113,7 @@ var UnitGroup = Saveable.define("UnitGroup", {
           return this._group;
         } else {
           return this._group = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return create(EntityGroup)((this.groupName + "Unit"), this.components, this.game.ent);
           }).call(this);

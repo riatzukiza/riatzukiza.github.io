@@ -32,7 +32,7 @@ var mixin = (function mixin$(sources = this.sources, target = {  }) {
   return descriptors;
   }), {  });
   Object.getOwnPropertySymbols(source).each(((sym) => {
-  	const descriptor=source.getWonPropertyDescriptor(sym);
+  	const descriptor=source.getOwnPropertyDescriptor(sym);
   return (function() {
     if (descriptor.enumerable) {
       return descriptors[sym] = descriptor;

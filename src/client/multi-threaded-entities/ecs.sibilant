@@ -1,0 +1,13 @@
+
+(define Game-component Data-type
+  (keys []))
+
+(define Game-entity-indexes Double-buffered-array)
+t
+(define Game-entity Data-type
+  (components [])
+  (cached keys))
+
+(define Position Game-component
+  ()
+  )

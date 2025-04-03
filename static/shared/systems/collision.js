@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
 
   return Object.keys(this).forEach(((k) => {
   	return f(this[k], k);
@@ -200,9 +200,9 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
   const placementVector=Vector.spawn(1, 1);
   var colliding = true;
   (function() {
-    var while$46 = undefined;
+    var while$45 = undefined;
     while (colliding) {
-      while$46 = (function() {
+      while$45 = (function() {
         var noCollisions = true;
         placementTree.clear();
         c.system.components.each(((c_) => {
@@ -216,16 +216,16 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         for (var c_ of possibleCollisions)
         {
         (function() {
-          var while$47 = undefined;
+          var while$46 = undefined;
           while (c.isColliding__QUERY(c_)) {
-            while$47 = (function() {
+            while$46 = (function() {
               noCollisions = false;
               placementVector.setLength((1 * c_.scale));
               placementVector.setAngle(((Math.random() * ( - 360)) + 360));
               return c.pos.system.shift(c.pos, [ placementVector.x, placementVector.y ]);
             }).call(this);
           };
-          return while$47;
+          return while$46;
         }).call(this)
         }
         ;
@@ -237,7 +237,7 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         return null;
       }).call(this);
     };
-    return while$46;
+    return while$45;
   }).call(this);
   placementVector.despawn();
   return entity;

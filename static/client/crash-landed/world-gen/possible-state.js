@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
 
   return Object.keys(this).forEach(((k) => {
   	return f(this[k], k);
@@ -47,7 +47,7 @@ var PossibleState = Spawnable.define("PossibleState", {
           return this._likelyhood;
         } else {
           return this._likelyhood = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return (this.superPosition.totalWeight / this.weight);
           }).call(this);
@@ -62,7 +62,7 @@ var PossibleState = Spawnable.define("PossibleState", {
           return this._weight;
         } else {
           return this._weight = (function() {
-            /* inc/misc.sibilant:1:3986 */
+            /* inc/misc.sibilant:1:4125 */
           
             return this.calculateWeight();
           }).call(this);
