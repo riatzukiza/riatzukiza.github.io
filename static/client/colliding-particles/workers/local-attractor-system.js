@@ -34,17 +34,25 @@ import {
   Vector2DArray
  } from "../typed-arrays/vector-2d.js";
 import { 
+  ParentSystem
+ } from "../system.js";
+import { 
   config
  } from "../config.js";
 const { 
   gravitationalConstant
  }=config;
 var calculateGravitationalIntensity = (function calculateGravitationalIntensity$(target, affector) {
-  /* calculate-gravitational-intensity eval.sibilant:14:0 */
+  /* calculate-gravitational-intensity eval.sibilant:15:0 */
 
   const dist=affector.pos.distanceTo(target.pos);
   const usedDistance=Math.abs(dist.getLength());
-  if( Math.pow(usedDistance, 2) < Math.pow((2 * target.scale), 2) ){ 
+  if( usedDistance > (64 * (target.scale + affector.scale)) ){ 
+    dist.x = 0;
+    dist.y = 0;;
+    return dist;
+   };
+  if( usedDistance < (affector.scale + target.scale) ){ 
     dist.x = 0;
     dist.y = 0;;
     return dist;
@@ -87,51 +95,60 @@ var LocalParticle = Spawnable.define("LocalParticle", {
     
    }
  });
-self.onmessage = (function self$onmessage$(e) {
-  /* self.onmessage eval.sibilant:65:0 */
-
-  const [ [ pb1, pb2 ], [ mb1, mb2 ], [ gb1, gb2 ], [ nb1, nb2 ] ]=e.data.buffers;
-  const { 
-    groupId
-   }=e.data.args;
-  const positions=Vector2DArray.fromBuffers(pb1, pb2);
-  const phys=PhysicsArray.fromBuffers(mb1, mb2);
-  const groupIds=GroupIdArray.fromBuffers(gb1, gb2);
-  const nearGravity=Vector2DArray.fromBuffers(nb1, nb2);
-  const particles=[];
-  for (var pos of positions.data)
-  {
-  const gid=groupIds.data[pos.id];;
-  if( gid.groupId === groupId ){ 
-    const particle=LocalParticle.spawn(pos, phys.data[pos.id], gid, nearGravity.data[pos.id]);;
-    particles.push(particle)
-   }
-  }
-  ;
-  for (var target of particles)
-  {
-  for (var affector of particles)
-  {
-  if( target.id === affector.id ){ 
-    continue
-   };
-  const intensity=calculateGravitationalIntensity(target, affector);;
-  target.vel.addTo(intensity);
-  intensity.despawn()
-  }
+var LocalAttractorSystem = ParentSystem.define("LocalAttractorSystem", { 
+  dataTypes:[ Vector2DArray, PhysicsArray, GroupIdArray, Vector2DArray ],
+  async update( { 
+  threadId
+ },[ positions, phys, groupIds, nearGravity ] ){ 
   
-  }
-  ;
-  for (var particle of particles)
-  {
-  particle.nearGravitySource.x = particle.vel.x;
-  particle.nearGravitySource.y = particle.vel.y;;
-  particle.despawn()
-  }
-  ;
-  self.postMessage([]);
-  positions.despawn();
-  nearGravity.despawn();
-  phys.despawn();
-  return groupIds.despawn();
-});
+    const startGroupId=(threadId * config.groupsPerThread);
+    const endGroupId=(-1 + (threadId * config.groupsPerThread) + config.groupsPerThread);
+    const groups=(new Map());
+    const particles=[];
+    for (var i = startGroupId;endGroupId >= i;((i)++))
+    {
+    groups.set(i, [])
+    }
+    ;
+    for (var pos of positions.data)
+    {
+    const gidSource=groupIds.data[pos.id];;
+    const gid=gidSource.groupId;;
+    if( (gid >= startGroupId && gid <= endGroupId) ){ 
+      const group=groups.get(gid);;
+      const particle=LocalParticle.spawn(pos, phys.data[pos.id], gidSource, nearGravity.data[pos.id]);;
+      group.push(particle);
+      particles.push(particle)
+     }
+    }
+    ;
+    for (var [ gid, group ] of groups)
+    {
+    for (var target of group)
+    {
+    for (var affector of group)
+    {
+    if( target.id === affector.id ){ 
+      continue
+     };
+    const intensity=calculateGravitationalIntensity(target, affector);;
+    target.vel.addTo(intensity);
+    intensity.despawn()
+    }
+    
+    }
+    
+    }
+    ;
+    for (var particle of particles)
+    {
+    particle.nearGravitySource.x = particle.vel.x;
+    particle.nearGravitySource.y = particle.vel.y;;
+    particle.despawn()
+    }
+    ;
+    return null;
+  
+ }
+ });
+LocalAttractorSystem.start();

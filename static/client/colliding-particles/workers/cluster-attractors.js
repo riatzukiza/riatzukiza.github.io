@@ -37,6 +37,9 @@ import {
   GroupIdArray
  } from "../typed-arrays/group-id-array.js";
 import { 
+  ParentSystem
+ } from "../system.js";
+import { 
   config
  } from "../config.js";
 const { 
@@ -146,76 +149,70 @@ var DistantParticle = Spawnable.define("DistantParticle", {
     
    }
  });
-self.onmessage = (function self$onmessage$(e) {
-  /* self.onmessage eval.sibilant:64:0 */
-
-  const [ [ pb1, pb2 ], [ mb1, mb2 ], [ gb1, gb2 ], [ cb1, cb2 ], [ fb1, fb2 ] ]=e.data.buffers;
-  const positions=Vector2DArray.fromBuffers(pb1, pb2);
-  const phys=PhysicsArray.fromBuffers(mb1, mb2);
-  const groupId=GroupIdArray.fromBuffers(gb1, gb2);
-  const barycenters=BarycenterArray.fromBuffers(cb1, cb2);
-  const farGravity=Vector2DArray.fromBuffers(fb1, fb2);
-  const groups=[];
-  const particles=[];
-  for (var pos of positions.data)
-  {
-  const particle=DistantParticle.spawn(pos, phys.data[pos.id], groupId.data[pos.id], farGravity.data[pos.id]);;
-  const group=(function() {
-    if (!(groups[particle.groupId])) {
-      return ParticleGroup.spawn(barycenters.data[particle.groupId], groups);
-    } else {
-      return groups[particle.groupId];
+var ClusterAttractorSystem = ParentSystem.define("ClusterAttractorSystem", { 
+  dataTypes:[ Vector2DArray, PhysicsArray, GroupIdArray, BarycenterArray, Vector2DArray ],
+  async update( args,[ positions, phys, groupId, barycenters, farGravity ] ){ 
+  
+    const groups=[];
+    const particles=[];
+    for (var pos of positions.data)
+    {
+    const particle=DistantParticle.spawn(pos, phys.data[pos.id], groupId.data[pos.id], farGravity.data[pos.id]);;
+    const group=(function() {
+      if (!(groups[particle.groupId])) {
+        return ParticleGroup.spawn(barycenters.data[particle.groupId], groups);
+      } else {
+        return groups[particle.groupId];
+      }
+    }).call(this);;
+    particle.group = group;;
+    particles.push(particle);
+    group.members.push(particle)
     }
-  }).call(this);;
-  particle.group = group;;
-  particles.push(particle);
-  group.members.push(particle)
-  }
-  ;
-  for (var targetGroup of groups)
-  {
-  for (var target of targetGroup.members)
-  {
-  for (var affectorGroup of groups)
-  {
-  if( targetGroup === affectorGroup ){ 
-    continue
-   };
-  const dist=affectorGroup.center.distanceTo(target.pos);;
-  const usedDistance=Math.abs(dist.getLength());;
-  if( usedDistance < Math.pow((2 * target.scale), 2) ){ 
-    dist.x = 0;
-    dist.y = 0;;
-    dist.despawn();
-    continue
-   };
-  const mag=Math.sqrt(((dist.x * dist.x) + (dist.y * dist.y)));;
-  const intensity=Math.abs(((-1 * gravitationalConstant * affectorGroup.mass * target.mass * usedDistance) / Math.pow(mag, 2)));;
-  dist.setLength(intensity);
-  target.vel.addTo(dist);
-  dist.despawn()
-  }
+    ;
+    for (var target of particles)
+    {
+    for (var affectorGroup of groups)
+    {
+    if( !(affectorGroup) ){ 
+      continue
+     };
+    if( target.groupId === affectorGroup.id ){ 
+      continue
+     };
+    const dist=affectorGroup.center.distanceTo(target.pos);;
+    const usedDistance=Math.abs(dist.getLength());;
+    if( usedDistance < Math.pow((2 * target.scale), 2) ){ 
+      dist.x = 0;
+      dist.y = 0;;
+      dist.despawn();
+      continue
+     };
+    const mag=Math.sqrt(((dist.x * dist.x) + (dist.y * dist.y)));;
+    const intensity=Math.abs(((-1 * gravitationalConstant * affectorGroup.mass * target.mass * usedDistance) / Math.pow(mag, 2)));;
+    dist.setLength(intensity);
+    target.vel.addTo(dist);
+    dist.despawn()
+    }
+    
+    }
+    ;
+    for (var particle of particles)
+    {
+    particle.farGravitySource.x = particle.vel.x;
+    particle.farGravitySource.y = particle.vel.y;;
+    particle.despawn()
+    }
+    ;
+    for (var group of groups)
+    {
+    if( group ){ 
+      group.despawn()
+     }
+    }
+    ;
+    return null;
   
-  }
-  
-  }
-  ;
-  for (var particle of particles)
-  {
-  particle.farGravitySource.x = particle.vel.x;
-  particle.farGravitySource.y = particle.vel.y;;
-  particle.despawn()
-  }
-  ;
-  for (var group of groups)
-  {
-  group.despawn()
-  }
-  ;
-  self.postMessage([]);
-  positions.despawn();
-  phys.despawn();
-  groupId.despawn();
-  barycenters.despawn();
-  return farGravity.despawn();
-});
+ }
+ });
+ClusterAttractorSystem.start();

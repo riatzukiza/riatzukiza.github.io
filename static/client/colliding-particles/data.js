@@ -37,6 +37,9 @@ import {
   BarycenterArray
  } from "./typed-arrays/barycenter-array.js";
 import { 
+  KdTree
+ } from "./typed-arrays/kd-tree.js";
+import { 
   config
  } from "./config.js";
 const { 
@@ -54,7 +57,8 @@ var particles = Interface.define("particles", {
   deflection:Vector2DArray.spawn(config.particleCount),
   correction:Vector2DArray.spawn(config.particleCount),
   phys:PhysicsArray.spawn(config.particleCount),
-  groupId:GroupIdArray.spawn(config.particleCount)
+  groupId:GroupIdArray.spawn(config.particleCount),
+  kdTree:KdTree.spawn((32 * config.particleCount))
  });
 export { 
   particles
@@ -63,7 +67,7 @@ const particleGroups=BarycenterArray.spawn(config.groupCount);
 export { 
   particleGroups
  };
-const gameData=[ particles.pos, particles.phys, particles.vel, particles.nearGravity, particles.farGravity, particles.deflection, particles.correction, particles.groupId, particleGroups ];
+const gameData=[ particles.pos, particles.phys, particles.vel, particles.nearGravity, particles.farGravity, particles.deflection, particles.correction, particles.groupId, particles.kdTree, particleGroups ];
 export { 
   gameData
  };

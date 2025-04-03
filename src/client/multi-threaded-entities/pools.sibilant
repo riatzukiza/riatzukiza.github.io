@@ -1,0 +1,27 @@
+
+
+(import Double-buffered-array "./typed-arrays/double-buffered.sibilant")
+(define Object-pool-length Data-type
+  (keys [ 'length ]))
+
+(define Object-pool-lengths Double-buffered-array
+  (data-type Object-pool-length))
+
+(define Object-pool Interface
+
+  (next-id 0)
+  (array-type Double-buffered-array)
+  (index-key 'pool-id)
+
+  (Lengths (.spawn Object-pool-lengths 1024))
+
+  (gett length (get this.Lengths this.id 'length))
+  (init (max-size
+         (id (incr this.next-id))
+         (typed-array (.spawn this.array-type max-size))))
+
+  (def aquire (...args))
+  (def release ())
+  (def step ())
+
+  )

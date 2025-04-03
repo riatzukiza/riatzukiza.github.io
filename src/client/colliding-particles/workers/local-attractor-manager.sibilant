@@ -20,10 +20,10 @@
 
 (print config )
 (const threads [])
-(for! (i 0) (> config.group-count i) (incr i)
+(for! (i 0) (> config.attractor-thread-count i) (incr i )
       (const thread (.spawn Attractor-group-system))
       (assign thread.url (+ "/client/colliding-particles/workers/local-attractor-system.js?gid=" i))
-      (assign thread.args (lit (group-id i)))
+      (assign thread.args (lit (thread-id i)))
       (.start thread)
       (.push threads thread))
 

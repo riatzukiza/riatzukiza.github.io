@@ -159,16 +159,18 @@ var sendThread = (function sendThread$(data) {
   return this.promise = this.promise.then(((resolved) => {
   	this.busy = true;
   this._send(data);
+  const handleError=((message) => {
+  	return reject(message);
+  });
   return (new Promise(((success, fail) => {
   	var resolve = success,
       reject = fail;
   this.events.once("message", ((data) => {
   	this.busy = false;
+  this.events.removeListener("error", handleError);
   return resolve(data);
   }));
-  return this.events.once("error", ((message) => {
-  	return reject(message);
-  }));
+  return this.events.once("error", handleError);
   })));
   }));
 });

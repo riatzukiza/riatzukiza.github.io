@@ -48,12 +48,12 @@ var AttractorGroupSystem = ThreadedSystem.define("AttractorGroupSystem", {
  });
 console.log(config);
 const threads=[];
-for (var i = 0;config.groupCount > i;((i)++))
+for (var i = 0;config.attractorThreadCount > i;((i)++))
 {
 const thread=AttractorGroupSystem.spawn();;
 thread.url = ("/client/colliding-particles/workers/local-attractor-system.js?gid=" + i);;
 thread.args = { 
-  groupId:i
+  threadId:i
  };;
 thread.start();
 threads.push(thread)

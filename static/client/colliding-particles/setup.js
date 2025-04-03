@@ -106,6 +106,7 @@ var setup = (function setup$(particles, systems, vertices) {
   particles.phys.step();
   particles.pos.step();
   particles.vel.step();
+  particles.kdTree.constructTree(particles.pos.data);
   initializeMotes(particles, vertices);
   systems.drawer = draw();
   particles.pos.step();

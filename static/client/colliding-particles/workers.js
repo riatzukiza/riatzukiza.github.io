@@ -48,28 +48,32 @@ export {
   ParticleAttractorSystem
  };
 var ClusterAttractorSystem = ThreadedSystem.define("ClusterAttractorSystem", { 
-  url:"/client/colliding-particles/workers/cluster-attractors.js",
+  url:"/client/colliding-particles/workers/cluster-attractor-manager.js",
   data:[ particles.pos, particles.phys, particles.groupId, particleGroups, particles.farGravity ]
  });
 export { 
   ClusterAttractorSystem
  };
 var GroupingSystem = ThreadedSystem.define("GroupingSystem", { 
-  url:"/client/colliding-particles/workers/grouper.js",
-  data:[ particles.pos, particles.phys, particles.groupId, particleGroups ]
+  url:"/client/colliding-particles/workers/kd-grouper.js",
+  data:[ particles.pos, particles.phys, particles.groupId, particles.kdTree, particleGroups ]
  });
 export { 
   GroupingSystem
  };
 var ElasticDeflectionSystem = ThreadedSystem.define("ElasticDeflectionSystem", { 
   url:"/client/colliding-particles/workers/elastic-deflection-manager.js",
-  data:[ particles.pos, particles.vel, particles.phys, particles.deflection, particles.correction ]
+  data:[ particles.pos, particles.vel, particles.phys, particles.kdTree, particles.deflection, particles.correction ]
  });
 export { 
   ElasticDeflectionSystem
  };
+var KdTreeBuilder = ThreadedSystem.define("KdTreeBuilder", { 
+  url:"/client/colliding-particles/workers/kd-tree-builder.js",
+  data:[ particles.pos, particles.kdTree ]
+ });
 var GameSystemsManager = SystemsManager.define("GameSystemsManager", { 
-  systems:[ VelocitySystem, GroupingSystem, AccelerationSystem, ParticleAttractorSystem, ClusterAttractorSystem, ElasticDeflectionSystem ],
+  systems:[ VelocitySystem, GroupingSystem, AccelerationSystem, ParticleAttractorSystem, ClusterAttractorSystem, ElasticDeflectionSystem, KdTreeBuilder ],
   data:gameData
  });
 export { 

@@ -17,62 +17,33 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
+import { 
+  DataType
+ } from "./data-type.js";
 var BinaryTreeNode = DataType.define("BinaryTreeNode", { 
+  occupied:false,
   get left(  ){ 
     
-      return this.array.data[((2 * this.index) + 1)];
+      return this.array.data[((2 * this.id) + 1)];
     
    },
   get right(  ){ 
     
-      return this.array.data[((2 * this.index) + 2)];
+      return this.array.data[((2 * this.id) + 2)];
     
    },
   get parent(  ){ 
     
-      return this.data.array[Math.floor(((this.index - 1) / 2))];
+      return this.data.array[Math.floor(((this.id - 1) / 2))];
     
    },
-  bindType( t ){ 
+  clear(  ){ 
     
-      return mixin(t, this);
+      DataType.clear.call(this);
+      return this.occupied = false;
     
    }
  });
-var BinaryTree = DoubleBufferedArray.define("BinaryTree", { 
-  elementType:null,
-  nodeType:BinaryTreeNode,
-  get dataType(  ){ 
-    
-      return (function() {
-        if (this._dataType) {
-          return this._dataType;
-        } else {
-          return this._dataType = (function() {
-            /* inc/misc.sibilant:1:4125 */
-          
-            return this.nodeType.bindType(this.elementType);
-          }).call(this);
-        }
-      }).call(this);
-    
-   },
-  get root(  ){ 
-    
-      return (function() {
-        if (this._root) {
-          return this._root;
-        } else {
-          return this._root = (function() {
-            /* inc/misc.sibilant:1:4125 */
-          
-            return this.data[0];
-          }).call(this);
-        }
-      }).call(this);
-    
-   }
- });
-var KMeansTrees = BinaryTree.define("KMeansTrees", { 
-  
- });
+export { 
+  BinaryTreeNode
+ };

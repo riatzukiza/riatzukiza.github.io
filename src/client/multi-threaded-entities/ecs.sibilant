@@ -1,0 +1,12 @@
+
+(define Game-component Data-type
+  (keys [])
+  )
+(define Game-entity Data-type
+  (components [])
+  (cached keys)
+  )
+
+(define Position Game-component
+  ()
+  )

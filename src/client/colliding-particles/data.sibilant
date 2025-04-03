@@ -4,6 +4,7 @@
 (import Physics-array "./typed-arrays/physics-array.js")
 (import Group-id-array "./typed-arrays/group-id-array.js")
 (import Barycenter-array "./typed-arrays/barycenter-array.sibilant")
+(import Kd-tree "./typed-arrays/kd-tree.sibilant")
 (import config "./config.sibilant")
 (const (lit particle-count) config)
 (const vertices (vertex-layer particle-count))
@@ -17,7 +18,9 @@
   (deflection (.spawn Vector-2D-array config.particle-count))
   (correction (.spawn Vector-2D-array config.particle-count))
   (phys (.spawn Physics-array config.particle-count))
-  (group-id (.spawn Group-id-array config.particle-count)))
+  (group-id (.spawn Group-id-array config.particle-count))
+  (kd-tree (.spawn Kd-tree (* 32 config.particle-count)))
+  )
 
 (export particles)
 
@@ -34,6 +37,8 @@
        particles.deflection
        particles.correction
        particles.group-id
+       particles.kd-tree
+
        particle-groups
        ])
 

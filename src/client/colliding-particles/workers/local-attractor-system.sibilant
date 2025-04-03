@@ -6,6 +6,7 @@
 (import Physics-array "../typed-arrays/physics-array.js")
 (import Group-id-array "../typed-arrays/group-id-array.js")
 (import Vector-2D-array "../typed-arrays/vector-2d.js")
+(import Parent-system "../system.sibilant")
 
 (import config "../config.js")
 (const (lit gravitational-constant ) config)
@@ -14,7 +15,14 @@
 
   (const dist (.distance-to  affector.pos target.pos))
   (const used-distance (Math.abs (.get-length dist )))
-  (if! (< (Math.pow used-distance 2) (Math.pow (* 2 target.scale) 2))
+  ;; distance cut off
+  ;; if these objects are too far away, they don't affect each other
+  (if! (> used-distance (* 64 (+ target.scale affector.scale)))
+       (set dist 'x 0 'y 0)
+       (return dist))
+  ;; local cut off
+  ;; if the objects are close, they no longer affect each other.
+  (if! (< used-distance (+ affector.scale target.scale))
        (set dist 'x 0 'y 0)
        (return dist))
   (const mag (Math.sqrt (+ (* dist.x dist.x)
@@ -58,56 +66,58 @@
     (assign this.height null)
     )
 
-  (gett id this.pos-source.id)
+  (gett id this.pos-source.id))
 
-  )
-(def self.onmessage (e)
-  (const [[pb1 pb2] [mb1 mb2] [gb1 gb2] [nb1 nb2]] e.data.buffers)
-  (const (lit group-id) e.data.args)
-
-  (const positions (.from-buffers Vector-2D-array pb1 pb2))
-  (const phys (.from-buffers Physics-array mb1 mb2))
-  (const group-ids (.from-buffers Group-id-array gb1 gb2))
-
-  (const near-gravity (.from-buffers Vector-2D-array nb1 nb2))
-
-  (const particles [])
-  (for-of! pos positions.data
-
-           (const gid (get group-ids.data pos.id))
-           (if! (= gid.group-id group-id)
-                (const particle (.spawn Local-particle
-                                        pos
-                                        (get phys.data pos.id)
-                                        gid
-                                        (get near-gravity.data pos.id)))
-                (.push particles particle)))
-
-  ;; (print "group" group-id particles)
-
-  (loop
-   (for-of! target particles)
-   (for-of! affector particles
-            (if! (= target.id affector.id) continue)
-            (const intensity (calculate-gravitational-intensity target affector))
-            (.add-to target.vel intensity)
-            (.despawn intensity)))
+(define Local-attractor-system Parent-system
+  (data-types [ Vector-2D-array Physics-array  Group-id-array Vector-2D-array ] )
+  (def-async update ((lit thread-id)
+                     [positions phys group-ids near-gravity])
 
 
-  (for-of! particle particles
+    (const start-group-id (* thread-id config.groups-per-thread))
+    (const end-group-id (+ -1 (* thread-id config.groups-per-thread)
+                           config.groups-per-thread))
 
-           (set particle.near-gravity-source
-                'x particle.vel.x
-                'y particle.vel.y)
-           (.despawn particle)
-           )
+    ;; (print (lit thread-id start-group-id end-group-id))
+    (const groups (new Map))
+    (const particles [])
+    (for! (i start-group-id) (>= end-group-id i) (incr i)
+          (.set groups i []))
+    (for-of! pos positions.data
+
+             (const gid-source (get group-ids.data pos.id))
+             (const gid gid-source.group-id)
+             (if! (and (>= gid start-group-id)
+                       (<= gid end-group-id))
+
+                  (const group (.get groups gid))
+                  (const particle (.spawn Local-particle
+                                          pos
+                                          (get phys.data pos.id)
+                                          gid-source
+                                          (get near-gravity.data pos.id)))
+                  (.push group particle)
+                  (.push particles particle)))
+    ;; (print particles)
+
+    ;; (print "group" group-id particles)
+
+    (loop
+     (for-of! [gid group] groups )
+     (for-of! target group)
+     (for-of! affector group
+              (if! (= target.id affector.id) continue)
+              (const intensity (calculate-gravitational-intensity target affector))
+              (.add-to target.vel intensity)
+              (.despawn intensity)))
 
 
-  (.post-message self [])
+    (for-of! particle particles
 
+             (set particle.near-gravity-source
+                  'x particle.vel.x
+                  'y particle.vel.y)
+             (.despawn particle))
+    (return null)))
 
-  (.despawn positions)
-  (.despawn near-gravity)
-  (.despawn phys)
-  (.despawn group-ids)
-  )
+(.start Local-attractor-system)

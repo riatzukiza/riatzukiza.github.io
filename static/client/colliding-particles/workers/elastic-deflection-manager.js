@@ -34,6 +34,9 @@ import {
   Vector2DArray
  } from "../typed-arrays/vector-2d.js";
 import { 
+  KdTree
+ } from "../typed-arrays/kd-tree.js";
+import { 
   ThreadedSystem
  } from "../system.js";
 import { 
@@ -53,23 +56,23 @@ const threads=[];
 for (var i = 0;config.collisionGroupCount > i;((i)++))
 {
 const thread=DeflectionGroupSystem.spawn();;
-thread.url = ("/client/colliding-particles/workers/deflection-group-system.js?gid=" + i);;
+thread.url = ("/client/colliding-particles/workers/kd-deflection.js?gid=" + i);;
 thread.start();
 threads.push(thread)
 }
 ;
 var ElasticDeflectionSystem = ParentSystem.define("ElasticDeflectionSystem", { 
-  dataTypes:[ Vector2DArray, Vector2DArray, PhysicsArray, Vector2DArray, Vector2DArray ],
+  dataTypes:[ Vector2DArray, Vector2DArray, PhysicsArray, KdTree, Vector2DArray, Vector2DArray ],
   async update( { 
   bounds
- },[ positions, velocities, phys, deflections, corrections ] ){ 
+ },[ positions, velocities, phys, kdTree, deflections, corrections ] ){ 
   
     return Promise.all(threads.map(((thread, i) => {
     	thread.args = { 
       collisionGroupId:i,
       bounds
      };
-    thread.data = [ positions, velocities, phys, deflections, corrections ];
+    thread.data = [ positions, velocities, phys, kdTree, deflections, corrections ];
     return thread.update();
     })));
   

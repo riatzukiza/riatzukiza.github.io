@@ -24,7 +24,7 @@
                                         (return descriptors))
                                     {}))
         (each (Object.get-own-property-symbols source ) (sym)
-              (const descriptor (.get-won-property-descriptor source sym))
+              (const descriptor (.get-own-property-descriptor source sym))
               (if descriptor.enumerable
                   (set descriptors sym descriptor)))
         (.define-properties Object target descriptors))

@@ -78,6 +78,8 @@
   (.step particles.phys)
   (.step particles.pos)
   (.step particles.vel)
+  (.construct-tree particles.kd-tree particles.pos.data)
+  ;; (.step particles.kd-tree)
 
 
   (initialize-motes particles vertices)
@@ -85,6 +87,7 @@
 
   (.step particles.pos)
   (.step particles.phys)
+  ;; (.step particles.kd-tree)
 
 
 

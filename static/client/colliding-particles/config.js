@@ -20,16 +20,18 @@ import {
 import { 
   Interface
  } from "/shared/kit/interface/index.js";
-const maxMass=(8 * 8 * 2 * 16 * 1024);
-const spawnArea=(16 * maxMass);
-const groupCount=32;
-const collisionGroupCount=16;
-const particleCount=(4 * 1024);
+const maxMass=(8 * 8 * 8 * 2 * 16 * 1024);
+const spawnArea=(4 * maxMass);
+const groupCount=128;
+const attractorThreadCount=8;
+const groupsPerThread=(groupCount / attractorThreadCount);
+const collisionGroupCount=8;
+const particleCount=(1 * 1024);
 const minMass=16;
 const actualMinMass=Math.pow(minMass, 3);
 const groupSize=(particleCount / groupCount);
 const collisionGroupSize=(particleCount / collisionGroupCount);
-const maxCollisions=(particleCount * 4 * 8);
+const maxCollisions=(particleCount * 8 * 16);
 var config = Interface.define("config", { 
   spawnArea:spawnArea,
   spawnWidth:spawnArea,
@@ -37,11 +39,14 @@ var config = Interface.define("config", {
   particleCount:particleCount,
   groupSize:groupSize,
   groupCount:groupCount,
+  attractorThreadCount:attractorThreadCount,
+  groupsPerThread:groupsPerThread,
+  groupCount:groupCount,
   collisionGroupCount:collisionGroupCount,
   collisionGroupSize:collisionGroupSize,
   maxMass:maxMass,
   minMass:minMass,
-  gravitationalConstant:3.91365152319191e-28,
+  gravitationalConstant:1.711365152319191e-34,
   minDist:minMass,
   maxCollisions:maxCollisions,
   maxObjects:(particleCount / minMass),

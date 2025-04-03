@@ -31,6 +31,11 @@ var DoubleBufferedArray = CompositeTypedArray.define("DoubleBufferedArray", {
   init( length = 0,currentState = this.arrayType.spawn(length),nextState = this.arrayType.spawn(length) ){ 
     
       this.length = length;this.currentState = currentState;this.nextState = nextState;
+      (function() {
+        if (isNaN(length)) {
+          throw (new TypeError("length is not a number"))
+        }
+      }).call(this);
       return this;
     
    },

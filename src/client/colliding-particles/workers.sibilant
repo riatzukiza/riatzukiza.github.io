@@ -34,7 +34,7 @@
 (export Particle-attractor-system)
 (define Cluster-attractor-system Threaded-system
 
-  (url "/client/colliding-particles/workers/cluster-attractors.js")
+  (url "/client/colliding-particles/workers/cluster-attractor-manager.js")
   (data [
         particles.pos
         particles.phys
@@ -46,12 +46,13 @@
 (export Cluster-attractor-system)
 (define Grouping-system Threaded-system
 
-  (url "/client/colliding-particles/workers/grouper.js")
+  (url "/client/colliding-particles/workers/kd-grouper.js")
   (data [
 
         particles.pos
         particles.phys
         particles.group-id
+        particles.kd-tree
 
         particle-groups
         ]))
@@ -63,11 +64,18 @@
         particles.pos
         particles.vel
         particles.phys
+        particles.kd-tree
 
         particles.deflection
         particles.correction
         ]))
 (export Elastic-deflection-system)
+(define Kd-tree-builder Threaded-system
+  (url "/client/colliding-particles/workers/kd-tree-builder.js")
+  (data [ particles.pos
+
+        particles.kd-tree ]))
+
 
 (define Game-systems-manager Systems-manager
   (systems [
@@ -78,6 +86,7 @@
            Particle-attractor-system
            Cluster-attractor-system
            Elastic-deflection-system
+           Kd-tree-builder
 
            ])
   (data game-data))
