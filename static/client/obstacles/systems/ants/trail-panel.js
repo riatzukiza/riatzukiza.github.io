@@ -65,7 +65,7 @@ var TrailsPanel = ViewPanel.define("TrailsPanel", {
         return this.views.get("settingsPanel");
       } else {
         var r = (function() {
-          /* eval.sibilant:14:23 */
+          /* eval.sibilant:12:23 */
         
           return createDocumentNode("div", { 'className': "panel" }, [ createDocumentNode("button", { 'onclick': (() => {
           	return this.trailDots.toggleVisibility();

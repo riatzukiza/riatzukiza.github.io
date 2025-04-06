@@ -8,6 +8,7 @@
          (next-state (.spawn this.array-type length)))
         (if (isNaN length) (throw (new Type-error "length is not a number")) ))
 
+  (gett buffers [this.current-state.buffer this.next-state.buffer])
   (def clear () (set this 'length 0 'current-state null 'next-state null))
   (def from-buffers (b1 b2)
     (.spawn this (/  b1.byte-length this.data-type.bytes)

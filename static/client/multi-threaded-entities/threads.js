@@ -35,10 +35,9 @@ var ThreadedSystem = Spawnable.define("ThreadedSystem", {
   get buffers(  ){ 
     
       return this.data.map((({ 
-        currentState,
-        nextState
+        buffers
        }) => {
-      	return [ currentState.buffer, nextState.buffer ];
+      	return buffers;
       }));
     
    },
@@ -73,8 +72,8 @@ var ParentSystem = Spawnable.define("ParentSystem", {
     
       (function() {
         if (!(data)) {
-          return this.data = buffers.map((([ b1, b2 ], i) => {
-          	return this.dataTypes[i].fromBuffers(b1, b2);
+          return this.data = buffers.map(((b, i) => {
+          	return this.dataTypes[i].fromBuffers(b);
           }));
         } else {
           for (var data of this.data)
@@ -96,7 +95,7 @@ var ParentSystem = Spawnable.define("ParentSystem", {
       	return this._update(args, buffers);
       });
       self.onmessage = (function self$onmessage$(e) {
-        /* self.onmessage eval.sibilant:37:4 */
+        /* self.onmessage eval.sibilant:36:4 */
       
         const buffers=e.data.buffers;
         const args=e.data.args;

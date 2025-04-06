@@ -6,9 +6,7 @@
   (data [])
   (args {})
   (init (url data args ))
-  (gett buffers
-        (map this.data ((lit current-state next-state))
-             [current-state.buffer next-state.buffer]))
+  (gett buffers (map this.data ((lit buffers)) buffers))
 
   (def start ()
     (assign this.thread (.spawn Thread this.url))
@@ -23,8 +21,9 @@
   (init () (.start this))
   (def-generic *update (args buffers data)
     (if (not data)
-        (assign this.data (map buffers ([b1 b2] i)
-                               (.from-buffers (get this.data-types i) b1 b2)))
+        (assign this.data (map buffers (b i)
+                               (.from-buffers (get this.data-types i)
+                                              ...b)))
         (do (for-of! data this.data
                      (.step data))
             null))

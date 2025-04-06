@@ -1,11 +1,11 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1692 */
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1754 */
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
 
   return Object.keys(this).forEach(((k) => {
   	return f(this[k], k);
@@ -114,9 +114,9 @@ var Rendering = PooledSystem.define("Rendering", {
         const oldScale=(1 / self.zoomLevel);
         return (function() {
           if (e.deltaY > 0) {
-            return self.zoomLevel = Math.max((self.zoomLevel - (self.zoomLevel * 0.1)), 1e-19);
+            return self.zoomLevel = Math.max((self.zoomLevel - (self.zoomLevel * 0.01)), 1e-19);
           } else {
-            return self.zoomLevel = Math.min((self.zoomLevel + (self.zoomLevel * 0.1)), 10000000000000000000);
+            return self.zoomLevel = Math.min((self.zoomLevel + (self.zoomLevel * 0.01)), 10000000000000000000);
           }
         }).call(this);
       });

@@ -1,19 +1,19 @@
 (import Interface "/shared/kit/interface/index.js")
 
 (const max-mass (* 8 8 8 2 16 1024))
-(const spawn-area (* 4 max-mass ))
+(const spawn-area (* 8 max-mass ))
 (const group-count 128)
 (const attractor-thread-count 8)
 (const groups-per-thread (/  group-count attractor-thread-count))
 (const collision-group-count 8)
-(const particle-count (* 1 1024))
+(const particle-count (* 4 1024))
 
 (const min-mass 16)
 (const actual-min-mass (Math.pow min-mass 3))
 
 (const group-size (/ particle-count group-count))
 (const collision-group-size (/ particle-count collision-group-count))
-(const max-collisions (* particle-count   8 16))
+(const max-collisions (* particle-count  8 8 16))
 
 (define config Interface
 
@@ -35,7 +35,7 @@
   ( max-mass max-mass)
   (min-mass min-mass)
 
-  ( gravitational-constant 0.0000000000000000000000000000000001711365152319191)
+  ( gravitational-constant 0.000000000000000000000000000000001711365152319191)
   ( min-dist min-mass)
   (max-collisions max-collisions)
 

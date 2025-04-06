@@ -47,11 +47,6 @@ var calculateGravitationalIntensity = (function calculateGravitationalIntensity$
 
   const dist=affector.pos.distanceTo(target.pos);
   const usedDistance=Math.abs(dist.getLength());
-  if( usedDistance > (64 * (target.scale + affector.scale)) ){ 
-    dist.x = 0;
-    dist.y = 0;;
-    return dist;
-   };
   if( usedDistance < (affector.scale + target.scale) ){ 
     dist.x = 0;
     dist.y = 0;;

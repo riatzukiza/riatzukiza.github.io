@@ -1,0 +1,22 @@
+
+(meta "import '/bundles/external.js'")
+
+(import Vector "/shared/vectors.js")
+(import Vector-2D-phase-space "../typed-arrays/vector-2d.js")
+(import Parent-system "../system.sibilant")
+
+(define Movement-system Parent-system
+  (data-types [])
+  (def update (args [ velocities positions attractors ])
+    (for-of! pos positions.data
+
+             (const v (get velocities.data pos.id))
+             (const a (get attractors.data pos.id))
+
+             (const p* (.spawn Vector v.x v.y))
+             (.add-to p* a)
+
+             (.add-to pos p*)
+             (.despawn p*))
+    (return null)))
+

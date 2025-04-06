@@ -116,10 +116,10 @@
               ;;      continue)
               ;; local cut off
               ;; if objects are close to the center of a cluster, the cluster will no longer affect them.
-              (if! (< used-distance (+ target.scale affector-group.scale))
-                   (set dist 'x 0 'y 0)
-                   (.despawn dist)
-                   continue)
+              ;; (if! (< used-distance (+ target.scale affector-group.scale))
+              ;;      (set dist 'x 0 'y 0)
+              ;;      (.despawn dist)
+              ;;      continue)
               (const mag (Math.sqrt (+ (* dist.x dist.x)
                                        (* dist.y dist.y))))
 

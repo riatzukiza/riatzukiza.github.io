@@ -1,0 +1,60 @@
+(import Singleton "./singleton.sibilant")
+
+(define Length-index Singleton
+  (keys ['length]))
+
+(define Dynamic-array Interface
+
+  (data-type null)
+  (gett array-type (const t (Object.create Composite-typed-array))
+        (assign t.data-type this.data-type)
+        (return t))
+
+  (gett data this.source.data)
+  (gett buffers [ this.source.buffers
+                  this.length.buffers
+
+                 ])
+
+  (gett length this.Length.length)
+  (sett length v (assign this.Length.length v))
+
+  (gett last (get this.source.data (- this.length 1)))
+
+  (init (length
+         (max-size (* 2 length))
+
+         (source (.spawn this.array-type this.max-size))
+         (Length (.spawn Length-index))))
+
+  (def from-buffers ([b1 b2] [b3 b4])
+    (const Length (.from-buffers Length-index b3 b4))
+    (const source (.from-buffers this.array-type b1 b2))
+    (const max-size source.length)
+    (.spawn this Length.length max-size source Length))
+
+  (def* loop ()
+    (for! (i 0) (> this.length i) (incr i)
+          (yield (get this.data i))))
+
+  (def step ()
+    (.step this.Length)
+    (.step this.source))
+
+  (def grow ()
+    (const v (get this.data this.length))
+    (assign this.length (+ this.length 1))
+    (return v))
+  (def swap-and-remove (id)
+    (const v (get this.data id))
+    (const last this.last)
+    (for-of! key this.data-type.keys
+             (set v key (get last key)))
+    (.shrink this)
+    )
+
+
+  (def shrink ()
+    (.clear (get this.data (- this.length 1)))
+    (decr this.length)))
+(export Dynamic-array)

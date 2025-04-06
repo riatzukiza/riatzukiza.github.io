@@ -17,9 +17,9 @@
   (const used-distance (Math.abs (.get-length dist )))
   ;; distance cut off
   ;; if these objects are too far away, they don't affect each other
-  (if! (> used-distance (* 64 (+ target.scale affector.scale)))
-       (set dist 'x 0 'y 0)
-       (return dist))
+  ;; (if! (> used-distance (Math.pow (+ target.scale affector.scale) 3))
+  ;;      (set dist 'x 0 'y 0)
+  ;;      (return dist))
   ;; local cut off
   ;; if the objects are close, they no longer affect each other.
   (if! (< used-distance (+ affector.scale target.scale))
