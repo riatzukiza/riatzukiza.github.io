@@ -1,97 +1,11 @@
 
-(define Next-entity-id Singleton
-  (keys ['next-id]))
-
-(define Game-entity Data-type
-  (keys ['eid]))
-
-(define Game-entity-array Dynamic-array
-  (data-type Game-entity))
-
-(define Game-entity-manager Interface
-  ;; only run this in main thread
-  (init ((entities (.spawn Game-entity-array 0 max-game-entities))
-         (indexes {})
-         (current-id 0)))
-  (def aquire ()
-    (const e (.grow this.entities))
-    (const eid (incr this.current-id))
-    (set this.indexes eid e.id)
-    (assign e.eid eid)
-    (return e))
-  (def release (eid)
-    (const new-index this.last)
-    (.swap-and-remove this (get this.indexes eid))
-
-    )
-  )
 
 (const max-game-entities (* 8 1024))
 (const max-component-type-instances (* 8 1024))
 (const game-entities (.spawn Game-entity-array 0 max-game-entities))
 
-(define Game-component Data-type
-  (cached keys [ 'eid ...data-keys])
-  (data-keys []))
 
-(define Game-component-array Interface
 
-  (data-type Game-component)
-
-  (cached index-map (new Map))
-  (cached entity-map (new Map))
-  (cached changed-entities (new Set))
-
-  (init (max-size
-         (source (.spawn Dynamic-array 0 max-size))))
-
-  (def attach (eid)
-    (if! (or (.has this.entity-map eid)
-             (.has this.changed-entities eid))
-         (return ))
-
-    (.add this.changed-entities eid)
-    (.grow this)
-    (assign this.last.eid eid))
-
-  (def step ()
-    (const l this.length)
-
-    (.step this.Length)
-    (.step this.source)
-
-    (.clear this.changed-entities)
-
-    (if! (> l this.length )
-         ;; shrunk
-         (for! (i (- this.length 1)) (> l i) (incr i)
-
-               (.delete this.entity-map (.get this.index-map i))
-               (.delete this.index-map i))
-         )
-    (if! (< l this.length )
-         ;; grew
-         (for! (i (- l 1)) (> this.length i) (incr i)
-               (const c (get this.data i))
-               (.set this.index-map  i c.eid)
-               (.set this.entity-map c.eid i)
-               )
-         )
-    )
-
-  (def get-by-eid (eid)
-    (const i (.get this.entity-map eid))
-    (return (get this.data i)))
-
-  (def detatch (eid)
-    (const c (.get-by-eid this eid))
-
-    (.add this.changed-entities eid)
-
-    (.delete this.entity-map eid)
-    (.delete this.index-map c.id)
-
-    (.swap-and-remove this.source c.id)))
 
 
 (define Position Game-component

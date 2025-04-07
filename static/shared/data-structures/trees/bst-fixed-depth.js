@@ -46,13 +46,13 @@ var FixedBst = Spawnable.define("FixedBst", {
         } else {
           var node = this;
           return this._root = (function() {
-            var while$70 = undefined;
+            var while$68 = undefined;
             while (node.parent) {
-              while$70 = (function() {
+              while$68 = (function() {
                 return node = node.parent;
               }).call(this);
             };
-            return while$70;
+            return while$68;
           }).call(this);
         }
       }).call(this);
@@ -82,13 +82,13 @@ var FixedBst = Spawnable.define("FixedBst", {
     
       var temp = this;
       return (function() {
-        var while$71 = undefined;
+        var while$69 = undefined;
         while (temp.left) {
-          while$71 = (function() {
+          while$69 = (function() {
             return temp = temp.left;
           }).call(this);
         };
-        return while$71;
+        return while$69;
       }).call(this);
     
    },

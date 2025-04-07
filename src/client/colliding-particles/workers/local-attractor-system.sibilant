@@ -22,7 +22,7 @@
   ;;      (return dist))
   ;; local cut off
   ;; if the objects are close, they no longer affect each other.
-  (if! (< used-distance (+ affector.scale target.scale))
+  (if! (< used-distance target.scale)
        (set dist 'x 0 'y 0)
        (return dist))
   (const mag (Math.sqrt (+ (* dist.x dist.x)

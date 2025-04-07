@@ -1,0 +1,18 @@
+(define Child-system Spawnable
+  (data [])
+  (args {})
+
+  (gett buffers (map this.data ((lit buffers)) buffers))
+
+  (init (url data args ))
+
+  (def start ()
+    (assign this.thread (.spawn Thread this.url))
+    (.start this.thread))
+
+  (def-generic update (args buffers thread)
+    (.send thread
+           (lit args buffers))))
+
+(export Threaded-system)
+

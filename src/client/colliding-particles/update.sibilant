@@ -26,7 +26,6 @@
                 'r (Math.min 255 (+ 75 (* 255 (- 1 (/ phys.mass config.actual-maximum-mass)))))
                 'b (Math.min 255 (+ 50 (Math.abs (Math.round (* 2 v.x)))))
                 'g (Math.min 255 (+ 50 (Math.abs (Math.round (* 2 v.y))))))
-           
 
            (set (get vertices p.id 'point)
                 'x p.x

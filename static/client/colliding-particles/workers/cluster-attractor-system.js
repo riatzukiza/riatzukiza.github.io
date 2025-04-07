@@ -212,6 +212,12 @@ var ClusterAttractorSystem = ParentSystem.define("ClusterAttractorSystem", {
      };
     const dist=affectorGroup.center.distanceTo(target.pos);;
     const usedDistance=Math.abs(dist.getLength());;
+    if( usedDistance < affectorGroup.scale ){ 
+      dist.x = 0;
+      dist.y = 0;;
+      dist.despawn();
+      continue
+     };
     const mag=Math.sqrt(((dist.x * dist.x) + (dist.y * dist.y)));;
     const intensity=Math.abs(((-1 * gravitationalConstant * affectorGroup.mass * target.mass * usedDistance) / Math.pow(mag, 2)));;
     dist.setLength(intensity);

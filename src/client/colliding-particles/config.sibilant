@@ -2,7 +2,7 @@
 
 (const max-mass (* 8 8 8 2 16 1024))
 (const spawn-area (* 8 max-mass ))
-(const group-count 128)
+(const group-count 256)
 (const attractor-thread-count 8)
 (const groups-per-thread (/  group-count attractor-thread-count))
 (const collision-group-count 8)
@@ -35,7 +35,7 @@
   ( max-mass max-mass)
   (min-mass min-mass)
 
-  ( gravitational-constant 0.000000000000000000000000000000001711365152319191)
+  ( gravitational-constant 0.0000000000000000000000000000000003711365152319191)
   ( min-dist min-mass)
   (max-collisions max-collisions)
 

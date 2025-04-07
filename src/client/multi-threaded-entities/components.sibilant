@@ -1,0 +1,24 @@
+
+(define Physics-component Game-component
+  (data-keys ['radius 'mass]))
+
+(define Barycenter Game-component
+  (data-keys ['mass 'x 'y]))
+
+(define Vector2d-component Game-component
+  (data-keys ['x 'y]))
+
+(define Position Vector2d-component)
+(define Velocity Vector2d-component)
+(define Acceleration Vector2d-component)
+
+;; The velocity of a given particle after a deflection event
+(define Deflection Vector2d-component)
+;; A reference to the particle the target is being deflected off of.
+(define Deflector Game-component
+  (data-keys [ 'deflector-id]))
+
+
+(define Impact Game-component
+  (data-keys [ 'target-id 'impactor-id]))
+

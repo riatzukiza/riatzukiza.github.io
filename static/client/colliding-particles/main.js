@@ -30,7 +30,8 @@ import {
  } from "./config.js";
 import { 
   gameView,
-  startButton
+  startButton,
+  particleList
  } from "./ui.js";
 import { 
   setup
@@ -64,7 +65,7 @@ async function main(){
   return null;
 
 };
-createDocumentNode("div", { 'id': "frame" }, [ createDocumentNode("div", { 'id': "container" }, [ gameView, createDocumentNode("div", {
+const debugView=createDocumentNode("div", {
   'id': "debug-view",
   'className': "panel",
   'style': { 
@@ -72,4 +73,12 @@ createDocumentNode("div", { 'id': "frame" }, [ createDocumentNode("div", { 'id':
     width:(Math.round(((window.innerWidth * 0.2) - 42)) + "px"),
     "overflow-y":"scroll"
    }
-}, [ startButton(main) ]) ]) ]).render(DocumentBody);
+}, [ (() => {
+	return Date.now();
+}), startButton(main), (() => {
+	return particleList(particles);
+}) ]);
+setInterval((() => {
+	return debugView.render();
+}), 3000);
+createDocumentNode("div", { 'id': "frame" }, [ createDocumentNode("div", { 'id': "container" }, [ gameView, debugView ]) ]).render(DocumentBody);

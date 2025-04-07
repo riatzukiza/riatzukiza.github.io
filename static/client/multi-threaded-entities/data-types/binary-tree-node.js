@@ -92,13 +92,13 @@ var BinaryTreeNode = DataType.define("BinaryTreeNode", {
     
       var temp = this;
       (function() {
-        var while$487 = undefined;
+        var while$245 = undefined;
         while (temp.left) {
-          while$487 = (function() {
+          while$245 = (function() {
             return temp = temp.left;
           }).call(this);
         };
-        return while$487;
+        return while$245;
       }).call(this);
       return temp;
     

@@ -17,9 +17,6 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-import { 
-  Spawnable
- } from "/shared/data-structures/spawnable.js";
-import { 
-  Thread
- } from "/shared/worker.js";
+var Game = Interface.define("Game", { 
+  
+ });

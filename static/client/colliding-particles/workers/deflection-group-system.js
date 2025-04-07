@@ -153,34 +153,30 @@ var ElasticDeflectionSystem = ParentSystem.define("ElasticDeflectionSystem", {
     if( target.id === affector.id ){ 
       continue
      };
-    if( collisionsCount > config.maxCollisions ){ 
-      break
-     };
     const dist=affector.pos.distanceTo(target.pos);;
     const diff=dist.getLength();;
     const usedDistance=Math.abs(diff);;
     const threshold=(affector.scale + target.scale);;
     if( threshold > usedDistance ){ 
-      ((collisionsCount)++);
-      if( collisionsCount > config.maxCollisions ){ 
-        break
-       };
       const totalMass=(affector.mass + target.mass);;
+      if( (config.actualMinMass < affector.mass && target.scale > affector.scale) ){ 
+        const massDiff=(target.scale - affector.scale);;
+        const massGainFactor=(massDiff / totalMass);;
+        const massGain=(affector.mass * massGainFactor);;
+        target.mass = (target.mass + massGain);;
+        target.scale = Math.cbrt(target.mass);
+       };
       if( target.scale < affector.scale ){ 
-        if( config.actualMinMass > target.mass ){ 
+        const correction=Vector.spawn(dist.x, dist.y);;
+        correction.setLength((threshold - usedDistance));
+        target.correction.subFrom(correction);
+        correction.despawn();
+        if( config.actualMinMass < target.mass ){ 
           const massDiff=(affector.scale - target.scale);;
           const massLossFactor=(massDiff / totalMass);;
           const massLoss=(target.mass * massLossFactor);;
           target.mass = (target.mass - massLoss);;
-          target.scale = Math.cbrt(target.mass);;
-          affector.mass = (affector.mass + massLoss);;
-          affector.scale = Math.cbrt(affector.mass);;
-          const correction=Vector.spawn(0, 0);;
-          correction.addTo(affector.vel);
-          correction.subFrom(target.vel);
-          correction.setLength((threshold - usedDistance));
-          target.correction.subFrom(correction);
-          correction.despawn()
+          target.scale = Math.cbrt(target.mass);
          }
        };
       if( !(target.deflection.impacts) ){ 
