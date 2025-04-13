@@ -158,9 +158,7 @@ kanban-plugin: board
 
 ## New (50)
 
-- [ ] Implement harvestable plants
-- [ ] Multithreaded entity frameowkr
-- [ ] world generation with multi entity framework
+- [ ] Bounding box hierarchy
 
 
 ## Bugs (8)
@@ -208,6 +206,10 @@ kanban-plugin: board
 - [ ] camera macros
 - [ ] selection macros
 - [ ] hotkeys
+- [ ] Implement harvestable plants
+- [ ] Multithreaded entity frameowkr
+- [ ] world generation with multi entity framework
+- [ ] Bucketed KD-trees
 
 
 ## Blocked (21)
