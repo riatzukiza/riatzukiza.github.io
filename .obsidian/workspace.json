@@ -47,12 +47,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "notes/daily/2025-04-12.md",
+                "file": "notes/daily/2025-04-13.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2025-04-12"
+              "title": "2025-04-13"
             }
           },
           {
@@ -83,7 +83,8 @@
               "title": "2025-02-05"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -293,13 +294,13 @@
       "card-board:CardBoard": false
     }
   },
-  "active": "8f9686408cbdbd84",
+  "active": "7f0759482aa63275",
   "lastOpenFiles": [
-    "notes/daily/2025-04-13.md",
+    "notes/daily/2025-04-12.md",
     "kanban/board.md",
+    "notes/daily/2025-04-13.md",
     "kanban/tasks/Hot reload system.md",
     "kanban/tasks/BUG Collision doesn't work correctly in some circumstances..md",
-    "notes/daily/2025-04-12.md",
     "notes/daily/2025-04-07.md",
     "notes/daily/2025-04-06.md",
     "notes/daily/2025-03-31.md",
