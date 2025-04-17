@@ -22,14 +22,14 @@
                     true,
                     true,
                     false,
-                    true,
-                    false,
-                    false,
-                    true,
-                    false,
                     false,
                     true,
                     true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    false,
                     false,
                     false,
                     false,
@@ -83,8 +83,7 @@
               "title": "2025-02-05"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -290,13 +289,14 @@
       "githobs:Manage a github issue": false,
       "webpage-html-export:Export Vault to HTML": false,
       "obisidian-note-linker:Note Linker": false,
-      "smart-second-brain:Open S2B Chat": false
+      "smart-second-brain:Open S2B Chat": false,
+      "card-board:CardBoard": false
     }
   },
-  "active": "7f0759482aa63275",
+  "active": "8f9686408cbdbd84",
   "lastOpenFiles": [
-    "notes/daily/2025-04-13.md",
     "notes/daily/2025-04-17.md",
+    "notes/daily/2025-04-13.md",
     "notes/daily/2025-04-12.md",
     "kanban/board.md",
     "kanban/tasks/Hot reload system.md",
