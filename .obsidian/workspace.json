@@ -47,12 +47,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "notes/daily/2025-04-13.md",
+                "file": "notes/daily/2025-04-17.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2025-04-13"
+              "title": "2025-04-17"
             }
           },
           {
@@ -290,15 +290,15 @@
       "githobs:Manage a github issue": false,
       "webpage-html-export:Export Vault to HTML": false,
       "obisidian-note-linker:Note Linker": false,
-      "smart-second-brain:Open S2B Chat": false,
-      "card-board:CardBoard": false
+      "smart-second-brain:Open S2B Chat": false
     }
   },
   "active": "7f0759482aa63275",
   "lastOpenFiles": [
+    "notes/daily/2025-04-13.md",
+    "notes/daily/2025-04-17.md",
     "notes/daily/2025-04-12.md",
     "kanban/board.md",
-    "notes/daily/2025-04-13.md",
     "kanban/tasks/Hot reload system.md",
     "kanban/tasks/BUG Collision doesn't work correctly in some circumstances..md",
     "notes/daily/2025-04-07.md",
@@ -321,7 +321,6 @@
     "kanban/tasks/minimap.md",
     "kanban/tasks/Order queues.md",
     "kanban/tasks/elevation.md",
-    "kanban/tasks/Update physics engine to increase accuracy and performance.md",
     "notes/unique",
     "Chats",
     "notes/daily",
