@@ -279,7 +279,6 @@ kanban-plugin: board
 
 - [ ] [[Static world objects]]
 - [ ] [placeable entities (rocks, plants, bases)](tasks/placeable%20entities%20(rocks,%20plants,%20bases).md)
-- [ ] [Update physics engine to increase accuracy and performance](tasks/Update%20physics%20engine%20to%20increase%20accuracy%20and%20performance.md)
 - [ ] [[Terrain features]]
 - [ ] [resource mechanics](tasks/resource%20mechanics.md)
 - [ ] [sparse vector fields](tasks/sparse%20vector%20fields.md)
@@ -291,6 +290,7 @@ kanban-plugin: board
 ## In Progress (3)
 
 - [ ] [[Threaded game systems]]
+- [ ] [Update physics engine to increase accuracy and performance](tasks/Update%20physics%20engine%20to%20increase%20accuracy%20and%20performance.md)
 
 
 ## In Review (8)
