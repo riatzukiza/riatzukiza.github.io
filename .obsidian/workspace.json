@@ -11,34 +11,14 @@
             "id": "8f9686408cbdbd84",
             "type": "leaf",
             "state": {
-              "type": "kanban",
+              "type": "markdown",
               "state": {
-                "file": "kanban/board.md",
-                "kanbanViewState": {
-                  "kanban-plugin": "board",
-                  "list-collapse": [
-                    true,
-                    true,
-                    true,
-                    true,
-                    false,
-                    false,
-                    true,
-                    true,
-                    true,
-                    false,
-                    true,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false
-                  ]
-                }
+                "file": "notes/daily/2025-04-24.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-trello",
-              "title": "board"
+              "icon": "lucide-file",
+              "title": "2025-04-24"
             }
           },
           {
@@ -289,16 +269,16 @@
       "githobs:Manage a github issue": false,
       "webpage-html-export:Export Vault to HTML": false,
       "obisidian-note-linker:Note Linker": false,
-      "smart-second-brain:Open S2B Chat": false,
-      "card-board:CardBoard": false
+      "smart-second-brain:Open S2B Chat": false
     }
   },
   "active": "8f9686408cbdbd84",
   "lastOpenFiles": [
+    "kanban/board.md",
+    "notes/daily/2025-04-24.md",
     "notes/daily/2025-04-17.md",
     "notes/daily/2025-04-13.md",
     "notes/daily/2025-04-12.md",
-    "kanban/board.md",
     "kanban/tasks/Hot reload system.md",
     "kanban/tasks/BUG Collision doesn't work correctly in some circumstances..md",
     "notes/daily/2025-04-07.md",
@@ -320,7 +300,6 @@
     "kanban/tasks/Layered Vector Field System.md",
     "kanban/tasks/minimap.md",
     "kanban/tasks/Order queues.md",
-    "kanban/tasks/elevation.md",
     "notes/unique",
     "Chats",
     "notes/daily",
