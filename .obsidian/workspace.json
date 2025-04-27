@@ -25,14 +25,34 @@
             "id": "4a3db340eceaee36",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "kanban",
               "state": {
-                "file": "notes/daily/2025-04-27.md",
-                "mode": "source",
-                "source": false
+                "file": "kanban/board.md",
+                "kanbanViewState": {
+                  "kanban-plugin": "board",
+                  "list-collapse": [
+                    true,
+                    true,
+                    true,
+                    true,
+                    false,
+                    false,
+                    true,
+                    true,
+                    true,
+                    false,
+                    true,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                }
               },
-              "icon": "lucide-file",
-              "title": "2025-04-27"
+              "icon": "lucide-trello",
+              "title": "board"
             }
           }
         ],
@@ -242,15 +262,16 @@
       "githobs:Manage a github issue": false,
       "webpage-html-export:Export Vault to HTML": false,
       "obisidian-note-linker:Note Linker": false,
-      "smart-second-brain:Open S2B Chat": false
+      "smart-second-brain:Open S2B Chat": false,
+      "card-board:CardBoard": false
     }
   },
   "active": "4a3db340eceaee36",
   "lastOpenFiles": [
-    "notes/daily/2025-04-26.md",
     "notes/daily/2025-04-27.md",
-    "notes/daily/2025-02-05.md",
     "notes/daily/2025-04-24.md",
+    "notes/daily/2025-04-26.md",
+    "notes/daily/2025-02-05.md",
     "kanban/tasks/Migrate module system to `imports`.md",
     "notes/daily/2025-04-17.md",
     "kanban/board.md",
