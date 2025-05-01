@@ -17,7 +17,7 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var GameComponent = DataType.define("GameComponent", { 
+var ComponentData = DataType.define("ComponentData", { 
   get keys(  ){ 
     
       return (function() {
@@ -38,7 +38,7 @@ var GameComponent = DataType.define("GameComponent", {
 export { 
   GameComponent
  };
-var GameComponentArray = Interface.define("GameComponentArray", { 
+var ComponentDataArray = Interface.define("ComponentDataArray", { 
   dataType:GameComponent,
   get indexMap(  ){ 
     
@@ -70,21 +70,6 @@ var GameComponentArray = Interface.define("GameComponentArray", {
       }).call(this);
     
    },
-  get changedEntities(  ){ 
-    
-      return (function() {
-        if (this._changedEntities) {
-          return this._changedEntities;
-        } else {
-          return this._changedEntities = (function() {
-            /* inc/misc.sibilant:1:4125 */
-          
-            return (new Set());
-          }).call(this);
-        }
-      }).call(this);
-    
-   },
   init( maxSize = this.maxSize,source = DynamicArray.spawn(0, maxSize) ){ 
     
       this.maxSize = maxSize;this.source = source;
@@ -96,9 +81,11 @@ var GameComponentArray = Interface.define("GameComponentArray", {
       if( (entityMap.has(eid) || changedEntities.has(eid)) ){ 
         return ;
        };
-      this.changedEntities.add(eid);
-      this.grow();
-      return this.last.eid = eid;
+      this.source.grow();
+      this.source.last.eid = eid;
+      const comp=this.source.last;
+      this.entityMap.set(comp.eid, comp.id);
+      return this.indexMap.set(comp.id, comp.eid);
     
    },
   step( Length = this.Length,source = this.source,changedEntities = this.changedEntities,entityMap = this.entityMap,indexMap = this.indexMap,data = this.data ){ 
@@ -106,7 +93,7 @@ var GameComponentArray = Interface.define("GameComponentArray", {
       const l=this.length;
       Length.step();
       source.step();
-      changedEntities.clear();
+      newEntities.clear();
       if( l > this.length ){ 
         for (var i = (this.length - 1);l > i;((i)++))
         {
@@ -135,7 +122,6 @@ var GameComponentArray = Interface.define("GameComponentArray", {
   detatch( eid = this.eid ){ 
     
       const c=this.getByEid(eid);
-      this.changedEntities.add(eid);
       this.entityMap.delete(eid);
       this.indexMap.delete(c.id);
       return this.source.swapAndRemove(c.id);

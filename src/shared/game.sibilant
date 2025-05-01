@@ -8,6 +8,7 @@
 
 (import Rendering "/shared/systems/rendering/rendering.js")
 
+
 (define Game Saveable
   (init (config
          (system-types [])
@@ -19,7 +20,6 @@
          (systems ((create Ordered-map))))
         (.register this))
 
-  (*non-serializable-keys ['rendering])
   (def-generic register (systems system-types config)
 
     (assign this.rendering (.load Rendering
@@ -43,7 +43,6 @@
           sys))
 
     (.each system-types (=> (s) (.push systems [s.symbol ((create s) this)])))
-    ;; (.push this.systems [this.rendering.symbol this.rendering])
     )
 
   (gett ent this.entities)
@@ -59,7 +58,10 @@
     (.emit events 'start this)
 
     (on events 'tick (t)
-        (.each systems (#-> (.update )))
+        (Promise.all [
+                     ...(.map systems (#-> (.update )))
+                     (.update rendering)
+                     ])
         (.update rendering)
         ))
 

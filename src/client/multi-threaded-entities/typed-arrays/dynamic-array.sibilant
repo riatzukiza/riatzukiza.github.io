@@ -16,8 +16,8 @@
 
                  ])
 
-  (gett length this.Length.length)
-  (sett length v (assign this.Length.length v))
+  (gett length (if this.*length this.*length (assign this.*length this.Length.length)))
+  (sett length v (assign this.Length.length (assign this.*length v)))
 
   (gett last (get this.source.data (- this.length 1)))
 
@@ -38,6 +38,7 @@
           (yield (get this.data i))))
 
   (def step ()
+    (assign this.*length null)
     (.step this.Length)
     (.step this.source))
 
@@ -50,11 +51,11 @@
     (const last this.last)
     (for-of! key this.data-type.keys
              (set v key (get last key)))
-    (.shrink this)
-    )
+    (.shrink this))
 
 
   (def shrink ()
-    (.clear (get this.data (- this.length 1)))
-    (decr this.length)))
+    (const i (- this.length 1))
+    (.clear (get this.data i))
+    (assign this.length i)))
 (export Dynamic-array)

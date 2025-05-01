@@ -17,8 +17,10 @@
                                    "(include \"./inc/docs.sibilant\")"
                                    "(include \"./inc/misc.sibilant\")"
                                    "(include \"./inc/generators.sibilant\")"
+                                   "(include \"./inc/async.sibilant\")"
                                    "(import-namespace misc)"
                                    "(import-namespace generators)"
+                                   "(import-namespace async)"
                                    "(import-namespace docs)"
                                    (or header "")
 

@@ -17,6 +17,3 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var GameController = Interface.define("GameController", { 
-  
- });

@@ -1,15 +1,14 @@
-(define Game-component Data-type
+(define Component-data Data-type
   (cached keys [ 'eid ...data-keys])
   (data-keys []))
 (export Game-component)
 
-(define Game-component-array Interface
+(define Component-data-array Interface
 
   (data-type Game-component)
 
   (cached index-map (new Map))
   (cached entity-map (new Map))
-  (cached changed-entities (new Set))
 
   (init (max-size (source (.spawn Dynamic-array 0 max-size))))
 
@@ -18,9 +17,19 @@
              (.has changed-entities eid))
          (return ))
 
-    (.add this.changed-entities eid)
-    (.grow this)
-    (assign this.last.eid eid))
+
+
+    (.grow this.source)
+
+    (assign this.source.last.eid eid)
+
+    (const comp this.source.last)
+
+    (.set this.entity-map comp.eid comp.id)
+    (.set this.index-map  comp.id comp.eid)
+    )
+
+
 
   (def-generic step ( Length source changed-entities entity-map index-map data)
     (const l this.length)
@@ -28,7 +37,7 @@
     (.step Length)
     (.step source)
 
-    (.clear changed-entities)
+    (.clear new-entities)
 
     (if! (> l this.length ) ;; shrunk
          (for! (i (- this.length 1)) (> l i) (incr i)
@@ -47,8 +56,6 @@
 
   (def-generic detatch (eid)
     (const c (.get-by-eid this eid))
-
-    (.add this.changed-entities eid)
 
     (.delete this.entity-map eid)
     (.delete this.index-map c.id)

@@ -57,46 +57,28 @@
 
 (macro html (...body) `(markup (.html ...@body)))
 
-(def-async main ()
-  ;; LISP program files
+(print "beginning watch party")
 
-  (print "beginning watch party")
+;; LISP program files
+(watch src.server "." "change"
+       (print file.path "changed")
+       (compile-module file js.server))
 
-  ;; LISP program files
-  (await (watch src.server "." "change"
-                (print file.path "changed")
-                (compile-module file js.server)))
+(watch src.shared "." "change"
+       (print file.path "changed")
+       (compile-client-module file js.shared))
 
-  (await (watch src.shared "." "change"
-                (print file.path "changed")
-                (compile-client-module file js.shared)))
+( watch src.client "." "change"
 
-  (await (watch src.client "." "change"
+  (print file "changed")
+  (compile-client-module file js.client))
 
-                (print file "changed")
-                (compile-client-module file js.client)))
+;; LISP HTML templates
+(watch src.templates "." "change"
+             (print file.path "changed")
+             (compile-module file js.templates))
 
-  ;; LISP HTML templates
-  (await (watch src.templates "." "change"
-                (print file.path "changed")
-                (compile-module file js.templates)))
-
-  ;; HTML
-  (await (watch js.templates "." "change"
-                (print file.path "changed")
-                (compile-html file html.files)))
-
-  ;; Bundles
-  ;; (await (watch js.client "." "change"
-  ;;               (print file.path "changed")
-  ;;               (bundle file js.bundles true)))
-
-  ;; (await (watch js.shared "." "change"
-  ;;               (print file.path "changed")
-  ;;               (bundle-shared file js.shared-bundles true)))
-  )
-
-
-(.then (main) (-> (print "waiting for changes")
-                  null
-                  ))
+;; HTML
+(watch js.templates "." "change"
+             (print file.path "changed")
+             (compile-html file html.files))

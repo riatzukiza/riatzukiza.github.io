@@ -44,12 +44,18 @@ var DynamicArray = Interface.define("DynamicArray", {
    },
   get length(  ){ 
     
-      return this.Length.length;
+      return (function() {
+        if (this._length) {
+          return this._length;
+        } else {
+          return this._length = this.Length.length;
+        }
+      }).call(this);
     
    },
   set length( v ){ 
     
-      return this.Length.length = v;
+      return this.Length.length = this._length = v;
     
    },
   get last(  ){ 
@@ -82,6 +88,7 @@ var DynamicArray = Interface.define("DynamicArray", {
  },
   step(  ){ 
     
+      this._length = null;
       this.Length.step();
       return this.source.step();
     
@@ -107,8 +114,9 @@ var DynamicArray = Interface.define("DynamicArray", {
    },
   shrink(  ){ 
     
-      this.data[(this.length - 1)].clear();
-      return ((this.length)--);
+      const i=(this.length - 1);
+      this.data[i].clear();
+      return this.length = i;
     
    }
  });

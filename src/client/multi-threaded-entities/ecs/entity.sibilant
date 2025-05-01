@@ -1,8 +1,11 @@
 (define Game-entity Data-type
   (keys ['eid]))
 
+(export Game-entity)
+
 (define Game-entity-array Dynamic-array
   (data-type Game-entity))
+(export Game-entity-array)
 
 (define Game-entity-manager Interface
   ;; only run this in main thread
@@ -20,3 +23,4 @@
   (def release (eid)
     (const new-index this.last)
     (.swap-and-remove this (get this.indexes eid))))
+(export Game-entity-manager)

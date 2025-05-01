@@ -46,7 +46,6 @@ var Game = Saveable.define("Game", {
       return this;
     
    },
-  _nonSerializableKeys:[ "rendering" ],
   register( systems = this.systems,systemTypes = this.systemTypes,config = this.config ){ 
     
       this.rendering = Rendering.load({ 
@@ -63,7 +62,7 @@ var Game = Saveable.define("Game", {
           setSystemBySymbol = systems.set;
       systems.getBySymbol = getSystemBySymbol;
       systems.get = (function systems$get$(proto, ent) {
-        /* systems.get eval.sibilant:2:1408 */
+        /* systems.get eval.sibilant:2:1369 */
       
         var sys = getSystemBySymbol.call(systems, proto.symbol);
         return (function() {
@@ -109,11 +108,11 @@ var Game = Saveable.define("Game", {
       ticker.start();
       events.emit("start", this);
       return events.on("tick", ((t) => {
-      	systems.each((function() {
-        /* eval.sibilant:2:2063 */
+      	Promise.all(systems.map((function() {
+        /* eval.sibilant:2:1995 */
       
         return arguments[0].update();
-      }));
+      })).concat([ rendering.update() ]));
       return rendering.update();
       })).once("error", ((err) => {
       	console.log("error on", "tick", "of", "events", "given", "t()");
@@ -133,7 +132,7 @@ var Game = Saveable.define("Game", {
       entities.clear();
       events.removeAllListeners();
       return systems.each((function() {
-        /* eval.sibilant:2:2381 */
+        /* eval.sibilant:2:2380 */
       
         return arguments[0].clear();
       }));

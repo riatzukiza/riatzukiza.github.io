@@ -1,4 +1,5 @@
 (namespace async)
+(import-namespace core)
 (macro async (form) ["async " form])
 
 (macro def-async (name args ...body)
@@ -6,4 +7,5 @@
 
         (indent (apply ^do body))
         "\n}"])
+
 (macro await (value) ["await " value])

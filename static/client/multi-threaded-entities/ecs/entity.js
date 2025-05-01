@@ -20,9 +20,15 @@ import {
 var GameEntity = DataType.define("GameEntity", { 
   keys:[ "eid" ]
  });
+export { 
+  GameEntity
+ };
 var GameEntityArray = DynamicArray.define("GameEntityArray", { 
   dataType:GameEntity
  });
+export { 
+  GameEntityArray
+ };
 var GameEntityManager = Interface.define("GameEntityManager", { 
   init( entities = GameEntityArray.spawn(0, maxGameEntities),indexes = {  },currentId = 0 ){ 
     
@@ -46,3 +52,6 @@ var GameEntityManager = Interface.define("GameEntityManager", {
     
    }
  });
+export { 
+  GameEntityManager
+ };

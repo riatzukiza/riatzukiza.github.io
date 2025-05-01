@@ -1,2 +1,2 @@
-(define Game Interface
+(define Game-controller Interface
    )
