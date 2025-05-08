@@ -25,34 +25,14 @@
             "id": "4a3db340eceaee36",
             "type": "leaf",
             "state": {
-              "type": "kanban",
+              "type": "markdown",
               "state": {
-                "file": "kanban/board.md",
-                "kanbanViewState": {
-                  "kanban-plugin": "board",
-                  "list-collapse": [
-                    true,
-                    true,
-                    true,
-                    true,
-                    false,
-                    false,
-                    true,
-                    true,
-                    true,
-                    false,
-                    true,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false
-                  ]
-                }
+                "file": "notes/daily/2025-05-08.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-trello",
-              "title": "board"
+              "icon": "lucide-file",
+              "title": "2025-05-08"
             }
           }
         ],
@@ -262,19 +242,19 @@
       "githobs:Manage a github issue": false,
       "webpage-html-export:Export Vault to HTML": false,
       "obisidian-note-linker:Note Linker": false,
-      "smart-second-brain:Open S2B Chat": false,
-      "card-board:CardBoard": false
+      "smart-second-brain:Open S2B Chat": false
     }
   },
   "active": "4a3db340eceaee36",
   "lastOpenFiles": [
+    "kanban/board.md",
+    "notes/daily/2025-05-08.md",
     "notes/daily/2025-04-27.md",
     "notes/daily/2025-04-24.md",
     "notes/daily/2025-04-26.md",
     "notes/daily/2025-02-05.md",
     "kanban/tasks/Migrate module system to `imports`.md",
     "notes/daily/2025-04-17.md",
-    "kanban/board.md",
     "notes/daily/2025-04-13.md",
     "notes/daily/2025-04-12.md",
     "kanban/tasks/Hot reload system.md",
@@ -293,7 +273,6 @@
     "notes/daily/2025-01-27.md",
     "notes/daily/2025-01-30.md",
     "kanban/tasks/Browerify NPM node_modules bundle.md",
-    "kanban/tasks/Layered Vector Field System.md",
     "notes/unique",
     "Chats",
     "notes/daily",
