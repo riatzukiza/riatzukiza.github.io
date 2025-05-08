@@ -289,12 +289,12 @@ kanban-plugin: board
 
 ## In Progress (3)
 
-- [ ] [[Threaded game systems]]
-- [ ] [Update physics engine to increase accuracy and performance](tasks/Update%20physics%20engine%20to%20increase%20accuracy%20and%20performance.md)
 
 
 ## In Review (8)
 
+- [ ] [Update physics engine to increase accuracy and performance](tasks/Update%20physics%20engine%20to%20increase%20accuracy%20and%20performance.md)
+- [ ] [[Threaded game systems]]
 
 
 ## Done
