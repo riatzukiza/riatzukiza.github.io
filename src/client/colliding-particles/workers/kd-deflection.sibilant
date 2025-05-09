@@ -126,75 +126,56 @@
                        (const used-distance (Math.abs diff))
                        (const threshold (+ affector.scale target.scale))
                        (if! (>  threshold used-distance)
-                           (const total-mass (+ affector.mass target.mass))
-                           (if! (> target.scale affector.scale)
-
-                                (const mass-diff (-  target.scale affector.scale))
-                                (const mass-gain-factor (/ mass-diff total-mass))
-                                (const mass-gain (* target.mass mass-gain-factor))
-
-                                (const mass (+ target.mass mass-gain))
-
-                                (assign target.mass mass)
-                                (assign target.scale (Math.cbrt mass))
-                                )
-                           (if! (< target.scale affector.scale)
-
-                                (const correction (.spawn Vector dist.x dist.y))
-
-                                (.despawn correction)
-                                (if! (> config.actual-min-mass target.mass)
-                                     (const mass-diff (- affector.scale target.scale))
-                                     (const mass-loss-factor (/ mass-diff total-mass))
-                                     (const mass-loss (* target.mass mass-loss-factor))
-                                     (const mass (- target.mass mass-loss))
-
-                                     (assign target.mass mass)
-                                     (assign target.scale (Math.cbrt mass))
 
 
-                                     )
+                            (const vector1 (.spawn Vector target.vel.x target.vel.y))
+                            (const vector2 (.spawn Vector affector.vel.x affector.vel.y))
 
-                                )
-                           (if! (not target.deflection.impacts)
-                                (assign target.deflection.impacts 0))
-                           (incr target.deflection.impacts)
+                            (const theta (Math.atan2 (- vector1.y vector2.y)
+                                                     (- vector1.x vector2.x)))
 
-
-                           (const vector1 (.spawn Vector target.vel.x target.vel.y))
-                           (const vector2 (.spawn Vector affector.vel.x affector.vel.y))
-
-                           (const theta (Math.atan2 (- vector1.y vector2.y)
-                                                    (- vector1.x vector2.x)))
-
-                           (const v1 (pipe vector1 (.rotate-to (* 1 theta))))
-                           (const v2 (pipe vector2 (.rotate-to (* 1 theta))))
-                           (const m target.mass)
-                           (const m* affector.mass)
+                            (const v1 (pipe vector1 (.rotate-to (* 1 theta))))
+                            (const v2 (pipe vector2 (.rotate-to (* 1 theta))))
+                            (const m target.mass)
+                            (const m* affector.mass)
 
 
-                           (const u1 (pipe (.spawn Vector
-                                                   (+ (/ (* v1.x (- m m*)) (+ m m*))
-                                                      (* v2.x 2 (/ m* (+ m m*))))
-                                                   v1.y)
-                                           (.rotate-to (* -1 theta))
-                                           ))
+                            (const u1 (pipe (.spawn Vector
+                                                    (+ (/ (* v1.x (- m m*)) (+ m m*))
+                                                       (* v2.x 2 (/ m* (+ m m*))))
+                                                    v1.y)
+                                            (.rotate-to (* -1 theta))
+                                            ))
 
-                           ;; (const u2 (pipe (.spawn Vector
-                           ;;                         (+ (/ (* v2.x (- m* m))
-                           ;;                               (+ m* m))
-                           ;;                            (* v1.x 2 (/ m (+ m* m))))
-                           ;;                         v2.y)
-                           ;;                 (.rotate-to theta)))
+                            ;; (const u2 (pipe (.spawn Vector
+                            ;;                         (+ (/ (* v2.x (- m* m))
+                            ;;                               (+ m* m))
+                            ;;                            (* v1.x 2 (/ m (+ m* m))))
+                            ;;                         v2.y)
+                            ;;                 (.rotate-to theta)))
+
+                            (const total-mass (+ affector.mass target.mass))
+                            (const mass-diff (-  target.mass affector.mass))
+                            (const mass-change-factor (/ mass-diff total-mass))
+                            (const mass-change (Math.round (* target.mass mass-gain-factor)))
+
+                            (const mass (+ target.mass mass-change))
+
+                            (assign target.mass mass)
+                            (assign target.scale (Math.round (Math.cbrt mass)))
+
+                            (if! (not target.deflection.impacts)
+                                 (assign target.deflection.impacts 0))
+                            (incr target.deflection.impacts)
 
 
 
-                           (.add-to target.deflection u1)
-                           ;; (.add-to affector.deflection u2)
-                           (.despawn u1)
-                           ;; (.despawn u2)
-                           (.despawn v1)
-                           (.despawn v2))
+                            (.add-to target.deflection u1)
+                            ;; (.add-to affector.deflection u2)
+                            (.despawn u1)
+                            ;; (.despawn u2)
+                            (.despawn v1)
+                            (.despawn v2))
 
                       (.despawn dist)
                       )

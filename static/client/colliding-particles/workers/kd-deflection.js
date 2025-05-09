@@ -160,31 +160,6 @@ var ElasticDeflectionSystem = ParentSystem.define("ElasticDeflectionSystem", {
     const usedDistance=Math.abs(diff);;
     const threshold=(affector.scale + target.scale);;
     if( threshold > usedDistance ){ 
-      const totalMass=(affector.mass + target.mass);;
-      if( target.scale > affector.scale ){ 
-        const massDiff=(target.scale - affector.scale);;
-        const massGainFactor=(massDiff / totalMass);;
-        const massGain=(target.mass * massGainFactor);;
-        const mass=(target.mass + massGain);;
-        target.mass = mass;;
-        target.scale = Math.cbrt(mass);
-       };
-      if( target.scale < affector.scale ){ 
-        const correction=Vector.spawn(dist.x, dist.y);;
-        correction.despawn();
-        if( config.actualMinMass > target.mass ){ 
-          const massDiff=(affector.scale - target.scale);;
-          const massLossFactor=(massDiff / totalMass);;
-          const massLoss=(target.mass * massLossFactor);;
-          const mass=(target.mass - massLoss);;
-          target.mass = mass;;
-          target.scale = Math.cbrt(mass);
-         }
-       };
-      if( !(target.deflection.impacts) ){ 
-        target.deflection.impacts = 0;
-       };
-      ((target.deflection.impacts)++);
       const vector1=Vector.spawn(target.vel.x, target.vel.y);;
       const vector2=Vector.spawn(affector.vel.x, affector.vel.y);;
       const theta=Math.atan2((vector1.y - vector2.y), (vector1.x - vector2.x));;
@@ -193,6 +168,17 @@ var ElasticDeflectionSystem = ParentSystem.define("ElasticDeflectionSystem", {
       const m=target.mass;;
       const m_=affector.mass;;
       const u1=Vector.spawn((((v1.x * (m - m_)) / (m + m_)) + (v2.x * 2 * (m_ / (m + m_)))), v1.y).rotateTo((-1 * theta));;
+      const totalMass=(affector.mass + target.mass);;
+      const massDiff=(target.mass - affector.mass);;
+      const massChangeFactor=(massDiff / totalMass);;
+      const massChange=Math.round((target.mass * massGainFactor));;
+      const mass=(target.mass + massChange);;
+      target.mass = mass;;
+      target.scale = Math.round(Math.cbrt(mass));;
+      if( !(target.deflection.impacts) ){ 
+        target.deflection.impacts = 0;
+       };
+      ((target.deflection.impacts)++);
       target.deflection.addTo(u1);
       u1.despawn();
       v1.despawn();

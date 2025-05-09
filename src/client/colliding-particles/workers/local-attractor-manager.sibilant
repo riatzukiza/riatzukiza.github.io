@@ -18,7 +18,6 @@
   )
 
 
-(print config )
 (const threads [])
 (for! (i 0) (> config.attractor-thread-count i) (incr i )
       (const thread (.spawn Attractor-group-system))

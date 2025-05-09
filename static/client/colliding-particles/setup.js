@@ -40,7 +40,7 @@ const randomSignedFloat=((range) => {
 	return ((Math.random() * (range - (-1 * range))) + (-1 * range));
 });
 var initializeMotes = (function initializeMotes$(particles, verts) {
-  /* initialize-motes eval.sibilant:18:0 */
+  /* initialize-motes eval.sibilant:19:0 */
 
   for (var p of particles.pos.data)
   {
@@ -59,7 +59,7 @@ var initializeMotes = (function initializeMotes$(particles, verts) {
   return null;
 });
 var randomlyPlaceParticles = (function randomlyPlaceParticles$(particles) {
-  /* randomly-place-particles eval.sibilant:39:0 */
+  /* randomly-place-particles eval.sibilant:40:0 */
 
   const spawnPos=Vector.spawn(0, 0);
   for (var p of particles.pos.data)
@@ -68,8 +68,8 @@ var randomlyPlaceParticles = (function randomlyPlaceParticles$(particles) {
   const vel=particles.vel.data[p.id];;
   vel.x = randomSignedFloat(1000);
   vel.y = randomSignedFloat(1000);;
-  var scale = (maxMass * Math.random());;
-  var mass = Math.pow(Math.max(minMass, scale), 3);;
+  var scale = Math.round((maxMass * Math.random()));;
+  var mass = Math.round(Math.pow(Math.max(minMass, scale), 3));;
   phys.mass = mass;
   phys.scale = scale;;
   spawnPos.addTo({ 
@@ -100,7 +100,7 @@ async function draw(){
 
 };
 var setup = (function setup$(particles, systems, vertices) {
-  /* setup eval.sibilant:74:0 */
+  /* setup eval.sibilant:75:0 */
 
   randomlyPlaceParticles(particles);
   particles.phys.step();

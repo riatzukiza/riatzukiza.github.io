@@ -59,7 +59,7 @@ var particleList = (function particleList$(particles) {
 
   return createDocumentNode("div", { 'className': "panel" }, [ panel("total mass", particles.phys.data.reduce(((r, phys) => {
   	return (r + phys.mass);
-  }), 0)), particles.pos.data.map(((p) => {
+  }), 0).toExponential()), particles.pos.data.map(((p) => {
   	return { 
     id:p.id,
     x:p.x,
@@ -78,7 +78,7 @@ var particleList = (function particleList$(particles) {
    });
   rendering.xOffset = (-1 * p.pos.x);
   return rendering.yOffset = (-1 * p.pos.y);
-  }) }, [ "jump to" ]), panel("id:", (" " + p.id)), panel("x:", (" " + p.x)), panel("y:", (" " + p.y)), panel("mass:", (" " + p.mass)), panel("scale:", (" " + p.scale)) ]);
+  }) }, [ "jump to" ]), panel("id:", (" " + p.id)), panel("x:", (" " + p.x)), panel("y:", (" " + p.y)), panel("mass:", (" " + p.mass.toExponential())), panel("scale:", (" " + p.scale.toExponential())) ]);
   })) ]);
 });
 export { 

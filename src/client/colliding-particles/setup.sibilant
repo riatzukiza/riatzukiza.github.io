@@ -3,6 +3,7 @@
 (import Vector "/shared/vectors.js")
 (import config "./config.sibilant")
 
+
 (const (lit min-mass max-mass actual-maximum-mass spawn-height spawn-width) config)
 
 (const random-signed-float (=> (range) (random-float (* -1 range) range)))
@@ -48,8 +49,8 @@
                 'y (random-signed-float 1000)
                 )
 
-           (var scale (* max-mass (Math.random)))
-           (var mass (Math.pow  (Math.max min-mass scale) 3))
+           (var scale (Math.round (* max-mass (Math.random))))
+           (var mass (Math.round (Math.pow  (Math.max min-mass scale) 3)))
 
            (set phys 'mass mass 'scale scale)
 

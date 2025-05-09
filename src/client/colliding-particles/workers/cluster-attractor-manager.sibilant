@@ -15,12 +15,11 @@
 (const (lit gravitational-constant ) config)
 
 (define Attractor-group-system Threaded-system
-  (url "/client/colliding-particles/workers/cluster-attractor-system.js")
+  (url "/client/colliding-particles/workers/local-attractor-system.js")
   (data [])
   )
 
 
-(print config )
 (const threads [])
 (for! (i 0) (> config.attractor-thread-count i) (incr i )
       (const thread (.spawn Attractor-group-system))

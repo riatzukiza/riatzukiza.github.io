@@ -46,7 +46,6 @@ var AttractorGroupSystem = ThreadedSystem.define("AttractorGroupSystem", {
   url:"/client/colliding-particles/workers/local-attractor-system.js",
   data:[]
  });
-console.log(config);
 const threads=[];
 for (var i = 0;config.attractorThreadCount > i;((i)++))
 {
@@ -60,7 +59,7 @@ threads.push(thread)
 }
 ;
 self.onmessage = (function self$onmessage$(e) {
-  /* self.onmessage eval.sibilant:31:0 */
+  /* self.onmessage eval.sibilant:30:0 */
 
   const [ [ pb1, pb2 ], [ mb1, mb2 ], [ gb1, gb2 ], [ nb1, nb2 ] ]=e.data.buffers;
   const positions=Vector2DArray.fromBuffers(pb1, pb2);

@@ -12,9 +12,8 @@
   )
 (def particle-list (particles)
   (dom (.div .className "panel"
-             (panel "total mass" (reduce particles.phys.data 0 (r phys)
-                                         (+ r phys.mass)
-                                         ))
+             (panel "total mass" (.to-exponential (reduce particles.phys.data 0 (r phys)
+                                          (+ r phys.mass))))
              (pipe particles.pos.data
 
                    (map (p)
@@ -34,8 +33,8 @@
                                         (panel "id:" (+ " " p.id))
                                         (panel "x:" (+ " " p.x))
                                         (panel "y:" (+ " " p.y))
-                                        (panel "mass:" (+ " " p.mass))
-                                        (panel "scale:" (+ " " p.scale)))))))))
+                                        (panel "mass:" (+ " " (.to-exponential p.mass)))
+                                        (panel "scale:" (+ " " (.to-exponential p.scale))))))))))
 (export particle-list)
 (export game-view)
 (export start-button)

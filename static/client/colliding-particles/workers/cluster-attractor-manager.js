@@ -49,10 +49,9 @@ const {
   gravitationalConstant
  }=config;
 var AttractorGroupSystem = ThreadedSystem.define("AttractorGroupSystem", { 
-  url:"/client/colliding-particles/workers/cluster-attractor-system.js",
+  url:"/client/colliding-particles/workers/local-attractor-system.js",
   data:[]
  });
-console.log(config);
 const threads=[];
 for (var i = 0;config.attractorThreadCount > i;((i)++))
 {
