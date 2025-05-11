@@ -158,9 +158,12 @@ var ElasticDeflectionSystem = ParentSystem.define("ElasticDeflectionSystem", {
     const dist=affector.pos.distanceTo(target.pos);;
     const diff=dist.getLength();;
     const usedDistance=Math.abs(diff);;
-    const threshold=(affector.scale + target.scale);;
+    const threshold=(0.1 * (affector.scale + target.scale));;
     if( threshold > usedDistance ){ 
       const totalMass=(affector.mass + target.mass);;
+      target.correction.subFrom(target.vel);
+      dist.setLength((threshold - usedDistance));
+      target.correction.subFrom(dist);
       if( target.scale > affector.scale ){ 
         const massDiff=(target.scale - affector.scale);;
         const massGainFactor=(massDiff / totalMass);;
@@ -170,8 +173,6 @@ var ElasticDeflectionSystem = ParentSystem.define("ElasticDeflectionSystem", {
         target.scale = Math.cbrt(mass);
        };
       if( target.scale < affector.scale ){ 
-        const correction=Vector.spawn(dist.x, dist.y);;
-        correction.despawn();
         if( config.actualMinMass > target.mass ){ 
           const massDiff=(affector.scale - target.scale);;
           const massLossFactor=(massDiff / totalMass);;
@@ -206,7 +207,8 @@ var ElasticDeflectionSystem = ParentSystem.define("ElasticDeflectionSystem", {
     for (var particle of collisionGroupParticles)
     {
     if( particle.deflection.impacts ){ 
-      particle.deflection.divTo(particle.deflection.impacts)
+      particle.deflection.divTo(particle.deflection.impacts);
+      particle.correction.divTo(particle.deflection.impacts)
      };
     particle.correctionSource.x = particle.correction.x;
     particle.correctionSource.y = particle.correction.y;;

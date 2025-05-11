@@ -124,9 +124,31 @@
                        (const dist (.distance-to  affector.pos target.pos))
                        (const diff (.get-length dist ))
                        (const used-distance (Math.abs diff))
-                       (const threshold (+ affector.scale target.scale))
+                       (const threshold (* 0.1 (+ affector.scale target.scale)))
                        (if! (>  threshold used-distance)
                            (const total-mass (+ affector.mass target.mass))
+
+                           ;; (const correction (.spawn Vector (* -1 dist.x) (* -1 dist.y)))
+                           ;; (.set-length correction threshold)
+                           ;; (.add-to target.correction correction)
+
+                           ;; (.despawn correction)
+                           ;; (const correction (.spawn Vector 0 0))
+                           ;; (.add-to target.correction affector.vel)
+                           (.sub-from target.correction target.vel)
+
+
+                           ;; (.sub-from target.correction correction)
+                           ;; (.add-to target.correction correction)
+
+                           (.set-length dist (- threshold used-distance))
+
+                           (.sub-from target.correction dist)
+
+
+                           ;; (.despawn correction)
+
+
                            (if! (> target.scale affector.scale)
 
                                 (const mass-diff (-  target.scale affector.scale))
@@ -136,13 +158,8 @@
                                 (const mass (+ target.mass mass-gain))
 
                                 (assign target.mass mass)
-                                (assign target.scale (Math.cbrt mass))
-                                )
+                                (assign target.scale (Math.cbrt mass)))
                            (if! (< target.scale affector.scale)
-
-                                (const correction (.spawn Vector dist.x dist.y))
-
-                                (.despawn correction)
                                 (if! (> config.actual-min-mass target.mass)
                                      (const mass-diff (- affector.scale target.scale))
                                      (const mass-loss-factor (/ mass-diff total-mass))
@@ -150,12 +167,7 @@
                                      (const mass (- target.mass mass-loss))
 
                                      (assign target.mass mass)
-                                     (assign target.scale (Math.cbrt mass))
-
-
-                                     )
-
-                                )
+                                     (assign target.scale (Math.cbrt mass))))
                            (if! (not target.deflection.impacts)
                                 (assign target.deflection.impacts 0))
                            (incr target.deflection.impacts)
@@ -202,7 +214,7 @@
     (for-of! particle collision-group-particles
              (if! particle.deflection.impacts
                   (.div-to particle.deflection particle.deflection.impacts)
-                  ;; (.div-to particle.correction particle.deflection.impacts)
+                  (.div-to particle.correction particle.deflection.impacts)
                   )
              (set particle.correction-source
                   'x particle.correction.x
@@ -214,8 +226,7 @@
 
              (set particle.phys-source
                   'mass particle.mass
-                  'scale particle.scale)
-             )
+                  'scale particle.scale))
     (for-of! particle particles (.despawn particle))
     (return null)))
 (.start Elastic-deflection-system)
