@@ -262,14 +262,14 @@
       "githobs:Manage a github issue": false,
       "webpage-html-export:Export Vault to HTML": false,
       "obisidian-note-linker:Note Linker": false,
-      "smart-second-brain:Open S2B Chat": false,
-      "card-board:CardBoard": false
+      "smart-second-brain:Open S2B Chat": false
     }
   },
   "active": "4a3db340eceaee36",
   "lastOpenFiles": [
-    "kanban/tasks/Threaded game systems.md",
+    "notes/daily/2025-05-11.md",
     "kanban/board.md",
+    "kanban/tasks/Threaded game systems.md",
     "notes/daily/2025-05-08.md",
     "notes/daily/2025-04-27.md",
     "notes/daily/2025-04-24.md",
@@ -293,7 +293,6 @@
     "kanban/tasks/placeable entities (rocks, plants, bases).md",
     "notes/daily/2025-02-04.md",
     "notes/daily/2025-01-27.md",
-    "notes/daily/2025-01-30.md",
     "notes/unique",
     "Chats",
     "notes/daily",
