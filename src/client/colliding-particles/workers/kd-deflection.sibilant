@@ -124,7 +124,7 @@
                        (const dist (.distance-to  affector.pos target.pos))
                        (const diff (.get-length dist ))
                        (const used-distance (Math.abs diff))
-                       (const threshold (* 0.1 (+ affector.scale target.scale)))
+                       (const threshold (* 0.01 (+ affector.scale target.scale)))
                        (if! (>  threshold used-distance)
                            (const total-mass (+ affector.mass target.mass))
 

@@ -158,7 +158,7 @@ var ElasticDeflectionSystem = ParentSystem.define("ElasticDeflectionSystem", {
     const dist=affector.pos.distanceTo(target.pos);;
     const diff=dist.getLength();;
     const usedDistance=Math.abs(diff);;
-    const threshold=(0.1 * (affector.scale + target.scale));;
+    const threshold=(0.01 * (affector.scale + target.scale));;
     if( threshold > usedDistance ){ 
       const totalMass=(affector.mass + target.mass);;
       target.correction.subFrom(target.vel);
