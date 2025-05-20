@@ -62,7 +62,7 @@ var Game = Saveable.define("Game", {
           setSystemBySymbol = systems.set;
       systems.getBySymbol = getSystemBySymbol;
       systems.get = (function systems$get$(proto, ent) {
-        /* systems.get eval.sibilant:2:1369 */
+        /* systems.get eval.sibilant:2:1367 */
       
         var sys = getSystemBySymbol.call(systems, proto.symbol);
         return (function() {
@@ -108,11 +108,11 @@ var Game = Saveable.define("Game", {
       ticker.start();
       events.emit("start", this);
       return events.on("tick", ((t) => {
-      	Promise.all(systems.map((function() {
-        /* eval.sibilant:2:1995 */
+      	systems.each((function() {
+        /* eval.sibilant:2:1954 */
       
         return arguments[0].update();
-      })).concat([ rendering.update() ]));
+      }));
       return rendering.update();
       })).once("error", ((err) => {
       	console.log("error on", "tick", "of", "events", "given", "t()");
@@ -132,7 +132,7 @@ var Game = Saveable.define("Game", {
       entities.clear();
       events.removeAllListeners();
       return systems.each((function() {
-        /* eval.sibilant:2:2380 */
+        /* eval.sibilant:2:2272 */
       
         return arguments[0].clear();
       }));

@@ -74,7 +74,7 @@ var Tile = GridCell.define("Tile", {
    }
  });
 var sleep = (function sleep$(n) {
-  /* sleep eval.sibilant:33:0 */
+  /* sleep eval.sibilant:36:0 */
 
   return (new Promise(((success, fail) => {
   	var resolve = success,
@@ -144,7 +144,7 @@ var Chunk = GridChunk.define("Chunk", {
         return ;
        };
       this.collapsing = true;
-      var cell = this.cells[(Math.floor((Math.random() * ( - this.cells.length))) + this.cells.length)];
+      var cell = this.cells[Math.floor((Math.random() * this.cells.length))];
       const visited=(new Set());
       while( cell ){ 
         yield(cell.collapse());
@@ -183,6 +183,101 @@ var TileGrid = Grid.define("TileGrid", {
   Chunk:Chunk,
   Cell:Tile,
   searchRadius:1,
+  events:create(EventEmitter)(),
+  playerPos:Vector.spawn(0, 0),
+  heap:BinaryHeap.spawn(),
+  loadingChunks:(new Set()),
+  unsentChunks:[],
+  get chunkProcessor(  ){ 
+    
+      return (function() {
+        if (this._chunkProcessor) {
+          return this._chunkProcessor;
+        } else {
+          return this._chunkProcessor = (function() {
+            /* inc/misc.sibilant:1:4125 */
+          
+            return this.processChunks();
+          }).call(this);
+        }
+      }).call(this);
+    
+   },
+  get readyChunks(  ){ 
+    
+      return Promise.all(Array.from(this.requestChunks()));
+    
+   },
+  get readyTiles(  ){ 
+    
+      return this.readyChunks.then(((chunks) => {
+      	return chunks.flat();
+      }));
+    
+   },
+  get playerChunk(  ){ 
+    
+      return this.getNearestChunk(this.playerPos.x, this.playerPos.y);
+    
+   },
+  get chunksInSearchRadius(  ){ 
+    
+      return this.getChunksInSearchRadius();
+    
+   },
+  get nextChunk(  ){ 
+    
+      return this.getNextChunk();
+    
+   },
+  *requestChunks(  ){ 
+  
+    while( this.unsentChunks.length ){ 
+      yield(this.unsentChunks.pop())
+     };
+    return null;
+  
+ },
+   async step(  ){ 
+  
+    const value=await this.chunkProcessor.next();
+    return this.unsentChunks.push(value.value);
+  
+ },
+   async *processChunks(  ){ 
+  
+    while( true ){ 
+      await sleep(0);
+      yield(this.nextChunk.data)
+     };
+    return null;
+  
+ },
+  addToHeap( chunk ){ 
+    
+      if( (!((chunk.collapsed || this.loadingChunks.has(chunk))) && !(this.heap.includes(chunk))) ){ 
+        this.loadingChunks.add(chunk);
+        this.heap.insert(chunk)
+       };
+      return null;
+    
+   },
+  getNextChunk(  ){ 
+    
+      var nextChunk = this.heap.extractMin();
+      while( !(nextChunk) ){ 
+        ((this.searchRadius)++);
+        for (var chunk of this.chunksInSearchRadius)
+        {
+        this.addToHeap(chunk)
+        }
+        ;
+        nextChunk = this.heap.extractMin();
+       };
+      this.loadingChunks.delete(nextChunk);
+      return nextChunk;
+    
+   },
   resetSearchRadius(  ){ 
     
       return this.searchRadius = 1;

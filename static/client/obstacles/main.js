@@ -17,54 +17,29 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var R = require("ramda");
-var { 
-  create,
-  extend,
-  mixin,
-  conditional,
-  cond,
-  partiallyApplyAfter
- } = require("@kit-js/core/js/util");
-var { 
-  Interface
- } = require("@kit-js/interface");
-Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1831 */
-
-  this.forEach(f);
-  return this;
-});
-Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1893 */
-
-  return Object.keys(this).forEach(((k) => {
-  	
-    return f(this[k], k);
-  
-  }));
-});
-global.mixin = mixin;
-global.create = create;
-var { 
+import { 
   game,
   activeGameSystems
- } = require("@obstacles/game.js");
-var { 
+ } from "./game.js";
+import { 
   Collision
- } = require("@shared/systems/collision.js"),
-    config = require("@obstacles/config.js"),
-    entities = require("@obstacles/entities.js"),
-    { 
+ } from "@shared/systems/collision.js";
+import { 
+  config
+ } from "@obstacles/config.js";
+import { 
+  entities
+ } from "@obstacles/entities.js";
+import { 
   startInterface
- } = require("@obstacles/dom.js");
+ } from "@obstacles/dom.js";
 Collision.setBounds(config.dimensions[0], config.dimensions[1], 500, 1000);
 game.start();
-require("@obstacles/events/ant-collision.js");
-require("@obstacles/events/ant-found-plant.js");
-require("@obstacles/events/collision.js");
-require("@obstacles/events/plant-colliding-with-spawn.js");
-require("@obstacles/events/static-object-collision.js");
-require("@obstacles/events/tick.js");
-require("@obstacles/events/simple-collision.js");
+import "@obstacles/events/ant-collision.js";
+import "@obstacles/events/ant-found-plant.js";
+import "@obstacles/events/collision.js";
+import "@obstacles/events/plant-colliding-with-spawn.js";
+import "@obstacles/events/static-object-collision.js";
+import "@obstacles/events/tick.js";
+import "./events/simple-collision.js";
 startInterface();

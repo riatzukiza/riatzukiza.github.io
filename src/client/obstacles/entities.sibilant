@@ -26,11 +26,9 @@
                     (when (and (> next-spawn-time (/ 1000 config.spawn-rate))
                                (<= ants.group.size config.ant-limit))
                       (spawn-ant [home-pos.x home-pos.y] home)
-                      (assign next-spawn-time 0)
-                      )))
+                      (assign next-spawn-time 0))))
 
 (export next-spawn)
-
 
 (export rock-gen-step)
 (export spawn-rock)
@@ -43,7 +41,7 @@
 
 (export home)
 (export home-pos)
+
 (export clear-ants)
 (export trail-segments)
 (export spawn-ant-trail-segment)
-

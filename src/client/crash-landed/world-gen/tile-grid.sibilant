@@ -8,19 +8,22 @@
 
 
 (macro method* (name args ..body)
-       ["*"name  `(parenthetic (comma @args.contents))
+       ["*" name  `(parenthetic (comma @args.contents))
            `(curly (do-block ...@body))])
+
 (def-lit-macro def-async (name args ...body)
-  [" async "name  `(parenthetic (comma @args.contents))
+  [" async " name  `(parenthetic (comma @args.contents))
             `(curly (do-block ...@body))])
 
 (def-lit-macro def-async* (name args ...body)
-  [" async *"name  `(parenthetic (comma @args.contents))
+  [" async *" name  `(parenthetic (comma @args.contents))
              `(curly (do-block ...@body))])
 
 (def-lit-macro def-generic* (name args ...body)
   `(generic @name (method*) @args ...@body))
+
 (define Tile Grid-cell
+
   (cached super-position (.spawn Super-position this))
 
   (gett data (lit (x this.x) (y this.y) (type this.type)))
@@ -85,6 +88,55 @@
   (Cell Tile)
   (search-radius 1)
 
+  (events ((create Event-emitter)))
+
+  (player-pos (.spawn Vector 0 0))
+  (heap (.spawn Binary-heap))
+  (loading-chunks (new Set))
+  (unsent-chunks [])
+
+  (cached chunk-processor (.process-chunks this))
+  (gett ready-chunks (Promise.all (Array.from (.request-chunks this))))
+  (gett ready-tiles (then this.ready-chunks chunks
+                          (.flat chunks)))
+  (gett player-chunk (.get-nearest-chunk this this.player-pos.x this.player-pos.y))
+  (gett chunks-in-search-radius (.get-chunks-in-search-radius this))
+  (gett next-chunk (.get-next-chunk this))
+
+  (def* request-chunks ()
+    (while! this.unsent-chunks.length
+            (yield (.pop this.unsent-chunks)))
+    null)
+
+  (def-async step ()
+    (const value (await (.next this.chunk-processor)))
+    (.push this.unsent-chunks value.value))
+
+  (def-async* process-chunks ()
+    (while! true
+            (await (sleep 0))
+            (yield this.next-chunk.data))
+    null
+    )
+  (def add-to-heap (chunk)
+    (if! (and (not (or  chunk.collapsed
+                    (.has this.loading-chunks chunk)))
+              (not (.includes this.heap chunk))
+              )
+        (.add this.loading-chunks chunk)
+        (.insert this.heap chunk))
+    null)
+
+  (def get-next-chunk ()
+    (var next-chunk (.extract-min this.heap))
+
+    (while! (not next-chunk)
+         (incr this.search-radius)
+         (for-of! chunk this.chunks-in-search-radius
+                  (.add-to-heap this chunk))
+         (assign next-chunk (.extract-min this.heap) ))
+    (.delete this.loading-chunks next-chunk)
+    (return next-chunk))
 
   (def reset-search-radius () (assign this.search-radius 1))
 

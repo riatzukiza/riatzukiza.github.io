@@ -12,7 +12,7 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   }));
 });
 var navButton = (function navButton$(link, text) {
-  /* nav-button eval.sibilant:18:0 */
+  /* nav-button eval.sibilant:19:0 */
 
   return create(HtmlElement)("html", {  }, [ create(HtmlElement)("span", { 'class': "bordered" }, [ create(HtmlElement)("a", { 'href': link }, [ text ]) ]) ]);
 });

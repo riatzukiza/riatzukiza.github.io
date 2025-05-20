@@ -8,7 +8,6 @@
 
 (import Rendering "/shared/systems/rendering/rendering.js")
 
-
 (define Game Saveable
   (init (config
          (system-types [])
@@ -58,10 +57,7 @@
     (.emit events 'start this)
 
     (on events 'tick (t)
-        (Promise.all [
-                     ...(.map systems (#-> (.update )))
-                     (.update rendering)
-                     ])
+        (.each systems (#-> (.update )))
         (.update rendering)
         ))
 

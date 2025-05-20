@@ -35,7 +35,7 @@
     ;; this could be optimized with node based operations.
     (collect r ((create Ordered-map))
              (each *values (item node)
-                   (.set r node.key (f item node.key r)))))
+                   (.set r node.key (callback item node.key r)))))
 
 
   (def-generic *delete (key *members  *values )

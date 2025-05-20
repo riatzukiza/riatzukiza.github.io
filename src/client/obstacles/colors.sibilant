@@ -1,4 +1,4 @@
-(require! (lit Tree-map) "tree-kit")
+(import  Tree-map "tree-kit")
 
 (def Tree-map.get ((dots args))
   (get (.find this (dots args)) 'value))

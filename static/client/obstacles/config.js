@@ -17,49 +17,101 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
+import { 
+  Interface
+ } from "/shared/kit/interface/index.js";
 const dim=[ (0.8 * window.innerWidth), (window.innerHeight - 3) ];
 const size=1;
-module.exports.size = size;
-module.exports.uiPollingRate = 10;
-module.exports.trailResolution = 5;
-module.exports.angleZoom = 35;
-module.exports.noiseZ = 255;
-module.exports.fieldForce = 28;
-module.exports.dimensions = dim;
-module.exports.columns = Math.ceil((dim[0] / size));
-module.exports.rows = Math.ceil((dim[1] / size));
-module.exports.decay = 1;
-module.exports.maxLength = 200;
-module.exports.trailResultDuration = 5000;
-module.exports.growthRate = 0.0005;
-module.exports.startingPlants = 1;
-module.exports.plantMassLimit = 32;
-module.exports.antLimit = 100;
-module.exports.maxInDecay = 1000;
-module.exports.trailLimit = 60000;
-module.exports.antLife = 120000;
-module.exports.decayOnCollision = true;
-module.exports.optionsAmplitude = 10;
-module.exports.limitDecay = false;
-module.exports.antInfluence = 90;
-module.exports.friction = 0.1;
-module.exports.collisionStatic = 5;
-module.exports.spawnStatic = 10;
-module.exports.spawnRate = 10;
-module.exports.homeLocation = [ 300, 200 ];
-module.exports.targetLocation = [ 700, 900 ];
-module.exports.rocks = 10;
-module.exports.rockMinSize = 16;
-module.exports.rockMaxSize = 32;
-module.exports.rockMassScalingFactor = 1;
-module.exports.rockMinMassFactor = 10;
-module.exports.rockMaxMassFactor = 100;
-module.exports.stationaryResistanceCoefficiant = 2;
-module.exports.trackTrail = true;
-module.exports.varyNoiseWithTime = true;
-module.exports.rewardWinners = true;
-module.exports.winYield = 30;
-module.exports.lossFactor = 30;
-module.exports.punishLoosers = true;
-module.exports.stepWiseUpdate = true;
-module.exports.gameSpeed = 1;
+var config = Interface.define("config", { 
+  "size",
+  size,
+  "uiPollingRate",
+  10,
+  "trailResolution",
+  5,
+  "angleZoom",
+  35,
+  "noiseZ",
+  255,
+  "fieldForce",
+  28,
+  "dimensions",
+  dim,
+  "columns",
+  Math.ceil:(dim[0] / size),
+  "rows",
+  Math.ceil:(dim[1] / size),
+  "decay",
+  1,
+  "maxLength",
+  200,
+  "trailResultDuration",
+  5000,
+  "growthRate",
+  0.0005,
+  "startingPlants",
+  1,
+  "plantMassLimit",
+  32,
+  "antLimit",
+  100,
+  "maxInDecay",
+  1000,
+  "trailLimit",
+  60000,
+  "antLife",
+  120000,
+  "decayOnCollision",
+  true,
+  "optionsAmplitude",
+  10,
+  "limitDecay",
+  false,
+  "antInfluence",
+  90,
+  "friction",
+  0.1,
+  "collisionStatic",
+  5,
+  "spawnStatic",
+  10,
+  "spawnRate",
+  10,
+  "homeLocation",
+  [ 300, 200 ],
+  "targetLocation",
+  [ 700, 900 ],
+  "rocks",
+  10,
+  "rockMinSize",
+  16,
+  "rockMaxSize",
+  32,
+  "rockMassScalingFactor",
+  1,
+  "rockMinMassFactor",
+  10,
+  "rockMaxMassFactor",
+  100,
+  "stationaryResistanceCoefficiant",
+  2,
+  "trackTrail",
+  true,
+  "varyNoiseWithTime",
+  true,
+  "rewardWinners",
+  true,
+  "winYield",
+  30,
+  "lossFactor",
+  30,
+  "punishLoosers",
+  true,
+  "stepWiseUpdate",
+  true,
+  "gameSpeed",
+  1
+ });
+export { 
+  config
+ };

@@ -80,4 +80,18 @@ ${"footer"}{
 ${"a"}{
   color:${"#cccccc"};
 }
-` ]), create(HtmlElement)("script", { 'src': "https://cdn.jsdelivr.net/quicksettings/3.0/quicksettings.min.js" }, []) ]), create(HtmlElement)("script", { 'src': "/socket.io/socket.io.js" }, []), create(HtmlElement)("body", {  }, [ create(HtmlElement)("header", { 'id': "header" }, [ create(HtmlElement)("h1", {  }, [ "Welcome to the Error Log" ]), create(HtmlElement)("nav", {  }, [ navButton("/projects", "My Projects"), navButton("/prior-work", "My work for others"), navButton("/about-me", "Who am I?"), navButton("/kanban/board.html", "My kanban"), navButton("/docs", "Documentation for Lith"), navButton("/blog", "My Blog") ]) ]), create(HtmlElement)("main", { 'id': "main" }, []), create(HtmlElement)("footer", { 'id': "footer" }, [ create(HtmlElement)("section", { 'id': "links" }, [ create(HtmlElement)("a", { 'href': "https://www.linkedin.com/in/aaron-beavers-76b13aa7/" }, [ "linkedin" ]), create(HtmlElement)("a", { 'href': "https://x.com/anomalous_error" }, [ "Twitter/X" ]), create(HtmlElement)("a", { 'href': "https://bsky.app/profile/37707.bsky.social" }, [ "BlueSky" ]), create(HtmlElement)("a", { 'href': "https://github.com/riatzukiza" }, [ "github" ]), create(HtmlElement)("a", { 'href': "https://github.com/riatzukiza/riatzukiza.github.io" }, [ "Source code" ]), create(HtmlElement)("a", { 'href': "https://www.linkedin.com/in/aaron-beavers-76b13aa7/" }, [ "linkedin" ]) ]), create(HtmlElement)("section", { 'id': "contact-info" }, [ create(HtmlElement)("a", { 'href': "mailto:foamy125@gmail.com" }, []) ]) ]) ]) ]);
+` ]), create(HtmlElement)("script", { 'src': "https://cdn.jsdelivr.net/quicksettings/3.0/quicksettings.min.js" }, []) ]), create(HtmlElement)("script", { 'src': "/socket.io/socket.io.js" }, []), create(HtmlElement)("body", {  }, [ create(HtmlElement)("header", { 'id': "header" }, [ create(HtmlElement)("h1", {  }, [ "Welcome to the Error Log" ]), create(HtmlElement)("nav", {  }, [ navButton("/projects", "My Projects"), navButton("/prior-work", "My work for others"), navButton("/about-me", "Who am I?"), navButton("/kanban/board.html", "My kanban"), navButton("/docs", "Documentation for Lith"), navButton("/blog", "My Blog") ]) ]), create(HtmlElement)("main", { 'id': "main" }, [ FileSystem.load("./static/client").find(".").then(((clientDir) => {
+	return clientDir.map(((dir) => {
+	return create(HtmlElement)("a", {
+  'href': ("/projects/" + Path.basename(dir.path) + ".html"),
+  'target': "_blank"
+}, [ create(HtmlElement)("div", { 'class': "iframe-container" }, [ create(HtmlElement)("iframe", {
+  'class': "project-preview",
+  'frameborder': "0",
+  'height': "100%",
+  'width': "100%",
+  'src': ("/projects/" + Path.basename(dir.path) + ".html"),
+  'id': Path.basename(dir.path)
+}, []) ]) ]);
+}));
+})) ]), create(HtmlElement)("footer", { 'id': "footer" }, [ create(HtmlElement)("section", { 'id': "links" }, [ create(HtmlElement)("a", { 'href': "https://www.linkedin.com/in/aaron-beavers-76b13aa7/" }, [ "linkedin" ]), create(HtmlElement)("a", { 'href': "https://x.com/anomalous_error" }, [ "Twitter/X" ]), create(HtmlElement)("a", { 'href': "https://bsky.app/profile/37707.bsky.social" }, [ "BlueSky" ]), create(HtmlElement)("a", { 'href': "https://github.com/riatzukiza" }, [ "github" ]), create(HtmlElement)("a", { 'href': "https://github.com/riatzukiza/riatzukiza.github.io" }, [ "Source code" ]), create(HtmlElement)("a", { 'href': "https://www.linkedin.com/in/aaron-beavers-76b13aa7/" }, [ "linkedin" ]) ]), create(HtmlElement)("section", { 'id': "contact-info" }, [ create(HtmlElement)("a", { 'href': "mailto:foamy125@gmail.com" }, []) ]) ]) ]) ]);

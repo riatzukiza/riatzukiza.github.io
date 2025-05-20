@@ -17,9 +17,9 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
+import { 
   TreeMap
- } = require("tree-kit");
+ } from "tree-kit";
 TreeMap.get = (function TreeMap$get$(...args) {
   /* Tree-map.get eval.sibilant:4:0 */
 

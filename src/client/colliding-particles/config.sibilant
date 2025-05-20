@@ -46,6 +46,7 @@
   ( particle-render-size 512)
   (actual-maximum-mass (Math.pow max-mass 3))
   (actual-min-mass actual-min-mass)
+
   (cached dimensions [(Math.round (* 0.8 window.innerWidth)), (Math.round (- window.innerHeight 3))]))
 
 (export config)
