@@ -75,7 +75,8 @@
             "state": {
               "type": "file-explorer",
               "state": {
-                "sortOrder": "alphabetical"
+                "sortOrder": "alphabetical",
+                "autoReveal": false
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -266,10 +267,66 @@
       "card-board:CardBoard": false
     }
   },
-  "active": "4a3db340eceaee36",
+  "floating": {
+    "id": "a0ee3cab6eec7798",
+    "type": "floating",
+    "children": [
+      {
+        "id": "b594e18e8659a52a",
+        "type": "window",
+        "children": [
+          {
+            "id": "80016fb27466e0ce",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "1b0db6fa3d479bd4",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "kanban/process.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "process"
+                }
+              },
+              {
+                "id": "0f040ec98282cd10",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "notes/unique/2025-05-21-06.07.23.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "2025-05-21-06.07.23"
+                }
+              }
+            ]
+          }
+        ],
+        "direction": "vertical",
+        "x": 394,
+        "y": 20,
+        "width": 747,
+        "height": 872,
+        "maximize": true,
+        "zoom": 0
+      }
+    ]
+  },
+  "active": "1b0db6fa3d479bd4",
   "lastOpenFiles": [
-    "notes/daily/2025-05-21.md",
     "kanban/board.md",
+    "kanban/process.md",
+    "notes/unique/2025-05-21-06.07.23.md",
+    "notes/unique/2025-05-21-06.07.10.md",
+    "notes/daily/2025-05-21.md",
     "notes/daily/2025-05-11.md",
     "kanban/tasks/Threaded game systems.md",
     "notes/daily/2025-05-08.md",
@@ -291,9 +348,6 @@
     "notes/daily/2025-03-10.md",
     "kanban/tasks/Save mechanisim.md",
     "notes/daily/2025-02-06.md",
-    "kanban/tasks/Move all kit code.md",
-    "kanban/tasks/placeable entities (rocks, plants, bases).md",
-    "notes/daily/2025-02-04.md",
     "notes/unique",
     "Chats",
     "notes/daily",
