@@ -10,6 +10,16 @@ New-> Accepted -> Breakdown -----> Ready -> Todo -> In Progress -> In Review -> 
                            |-------------
 ```
 
+```
+New -> Accepted -> Breakdown -----> Ready -> Todo -> In Progress -> In Review -> Done
+|                 |  |  ^    \       ^                |    ^            |
+|                 |  |  |     \      |                |    |            |
+----> Rejected<----  -> Blocked  \----|    |<-----------    |-------------
+                     \     ^      \        |<----------------
+                      \   /        \-------------------------
+                     Ice Box
+
+```
 
 # New
 
