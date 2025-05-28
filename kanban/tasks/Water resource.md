@@ -1,35 +1,25 @@
 # Description
 
-{{Description}}
-
+Water can be harvested for construction materials and unit production, water is removed from the tile as a result of harvesting
 ## Related Epics
-- [[Identify and write useful templates for obsidian]] 
+- [Game Mechanics](Game%20Mechanics.md)
+- [resource mechanics](resource%20mechanics.md)
+
 ## Requirements
 
-{{Requirements}}
-- High level expecations
-- Acceptance criteria
-- Definition of done
+- Agents can interact with rocks
+- agents can carry resources back to the nest
+- THere is somthing to do with the resource
 
 ## Tasks 
 
-{{Tasks}}
+- [ ] Implement water resource tile component
+- [ ] Implement harvesting behavior
 
-- [ ] Somthing that needs to be done to accomplish this task
-- [ ] Non exhaustive, suggestive
-- [ ] Represents expected high level steps to meet AC
 ## Blocked by 
 
-{{BlockedBy}}
-
-- Can't be worked on till this task is done
-- blocking task
-- blocking task
-
-## Blocks
-
-{{Blocks}}
-
-- This task cannot be done until this one is done.
-- neither can this one
-- or this one
+- [unit system](unit%20system.md)
+- [resource mechanics](resource%20mechanics.md)
+- [reverse navigation home](reverse%20navigation%20home.md)
+- [multiple signal fields](multiple%20signal%20fields.md)
+- [ground tiles](ground%20tiles.md)

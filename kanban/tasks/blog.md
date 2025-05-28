@@ -1,35 +1,17 @@
 # Description
 
-{{Description}}
-
+Add a blog page to the website
 ## Related Epics
-- [[Identify and write useful templates for obsidian]] 
+- [Website Design](Website%20Design.md)
 ## Requirements
 
-{{Requirements}}
-- High level expecations
-- Acceptance criteria
-- Definition of done
+- nav button for blog directs you to a list of all pages currently hosted on the blog
+- [each](../../docs/Pools/Dynamic/each.md) element on the main blog page shows you a blurb from the blog post
+- clicking the element on the main blog page brings you to the full blog article
 
 ## Tasks 
 
-{{Tasks}}
-
-- [ ] Somthing that needs to be done to accomplish this task
-- [ ] Non exhaustive, suggestive
-- [ ] Represents expected high level steps to meet AC
-## Blocked by 
-
-{{BlockedBy}}
-
-- Can't be worked on till this task is done
-- blocking task
-- blocking task
-
-## Blocks
-
-{{Blocks}}
-
-- This task cannot be done until this one is done.
-- neither can this one
-- or this one
+- [ ] Add blog main template file
+- [ ] Add /blog folder to repo with markdown pages
+- [ ] add blog post template file
+- [ ] Generate html from markdown files and insert them into the template file with proper styling.

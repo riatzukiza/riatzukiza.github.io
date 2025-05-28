@@ -1,35 +1,19 @@
 # Description
 
-{{Description}}
+I wrote a bablyon based 3d gravity simulation using oct trees to cluster together groups of mass. It was pretty well optimized. Move that over here, and write follow on work to upgrade it.
 
 ## Related Epics
-- [[Identify and write useful templates for obsidian]] 
+- [Import other projects](Import%20other%20projects.md)
 ## Requirements
 
-{{Requirements}}
-- High level expecations
-- Acceptance criteria
-- Definition of done
+- Original simulation works
+- Code is hosted on this git
+- The simulation is written in lisp
+- Shows up on [project](../project.md) page
 
 ## Tasks 
 
-{{Tasks}}
-
-- [ ] Somthing that needs to be done to accomplish this task
-- [ ] Non exhaustive, suggestive
-- [ ] Represents expected high level steps to meet AC
-## Blocked by 
-
-{{BlockedBy}}
-
-- Can't be worked on till this task is done
-- blocking task
-- blocking task
-
-## Blocks
-
-{{Blocks}}
-
-- This task cannot be done until this one is done.
-- neither can this one
-- or this one
+- [ ] Test original code and make any changes needed to make it work
+- [ ] Make the code work in this repo
+- [ ] rewrite it in lisp
+- [ ] If it's in the right spot it will show up on [project](../project.md) page automaticly.

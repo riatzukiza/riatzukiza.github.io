@@ -14,7 +14,7 @@ It represents a visual effect in the game, but it is not a part of the simulatio
 Other examples of non unit entities would be like:
 - tile
   - Not selectable, simple, static
-- shadows
+- [shadows](shadows.md)
   - May be a part of a unit, but would be a simple entity.
   - it has a location, and a rendering component,
     but is not meaningful to the simulation.

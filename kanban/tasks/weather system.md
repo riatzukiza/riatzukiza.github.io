@@ -1,35 +1,29 @@
 # Description
 
-{{Description}}
-
+Weather effects how real plants [grow](../../docs/Pools/Dynamic/grow.md), we have an issue now where plants usually [grow](../../docs/Pools/Dynamic/grow.md) uncontrollably, or completely disappear due to consumption by the ants. The plants need a limiting growth factor other than the plants consuming them if they are to be able to [grow](../../docs/Pools/Dynamic/grow.md) enough to not disapear so the ants can actually find them.
 ## Related Epics
-- [[Identify and write useful templates for obsidian]] 
+- [Game Mechanics](Game%20Mechanics.md)
 ## Requirements
 
-{{Requirements}}
-- High level expecations
-- Acceptance criteria
-- Definition of done
+- The weather changes over time in the game
+- There are multiple weather types:
+	- Cloudy
+	- sunny
+	- rainy
+	- snowy
+- There is a temperature system
+- Water accumulates on the ground due to rainfall.
+- Water evaporates in the sun
+- plants use water to [grow](../../docs/Pools/Dynamic/grow.md)
 
 ## Tasks 
 
-{{Tasks}}
-
-- [ ] Somthing that needs to be done to accomplish this task
-- [ ] Non exhaustive, suggestive
-- [ ] Represents expected high level steps to meet AC
+- [ ] Implement water system
+- [ ] Implement evaporation
+- [ ] Implement rainfall
+- [ ] implement lighting system
 ## Blocked by 
 
-{{BlockedBy}}
-
-- Can't be worked on till this task is done
-- blocking task
-- blocking task
-
-## Blocks
-
-{{Blocks}}
-
-- This task cannot be done until this one is done.
-- neither can this one
-- or this one
+- [sprite lighting](sprite%20lighting.md)
+- [ground tiles](ground%20tiles.md)
+- [Water resource](Water%20resource.md)

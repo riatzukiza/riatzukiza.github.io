@@ -4,9 +4,8 @@
   "showLineNumber": true,
   "alwaysUpdateLinks": true,
   "userIgnoreFilters": [
-    "node_modules/",
-    "node_modules/",
-    "node_modules/*"
+    "static/",
+    "node_modules/"
   ],
   "promptDelete": false
 }

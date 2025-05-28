@@ -1,35 +1,18 @@
 # Description
 
-{{Description}}
+Units cast shadows based on the current lighting
 
 ## Related Epics
-- [[Identify and write useful templates for obsidian]] 
+- [Game Mechanics](Game%20Mechanics.md)
+- [Graphics](Graphics.md)
 ## Requirements
 
-{{Requirements}}
-- High level expecations
-- Acceptance criteria
-- Definition of done
+- A visible shadow is casted by all objects in the game based on the current lighting
 
 ## Tasks 
 
-{{Tasks}}
-
-- [ ] Somthing that needs to be done to accomplish this task
-- [ ] Non exhaustive, suggestive
-- [ ] Represents expected high level steps to meet AC
+- [ ] Implement shadow system
 ## Blocked by 
 
-{{BlockedBy}}
-
-- Can't be worked on till this task is done
-- blocking task
-- blocking task
-
-## Blocks
-
-{{Blocks}}
-
-- This task cannot be done until this one is done.
-- neither can this one
-- or this one
+- [sprite lighting](sprite%20lighting.md)
+- [Better sprite rotation](Better%20sprite%20rotation.md)

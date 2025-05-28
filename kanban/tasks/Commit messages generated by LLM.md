@@ -1,35 +1,19 @@
 # Description
 
-{{Description}}
-
+Use ollama to generate commit messages automaticly and automaticly commit the work that is being [done](../done.md)
 ## Related Epics
-- [[Identify and write useful templates for obsidian]] 
+- [devops pipeline](devops%20pipeline.md)
 ## Requirements
 
-{{Requirements}}
-- High level expecations
-- Acceptance criteria
-- Definition of done
+- Whenever a source file is changed, extract the diff and use an LLM to write a commit message
+- Commit the new code
+- Push to current branch
 
 ## Tasks 
 
-{{Tasks}}
-
-- [ ] Somthing that needs to be done to accomplish this task
-- [ ] Non exhaustive, suggestive
-- [ ] Represents expected high level steps to meet AC
-## Blocked by 
-
-{{BlockedBy}}
-
-- Can't be worked on till this task is done
-- blocking task
-- blocking task
-
-## Blocks
-
-{{Blocks}}
-
-- This task cannot be done until this one is done.
-- neither can this one
-- or this one
+- [ ] Write a module for getting file diffs from git
+- [ ] Write a module that accepts diffs and outputs commit messages
+- [ ] Write a module that stages the change for commit 
+- [ ] Write a module that accepts a commit message and commits currently staged code with that message
+- [ ] Write code to push committed code
+- [ ] Write an event handler for src file change events and executes [each](../../docs/Pools/Dynamic/each.md) of the above

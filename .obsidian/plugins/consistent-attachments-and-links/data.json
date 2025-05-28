@@ -12,7 +12,8 @@
     ".git/",
     ".obsidian/",
     "node_modules/",
-    "static/"
+    "static/",
+    "inc/"
   ],
   "moveAttachmentsWithNote": false,
   "showWarning": false,

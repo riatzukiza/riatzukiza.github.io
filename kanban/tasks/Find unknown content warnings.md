@@ -3,5 +3,5 @@ When the compiler runs it shows a bunch of unknown content warnings. I think thi
 
 ## Blocked by
 
-- [[move kit core]]
-- [[Move fork of sibilant into git]]
+- [move kit core](move%20kit%20core.md)
+- [Move fork of sibilant into git](Move%20fork%20of%20sibilant%20into%20git.md)
