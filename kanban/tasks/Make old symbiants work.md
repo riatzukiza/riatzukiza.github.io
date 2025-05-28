@@ -14,3 +14,8 @@ I've made symbiants work by its self before, it should not be hard to get it wor
 
 ## Epics
 - [Move all outside work into the portfolio git](Move%20all%20outside%20work%20into%20the%20portfolio%20git.md)
+
+
+## Blocked by
+- [[move kit core]]
+- 

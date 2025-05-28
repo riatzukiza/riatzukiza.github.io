@@ -20,5 +20,5 @@ Rocks can be harvested for construction materials, resulting in their eventual d
 
 - [unit system](unit%20system.md)
 - [resource mechanics](resource%20mechanics.md)
-- [reverse navigation home](reverse%20navigation%20home.md)
-- [multiple signal fields](multiple%20signal%20fields.md)
+- [Round trip path finding](Round%20trip%20path%20finding.md)
+- [Layered Vector Field System](Layered%20Vector%20Field%20System.md)

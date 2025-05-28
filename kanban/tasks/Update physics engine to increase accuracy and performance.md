@@ -1,3 +1,5 @@
+
+
 # Description
 
 Using symbiants and algae programs as reference, implement physics system in a way that does not alter the previous game state while generating the current one.
@@ -12,9 +14,9 @@ Using symbiants and algae programs as reference, implement physics system in a w
 
 {{Tasks}}
 
-- [ ] Somthing that needs to be [done](../done.md) to accomplish this task
-- [ ] Non exhaustive, suggestive
-- [ ] Represents expected high level steps to meet AC
+  - Consolodate position and velocity into physics
+  - When performing updates, do not mutate the state of the
+last tick. Use two data structures, and swap them out [each](../docs/Pools/Dynamic/each.md) tick.
 ## Blocked by 
 
 {{BlockedBy}}

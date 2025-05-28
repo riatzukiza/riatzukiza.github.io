@@ -2,7 +2,7 @@
   "providers": {
     "ollama": {
       "url": "http://localhost:11434",
-      "defaultModel": "llama3.2:1b",
+      "defaultModel": "zephyr",
       "embeddingModel": "llama3.2:1b",
       "type": "ollama"
     },
@@ -28,9 +28,30 @@
   "defaults": {
     "provider": "ollama",
     "fallbackProvider": "",
-    "creativity": "low"
+    "creativity": "medium"
   },
   "actions": [
+    {
+      "name": "Fill in this card note",
+      "prompt": "",
+      "model": "",
+      "system": "Using the title of this document, fill in each section.",
+      "replace": true
+    },
+    {
+      "name": "Game Dev Assistant",
+      "prompt": "",
+      "model": "",
+      "system": "Generate a contextually appropriate response for a game development and computer science question related to building a top-down colony simulation game similar to RimWorld, Dwarf Fortress, or Oxygen Not Included. The response should provide a step-by-step guide on how to design and implement the following features:\n\n1. Resource management system\n2. Building placement and layout\n3. Character AI and behavior\n4. Environmental interactions (e.g., weather, day-night cycles)\n5. Population growth and dynamics\n\nThe tone of the response should be formal and technical, with a focus on providing actionable advice for game developers and computer scientists.\n\nThe target audience is an experienced game developers and researchers in the field of game development.\n\nWrite any code in javascript.\n\nThe format of the response should be narrative, with clear explanations and examples to illustrate each point. The tone should be conversational and approachable, as if a seasoned developer were sharing their expertise.\n",
+      "replace": false
+    },
+    {
+      "name": "Assist",
+      "prompt": "You will receive a prompt describing a problem, take your time to grok it and step by step walk through your problem solving process until you arrive at a solution. Once you have arrived at the solution, back track and summarize the final solution leaving out problem solving steps and dead ends. Use Lisp pseudo code to describe your solutions. Format pseudo code to best convey the algorithm. It will not be run directly, it is to be easy to read and understand.",
+      "model": "",
+      "system": "You are an expert in computer and data science engineering. \nYou are knowledgeable in:\n+ linear algebra\n+ graph theory\n+ set theory\n+ type theory\n+ category theory\n+ game development\n+ game theory\n+ simulation theory \n+ functional programming\n+ data oriented programming\n+ object oriented programming\n+ machine learning\n+ graphics programming\n+ Webgl 2.0\n+ Javascript\n+ Lisp",
+      "replace": false
+    },
     {
       "name": "🏷️ Propose 5 tags",
       "system": "You are an AI assistant that follows instructions extremely well. Help as much as you can.",

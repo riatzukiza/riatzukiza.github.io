@@ -4,21 +4,55 @@
     "type": "split",
     "children": [
       {
-        "id": "4287a5116e3d7c8f",
+        "id": "4e6b57503275451e",
         "type": "tabs",
         "children": [
           {
-            "id": "02ba21013b3ad7f9",
+            "id": "8f9686408cbdbd84",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "kanban/tasks/Priority management system.md",
+                "file": "kanban/process.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Priority management system"
+              "title": "process"
+            }
+          },
+          {
+            "id": "4a3db340eceaee36",
+            "type": "leaf",
+            "state": {
+              "type": "kanban",
+              "state": {
+                "file": "kanban/board.md",
+                "kanbanViewState": {
+                  "kanban-plugin": "board",
+                  "list-collapse": [
+                    true,
+                    true,
+                    true,
+                    false,
+                    false,
+                    true,
+                    true,
+                    true,
+                    true,
+                    false,
+                    true,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                }
+              },
+              "icon": "lucide-trello",
+              "title": "board"
             }
           }
         ]
@@ -40,7 +74,8 @@
             "state": {
               "type": "file-explorer",
               "state": {
-                "sortOrder": "alphabetical"
+                "sortOrder": "alphabetical",
+                "autoReveal": false
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -79,8 +114,8 @@
             "state": {
               "type": "tagfolder-view",
               "state": {},
-              "icon": "stacked-levels",
-              "title": "Tag Folder"
+              "icon": "lucide-file",
+              "title": "Plugin no longer active"
             }
           }
         ]
@@ -149,20 +184,10 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "docs/readme.md"
+                "file": "kanban/board.md"
               },
               "icon": "lucide-list",
-              "title": "Outline of readme"
-            }
-          },
-          {
-            "id": "e2a001b4aa056449",
-            "type": "leaf",
-            "state": {
-              "type": "todo",
-              "state": {},
-              "icon": "checkmark",
-              "title": "Todo List"
+              "title": "Outline of board"
             }
           },
           {
@@ -180,13 +205,33 @@
             }
           },
           {
-            "id": "0c0c0fb7b7b372b7",
+            "id": "629287df2f1d8462",
             "type": "leaf",
             "state": {
-              "type": "smart-chat-view",
+              "type": "todo",
               "state": {},
               "icon": "lucide-file",
               "title": "Plugin no longer active"
+            }
+          },
+          {
+            "id": "5ff5ed2df8f7125f",
+            "type": "leaf",
+            "state": {
+              "type": "todo",
+              "state": {},
+              "icon": "checkmark",
+              "title": "Todo List"
+            }
+          },
+          {
+            "id": "e5071d2afcf3667b",
+            "type": "leaf",
+            "state": {
+              "type": "code-execute-manage-executors",
+              "state": {},
+              "icon": "command-glyph",
+              "title": "Execution Runtimes"
             }
           }
         ],
@@ -194,7 +239,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 596.5,
+    "width": 295.5,
     "collapsed": true
   },
   "left-ribbon": {
@@ -216,48 +261,100 @@
       "githobs:Manage a github issue": false,
       "webpage-html-export:Export Vault to HTML": false,
       "obisidian-note-linker:Note Linker": false,
-      "smart-connections:Open: View Smart Connections": false,
-      "smart-connections:Open: Smart Chat Conversation": false
+      "smart-second-brain:Open S2B Chat": false
     }
   },
-  "active": "02ba21013b3ad7f9",
+  "floating": {
+    "id": "a0ee3cab6eec7798",
+    "type": "floating",
+    "children": [
+      {
+        "id": "b594e18e8659a52a",
+        "type": "window",
+        "children": [
+          {
+            "id": "80016fb27466e0ce",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "1b0db6fa3d479bd4",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "notes/daily/2025-05-28.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "2025-05-28"
+                }
+              },
+              {
+                "id": "0f040ec98282cd10",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "notes/unique/2025-05-21-06.07.23.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "2025-05-21-06.07.23"
+                }
+              }
+            ]
+          }
+        ],
+        "direction": "vertical",
+        "x": 394,
+        "y": 20,
+        "width": 747,
+        "height": 872,
+        "maximize": true,
+        "zoom": 0
+      }
+    ]
+  },
+  "active": "1b0db6fa3d479bd4",
   "lastOpenFiles": [
-    "kanban/project.md",
-    "kanban/tasks/Priority management system.md",
+    "notes/daily/2025-05-23.md",
+    "notes/daily/2025-05-28.md",
+    "notes/unique/2025-05-22-09.11.08.md",
+    "notes/unique/2025-05-21-06.07.23.md",
+    "kanban/process.md",
     "kanban/board.md",
-    "kanban/tasks/Governor System.md",
-    "kanban/tasks/metabolism system.md",
-    "kanban/tasks/Individual ant neural networks.md",
-    "kanban/tasks/Brain storm new projects.md",
+    "notes/unique/2025-05-22-09.00.02.md",
+    "notes/daily/2025-04-24.md",
+    "kanban/tasks/Process.md",
+    "notes/unique/2025-05-21-06.35.12.md",
+    "notes/unique/2025-05-21-06.07.10.md",
+    "notes/daily/2025-05-21.md",
+    "notes/daily/2025-05-11.md",
+    "kanban/tasks/Threaded game systems.md",
+    "notes/daily/2025-05-08.md",
+    "notes/daily/2025-04-27.md",
+    "notes/daily/2025-04-26.md",
+    "notes/daily/2025-02-05.md",
+    "kanban/tasks/Migrate module system to `imports`.md",
+    "notes/daily/2025-04-17.md",
+    "notes/daily/2025-04-13.md",
+    "notes/daily/2025-04-12.md",
+    "kanban/tasks/Hot reload system.md",
+    "kanban/tasks/BUG Collision doesn't work correctly in some circumstances..md",
+    "notes/daily/2025-04-07.md",
+    "notes/daily/2025-04-06.md",
+    "notes/unique",
+    "Chats",
+    "notes/daily",
+    "notes",
     "static/docs/readme.html",
     "static/docs/_index_of_docs.html",
     "static/docs/shared/_index_of_shared.html",
     "static/docs/shared/ecs/componentsystem/_index_of_componentsystem.html",
     "static/docs/shared/ecs/componentsystem/register.html",
     "static/docs/shared/ecs/component/_index_of_component.html",
-    "static/docs/shared/ecs/component/register.html",
-    "static/docs/shared/ecs/_index_of_ecs.html",
-    "static/docs/shared/ecs/componentsystem.html",
-    "static/docs/shared/ecs/componentsystem",
-    "kanban/process.md",
-    "kanban/done.md",
-    "kanban/tasks/move kit fs.md",
-    "kanban/tasks/move kit core.md",
-    "kanban/tasks/Move fork of sibilant into git.md",
-    "kanban/tasks/Move all outside work into the portfolio git.md",
-    "kanban/tasks/Mirror board to github.md",
-    "kanban/tasks/minimap.md",
-    "kanban/tasks/Mineral Resource.md",
-    "kanban/tasks/Make old symbiants work.md",
-    "kanban/tasks/Make old algage work.md",
-    "kanban/tasks/Intelligent movement commands.md",
-    "kanban/tasks/Import other projects.md",
-    "kanban/tasks/Implement tests for existing shared components..md",
-    "kanban/tasks/Image editor program.md",
-    "kanban/tasks/Identify and write useful templates for obsidian.md",
-    "kanban/tasks/Hot reload system.md",
-    "kanban/tasks/Home page.md",
-    "kanban/tasks/ground tiles.md",
     "Untitled.canvas"
   ]
 }

@@ -20,3 +20,9 @@ The first pass on this will be straightforward using a technology we are very fa
 - The simulation can still be run in the browser.
 - The simulation state also persists if being run in the browser through local storage.
 
+
+## Notes
+
+  - Realizing after adding a toggle for the trail dots that rendering was not what was slowing the sim down
+We have decided to move this out of the todo backlog, as it will not be as much of a value add as we'd 
+have liked. The simulation needs more [Optimizations](tasks/Optimizations.md), and we don't currently have a place to host such an intensive backend.

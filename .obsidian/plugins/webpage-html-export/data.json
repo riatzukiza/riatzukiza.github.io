@@ -2,7 +2,7 @@
   "settingsVersion": "1.8.01",
   "makeOfflineCompatible": true,
   "inlineAssets": false,
-  "includePluginCSS": "obsidian-kanban",
+  "includePluginCSS": "obsidian-kanban\nobsidian-checklist-plugin\nobsidian-tasks-plugin",
   "includeSvelteCSS": true,
   "titleProperty": "title",
   "customHeadContentPath": "",
