@@ -1,11 +1,10 @@
-(require! (lit Spawnable) "@shared/data-structures/spawnable.js"
-          (lit List) "@shared/data-structures/list.js"
-          )
+(import Spawnable "../spawnable.js")
+(import "../list.js")
+
 (define Binary-search-tree  Spawnable
   (init ((key null)
          (parent null)
-         (values (.spawn List))
-         ))
+         (values (.spawn List))))
 
   (gett has-one-child? (or (not this.left) (not this.right)))
   (gett has-two-children? (and this.left this.right))

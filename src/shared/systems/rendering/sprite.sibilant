@@ -1,10 +1,5 @@
-
-
-(include "kit-interface/header")
-(import-namespace interface)
-
-(require! (lit Matrix-map) "@shared/data-structures/maps/matrix.js"
-          (lit uniforms) "@shared/gl.js")
+(import Matrix-map "../../data-structures/maps/matrix.js")
+(import uniforms "../../gl.js")
 
 (define Sprite-interface Component
 

@@ -1,10 +1,9 @@
-(require! (lit Velocity) "@shared/systems/velocity.js")
-(require! (lit Position) "@shared/systems/position.js")
-(require! (lit game) "@obstacles/game.js"
-          (lit plants ants rocks) "@obstacles/entities.js"
-          (lit Vector) "@shared/vectors.js"
-          config "@obstacles/config.js"
-          )
+(import Velocity "/shared/systems/velocity.js")
+(import Position "/shared/systems/position.js")
+(import game "../game.js")
+(import plants ants rocks "../entities.js")
+(import Vector "/shared/vectors.js")
+(import config "../config.js")
 
 (on game.events 'static-object-collision (o1, o2)
 

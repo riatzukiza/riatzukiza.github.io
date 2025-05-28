@@ -1,12 +1,8 @@
 
-(include "kit-interface/header")
-(import-namespace interface)
-(require! (lit Object-pool) "@shared/pooling/object-pool.js"
-          (lit List ) "@shared/data-structures/list.js")
+(import Object-pool "./object-pool.js")
+(import List "../data-structures/list.js")
+(import Interface "../kit/interface/index.js")
 
-(include "../../../inc/docs")
-
-(import-namespace docs)
 (macro collect (name value ...body)
        `(.call (lambda (@name) ...@body @name) this @value))
 
@@ -14,9 +10,9 @@
 
 (define Dynamic-pool Interface
   (bucket-size 256)
-  (init (interface
+  (init (proto
          bucket-size
-         (buckets  (List.of ((create Object-pool) this.bucket-size interface)))))
+         (buckets  (List.of ((create Object-pool) this.bucket-size proto)))))
 
   (gett current this.buckets.head.item)
   (gett size (* this.bucket-size this.buckets.length))
@@ -27,7 +23,7 @@
 
                 "add a new pool bucket, increasing the number of pre constructed objects in the pool.")
 
-    (collect new-pool ((create Object-pool) bucket-size this.interface)
+    (collect new-pool ((create Object-pool) bucket-size this.proto)
              (.unshift buckets new-pool)))
 
   (def-generic adjust (buckets)
@@ -51,7 +47,7 @@ If no existing bucket has free members, the pool is grown and a new bucket is cr
     ;;                                  (used this.used)
     ;;                                  (buckets this.buckets)
     ;;                                  (bucket-size this.bucket-size)
-    ;;                                  (interface this.interface)
+    ;;                                  (proto this.proto)
     ;;                                  ))
 
     (collect object (if (> this.current.free 0)
@@ -104,12 +100,12 @@ If no existing bucket has free members, the pool is grown and a new bucket is cr
     (.clear obj)
     (.release this obj))
 
-  (def register (interface)
+  (def register (proto)
 
        (doc-string 'Pools.Dynamic.register
-                   "interface"
-                   "Associate an interface with a system,and add the system to the collection of all active systems.")
+                   "proto"
+                   "Associate an proto with a system,and add the system to the collection of all active systems.")
 
-    (assign interface.pool this)))
+    (assign proto.pool this)))
 
 (export Dynamic-pool)

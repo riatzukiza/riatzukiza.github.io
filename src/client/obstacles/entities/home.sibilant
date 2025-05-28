@@ -1,12 +1,15 @@
-(require! (lit Dot) "@shared/systems/rendering/dot.js"
-          (lit Position) "@obstacles/systems/position.js"
-          (lit Velocity) "@obstacles/systems/velocity.js"
-          (lit Physics) "@shared/systems/physics/index.js"
-          (lit Collision) "@shared/systems/collision.js"
-          (lit game active-game-systems) "@obstacles/game.js"
-          config "@obstacles/config.js"
-          (lit rgba) "@obstacles/colors.js"
-          )
+
+(import  Dot "/shared/systems/rendering/dot.js")
+(import Physics "/shared/systems/physics.js")
+(import Collision "/shared/systems/collision.js")
+
+(import Position "../systems/position.js")
+(import Velocity "../systems/velocity.js")
+(import game active-game-systems "../game.js")
+(import config "../config.js")
+(import rgba "../colors.js")
+
+
 (def entity (aspects ) (.spawn game.ent aspects ))
 (var home (entity [Dot Position Physics Collision]))
 (var home-pos (.get game.systems Position home))
@@ -33,4 +36,4 @@
 (export home)
 (export home-pos)
 
-(require! (lit Friction Signal-field) "@obstacles/forces.js")
+

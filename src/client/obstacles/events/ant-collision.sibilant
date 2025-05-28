@@ -1,15 +1,15 @@
-(require! (lit Velocity) "@shared/systems/velocity.js")
+(import Velocity "/shared/systems/velocity.js")
 
-(require! (lit Position) "@shared/systems/position.js")
+(import Position "/shared/systems/position.js")
 
-(require! (lit game) "@obstacles/game.js"
-          (lit create-particle-updater) "@shared/field.js"
-          (lit home-pos plants ants rocks) "@obstacles/entities.js"
-          (lit Friction Signal-field) "@obstacles/forces.js"
-          (lit Physics) "@shared/systems/physics/index.js"
-          config "@obstacles/config.js"
+(import game "../game.js")
+(import create-particle-updater "/shared/field.js")
+(import home-pos plants ants rocks "../entities.js")
+(import Friction Signal-field "../forces.js")
+(import Physics "/shared/systems/physics.js")
 
-          )
+(import config "../config.js")
+
 
 (const update-particle (create-particle-updater config game))
 (on game.events 'ant-collision (c c*)

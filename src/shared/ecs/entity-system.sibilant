@@ -1,16 +1,13 @@
-
-(include "kit-interface/header")
-(import-namespace interface)
 (macro accumulate (name ...body) `(assign @name (pipe @name ...@body)))
 
 (require! R "ramda")
 
-(require! (lit Ordered-map) "@shared/data-structures/maps/ordered.js"
-          (lit Dynamic-pool) "@shared/pooling/dynamic-pool.js"
-          (lit Group) "@shared/data-structures/group.js"
-          (lit Entity) "@shared/ecs/entity.js"
-          )
-
+(import Ordered-map "../data-structures/maps/ordered.js")
+(import Dynamic-pool "../pooling/dynamic-pool.js")
+(import Group "../data-structures/group.js")
+(import Entity "./entity.js")
+(import Interface "/shared/kit/interface/index.js")
+(import Saveable "/shared/saveable.js")
 
 (def spawn-component  (entity systems) (#-> systems.get (.spawn  entity)))
 
@@ -19,7 +16,7 @@
 (def remove (entity) (#-> (get 'system) (.clear entity)))
 
 (var clear (#->  .clear))
-(define Entity-system Interface
+(define Entity-system Saveable
   (current-id 0)
   (init (process (pool ((create Dynamic-pool) Entity 256))))
   (gett game this.process)

@@ -1,4 +1,0 @@
-(require! (lit Friction) "@shared/systems/physics/forces/friction.js"
-          (lit Signal-field) "@shared/systems/physics/forces/signal-field.js")
-(export Friction)
-(export Signal-field)

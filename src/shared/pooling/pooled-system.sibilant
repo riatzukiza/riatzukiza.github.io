@@ -1,13 +1,10 @@
+(import Dynamic-pool "./dynamic-pool.js")
+(import Interface "../kit/interface/index.js")
 
-(include "kit-interface/header")
-
-(import-namespace interface)
-
-(require! (lit Dynamic-pool) "@shared/pooling/dynamic-pool.js")
 
 (define  Pooled-system  Interface
-  (init ( interface (*pool ((create Dynamic-pool) interface)))
-        (.register this interface))
+  (init ( Interface (*pool ((create Dynamic-pool) Interface)))
+        (.register this Interface))
 
   (systems (new Map))
 
@@ -29,11 +26,11 @@
        (pipe this.*pool
              (.release obj)))
 
-  (def register (interface)
+  (def register (Interface)
 
-       "Associate an interface with a system,and add the system to the collection of all active systems."
+       "Associate a Interfacetype interface with a system,and add the system to the collection of all active systems."
 
-       (assign interface.system this)
+       (assign Interface.system this)
 
        (.set this.systems this this))
 

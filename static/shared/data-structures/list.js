@@ -1,34 +1,38 @@
-var { 
-  Interface
- } = require("@kit-js/interface");
-var { 
-  List
- } = require("@shared/data-structures/list.js");
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
+
+  return Object.keys(this).forEach(((k) => {
+  	return f(this[k], k);
+  }));
+});
+import '/bundles/external.js';
+import { 
+  mixin,
+  create,
+  extend
+ } from "/shared/kit/core/util.js";
+import { 
+  Spawnable
+ } from "./spawnable.js";
 const emptyNodes=[];
-var Node = Interface.define("Node", { 
+var Node = Spawnable.define("Node", { 
   init( list = this.list,next = this.next,prev = this.prev,item = this.item ){ 
     
       this.list = list;this.next = next;this.prev = prev;this.item = item;
       return this;
     
    },
-  spawn( list,next,prev,item ){ 
-    
-      return (function() {
-        if (emptyNodes.length === 0) {
-          return create(Node)(list, next, prev, item);
-        } else {
-          return emptyNodes.pop().bind(list, next, prev).set(item);
-        }
-      }).call(this);
-    
-   },
-  despawn(  ){ 
+  clear(  ){ 
     
       this.list = null;
       this.next = null;
-      this.prev = null;
-      return emptyNodes.push(this);
+      return this.prev = null;
     
    },
   get isHead(  ){ 
@@ -54,7 +58,7 @@ var Node = Interface.define("Node", {
     
    }
  });
-var List = Interface.define("List", { 
+var List = Spawnable.define("List", { 
   init(  ){ 
     
       
@@ -78,18 +82,27 @@ var List = Interface.define("List", {
     
    },
   from( arrayLike = this.arrayLike,f = ((a) => {
-  	
-    return a;
-  
+  	return a;
   }) ){ 
     
       const list=create(this)();
       arrayLike.each(((e, i) => {
-      	
-        return list.push(f(e));
-      
+      	return list.push(f(e));
       }));
       return list;
+    
+   },
+  clear(  ){ 
+    
+      return (function() {
+        var while$25 = undefined;
+        while (this.length > 0) {
+          while$25 = (function() {
+            return this.pop();
+          }).call(this);
+        };
+        return while$25;
+      }).call(this);
     
    },
   of( ...items ){ 
@@ -123,24 +136,24 @@ var List = Interface.define("List", {
   remove( item ){ 
     
       var node = this.head;
-      var success = false;
-      return (function() {
-        var while$7 = undefined;
-        while (node) {
-          while$7 = (function() {
+      var r = false;
+      (function() {
+        var while$26 = undefined;
+        while ((node && !(r))) {
+          while$26 = (function() {
             return (function() {
               if (node.item !== item) {
-                node = node.next;
-                return false;
+                return node = node.next;
               } else {
-                node = false;
-                return this.removeNode(node).item;
+                node = this.removeNode(node);
+                return r = node.item;
               }
             }).call(this);
           }).call(this);
         };
-        return while$7;
+        return while$26;
       }).call(this);
+      return item;
     
    },
   node( item ){ 
@@ -189,11 +202,9 @@ var List = Interface.define("List", {
    },
   removeNode( node ){ 
     
-      (function() {
-        if (!(node.list === this)) {
-          return false;
-        }
-      }).call(this);
+      if( !(node.list === this) ){ 
+        throw (new Error("node cannot be removed from a list it is not a part of"))
+       };
       (function() {
         if (node === this.head) {
           return this.head = node.next;
@@ -215,7 +226,16 @@ var List = Interface.define("List", {
         }
       }).call(this);
       ((this.length)--);
-      node.despawn();
+      (function() {
+        if (0 > this.length) {
+          throw (new Error("negative length"))
+        }
+      }).call(this);
+      (function() {
+        if (node) {
+          return node.despawn();
+        }
+      }).call(this);
       return node;
     
    },
@@ -229,14 +249,14 @@ var List = Interface.define("List", {
     
       var node = this.head;
       (function() {
-        var while$8 = undefined;
+        var while$27 = undefined;
         while (node) {
-          while$8 = (function() {
+          while$27 = (function() {
             f(node.item, node);
             return node = node.next;
           }).call(this);
         };
-        return while$8;
+        return while$27;
       }).call(this);
       return this;
     
@@ -246,13 +266,13 @@ var List = Interface.define("List", {
       var result = create(List)();
       var node = this.head;
       return (function() {
-        var while$9 = undefined;
+        var while$28 = undefined;
         while (node) {
-          while$9 = (function() {
+          while$28 = (function() {
             return result.push(f(node, node.next, node.prev));
           }).call(this);
         };
-        return while$9;
+        return while$28;
       }).call(this);
     
    },
@@ -262,9 +282,7 @@ var List = Interface.define("List", {
   reduce( f,r ){ 
     
       this.each(((e, i, l) => {
-      	
-        return r = f(r, e, i, l);
-      
+      	return r = f(r, e, i, l);
       }));
       return r;
     
@@ -300,21 +318,30 @@ var List = Interface.define("List", {
       return this;
     
    },
-  rotateUntil( predicate = this.predicate,t = 0 ){ 
+  rotateUntil( predicate = this.predicate ){ 
     
-      const condition=predicate(this.head.item);
-      return (function() {
-        if (condition) {
-          return this.head.item;
-        } else if (t < this.size) {
-          this.rotate();
-          const t_=(t + 1);
-          return this.rotateUntil(predicate, t_);
-        } else {
-          return false;
-        }
+      var r = false;
+      var t = 0;
+      (function() {
+        var while$29 = undefined;
+        while ((!(r) && t < this.size)) {
+          while$29 = (function() {
+            return (function() {
+              if (predicate(this.head.item)) {
+                return r = this.head.item;
+              } else {
+                this.rotate();
+                return ((t)++);
+              }
+            }).call(this);
+          }).call(this);
+        };
+        return while$29;
       }).call(this);
+      return r;
     
    }
  });
-exports.List = List;
+export { 
+  List
+ };

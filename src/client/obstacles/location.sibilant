@@ -1,4 +1,4 @@
-(require! config "@obstacles/config.js")
+(import config "./config.js")
 (def random-location ()
   [(random-signed (first config.dimensions) )
    (random-signed (second config.dimensions) )])

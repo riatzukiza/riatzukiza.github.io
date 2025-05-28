@@ -1,17 +1,12 @@
-(require! (lit Velocity) "@shared/systems/velocity.js")
-(require! (lit Position) "@shared/systems/position.js")
-(require! (lit game) "@obstacles/game.js"
-          config "@obstacles/config.js"
-          (lit Physics) "@shared/systems/physics/system.js"
-          (lit create-particle-updater) "@shared/field.js"
-
-          (lit   next-spawn spawn-ant ants
-                home home-pos next-spawn plants rocks spawn-plant spawn-rock rock-gen-step )
-          "@obstacles/entities.js"
-
-          (lit random-location) "@obstacles/location.js"
-          )
-
+(import Velocity "/shared/systems/velocity.js")
+(import Position "/shared/systems/position.js")
+(import game "../game.js")
+(import config "../config.js")
+(import Physics "/shared/systems/physics/system.js")
+(import create-particle-updater "/shared/field.js")
+(import next-spawn spawn-ant ants home home-pos  plants rocks
+        spawn-plant spawn-rock rock-gen-step "../entities.js")
+(import random-location "../location.js")
 
 (const update-particle (create-particle-updater config game))
 

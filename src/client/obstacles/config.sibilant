@@ -1,7 +1,9 @@
 (namespace vector-ants)
+(import Interface "/shared/kit/interface/index.js")
 (const dim      [(* 0.8 window.innerWidth), (- window.innerHeight 3)])
 (const size 1)
-(set module.exports
+(const config {})
+(set config 
      'size size
      'ui-polling-rate 10
      'trail-resolution 5
@@ -45,5 +47,6 @@
      'loss-factor 30
      'punish-loosers true
      'step-wise-update true
-     'game-speed 1
-     )
+     'game-speed 1)
+
+(export config)

@@ -1,8 +1,5 @@
-(namespace shared)
-(include "kit-interface/header")
-(import-namespace interface)
-(import-namespace misc)
-(require! (lit List) "@shared/data-structures/list.js")
+(import  List "../list.js")
+(import Interface "../../kit/interface/index.js")
 
 (define Ordered-map Interface
   (init ((*members (new Map))
@@ -38,7 +35,7 @@
     ;; this could be optimized with node based operations.
     (collect r ((create Ordered-map))
              (each *values (item node)
-                   (.set r node.key (f item node.key r)))))
+                   (.set r node.key (callback item node.key r)))))
 
 
   (def-generic *delete (key *members  *values )

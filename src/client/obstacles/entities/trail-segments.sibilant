@@ -1,15 +1,17 @@
 
-(require! (lit Trail-dots) "@obstacles/systems/ants/trail-dots.js"
-          (lit Decaying-trails) "@obstacles/systems/ants/trail-segments.js"
-          (lit Position) "@obstacles/systems/position.js"
-          (lit Velocity) "@obstacles/systems/velocity.js"
-          (lit Physics) "@shared/systems/physics/index.js"
-          (lit Component System Entity-group) "@shared/ecs.js"
-          (lit rgba) "@obstacles/colors.js"
-          (lit Collision place-entity) "@shared/systems/collision.js"
-          (lit game active-game-systems) "@obstacles/game.js"
-          (lit Trails-panel) "@obstacles/systems/ants/trail-panel.js"
-          config "@obstacles/config.js")
+(import Trail-dots "/client/obstacles/systems/ants/trail-dots.js")
+(import Decaying-trails "/client/obstacles/systems/ants/trail-segments.js")
+(import Position "/client/obstacles/systems/position.js")
+(import Velocity "/client/obstacles/systems/velocity.js")
+(import Physics "/shared/systems/physics.js")
+(import Component System Entity-group "/shared/ecs.js")
+(import rgba "/client/obstacles/colors.js")
+(import Collision place-entity "/shared/systems/collision.js")
+(import game active-game-systems "/client/obstacles/game.js")
+(import Trails-panel "/client/obstacles/systems/ants/trail-panel.js")
+(import config "/client/obstacles/config.js")
+
+(import Friction  "/client/obstacles/forces.js")
 
 
 (const systems [Position Trail-dots  Decaying-trails Trails-panel])
@@ -17,7 +19,7 @@
              "Trail segments"
              systems
              game.ent))
-(export trail-segments)
+(def get-trail-segments () trail-segments)
 
 (def spawn-ant-trail-segment (ant )
   (doc-string "obstacles.entities.trail-segment.spawn-trail-segment"
@@ -54,4 +56,3 @@
 (export spawn-ant-trail-segment)
 
 
-(require! (lit Friction Signal-field) "@obstacles/forces.js")

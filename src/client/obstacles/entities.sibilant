@@ -1,23 +1,16 @@
 (namespace vector-ants)
-(include "kit/header" )
-(import-namespace kit)
-
-(include "kit-interface/header")
-(import-namespace interface)
-(include "../../../inc/rand.sibilant")
 
 (set global 'mixin mixin 'create create)
 
 
-(require! (lit rocks spawn-rock rock-gen-step) "@obstacles/entities/rocks.js"
-          (lit ants spawn-ant clear-ants) "@obstacles/entities/ants.js"
-          (lit plants spawn-plant) "@obstacles/entities/plants.js"
-          (lit trail-segments spawn-ant-trail-segment) "@obstacles/entities/trail-segments.js"
-          (lit home home-pos) "@obstacles/entities/home.js"
-          config "@obstacles/config.js")
+(import rocks spawn-rock rock-gen-step "/client/obstacles/entities/rocks.js")
+(import ants spawn-ant clear-ants "/client/obstacles/entities/ants.js")
+(import plants spawn-plant "/client/obstacles/entities/plants.js")
+(import trail-segments spawn-ant-trail-segment "/client/obstacles/entities/trail-segments.js")
+(import home home-pos "/client/obstacles/entities/home.js")
+(import config "/client/obstacles/config.js")
 
 (var clear (#->  .clear))
-
 
 (var next-spawn-time 0)
 
@@ -26,11 +19,9 @@
                     (when (and (> next-spawn-time (/ 1000 config.spawn-rate))
                                (<= ants.group.size config.ant-limit))
                       (spawn-ant [home-pos.x home-pos.y] home)
-                      (assign next-spawn-time 0)
-                      )))
+                      (assign next-spawn-time 0))))
 
 (export next-spawn)
-
 
 (export rock-gen-step)
 (export spawn-rock)
@@ -43,7 +34,7 @@
 
 (export home)
 (export home-pos)
+
 (export clear-ants)
 (export trail-segments)
 (export spawn-ant-trail-segment)
-

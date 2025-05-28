@@ -1,8 +1,5 @@
 
-(include "kit-interface/header")
-(import-namespace interface)
-
-(require! (lit Ordered-map) "@shared/data-structures/maps/ordered.js")
+(require! (lit Ordered-map) "./ordered.js")
 
 (def-interface Ordered-bucket-map ((*buckets ((create Ordered-map))))
 

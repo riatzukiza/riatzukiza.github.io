@@ -3,17 +3,26 @@
 (import-namespace markup)
 (import-namespace interface)
 (import-namespace async)
+
+(require! (lit (js beautify))  "js-beautify"
+          'browserify)
+
+(var compiler (.spawn Compiler))
+(var evaluator (.spawn Evaluator))
+
+(const main-bundles (new Map))
+(const lib-bundles (new Map))
+(const bundles (new Map))
 (macro try! (...body)
        (const last (.pop body))
        ["try " `(block ...@(interleave ";\n" body)) last])
 (macro catch! (...body)
        ["catch(e) " `(block ...@(interleave ";\n" body))])
+(macro then-once (emitter event-name)
+       `(new Promise (=> (resolve reject)
+                         (once @emitter @event-name (data)
+                               (resolve data)))))
 
-
-(var compiler (.spawn Compiler))
-(var evaluator (.spawn Evaluator))
-(require! (lit (js beautify))  "js-beautify"
-          'browserify)
 
 (.on compiler 'error (aprint "compiler:error"))
 (.on evaluator 'error (aprint "evaluator:error"))
@@ -21,161 +30,18 @@
 (def js-target-path (src-path) (+ (strip-sibilant-extension src-path) ".js"))
 
 (def strip-sibilant-extension (path)
-     (Path.join
-      (Path.dirname path)
-      (Path.basename path ".sibilant")))
+  (Path.join
+   (Path.dirname path)
+   (Path.basename path ".sibilant")))
+(include "./bundle-shared.sibilant"
+         "./bundle.sibilant"
+         "./bundle-external.sibilant"
+         "./compile-html.sibilant"
+         "./compile-module.sibilant"
+         "./compile-client-module.sibilant"
+         )
 
 
 
-(const main-bundles (new Map))
-(const lib-bundles (new Map))
-(const bundles (new Map))
-(def-async bundle-shared (file dest compile?)
-
-  (var bundle (remember lib-bundles file.rel
-                        (var b (browserify (lit (basedir (Path.dirname file.rel)))))
-
-                        (.require b file.path (lit (expose (Path.join "@shared" file.rel))))
-                        b))
-
-  (when compile?
-    (each lib-bundles (b path)
-          (each lib-bundles (b* path*)
-                (unless (= path path*)
-                  (.external b (Path.join "@shared" path*)))))
-
-    (pipe (.insert dest file.rel)
-          (.then (=> (dest-file)
-
-                     (var reader (.bundle bundle))
-                     (var writer dest-file.write-stream)
-
-                     (make-promise
-                      (.on reader 'error fail)
-                      (.on writer 'finish success)
-                      (.on writer 'error fail)
-                      (.pipe reader writer))))
-          (.then (-> (print "done bundling shared module" file.path (Path.join dest.root file.rel))))
-          (.catch (=> (e)
-                      (print "An error has occured in compiling a shared module"
-                              file.path
-                              e
-                              )
-                      (.delete lib-bundles file.rel)
-                      ) ))))
-
-(def-async bundle (file dest compile?)
-
-  (var bundle (remember (if (= (Path.basename file.path) "main.js") main-bundles
-                            bundles) file.rel
-                            (var b (browserify ))
-
-                            (each lib-bundles (_b path)
-                                  (var shared-path (Path.join "@shared" path))
-
-                                  (.external b  shared-path ))
-
-                            (if (= (Path.basename file.path) "main.js")
-                                (do ;; (print "main bundle" file.path  )
-                                    (.add b file.path))
-                                (do
-                                 (const exposed-name (+ "@" file.rel))
-                                 ;; (print "application dependency" file.path "as" exposed-name)
-                                  (.require b file.path (lit (expose exposed-name))))) b))
 
 
-  (when compile?
-    (each lib-bundles (b path)
-          (.external bundle (Path.join "@shared" path)))
-
-    (each bundles (b path)
-          (each bundles (b* path*)
-                (unless (= path path*)
-
-                  (const bundle-name (+ "@" path*))
-                  ;; (print "adding" bundle-name "to" path "bundle")
-                  (.external b bundle-name)))
-          (each main-bundles (main-bundle main-path)
-                (const bundle-name (+ "@" path))
-                ;; (print "adding" bundle-name "to" main-path "bundle")
-                (.external main-bundle bundle-name)))
-
-
-    (pipe (.insert dest file.rel)
-          (.then
-           (=> (dest-file)
-               (var reader (.bundle bundle))
-               (var writer dest-file.write-stream)
-
-               (make-promise
-                (.on reader 'error fail)
-                (.on writer 'finish success)
-                (.on writer 'error fail)
-                (.pipe reader writer))))
-          (.then (-> (print "done bundling project module" file.path (Path.join dest.root file.rel))))
-          (.catch (=> (e)
-
-                      (print "an exception has occured in the module bunler"
-                             file.path
-                             e)
-
-                      (if (= (Path.basename file.rel) "main.js")
-                          (.delete main-bundles file.rel)
-                          (.delete bundles file.rel)
-                          ))))))
-
-(def-async compile-module (file dest)
-
-  ;; (print "compiling module" file.path "for" (Path.join dest.root file.rel))
-
-  (try!
-
-   (var lisp (await file.string))
-   (var js (await (.send compiler (+ "(include \"./inc/docs.sibilant\")"
-                                     "(include \"./inc/misc.sibilant\")"
-                                     "(import-namespace misc)"
-                                     "(import-namespace docs)"
-
-                                     "(meta (assign sibilant.dir \"" (Path.dirname file.path) "\" ) null)"
-                                     lisp))))
-   (await (.send compiler "(meta (assign sibilant.dir \".\") null)"))
-
-   (var dest-path (+  (strip-sibilant-extension file.rel ) ".js"))
-
-   (await (.insert dest dest-path ))
-   (await (.set dest dest-path js))
-   (print "compiled project module" file.path)
-   (catch!
-    (print "An error has occured in compiling a module"
-           file.path)
-    (print e)))
-  null
-  )
-
-
-(macro then-once (emitter event-name)
-       `(new Promise (=> (resolve reject)
-                         (once @emitter @event-name (data)
-                               (resolve data)))))
-(def-async compile-html (file dest)
-
-  (try!
-
-   (var js (await file.string))
-
-   ;; (print "compiling html template" file.path "for" (Path.join dest.root file.rel))
-   (var result (eval js))
-
-   (var dest-file (await (.insert dest (+ (Path.join
-                                           (Path.dirname file.rel)
-                                           (Path.basename file.rel ".js")) ".html"))))
-   (await (.render result dest-file.write-stream))
-   (print "compiled html" file.path dest)
-   (catch!
-    (print "An error has occured in compiling an html template"
-           file.path)
-    (print e))
-   )
-  null
-
-  )

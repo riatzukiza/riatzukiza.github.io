@@ -1,14 +1,10 @@
 (namespace obstacles)
-(require! (lit Time-limit Timer) "@obstacles/systems/timer.js"
 
-          (lit Red-black-tree) "@shared/data-structures/trees/red-black-tree.js"
-          (lit rgba) "@obstacles/colors.js"
-          config "@obstacles/config.js"
-          )
+(import Time-limit Timer "/client/obstacles/systems/timer.js")
 
-(include "../../../../../inc/dom.sibilant")
-(import-namespace dom)
-
+(import Red-black-tree "/shared/data-structures/trees/red-black-tree.js")
+(import rgba "/client/obstacles/colors.js")
+(import config "/client/obstacles/config.js")
 
 (def-generic display-decimal (d (n 6)) (/ (Math.round (* (Math.pow 10 n) d)) (Math.pow 10 n)))
 
@@ -35,7 +31,7 @@
           (.div "triggered?" (-> (+ "" this.triggered)))
           (.div "started at" (-> this.created-at))))
 
-  (gett seg-group (get (require "@obstacles/entities/trail-segments.js") 'trail-segments))
+  (gett seg-group (get (require "/obstacles/entities/trail-segments.js") 'trail-segments))
   (def callback (entity c)
     (.delete entity.ant.ant-trail.segments entity)
     (.despawn entity.group entity))

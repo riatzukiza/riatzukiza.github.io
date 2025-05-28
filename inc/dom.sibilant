@@ -35,4 +35,4 @@
                                         (dom @node))))
                 ] ",\n")
   )
-(require! (lit render-children create-document-node Document-node Document-body Document-head Document-root) "@shared/dom.js")
+(import  render-children create-document-node Document-node Document-body Document-head Document-root "/shared/dom.js")

@@ -1,24 +1,15 @@
+(require! Quad-tree  "@timohausmann/quadtree-js")
 
-(include "kit/header")
-(import-namespace kit)
+(import Component System "../ecs.js")
+(import Physics "./physics.js")
+(import Vector "../vectors.js")
+(import Trie "../data-structures/trees/trie.js")
+(import List "../data-structures/list.js")
+(import Dynamic-pool "../pooling/dynamic-pool.js")
+(import Pooled-data-structure "../data-structures/pooled.js")
 
-
-(include "kit-interface/header")
-(import-namespace interface)
 
 (def-lit-macro def-curried (name args ...body) `(property @name (R.curry (lambda @args ...@body))))
-
-(require! (lit Component System) "@shared/ecs.js"
-          (lit Physics) "@shared/systems/physics/system.js"
-          (lit Vector) "@shared/vectors.js"
-          (lit Trie) "@shared/data-structures/trees/trie.js"
-          Quad-tree  "@timohausmann/quadtree-js")
-
-(require! (lit List) "@shared/data-structures/list.js"
-          (lit Dynamic-pool) "@shared/pooling/dynamic-pool.js"
-          (lit Pooled-data-structure) "@shared/data-structures/pooled.js")
-
-
 ;; (define Bounding-box Pooled-data-structure
 ;;   (init (x y height width)))
 
@@ -84,7 +75,7 @@
 
 (define Collision System
 
-  (interface Collision-bounds)
+  (Component Collision-bounds)
 
 
   (def-generic set-bounds ((height 100) (width 100)

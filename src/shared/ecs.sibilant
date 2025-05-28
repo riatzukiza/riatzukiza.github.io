@@ -1,8 +1,9 @@
-(require! (lit System) "@shared/ecs/component-system.js"
-          (lit Component) "@shared/ecs/component.js"
-          (lit Entity) "@shared/ecs/entity.js"
-          (lit Entity-group) "@shared/ecs/entity-group.js"
-          (lit Entity-system) "@shared/ecs/entity-system.js")
+(import System "./ecs/component-system.js")
+(import Component "./ecs/component.js")
+(import Entity "./ecs/entity.js")
+(import Entity-group "./ecs/entity-group.js")
+(import Entity-system "./ecs/entity-system.js")
+
 (export System)
 (export Component)
 (export Entity)

@@ -7,4 +7,5 @@
 
         (indent (apply ^do body))
         "\n}"])
+
 (macro await (value) ["await " value])

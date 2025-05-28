@@ -1,14 +1,33 @@
-var { 
-  Interface
- } = require("@kit-js/interface");
-var { 
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
+
+  return Object.keys(this).forEach(((k) => {
+  	return f(this[k], k);
+  }));
+});
+import '/bundles/external.js';
+import { 
+  mixin,
+  create,
+  extend
+ } from "/shared/kit/core/util.js";
+import { 
   DynamicPool
- } = require("@shared/pooling/dynamic-pool.js");
+ } from "./dynamic-pool.js";
+import { 
+  Interface
+ } from "../kit/interface/index.js";
 var PooledSystem = Interface.define("PooledSystem", { 
-  init( interface = this.interface,_pool = create(DynamicPool)(interface) ){ 
+  init( Interface = this.Interface,_pool = create(DynamicPool)(Interface) ){ 
     
-      this.interface = interface;this._pool = _pool;
-      this.register(interface);
+      this.Interface = Interface;this._pool = _pool;
+      this.register(Interface);
       return this;
     
    },
@@ -23,7 +42,7 @@ var PooledSystem = Interface.define("PooledSystem", {
     
       "aquire an object from the systems pool, and initialize it.";
       return (function(r) {
-        /* eval.sibilant:1:381 */
+        /* eval.sibilant:2:327 */
       
         r.init(...args);
         return r;
@@ -37,10 +56,10 @@ var PooledSystem = Interface.define("PooledSystem", {
       return this._pool.release(obj);
     
    },
-  register( interface ){ 
+  register( Interface ){ 
     
-      "Associate an interface with a system,and add the system to the collection of all active systems.";
-      interface.system = this;
+      "Associate a Interfacetype interface with a system,and add the system to the collection of all active systems.";
+      Interface.system = this;
       return this.systems.set(this, this);
     
    },
@@ -48,11 +67,11 @@ var PooledSystem = Interface.define("PooledSystem", {
     
       "update every active member of the system";
       return this._pool._inUse.each(((member) => {
-      	
-        return member.update();
-      
+      	return member.update();
       }));
     
    }
  });
-exports.PooledSystem = PooledSystem;
+export { 
+  PooledSystem
+ };

@@ -1,5 +1,0 @@
-(require! (lit Physics) "./system.js"
-          forces "./forces/index.js")
-
-(export Physics)
-(export forces)

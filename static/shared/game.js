@@ -1,28 +1,70 @@
-var { 
-  Interface
- } = require("@kit-js/interface");
-var { 
+Array.prototype.each = (function Array$prototype$each$(f) {
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
+
+  this.forEach(f);
+  return this;
+});
+Object.prototype.each = (function Object$prototype$each$(f) {
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
+
+  return Object.keys(this).forEach(((k) => {
+  	return f(this[k], k);
+  }));
+});
+import '/bundles/external.js';
+import { 
+  mixin,
+  create,
+  extend
+ } from "/shared/kit/core/util.js";
+import { 
   EntitySystem
- } = require("@shared/ecs.js"),
-    { 
+ } from "./ecs.js";
+import { 
   EventEmitter
- } = require("kit-events"),
-    { 
+ } from "./kit/events/index.js";
+import { 
   Ticker
- } = require("@shared/ticker.js"),
-    { 
+ } from "./ticker.js";
+import { 
   OrderedMap
- } = require("@shared/data-structures/maps/ordered.js");
-var Game = Interface.define("Game", { 
-  init( config = this.config,rendering = this.rendering,systemTypes = [],gameSpeed = 1,entities = create(EntitySystem)(this),events = create(EventEmitter)(),ticker = create(Ticker)((gameSpeed * 60), events),systems = create(OrderedMap)() ){ 
+ } from "./data-structures/maps/ordered.js";
+import { 
+  Interface
+ } from "./kit/interface/index.js";
+import { 
+  Saveable
+ } from "/shared/saveable.js";
+import { 
+  Rendering
+ } from "/shared/systems/rendering/rendering.js";
+var Game = Saveable.define("Game", { 
+  init( config = this.config,systemTypes = [],gameSpeed = 1,units = [],entityGroups = [],entities = create(EntitySystem)(this),ticker = create(Ticker)((gameSpeed * 60)),systems = create(OrderedMap)() ){ 
     
-      this.config = config;this.rendering = rendering;this.systemTypes = systemTypes;this.gameSpeed = gameSpeed;this.entities = entities;this.events = events;this.ticker = ticker;this.systems = systems;
+      this.config = config;this.systemTypes = systemTypes;this.gameSpeed = gameSpeed;this.units = units;this.entityGroups = entityGroups;this.entities = entities;this.ticker = ticker;this.systems = systems;
+      this.register();
+      return this;
+    
+   },
+  register( systems = this.systems,systemTypes = this.systemTypes,config = this.config ){ 
+    
+      this.rendering = Rendering.load({ 
+        dimensions:[ (1 * config.dimensions[0]), (1 * config.dimensions[1]) ],
+        blend:true
+       });
+      this.rendering.backgroundColor = { 
+        r:0,
+        g:0,
+        b:0,
+        a:255
+       };
       var getSystemBySymbol = systems.get,
           setSystemBySymbol = systems.set;
-      systems.get = (function systems$get$(interface, ent) {
-        /* systems.get eval.sibilant:1:770 */
+      systems.getBySymbol = getSystemBySymbol;
+      systems.get = (function systems$get$(proto, ent) {
+        /* systems.get eval.sibilant:2:1367 */
       
-        var sys = getSystemBySymbol.call(systems, interface.symbol);
+        var sys = getSystemBySymbol.call(systems, proto.symbol);
         return (function() {
           if (ent) {
             return sys.get(ent);
@@ -31,15 +73,9 @@ var Game = Interface.define("Game", {
           }
         }).call(this);
       });
-      systemTypes.each(((s) => {
-      	
-        console.log("creating system", s);
-        return systems.push([ s.symbol, create(s)(this) ]);
-      
+      return systemTypes.each(((s) => {
+      	return systems.push([ s.symbol, create(s)(this) ]);
       }));
-      console.log("done creating systems", this.systems);
-      this.systems.push([ rendering.symbol, rendering ]);
-      return this;
     
    },
   get ent(  ){ 
@@ -57,6 +93,11 @@ var Game = Interface.define("Game", {
       return this;
     
    },
+  get events(  ){ 
+    
+      return Ticker.events;
+    
+   },
   add( s = this.s,systems = this.systems,game = this.game ){ 
     
       return systems.push([ s.symbol, create(s)(this) ]);
@@ -64,21 +105,18 @@ var Game = Interface.define("Game", {
    },
   start( systems = this.systems,events = this.events,ticker = this.ticker,rendering = this.rendering ){ 
     
-      this.stop();
       ticker.start();
+      events.emit("start", this);
       return events.on("tick", ((t) => {
-      	
-        return systems.each((function() {
-          /* eval.sibilant:1:1509 */
-        
-          return arguments[0].update();
-        }));
+      	systems.each((function() {
+        /* eval.sibilant:2:1954 */
       
+        return arguments[0].update();
+      }));
+      return rendering.update();
       })).once("error", ((err) => {
-      	
-        console.log("error on", "tick", "of", "events", "given", "t()");
-        return console.log(err);
-      
+      	console.log("error on", "tick", "of", "events", "given", "t()");
+      return console.log(err);
       }));
     
    },
@@ -94,11 +132,13 @@ var Game = Interface.define("Game", {
       entities.clear();
       events.removeAllListeners();
       return systems.each((function() {
-        /* eval.sibilant:1:1788 */
+        /* eval.sibilant:2:2272 */
       
         return arguments[0].clear();
       }));
     
    }
  });
-exports.Game = Game;
+export { 
+  Game
+ };

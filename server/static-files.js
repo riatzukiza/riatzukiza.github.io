@@ -1,16 +1,14 @@
 Array.prototype.each = (function Array$prototype$each$(f) {
-  /* Array.prototype.each inc/misc.sibilant:1:1121 */
+  /* Array.prototype.each inc/misc.sibilant:1:1831 */
 
   this.forEach(f);
   return this;
 });
 Object.prototype.each = (function Object$prototype$each$(f) {
-  /* Object.prototype.each inc/misc.sibilant:1:1183 */
+  /* Object.prototype.each inc/misc.sibilant:1:1893 */
 
   return Object.keys(this).forEach(((k) => {
-  	
-    return f(this[k], k);
-  
+  	return f(this[k], k);
   }));
 });
 var R = require("ramda");
@@ -25,15 +23,17 @@ var {
 var mimeTypes = require("mime-types"),
     Path = require("path");
 var serveStaticFiles = (function serveStaticFiles$(sys) {
-  /* serve-static-files eval.sibilant:1:341 */
+  /* serve-static-files eval.sibilant:1:574 */
 
-  return async function serve({ 
-    request,
-    response,
-    route,
-    key
-   }){
+  var serve = (function serve$(message) {
+    /* serve eval.sibilant:1:609 */
   
+    const { 
+      request,
+      response,
+      route,
+      key
+     }=message;
     var path = (function() {
       if (key[0] === "") {
         return "./";
@@ -47,22 +47,24 @@ var serveStaticFiles = (function serveStaticFiles$(sys) {
     }).call(this);
     console.log("serving path", path);
     var serveFile = (function serveFile$(file) {
-      /* serve-file eval.sibilant:1:647 */
+      /* serve-file eval.sibilant:1:908 */
     
       var ext = Path.extname(file.path),
           mime = mimeTypes.lookup(ext);
       console.log("serving static file", file.path);
       response.setHeader("Content-Type", mime);
+      response.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+      response.setHeader("Cross-Origin-Embedder-Policy", "credentialless");
       return file.readStream.pipe(response);
     });
     var serveDirectory = (function serveDirectory$(index) {
-      /* serve-directory eval.sibilant:1:902 */
+      /* serve-directory eval.sibilant:1:1318 */
     
       console.log("serving directory");
       return response.end("directory");
     });
     var handleDirectory = (function handleDirectory$(file) {
-      /* handle-directory eval.sibilant:1:1009 */
+      /* handle-directory eval.sibilant:1:1425 */
     
       return file.get("index.html").then(serveFile).catch((() => {
       	
@@ -87,7 +89,7 @@ var serveStaticFiles = (function serveStaticFiles$(sys) {
       return response.end();
     
     }));
-  
-  };
+  });
+  return serve;
 });
 exports.serveStaticFiles = serveStaticFiles;

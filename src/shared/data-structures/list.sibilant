@@ -1,5 +1,5 @@
 (namespace shared)
-(require! (lit Spawnable) "@shared/data-structures/spawnable.js")
+(import Spawnable "./spawnable.js")
 
 (const empty-nodes [])
 (define Node Spawnable
@@ -46,8 +46,7 @@
           (do 
               (assign node (.remove-node this node))
               (assign r node.item))))
-    (return item)
-    )
+    (return item))
 
   (def node (item) (.spawn Node this  null null item))
 

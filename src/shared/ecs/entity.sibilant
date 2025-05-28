@@ -1,13 +1,14 @@
 
-(include "kit-interface/header")
-(import-namespace interface)
 (macro accumulate (name ...body) `(assign @name (pipe @name ...@body)))
 
 (require! R "ramda")
 
-(require! (lit Ordered-map) "@shared/data-structures/maps/ordered.js"
-          (lit Dynamic-pool) "@shared/pooling/dynamic-pool.js"
-          (lit Group) "@shared/data-structures/group.js")
+(import Ordered-map "../data-structures/maps/ordered.js")
+(import Dynamic-pool "../pooling/dynamic-pool.js")
+(import Group "../data-structures/group.js")
+(import Interface "/shared/kit/interface/index.js")
+
+(import Saveable "/shared/saveable.js")
 
 
 (def spawn-component  (entity systems) (#-> systems.get (.spawn  entity)))
@@ -17,7 +18,7 @@
 (def remove (entity) (#-> (get 'system) (.clear entity)))
 
 (var clear (#->  .clear))
-(define Entity Interface
+(define Entity Saveable
 
   (doc "used as a key to retrieve related components from different systems.")
 
@@ -41,7 +42,7 @@
         (.release c.system c)
         (assign c.entity null)
         )
-  (assign this.components [])
+  (assign this.components.length 0)
   (assign this.id null))
 
 (export Entity)

@@ -15,5 +15,19 @@
 (mixin [Andy.Gl Andy.Color] Andy)
 (var (lit Buffer Program Shader Attribute Type Context Uniform) Gl
      (lit Blend-mode) Color)
+(def-lit-macro dots (obj)
+  ["..." obj]
+  )
 
-(assign module.exports Andy)
+(export Andy
+        Buffer
+        Color
+        ubyte
+        Gl
+        Type
+        Program
+        Shader
+        Attribute
+        Context
+        Uniform
+        Blend-mode)

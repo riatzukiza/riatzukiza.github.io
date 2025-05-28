@@ -1,10 +1,8 @@
 (namespace obstacles)
-(require! (lit Component System) "@shared/ecs.js"
-          config "@obstacles/config.js"
-          )
 
-(include "../../../../inc/dom.sibilant")
-(import-namespace dom)
+(import Component System "/shared/ecs.js")
+(import config "/client/obstacles/config.js")
+(import debug-view  "/client/obstacles/dom.js" )
 
 (def-generic display-decimal (d (n 6)) (/ (Math.round (* (Math.pow 10 n) d)) (Math.pow 10 n)))
 (macro cache (m k ...body)
@@ -37,7 +35,7 @@
 
   (gett hidden (= this.view.style.display "none"))
   (gett pages (Math.ceil (/  this.components.length this.page-size)))
-  (gett debug-view (get (require "@obstacles/dom.js") 'debug-view))
+  (gett debug-view debug-view)
 
   (def register ()
 

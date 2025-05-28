@@ -1,18 +1,15 @@
 
-(include "kit-interface/header")
-(import-namespace interface)
-(include "../../../inc/docs.sibilant")
-
-(import-namespace docs)
 (macro accumulate (name ...body) `(assign @name (pipe @name ...@body)))
 
 (require! R "ramda")
 
-(require! (lit Ordered-map) "@shared/data-structures/maps/ordered.js"
-          (lit Dynamic-pool) "@shared/pooling/dynamic-pool.js"
-          (lit Component) "@shared/ecs/component.js"
-          (lit Group) "@shared/data-structures/group.js"
-          )
+(import Ordered-map "../data-structures/maps/ordered.js")
+(import Dynamic-pool "../pooling/dynamic-pool.js")
+(import Group "../data-structures/group.js")
+(import Component "./component.js")
+(import Interface "../kit/interface/index.js")
+
+(import Saveable "/shared/saveable.js")
 
 
 (def spawn-component  (entity systems) (#-> systems.get (.spawn  entity)))
@@ -22,11 +19,11 @@
 (def remove (entity) (#-> (get 'system) (.clear entity)))
 
 (var clear (#->  .clear))
-(define System Interface
+(define System Saveable
   (doc-string "Shared.ecs.ComponentSystem"
-              "(process interface
+              "(process Component
                  (components ((create Ordered-map)))
-                 (pool ((create Dynamic-pool)  interface))
+                 (pool ((create Dynamic-pool)  Component))
                  (thread (Promise.resolve)))"
               "An Abstract interface for defining game systems."
               "By default updates its components every tick."
@@ -34,7 +31,6 @@
               "Requires an" (pre *update-component) "implementation"
               "Optionally accepts" (pre *prepare) "and" (pre *cleanup) "methods"
               )
-  (interface Component)
   (def register ()
     (doc-string "Shared.ecs.ComponentSystem.register"
                 "no args"
@@ -51,14 +47,13 @@
                    (def register ()
 
                      (assign this.needed-thing [])
-                     (do-times 10 (.push this.needed-thing (Math.random)))
-                     )
-                   ))
-                )
-    )
-  (init (process interface
+                     (do-times 10 (.push this.needed-thing (Math.random))))))))
+
+
+  (Component Component)
+  (init (process Component
                  (components ((create Ordered-map)))
-                 (pool ((create Dynamic-pool)  interface))
+                 (pool ((create Dynamic-pool)  Component))
                  (thread (Promise.resolve)))
         (.register this))
 

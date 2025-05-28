@@ -1,17 +1,12 @@
 
-(require! (lit Component System) "@shared/ecs.js"
-          ;; (lit Binary-search-tree) "@shared/data-structures/trees/binary-search-tree.js"
-          (lit Red-black-tree) "@shared/data-structures/trees/red-black-tree.js"
-          config "@obstacles/config.js"
-          )
-(require! (lit Timer Time-limit) "@obstacles/systems/timer.js"
-          (lit place-entity) "@shared/systems/collision.js"
+(import Component System "/shared/ecs.js")
+(import Red-black-tree "/shared/data-structures/trees/red-black-tree.js")
+(import config "../../config.js")
+(import Timer Time-limit "../timer.js")
+(import place-entity "/shared/systems/collision.js")
+(import trail-segments "../../entities/trail-segments.js" )
 
-          config "@obstacles/config.js"
-          )
 
-(include "../../../../../inc/dom.sibilant")
-(import-namespace dom)
 (const views (new Map))
 
 (define Ant-life Time-limit
@@ -37,8 +32,8 @@
     (assign this.win-count 0)
     (assign this.loose-count 0))
 
-  (gett home-pos (get (require "@obstacles/entities.js") 'home-pos))
-  (gett seg-group (get (require "@obstacles/entities/trail-segments.js") 'trail-segments))
+  (gett home-pos config.home-location)
+  (gett seg-group (get-trail-segments))
 
 
   (def callback (e c)
