@@ -122,8 +122,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "cb509b7f274d7b5e",
@@ -283,12 +282,12 @@
                 "state": {
                   "type": "markdown",
                   "state": {
-                    "file": "notes/daily/2025-05-23.md",
+                    "file": "notes/daily/2025-05-28.md",
                     "mode": "source",
                     "source": false
                   },
                   "icon": "lucide-file",
-                  "title": "2025-05-23"
+                  "title": "2025-05-28"
                 }
               },
               {
@@ -318,9 +317,10 @@
       }
     ]
   },
-  "active": "8f9686408cbdbd84",
+  "active": "1b0db6fa3d479bd4",
   "lastOpenFiles": [
     "notes/daily/2025-05-23.md",
+    "notes/daily/2025-05-28.md",
     "notes/unique/2025-05-22-09.11.08.md",
     "notes/unique/2025-05-21-06.07.23.md",
     "kanban/process.md",
@@ -345,7 +345,6 @@
     "kanban/tasks/BUG Collision doesn't work correctly in some circumstances..md",
     "notes/daily/2025-04-07.md",
     "notes/daily/2025-04-06.md",
-    "notes/daily/2025-03-31.md",
     "notes/unique",
     "Chats",
     "notes/daily",
