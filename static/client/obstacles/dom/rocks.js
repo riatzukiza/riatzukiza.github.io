@@ -17,24 +17,12 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var R = require("ramda");
-var { 
-  create,
-  extend,
-  mixin,
-  conditional,
-  cond,
-  partiallyApplyAfter
- } = require("@kit-js/core/js/util");
-const { 
-  
- }=require(createDocumentNode);
 const rockViews=[];
-var { 
+import { 
   EntityPanel
- } = require("@obstacles/dom/entity-panel.js");
+ } from "/client/obstacles/dom/entity-panel.js";
 var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
-  /* display-decimal node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
+  /* display-decimal inc/core/function-expressions.sibilant:28:8 */
 
   return (Math.round((Math.pow(10, n) * d)) / Math.pow(10, n));
 });
@@ -64,4 +52,6 @@ var RockPanel = EntityPanel.define("RockPanel", {
     
    }
  });
-exports.RockPanel = RockPanel;
+export { 
+  RockPanel
+ };

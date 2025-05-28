@@ -17,31 +17,33 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
+import { 
   Dot
- } = require("@shared/systems/rendering/dot.js"),
-    { 
-  Position
- } = require("@obstacles/systems/position.js"),
-    { 
-  Velocity
- } = require("@obstacles/systems/velocity.js"),
-    { 
+ } from "/shared/systems/rendering/dot.js";
+import { 
   Physics
- } = require("@shared/systems/physics/index.js"),
-    { 
+ } from "/shared/systems/physics.js";
+import { 
   Collision
- } = require("@shared/systems/collision.js"),
-    { 
+ } from "/shared/systems/collision.js";
+import { 
+  Position
+ } from "../systems/position.js";
+import { 
+  Velocity
+ } from "../systems/velocity.js";
+import { 
   game,
   activeGameSystems
- } = require("@obstacles/game.js"),
-    config = require("@obstacles/config.js"),
-    { 
+ } from "../game.js";
+import { 
+  config
+ } from "../config.js";
+import { 
   rgba
- } = require("@obstacles/colors.js");
+ } from "../colors.js";
 var entity = (function entity$(aspects) {
-  /* entity eval.sibilant:11:0 */
+  /* entity eval.sibilant:14:0 */
 
   return game.ent.spawn(aspects);
 });
@@ -62,7 +64,3 @@ export {
 export { 
   homePos
  };
-var { 
-  Friction,
-  SignalField
- } = require("@obstacles/forces.js");

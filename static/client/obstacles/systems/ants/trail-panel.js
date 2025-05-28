@@ -17,13 +17,13 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
+import { 
   PropertyView,
   ViewPanel
- } = require("@obstacles/systems/property-view.js"),
-    { 
+ } from "/client/obstacles/systems/property-view.js";
+import { 
   TrailDots
- } = require("@obstacles/systems/ants/trail-dots.js");
+ } from "/client/obstacles/systems/ants/trail-dots.js";
 import { 
   renderChildren,
   createDocumentNode,

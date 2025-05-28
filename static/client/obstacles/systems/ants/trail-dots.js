@@ -17,13 +17,13 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
+import { 
   DotInterface,
   Dot
- } = require("@shared/systems/rendering/dot.js"),
-    { 
+ } from "/shared/systems/rendering/dot.js";
+import { 
   rgba
- } = require("@obstacles/colors.js");
+ } from "/client/obstacles/colors.js";
 const baseColor=rgba(20, 20, 125, 255);
 var TrailDot = DotInterface.define("TrailDot", { 
   _color:baseColor,

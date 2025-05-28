@@ -2,7 +2,8 @@
 (import Interface "/shared/kit/interface/index.js")
 (const dim      [(* 0.8 window.innerWidth), (- window.innerHeight 3)])
 (const size 1)
-(define config Interface
+(const config {})
+(set config 
      'size size
      'ui-polling-rate 10
      'trail-resolution 5

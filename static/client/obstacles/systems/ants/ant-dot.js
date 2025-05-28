@@ -17,13 +17,13 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
+import { 
   DotInterface,
   Dot
- } = require("@shared/systems/rendering/dot.js"),
-    { 
+ } from "/shared/systems/rendering/dot.js";
+import { 
   rgba
- } = require("@obstacles/colors.js");
+ } from "/client/obstacles/colors.js";
 const views=(new Map());
 var AntDot = DotInterface.define("AntDot", { 
   docString:`
@@ -38,7 +38,7 @@ var AntDot = DotInterface.define("AntDot", {
   ## description
 
   A component for rendering ants as red dots.
-  Inhereits from Dot-interface (@shared/systems/rendering/dot.js)`
+  Inhereits from Dot-interface (/shared/systems/rendering/dot.js)`
 
   ,
   color:rgba(255, 255, 255, 255)

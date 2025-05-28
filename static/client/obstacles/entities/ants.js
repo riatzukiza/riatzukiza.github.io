@@ -17,53 +17,55 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
+import { 
   AntDots
- } = require("@obstacles/systems/ants/ant-dot.js"),
-    { 
+ } from "../systems/ants/ant-dot.js";
+import { 
   AntTrails
- } = require("@obstacles/systems/ants/ant-trails.js"),
-    { 
+ } from "../systems/ants/ant-trails.js";
+import { 
   AntLifeTimer
- } = require("@obstacles/systems/ants/ant-life-timer.js"),
-    { 
+ } from "../systems/ants/ant-life-timer.js";
+import { 
   Position
- } = require("@obstacles/systems/position.js"),
-    { 
+ } from "../systems/position.js";
+import { 
   Velocity
- } = require("@obstacles/systems/velocity.js"),
-    { 
+ } from "../systems/velocity.js";
+import { 
   Physics
- } = require("@shared/systems/physics/index.js"),
-    { 
+ } from "/shared/systems/physics.js";
+import { 
   EntityGroup
- } = require("@shared/ecs.js"),
-    { 
+ } from "/shared/ecs.js";
+import { 
   AntSprites
- } = require("@obstacles/systems/ant-sprites.js"),
-    { 
+ } from "../systems/ant-sprites.js";
+import { 
   Collision,
   placeEntity
- } = require("@shared/systems/collision.js"),
-    { 
+ } from "/shared/systems/collision.js";
+import { 
   game,
   activeGameSystems
- } = require("@obstacles/game.js"),
-    { 
+ } from "../game.js";
+import { 
   AntPanel
- } = require("@obstacles/systems/ants/ant-panel.js"),
-    config = require("@obstacles/config.js");
+ } from "../systems/ants/ant-panel.js";
+import { 
+  config
+ } from "../config.js";
 const ants=create(EntityGroup)("Ants", [ Collision, AntSprites, AntPanel, Physics, Velocity, Position, AntTrails, AntLifeTimer ], game.ent);
 var clearAnts = (function clearAnts$() {
-  /* clear-ants eval.sibilant:30:0 */
+  /* clear-ants eval.sibilant:31:0 */
 
   return ants.clear();
 });
-var spawnAnt = (function spawnAnt$(x_y$1, home, startingLife) {
-  /* spawn-ant eval.sibilant:31:0 */
+var spawnAnt = (function spawnAnt$(x_y$33, home, startingLife) {
+  /* spawn-ant eval.sibilant:32:0 */
 
-  var x = x_y$1[0],
-      y = x_y$1[1];
+  var x = x_y$33[0],
+      y = x_y$33[1];
 
   var ant = ants.spawn();
   game.systems.get(Position, ant).x = x;
@@ -75,17 +77,19 @@ var spawnAnt = (function spawnAnt$(x_y$1, home, startingLife) {
   var v = game.systems.get(Velocity, ant);
   (function() {
     if (!(config.spawnStatic === 0)) {
-      return v.accelerate([ (1 + (function() {
-        /* eval.sibilant:2:458 */
-      
-        var rand = ((Math.random() * (config.spawnStatic - 0)) + 0);
-        return (config.spawnStatic - (rand / 2));
-      }).call(this)), (1 + (function() {
-        /* eval.sibilant:2:458 */
-      
-        var rand = ((Math.random() * (config.spawnStatic - 0)) + 0);
-        return (config.spawnStatic - (rand / 2));
-      }).call(this)) ]);
+      return v.accelerate([ (1 + ((Math.random() * config.spawnStatic) * (function() {
+        if (Math.random() < 0.5) {
+          return -1;
+        } else {
+          return 1;
+        }
+      }).call(this))), (1 + ((Math.random() * config.spawnStatic) * (function() {
+        if (Math.random() < 0.5) {
+          return -1;
+        } else {
+          return 1;
+        }
+      }).call(this))) ]);
     }
   }).call(this);
   return placeEntity(ant, game, config);
@@ -99,7 +103,3 @@ export {
 export { 
   ants
  };
-var { 
-  Friction,
-  SignalField
- } = require("@obstacles/forces.js");

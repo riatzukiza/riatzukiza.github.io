@@ -17,38 +17,39 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
+import { 
   Velocity
- } = require("@shared/systems/velocity.js");
-var { 
+ } from "/shared/systems/velocity.js";
+import { 
   Position
- } = require("@shared/systems/position.js");
-var { 
+ } from "/shared/systems/position.js";
+import { 
   game
- } = require("@obstacles/game.js"),
-    config = require("@obstacles/config.js"),
-    { 
+ } from "../game.js";
+import { 
+  config
+ } from "../config.js";
+import { 
   Physics
- } = require("@shared/systems/physics/system.js"),
-    { 
+ } from "/shared/systems/physics/system.js";
+import { 
   createParticleUpdater
- } = require("@shared/field.js"),
-    { 
+ } from "/shared/field.js";
+import { 
   nextSpawn,
   spawnAnt,
   ants,
   home,
   homePos,
-  nextSpawn,
   plants,
   rocks,
   spawnPlant,
   spawnRock,
   rockGenStep
- } = require("@obstacles/entities.js"),
-    { 
+ } from "../entities.js";
+import { 
   randomLocation
- } = require("@obstacles/location.js");
+ } from "../location.js";
 const updateParticle=createParticleUpdater(config, game);
 game.events.on("tick", (() => {
 	nextSpawn(game);
@@ -78,30 +79,34 @@ return (function() {
             const x=(physics.mass / 2);
             physics.mass = x;
             physics.scale = x;
-            const plant_=spawnPlant([ ((function() {
-              /* eval.sibilant:2:458 */
-            
-              var rand = ((Math.random() * (physics.scale - 0)) + 0);
-              return (physics.scale - (rand / 2));
-            }).call(this) + physics.position.x), ((function() {
-              /* eval.sibilant:2:458 */
-            
-              var rand = ((Math.random() * (physics.scale - 0)) + 0);
-              return (physics.scale - (rand / 2));
-            }).call(this) + physics.position.y) ], physics.mass);
+            const plant_=spawnPlant([ (((Math.random() * physics.scale) * (function() {
+              if (Math.random() < 0.5) {
+                return -1;
+              } else {
+                return 1;
+              }
+            }).call(this)) + physics.position.x), (((Math.random() * physics.scale) * (function() {
+              if (Math.random() < 0.5) {
+                return -1;
+              } else {
+                return 1;
+              }
+            }).call(this)) + physics.position.y) ], physics.mass);
             const physics_=game.systems.get(Physics, plant_);
-            const vx=(function() {
-              /* eval.sibilant:2:458 */
-            
-              var rand = ((Math.random() * (config.spawnStatic - 0)) + 0);
-              return (config.spawnStatic - (rand / 2));
-            }).call(this);
-            const vy=(function() {
-              /* eval.sibilant:2:458 */
-            
-              var rand = ((Math.random() * (config.spawnStatic - 0)) + 0);
-              return (config.spawnStatic - (rand / 2));
-            }).call(this);
+            const vx=((Math.random() * config.spawnStatic) * (function() {
+              if (Math.random() < 0.5) {
+                return -1;
+              } else {
+                return 1;
+              }
+            }).call(this));
+            const vy=((Math.random() * config.spawnStatic) * (function() {
+              if (Math.random() < 0.5) {
+                return -1;
+              } else {
+                return 1;
+              }
+            }).call(this));
             physics.velocity.accelerate([ vx, vy ]);
             return physics_.velocity.accelerate([ (-1 * vx), (-1 * vy) ]);
           }

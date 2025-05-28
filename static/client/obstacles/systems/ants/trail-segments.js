@@ -17,25 +17,19 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
+import { 
   TimeLimit,
   Timer
- } = require("@obstacles/systems/timer.js"),
-    { 
-  RedBlackTree
- } = require("@shared/data-structures/trees/red-black-tree.js"),
-    { 
-  rgba
- } = require("@obstacles/colors.js"),
-    config = require("@obstacles/config.js");
+ } from "/client/obstacles/systems/timer.js";
 import { 
-  renderChildren,
-  createDocumentNode,
-  DocumentNode,
-  DocumentBody,
-  DocumentHead,
-  DocumentRoot
- } from "/shared/dom.js";
+  RedBlackTree
+ } from "/shared/data-structures/trees/red-black-tree.js";
+import { 
+  rgba
+ } from "/client/obstacles/colors.js";
+import { 
+  config
+ } from "/client/obstacles/config.js";
 var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
   /* display-decimal inc/core/function-expressions.sibilant:28:8 */
 
@@ -45,51 +39,10 @@ var TrailSegment = TimeLimit.define("TrailSegment", {
   docString:"obstacles.systems.ant-trails.Trail-vector",
   duration:config.trailLimit,
   updateView__QUERY:true,
-  get views(  ){ 
-
-      return (function() {
-        if (this._views) {
-          return this._views;
-        } else {
-          return this._views = (new Map());
-        }
-      }).call(this);
-
-   },
-  get view(  ){ 
-  
-    return (() => {
-    	return (function() {
-      if (this.views.has("view")) {
-        return this.views.get("view");
-      } else {
-        var r = (function() {
-          /* eval.sibilant:12:23 */
-        
-          return createDocumentNode("div", { 'className': "panel" }, [ "trail segment", createDocumentNode("div", {  }, [ "pos:", (() => {
-          	return displayDecimal(this.x, 2);
-          }), ",", (() => {
-          	return displayDecimal(this.y, 2);
-          }) ]), createDocumentNode("div", {  }, [ "remaining", (() => {
-          	return this.remainingTime;
-          }) ]), createDocumentNode("div", {  }, [ "duration", (() => {
-          	return ("" + this.duration);
-          }) ]), createDocumentNode("div", {  }, [ "triggered?", (() => {
-          	return ("" + this.triggered);
-          }) ]), createDocumentNode("div", {  }, [ "started at", (() => {
-          	return this.createdAt;
-          }) ]) ]);
-        }).call(this);
-        this.views.set("view", r);
-        return r;
-      }
-    }).call(this);
-    });
-  
- },
+  defView:view,
   get segGroup(  ){ 
     
-      return require("@obstacles/entities/trail-segments.js").trailSegments;
+      return require("/obstacles/entities/trail-segments.js").trailSegments;
     
    },
   callback( entity,c ){ 

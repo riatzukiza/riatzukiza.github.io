@@ -17,72 +17,69 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var R = require("ramda");
-var { 
-  create,
-  extend,
-  mixin,
-  conditional,
-  cond,
-  partiallyApplyAfter
- } = require("@kit-js/core/js/util");
-var { 
+import { 
   Game
- } = require("@shared/game.js"),
-    { 
+ } from "/shared/game.js";
+import { 
   Dot
- } = require("@shared/systems/rendering/dot.js"),
-    { 
+ } from "/shared/systems/rendering/dot.js";
+import { 
   Sprites
- } = require("@shared/systems/rendering/gl-sprites.js"),
-    { 
+ } from "/shared/systems/rendering/gl-sprites.js";
+import { 
   Position
- } = require("@obstacles/systems/position.js"),
-    { 
+ } from "./systems/position.js";
+import { 
   Velocity
- } = require("@obstacles/systems/velocity.js"),
-    { 
+ } from "./systems/velocity.js";
+import { 
   Physics
- } = require("@shared/systems/physics/index.js"),
-    { 
+ } from "/shared/systems/physics.js";
+import { 
   Collision
- } = require("@shared/systems/collision.js"),
-    { 
+ } from "/shared/systems/collision.js";
+import { 
   rendering
- } = require("@obstacles/rendering.js"),
-    { 
+ } from "./rendering.js";
+import { 
   ViewPanel
- } = require("@obstacles/systems/property-view.js"),
-    { 
+ } from "./systems/property-view.js";
+import { 
   AntDots
- } = require("@obstacles/systems/ants/ant-dot.js"),
-    { 
+ } from "./systems/ants/ant-dot.js";
+import { 
   AntTrails
- } = require("@obstacles/systems/ants/ant-trails.js"),
-    { 
+ } from "./systems/ants/ant-trails.js";
+import { 
   AntLifeTimer
- } = require("@obstacles/systems/ants/ant-life-timer.js"),
-    { 
+ } from "./systems/ants/ant-life-timer.js";
+import { 
   TrailDots
- } = require("@obstacles/systems/ants/trail-dots.js"),
-    { 
+ } from "./systems/ants/trail-dots.js";
+import { 
   AntPanel
- } = require("@obstacles/systems/ants/ant-panel.js"),
-    { 
+ } from "./systems/ants/ant-panel.js";
+import { 
   TrailsPanel
- } = require("@obstacles/systems/ants/trail-panel.js"),
-    { 
+ } from "./systems/ants/trail-panel.js";
+import { 
   DecayingTrails
- } = require("@obstacles/systems/ants/trail-segments.js"),
-    { 
+ } from "./systems/ants/trail-segments.js";
+import { 
   AntSprites
- } = require("@obstacles/systems/ant-sprites.js"),
-    { 
+ } from "./systems/ant-sprites.js";
+import { 
   RockSprites
- } = require("@obstacles/systems/rock-sprites.js"),
-    config = require("@obstacles/config.js");
+ } from "./systems/rock-sprites.js";
+import { 
+  config
+ } from "./config.js";
 Position.wraps__QUERY = true;
 var activeGameSystems = [ DecayingTrails, AntLifeTimer, Dot, TrailDots, AntDots, AntPanel, TrailsPanel, RockSprites, AntSprites, AntTrails, Physics, Velocity, Position, Collision ];
 var game = create(Game)(config, rendering, activeGameSystems, config.gameSpeed);
-exports.game = game;
-exports.activeGameSystems = activeGameSystems;
+export { 
+  game
+ };
+export { 
+  activeGameSystems
+ };

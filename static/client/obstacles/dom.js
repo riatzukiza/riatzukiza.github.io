@@ -18,34 +18,37 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 import { 
-  renderChildren,
-  createDocumentNode,
-  DocumentNode,
-  DocumentBody,
-  DocumentHead,
-  DocumentRoot
- } from "/shared/dom.js";
-var { 
   rendering
- } = require("@obstacles/rendering.js"),
-    { 
+ } from "/client/obstacles/rendering.js";
+import { 
   vectorPool,
   trailPool
- } = require("@shared/vectors.js"),
-    { 
+ } from "/shared/vectors.js";
+import { 
   Physics
- } = require("@shared/systems/physics/index.js"),
-    { 
+ } from "/shared/systems/physics.js";
+import { 
   Dot
- } = require("@shared/systems/rendering/dot.js"),
-    { 
+ } from "/shared/systems/rendering/dot.js";
+import { 
   summate
- } = require("@shared/math/math.js"),
-    { 
+ } from "/shared/math/math.js";
+import { 
   ViewPanel,
   PropertyView
- } = require("@obstacles/systems/property-view.js"),
-    config = require("@obstacles/config.js");
+ } from "/client/obstacles/systems/property-view.js";
+import { 
+  config
+ } from "/client/obstacles/config.js";
+import { 
+  game
+ } from "/client/obstacles/game.js";
+import { 
+  ants,
+  rocks,
+  plants,
+  trailSegments
+ } from "/client/obstacles/entities.js";
 var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
   /* display-decimal inc/core/function-expressions.sibilant:28:8 */
 
@@ -59,16 +62,7 @@ const gameView=createDocumentNode("div", {
    }
 }, [ rendering.context.canvas ]);
 const getStats=(() => {
-	var { 
-  game
- } = require("@obstacles/game.js"),
-    { 
-  ants,
-  rocks,
-  plants,
-  trailSegments
- } = require("@obstacles/entities.js");
-const getTotalAntMass=(() => {
+	const getTotalAntMass=(() => {
 	return displayDecimal(ants.group.reduce(((sum, el) => {
 	return (sum + (el.physicalProperties.mass || 0));
 }), 0), 2);
@@ -99,16 +93,7 @@ const getTrailBucketCount=(() => {
 });
 const poolsView=createDocumentNode("div", { 'className': "panel" }, [ createDocumentNode("h3", {  }, [ "Pools" ]), createDocumentNode("div", {  }, [ "vector buckets", getVectorBucketCount ]), createDocumentNode("div", {  }, [ "trail buckets", getTrailBucketCount ]) ]);
 const resetButton=createDocumentNode("button", { 'onclick': (() => {
-	var { 
-  game
- } = require("@obstacles/game.js"),
-    { 
-  ants,
-  rocks,
-  plants,
-  trailSegments
- } = require("@obstacles/entities.js");
-rocks.clear();
+	rocks.clear();
 ants.clear();
 plants.clear();
 trailSegments.clear();
@@ -157,11 +142,8 @@ export {
   debugView
  };
 var startInterface = (function startInterface$() {
-  /* start-interface eval.sibilant:126:0 */
+  /* start-interface eval.sibilant:115:0 */
 
-  var { 
-    game
-   } = require("@obstacles/game.js");
   createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentBody);
   return game.events.on("tick", ((t) => {
   	return (function() {

@@ -17,36 +17,40 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
+import { 
   Velocity
- } = require("@shared/systems/velocity.js");
-var { 
+ } from "/shared/systems/velocity.js";
+import { 
   Position
- } = require("@shared/systems/position.js");
-var { 
+ } from "/shared/systems/position.js";
+import { 
   game
- } = require("@obstacles/game.js"),
-    config = require("@obstacles/config.js"),
-    { 
+ } from "../game.js";
+import { 
+  config
+ } from "../config.js";
+import { 
   plants,
   ants,
   rocks
- } = require("@obstacles/entities.js");
+ } from "../entities.js";
 game.events.on("plantCollidingWithSpawn", ((home, plant) => {
 	const v=plant.entity.velocityInterface;
 const pos=plant.pos;
-var xd = (function() {
-  /* eval.sibilant:2:458 */
-
-  var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
-  return (config.collisionStatic - (rand / 2));
-}).call(this);
-var yd = (function() {
-  /* eval.sibilant:2:458 */
-
-  var rand = ((Math.random() * (config.collisionStatic - 0)) + 0);
-  return (config.collisionStatic - (rand / 2));
-}).call(this);
+var xd = ((Math.random() * config.collisionStatic) * (function() {
+  if (Math.random() < 0.5) {
+    return -1;
+  } else {
+    return 1;
+  }
+}).call(this));
+var yd = ((Math.random() * config.collisionStatic) * (function() {
+  if (Math.random() < 0.5) {
+    return -1;
+  } else {
+    return 1;
+  }
+}).call(this));
 pos.x = (pos.x + xd);
 pos.y = (pos.y + yd);
 return v.accelerate([ xd, yd ]);

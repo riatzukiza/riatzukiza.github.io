@@ -32,7 +32,7 @@ import {
  } from "../../gl.js";
 import { 
   Interface
- } from "../../kit/interface/index.";
+ } from "../../kit/interface/index.js";
 var uniforms = Interface.define("uniforms", { 
   init( game = this.game ){ 
     
@@ -118,7 +118,7 @@ var shaders = Interface.define("shaders", {
   `
  });
 var vertexLayer = (function vertexLayer$(limit, game) {
-  /* vertex-layer eval.sibilant:2:1063 */
+  /* vertex-layer eval.sibilant:2:1065 */
 
   uniforms.init(game);
   const context=game.rendering.context;

@@ -1,9 +1,9 @@
-(require! (lit Velocity) "@shared/systems/velocity.js")
-(require! (lit Position) "@shared/systems/position.js")
-(require! (lit game) "@obstacles/game.js"
+(import Velocity "/shared/systems/velocity.js")
+(import Position "/shared/systems/position.js")
+(import game "../game.js")
 
-          config "@obstacles/config.js"
-          (lit plants ants rocks) "@obstacles/entities.js")
+(import config "../config.js")
+(import plants ants rocks "../entities.js")
 
 (on game.events 'plant-colliding-with-spawn (home, plant)
 

@@ -17,18 +17,10 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
+import { 
   PropertyView,
   ViewPanel
- } = require("@obstacles/systems/property-view.js");
-import { 
-  renderChildren,
-  createDocumentNode,
-  DocumentNode,
-  DocumentBody,
-  DocumentHead,
-  DocumentRoot
- } from "/shared/dom.js";
+ } from "/client/obstacles/systems/property-view.js";
 var AntsPropertyView = PropertyView.define("AntsPropertyView", { 
   
  });

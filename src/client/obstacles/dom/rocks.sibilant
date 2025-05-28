@@ -1,14 +1,10 @@
 (namespace obstacles)
-(include "kit/header" )
-(import-namespace kit)
-
-(include "../../../../inc/dom.sibilant")
-(import-namespace dom)
 
 (const rock-views [])
-(require! (lit Entity-panel) "@obstacles/dom/entity-panel.js")
+(import  Entity-panel "/client/obstacles/dom/entity-panel.js")
 
 (def-generic display-decimal (d (n 6)) (/ (Math.round (* (Math.pow 10 n) d)) (Math.pow 10 n)))
+
 (define Rock-panel Entity-panel
   (def Dot  (dot)
     (print "rendering color")

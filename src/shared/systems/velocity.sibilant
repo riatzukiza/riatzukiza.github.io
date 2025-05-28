@@ -3,6 +3,10 @@
 (import Position "./position.js")
 
 (define Velocity-interface Component
+
+  (gett parent-view this.entity.property-view.view )
+  (gett update-view? this.moved)
+
   (gett xd this.vector.x)
   (gett yd this.vector.y)
   (sett xd x (if (isNaN x) (throw (new Error "assigning non number to velocity")))

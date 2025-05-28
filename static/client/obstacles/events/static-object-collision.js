@@ -17,24 +17,26 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
+import { 
   Velocity
- } = require("@shared/systems/velocity.js");
-var { 
+ } from "/shared/systems/velocity.js";
+import { 
   Position
- } = require("@shared/systems/position.js");
-var { 
+ } from "/shared/systems/position.js";
+import { 
   game
- } = require("@obstacles/game.js"),
-    { 
+ } from "../game.js";
+import { 
   plants,
   ants,
   rocks
- } = require("@obstacles/entities.js"),
-    { 
+ } from "../entities.js";
+import { 
   Vector
- } = require("@shared/vectors.js"),
-    config = require("@obstacles/config.js");
+ } from "/shared/vectors.js";
+import { 
+  config
+ } from "../config.js";
 game.events.on("staticObjectCollision", ((o1, o2) => {
 	var v = o1.entity.velocityInterface;
 var v_ = o2.entity.velocityInterface;

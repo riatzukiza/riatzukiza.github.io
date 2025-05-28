@@ -3,7 +3,7 @@
 (import Physics "../physics.js")
 (import Position "../position.js")
 (import Gl "../../gl.js")
-(import Vector "../../vectors.jsd")
+(import Vector "../../vectors.js")
 (import Andy "../../andy.js")
 (import Renderable "./renderable.js")
 

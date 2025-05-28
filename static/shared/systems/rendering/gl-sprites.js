@@ -32,7 +32,7 @@ import {
  } from "../../gl.js";
 import { 
   Vector
- } from "../../vectors.jsd";
+ } from "../../vectors.js";
 import { 
   Andy
  } from "../../andy.js";

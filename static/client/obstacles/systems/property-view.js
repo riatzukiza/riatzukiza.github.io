@@ -17,19 +17,16 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
+import { 
   Component,
   System
- } = require("@shared/ecs.js"),
-    config = require("@obstacles/config.js");
+ } from "/shared/ecs.js";
 import { 
-  renderChildren,
-  createDocumentNode,
-  DocumentNode,
-  DocumentBody,
-  DocumentHead,
-  DocumentRoot
- } from "/shared/dom.js";
+  config
+ } from "/client/obstacles/config.js";
+import { 
+  debugView
+ } from "/client/obstacles/dom.js";
 var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
   /* display-decimal inc/core/function-expressions.sibilant:28:8 */
 
@@ -52,44 +49,7 @@ var PropertyView = Component.define("PropertyView", {
       return this.view().remove();
     
    },
-  get views(  ){ 
-
-      return (function() {
-        if (this._views) {
-          return this._views;
-        } else {
-          return this._views = (new Map());
-        }
-      }).call(this);
-
-   },
-  get view(  ){ 
-  
-    return (() => {
-    	return (function() {
-      if (this.views.has("view")) {
-        return this.views.get("view");
-      } else {
-        var r = (function() {
-          /* eval.sibilant:14:23 */
-        
-          return createDocumentNode("div", {
-            'id': (() => {
-            	return this.panelId;
-            }),
-            'className': "panel",
-            'style': { 
-              width:"99%"
-             }
-          }, [ createDocumentNode("div", {  }, [ "entity", this.entity.id ]) ]);
-        }).call(this);
-        this.views.set("view", r);
-        return r;
-      }
-    }).call(this);
-    });
-  
- }
+  defView:view
  });
 var ViewPanel = System.define("ViewPanel", { 
   interface:PropertyView,
@@ -109,7 +69,7 @@ var ViewPanel = System.define("ViewPanel", {
    },
   get debugView(  ){ 
     
-      return require("@obstacles/dom.js").debugView;
+      return debugView;
     
    },
   register(  ){ 
@@ -164,290 +124,14 @@ var ViewPanel = System.define("ViewPanel", {
       return this.contentView();
     
    },
-  get views(  ){ 
-
-      return (function() {
-        if (this._views) {
-          return this._views;
-        } else {
-          return this._views = (new Map());
-        }
-      }).call(this);
-
-   },
-  get settingsPanel(  ){ 
-  
-    return (() => {
-    	return (function() {
-      if (this.views.has("settingsPanel")) {
-        return this.views.get("settingsPanel");
-      } else {
-        var r = (function() {
-          /* eval.sibilant:14:23 */
-        
-          return createDocumentNode("div", { 'className': "panel" }, []);
-        }).call(this);
-        this.views.set("settingsPanel", r);
-        return r;
-      }
-    }).call(this);
-    });
-  
- },
-  get views(  ){ 
-
-      return (function() {
-        if (this._views) {
-          return this._views;
-        } else {
-          return this._views = (new Map());
-        }
-      }).call(this);
-
-   },
-  get pageNumberView(  ){ 
-  
-    return (() => {
-    	return (function() {
-      if (this.views.has("pageNumberView")) {
-        return this.views.get("pageNumberView");
-      } else {
-        var r = (function() {
-          /* eval.sibilant:14:23 */
-        
-          return createDocumentNode("span", {  }, [ (() => {
-          	return ((1 + this.page) + "/" + this.pages);
-          }) ]);
-        }).call(this);
-        this.views.set("pageNumberView", r);
-        return r;
-      }
-    }).call(this);
-    });
-  
- },
-  get views(  ){ 
-
-      return (function() {
-        if (this._views) {
-          return this._views;
-        } else {
-          return this._views = (new Map());
-        }
-      }).call(this);
-
-   },
-  get titleView(  ){ 
-  
-    return (() => {
-    	return (function() {
-      if (this.views.has("titleView")) {
-        return this.views.get("titleView");
-      } else {
-        var r = (function() {
-          /* eval.sibilant:14:23 */
-        
-          return createDocumentNode("b", { 'onclick': this.hide }, [ createDocumentNode("div", {
-            'className': "panel",
-            'style': { 
-              width:"30%"
-             }
-          }, [ this.title ]), createDocumentNode("div", {
-            'className': "panel",
-            'style': { 
-              width:20,
-              height:20
-             }
-          }, [ (() => {
-          	return (function() {
-            if (this.hidden) {
-              return "+";
-            } else {
-              return "-";
-            }
-          }).call(this);
-          }) ]) ]);
-        }).call(this);
-        this.views.set("titleView", r);
-        return r;
-      }
-    }).call(this);
-    });
-  
- },
-  get views(  ){ 
-
-      return (function() {
-        if (this._views) {
-          return this._views;
-        } else {
-          return this._views = (new Map());
-        }
-      }).call(this);
-
-   },
-  get previousPageButton(  ){ 
-  
-    return (() => {
-    	return (function() {
-      if (this.views.has("previousPageButton")) {
-        return this.views.get("previousPageButton");
-      } else {
-        var r = (function() {
-          /* eval.sibilant:14:23 */
-        
-          return createDocumentNode("button", { 'onclick': this.previousPage }, [ "prev" ]);
-        }).call(this);
-        this.views.set("previousPageButton", r);
-        return r;
-      }
-    }).call(this);
-    });
-  
- },
-  get views(  ){ 
-
-      return (function() {
-        if (this._views) {
-          return this._views;
-        } else {
-          return this._views = (new Map());
-        }
-      }).call(this);
-
-   },
-  get nextPageButton(  ){ 
-  
-    return (() => {
-    	return (function() {
-      if (this.views.has("nextPageButton")) {
-        return this.views.get("nextPageButton");
-      } else {
-        var r = (function() {
-          /* eval.sibilant:14:23 */
-        
-          return createDocumentNode("button", { 'onclick': this.nextPage }, [ "next" ]);
-        }).call(this);
-        this.views.set("nextPageButton", r);
-        return r;
-      }
-    }).call(this);
-    });
-  
- },
-  get views(  ){ 
-
-      return (function() {
-        if (this._views) {
-          return this._views;
-        } else {
-          return this._views = (new Map());
-        }
-      }).call(this);
-
-   },
-  get header(  ){ 
-  
-    return (() => {
-    	return (function() {
-      if (this.views.has("header")) {
-        return this.views.get("header");
-      } else {
-        var r = (function() {
-          /* eval.sibilant:14:23 */
-        
-          return createDocumentNode("div", {
-            'className': "panel",
-            'style': { 
-              width:"100%"
-             }
-          }, [ createDocumentNode("div", {
-            'className': "panel",
-            'style': { 
-              width:"100%"
-             }
-          }, [ this.titleView, this.nextPageButton, this.previousPageButton, this.pageNumberView ]), this.settingsPanel ]);
-        }).call(this);
-        this.views.set("header", r);
-        return r;
-      }
-    }).call(this);
-    });
-  
- },
-  get views(  ){ 
-
-      return (function() {
-        if (this._views) {
-          return this._views;
-        } else {
-          return this._views = (new Map());
-        }
-      }).call(this);
-
-   },
-  get containerView(  ){ 
-  
-    return (() => {
-    	return (function() {
-      if (this.views.has("containerView")) {
-        return this.views.get("containerView");
-      } else {
-        var r = (function() {
-          /* eval.sibilant:14:23 */
-        
-          return createDocumentNode("div", {
-            'id': (this.title + "-container"),
-            'className': "panel",
-            'style': { 
-              width:"99%"
-             }
-          }, [ this.header, this.contentView ]);
-        }).call(this);
-        this.views.set("containerView", r);
-        return r;
-      }
-    }).call(this);
-    });
-  
- },
-  get views(  ){ 
-
-      return (function() {
-        if (this._views) {
-          return this._views;
-        } else {
-          return this._views = (new Map());
-        }
-      }).call(this);
-
-   },
-  get contentView(  ){ 
-  
-    return (() => {
-    	return (function() {
-      if (this.views.has("contentView")) {
-        return this.views.get("contentView");
-      } else {
-        var r = (function() {
-          /* eval.sibilant:14:23 */
-        
-          return createDocumentNode("div", {
-            'id': (this.title + "-content"),
-            'style': { 
-              "overflow-y":"scroll",
-              "height":500,
-              "width":"99%"
-             }
-          }, []);
-        }).call(this);
-        this.views.set("contentView", r);
-        return r;
-      }
-    }).call(this);
-    });
-  
- },
+  defView:settingsPanel,
+  defView:pageNumberView,
+  defView:titleView,
+  defView:previousPageButton,
+  defView:nextPageButton,
+  defView:header,
+  defView:containerView,
+  defView:contentView,
   _prepare(  ){ 
     
       return this.cursor = 0;

@@ -22,96 +22,51 @@ import {
  } from "/shared/kit/interface/index.js";
 const dim=[ (0.8 * window.innerWidth), (window.innerHeight - 3) ];
 const size=1;
-var config = Interface.define("config", { 
-  "size",
-  size,
-  "uiPollingRate",
-  10,
-  "trailResolution",
-  5,
-  "angleZoom",
-  35,
-  "noiseZ",
-  255,
-  "fieldForce",
-  28,
-  "dimensions",
-  dim,
-  "columns",
-  Math.ceil:(dim[0] / size),
-  "rows",
-  Math.ceil:(dim[1] / size),
-  "decay",
-  1,
-  "maxLength",
-  200,
-  "trailResultDuration",
-  5000,
-  "growthRate",
-  0.0005,
-  "startingPlants",
-  1,
-  "plantMassLimit",
-  32,
-  "antLimit",
-  100,
-  "maxInDecay",
-  1000,
-  "trailLimit",
-  60000,
-  "antLife",
-  120000,
-  "decayOnCollision",
-  true,
-  "optionsAmplitude",
-  10,
-  "limitDecay",
-  false,
-  "antInfluence",
-  90,
-  "friction",
-  0.1,
-  "collisionStatic",
-  5,
-  "spawnStatic",
-  10,
-  "spawnRate",
-  10,
-  "homeLocation",
-  [ 300, 200 ],
-  "targetLocation",
-  [ 700, 900 ],
-  "rocks",
-  10,
-  "rockMinSize",
-  16,
-  "rockMaxSize",
-  32,
-  "rockMassScalingFactor",
-  1,
-  "rockMinMassFactor",
-  10,
-  "rockMaxMassFactor",
-  100,
-  "stationaryResistanceCoefficiant",
-  2,
-  "trackTrail",
-  true,
-  "varyNoiseWithTime",
-  true,
-  "rewardWinners",
-  true,
-  "winYield",
-  30,
-  "lossFactor",
-  30,
-  "punishLoosers",
-  true,
-  "stepWiseUpdate",
-  true,
-  "gameSpeed",
-  1
- });
+const config={  };
+config.size = size;
+config.uiPollingRate = 10;
+config.trailResolution = 5;
+config.angleZoom = 35;
+config.noiseZ = 255;
+config.fieldForce = 28;
+config.dimensions = dim;
+config.columns = Math.ceil((dim[0] / size));
+config.rows = Math.ceil((dim[1] / size));
+config.decay = 1;
+config.maxLength = 200;
+config.trailResultDuration = 5000;
+config.growthRate = 0.0005;
+config.startingPlants = 1;
+config.plantMassLimit = 32;
+config.antLimit = 100;
+config.maxInDecay = 1000;
+config.trailLimit = 60000;
+config.antLife = 120000;
+config.decayOnCollision = true;
+config.optionsAmplitude = 10;
+config.limitDecay = false;
+config.antInfluence = 90;
+config.friction = 0.1;
+config.collisionStatic = 5;
+config.spawnStatic = 10;
+config.spawnRate = 10;
+config.homeLocation = [ 300, 200 ];
+config.targetLocation = [ 700, 900 ];
+config.rocks = 10;
+config.rockMinSize = 16;
+config.rockMaxSize = 32;
+config.rockMassScalingFactor = 1;
+config.rockMinMassFactor = 10;
+config.rockMaxMassFactor = 100;
+config.stationaryResistanceCoefficiant = 2;
+config.trackTrail = true;
+config.varyNoiseWithTime = true;
+config.rewardWinners = true;
+config.winYield = 30;
+config.lossFactor = 30;
+config.punishLoosers = true;
+config.stepWiseUpdate = true;
+config.gameSpeed = 1;
 export { 
   config
  };

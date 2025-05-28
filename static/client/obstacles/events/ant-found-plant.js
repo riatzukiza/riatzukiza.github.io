@@ -17,41 +17,40 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
+import { 
   Velocity
- } = require("@shared/systems/velocity.js");
-var { 
+ } from "/shared/systems/velocity.js";
+import { 
   Position
- } = require("@shared/systems/position.js");
-var { 
+ } from "/shared/systems/position.js";
+import { 
   game
- } = require("@obstacles/game.js"),
-    { 
+ } from "../game.js";
+import { 
   createParticleUpdater
- } = require("@shared/field.js"),
-    { 
+ } from "/shared/field.js";
+import { 
   homePos,
   plants,
   ants,
   rocks
- } = require("@obstacles/entities.js"),
-    { 
+ } from "../entities.js";
+import { 
   placeEntity
- } = require("@shared/systems/collision.js"),
-    { 
-  config
- } = require("@obstacles/config.js"),
-    { 
+ } from "/shared/systems/collision.js";
+import { 
   Physics
- } = require("@shared/systems/physics/system.js"),
-    { 
+ } from "/shared/systems/physics/system.js";
+import { 
   Friction,
   SignalField
- } = require("@obstacles/forces.js"),
-    config = require("@obstacles/config.js");
+ } from "../forces.js";
+import { 
+  config
+ } from "../config.js";
 const updateParticle=createParticleUpdater(config, game);
 Set.prototype.each = (function Set$prototype$each$(f) {
-  /* Set.prototype.each eval.sibilant:18:0 */
+  /* Set.prototype.each eval.sibilant:17:0 */
 
   this.forEach(f);
   return this;
@@ -59,7 +58,6 @@ Set.prototype.each = (function Set$prototype$each$(f) {
 game.events.on("antFoundPlant", ((ant, plant) => {
 	var av = ant.entity.velocityInterface;
 var ap = game.systems.get(Physics, ant.entity);
-updateParticle(av, av.pos, SignalField.field, SignalField.layer, game.ticker.ticks, true, true, homePos);
 for (var seg of ant.entity.antTrail.segments)
 {
 seg.trailSegment.apply()

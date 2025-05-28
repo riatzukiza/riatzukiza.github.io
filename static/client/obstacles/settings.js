@@ -17,8 +17,12 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var config = require("@obstacles/config.js"),
-    entities = require("@obstacles/entities.js");
+import { 
+  config
+ } from "./config.js";
+import { 
+  entities
+ } from "./entities.js";
 var settings = QuickSettings.create(800, 0, "settings 1");
 settings.addRange("Options amplitude", 1, 100, config.optionsAmplitude, 0.01, ((val) => {
 	return config.optionsAmplitude = val;
@@ -69,4 +73,6 @@ settings.addRange("Game speed", 0.1, 5, config.gameSpeed, 0.1, ((val) => {
 	return config.gameSpeed = val;
 }));
 settings.addButton("Clear ants", entities.clearAnts);
-module.exports = settings;
+export { 
+  settings
+ };

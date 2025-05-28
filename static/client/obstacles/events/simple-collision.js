@@ -17,29 +17,29 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
+import { 
   Velocity
- } = require("@shared/systems/velocity.js");
-var { 
+ } from "/shared/systems/velocity.js";
+import { 
   Position
- } = require("@shared/systems/position.js");
-var { 
+ } from "/shared/systems/position.js";
+import { 
   game
- } = require("@obstacles/game.js"),
-    { 
+ } from "../game.js";
+import { 
   createParticleUpdater
- } = require("@shared/field.js"),
-    { 
+ } from "/shared/field.js";
+import { 
   plants,
   ants,
   rocks
- } = require("@obstacles/entities.js"),
-    { 
+ } from "../entities.js";
+import { 
   Physics
- } = require("@shared/systems/physics/system.js"),
-    { 
+ } from "/shared/systems/physics/system.js";
+import { 
   Vector
- } = require("@shared/vectors.js");
+ } from "/shared/vectors.js";
 game.events.on("simpleCollision", ((c, c_) => {
 	var v = c.entity.velocityInterface;
 var v_ = c_.entity.velocityInterface;

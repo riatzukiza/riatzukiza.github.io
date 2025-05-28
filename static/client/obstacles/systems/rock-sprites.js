@@ -17,10 +17,10 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
+import { 
   Sprites,
   Sprite
- } = require("@shared/systems/rendering/gl-sprites.js");
+ } from "/shared/systems/rendering/gl-sprites.js";
 var RockSprite = Sprite.define("RockSprite", { 
   
  });

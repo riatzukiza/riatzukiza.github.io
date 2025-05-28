@@ -17,82 +17,33 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
-  SignalField
- } = require("@shared/systems/physics/forces/signal-field.js"),
-    { 
+import { 
   Friction
- } = require("@shared/systems/physics/forces/friction.js"),
-    { 
+ } from "/shared/systems/physics/forces/friction.js";
+import { 
   game
- } = require("@obstacles/game.js"),
-    { 
-  createParticleUpdater,
-  createVectorField
- } = require("@shared/field.js"),
-    config = require("@obstacles/config.js");
+ } from "./game.js";
+import { 
+  config
+ } from "./config.js";
+import { 
+  entities
+ } from "/client/obstacles/entities.js";
 console.log("initializing forces", { 
-  Friction,
-  SignalField
+  Friction
  });
-var Friction = Friction.define("Friction", { 
-  config:config,
-  template:false,
-  register(  ){ 
-    
-      return this.config = config;
-    
-   },
-  reset(  ){ 
-    
-   }
- });
-var SignalField = SignalField.define("SignalField", { 
-  template:false,
-  field:createVectorField(config.columns, config.rows),
-  layer:createVectorField(config.columns, config.rows),
-  register(  ){ 
-    
-      this.config = config;
-      this.field = createVectorField(config.columns, config.rows);
-      this.layer = createVectorField(config.columns, config.rows);
-      return console.log("registering", this);
-    
-   },
-  reset(  ){ 
-    
-      this.clear();
-      return this.init();
-    
-   },
-  clear(  ){ 
-    
-      this.field.each(((column) => {
-      	return column.each(((cell) => {
-      	return cell.release();
-      }));
-      }));
-      this.layer.each(((column) => {
-      	return column.each(((cell) => {
-      	return cell.release();
-      }));
-      }));
-      this.field = null;
-      return this.layer = null;
-    
-   },
-  config:config,
-  game:game,
-  get entities(  ){ 
-    
-      return require("@obstacles/entities.js");
-    
-   },
-  updateParticle:createParticleUpdater(config, game)
- });
+Fricion.config = config;
+Fricion.template = false;
+Friction.register = (function Friction$register$() {
+  /* Friction.register eval.sibilant:10:0 */
+
+  return this.config = config;
+});
+Friction.reset = (function Friction$reset$() {
+  /* Friction.reset eval.sibilant:11:0 */
+
+  
+});
 export { 
   Friction
- };
-export { 
-  SignalField
  };

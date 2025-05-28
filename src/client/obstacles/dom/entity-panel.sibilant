@@ -1,21 +1,11 @@
 
 (namespace obstacles)
 
-(include "kit-interface/header")
-(import-namespace interface)
-
-(include "kit/header" )
-(import-namespace kit)
-
-(include "../../../../inc/dom.sibilant")
-(import-namespace dom)
-
-(require! (lit Component) "@shared/ecs.js"
-          (lit game) "@obstacles/game.js"
-          (lit Dot) "@shared/systems/rendering/dot.js"
-          (lit Pooled-data-structure) "@shared/data-structures/pooled.js"
-          (lit rgba) "@obstacles/colors.js"
-          )
+(import Component "/shared/ecs.js")
+(import game "/client/obstacles/game.js")
+(import Dot "/shared/systems/rendering/dot.js")
+(import Pooled-data-structure "/shared/data-structures/pooled.js")
+(import rgba "/client/obstacles/colors.js")
 
 (define Entity-panel Interface
   (init (entity ))
@@ -33,9 +23,7 @@
                                     )
                                 [(dots accumulator)
                                  (dom (.div .className "panel" key ":" (get component key)))]
-                                ))
-                         []))
-           )
+                                )) [])))
     (with-dom *parent
       (.div .className "panel"
 

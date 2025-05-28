@@ -1,21 +1,18 @@
 (namespace obstacles)
 
-(include "../../../inc/dom.sibilant")
-(import-namespace dom)
+(import rendering  "/client/obstacles/rendering.js")
+(import vector-pool trail-pool "/shared/vectors.js")
+(import Physics "/shared/systems/physics.js")
+(import Dot "/shared/systems/rendering/dot.js")
+(import summate "/shared/math/math.js")
+(import View-panel Property-view "/client/obstacles/systems/property-view.js")
+(import config "/client/obstacles/config.js")
 
-(require! (lit rendering ) "@obstacles/rendering.js"
-          (lit vector-pool trail-pool) "@shared/vectors.js"
-          (lit Physics) "@shared/systems/physics/index.js"
-          (lit Dot) "@shared/systems/rendering/dot.js"
-          (lit summate) "@shared/math/math.js"
-          (lit View-panel Property-view) "@obstacles/systems/property-view.js"
-          config "@obstacles/config.js"
-          )
+(import  game "/client/obstacles/game.js")
 
+(import ants rocks plants trail-segments "/client/obstacles/entities.js")
 
 (def-generic display-decimal (d (n 6)) (/ (Math.round (* (Math.pow 10 n) d)) (Math.pow 10 n)))
-
-
 
 (macro sum-of (reducable ...keys)
        `(.reduce @reducable  (=> ( sum el) (+ sum (or (get el ...@keys) 0))) 0))
@@ -25,9 +22,7 @@
                             rendering.context.canvas)))
 (const get-stats (->
 
-                  (require! (lit game) "@obstacles/game.js"
-                            (lit ants rocks plants trail-segments) "@obstacles/entities.js"
-                            )
+                  
 
                   (const get-total-ant-mass (-> (display-decimal (sum-of ants.group 'physical-properties 'mass) 2)))
                   (const get-ant-count (-> ants.size))
@@ -59,10 +54,7 @@
 
 (const reset-button (dom (.button .onclick (->
 
-                                            (require! (lit game) "@obstacles/game.js"
-
-                            (lit ants rocks plants trail-segments) "@obstacles/entities.js"
-                                                      )
+                                            
                                             (.clear rocks)
                                             (.clear ants)
                                             (.clear plants)
@@ -123,7 +115,6 @@
 (export game-view)
 (export debug-view)
 (def start-interface ()
-  (require! (lit game) "@obstacles/game.js")
   (with-dom Document-body (.div .id 'frame container))
   (on game.events 'tick (t)
 

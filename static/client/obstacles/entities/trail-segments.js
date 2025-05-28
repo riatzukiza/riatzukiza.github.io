@@ -17,48 +17,55 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
+import { 
   TrailDots
- } = require("@obstacles/systems/ants/trail-dots.js"),
-    { 
+ } from "/client/obstacles/systems/ants/trail-dots.js";
+import { 
   DecayingTrails
- } = require("@obstacles/systems/ants/trail-segments.js"),
-    { 
+ } from "/client/obstacles/systems/ants/trail-segments.js";
+import { 
   Position
- } = require("@obstacles/systems/position.js"),
-    { 
+ } from "/client/obstacles/systems/position.js";
+import { 
   Velocity
- } = require("@obstacles/systems/velocity.js"),
-    { 
+ } from "/client/obstacles/systems/velocity.js";
+import { 
   Physics
- } = require("@shared/systems/physics/index.js"),
-    { 
+ } from "/shared/systems/physics.js";
+import { 
   Component,
   System,
   EntityGroup
- } = require("@shared/ecs.js"),
-    { 
+ } from "/shared/ecs.js";
+import { 
   rgba
- } = require("@obstacles/colors.js"),
-    { 
+ } from "/client/obstacles/colors.js";
+import { 
   Collision,
   placeEntity
- } = require("@shared/systems/collision.js"),
-    { 
+ } from "/shared/systems/collision.js";
+import { 
   game,
   activeGameSystems
- } = require("@obstacles/game.js"),
-    { 
+ } from "/client/obstacles/game.js";
+import { 
   TrailsPanel
- } = require("@obstacles/systems/ants/trail-panel.js"),
-    config = require("@obstacles/config.js");
+ } from "/client/obstacles/systems/ants/trail-panel.js";
+import { 
+  config
+ } from "/client/obstacles/config.js";
+import { 
+  Friction
+ } from "/client/obstacles/forces.js";
 const systems=[ Position, TrailDots, DecayingTrails, TrailsPanel ];
 const trailSegments=create(EntityGroup)("Trail segments", systems, game.ent);
-export { 
-  trailSegments
- };
+var getTrailSegments = (function getTrailSegments$() {
+  /* get-trail-segments eval.sibilant:23:0 */
+
+  return trailSegments;
+});
 var spawnAntTrailSegment = (function spawnAntTrailSegment$(ant) {
-  /* spawn-ant-trail-segment eval.sibilant:23:0 */
+  /* spawn-ant-trail-segment eval.sibilant:25:0 */
 
   `
   obstacles/entities/trail-segment/spawn-trail-segment.md
@@ -90,7 +97,3 @@ var spawnAntTrailSegment = (function spawnAntTrailSegment$(ant) {
 export { 
   spawnAntTrailSegment
  };
-var { 
-  Friction,
-  SignalField
- } = require("@obstacles/forces.js");

@@ -17,70 +17,84 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var R = require("ramda");
-var { 
-  create,
-  extend,
-  mixin,
-  conditional,
-  cond,
-  partiallyApplyAfter
- } = require("@kit-js/core/js/util");
-var { 
-  Interface
- } = require("@kit-js/interface");
 global.mixin = mixin;
 global.create = create;
-var { 
+import { 
   rocks,
   spawnRock,
   rockGenStep
- } = require("@obstacles/entities/rocks.js"),
-    { 
+ } from "/client/obstacles/entities/rocks.js";
+import { 
   ants,
   spawnAnt,
   clearAnts
- } = require("@obstacles/entities/ants.js"),
-    { 
+ } from "/client/obstacles/entities/ants.js";
+import { 
   plants,
   spawnPlant
- } = require("@obstacles/entities/plants.js"),
-    { 
+ } from "/client/obstacles/entities/plants.js";
+import { 
   trailSegments,
   spawnAntTrailSegment
- } = require("@obstacles/entities/trail-segments.js"),
-    { 
+ } from "/client/obstacles/entities/trail-segments.js";
+import { 
   home,
   homePos
- } = require("@obstacles/entities/home.js"),
-    config = require("@obstacles/config.js");
+ } from "/client/obstacles/entities/home.js";
+import { 
+  config
+ } from "/client/obstacles/config.js";
 var clear = (function() {
-  /* eval.sibilant:20:11 */
+  /* eval.sibilant:14:11 */
 
   return arguments[0].clear();
 });
 var nextSpawnTime = 0;
 var nextSpawn = ((game) => {
-	
-  nextSpawnTime += game.ticker.elapsed;
-  return (function() {
-    if ((nextSpawnTime > (1000 / config.spawnRate) && ants.group.size <= config.antLimit)) {
-      spawnAnt([ homePos.x, homePos.y ], home);
-      return nextSpawnTime = 0;
-    }
-  }).call(this);
-
+	nextSpawnTime += game.ticker.elapsed;
+return (function() {
+  if ((nextSpawnTime > (1000 / config.spawnRate) && ants.group.size <= config.antLimit)) {
+    spawnAnt([ homePos.x, homePos.y ], home);
+    return nextSpawnTime = 0;
+  }
+}).call(this);
 });
-exports.nextSpawn = nextSpawn;
-exports.rockGenStep = rockGenStep;
-exports.spawnRock = spawnRock;
-exports.spawnPlant = spawnPlant;
-exports.spawnAnt = spawnAnt;
-exports.ants = ants;
-exports.plants = plants;
-exports.rocks = rocks;
-exports.home = home;
-exports.homePos = homePos;
-exports.clearAnts = clearAnts;
-exports.trailSegments = trailSegments;
-exports.spawnAntTrailSegment = spawnAntTrailSegment;
+export { 
+  nextSpawn
+ };
+export { 
+  rockGenStep
+ };
+export { 
+  spawnRock
+ };
+export { 
+  spawnPlant
+ };
+export { 
+  spawnAnt
+ };
+export { 
+  ants
+ };
+export { 
+  plants
+ };
+export { 
+  rocks
+ };
+export { 
+  home
+ };
+export { 
+  homePos
+ };
+export { 
+  clearAnts
+ };
+export { 
+  trailSegments
+ };
+export { 
+  spawnAntTrailSegment
+ };

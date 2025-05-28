@@ -17,23 +17,20 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
+import { 
   Component,
   System
- } = require("@shared/ecs.js"),
-    { 
+ } from "/shared/ecs.js";
+import { 
   Timer,
   TimeLimit
- } = require("@obstacles/systems/timer.js"),
-    config = require("@obstacles/config.js");
+ } from "/client/obstacles/systems/timer.js";
 import { 
-  renderChildren,
-  createDocumentNode,
-  DocumentNode,
-  DocumentBody,
-  DocumentHead,
-  DocumentRoot
- } from "/shared/dom.js";
+  config
+ } from "/client/obstacles/config.js";
+import { 
+  spawnAntTrailSegment
+ } from "/client/obstacles/entities/trail-segments.js";
 var AntTrail = Component.define("AntTrail", { 
   _clear(  ){ 
     
@@ -58,8 +55,6 @@ export {
 var AntTrails = System.define("AntTrails", { 
   interface:AntTrail,
   get spawnAntTrailSegment(  ){ 
-    
-      return require("@obstacles/entities/trail-segments.js").spawnAntTrailSegment;
     
    },
   _updateComponent( c ){ 

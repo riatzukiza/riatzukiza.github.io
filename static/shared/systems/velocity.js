@@ -28,6 +28,16 @@ import {
   Position
  } from "./position.js";
 var VelocityInterface = Component.define("VelocityInterface", { 
+  get parentView(  ){ 
+    
+      return this.entity.propertyView.view;
+    
+   },
+  get updateView__QUERY(  ){ 
+    
+      return this.moved;
+    
+   },
   get xd(  ){ 
     
       return this.vector.x;

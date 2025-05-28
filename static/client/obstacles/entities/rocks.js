@@ -17,58 +17,54 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
-  Dot
- } = require("@shared/systems/rendering/dot.js"),
-    { 
+var QuadTree = require("@timohausmann/quadtree-js");
+import "/shared/systems/rendering/dot.js";
+import { 
   Position
- } = require("@obstacles/systems/position.js"),
-    { 
+ } from "/client/obstacles/systems/position.js";
+import { 
   Velocity
- } = require("@obstacles/systems/velocity.js"),
-    { 
+ } from "/client/obstacles/systems/velocity.js";
+import { 
   Physics
- } = require("@shared/systems/physics/index.js"),
-    { 
+ } from "/shared/systems/physics.js";
+import { 
   Component,
   System,
   EntityGroup
- } = require("@shared/ecs.js"),
-    { 
+ } from "/shared/ecs.js";
+import { 
   Group
- } = require("@shared/data-structures/group.js"),
-    { 
+ } from "/shared/data-structures/group.js";
+import { 
   List
- } = require("@shared/data-structures/list.js"),
-    { 
+ } from "/shared/data-structures/list.js";
+import { 
   Vector
- } = require("@shared/vectors.js"),
-    QuadTree = require("@timohausmann/quadtree-js"),
-    { 
+ } from "/shared/vectors.js";
+import { 
   Trie
- } = require("@shared/data-structures/trees/trie.js"),
-    { 
+ } from "/shared/data-structures/trees/trie.js";
+import { 
   Collision,
   placeEntity
- } = require("@shared/systems/collision.js"),
-    { 
-  Friction,
-  SignalField
- } = require("@obstacles/forces.js"),
-    { 
-  TreeMap
- } = require("tree-kit"),
-    { 
+ } from "/shared/systems/collision.js";
+import { 
+  Friction
+ } from "/client/obstacles/forces.js";
+import { 
   game,
   activeGameSystems
- } = require("@obstacles/game.js"),
-    { 
+ } from "/client/obstacles/game.js";
+import { 
   RockSprites
- } = require("@obstacles/systems/rock-sprites.js"),
-    { 
+ } from "/client/obstacles/systems/rock-sprites.js";
+import { 
   rgba
- } = require("@obstacles/colors.js"),
-    config = require("@obstacles/config.js");
+ } from "/client/obstacles/colors.js";
+import { 
+  config
+ } from "/client/obstacles/config.js";
 const rocks=create(EntityGroup)("Rocks", [ RockSprites, Position, Physics, Collision, Velocity ], game.ent);
 const rockPlacementVector=Vector.spawn(0, 0);
 const rockScaleVariation=(config.rockMaxSize - config.rockMinSize);
@@ -77,11 +73,11 @@ const maxRockBaseMass=(config.rockMassScalingFactor * config.rockMaxMassFactor);
 const minRockBaseMass=(config.rockMassScalingFactor * config.rockMinMassFactor);
 const maxRockDensity=((config.rockMinSize * maxRockBaseMass) / Math.pow(config.rockMinSize, 3));
 const minRockDensity=((config.rockMaxSize * maxRockBaseMass) / Math.pow(config.rockMaxSize, 3));
-var spawnRock = (function spawnRock$(x_y$3, mass, scale) {
+var spawnRock = (function spawnRock$(x_y$34, mass, scale) {
   /* spawn-rock eval.sibilant:42:0 */
 
-  var x = x_y$3[0],
-      y = x_y$3[1];
+  var x = x_y$34[0],
+      y = x_y$34[1];
 
   console.log("spawning rock");
   var rock = rocks.spawn([ RockSprites, Position, Physics, Collision, Velocity ]);

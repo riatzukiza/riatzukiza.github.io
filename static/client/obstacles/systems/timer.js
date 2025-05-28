@@ -17,17 +17,19 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
+import { 
   Component,
   System
- } = require("@shared/ecs.js"),
-    { 
+ } from "/shared/ecs.js";
+import { 
   BinarySearchTree
- } = require("@shared/data-structures/trees/binary-search-tree.js"),
-    { 
+ } from "/shared/data-structures/trees/binary-search-tree.js";
+import { 
   RedBlackTree
- } = require("@shared/data-structures/trees/red-black-tree.js"),
-    config = require("@obstacles/config.js");
+ } from "/shared/data-structures/trees/red-black-tree.js";
+import { 
+  config
+ } from "/client/obstacles/config.js";
 var TimeLimit = Component.define("TimeLimit", { 
   docString:"Obstacles.systems.Time-limit",
   addToTree(  ){ 

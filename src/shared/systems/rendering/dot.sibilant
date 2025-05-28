@@ -2,7 +2,7 @@
 (import Physics "../physics.js")
 (import Position "../position.js")
 (import Gl "../../gl.js")
-(import Interface "../../kit/interface/index.")
+(import Interface "../../kit/interface/index.js")
 
 (macro read-shader (path)
        (require! 'fs)

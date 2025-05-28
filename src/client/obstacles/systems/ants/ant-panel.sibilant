@@ -1,8 +1,5 @@
 (namespace obstacles)
-(require! (lit Property-view View-panel) "@obstacles/systems/property-view.js")
-
-(include "../../../../../inc/dom.sibilant")
-(import-namespace dom)
+(import Property-view View-panel "/client/obstacles/systems/property-view.js")
 
 (define Ants-property-view Property-view)
 

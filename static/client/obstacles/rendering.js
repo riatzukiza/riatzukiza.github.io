@@ -17,10 +17,12 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
+import { 
   Rendering
- } = require("@shared/systems/rendering/rendering.js"),
-    config = require("@obstacles/config.js");
+ } from "/shared/systems/rendering/rendering.js";
+import { 
+  config
+ } from "./config.js";
 const rendering=Rendering.load({ 
   dimensions:[ (1 * config.dimensions[0]), (1 * config.dimensions[1]) ],
   blend:true

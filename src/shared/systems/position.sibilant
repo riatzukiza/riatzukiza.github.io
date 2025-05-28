@@ -2,11 +2,15 @@
 (import Component System "../ecs.js")
 
 (define Position-interface Component
+
   (*x 0)
   (*y 0)
   (z 0)
   (gett x this.*x)
   (gett y this.*y)
+
+  (gett parent-view this.entity.property-view.view )
+  (gett update-view? (if this.entity.velocity-interface this.entity.velocity-interface.update-view?))
 
   (sett y y
 

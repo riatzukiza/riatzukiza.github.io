@@ -17,32 +17,34 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
+import { 
   Velocity
- } = require("@shared/systems/velocity.js");
-var { 
+ } from "/shared/systems/velocity.js";
+import { 
   Position
- } = require("@shared/systems/position.js");
-var { 
+ } from "/shared/systems/position.js";
+import { 
   game
- } = require("@obstacles/game.js"),
-    { 
+ } from "../game.js";
+import { 
   createParticleUpdater
- } = require("@shared/field.js"),
-    { 
+ } from "/shared/field.js";
+import { 
   homePos,
   plants,
   ants,
   rocks
- } = require("@obstacles/entities.js"),
-    { 
+ } from "../entities.js";
+import { 
   Friction,
   SignalField
- } = require("@obstacles/forces.js"),
-    { 
+ } from "../forces.js";
+import { 
   Physics
- } = require("@shared/systems/physics/index.js"),
-    config = require("@obstacles/config.js");
+ } from "/shared/systems/physics.js";
+import { 
+  config
+ } from "../config.js";
 const updateParticle=createParticleUpdater(config, game);
 game.events.on("antCollision", ((c, c_) => {
 	var v = c.entity.velocityInterface;

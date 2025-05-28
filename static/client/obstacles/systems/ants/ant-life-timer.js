@@ -17,75 +17,31 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
+import { 
   Component,
   System
- } = require("@shared/ecs.js"),
-    { 
+ } from "/shared/ecs.js";
+import { 
   RedBlackTree
- } = require("@shared/data-structures/trees/red-black-tree.js"),
-    config = require("@obstacles/config.js");
-var { 
+ } from "/shared/data-structures/trees/red-black-tree.js";
+import { 
+  config
+ } from "../../config.js";
+import { 
   Timer,
   TimeLimit
- } = require("@obstacles/systems/timer.js"),
-    { 
-  placeEntity
- } = require("@shared/systems/collision.js"),
-    config = require("@obstacles/config.js");
+ } from "../timer.js";
 import { 
-  renderChildren,
-  createDocumentNode,
-  DocumentNode,
-  DocumentBody,
-  DocumentHead,
-  DocumentRoot
- } from "/shared/dom.js";
+  placeEntity
+ } from "/shared/systems/collision.js";
+import { 
+  trailSegments
+ } from "../../entities/trail-segments.js";
 const views=(new Map());
 var AntLife = TimeLimit.define("AntLife", { 
   duration:config.antLife,
   updateView__QUERY:true,
-  get views(  ){ 
-
-      return (function() {
-        if (this._views) {
-          return this._views;
-        } else {
-          return this._views = (new Map());
-        }
-      }).call(this);
-
-   },
-  get view(  ){ 
-  
-    return (() => {
-    	return (function() {
-      if (this.views.has("view")) {
-        return this.views.get("view");
-      } else {
-        var r = (function() {
-          /* eval.sibilant:12:23 */
-        
-          return createDocumentNode("div", {
-            'className': "panel",
-            'style': { 
-              width:"48%"
-             }
-          }, [ createDocumentNode("div", {  }, [ "life", (() => {
-          	return this.remainingTime;
-          }) ]), createDocumentNode("div", {  }, [ "wins", (() => {
-          	return this.winCount;
-          }) ]), createDocumentNode("div", {  }, [ "losses", (() => {
-          	return this.looseCount;
-          }) ]) ]);
-        }).call(this);
-        this.views.set("view", r);
-        return r;
-      }
-    }).call(this);
-    });
-  
- },
+  defView:view,
   _clear(  ){ 
     
       TimeLimit._clear.call(this);
@@ -103,12 +59,12 @@ var AntLife = TimeLimit.define("AntLife", {
    },
   get homePos(  ){ 
     
-      return require("@obstacles/entities.js").homePos;
+      return config.homeLocation;
     
    },
   get segGroup(  ){ 
     
-      return require("@obstacles/entities/trail-segments.js").trailSegments;
+      return getTrailSegments();
     
    },
   callback( e,c ){ 

@@ -35,6 +35,20 @@ var PositionInterface = Component.define("PositionInterface", {
       return this._y;
     
    },
+  get parentView(  ){ 
+    
+      return this.entity.propertyView.view;
+    
+   },
+  get updateView__QUERY(  ){ 
+    
+      return (function() {
+        if (this.entity.velocityInterface) {
+          return this.entity.velocityInterface.updateView__QUERY;
+        }
+      }).call(this);
+    
+   },
   set y( y ){ 
     
       if( !(this.moved) ){ 

@@ -17,21 +17,21 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var { 
+import { 
   Velocity
- } = require("@obstacles/systems/velocity.js");
-var { 
+ } from "../systems/velocity.js";
+import { 
   Physics
- } = require("@shared/systems/physics/system.js");
-var { 
+ } from "/shared/systems/physics/system.js";
+import { 
   game
- } = require("@obstacles/game.js"),
-    { 
+ } from "../game.js";
+import { 
   home,
   plants,
   ants,
   rocks
- } = require("@obstacles/entities.js");
+ } from "../entities.js";
 game.events.on("collision", ((c, c_) => {
 	var v = c.entity.velocityInterface;
 var v_ = c_.entity.velocityInterface;

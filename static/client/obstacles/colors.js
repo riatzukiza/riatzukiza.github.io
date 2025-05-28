@@ -18,10 +18,10 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 import { 
-  TreeMap
- } from "tree-kit";
-TreeMap.get = (function TreeMap$get$(...args) {
-  /* Tree-map.get eval.sibilant:4:0 */
+  Trie
+ } from "/shared/data-structures/trees/trie.js";
+Trie.get = (function Trie$get$(...args) {
+  /* Trie.get eval.sibilant:4:0 */
 
   return this.find(...args).value;
 });

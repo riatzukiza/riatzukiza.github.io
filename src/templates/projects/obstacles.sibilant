@@ -17,12 +17,10 @@ position:absolute;
        (.script .src "https://cdn.jsdelivr.net/quicksettings/3.0/quicksettings.min.js"))
 
 
-      (.script .src "/socket.io/socket.io.js")
-
 
       (.body (.img .id "ant-texture".src "/ant.png" .hidden "true")
        (.img .id "rock-texture".src "/rock.png" .hidden "true"))
 
-      (.script .src "/bundles/obstacles/main.js")
+      (.script .src "/client/obstacles/main.js" .type 'module)
 
       )
