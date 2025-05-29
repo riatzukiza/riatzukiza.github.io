@@ -282,12 +282,12 @@
                 "state": {
                   "type": "markdown",
                   "state": {
-                    "file": "notes/daily/2025-05-28.md",
+                    "file": "notes/daily/2025-05-29.md",
                     "mode": "source",
                     "source": false
                   },
                   "icon": "lucide-file",
-                  "title": "2025-05-28"
+                  "title": "2025-05-29"
                 }
               },
               {
@@ -319,9 +319,10 @@
   },
   "active": "1b0db6fa3d479bd4",
   "lastOpenFiles": [
+    "notes/daily/2025-05-28.md",
+    "notes/daily/2025-05-29.md",
     "paralellism and multithreading game systems.md",
     "Tasks Plugin - Review and check your Statuses 2024-12-18 14-28-29.md",
-    "notes/daily/2025-05-28.md",
     "kanban/process.md",
     "notes/daily/2025-05-23.md",
     "notes/unique/2025-05-22-09.11.08.md",
@@ -344,7 +345,6 @@
     "notes/daily/2025-04-13.md",
     "notes/daily/2025-04-12.md",
     "kanban/tasks/Hot reload system.md",
-    "kanban/tasks/BUG Collision doesn't work correctly in some circumstances..md",
     "notes/unique",
     "Chats",
     "notes/daily",
