@@ -11,34 +11,14 @@
             "id": "8f9686408cbdbd84",
             "type": "leaf",
             "state": {
-              "type": "kanban",
+              "type": "markdown",
               "state": {
-                "file": "kanban/board.md",
-                "kanbanViewState": {
-                  "kanban-plugin": "board",
-                  "list-collapse": [
-                    true,
-                    true,
-                    true,
-                    false,
-                    false,
-                    true,
-                    true,
-                    true,
-                    true,
-                    false,
-                    true,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false
-                  ]
-                }
+                "file": "notes/daily/2025-07-02.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-trello",
-              "title": "board"
+              "icon": "lucide-file",
+              "title": "2025-07-02"
             }
           },
           {
@@ -281,12 +261,14 @@
       "githobs:Manage a github issue": false,
       "webpage-html-export:Export Vault to HTML": false,
       "obisidian-note-linker:Note Linker": false,
-      "smart-second-brain:Open S2B Chat": false,
-      "card-board:CardBoard": false
+      "smart-second-brain:Open S2B Chat": false
     }
   },
   "active": "8f9686408cbdbd84",
   "lastOpenFiles": [
+    "kanban/board.md",
+    "notes/daily/2025-07-02.md",
+    "notes/unique/2025-05-22-09.11.08.md",
     "notes/daily/2025-06-30.md",
     "notes/daily/2025-06-18.md",
     "notes/daily/2025-05-28.md",
@@ -295,9 +277,7 @@
     "Tasks Plugin - Review and check your Statuses 2024-12-18 14-28-29.md",
     "kanban/process.md",
     "notes/daily/2025-05-23.md",
-    "notes/unique/2025-05-22-09.11.08.md",
     "notes/unique/2025-05-21-06.07.23.md",
-    "kanban/board.md",
     "notes/unique/2025-05-22-09.00.02.md",
     "notes/daily/2025-04-24.md",
     "kanban/tasks/Process.md",
@@ -312,7 +292,6 @@
     "notes/daily/2025-02-05.md",
     "kanban/tasks/Migrate module system to `imports`.md",
     "notes/daily/2025-04-17.md",
-    "notes/daily/2025-04-13.md",
     "notes/unique",
     "Chats",
     "notes/daily",
