@@ -1,17 +1,16 @@
+
 (macro css-class (class-name ...body)
 
-       ["`\n" (if (= (get class-name 'type) "dots")
-                  (+ "." (get (first class-name.contents)  'token))
-                  (get  class-name 'token))
+       ["`\n" "${" class-name "}" 
+
               "{\n"
               ...@(map body (prop)
                        (const name (get (first prop.contents) 'token))
                        (const value (second prop.contents))
                        ["  "name ":" "${" value "};\n"])
               "}\n`"])
-
 (macro style-sheet (...classes)
-       `(html (.style
+       `(markup (.style
                ...@(.map classes (=> (cl)
                                      (const name (first cl.contents))
                                   (const values (rest cl.contents))
@@ -39,26 +38,42 @@
 "
                 )
        (style-sheet
-        (.panel (float "left")
+        (".iframe-container" (height "calc(50% - 2px)")
+                           (z-index "2")
+                           (display "inline-block")
+                           (position "relative")
+                (width "calc(50% - 4px)")
+                (float "left"))
+        
+
+        (".iframe-container iframe" (width "calc(100% - 16px)")
+                (height "calc(100% - 16px)")
+                (overflow "hidden")
+                (pointer-events "none")
+                (z-index "-100")
+                )
+
+
+        (".panel" (float "left")
                 (border-style "solid")
                 (border-width "1px"))
 
-        (.bordered (border-style "solid")
+        (".bordered" (border-style "solid")
                    (border-width "1px")
                    (border-color "#75715e")
                    ;; (border-color "#99947c")
                    
                    )
-        (.focus-bordered (border-style "solid")
+        (".focus-bordered" (border-style "solid")
                    (border-width "1px")
                    (border-color "#99947c"))
-        (body (background-color "#34352f"))
-        (header (height "10%")
+        ("body" (background-color "#34352f"))
+        ("header" (height "10%")
                 (color "#f8f8f2")
 
                 (background-color "#1e1f1c")
                 )
-        (main (height "80%")
+        ("main" (height "80%")
 
               (color "#f8f8f2")
               (background-color "#1e1f1c")
@@ -66,15 +81,13 @@
               (margin-bottom "3px")
               )
 
-        (footer (height "10%")
+        ("footer" (height "10%")
 
                 (color "#f8f8f2")
                 (background-color "brown")
                 (background-color "#1e1f1c")
                 )
-        (a (color "#cccccc"))
-
-        )
+        ("a" (color "#cccccc")))
 
        (.script .src "https://cdn.jsdelivr.net/quicksettings/3.0/quicksettings.min.js"))
 
@@ -93,21 +106,24 @@
                             )
                       )
              (.main .id "main"
-                    (.article (.h2 "I dabble and so can you")
-                              (.section
-                               "No one should be getting rich. Period."
-                               "Everyone should eat."
-                               "It is now easier than ever to build new and unique software."
-                               "Even grandma can do it.")
 
-                              (.section "*INSERT COOL CHAT INTERFACE RUNNING ON YOUR BROWSER TO AN LLM*")
+                    (pipe (.load File-system "./static/client")
 
-                              (.section
-                               "This is your friend. It is free, it is private. If your computer gets hot when you use it, you know why. It's answering your questions with it.")
-                              (.section "Pretty much everything on this website will do that. Your phone/computer/tablet/toaster is a pretty powerful computer.")
-                              (.section "And this website will use it. Efficiently. Most graphics are done using low level webgl shaders. Most code heavily optimized. All of it in a language I designed myself (including the templating language I used to make this page) I call 'lith' as in a Lisp with a lisp")
-                              )
 
+                          (.find ".")
+                          (.then (=> (client-dir)
+                                     (map client-dir (dir)
+                                          (markup 
+                                           (.a .href (+ "/projects/" (Path.basename dir.path) ".html" )
+                                               .target "_blank"
+                                               (.div .class "iframe-container"
+                                                     (.iframe .class "project-preview"
+                                                              .frameborder "0"
+                                                              .height "100%"
+                                                              .width "100%"
+                                                           .src (+ "/projects/"  (Path.basename dir.path) ".html" )
+                                                           .id  (Path.basename dir.path))))))))
+                          )
                     )
              (.footer .id "footer"
                       (.section .id "links"
