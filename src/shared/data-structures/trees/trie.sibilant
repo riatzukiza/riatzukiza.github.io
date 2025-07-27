@@ -6,39 +6,42 @@
 (define Trie Tree
   (init (value parent (*children (.spawn Table))))
 
-  (def get (key) (get (.find this key) 'value))
+  (def get (key)
+    (doc-string "shared.datastructures.trees.trie.get" "key" "Retrieve the value associated with a key from the trie.")
+    (get (.find this key) 'value))
 
-  (def-generic set ((key null) (value null) ) (set (.insert this  key) 'value value))
-
+  (def-generic set ((key null) (value null))
+    (doc-string "shared.datastructures.trees.trie.set" "key value" "Insert or update a value for the given key.")
+    (set (.insert this key) 'value value))
 
   (def-generic clear (value *children (tree this))
+    (doc-string "shared.datastructures.trees.trie.clear" "value *children (tree this)" "Remove all children and reset the node fields.")
     (each *children (child) (.despawn child))
 
     (assign tree.value null)
     (assign tree.parent null)
-    (assign tree.key null)
-
-    )
+    (assign tree.key null))
 
   (def-generic add (key (tree this) (*children tree.*children))
+    (doc-string "shared.datastructures.trees.trie.add" "key (tree this)" "Get or create a child node for the given key.")
     (var node (or (*children.get key) (.spawn Trie undefined tree)))
     (assign node.key key)
     node)
 
-  (def-generic delete (seq (tree this) )
-
+  (def-generic delete (seq (tree this))
+    (doc-string "shared.datastructures.trees.trie.delete" "seq (tree this)" "Delete the node specified by the sequence of keys.")
     ;; don't need r keys, the nodes should retain their key.
     (var node (.find tree seq))
     (.delete node.parent.*children (last seq))
-    (.despawn node)
-    )
+    (.despawn node))
 
   (def-generic *find (seq (node (this.*children.get (first seq))))
-
+    (doc-string "shared.datastructures.trees.trie.*find" "seq" "Internal recursive search for a sequence of keys.")
     (if node (.find node (rest seq))
         false))
 
   (def-generic *insert (seq *children (tree this) (node (.add tree (first seq))))
-    (*children.set (first seq) node )
+    (doc-string "shared.datastructures.trees.trie.*insert" "seq *children (tree this)" "Internal helper to insert a key sequence and return the new node.")
+    (*children.set (first seq) node)
     node))
 (export Trie)

@@ -16,36 +16,34 @@
     (.clear *list))
 
   (def create ()
-    "create an empty group instance"
+    (doc-string "Shared.datastructures.Group.create" "no args" "Create an empty group instance")
     ((create this) (dots arguments)))
 
   (def of ((dots items))
-    "create a new group instance with a variable number
-of arguements,regardless of the number or type of arguements.
-See the native `Array.of` static method."
-
+    (doc-string "Shared.datastructures.Group.of" "[...items]" "Create a new group from a variable number of arguments, similar to `Array.of`.")
     (var list (List.from items))
     ((create this) list))
 
   (def-generic from (items (fn (=> (a) a)))
-    "create a new group instance from an array like, or iterable object."
+    (doc-string "Shared.datastructures.Group.from" "items" "Create a group from an iterable object after mapping its values.")
     (const list (List.from (.map (Array.from items) fn)))
     (const members (new Map))
     (each list (item node) (.set members item node))
     ((create this) list members))
 
   (def-generic pop (*list *members)
-    "remove and return the element last in the groups ordering."
+    (doc-string "Shared.datastructures.Group.pop" "*list *members" "Remove and return the element last in the group's ordering.")
     (collect item (.pop *list)
              ;; (print "Popping from group" item *list *members)
 
              (.delete *members item)))
 
   (def-generic push (value)
-    "Add an element to the end of the groups ordering.")
+    (doc-string "Shared.datastructures.Group.push" "value" "Add an element to the end of the group's ordering.")
+    )
 
   (def-generic each (f *list)
-    "Call the given function on every element of the group, returning the group which is being itterated on"
+    (doc-string "Shared.datastructures.Group.each" "callback *list" "Call the given function on every element of the group and return the group.")
     (.each *list f)
     this)
 
@@ -53,7 +51,7 @@ See the native `Array.of` static method."
     (.find *list f))
 
   (def-generic add (member *list *members)
-    "Add an value to the group, unless the group already has that member."
+    (doc-string "Shared.datastructures.Group.add" "member" "Add a value to the group if it is not already present.")
     (unless ( *members.has member)
       (collect node (.node *list member)
 
@@ -62,11 +60,10 @@ See the native `Array.of` static method."
   (def-generic reduce (f accumulator *list) (.reduce *list f accumulator))
 
   (def-generic has (member *members)
-    "Check if the group has the given member, returning true if yes, and false if no."
-    (.has *members member))
+    (doc-string "Shared.datastructures.Group.has" "member" "Check if the group contains the given member and return a boolean.")
 
   (def-generic remove (member *list *members)
-    "Remove a specific member from the group."
+    (doc-string "Shared.datastructures.Group.remove" "member" "Remove a specific member from the group.")
     (collect node (.get *members member)
              (if node
                  (do (.remove-node *list node)
@@ -75,3 +72,4 @@ See the native `Array.of` static method."
                ))))
 
 (export Group)
+)
