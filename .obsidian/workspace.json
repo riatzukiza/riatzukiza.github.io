@@ -61,12 +61,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "notes/daily/2025-03-21.md",
+                "file": "notes/daily/2025-07-27.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2025-03-21"
+              "title": "2025-07-27"
             }
           },
           {
@@ -112,7 +112,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -323,6 +323,8 @@
   },
   "active": "361469d95690f756",
   "lastOpenFiles": [
+    "notes/daily/2025-03-21.md",
+    "notes/daily/2025-07-27.md",
     "kanban/board.md",
     "notes/daily/2025-07-02.md",
     "notes/unique/2025-05-22-09.11.08.md",
@@ -347,13 +349,8 @@
     "notes/daily/2025-04-27.md",
     "notes/daily/2025-04-26.md",
     "notes/daily/2025-02-05.md",
-    "kanban/tasks/Migrate module system to `imports`.md",
-    "notes/daily/2025-04-17.md",
     "notes/unique",
-    "Chats/_Index_of_Chats.md",
-    "Chats/New Chat.md",
     "Chats",
-    "notes/daily/2025-01-19.md",
     "notes/daily",
     "notes",
     "src/client/red-black-tree-visualization/main.sibilant",
