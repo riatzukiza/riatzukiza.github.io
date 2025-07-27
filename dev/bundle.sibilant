@@ -56,7 +56,7 @@
           (.then (-> (print "done bundling project module" file.path (Path.join dest.root file.rel))))
           (.catch (=> (e)
 
-                      (print "an exception has occured in the module bunler"
+                      (print "an exception has occurred in the module bundler"
                              file.path
                              e)
 
