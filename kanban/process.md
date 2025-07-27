@@ -10,6 +10,16 @@ New-> Accepted -> Breakdown -----> Ready -> Todo -> In Progress -> In Review -> 
                            |-------------
 ```
 
+```
+New -> Accepted -> Breakdown -----> Ready -> Todo -> In Progress -> In Review -> Done
+|                 |  |  ^    \       ^                |    ^            |
+|                 |  |  |     \      |                |    |            |
+----> Rejected<----  -> Blocked  \----|    |<-----------    |-------------
+                     \     ^      \        |<----------------
+                      \   /        \-------------------------
+                     Ice Box
+
+```
 
 # New
 
@@ -114,7 +124,6 @@ Tasks that are currently being worked on.
 # In Review (2)
 
 Work that has been completed but needs to be reviewed to be sure.
-
 
 
 # Done
