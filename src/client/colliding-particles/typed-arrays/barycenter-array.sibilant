@@ -1,6 +1,6 @@
 
-(import Double-buffered-array "./double-buffered.js")
-(import Barycenter "../data-types/barycenter.js")
+(import Double-buffered-array "@colliding-particles/double-buffered.js")
+(import Barycenter "@colliding-particles/data-types/barycenter.js")
 
 (define Barycenter-array Double-buffered-array
   (data-type Barycenter))

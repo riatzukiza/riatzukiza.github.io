@@ -1,4 +1,4 @@
-(import Animated-sprite Sprite-atlas "/shared/systems/rendering/sprite-atlas.js")
+(import Animated-sprite Sprite-atlas "@shared/systems/rendering/sprite-atlas.js")
 (const sprite-image (.get-element-by-id document "cliff-sprite"))
 
 (define Cliff-sprite Animated-sprite

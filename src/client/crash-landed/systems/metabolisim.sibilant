@@ -1,5 +1,5 @@
-(import System Component "/shared/ecs.js")
-(import List "/shared/data-structures/list.js")
+(import System Component "@shared/ecs.js")
+(import List "@shared/data-structures/list.js")
 (define Needs Component
   (calories-stored 2000) ;; negative calories 
   (calories-max 5000)

@@ -1,10 +1,10 @@
 
-(import System Component "/shared/ecs.js")
-(import Spawnable "/shared/data-structures/spawnable.js")
-(import List "/shared/data-structures/list.js")
-(import Vector "/shared/vectors.js")
+(import System Component "@shared/ecs.js")
+(import Spawnable "@shared/data-structures/spawnable.js")
+(import List "@shared/data-structures/list.js")
+(import Vector "@shared/vectors.js")
 (import config "../config.js")
-(import Heapable Binary-heap "/shared/data-structures/trees/binary-heap.js")
+(import Heapable Binary-heap "@shared/data-structures/trees/binary-heap.js")
 
 
 (def remove-from-array (el array)

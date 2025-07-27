@@ -1,21 +1,21 @@
 
 (meta "import '/bundles/external.js'")
 
-(import Vector-2D-array "../typed-arrays/vector-2d.js")
-(import Physics-array "../typed-arrays/physics-array.js")
-(import Group-id-array "../typed-arrays/group-id-array.js")
-(import Barycenter-array "../typed-arrays/barycenter-array.js")
-(import Kd-tree "../typed-arrays/kd-tree.sibilant")
+(import Vector-2D-array "@colliding-particles/typed-arrays/vector-2d.js")
+(import Physics-array "@colliding-particles/typed-arrays/physics-array.js")
+(import Group-id-array "@colliding-particles/typed-arrays/group-id-array.js")
+(import Barycenter-array "@colliding-particles/typed-arrays/barycenter-array.js")
+(import Kd-tree "@colliding-particles/typed-arrays/kd-tree.sibilant")
 
-(import Vector "/shared/vectors.js")
-(import Spawnable "/shared/data-structures/spawnable.js")
+(import Vector "@shared/vectors.js")
+(import Spawnable "@shared/data-structures/spawnable.js")
 
-(import Parent-system "../system.sibilant")
+(import Parent-system "@colliding-particles/system.sibilant")
 
 (def-lit-macro def-async (name args ..body)
   ["async "  name  `(parenthetic (comma ...@args.contents)) `(curly (do-block ...@body))])
 
-(import config "../config.js")
+(import config "@colliding-particles/config.js")
 (const (lit max-levels max-objects) config)
 
 

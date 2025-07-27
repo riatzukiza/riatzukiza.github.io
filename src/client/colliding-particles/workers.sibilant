@@ -1,5 +1,5 @@
-(import Systems-manager Threaded-system "./system.sibilant")
-(import game-data particles particle-groups "./data.sibilant")
+(import Systems-manager Threaded-system "@colliding-particles/system.sibilant")
+(import game-data particles particle-groups "@colliding-particles/data.sibilant")
 (define Velocity-system Threaded-system
 
   (url "/client/colliding-particles/workers/velocity.js")

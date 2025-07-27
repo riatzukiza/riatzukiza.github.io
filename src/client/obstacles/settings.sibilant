@@ -1,5 +1,5 @@
-(import config "./config.js")
-(import entities "./entities.js")
+(import config "@obstacles/config.js")
+(import entities "@obstacles/entities.js")
 
 (var settings (Quick-settings.create 800 0 "settings 1"))
 

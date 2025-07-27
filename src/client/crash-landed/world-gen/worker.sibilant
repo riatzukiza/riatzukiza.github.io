@@ -1,4 +1,4 @@
-(import Thread Inline-thread "/shared/worker.js")
+(import Thread Inline-thread "@shared/worker.js")
 
 (define Tile-generator Thread
 

@@ -1,9 +1,9 @@
-(import Velocity "../systems/velocity.js")
+(import Velocity "@obstacles/systems/velocity.js")
 
-(import Physics "/shared/systems/physics/system.js")
+(import Physics "@shared/systems/physics/system.js")
 
-(import game "../game.js")
-(import home plants ants rocks "../entities.js")
+(import game "@obstacles/game.js")
+(import home plants ants rocks "@obstacles/entities.js")
 
 (on game.events 'collision (c c* )
     (var v c.entity.velocity-interface)

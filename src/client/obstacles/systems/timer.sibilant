@@ -1,8 +1,8 @@
 
-(import Component System "/shared/ecs.js")
-(import Binary-search-tree "/shared/data-structures/trees/binary-search-tree.js")
-(import Red-black-tree "/shared/data-structures/trees/red-black-tree.js")
-(import config "/client/obstacles/config.js")
+(import Component System "@shared/ecs.js")
+(import Binary-search-tree "@shared/data-structures/trees/binary-search-tree.js")
+(import Red-black-tree "@shared/data-structures/trees/red-black-tree.js")
+(import config "@obstacles/config.js")
 
 (define Time-limit Component
   (doc-string "Obstacles.systems.Time-limit"

@@ -1,5 +1,5 @@
-(import Spawnable "/shared/data-structures/spawnable.js")
-(import Thread "/shared/worker.js")
+(import Spawnable "@shared/data-structures/spawnable.js")
+(import Thread "@shared/worker.js")
 
 (define Threaded-system Spawnable
   (data [])

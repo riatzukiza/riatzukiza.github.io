@@ -1,4 +1,4 @@
-(import Spawnable "/shared/data-structures/spawnable.js")
+(import Spawnable "@shared/data-structures/spawnable.js")
 (macro define-property (obj key ..body)
        `(Object.define-property @obj @key (lit ...@body))
        )

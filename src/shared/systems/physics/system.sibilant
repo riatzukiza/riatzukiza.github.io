@@ -1,7 +1,7 @@
-(import Component System "/shared/ecs.js")
-(import Velocity "/shared/systems/velocity.js")
-(import Position "/shared/systems/position.js")
-(import Interface "/shared/kit/interface/index.js")
+(import Component System "@shared/ecs.js")
+(import Velocity "@shared/systems/velocity.js")
+(import Position "@shared/systems/position.js")
+(import Interface "@shared/kit/interface/index.js")
 
 (define Physical-properties Component
 

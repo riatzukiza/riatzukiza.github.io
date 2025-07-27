@@ -3,6 +3,14 @@
     "version": "0.1.0",
     "description": "the increasingly inaccurately named bundle of code",
     "main": "main.js",
+    "imports": {
+        "@shared/": "./static/shared/",
+        "@crash-landed/": "./static/client/crash-landed/",
+        "@colliding-particles/": "./static/client/colliding-particles/",
+        "@obstacles/": "./static/client/obstacles/",
+        "@simple-gravity/": "./static/client/simple-gravity/",
+        "@red-black-tree-visualization/": "./static/client/red-black-tree-visualization/"
+    },
     "bin": {},
     "scripts": {
         "dev:start": "pm2 start ecosystem.config.js",

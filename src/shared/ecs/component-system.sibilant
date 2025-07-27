@@ -9,7 +9,7 @@
 (import Component "./component.js")
 (import Interface "../kit/interface/index.js")
 
-(import Saveable "/shared/saveable.js")
+(import Saveable "@shared/saveable.js")
 
 
 (def spawn-component  (entity systems) (#-> systems.get (.spawn  entity)))

@@ -1,7 +1,7 @@
 (namespace obstacles )
 
-(import display-decimal "/client/obstacles/strings.js")
-(import Position Position-interface "/shared/systems/position.js")
+(import display-decimal "@obstacles/strings.js")
+(import Position Position-interface "@shared/systems/position.js")
 
 (include "../../../../inc/dom.sibilant")
 (import-namespace dom)

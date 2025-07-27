@@ -1,7 +1,7 @@
 (namespace obstacles)
 
 (const rock-views [])
-(import  Entity-panel "/client/obstacles/dom/entity-panel.js")
+(import  Entity-panel "@obstacles/dom/entity-panel.js")
 
 (def-generic display-decimal (d (n 6)) (/ (Math.round (* (Math.pow 10 n) d)) (Math.pow 10 n)))
 

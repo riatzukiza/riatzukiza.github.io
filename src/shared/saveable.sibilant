@@ -1,8 +1,8 @@
 (namespace shared)
 (import-namespace async)
 
-(import Interface "/shared/kit/interface/index.js")
-(import Database "/shared/database.js")
+(import Interface "@shared/kit/interface/index.js")
+(import Database "@shared/database.js")
 (const dbs (new Map))
 (def get-database (name) (remember dbs name ((create Database) name )))
 

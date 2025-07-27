@@ -1,22 +1,22 @@
 (require! Quad-tree  "@timohausmann/quadtree-js")
 
-(import "/shared/systems/rendering/dot.js")
-(import Position "/client/obstacles/systems/position.js")
-(import Velocity "/client/obstacles/systems/velocity.js")
-(import Physics "/shared/systems/physics.js")
-(import Component System Entity-group "/shared/ecs.js")
-(import Group "/shared/data-structures/group.js")
-(import List "/shared/data-structures/list.js")
-(import Vector "/shared/vectors.js")
+(import "@shared/systems/rendering/dot.js")
+(import Position "@obstacles/systems/position.js")
+(import Velocity "@obstacles/systems/velocity.js")
+(import Physics "@shared/systems/physics.js")
+(import Component System Entity-group "@shared/ecs.js")
+(import Group "@shared/data-structures/group.js")
+(import List "@shared/data-structures/list.js")
+(import Vector "@shared/vectors.js")
 
-(import Trie "/shared/data-structures/trees/trie.js")
-(import Collision place-entity "/shared/systems/collision.js")
-(import Friction "/client/obstacles/forces.js")
-(import game active-game-systems "/client/obstacles/game.js")
+(import Trie "@shared/data-structures/trees/trie.js")
+(import Collision place-entity "@shared/systems/collision.js")
+(import Friction "@obstacles/forces.js")
+(import game active-game-systems "@obstacles/game.js")
 
-(import Rock-sprites "/client/obstacles/systems/rock-sprites.js")
-(import rgba "/client/obstacles/colors.js")
-(import config "/client/obstacles/config.js")
+(import Rock-sprites "@obstacles/systems/rock-sprites.js")
+(import rgba "@obstacles/colors.js")
+(import config "@obstacles/config.js")
 
 
 

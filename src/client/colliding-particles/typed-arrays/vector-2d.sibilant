@@ -1,5 +1,5 @@
-(import Double-buffered-array "./double-buffered.js")
-(import Vector2D "../data-types/vector-2d.js")
+(import Double-buffered-array "@colliding-particles/double-buffered.js")
+(import Vector2D "@colliding-particles/data-types/vector-2d.js")
 
 (define Vector-2D-array Double-buffered-array
   (data-type Vector2D)

@@ -1,5 +1,5 @@
 (namespace obstacles)
-(import Property-view View-panel "/client/obstacles/systems/property-view.js")
+(import Property-view View-panel "@obstacles/systems/property-view.js")
 
 (define Ants-property-view Property-view)
 

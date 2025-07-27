@@ -1,17 +1,17 @@
 (meta "import '/bundles/external.js'")
 
-(import Vector-2D-phase-space "../typed-arrays/vector-2d.js")
-(import Double-buffered-array "../typed-arrays/double-buffered.js")
+(import Vector-2D-phase-space "@simple-gravity/typed-arrays/vector-2d.js")
+(import Double-buffered-array "@simple-gravity/typed-arrays/double-buffered.js")
 
-(import Data-type "../data-types/data-type.js")
+(import Data-type "@simple-gravity/data-types/data-type.js")
 
-(import Vector "/shared/vectors.js")
-(import Spawnable "/shared/data-structures/spawnable.js")
+(import Vector "@shared/vectors.js")
+(import Spawnable "@shared/data-structures/spawnable.js")
 
 (require! Quad-tree  "@timohausmann/quadtree-js")
 
 
-(import config "../config.js")
+(import config "@simple-gravity/config.js")
 
 (define Particle-group Spawnable
   (init ((members (or this.members []))))

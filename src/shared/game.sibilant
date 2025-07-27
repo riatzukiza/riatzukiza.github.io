@@ -4,9 +4,9 @@
 (import Ordered-map "./data-structures/maps/ordered.js")
 (import Interface "./kit/interface/index.js")
 
-(import Saveable "/shared/saveable.js")
+(import Saveable "@shared/saveable.js")
 
-(import Rendering "/shared/systems/rendering/rendering.js")
+(import Rendering "@shared/systems/rendering/rendering.js")
 
 (define Game Saveable
   (init (config

@@ -1,6 +1,6 @@
-(import Vector2D "./vector-2d.sibilant")
-(import Data-type "./data-type.sibilant")
-(import Binary-tree-node "./binary-tree-node.sibilant")
+(import Vector2D "@colliding-particles/vector-2d.sibilant")
+(import Data-type "@colliding-particles/data-type.sibilant")
+(import Binary-tree-node "@colliding-particles/binary-tree-node.sibilant")
 
 (define Kd-tree-node Binary-tree-node
   (bucket-size 32)

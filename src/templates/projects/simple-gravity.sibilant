@@ -22,6 +22,7 @@ position:absolute;
 
       (.script `(assign window.*worker-scripts []))
       (.script .src "/bundles/external.js")
+      (.script .type "importmap" (markup "{\n  \"imports\": {\n    \"@shared/\": \"/shared/\",\n    \"@simple-gravity/\": \"/client/simple-gravity/\"\n  }\n}"))
 
       (.body
 

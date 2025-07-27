@@ -1,5 +1,5 @@
 
-(import Data-type "./data-type.sibilant")
+(import Data-type "@colliding-particles/data-type.sibilant")
 
 
 (define Binary-tree-node Data-type

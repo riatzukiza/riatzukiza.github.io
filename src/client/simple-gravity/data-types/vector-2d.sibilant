@@ -1,4 +1,4 @@
-(import Data-type "./data-type.js")
+(import Data-type "@simple-gravity/data-type.js")
 
 (define Vector2D Data-type
   (keys ['x 'y])

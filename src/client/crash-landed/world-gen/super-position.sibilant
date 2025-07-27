@@ -1,5 +1,5 @@
 
-(import Spawnable "/shared/data-structures/spawnable.js")
+(import Spawnable "@shared/data-structures/spawnable.js")
 (import base-weights "./base-weights.js")
 
 (import Super-position-distrobution
@@ -7,7 +7,7 @@
         Current-distrobution "./probabilities.js")
 (import Terrain-module "./terrain-module.js")
 (import Possible-state "./possible-state.js")
-(import summate "/shared/math/math.js")
+(import summate "@shared/math/math.js")
 
 (def calculate-entropy (weights)
   (const sum-of-weights (summate weights))

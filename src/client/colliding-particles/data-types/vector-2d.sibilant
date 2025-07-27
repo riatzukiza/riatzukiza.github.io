@@ -1,5 +1,5 @@
-(import Data-type "./data-type.js")
-(import Vector "/shared/vectors.js")
+(import Data-type "@colliding-particles/data-type.js")
+(import Vector "@shared/vectors.js")
 
 (define Vector2D Data-type
   (keys ['x 'y])

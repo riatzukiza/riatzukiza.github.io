@@ -1,6 +1,6 @@
-(import Binary-tree "./binary-tree.sibilant")
-(import Kd-tree-node "../data-types/kd-tree-node.sibilant")
-(import config "../config.sibilant")
+(import Binary-tree "@colliding-particles/binary-tree.sibilant")
+(import Kd-tree-node "@colliding-particles/data-types/kd-tree-node.sibilant")
+(import config "@colliding-particles/config.sibilant")
 
 (def sample (array n)
   (const r [])

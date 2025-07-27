@@ -22,6 +22,7 @@ position:absolute;
 
       (.script `(assign window.*worker-scripts []))
       (.script .src "/bundles/external.js")
+      (.script .type "importmap" (markup "{\n  \"imports\": {\n    \"@shared/\": \"/shared/\",\n    \"@crash-landed/\": \"/client/crash-landed/\"\n  }\n}"))
 
       (.body
 

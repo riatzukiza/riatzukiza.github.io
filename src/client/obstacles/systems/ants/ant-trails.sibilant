@@ -1,7 +1,7 @@
-(import Component System "/shared/ecs.js")
-(import Timer Time-limit "/client/obstacles/systems/timer.js")
-(import config "/client/obstacles/config.js")
-(import spawn-ant-trail-segment "/client/obstacles/entities/trail-segments.js" )
+(import Component System "@shared/ecs.js")
+(import Timer Time-limit "@obstacles/systems/timer.js")
+(import config "@obstacles/config.js")
+(import spawn-ant-trail-segment "@obstacles/entities/trail-segments.js" )
 
 (define Ant-trail Component
   ;; (update-view? true)

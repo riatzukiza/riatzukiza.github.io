@@ -1,4 +1,4 @@
-(import Spawnable "/shared/data-structures/spawnable.js")
+(import Spawnable "@shared/data-structures/spawnable.js")
 (import base-weights "./base-weights.js")
 
 (define Possible-state Spawnable

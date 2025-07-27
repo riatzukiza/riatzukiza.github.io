@@ -1,6 +1,6 @@
 
 (import Group "../data-structures/group.js")
-(import Interface "/shared/kit/interface/index.js")
+(import Interface "@shared/kit/interface/index.js")
 
 (var *assign-id (=> (m k) (assign  m.id k) m))
 

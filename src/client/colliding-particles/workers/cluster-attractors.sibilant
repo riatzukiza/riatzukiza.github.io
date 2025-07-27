@@ -2,16 +2,16 @@
 
 (meta "import '/bundles/external.js'")
 
-(import Vector-2D-array "../typed-arrays/vector-2d.js")
+(import Vector-2D-array "@colliding-particles/typed-arrays/vector-2d.js")
 
-(import Vector "/shared/vectors.js")
-(import Spawnable "/shared/data-structures/spawnable.js")
-(import Physics-array "../typed-arrays/physics-array.js")
-(import Barycenter-array "../typed-arrays/barycenter-array.js")
-(import Group-id-array "../typed-arrays/group-id-array.js")
-(import Parent-system "../system.sibilant")
+(import Vector "@shared/vectors.js")
+(import Spawnable "@shared/data-structures/spawnable.js")
+(import Physics-array "@colliding-particles/typed-arrays/physics-array.js")
+(import Barycenter-array "@colliding-particles/typed-arrays/barycenter-array.js")
+(import Group-id-array "@colliding-particles/typed-arrays/group-id-array.js")
+(import Parent-system "@colliding-particles/system.sibilant")
 
-(import config "../config.js")
+(import config "@colliding-particles/config.js")
 (const (lit gravitational-constant min-dist ) config)
 
 
