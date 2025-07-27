@@ -19,16 +19,26 @@
 
 (var id 0)
 (def-curried run-in ( string )
+  (doc-string "repl.run-in" "string"
+             "Execute JavaScript in the VM context with an incrementing filename for debugging.")
   (.run-in-this-context vm  string (lit (filename ("kit" (incr id))))))
 
 
 
 (define Evaluator Actor
 
-  (init () (.call Actor.init this))
+  (init ()
+        (doc-string "repl.Evaluator.init" ""
+                   "Initialize the Evaluator actor.")
+        (.call Actor.init this))
 
-  (def-generic spawn () ((create this)))
+  (def-generic spawn ()
+    (doc-string "repl.Evaluator.spawn" ""
+               "Create a new Evaluator instance.")
+    ((create this)))
   (def-generic *send (js context)
+    (doc-string "repl.Evaluator.*send" "js context"
+               "Evaluate JavaScript and emit the result or error as a message.")
     (pipe (Promise.resolve js)
           (.then  run-in)
           (.then (=> (result) (.emit this 'message ['result result]))
