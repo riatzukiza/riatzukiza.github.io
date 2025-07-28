@@ -61,12 +61,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "kanban/tasks/Abstractions.md",
+                "file": "kanban/templates/New Task.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Abstractions"
+              "title": "New Task"
             }
           },
           {
@@ -179,7 +179,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 495.5
+    "width": 329.5
   },
   "right": {
     "id": "cb509b7f274d7b5e",
@@ -334,8 +334,10 @@
   },
   "active": "361469d95690f756",
   "lastOpenFiles": [
-    "kanban/process.md",
     "kanban/board.md",
+    "kanban/tasks/Benchmarking.md",
+    "kanban/tasks/Abstractions.md",
+    "kanban/process.md",
     "kanban/project.md",
     "kanban/done.md",
     "docs/Shared/Grid/Grid-view.md",
@@ -358,8 +360,6 @@
     "kanban/tasks/Process.md",
     "notes/unique/2025-05-21-06.35.12.md",
     "notes/unique/2025-05-21-06.07.10.md",
-    "notes/daily/2025-05-21.md",
-    "notes/daily/2025-05-11.md",
     "notes/unique",
     "Chats",
     "notes/daily",
