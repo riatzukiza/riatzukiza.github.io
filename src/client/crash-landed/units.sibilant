@@ -1,9 +1,9 @@
 
-(import Physics "/shared/systems/physics.js")
+(import Physics "@shared/systems/physics.js")
 (import Player-sprites "./systems/sprites/player.js")
 (import Props-sprites "./systems/sprites/basic-props.js")
 (import rendering "./rendering.js")
-(import Velocity "/shared/systems/velocity.js")
+(import Velocity "@shared/systems/velocity.js")
 (import Sight "./systems/sight.js")
 (import Ground-types "./systems/floor-type.js")
 (import Tile-visibility "./systems/visibility.js")
@@ -15,7 +15,7 @@
 (import config "./config.js")
 (import Floor-sprites "./systems/sprites/floor.js")
 (import Cliff-sprites "./systems/sprites/cliff.js")
-(import Unit-instance Unit-group "/shared/units.js")
+(import Unit-instance Unit-group "@shared/units.js")
 
 (define Item-unit Unit-instance
   (gett data this.entity.item-interface)

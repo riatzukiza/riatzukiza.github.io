@@ -1,5 +1,5 @@
 (import  Dynamic-pool "../pooling/dynamic-pool.js")
-(import Interface "/shared/kit/interface/index.js")
+(import Interface "@shared/kit/interface/index.js")
 (const pools (new Map))
 (define Pooled-data-structure Interface
   (init () (throw (new (Error "Abstract interface missing init function"))))

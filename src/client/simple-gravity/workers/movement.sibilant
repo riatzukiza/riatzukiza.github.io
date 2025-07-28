@@ -1,7 +1,7 @@
 (meta "import '/bundles/external.js'")
 
-(import Vector "/shared/vectors.js")
-(import Vector-2D-phase-space "../typed-arrays/vector-2d.js")
+(import Vector "@shared/vectors.js")
+(import Vector-2D-phase-space "@simple-gravity/typed-arrays/vector-2d.js")
 (const bounds [1000000,1000000])
 
 (def self.onmessage (e)

@@ -5,7 +5,7 @@
 (import Vector "../../vectors.js")
 (import Andy "../../andy.js")
 (import Renderable "./renderable.js")
-(import Interface "/shared/kit/interface/index.js")
+(import Interface "@shared/kit/interface/index.js")
 
 
 

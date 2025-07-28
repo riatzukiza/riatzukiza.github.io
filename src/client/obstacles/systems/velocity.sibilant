@@ -1,6 +1,6 @@
 (namespace obstacles)
-(import display-decimal "/client/obstacles/strings.js")
-(import Velocity-interface Velocity "/shared/systems/velocity.js")
+(import display-decimal "@obstacles/strings.js")
+(import Velocity-interface Velocity "@shared/systems/velocity.js")
 
 (include "../../../../inc/dom.sibilant")
 (import-namespace dom)

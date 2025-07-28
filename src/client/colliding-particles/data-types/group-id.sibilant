@@ -1,4 +1,4 @@
-(import Data-type "./data-type.js")
+(import Data-type "@colliding-particles/data-type.js")
 
 (define Group-id Data-type
   (keys ['group-id]))

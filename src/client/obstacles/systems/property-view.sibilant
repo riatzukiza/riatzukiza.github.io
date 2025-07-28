@@ -1,8 +1,8 @@
 (namespace obstacles)
 
-(import Component System "/shared/ecs.js")
-(import config "/client/obstacles/config.js")
-(import debug-view  "/client/obstacles/dom.js" )
+(import Component System "@shared/ecs.js")
+(import config "@obstacles/config.js")
+(import debug-view  "@obstacles/dom.js" )
 
 (def-generic display-decimal (d (n 6)) (/ (Math.round (* (Math.pow 10 n) d)) (Math.pow 10 n)))
 (macro cache (m k ...body)

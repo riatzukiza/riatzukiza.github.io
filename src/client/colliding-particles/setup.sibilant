@@ -1,7 +1,7 @@
-(import rendering "./rendering.sibilant")
-(import particles "./data.sibilant")
-(import Vector "/shared/vectors.js")
-(import config "./config.sibilant")
+(import rendering "@colliding-particles/rendering.sibilant")
+(import particles "@colliding-particles/data.sibilant")
+(import Vector "@shared/vectors.js")
+(import config "@colliding-particles/config.sibilant")
 
 (const (lit min-mass max-mass actual-maximum-mass spawn-height spawn-width) config)
 

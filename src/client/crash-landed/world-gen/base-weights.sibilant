@@ -1,4 +1,4 @@
-(import Interface "/shared/kit/interface/index.js")
+(import Interface "@shared/kit/interface/index.js")
 (define base-weights Interface
   (grass 10)
   (stone 1)

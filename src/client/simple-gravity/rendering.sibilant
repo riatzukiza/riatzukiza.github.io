@@ -1,8 +1,8 @@
-(import Rendering "/shared/systems/rendering/rendering.js")
-(import Mote "/shared/systems/rendering/mote.js")
-(import Interface "/shared/kit/interface/index.js")
-(import Gl "/shared/gl.js")
-(import config "./config.js")
+(import Rendering "@shared/systems/rendering/rendering.js")
+(import Mote "@shared/systems/rendering/mote.js")
+(import Interface "@shared/kit/interface/index.js")
+(import Gl "@shared/gl.js")
+(import config "@simple-gravity/config.js")
 
 
 (const rendering (.load Rendering

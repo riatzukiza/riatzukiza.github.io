@@ -13,7 +13,8 @@
 
 ")
 
-               )
+              )
       (.body "")
+      (.script .type "importmap" (markup "{\n  \"imports\": {\n    \"@shared/\": \"/shared/\"\n  }\n}"))
       (.script .src "/bundles/tests/main.js")
       )

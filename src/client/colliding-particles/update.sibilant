@@ -1,5 +1,5 @@
-(import Grouping-system Elastic-deflection-system "./workers.sibilant")
-(import config "./config.sibilant")
+(import Grouping-system Elastic-deflection-system "@colliding-particles/workers.sibilant")
+(import config "@colliding-particles/config.sibilant")
 (def get-bounds (positions)
   (var min-x 0 min-y 0 max-x 0 max-y 0)
   (for-of! p positions.data

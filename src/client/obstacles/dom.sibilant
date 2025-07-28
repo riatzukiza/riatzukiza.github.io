@@ -1,16 +1,16 @@
 (namespace obstacles)
 
-(import rendering  "/client/obstacles/rendering.js")
-(import vector-pool trail-pool "/shared/vectors.js")
-(import Physics "/shared/systems/physics.js")
-(import Dot "/shared/systems/rendering/dot.js")
-(import summate "/shared/math/math.js")
-(import View-panel Property-view "/client/obstacles/systems/property-view.js")
-(import config "/client/obstacles/config.js")
+(import rendering  "@obstacles/rendering.js")
+(import vector-pool trail-pool "@shared/vectors.js")
+(import Physics "@shared/systems/physics.js")
+(import Dot "@shared/systems/rendering/dot.js")
+(import summate "@shared/math/math.js")
+(import View-panel Property-view "@obstacles/systems/property-view.js")
+(import config "@obstacles/config.js")
 
-(import  game "/client/obstacles/game.js")
+(import  game "@obstacles/game.js")
 
-(import ants rocks plants trail-segments "/client/obstacles/entities.js")
+(import ants rocks plants trail-segments "@obstacles/entities.js")
 
 (def-generic display-decimal (d (n 6)) (/ (Math.round (* (Math.pow 10 n) d)) (Math.pow 10 n)))
 

@@ -1,7 +1,7 @@
-(import Friction "/shared/systems/physics/forces/friction.js")
-(import game "./game.js")
-(import config "./config.js")
-(import entities "/client/obstacles/entities.js")
+(import Friction "@shared/systems/physics/forces/friction.js")
+(import game "@obstacles/game.js")
+(import config "@obstacles/config.js")
+(import entities "@obstacles/entities.js")
 
 (print "initializing forces" (lit Friction ))
 

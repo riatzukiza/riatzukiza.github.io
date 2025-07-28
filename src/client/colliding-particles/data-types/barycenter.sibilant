@@ -1,4 +1,4 @@
-(import Data-type "./data-type.js")
+(import Data-type "@colliding-particles/data-type.js")
 (define Barycenter Data-type
   (keys ['x 'y 'mass]))
 

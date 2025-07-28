@@ -1,4 +1,4 @@
-(import Trie "/shared/data-structures/trees/trie.js")
+(import Trie "@shared/data-structures/trees/trie.js")
 
 (def Trie.get ((dots args))
   (get (.find this (dots args)) 'value))

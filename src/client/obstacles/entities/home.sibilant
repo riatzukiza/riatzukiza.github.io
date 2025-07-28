@@ -1,13 +1,13 @@
 
-(import  Dot "/shared/systems/rendering/dot.js")
-(import Physics "/shared/systems/physics.js")
-(import Collision "/shared/systems/collision.js")
+(import  Dot "@shared/systems/rendering/dot.js")
+(import Physics "@shared/systems/physics.js")
+(import Collision "@shared/systems/collision.js")
 
-(import Position "../systems/position.js")
-(import Velocity "../systems/velocity.js")
-(import game active-game-systems "../game.js")
-(import config "../config.js")
-(import rgba "../colors.js")
+(import Position "@obstacles/systems/position.js")
+(import Velocity "@obstacles/systems/velocity.js")
+(import game active-game-systems "@obstacles/game.js")
+(import config "@obstacles/config.js")
+(import rgba "@obstacles/colors.js")
 
 
 (def entity (aspects ) (.spawn game.ent aspects ))

@@ -1,12 +1,12 @@
-(import Velocity "/shared/systems/velocity.js")
-(import Position "/shared/systems/position.js")
-(import game "../game.js")
-(import config "../config.js")
-(import Physics "/shared/systems/physics/system.js")
-(import create-particle-updater "/shared/field.js")
+(import Velocity "@shared/systems/velocity.js")
+(import Position "@shared/systems/position.js")
+(import game "@obstacles/game.js")
+(import config "@obstacles/config.js")
+(import Physics "@shared/systems/physics/system.js")
+(import create-particle-updater "@shared/field.js")
 (import next-spawn spawn-ant ants home home-pos  plants rocks
         spawn-plant spawn-rock rock-gen-step "../entities.js")
-(import random-location "../location.js")
+(import random-location "@obstacles/location.js")
 
 (const update-particle (create-particle-updater config game))
 

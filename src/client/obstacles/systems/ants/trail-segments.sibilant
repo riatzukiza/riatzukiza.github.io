@@ -1,10 +1,10 @@
 (namespace obstacles)
 
-(import Time-limit Timer "/client/obstacles/systems/timer.js")
+(import Time-limit Timer "@obstacles/systems/timer.js")
 
-(import Red-black-tree "/shared/data-structures/trees/red-black-tree.js")
-(import rgba "/client/obstacles/colors.js")
-(import config "/client/obstacles/config.js")
+(import Red-black-tree "@shared/data-structures/trees/red-black-tree.js")
+(import rgba "@obstacles/colors.js")
+(import config "@obstacles/config.js")
 
 (def-generic display-decimal (d (n 6)) (/ (Math.round (* (Math.pow 10 n) d)) (Math.pow 10 n)))
 
