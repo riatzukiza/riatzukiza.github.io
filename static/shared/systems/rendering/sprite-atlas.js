@@ -41,7 +41,7 @@ import {
  } from "./renderable.js";
 import { 
   Interface
- } from "/shared/kit/interface/index.js";
+ } from "@shared/kit/interface/index.js";
 var setPoint = (function setPoint$(x, y, z, vert) {
   /* set-point eval.sibilant:13:0 */
 
@@ -356,13 +356,13 @@ var SpriteAtlas = System.define("SpriteAtlas", {
     
       this.prepare();
       return (function() {
-        var while$99 = undefined;
+        var while$101 = undefined;
         while (this.queue.length) {
-          while$99 = (function() {
+          while$101 = (function() {
             return this._updateComponent(this.queue.pop());
           }).call(this);
         };
-        return while$99;
+        return while$101;
       }).call(this);
     
    },

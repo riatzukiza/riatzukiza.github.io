@@ -19,14 +19,14 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Spawnable
- } from "/shared/data-structures/spawnable.js";
+ } from "@shared/data-structures/spawnable.js";
 import { 
   System,
   Component
- } from "/shared/ecs.js";
+ } from "@shared/ecs.js";
 import { 
   Interface
- } from "/shared/kit/interface/index.js";
+ } from "@shared/kit/interface/index.js";
 var GroundType = Spawnable.define("GroundType", { 
   init( spriteCoordMinX = 0,spriteCoordMinY = 0,spriteCoordMaxX = 3,spriteCoordMaxY = 3,movementSpeed = 0.75 ){ 
     

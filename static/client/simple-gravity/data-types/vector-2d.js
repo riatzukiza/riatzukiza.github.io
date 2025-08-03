@@ -19,7 +19,7 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   DataType
- } from "./data-type.js";
+ } from "@simple-gravity/data-type.js";
 var Vector2D = DataType.define("Vector2D", { 
   keys:[ "x", "y" ],
   setAngle( angle ){ 

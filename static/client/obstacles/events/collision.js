@@ -19,19 +19,19 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Velocity
- } from "../systems/velocity.js";
+ } from "@obstacles/systems/velocity.js";
 import { 
   Physics
- } from "/shared/systems/physics/system.js";
+ } from "@shared/systems/physics/system.js";
 import { 
   game
- } from "../game.js";
+ } from "@obstacles/game.js";
 import { 
   home,
   plants,
   ants,
   rocks
- } from "../entities.js";
+ } from "@obstacles/entities.js";
 game.events.on("collision", ((c, c_) => {
 	var v = c.entity.velocityInterface;
 var v_ = c_.entity.velocityInterface;

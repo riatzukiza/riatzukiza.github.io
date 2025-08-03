@@ -19,7 +19,7 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Spawnable
- } from "/shared/data-structures/spawnable.js";
+ } from "@shared/data-structures/spawnable.js";
 import { 
   baseWeights
  } from "./base-weights.js";

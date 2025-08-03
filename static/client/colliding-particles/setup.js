@@ -19,16 +19,16 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   rendering
- } from "./rendering.js";
+ } from "@colliding-particles/rendering.js";
 import { 
   particles
- } from "./data.js";
+ } from "@colliding-particles/data.js";
 import { 
   Vector
- } from "/shared/vectors.js";
+ } from "@shared/vectors.js";
 import { 
   config
- } from "./config.js";
+ } from "@colliding-particles/config.js";
 const { 
   minMass,
   maxMass,

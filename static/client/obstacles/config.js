@@ -19,7 +19,7 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Interface
- } from "/shared/kit/interface/index.js";
+ } from "@shared/kit/interface/index.js";
 const dim=[ (0.8 * window.innerWidth), (window.innerHeight - 3) ];
 const size=1;
 const config={  };

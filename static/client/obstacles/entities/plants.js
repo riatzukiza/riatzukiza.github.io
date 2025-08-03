@@ -19,44 +19,44 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Dot
- } from "/shared/systems/rendering/dot.js";
+ } from "@shared/systems/rendering/dot.js";
 import { 
   Position
- } from "/client/obstacles/systems/position.js";
+ } from "@obstacles/systems/position.js";
 import { 
   Velocity
- } from "/client/obstacles/systems/velocity.js";
+ } from "@obstacles/systems/velocity.js";
 import { 
   Physics
- } from "/shared/systems/physics.js";
+ } from "@shared/systems/physics.js";
 import { 
   Component,
   System,
   EntityGroup
- } from "/shared/ecs.js";
+ } from "@shared/ecs.js";
 import { 
   rgba
- } from "/client/obstacles/colors.js";
+ } from "@obstacles/colors.js";
 import { 
   Collision,
   placeEntity
- } from "/shared/systems/collision.js";
+ } from "@shared/systems/collision.js";
 import { 
   game,
   activeGameSystems
- } from "/client/obstacles/game.js";
+ } from "@obstacles/game.js";
 import { 
   config
- } from "/client/obstacles/config.js";
+ } from "@obstacles/config.js";
 import { 
   Friction
- } from "/client/obstacles/forces.js";
+ } from "@obstacles/forces.js";
 const plants=create(EntityGroup)("Plants", [ Dot, Position, Physics, Collision, Velocity ], game.ent);
-var spawnPlant = (function spawnPlant$(x_y$32, mass) {
+var spawnPlant = (function spawnPlant$(x_y$3, mass) {
   /* spawn-plant eval.sibilant:22:0 */
 
-  var x = x_y$32[0],
-      y = x_y$32[1];
+  var x = x_y$3[0],
+      y = x_y$3[1];
 
   var plant = plants.spawn([ Dot, Position, Physics, Collision, Velocity ]);
   game.systems.get(Dot, plant).color = rgba(0, 255, 0, 255);

@@ -20,7 +20,7 @@ import {
 import { 
   AnimatedSprite,
   SpriteAtlas
- } from "/shared/systems/rendering/sprite-atlas.js";
+ } from "@shared/systems/rendering/sprite-atlas.js";
 const spriteImage=document.getElementById("grass-sprite");
 var FloorSprite = AnimatedSprite.define("FloorSprite", { 
   get visible__QUERY(  ){ 

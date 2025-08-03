@@ -20,10 +20,10 @@ import {
 import { 
   DotInterface,
   Dot
- } from "/shared/systems/rendering/dot.js";
+ } from "@shared/systems/rendering/dot.js";
 import { 
   rgba
- } from "/client/obstacles/colors.js";
+ } from "@obstacles/colors.js";
 const baseColor=rgba(20, 20, 125, 255);
 var TrailDot = DotInterface.define("TrailDot", { 
   _color:baseColor,

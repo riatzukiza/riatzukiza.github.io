@@ -19,10 +19,10 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   DoubleBufferedArray
- } from "./double-buffered.js";
+ } from "@colliding-particles/double-buffered.js";
 import { 
   PhysicsObject
- } from "../data-types/physics-object.js";
+ } from "@colliding-particles/data-types/physics-object.js";
 var PhysicsArray = DoubleBufferedArray.define("PhysicsArray", { 
   dataType:PhysicsObject
  });

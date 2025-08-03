@@ -19,21 +19,21 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Velocity
- } from "/shared/systems/velocity.js";
+ } from "@shared/systems/velocity.js";
 import { 
   Position
- } from "/shared/systems/position.js";
+ } from "@shared/systems/position.js";
 import { 
   game
- } from "../game.js";
+ } from "@obstacles/game.js";
 import { 
   config
- } from "../config.js";
+ } from "@obstacles/config.js";
 import { 
   plants,
   ants,
   rocks
- } from "../entities.js";
+ } from "@obstacles/entities.js";
 game.events.on("plantCollidingWithSpawn", ((home, plant) => {
 	const v=plant.entity.velocityInterface;
 const pos=plant.pos;

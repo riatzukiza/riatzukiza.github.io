@@ -20,7 +20,7 @@ import {
 const rockViews=[];
 import { 
   EntityPanel
- } from "/client/obstacles/dom/entity-panel.js";
+ } from "@obstacles/dom/entity-panel.js";
 var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
   /* display-decimal inc/core/function-expressions.sibilant:28:8 */
 

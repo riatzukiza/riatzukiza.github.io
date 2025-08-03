@@ -20,7 +20,7 @@ import {
 import { 
   Sprites,
   Sprite
- } from "/shared/systems/rendering/gl-sprites.js";
+ } from "@shared/systems/rendering/gl-sprites.js";
 const antImage=document.getElementById("ant-texture");
 var AntSprite = Sprite.define("AntSprite", { 
   

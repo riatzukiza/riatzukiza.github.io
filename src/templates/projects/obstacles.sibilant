@@ -21,7 +21,10 @@ position:absolute;
       (.body (.img .id "ant-texture".src "/ant.png" .hidden "true")
       (.img .id "rock-texture".src "/rock.png" .hidden "true"))
 
-      (.script .type "importmap" (markup "{\n  \"imports\": {\n    \"@shared/\": \"/shared/\",\n    \"@obstacles/\": \"/client/obstacles/\"\n  }\n}"))
+      (.script .type "importmap"
+               (JSON.stringify { "imports":
+                                                   {"@shared/": "/shared/",
+                                                              "@obstacles/": "/client/obstacles/"  }}))
 
       (.script .src "/client/obstacles/main.js" .type 'module)
 

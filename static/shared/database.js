@@ -19,10 +19,10 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Interface
- } from "/shared/kit/interface/index.js";
+ } from "@shared/kit/interface/index.js";
 import { 
   EventEmitter
- } from "/shared/kit/events/index.js";
+ } from "@shared/kit/events/index.js";
 var Collection = Interface.define("Collection", { 
   init( name = this.name,database = this.database ){ 
     

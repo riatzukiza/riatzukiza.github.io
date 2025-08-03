@@ -19,10 +19,10 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   DoubleBufferedArray
- } from "./double-buffered.js";
+ } from "@colliding-particles/double-buffered.js";
 import { 
   GroupId
- } from "../data-types/group-id.js";
+ } from "@colliding-particles/data-types/group-id.js";
 var GroupIdArray = DoubleBufferedArray.define("GroupIdArray", { 
   dataType:GroupId
  });

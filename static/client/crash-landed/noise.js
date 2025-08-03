@@ -19,13 +19,13 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Vector
- } from "/shared/vectors.js";
+ } from "@shared/vectors.js";
 import { 
   config
  } from "./config.js";
 import { 
   simplex3
- } from "/shared/noise.js";
+ } from "@shared/noise.js";
 var getTileNoise = (function getTileNoise$(x = this.x, y = this.y, z = config.noiseZ, angleZoom = config.angleZoom, force = 16, v = Vector.spawn(1, 1)) {
   /* get-tile-noise inc/core/function-expressions.sibilant:28:8 */
 

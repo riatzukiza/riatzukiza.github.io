@@ -19,44 +19,44 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   TrailDots
- } from "/client/obstacles/systems/ants/trail-dots.js";
+ } from "@obstacles/systems/ants/trail-dots.js";
 import { 
   DecayingTrails
- } from "/client/obstacles/systems/ants/trail-segments.js";
+ } from "@obstacles/systems/ants/trail-segments.js";
 import { 
   Position
- } from "/client/obstacles/systems/position.js";
+ } from "@obstacles/systems/position.js";
 import { 
   Velocity
- } from "/client/obstacles/systems/velocity.js";
+ } from "@obstacles/systems/velocity.js";
 import { 
   Physics
- } from "/shared/systems/physics.js";
+ } from "@shared/systems/physics.js";
 import { 
   Component,
   System,
   EntityGroup
- } from "/shared/ecs.js";
+ } from "@shared/ecs.js";
 import { 
   rgba
- } from "/client/obstacles/colors.js";
+ } from "@obstacles/colors.js";
 import { 
   Collision,
   placeEntity
- } from "/shared/systems/collision.js";
+ } from "@shared/systems/collision.js";
 import { 
   game,
   activeGameSystems
- } from "/client/obstacles/game.js";
+ } from "@obstacles/game.js";
 import { 
   TrailsPanel
- } from "/client/obstacles/systems/ants/trail-panel.js";
+ } from "@obstacles/systems/ants/trail-panel.js";
 import { 
   config
- } from "/client/obstacles/config.js";
+ } from "@obstacles/config.js";
 import { 
   Friction
- } from "/client/obstacles/forces.js";
+ } from "@obstacles/forces.js";
 const systems=[ Position, TrailDots, DecayingTrails, TrailsPanel ];
 const trailSegments=create(EntityGroup)("Trail segments", systems, game.ent);
 var getTrailSegments = (function getTrailSegments$() {

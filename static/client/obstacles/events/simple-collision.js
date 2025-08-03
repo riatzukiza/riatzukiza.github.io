@@ -19,27 +19,27 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Velocity
- } from "/shared/systems/velocity.js";
+ } from "@shared/systems/velocity.js";
 import { 
   Position
- } from "/shared/systems/position.js";
+ } from "@shared/systems/position.js";
 import { 
   game
- } from "../game.js";
+ } from "@obstacles/game.js";
 import { 
   createParticleUpdater
- } from "/shared/field.js";
+ } from "@shared/field.js";
 import { 
   plants,
   ants,
   rocks
- } from "../entities.js";
+ } from "@obstacles/entities.js";
 import { 
   Physics
- } from "/shared/systems/physics/system.js";
+ } from "@shared/systems/physics/system.js";
 import { 
   Vector
- } from "/shared/vectors.js";
+ } from "@shared/vectors.js";
 game.events.on("simpleCollision", ((c, c_) => {
 	var v = c.entity.velocityInterface;
 var v_ = c_.entity.velocityInterface;

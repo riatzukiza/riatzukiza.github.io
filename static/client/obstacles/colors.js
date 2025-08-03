@@ -19,7 +19,7 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Trie
- } from "/shared/data-structures/trees/trie.js";
+ } from "@shared/data-structures/trees/trie.js";
 Trie.get = (function Trie$get$(...args) {
   /* Trie.get eval.sibilant:4:0 */
 

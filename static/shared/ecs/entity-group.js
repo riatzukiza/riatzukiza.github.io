@@ -29,10 +29,10 @@ import {
  } from "../data-structures/group.js";
 import { 
   Interface
- } from "/shared/kit/interface/index.js";
+ } from "@shared/kit/interface/index.js";
 import { 
   Saveable
- } from "/shared/saveable.js";
+ } from "@shared/saveable.js";
 var spawnComponent = (function spawnComponent$(entity, systems) {
   /* spawn-component eval.sibilant:14:0 */
 

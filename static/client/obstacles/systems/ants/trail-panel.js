@@ -20,10 +20,10 @@ import {
 import { 
   PropertyView,
   ViewPanel
- } from "/client/obstacles/systems/property-view.js";
+ } from "@obstacles/systems/property-view.js";
 import { 
   TrailDots
- } from "/client/obstacles/systems/ants/trail-dots.js";
+ } from "@obstacles/systems/ants/trail-dots.js";
 import { 
   renderChildren,
   createDocumentNode,
@@ -31,7 +31,7 @@ import {
   DocumentBody,
   DocumentHead,
   DocumentRoot
- } from "/shared/dom.js";
+ } from "@shared/dom.js";
 var TrailsPropertyView = PropertyView.define("TrailsPropertyView", { 
   
  });

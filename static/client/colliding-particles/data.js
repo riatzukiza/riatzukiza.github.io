@@ -19,29 +19,29 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Vector2DArray
- } from "./typed-arrays/vector-2d.js";
+ } from "@colliding-particles/typed-arrays/vector-2d.js";
 import { 
   rendering,
   vertexLayer
- } from "./rendering.js";
+ } from "@colliding-particles/rendering.js";
 import { 
   Interface
- } from "/shared/kit/interface/index.js";
+ } from "@shared/kit/interface/index.js";
 import { 
   PhysicsArray
- } from "./typed-arrays/physics-array.js";
+ } from "@colliding-particles/typed-arrays/physics-array.js";
 import { 
   GroupIdArray
- } from "./typed-arrays/group-id-array.js";
+ } from "@colliding-particles/typed-arrays/group-id-array.js";
 import { 
   BarycenterArray
- } from "./typed-arrays/barycenter-array.js";
+ } from "@colliding-particles/typed-arrays/barycenter-array.js";
 import { 
   KdTree
- } from "./typed-arrays/kd-tree.js";
+ } from "@colliding-particles/typed-arrays/kd-tree.js";
 import { 
   config
- } from "./config.js";
+ } from "@colliding-particles/config.js";
 const { 
   particleCount
  }=config;

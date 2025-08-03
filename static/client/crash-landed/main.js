@@ -22,7 +22,7 @@ import {
  } from "./dom.js";
 import { 
   Position
- } from "/shared/systems/position.js";
+ } from "@shared/systems/position.js";
 import { 
   Sight
  } from "./systems/sight.js";
@@ -34,7 +34,7 @@ import {
  } from "./systems/path-finding.js";
 import { 
   Velocity
- } from "/shared/systems/velocity.js";
+ } from "@shared/systems/velocity.js";
 import { 
   getTileNoise
  } from "./noise.js";

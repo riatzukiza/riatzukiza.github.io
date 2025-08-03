@@ -20,10 +20,10 @@ import {
 import { 
   DotInterface,
   Dot
- } from "/shared/systems/rendering/dot.js";
+ } from "@shared/systems/rendering/dot.js";
 import { 
   rgba
- } from "/client/obstacles/colors.js";
+ } from "@obstacles/colors.js";
 const views=(new Map());
 var AntDot = DotInterface.define("AntDot", { 
   docString:`

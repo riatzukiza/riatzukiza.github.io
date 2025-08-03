@@ -19,7 +19,7 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Spawnable
- } from "/shared/data-structures/spawnable.js";
+ } from "@shared/data-structures/spawnable.js";
 var DataType = Spawnable.define("DataType", { 
   keys:[],
   init( id = this.id,array = this.array ){ 

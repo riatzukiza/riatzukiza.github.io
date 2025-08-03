@@ -19,10 +19,10 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Table
- } from "/shared/data-structures/table.js";
+ } from "@shared/data-structures/table.js";
 import { 
   Tree
- } from "/shared/data-structures/trees/base.js";
+ } from "@shared/data-structures/trees/base.js";
 var Trie = Tree.define("Trie", { 
   init( value = this.value,parent = this.parent,_children = Table.spawn() ){ 
     

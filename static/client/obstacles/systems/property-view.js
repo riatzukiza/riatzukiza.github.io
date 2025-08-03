@@ -20,13 +20,13 @@ import {
 import { 
   Component,
   System
- } from "/shared/ecs.js";
+ } from "@shared/ecs.js";
 import { 
   config
- } from "/client/obstacles/config.js";
+ } from "@obstacles/config.js";
 import { 
   debugView
- } from "/client/obstacles/dom.js";
+ } from "@obstacles/dom.js";
 var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
   /* display-decimal inc/core/function-expressions.sibilant:28:8 */
 

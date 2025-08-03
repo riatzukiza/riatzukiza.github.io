@@ -19,61 +19,61 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Game
- } from "/shared/game.js";
+ } from "@shared/game.js";
 import { 
   Dot
- } from "/shared/systems/rendering/dot.js";
+ } from "@shared/systems/rendering/dot.js";
 import { 
   Sprites
- } from "/shared/systems/rendering/gl-sprites.js";
+ } from "@shared/systems/rendering/gl-sprites.js";
 import { 
   Position
- } from "./systems/position.js";
+ } from "@obstacles/systems/position.js";
 import { 
   Velocity
- } from "./systems/velocity.js";
+ } from "@obstacles/systems/velocity.js";
 import { 
   Physics
- } from "/shared/systems/physics.js";
+ } from "@shared/systems/physics.js";
 import { 
   Collision
- } from "/shared/systems/collision.js";
+ } from "@shared/systems/collision.js";
 import { 
   rendering
- } from "./rendering.js";
+ } from "@obstacles/rendering.js";
 import { 
   ViewPanel
- } from "./systems/property-view.js";
+ } from "@obstacles/systems/property-view.js";
 import { 
   AntDots
- } from "./systems/ants/ant-dot.js";
+ } from "@obstacles/systems/ants/ant-dot.js";
 import { 
   AntTrails
- } from "./systems/ants/ant-trails.js";
+ } from "@obstacles/systems/ants/ant-trails.js";
 import { 
   AntLifeTimer
- } from "./systems/ants/ant-life-timer.js";
+ } from "@obstacles/systems/ants/ant-life-timer.js";
 import { 
   TrailDots
- } from "./systems/ants/trail-dots.js";
+ } from "@obstacles/systems/ants/trail-dots.js";
 import { 
   AntPanel
- } from "./systems/ants/ant-panel.js";
+ } from "@obstacles/systems/ants/ant-panel.js";
 import { 
   TrailsPanel
- } from "./systems/ants/trail-panel.js";
+ } from "@obstacles/systems/ants/trail-panel.js";
 import { 
   DecayingTrails
- } from "./systems/ants/trail-segments.js";
+ } from "@obstacles/systems/ants/trail-segments.js";
 import { 
   AntSprites
- } from "./systems/ant-sprites.js";
+ } from "@obstacles/systems/ant-sprites.js";
 import { 
   RockSprites
- } from "./systems/rock-sprites.js";
+ } from "@obstacles/systems/rock-sprites.js";
 import { 
   config
- } from "./config.js";
+ } from "@obstacles/config.js";
 Position.wraps__QUERY = true;
 var activeGameSystems = [ DecayingTrails, AntLifeTimer, Dot, TrailDots, AntDots, AntPanel, TrailsPanel, RockSprites, AntSprites, AntTrails, Physics, Velocity, Position, Collision ];
 var game = create(Game)(config, rendering, activeGameSystems, config.gameSpeed);

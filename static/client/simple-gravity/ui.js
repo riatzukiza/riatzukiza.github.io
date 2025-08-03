@@ -24,10 +24,10 @@ import {
   DocumentBody,
   DocumentHead,
   DocumentRoot
- } from "/shared/dom.js";
+ } from "@shared/dom.js";
 import { 
   rendering
- } from "./rendering.js";
+ } from "@simple-gravity/rendering.js";
 const gameView=createDocumentNode("div", {
   'id': "game-view",
   'className': "panel",

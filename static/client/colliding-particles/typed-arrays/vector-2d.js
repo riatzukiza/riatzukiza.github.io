@@ -19,10 +19,10 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   DoubleBufferedArray
- } from "./double-buffered.js";
+ } from "@colliding-particles/double-buffered.js";
 import { 
   Vector2D
- } from "../data-types/vector-2d.js";
+ } from "@colliding-particles/data-types/vector-2d.js";
 var Vector2DArray = DoubleBufferedArray.define("Vector2DArray", { 
   dataType:Vector2D,
   addTo( vector2dArray ){ 

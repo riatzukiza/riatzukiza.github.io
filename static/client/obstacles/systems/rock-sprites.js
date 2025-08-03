@@ -20,7 +20,7 @@ import {
 import { 
   Sprites,
   Sprite
- } from "/shared/systems/rendering/gl-sprites.js";
+ } from "@shared/systems/rendering/gl-sprites.js";
 var RockSprite = Sprite.define("RockSprite", { 
   
  });

@@ -24,28 +24,28 @@ import {
   DocumentBody,
   DocumentHead,
   DocumentRoot
- } from "/shared/dom.js";
+ } from "@shared/dom.js";
 import { 
   config
- } from "./config.js";
+ } from "@colliding-particles/config.js";
 import { 
   gameView,
   startButton,
   particleList
- } from "./ui.js";
+ } from "@colliding-particles/ui.js";
 import { 
   setup
- } from "./setup.js";
+ } from "@colliding-particles/setup.js";
 import { 
   update
- } from "./update.js";
+ } from "@colliding-particles/update.js";
 import { 
   GameSystemsManager
- } from "./workers.js";
+ } from "@colliding-particles/workers.js";
 import { 
   particles,
   vertices
- } from "./data.js";
+ } from "@colliding-particles/data.js";
 const { 
   minMass,
   maxMass,

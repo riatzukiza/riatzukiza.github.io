@@ -20,7 +20,7 @@ import {
 import { 
   AnimatedSprite,
   SpriteAtlas
- } from "/shared/systems/rendering/sprite-atlas.js";
+ } from "@shared/systems/rendering/sprite-atlas.js";
 const spriteImage=document.getElementById("cliff-sprite");
 var CliffSprite = AnimatedSprite.define("CliffSprite", { 
   column:15,

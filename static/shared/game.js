@@ -34,10 +34,10 @@ import {
  } from "./kit/interface/index.js";
 import { 
   Saveable
- } from "/shared/saveable.js";
+ } from "@shared/saveable.js";
 import { 
   Rendering
- } from "/shared/systems/rendering/rendering.js";
+ } from "@shared/systems/rendering/rendering.js";
 var Game = Saveable.define("Game", { 
   init( config = this.config,systemTypes = [],gameSpeed = 1,units = [],entityGroups = [],entities = create(EntitySystem)(this),ticker = create(Ticker)((gameSpeed * 60)),systems = create(OrderedMap)() ){ 
     

@@ -20,16 +20,16 @@ import {
 import { 
   TimeLimit,
   Timer
- } from "/client/obstacles/systems/timer.js";
+ } from "@obstacles/systems/timer.js";
 import { 
   RedBlackTree
- } from "/shared/data-structures/trees/red-black-tree.js";
+ } from "@shared/data-structures/trees/red-black-tree.js";
 import { 
   rgba
- } from "/client/obstacles/colors.js";
+ } from "@obstacles/colors.js";
 import { 
   config
- } from "/client/obstacles/config.js";
+ } from "@obstacles/config.js";
 var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
   /* display-decimal inc/core/function-expressions.sibilant:28:8 */
 

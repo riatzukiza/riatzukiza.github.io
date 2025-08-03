@@ -19,75 +19,75 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Game
- } from "/shared/game.js";
+ } from "@shared/game.js";
 import { 
   Physics
- } from "/shared/systems/physics.js";
+ } from "@shared/systems/physics.js";
 import { 
   PlayerSprites
- } from "./systems/sprites/player.js";
+ } from "@crash-landed/systems/sprites/player.js";
 import { 
   PropsSprites
- } from "./systems/sprites/basic-props.js";
+ } from "@crash-landed/systems/sprites/basic-props.js";
 import { 
   Velocity
- } from "/shared/systems/velocity.js";
+ } from "@shared/systems/velocity.js";
 import { 
   Sight
- } from "./systems/sight.js";
+ } from "@crash-landed/systems/sight.js";
 import { 
   GroundTypes
- } from "./systems/floor-type.js";
+ } from "@crash-landed/systems/floor-type.js";
 import { 
   TileVisibility
- } from "./systems/visibility.js";
+ } from "@crash-landed/systems/visibility.js";
 import { 
   PathFinding
- } from "./systems/path-finding.js";
+ } from "@crash-landed/systems/path-finding.js";
 import { 
   Metabolisim
- } from "./systems/metabolisim.js";
+ } from "@crash-landed/systems/metabolisim.js";
 import { 
   Containers
- } from "./systems/containers.js";
+ } from "@crash-landed/systems/containers.js";
 import { 
   MentalState
- } from "./systems/mental-state.js";
+ } from "@crash-landed/systems/mental-state.js";
 import { 
   Item
- } from "./systems/item.js";
+ } from "@crash-landed/systems/item.js";
 import { 
   config
- } from "./config.js";
+ } from "@crash-landed/config.js";
 import { 
   FloorSprites
- } from "./systems/sprites/floor.js";
+ } from "@crash-landed/systems/sprites/floor.js";
 import { 
   CliffSprites
- } from "./systems/sprites/cliff.js";
+ } from "@crash-landed/systems/sprites/cliff.js";
 import { 
   Position
- } from "/shared/systems/position.js";
+ } from "@shared/systems/position.js";
 import { 
   setupTile
- } from "./world-gen/setup-tile.js";
+ } from "@crash-landed/world-gen/setup-tile.js";
 import { 
   TileGraph
- } from "/shared/tiles.js";
+ } from "@shared/tiles.js";
 import { 
   getCardinalDirectionName
- } from "./directions.js";
+ } from "@crash-landed/directions.js";
 import { 
   UnitGroup
- } from "/shared/units.js";
+ } from "@shared/units.js";
 import { 
   Player
- } from "./units.js";
+ } from "@crash-landed/units.js";
 var activeGameSystems = [ Position, Physics, Velocity, TileVisibility, Sight, FloorSprites, CliffSprites, PlayerSprites, PropsSprites, GroundTypes, PathFinding, Metabolisim, Containers, MentalState, Item ];
 var game = null;
 import { 
   TileGenerator
- } from "./world-gen/worker.js";
+ } from "@crash-landed/world-gen/worker.js";
 const generator=TileGenerator.spawn();
 var player = null;
 var p = player;

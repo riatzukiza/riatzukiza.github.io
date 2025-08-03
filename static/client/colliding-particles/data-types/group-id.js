@@ -19,7 +19,7 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   DataType
- } from "./data-type.js";
+ } from "@colliding-particles/data-type.js";
 var GroupId = DataType.define("GroupId", { 
   keys:[ "groupId" ]
  });

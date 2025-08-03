@@ -19,13 +19,13 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   EventEmitter
- } from "/shared/kit/events/index.js";
+ } from "@shared/kit/events/index.js";
 import { 
   Spawnable
- } from "/shared/data-structures/spawnable.js";
+ } from "@shared/data-structures/spawnable.js";
 import { 
   Trie
- } from "/shared/data-structures/trees/trie.js";
+ } from "@shared/data-structures/trees/trie.js";
 import { 
   SuperPosition
  } from "./super-position.js";
@@ -33,14 +33,14 @@ import {
   GridCell,
   Grid,
   GridChunk
- } from "/shared/grid.js";
+ } from "@shared/grid.js";
 import { 
   BinaryHeap,
   Heapable
- } from "/shared/data-structures/trees/binary-heap.js";
+ } from "@shared/data-structures/trees/binary-heap.js";
 import { 
   Vector
- } from "/shared/vectors.js";
+ } from "@shared/vectors.js";
 var Tile = GridCell.define("Tile", { 
   get superPosition(  ){ 
     

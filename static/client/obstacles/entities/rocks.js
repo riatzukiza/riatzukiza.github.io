@@ -18,53 +18,53 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 var QuadTree = require("@timohausmann/quadtree-js");
-import "/shared/systems/rendering/dot.js";
+import "@shared/systems/rendering/dot.js";
 import { 
   Position
- } from "/client/obstacles/systems/position.js";
+ } from "@obstacles/systems/position.js";
 import { 
   Velocity
- } from "/client/obstacles/systems/velocity.js";
+ } from "@obstacles/systems/velocity.js";
 import { 
   Physics
- } from "/shared/systems/physics.js";
+ } from "@shared/systems/physics.js";
 import { 
   Component,
   System,
   EntityGroup
- } from "/shared/ecs.js";
+ } from "@shared/ecs.js";
 import { 
   Group
- } from "/shared/data-structures/group.js";
+ } from "@shared/data-structures/group.js";
 import { 
   List
- } from "/shared/data-structures/list.js";
+ } from "@shared/data-structures/list.js";
 import { 
   Vector
- } from "/shared/vectors.js";
+ } from "@shared/vectors.js";
 import { 
   Trie
- } from "/shared/data-structures/trees/trie.js";
+ } from "@shared/data-structures/trees/trie.js";
 import { 
   Collision,
   placeEntity
- } from "/shared/systems/collision.js";
+ } from "@shared/systems/collision.js";
 import { 
   Friction
- } from "/client/obstacles/forces.js";
+ } from "@obstacles/forces.js";
 import { 
   game,
   activeGameSystems
- } from "/client/obstacles/game.js";
+ } from "@obstacles/game.js";
 import { 
   RockSprites
- } from "/client/obstacles/systems/rock-sprites.js";
+ } from "@obstacles/systems/rock-sprites.js";
 import { 
   rgba
- } from "/client/obstacles/colors.js";
+ } from "@obstacles/colors.js";
 import { 
   config
- } from "/client/obstacles/config.js";
+ } from "@obstacles/config.js";
 const rocks=create(EntityGroup)("Rocks", [ RockSprites, Position, Physics, Collision, Velocity ], game.ent);
 const rockPlacementVector=Vector.spawn(0, 0);
 const rockScaleVariation=(config.rockMaxSize - config.rockMinSize);
@@ -73,11 +73,11 @@ const maxRockBaseMass=(config.rockMassScalingFactor * config.rockMaxMassFactor);
 const minRockBaseMass=(config.rockMassScalingFactor * config.rockMinMassFactor);
 const maxRockDensity=((config.rockMinSize * maxRockBaseMass) / Math.pow(config.rockMinSize, 3));
 const minRockDensity=((config.rockMaxSize * maxRockBaseMass) / Math.pow(config.rockMaxSize, 3));
-var spawnRock = (function spawnRock$(x_y$34, mass, scale) {
+var spawnRock = (function spawnRock$(x_y$1, mass, scale) {
   /* spawn-rock eval.sibilant:42:0 */
 
-  var x = x_y$34[0],
-      y = x_y$34[1];
+  var x = x_y$1[0],
+      y = x_y$1[1];
 
   console.log("spawning rock");
   var rock = rocks.spawn([ RockSprites, Position, Physics, Collision, Velocity ]);

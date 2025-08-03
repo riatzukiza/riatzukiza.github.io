@@ -20,10 +20,10 @@ import {
 import { 
   System,
   Component
- } from "/shared/ecs.js";
+ } from "@shared/ecs.js";
 import { 
   List
- } from "/shared/data-structures/list.js";
+ } from "@shared/data-structures/list.js";
 var ItemInterface = Component.define("ItemInterface", { 
   type:"food",
   calories:500,

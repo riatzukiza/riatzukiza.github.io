@@ -19,7 +19,7 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   config
- } from "./config.js";
+ } from "@obstacles/config.js";
 var randomLocation = (function randomLocation$() {
   /* random-location eval.sibilant:3:0 */
 

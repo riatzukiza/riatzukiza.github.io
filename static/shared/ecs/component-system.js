@@ -35,7 +35,7 @@ import {
  } from "../kit/interface/index.js";
 import { 
   Saveable
- } from "/shared/saveable.js";
+ } from "@shared/saveable.js";
 var spawnComponent = (function spawnComponent$(entity, systems) {
   /* spawn-component eval.sibilant:16:0 */
 

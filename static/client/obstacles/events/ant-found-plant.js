@@ -19,35 +19,35 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Velocity
- } from "/shared/systems/velocity.js";
+ } from "@shared/systems/velocity.js";
 import { 
   Position
- } from "/shared/systems/position.js";
+ } from "@shared/systems/position.js";
 import { 
   game
- } from "../game.js";
+ } from "@obstacles/game.js";
 import { 
   createParticleUpdater
- } from "/shared/field.js";
+ } from "@shared/field.js";
 import { 
   homePos,
   plants,
   ants,
   rocks
- } from "../entities.js";
+ } from "@obstacles/entities.js";
 import { 
   placeEntity
- } from "/shared/systems/collision.js";
+ } from "@shared/systems/collision.js";
 import { 
   Physics
- } from "/shared/systems/physics/system.js";
+ } from "@shared/systems/physics/system.js";
 import { 
   Friction,
   SignalField
- } from "../forces.js";
+ } from "@obstacles/forces.js";
 import { 
   config
- } from "../config.js";
+ } from "@obstacles/config.js";
 const updateParticle=createParticleUpdater(config, game);
 Set.prototype.each = (function Set$prototype$each$(f) {
   /* Set.prototype.each eval.sibilant:17:0 */

@@ -19,10 +19,10 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Interface
- } from "/shared/kit/interface/index.js";
+ } from "@shared/kit/interface/index.js";
 import { 
   Database
- } from "/shared/database.js";
+ } from "@shared/database.js";
 const dbs=(new Map());
 var getDatabase = (function getDatabase$(name) {
   /* get-database eval.sibilant:8:0 */

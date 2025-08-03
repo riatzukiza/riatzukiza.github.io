@@ -19,7 +19,7 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Interface
- } from "/shared/kit/interface/index.js";
+ } from "@shared/kit/interface/index.js";
 const maxMass=(8 * 1024);
 const spawnArea=(maxMass * 2);
 var config = Interface.define("config", { 

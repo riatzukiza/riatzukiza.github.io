@@ -25,10 +25,10 @@ import {
  } from "./data-structures/list.js";
 import { 
   Interface
- } from "/shared/kit/interface/index.js";
+ } from "@shared/kit/interface/index.js";
 import { 
   Spawnable
- } from "/shared/data-structures/spawnable.js";
+ } from "@shared/data-structures/spawnable.js";
 var Ticker = Spawnable.define("Ticker", { 
   state:false,
   ticks:0,

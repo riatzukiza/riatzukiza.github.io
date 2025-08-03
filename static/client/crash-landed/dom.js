@@ -24,7 +24,7 @@ import {
   DocumentBody,
   DocumentHead,
   DocumentRoot
- } from "/shared/dom.js";
+ } from "@shared/dom.js";
 import { 
   config
  } from "./config.js";

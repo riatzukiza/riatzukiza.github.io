@@ -19,10 +19,10 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   DataType
- } from "./data-type.js";
+ } from "@colliding-particles/data-type.js";
 import { 
   Vector
- } from "/shared/vectors.js";
+ } from "@shared/vectors.js";
 var Vector2D = DataType.define("Vector2D", { 
   keys:[ "x", "y" ],
   setAngle( angle ){ 

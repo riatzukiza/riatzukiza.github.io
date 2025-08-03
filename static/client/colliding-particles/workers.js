@@ -20,12 +20,12 @@ import {
 import { 
   SystemsManager,
   ThreadedSystem
- } from "./system.js";
+ } from "@colliding-particles/system.js";
 import { 
   gameData,
   particles,
   particleGroups
- } from "./data.js";
+ } from "@colliding-particles/data.js";
 var VelocitySystem = ThreadedSystem.define("VelocitySystem", { 
   url:"/client/colliding-particles/workers/velocity.js",
   data:[ particles.vel, particles.correction, particles.pos ]

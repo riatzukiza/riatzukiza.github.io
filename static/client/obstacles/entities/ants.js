@@ -19,53 +19,53 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   AntDots
- } from "../systems/ants/ant-dot.js";
+ } from "@obstacles/systems/ants/ant-dot.js";
 import { 
   AntTrails
- } from "../systems/ants/ant-trails.js";
+ } from "@obstacles/systems/ants/ant-trails.js";
 import { 
   AntLifeTimer
- } from "../systems/ants/ant-life-timer.js";
+ } from "@obstacles/systems/ants/ant-life-timer.js";
 import { 
   Position
- } from "../systems/position.js";
+ } from "@obstacles/systems/position.js";
 import { 
   Velocity
- } from "../systems/velocity.js";
+ } from "@obstacles/systems/velocity.js";
 import { 
   Physics
- } from "/shared/systems/physics.js";
+ } from "@shared/systems/physics.js";
 import { 
   EntityGroup
- } from "/shared/ecs.js";
+ } from "@shared/ecs.js";
 import { 
   AntSprites
- } from "../systems/ant-sprites.js";
+ } from "@obstacles/systems/ant-sprites.js";
 import { 
   Collision,
   placeEntity
- } from "/shared/systems/collision.js";
+ } from "@shared/systems/collision.js";
 import { 
   game,
   activeGameSystems
- } from "../game.js";
+ } from "@obstacles/game.js";
 import { 
   AntPanel
- } from "../systems/ants/ant-panel.js";
+ } from "@obstacles/systems/ants/ant-panel.js";
 import { 
   config
- } from "../config.js";
+ } from "@obstacles/config.js";
 const ants=create(EntityGroup)("Ants", [ Collision, AntSprites, AntPanel, Physics, Velocity, Position, AntTrails, AntLifeTimer ], game.ent);
 var clearAnts = (function clearAnts$() {
   /* clear-ants eval.sibilant:31:0 */
 
   return ants.clear();
 });
-var spawnAnt = (function spawnAnt$(x_y$33, home, startingLife) {
+var spawnAnt = (function spawnAnt$(x_y$2, home, startingLife) {
   /* spawn-ant eval.sibilant:32:0 */
 
-  var x = x_y$33[0],
-      y = x_y$33[1];
+  var x = x_y$2[0],
+      y = x_y$2[1];
 
   var ant = ants.spawn();
   game.systems.get(Position, ant).x = x;

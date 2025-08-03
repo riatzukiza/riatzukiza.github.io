@@ -20,13 +20,13 @@ import {
 import '/bundles/external.js';
 import { 
   simplex3
- } from "/shared/noise.js";
+ } from "@shared/noise.js";
 import { 
   Vector
- } from "/shared/vectors.js";
+ } from "@shared/vectors.js";
 import { 
   Vector2DPhaseSpace
- } from "../typed-arrays/vector-2d.js";
+ } from "@simple-gravity/typed-arrays/vector-2d.js";
 var setMoveNoise = (function setMoveNoise$(v = this.v, x = this.x, y = this.y, t = 0, force = 0.01, angleZoom = 1000, noiseZ = 100) {
   /* set-move-noise inc/core/function-expressions.sibilant:28:8 */
 

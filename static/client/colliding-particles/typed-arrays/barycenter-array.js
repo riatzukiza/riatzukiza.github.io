@@ -19,10 +19,10 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   DoubleBufferedArray
- } from "./double-buffered.js";
+ } from "@colliding-particles/double-buffered.js";
 import { 
   Barycenter
- } from "../data-types/barycenter.js";
+ } from "@colliding-particles/data-types/barycenter.js";
 var BarycenterArray = DoubleBufferedArray.define("BarycenterArray", { 
   dataType:Barycenter
  });

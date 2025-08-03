@@ -19,10 +19,10 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   DoubleBufferedArray
- } from "./double-buffered.js";
+ } from "@simple-gravity/double-buffered.js";
 import { 
   Vector2D
- } from "../data-types/vector-2d.js";
+ } from "@simple-gravity/data-types/vector-2d.js";
 var Vector2DPhaseSpace = DoubleBufferedArray.define("Vector2DPhaseSpace", { 
   dataType:Vector2D,
   addTo( vector2dArray ){ 

@@ -20,10 +20,10 @@ import {
 import '/bundles/external.js';
 import { 
   Vector
- } from "/shared/vectors.js";
+ } from "@shared/vectors.js";
 import { 
   Vector2DPhaseSpace
- } from "../typed-arrays/vector-2d.js";
+ } from "@simple-gravity/typed-arrays/vector-2d.js";
 const bounds=[ 10000001000000 ];
 self.onmessage = (function self$onmessage$(e) {
   /* self.onmessage eval.sibilant:8:0 */

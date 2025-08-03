@@ -19,13 +19,13 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Position
- } from "/shared/systems/position.js";
+ } from "@shared/systems/position.js";
 import { 
   Physics
- } from "/shared/systems/physics/system.js";
+ } from "@shared/systems/physics/system.js";
 import { 
   Collision
- } from "/shared/systems/collision.js";
+ } from "@shared/systems/collision.js";
 var SignalField = Physics.Force.define("SignalField", { 
   template:true,
   get config(  ){ 

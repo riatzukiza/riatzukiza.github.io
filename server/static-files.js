@@ -23,10 +23,10 @@ var {
 var mimeTypes = require("mime-types"),
     Path = require("path");
 var serveStaticFiles = (function serveStaticFiles$(sys) {
-  /* serve-static-files eval.sibilant:1:574 */
+  /* serve-static-files eval.sibilant:1:684 */
 
   var serve = (function serve$(message) {
-    /* serve eval.sibilant:1:609 */
+    /* serve eval.sibilant:1:719 */
   
     const { 
       request,
@@ -47,7 +47,7 @@ var serveStaticFiles = (function serveStaticFiles$(sys) {
     }).call(this);
     console.log("serving path", path);
     var serveFile = (function serveFile$(file) {
-      /* serve-file eval.sibilant:1:908 */
+      /* serve-file eval.sibilant:1:1018 */
     
       var ext = Path.extname(file.path),
           mime = mimeTypes.lookup(ext);
@@ -58,13 +58,13 @@ var serveStaticFiles = (function serveStaticFiles$(sys) {
       return file.readStream.pipe(response);
     });
     var serveDirectory = (function serveDirectory$(index) {
-      /* serve-directory eval.sibilant:1:1318 */
+      /* serve-directory eval.sibilant:1:1428 */
     
       console.log("serving directory");
       return response.end("directory");
     });
     var handleDirectory = (function handleDirectory$(file) {
-      /* handle-directory eval.sibilant:1:1425 */
+      /* handle-directory eval.sibilant:1:1535 */
     
       return file.get("index.html").then(serveFile).catch((() => {
       	

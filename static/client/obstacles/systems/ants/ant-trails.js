@@ -20,17 +20,17 @@ import {
 import { 
   Component,
   System
- } from "/shared/ecs.js";
+ } from "@shared/ecs.js";
 import { 
   Timer,
   TimeLimit
- } from "/client/obstacles/systems/timer.js";
+ } from "@obstacles/systems/timer.js";
 import { 
   config
- } from "/client/obstacles/config.js";
+ } from "@obstacles/config.js";
 import { 
   spawnAntTrailSegment
- } from "/client/obstacles/entities/trail-segments.js";
+ } from "@obstacles/entities/trail-segments.js";
 var AntTrail = Component.define("AntTrail", { 
   _clear(  ){ 
     

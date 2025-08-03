@@ -20,13 +20,13 @@ import {
 import '/bundles/external.js';
 import { 
   Vector
- } from "/shared/vectors.js";
+ } from "@shared/vectors.js";
 import { 
   Vector2DArray
- } from "../typed-arrays/vector-2d.js";
+ } from "@colliding-particles/typed-arrays/vector-2d.js";
 import { 
   ParentSystem
- } from "../system.js";
+ } from "@colliding-particles/system.js";
 var AccelerationSystem = ParentSystem.define("AccelerationSystem", { 
   dataTypes:[ Vector2DArray, Vector2DArray, Vector2DArray, Vector2DArray ],
   async update( args,[ velocities, deflections, nearGravity, farGravity ] ){ 

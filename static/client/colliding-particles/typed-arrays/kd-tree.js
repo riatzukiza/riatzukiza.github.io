@@ -19,13 +19,13 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   BinaryTree
- } from "./binary-tree.js";
+ } from "@colliding-particles/binary-tree.js";
 import { 
   KdTreeNode
- } from "../data-types/kd-tree-node.js";
+ } from "@colliding-particles/data-types/kd-tree-node.js";
 import { 
   config
- } from "../config.js";
+ } from "@colliding-particles/config.js";
 var sample = (function sample$(array, n) {
   /* sample eval.sibilant:6:0 */
 

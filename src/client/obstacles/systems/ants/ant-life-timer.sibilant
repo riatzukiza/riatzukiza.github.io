@@ -1,10 +1,10 @@
 
 (import Component System "@shared/ecs.js")
 (import Red-black-tree "@shared/data-structures/trees/red-black-tree.js")
-(import config "@obstacles/../config.js")
-(import Timer Time-limit "@obstacles/timer.js")
+(import config "@obstacles/config.js")
+(import Timer Time-limit "@obstacles/systems/timer.js")
 (import place-entity "@shared/systems/collision.js")
-(import trail-segments "@obstacles/../entities/trail-segments.js" )
+(import trail-segments "@obstacles/entities/trail-segments.js" )
 
 
 (const views (new Map))

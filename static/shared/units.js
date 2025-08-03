@@ -31,10 +31,10 @@ import {
  } from "./systems/physics.js";
 import { 
   Interface
- } from "/shared/kit/interface/index.js";
+ } from "@shared/kit/interface/index.js";
 import { 
   Saveable
- } from "/shared/saveable.js";
+ } from "@shared/saveable.js";
 var UnitInstance = Spawnable.define("UnitInstance", { 
   init( entity = this.entity,group = this.group ){ 
     

@@ -19,16 +19,16 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Friction
- } from "/shared/systems/physics/forces/friction.js";
+ } from "@shared/systems/physics/forces/friction.js";
 import { 
   game
- } from "./game.js";
+ } from "@obstacles/game.js";
 import { 
   config
- } from "./config.js";
+ } from "@obstacles/config.js";
 import { 
   entities
- } from "/client/obstacles/entities.js";
+ } from "@obstacles/entities.js";
 console.log("initializing forces", { 
   Friction
  });

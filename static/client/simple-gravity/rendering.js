@@ -19,19 +19,19 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Rendering
- } from "/shared/systems/rendering/rendering.js";
+ } from "@shared/systems/rendering/rendering.js";
 import { 
   Mote
- } from "/shared/systems/rendering/mote.js";
+ } from "@shared/systems/rendering/mote.js";
 import { 
   Interface
- } from "/shared/kit/interface/index.js";
+ } from "@shared/kit/interface/index.js";
 import { 
   Gl
- } from "/shared/gl.js";
+ } from "@shared/gl.js";
 import { 
   config
- } from "./config.js";
+ } from "@simple-gravity/config.js";
 const rendering=Rendering.load({ 
   dimensions:[ (1 * config.dimensions[0]), (1 * config.dimensions[1]) ],
   blend:true

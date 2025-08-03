@@ -20,10 +20,10 @@ import {
 import { 
   GroupingSystem,
   ElasticDeflectionSystem
- } from "./workers.js";
+ } from "@colliding-particles/workers.js";
 import { 
   config
- } from "./config.js";
+ } from "@colliding-particles/config.js";
 var getBounds = (function getBounds$(positions) {
   /* get-bounds eval.sibilant:4:0 */
 

@@ -23,27 +23,27 @@ import {
   rocks,
   spawnRock,
   rockGenStep
- } from "/client/obstacles/entities/rocks.js";
+ } from "@obstacles/entities/rocks.js";
 import { 
   ants,
   spawnAnt,
   clearAnts
- } from "/client/obstacles/entities/ants.js";
+ } from "@obstacles/entities/ants.js";
 import { 
   plants,
   spawnPlant
- } from "/client/obstacles/entities/plants.js";
+ } from "@obstacles/entities/plants.js";
 import { 
   trailSegments,
   spawnAntTrailSegment
- } from "/client/obstacles/entities/trail-segments.js";
+ } from "@obstacles/entities/trail-segments.js";
 import { 
   home,
   homePos
- } from "/client/obstacles/entities/home.js";
+ } from "@obstacles/entities/home.js";
 import { 
   config
- } from "/client/obstacles/config.js";
+ } from "@obstacles/config.js";
 var clear = (function() {
   /* eval.sibilant:14:11 */
 
@@ -97,4 +97,22 @@ export {
  };
 export { 
   spawnAntTrailSegment
+ };
+const entities={ 
+  nextSpawn,
+  rockGenStep,
+  spawnRock,
+  spawnPlant,
+  spawnAnt,
+  ants,
+  plants,
+  rocks,
+  home,
+  homePos,
+  clearAnts,
+  trailSegments,
+  spawnAntTrailSegment
+ };
+export { 
+  entities
  };

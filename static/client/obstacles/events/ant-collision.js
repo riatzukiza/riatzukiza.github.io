@@ -19,32 +19,32 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Velocity
- } from "/shared/systems/velocity.js";
+ } from "@shared/systems/velocity.js";
 import { 
   Position
- } from "/shared/systems/position.js";
+ } from "@shared/systems/position.js";
 import { 
   game
- } from "../game.js";
+ } from "@obstacles/game.js";
 import { 
   createParticleUpdater
- } from "/shared/field.js";
+ } from "@shared/field.js";
 import { 
   homePos,
   plants,
   ants,
   rocks
- } from "../entities.js";
+ } from "@obstacles/entities.js";
 import { 
   Friction,
   SignalField
- } from "../forces.js";
+ } from "@obstacles/forces.js";
 import { 
   Physics
- } from "/shared/systems/physics.js";
+ } from "@shared/systems/physics.js";
 import { 
   config
- } from "../config.js";
+ } from "@obstacles/config.js";
 const updateParticle=createParticleUpdater(config, game);
 game.events.on("antCollision", ((c, c_) => {
 	var v = c.entity.velocityInterface;

@@ -19,7 +19,7 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Interface
- } from "/shared/kit/interface/index.js";
+ } from "@shared/kit/interface/index.js";
 const maxMass=(8 * 8 * 8 * 8 * 16 * 1024);
 const spawnArea=(8 * maxMass);
 const groupCount=256;

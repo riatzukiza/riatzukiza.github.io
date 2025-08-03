@@ -22,7 +22,7 @@ import {
  } from "../pooling/dynamic-pool.js";
 import { 
   Interface
- } from "/shared/kit/interface/index.js";
+ } from "@shared/kit/interface/index.js";
 const pools=(new Map());
 var PooledDataStructure = Interface.define("PooledDataStructure", { 
   init(  ){ 

@@ -19,7 +19,7 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Spawnable
- } from "/shared/data-structures/spawnable.js";
+ } from "@shared/data-structures/spawnable.js";
 import { 
   baseWeights
  } from "./base-weights.js";
@@ -36,7 +36,7 @@ import {
  } from "./possible-state.js";
 import { 
   summate
- } from "/shared/math/math.js";
+ } from "@shared/math/math.js";
 var calculateEntropy = (function calculateEntropy$(weights) {
   /* calculate-entropy eval.sibilant:13:0 */
 

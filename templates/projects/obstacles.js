@@ -19,7 +19,10 @@ create(HtmlElement)("html", {  }, [ create(HtmlElement)("head", {  }, [ create(H
   'id': "rock-texture",
   'src': "/rock.png",
   'hidden': "true"
-}, []) ]), create(HtmlElement)("script", {
+}, []) ]), create(HtmlElement)("script", { 'type': "importmap" }, [ JSON.stringify({ "imports": {
+  "@shared/": "/shared/",
+  "@obstacles/": "/client/obstacles/"
+} }) ]), create(HtmlElement)("script", {
   'src': "/client/obstacles/main.js",
   'type': "module"
 }, []) ]);

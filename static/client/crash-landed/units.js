@@ -19,7 +19,7 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Physics
- } from "/shared/systems/physics.js";
+ } from "@shared/systems/physics.js";
 import { 
   PlayerSprites
  } from "./systems/sprites/player.js";
@@ -31,7 +31,7 @@ import {
  } from "./rendering.js";
 import { 
   Velocity
- } from "/shared/systems/velocity.js";
+ } from "@shared/systems/velocity.js";
 import { 
   Sight
  } from "./systems/sight.js";
@@ -68,7 +68,7 @@ import {
 import { 
   UnitInstance,
   UnitGroup
- } from "/shared/units.js";
+ } from "@shared/units.js";
 var ItemUnit = UnitInstance.define("ItemUnit", { 
   get data(  ){ 
     

@@ -38,3 +38,25 @@
 (export clear-ants)
 (export trail-segments)
 (export spawn-ant-trail-segment)
+
+(const entities (lit
+
+                 next-spawn
+
+                 rock-gen-step
+                 spawn-rock
+                 spawn-plant
+                 spawn-ant
+
+                 ants
+                 plants
+                 rocks
+
+                 home
+                 home-pos
+
+                 clear-ants
+                 trail-segments
+                 spawn-ant-trail-segment
+                 ))
+(export entities)

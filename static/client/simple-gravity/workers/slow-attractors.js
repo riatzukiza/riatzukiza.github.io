@@ -20,19 +20,19 @@ import {
 import '/bundles/external.js';
 import { 
   Vector2DPhaseSpace
- } from "../typed-arrays/vector-2d.js";
+ } from "@simple-gravity/typed-arrays/vector-2d.js";
 import { 
   DoubleBufferedArray
- } from "../typed-arrays/double-buffered.js";
+ } from "@simple-gravity/typed-arrays/double-buffered.js";
 import { 
   DataType
- } from "../data-types/data-type.js";
+ } from "@simple-gravity/data-types/data-type.js";
 import { 
   Vector
- } from "/shared/vectors.js";
+ } from "@shared/vectors.js";
 import { 
   Spawnable
- } from "/shared/data-structures/spawnable.js";
+ } from "@shared/data-structures/spawnable.js";
 var QuadTree = require("@timohausmann/quadtree-js");
 const gravitationalConstant=1e-8;
 const minDist=1;

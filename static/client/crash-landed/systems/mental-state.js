@@ -20,22 +20,22 @@ import {
 import { 
   System,
   Component
- } from "/shared/ecs.js";
+ } from "@shared/ecs.js";
 import { 
   List
- } from "/shared/data-structures/list.js";
+ } from "@shared/data-structures/list.js";
 import { 
   Vector
- } from "/shared/vectors.js";
+ } from "@shared/vectors.js";
 import { 
   config
  } from "../config.js";
 import { 
   RedBlackTree
- } from "/shared/data-structures/trees/red-black-tree.js";
+ } from "@shared/data-structures/trees/red-black-tree.js";
 import { 
   simplex3
- } from "/shared/noise.js";
+ } from "@shared/noise.js";
 var getMoveNoise = (function getMoveNoise$(x = this.x, y = this.y, t = this.t, force = 16, v = Vector.spawn(1, 1)) {
   /* get-move-noise inc/core/function-expressions.sibilant:28:8 */
 
@@ -191,9 +191,9 @@ var MentalState = System.define("MentalState", {
       const searchLimit=10;
       var i = 0;
       return (function() {
-        var while$222 = undefined;
+        var while$206 = undefined;
         while (!((c.entity.currentPath.end || i > searchLimit))) {
-          while$222 = (function() {
+          while$206 = (function() {
             const noiseV=getMoveNoise(newX, newY, this.game.ticker.ticks, (1 * config.gameScale));
             ((i)++);
             newX = (newX + (20 * noiseV.x));
@@ -209,7 +209,7 @@ var MentalState = System.define("MentalState", {
             return noiseV.despawn();
           }).call(this);
         };
-        return while$222;
+        return while$206;
       }).call(this);
     
    },

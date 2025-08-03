@@ -19,13 +19,13 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Vector2D
- } from "./vector-2d.js";
+ } from "@colliding-particles/vector-2d.js";
 import { 
   DataType
- } from "./data-type.js";
+ } from "@colliding-particles/data-type.js";
 import { 
   BinaryTreeNode
- } from "./binary-tree-node.js";
+ } from "@colliding-particles/binary-tree-node.js";
 var KdTreeNode = BinaryTreeNode.define("KdTreeNode", { 
   bucketSize:32,
   keys:[ "x", "y", "pid" ],

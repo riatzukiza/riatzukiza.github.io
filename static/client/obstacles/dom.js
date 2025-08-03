@@ -19,36 +19,36 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   rendering
- } from "/client/obstacles/rendering.js";
+ } from "@obstacles/rendering.js";
 import { 
   vectorPool,
   trailPool
- } from "/shared/vectors.js";
+ } from "@shared/vectors.js";
 import { 
   Physics
- } from "/shared/systems/physics.js";
+ } from "@shared/systems/physics.js";
 import { 
   Dot
- } from "/shared/systems/rendering/dot.js";
+ } from "@shared/systems/rendering/dot.js";
 import { 
   summate
- } from "/shared/math/math.js";
+ } from "@shared/math/math.js";
 import { 
   ViewPanel,
   PropertyView
- } from "/client/obstacles/systems/property-view.js";
+ } from "@obstacles/systems/property-view.js";
 import { 
   config
- } from "/client/obstacles/config.js";
+ } from "@obstacles/config.js";
 import { 
   game
- } from "/client/obstacles/game.js";
+ } from "@obstacles/game.js";
 import { 
   ants,
   rocks,
   plants,
   trailSegments
- } from "/client/obstacles/entities.js";
+ } from "@obstacles/entities.js";
 var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
   /* display-decimal inc/core/function-expressions.sibilant:28:8 */
 

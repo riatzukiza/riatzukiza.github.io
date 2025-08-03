@@ -20,10 +20,10 @@ import {
 import { 
   System,
   Component
- } from "/shared/ecs.js";
+ } from "@shared/ecs.js";
 import { 
   List
- } from "/shared/data-structures/list.js";
+ } from "@shared/data-structures/list.js";
 var Needs = Component.define("Needs", { 
   caloriesStored:2000,
   caloriesMax:5000,

@@ -19,22 +19,22 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Velocity
- } from "/shared/systems/velocity.js";
+ } from "@shared/systems/velocity.js";
 import { 
   Position
- } from "/shared/systems/position.js";
+ } from "@shared/systems/position.js";
 import { 
   game
- } from "../game.js";
+ } from "@obstacles/game.js";
 import { 
   config
- } from "../config.js";
+ } from "@obstacles/config.js";
 import { 
   Physics
- } from "/shared/systems/physics/system.js";
+ } from "@shared/systems/physics/system.js";
 import { 
   createParticleUpdater
- } from "/shared/field.js";
+ } from "@shared/field.js";
 import { 
   nextSpawn,
   spawnAnt,
@@ -49,7 +49,7 @@ import {
  } from "../entities.js";
 import { 
   randomLocation
- } from "../location.js";
+ } from "@obstacles/location.js";
 const updateParticle=createParticleUpdater(config, game);
 game.events.on("tick", (() => {
 	nextSpawn(game);

@@ -19,24 +19,24 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Velocity
- } from "/shared/systems/velocity.js";
+ } from "@shared/systems/velocity.js";
 import { 
   Position
- } from "/shared/systems/position.js";
+ } from "@shared/systems/position.js";
 import { 
   game
- } from "../game.js";
+ } from "@obstacles/game.js";
 import { 
   plants,
   ants,
   rocks
- } from "../entities.js";
+ } from "@obstacles/entities.js";
 import { 
   Vector
- } from "/shared/vectors.js";
+ } from "@shared/vectors.js";
 import { 
   config
- } from "../config.js";
+ } from "@obstacles/config.js";
 game.events.on("staticObjectCollision", ((o1, o2) => {
 	var v = o1.entity.velocityInterface;
 var v_ = o2.entity.velocityInterface;

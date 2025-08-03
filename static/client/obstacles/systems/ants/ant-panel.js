@@ -20,7 +20,7 @@ import {
 import { 
   PropertyView,
   ViewPanel
- } from "/client/obstacles/systems/property-view.js";
+ } from "@obstacles/systems/property-view.js";
 var AntsPropertyView = PropertyView.define("AntsPropertyView", { 
   
  });

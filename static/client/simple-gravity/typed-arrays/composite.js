@@ -19,10 +19,10 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Spawnable
- } from "/shared/data-structures/spawnable.js";
+ } from "@shared/data-structures/spawnable.js";
 import { 
   DataType
- } from "../data-types/data-type.js";
+ } from "@simple-gravity/data-types/data-type.js";
 var CompositeTypedArray = Spawnable.define("CompositeTypedArray", { 
   dataType:DataType,
   init( length = 0,buffer = this.dataType.buffer(length),array = (new Float64Array(buffer)),currentState = this,nextState = this ){ 

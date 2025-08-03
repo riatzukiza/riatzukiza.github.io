@@ -20,13 +20,13 @@ import {
 import '/bundles/external.js';
 import { 
   Vector2DArray
- } from "../typed-arrays/vector-2d.js";
+ } from "@colliding-particles/typed-arrays/vector-2d.js";
 import { 
   KdTree
- } from "../typed-arrays/kd-tree.js";
+ } from "@colliding-particles/typed-arrays/kd-tree.js";
 import { 
   ParentSystem
- } from "../system.js";
+ } from "@colliding-particles/system.js";
 var KdTreeBuilder = ParentSystem.define("KdTreeBuilder", { 
   dataTypes:[ Vector2DArray, KdTree ],
   async update( args,[ positions, kdTree ] ){ 

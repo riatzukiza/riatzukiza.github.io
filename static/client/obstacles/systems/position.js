@@ -19,11 +19,11 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   displayDecimal
- } from "/client/obstacles/strings.js";
+ } from "@obstacles/strings.js";
 import { 
   Position,
   PositionInterface
- } from "/shared/systems/position.js";
+ } from "@shared/systems/position.js";
 import { 
   renderChildren,
   createDocumentNode,
@@ -31,7 +31,7 @@ import {
   DocumentBody,
   DocumentHead,
   DocumentRoot
- } from "/shared/dom.js";
+ } from "@shared/dom.js";
 defView(PositionInterface.view, null, className.div("panel", style, { 
   width:"48%"
  }, "position".div(), (() => {

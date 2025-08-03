@@ -20,29 +20,29 @@ import {
 import '/bundles/external.js';
 import { 
   Vector2DArray
- } from "../typed-arrays/vector-2d.js";
+ } from "@colliding-particles/typed-arrays/vector-2d.js";
 import { 
   PhysicsArray
- } from "../typed-arrays/physics-array.js";
+ } from "@colliding-particles/typed-arrays/physics-array.js";
 import { 
   KdTree
- } from "../typed-arrays/kd-tree.js";
+ } from "@colliding-particles/typed-arrays/kd-tree.js";
 import { 
   Vector
- } from "/shared/vectors.js";
+ } from "@shared/vectors.js";
 import { 
   Spawnable
- } from "/shared/data-structures/spawnable.js";
+ } from "@shared/data-structures/spawnable.js";
 import { 
   config
- } from "../config.js";
+ } from "@colliding-particles/config.js";
 const { 
   maxObjects,
   maxLevels
  }=config;
 import { 
   ParentSystem
- } from "../system.js";
+ } from "@colliding-particles/system.js";
 var ElasticParticle = Spawnable.define("ElasticParticle", { 
   init( posSource = this.posSource,velSource = this.velSource,physSource = this.physSource,deflectionSource = this.deflectionSource,correctionSource = this.correctionSource,_mass = physSource.mass,_scale = physSource.scale,deflection = Vector.spawn(0, 0),correction = Vector.spawn(0, 0),pos = Vector.spawn(posSource.x, posSource.y),vel = Vector.spawn(velSource.x, velSource.y) ){ 
     

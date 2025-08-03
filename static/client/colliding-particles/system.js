@@ -19,10 +19,10 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Spawnable
- } from "/shared/data-structures/spawnable.js";
+ } from "@shared/data-structures/spawnable.js";
 import { 
   Thread
- } from "/shared/worker.js";
+ } from "@shared/worker.js";
 var ThreadedSystem = Spawnable.define("ThreadedSystem", { 
   data:[],
   args:{  },

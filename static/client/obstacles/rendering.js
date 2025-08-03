@@ -19,10 +19,10 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Rendering
- } from "/shared/systems/rendering/rendering.js";
+ } from "@shared/systems/rendering/rendering.js";
 import { 
   config
- } from "./config.js";
+ } from "@obstacles/config.js";
 const rendering=Rendering.load({ 
   dimensions:[ (1 * config.dimensions[0]), (1 * config.dimensions[1]) ],
   blend:true

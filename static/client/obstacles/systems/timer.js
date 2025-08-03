@@ -20,16 +20,16 @@ import {
 import { 
   Component,
   System
- } from "/shared/ecs.js";
+ } from "@shared/ecs.js";
 import { 
   BinarySearchTree
- } from "/shared/data-structures/trees/binary-search-tree.js";
+ } from "@shared/data-structures/trees/binary-search-tree.js";
 import { 
   RedBlackTree
- } from "/shared/data-structures/trees/red-black-tree.js";
+ } from "@shared/data-structures/trees/red-black-tree.js";
 import { 
   config
- } from "/client/obstacles/config.js";
+ } from "@obstacles/config.js";
 var TimeLimit = Component.define("TimeLimit", { 
   docString:"Obstacles.systems.Time-limit",
   addToTree(  ){ 

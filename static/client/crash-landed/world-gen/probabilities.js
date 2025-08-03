@@ -19,7 +19,7 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Spawnable
- } from "/shared/data-structures/spawnable.js";
+ } from "@shared/data-structures/spawnable.js";
 import { 
   TerrainModule
  } from "./terrain-module.js";
@@ -31,7 +31,7 @@ import {
  } from "./base-weights.js";
 import { 
   summate
- } from "/shared/math/math.js";
+ } from "@shared/math/math.js";
 var ProbabilityDistrobution = Spawnable.define("ProbabilityDistrobution", { 
   get grass(  ){ 
     

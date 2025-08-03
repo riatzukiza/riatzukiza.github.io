@@ -20,34 +20,34 @@ import {
 import '/bundles/external.js';
 import { 
   Vector
- } from "/shared/vectors.js";
+ } from "@shared/vectors.js";
 import { 
   Spawnable
- } from "/shared/data-structures/spawnable.js";
+ } from "@shared/data-structures/spawnable.js";
 import { 
   PhysicsArray
- } from "../typed-arrays/physics-array.js";
+ } from "@colliding-particles/typed-arrays/physics-array.js";
 import { 
   GroupIdArray
- } from "../typed-arrays/group-id-array.js";
+ } from "@colliding-particles/typed-arrays/group-id-array.js";
 import { 
   Vector2DArray
- } from "../typed-arrays/vector-2d.js";
+ } from "@colliding-particles/typed-arrays/vector-2d.js";
 import { 
   KdTree
- } from "../typed-arrays/kd-tree.js";
+ } from "@colliding-particles/typed-arrays/kd-tree.js";
 import { 
   ThreadedSystem
- } from "../system.js";
+ } from "@colliding-particles/system.js";
 import { 
   config
- } from "../config.js";
+ } from "@colliding-particles/config.js";
 const { 
   gravitationalConstant
  }=config;
 import { 
   ParentSystem
- } from "../system.js";
+ } from "@colliding-particles/system.js";
 var DeflectionGroupSystem = ThreadedSystem.define("DeflectionGroupSystem", { 
   url:"/client/colliding-particles/workers/local-attractor-system.js",
   data:[]

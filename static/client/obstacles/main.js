@@ -20,26 +20,26 @@ import {
 import { 
   game,
   activeGameSystems
- } from "./game.js";
+ } from "@obstacles/game.js";
 import { 
   Collision
- } from "/shared/systems/collision.js";
+ } from "@shared/systems/collision.js";
 import { 
   config
- } from "./config.js";
+ } from "@obstacles/config.js";
 import { 
   entities
- } from "./entities.js";
+ } from "@obstacles/entities.js";
 import { 
   startInterface
- } from "./dom.js";
+ } from "@obstacles/dom.js";
 Collision.setBounds(config.dimensions[0], config.dimensions[1], 500, 1000);
 game.start();
-import "./events/ant-collision.js";
-import "./events/ant-found-plant.js";
-import "./events/collision.js";
-import "./events/plant-colliding-with-spawn.js";
-import "./events/static-object-collision.js";
-import "./events/tick.js";
-import "./events/simple-collision.js";
+import "@obstacles/events/ant-collision.js";
+import "@obstacles/events/ant-found-plant.js";
+import "@obstacles/events/collision.js";
+import "@obstacles/events/plant-colliding-with-spawn.js";
+import "@obstacles/events/static-object-collision.js";
+import "@obstacles/events/tick.js";
+import "@obstacles/events/simple-collision.js";
 startInterface();

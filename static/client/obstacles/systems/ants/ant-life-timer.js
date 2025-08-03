@@ -20,23 +20,23 @@ import {
 import { 
   Component,
   System
- } from "/shared/ecs.js";
+ } from "@shared/ecs.js";
 import { 
   RedBlackTree
- } from "/shared/data-structures/trees/red-black-tree.js";
+ } from "@shared/data-structures/trees/red-black-tree.js";
 import { 
   config
- } from "../../config.js";
+ } from "@obstacles/config.js";
 import { 
   Timer,
   TimeLimit
- } from "../timer.js";
+ } from "@obstacles/systems/timer.js";
 import { 
   placeEntity
- } from "/shared/systems/collision.js";
+ } from "@shared/systems/collision.js";
 import { 
   trailSegments
- } from "../../entities/trail-segments.js";
+ } from "@obstacles/entities/trail-segments.js";
 const views=(new Map());
 var AntLife = TimeLimit.define("AntLife", { 
   duration:config.antLife,

@@ -19,29 +19,29 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Dot
- } from "/shared/systems/rendering/dot.js";
+ } from "@shared/systems/rendering/dot.js";
 import { 
   Physics
- } from "/shared/systems/physics.js";
+ } from "@shared/systems/physics.js";
 import { 
   Collision
- } from "/shared/systems/collision.js";
+ } from "@shared/systems/collision.js";
 import { 
   Position
- } from "../systems/position.js";
+ } from "@obstacles/systems/position.js";
 import { 
   Velocity
- } from "../systems/velocity.js";
+ } from "@obstacles/systems/velocity.js";
 import { 
   game,
   activeGameSystems
- } from "../game.js";
+ } from "@obstacles/game.js";
 import { 
   config
- } from "../config.js";
+ } from "@obstacles/config.js";
 import { 
   rgba
- } from "../colors.js";
+ } from "@obstacles/colors.js";
 var entity = (function entity$(aspects) {
   /* entity eval.sibilant:14:0 */
 

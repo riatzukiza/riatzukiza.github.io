@@ -22,7 +22,7 @@ import {
  } from "./world-gen/worker.js";
 import { 
   TileGraph
- } from "/shared/tiles.js";
+ } from "@shared/tiles.js";
 import { 
   FloorSprites
  } from "./systems/sprites/floor.js";

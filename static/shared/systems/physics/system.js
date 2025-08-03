@@ -20,16 +20,16 @@ import {
 import { 
   Component,
   System
- } from "/shared/ecs.js";
+ } from "@shared/ecs.js";
 import { 
   Velocity
- } from "/shared/systems/velocity.js";
+ } from "@shared/systems/velocity.js";
 import { 
   Position
- } from "/shared/systems/position.js";
+ } from "@shared/systems/position.js";
 import { 
   Interface
- } from "/shared/kit/interface/index.js";
+ } from "@shared/kit/interface/index.js";
 var PhysicalProperties = Component.define("PhysicalProperties", { 
   _scale:1,
   _mass:1,

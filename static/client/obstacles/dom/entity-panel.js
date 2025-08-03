@@ -19,19 +19,19 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   Component
- } from "/shared/ecs.js";
+ } from "@shared/ecs.js";
 import { 
   game
- } from "/client/obstacles/game.js";
+ } from "@obstacles/game.js";
 import { 
   Dot
- } from "/shared/systems/rendering/dot.js";
+ } from "@shared/systems/rendering/dot.js";
 import { 
   PooledDataStructure
- } from "/shared/data-structures/pooled.js";
+ } from "@shared/data-structures/pooled.js";
 import { 
   rgba
- } from "/client/obstacles/colors.js";
+ } from "@obstacles/colors.js";
 var EntityPanel = Interface.define("EntityPanel", { 
   init( entity = this.entity ){ 
     

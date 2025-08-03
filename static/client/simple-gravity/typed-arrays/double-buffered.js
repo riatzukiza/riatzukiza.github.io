@@ -19,7 +19,7 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   CompositeTypedArray
- } from "./composite.js";
+ } from "@simple-gravity/composite.js";
 var DoubleBufferedArray = CompositeTypedArray.define("DoubleBufferedArray", { 
   get arrayType(  ){ 
     

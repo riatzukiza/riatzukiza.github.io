@@ -19,10 +19,10 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   DoubleBufferedArray
- } from "./double-buffered.js";
+ } from "@colliding-particles/double-buffered.js";
 import { 
   BinaryTreeNode
- } from "../data-types/binary-tree-node.js";
+ } from "@colliding-particles/data-types/binary-tree-node.js";
 var BinaryTree = DoubleBufferedArray.define("BinaryTree", { 
   dataType:BinaryTreeNode,
   get root(  ){ 

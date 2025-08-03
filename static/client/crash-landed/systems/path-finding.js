@@ -20,23 +20,23 @@ import {
 import { 
   System,
   Component
- } from "/shared/ecs.js";
+ } from "@shared/ecs.js";
 import { 
   Spawnable
- } from "/shared/data-structures/spawnable.js";
+ } from "@shared/data-structures/spawnable.js";
 import { 
   List
- } from "/shared/data-structures/list.js";
+ } from "@shared/data-structures/list.js";
 import { 
   Vector
- } from "/shared/vectors.js";
+ } from "@shared/vectors.js";
 import { 
   config
  } from "../config.js";
 import { 
   Heapable,
   BinaryHeap
- } from "/shared/data-structures/trees/binary-heap.js";
+ } from "@shared/data-structures/trees/binary-heap.js";
 var removeFromArray = (function removeFromArray$(el, array) {
   /* remove-from-array eval.sibilant:11:0 */
 
@@ -220,15 +220,15 @@ var PathNode = Heapable.define("PathNode", {
       var path = List.spawn();
       var node = this;
       return (function() {
-        var while$227 = undefined;
+        var while$211 = undefined;
         while (node) {
-          while$227 = (function() {
+          while$211 = (function() {
             path.unshift(node);
             node = node.parent;
             return path;
           }).call(this);
         };
-        return while$227;
+        return while$211;
       }).call(this);
     
    },
@@ -322,9 +322,9 @@ var PathFinding = System.define("PathFinding", {
       }).call(this);
       c.open.insert(startingNode);
       return (function() {
-        var while$228 = undefined;
+        var while$212 = undefined;
         while (c.open.root) {
-          while$228 = (function() {
+          while$212 = (function() {
             const currentNode=c.nextOpenNode;
             return (function() {
               if (currentNode.tile === c.end) {
@@ -368,7 +368,7 @@ var PathFinding = System.define("PathFinding", {
             }).call(this);
           }).call(this);
         };
-        return while$228;
+        return while$212;
       }).call(this);
     
    },

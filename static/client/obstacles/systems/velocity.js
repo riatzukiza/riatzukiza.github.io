@@ -19,11 +19,11 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   displayDecimal
- } from "/client/obstacles/strings.js";
+ } from "@obstacles/strings.js";
 import { 
   VelocityInterface,
   Velocity
- } from "/shared/systems/velocity.js";
+ } from "@shared/systems/velocity.js";
 import { 
   renderChildren,
   createDocumentNode,
@@ -31,7 +31,7 @@ import {
   DocumentBody,
   DocumentHead,
   DocumentRoot
- } from "/shared/dom.js";
+ } from "@shared/dom.js";
 defView(VelocityInterface.view, null, className.div("panel", id, ("velocity-panel" + this.entity.id), style, { 
   width:"48%"
  }, "velocity:".div(), (() => {

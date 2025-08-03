@@ -20,7 +20,7 @@ import {
 import { 
   AnimatedSprite,
   SpriteAtlas
- } from "/shared/systems/rendering/sprite-atlas.js";
+ } from "@shared/systems/rendering/sprite-atlas.js";
 const spriteImage=document.getElementById("props-sprite");
 var PropsSprite = AnimatedSprite.define("PropsSprite", { 
   _column:4,

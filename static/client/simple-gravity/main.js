@@ -24,40 +24,40 @@ import {
   DocumentBody,
   DocumentHead,
   DocumentRoot
- } from "/shared/dom.js";
+ } from "@shared/dom.js";
 import { 
   simplex3,
   simplex2
- } from "/shared/noise.js";
+ } from "@shared/noise.js";
 import { 
   Vector2DPhaseSpace
- } from "./typed-arrays/vector-2d.js";
+ } from "@simple-gravity/typed-arrays/vector-2d.js";
 import { 
   DoubleBufferedArray
- } from "./typed-arrays/double-buffered.js";
+ } from "@simple-gravity/typed-arrays/double-buffered.js";
 import { 
   rendering,
   vertexLayer
- } from "./rendering.js";
+ } from "@simple-gravity/rendering.js";
 import { 
   Thread
- } from "/shared/worker.js";
+ } from "@shared/worker.js";
 import { 
   config
- } from "./config.js";
+ } from "@simple-gravity/config.js";
 import { 
   Ticker
- } from "/shared/ticker.js";
+ } from "@shared/ticker.js";
 import { 
   Vector
- } from "/shared/vectors.js";
+ } from "@shared/vectors.js";
 import { 
   DataType
- } from "./data-types/data-type.js";
+ } from "@simple-gravity/data-types/data-type.js";
 import { 
   gameView,
   startButton
- } from "./ui.js";
+ } from "@simple-gravity/ui.js";
 var ThreadedSystem = Thread.define("ThreadedSystem", { 
   data:[],
   update( args ){ 
@@ -93,11 +93,11 @@ const physicalProperties=PhysicalProperties.spawn(particleCount);
 const positions=Vector2DPhaseSpace.spawn(particleCount);
 const vertices=vertexLayer(particleCount);
 var MovementSystem = ThreadedSystem.define("MovementSystem", { 
-  url:("/client/simple-gravity/workers/movement.js"),
+  url:("@simple-gravity/workers/movement.js"),
   data:[ velocities, positions, attractors ]
  });
 var AttractorSystem = ThreadedSystem.define("AttractorSystem", { 
-  url:"/client/simple-gravity/workers/attractors.js",
+  url:"@simple-gravity/workers/attractors.js",
   data:[ velocities, positions, attractors, physicalProperties ]
  });
 var initializeMotes = (function initializeMotes$(positions, verts) {

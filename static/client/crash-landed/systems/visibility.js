@@ -20,10 +20,10 @@ import {
 import { 
   System,
   Component
- } from "/shared/ecs.js";
+ } from "@shared/ecs.js";
 import { 
   List
- } from "/shared/data-structures/list.js";
+ } from "@shared/data-structures/list.js";
 var VisibleStatus = Component.define("VisibleStatus", { 
   _visible__QUERY:false,
   _explored__QUERY:false,

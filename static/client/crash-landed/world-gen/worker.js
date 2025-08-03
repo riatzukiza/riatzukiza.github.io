@@ -20,7 +20,7 @@ import {
 import { 
   Thread,
   InlineThread
- } from "/shared/worker.js";
+ } from "@shared/worker.js";
 var TileGenerator = Thread.define("TileGenerator", { 
   url:"/client/crash-landed/world-gen/worker-index.js",
   load( saveName ){ 

@@ -19,10 +19,10 @@ import {
  } from "/shared/kit/core/util.js";
 import { 
   config
- } from "./config.js";
+ } from "@obstacles/config.js";
 import { 
   entities
- } from "./entities.js";
+ } from "@obstacles/entities.js";
 var settings = QuickSettings.create(800, 0, "settings 1");
 settings.addRange("Options amplitude", 1, 100, config.optionsAmplitude, 0.01, ((val) => {
 	return config.optionsAmplitude = val;
