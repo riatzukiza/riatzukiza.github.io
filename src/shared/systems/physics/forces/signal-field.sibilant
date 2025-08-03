@@ -1,6 +1,6 @@
-(import Position "/shared/systems/position.js")
-(import Physics "/shared/systems/physics/system.js")
-(import Collision "/shared/systems/collision.js")
+(import Position "@shared/systems/position.js")
+(import Physics "@shared/systems/physics/system.js")
+(import Collision "@shared/systems/collision.js")
 
 
 

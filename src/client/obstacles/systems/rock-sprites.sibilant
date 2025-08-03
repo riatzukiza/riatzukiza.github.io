@@ -1,4 +1,4 @@
-(import Sprites Sprite "/shared/systems/rendering/gl-sprites.js")
+(import Sprites Sprite "@shared/systems/rendering/gl-sprites.js")
 
 
 (define Rock-sprite Sprite)

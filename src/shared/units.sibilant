@@ -2,8 +2,8 @@
 (import Entity-group "./ecs.js")
 (import Position "./systems/position.js")
 (import Physics "./systems/physics.js")
-(import Interface "/shared/kit/interface/index.js")
-(import Saveable "/shared/saveable.js")
+(import Interface "@shared/kit/interface/index.js")
+(import Saveable "@shared/saveable.js")
 
 (define Unit-instance Spawnable
   (init (entity group))

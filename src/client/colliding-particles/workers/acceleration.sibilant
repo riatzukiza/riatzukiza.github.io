@@ -2,10 +2,10 @@
 
 (meta "import '/bundles/external.js'")
 
-(import Vector "/shared/vectors.js")
-(import Vector-2D-array "../typed-arrays/vector-2d.js")
+(import Vector "@shared/vectors.js")
+(import Vector-2D-array "@colliding-particles/typed-arrays/vector-2d.js")
 
-(import Parent-system "../system.sibilant")
+(import Parent-system "@colliding-particles/system.sibilant")
 
 (def-lit-macro def-async (name args ..body)
   ["async "  name  `(parenthetic (comma ...@args.contents)) `(curly (do-block ...@body))])

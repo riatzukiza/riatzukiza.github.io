@@ -1,11 +1,11 @@
 
 (namespace obstacles)
 
-(import Component "/shared/ecs.js")
-(import game "/client/obstacles/game.js")
-(import Dot "/shared/systems/rendering/dot.js")
-(import Pooled-data-structure "/shared/data-structures/pooled.js")
-(import rgba "/client/obstacles/colors.js")
+(import Component "@shared/ecs.js")
+(import game "@obstacles/game.js")
+(import Dot "@shared/systems/rendering/dot.js")
+(import Pooled-data-structure "@shared/data-structures/pooled.js")
+(import rgba "@obstacles/colors.js")
 
 (define Entity-panel Interface
   (init (entity ))

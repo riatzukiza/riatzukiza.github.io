@@ -1,10 +1,10 @@
-(import System Component "/shared/ecs.js")
-(import List "/shared/data-structures/list.js")
-(import Vector "/shared/vectors.js")
+(import System Component "@shared/ecs.js")
+(import List "@shared/data-structures/list.js")
+(import Vector "@shared/vectors.js")
 (import config "../config.js")
 
-(import Red-black-tree "/shared/data-structures/trees/red-black-tree.js")
-(import simplex3 "/shared/noise.js")
+(import Red-black-tree "@shared/data-structures/trees/red-black-tree.js")
+(import simplex3 "@shared/noise.js")
 
 (def-generic get-move-noise (x y t (force 16) (v (.spawn Vector 1 1)))
   (.set-angle v

@@ -1,11 +1,11 @@
 
-(import Velocity "/shared/systems/velocity.js")
-(import Position "/shared/systems/position.js")
-(import game "../game.js")
-(import create-particle-updater "/shared/field.js")
-(import plants ants rocks "../entities.js")
-(import Physics "/shared/systems/physics/system.js")
-(import Vector "/shared/vectors.js")
+(import Velocity "@shared/systems/velocity.js")
+(import Position "@shared/systems/position.js")
+(import game "@obstacles/game.js")
+(import create-particle-updater "@shared/field.js")
+(import plants ants rocks "@obstacles/entities.js")
+(import Physics "@shared/systems/physics/system.js")
+(import Vector "@shared/vectors.js")
 
 (on game.events 'simple-collision (c, c*)
 

@@ -1,8 +1,8 @@
 (meta "import '/bundles/external.js'")
-(import simplex3 "/shared/noise.js")
-(import Vector "/shared/vectors.js")
+(import simplex3 "@shared/noise.js")
+(import Vector "@shared/vectors.js")
 
-(import Vector-2D-phase-space "../typed-arrays/vector-2d.js")
+(import Vector-2D-phase-space "@simple-gravity/typed-arrays/vector-2d.js")
 
 ;; const angle=(noise.simplex3((pos.x / config.angleZoom / 5), (pos.y / config.angleZoom / 5), (tick * (config.noiseZ / 10000))) * Math.PI * 2);
 

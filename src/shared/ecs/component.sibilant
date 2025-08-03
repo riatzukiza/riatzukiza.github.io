@@ -3,12 +3,12 @@
 
 (require! R "ramda")
 
-(import Saveable "/shared/saveable.js")
+(import Saveable "@shared/saveable.js")
 (import Ordered-map "../data-structures/maps/ordered.js")
 (import Dynamic-pool "../pooling/dynamic-pool.js")
 (import Group "../data-structures/group.js")
-(import Interface "/shared/kit/interface/index.js")
-(import Renderable "/shared/systems/rendering/renderable.js")
+(import Interface "@shared/kit/interface/index.js")
+(import Renderable "@shared/systems/rendering/renderable.js")
 
 
 (def spawn-component  (entity systems) (#-> systems.get (.spawn  entity)))

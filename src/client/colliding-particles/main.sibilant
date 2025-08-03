@@ -1,11 +1,11 @@
 (include "../../../inc/dom.sibilant")
 
-(import config "./config.js")
-(import game-view start-button particle-list "./ui.js")
-(import setup "./setup.sibilant")
-(import update "./update.sibilant")
-(import Game-systems-manager "./workers.sibilant")
-(import particles vertices "./data.sibilant")
+(import config "@colliding-particles/config.js")
+(import game-view start-button particle-list "@colliding-particles/ui.js")
+(import setup "@colliding-particles/setup.sibilant")
+(import update "@colliding-particles/update.sibilant")
+(import Game-systems-manager "@colliding-particles/workers.sibilant")
+(import particles vertices "@colliding-particles/data.sibilant")
 
 (const (lit min-mass max-mass actual-maximum-mass spawn-width spawn-height spawn-area particle-count) config)
 

@@ -1,6 +1,6 @@
 
-(import Double-buffered-array "./double-buffered.js")
-(import Group-id "../data-types/group-id.js")
+(import Double-buffered-array "@colliding-particles/double-buffered.js")
+(import Group-id "@colliding-particles/data-types/group-id.js")
 
 (define Group-id-array Double-buffered-array
   (data-type Group-id))

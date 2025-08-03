@@ -1,5 +1,5 @@
-(import Double-buffered-array "./double-buffered.js")
-(import Vector2D "../data-types/vector-2d.js")
+(import Double-buffered-array "@simple-gravity/double-buffered.js")
+(import Vector2D "@simple-gravity/data-types/vector-2d.js")
 
 (define Vector-2D-phase-space Double-buffered-array
   (data-type Vector2D)

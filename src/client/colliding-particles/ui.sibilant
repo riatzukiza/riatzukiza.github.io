@@ -1,5 +1,5 @@
 (include "../../../inc/dom.sibilant")
-(import rendering "./rendering.js")
+(import rendering "@colliding-particles/rendering.js")
 (const game-view (dom (.div .id "game-view" .className "panel"
                             .style (lit ("background-color" "black"))
                             (-> rendering.context.canvas))))

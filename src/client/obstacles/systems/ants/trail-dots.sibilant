@@ -1,6 +1,6 @@
 (namespace obstacles)
-(import Dot-interface Dot "/shared/systems/rendering/dot.js")
-(import rgba "/client/obstacles/colors.js")
+(import Dot-interface Dot "@shared/systems/rendering/dot.js")
+(import rgba "@obstacles/colors.js")
 
 (const base-color (rgba 20 20 125 255))
 

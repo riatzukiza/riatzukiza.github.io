@@ -1,14 +1,14 @@
 (include "../../../inc/dom.sibilant")
-(import simplex3 simplex2 "/shared/noise.js")
-(import Vector-2D-phase-space "./typed-arrays/vector-2d.js")
-(import Double-buffered-array "./typed-arrays/double-buffered.js")
-(import rendering vertex-layer "./rendering.js")
-(import Thread "/shared/worker.js")
-(import config "./config.js")
-(import Ticker "/shared/ticker.js")
-(import Vector "/shared/vectors.js")
-(import Data-type "./data-types/data-type.js")
-(import game-view start-button "./ui.js")
+(import simplex3 simplex2 "@shared/noise.js")
+(import Vector-2D-phase-space "@simple-gravity/typed-arrays/vector-2d.js")
+(import Double-buffered-array "@simple-gravity/typed-arrays/double-buffered.js")
+(import rendering vertex-layer "@simple-gravity/rendering.js")
+(import Thread "@shared/worker.js")
+(import config "@simple-gravity/config.js")
+(import Ticker "@shared/ticker.js")
+(import Vector "@shared/vectors.js")
+(import Data-type "@simple-gravity/data-types/data-type.js")
+(import game-view start-button "@simple-gravity/ui.js")
 
 (define Threaded-system Thread
   (data [])
@@ -46,12 +46,12 @@
 
 
 (define Movement-system Threaded-system
-  (url (+ "/client/simple-gravity/workers/movement.js"))
+  (url (+ "@simple-gravity/workers/movement.js"))
   (data [velocities positions attractors]))
 
 
 (define Attractor-system Threaded-system
-  (url "/client/simple-gravity/workers/attractors.js")
+  (url "@simple-gravity/workers/attractors.js")
   (data [velocities positions attractors physical-properties]))
 
 

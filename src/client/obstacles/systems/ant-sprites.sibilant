@@ -1,5 +1,5 @@
 
-(import Sprites Sprite "/shared/systems/rendering/gl-sprites.js")
+(import Sprites Sprite "@shared/systems/rendering/gl-sprites.js")
 (const ant-image (.get-element-by-id document "ant-texture"))
 
 (define Ant-sprite Sprite)

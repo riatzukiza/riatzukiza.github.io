@@ -1,9 +1,9 @@
-(import Velocity "/shared/systems/velocity.js")
-(import Position "/shared/systems/position.js")
-(import game "../game.js")
+(import Velocity "@shared/systems/velocity.js")
+(import Position "@shared/systems/position.js")
+(import game "@obstacles/game.js")
 
-(import config "../config.js")
-(import plants ants rocks "../entities.js")
+(import config "@obstacles/config.js")
+(import plants ants rocks "@obstacles/entities.js")
 
 (on game.events 'plant-colliding-with-spawn (home, plant)
 

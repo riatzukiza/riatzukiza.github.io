@@ -1,5 +1,5 @@
-(import Interface "/shared/kit/interface/index.js")
-(import Event-emitter "/shared/kit/events/index.js")
+(import Interface "@shared/kit/interface/index.js")
+(import Event-emitter "@shared/kit/events/index.js")
 (def-lit-macro def-async (name args ...body)
   [" async "name  `(parenthetic (comma @args.contents))
             `(curly (do-block ...@body))])
