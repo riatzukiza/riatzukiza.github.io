@@ -2,7 +2,7 @@
 
 ## arguments
 
-no arguements
+no arguments
 
 ## description
 
