@@ -24,7 +24,7 @@ import {
   Renderable
  } from "./renderable.js";
 var setColor = (function setColor$(r, g, b, a, vert) {
-  /* set-color eval.sibilant:2:220 */
+  /* set-color eval.sibilant:2:229 */
 
   vert.color.r = r;
   vert.color.g = g;
@@ -32,7 +32,7 @@ var setColor = (function setColor$(r, g, b, a, vert) {
   return vert.color.a = a;
 });
 var setPoint = (function setPoint$(x, y, z, vert) {
-  /* set-point eval.sibilant:2:326 */
+  /* set-point eval.sibilant:2:335 */
 
   vert.point.x = x;
   vert.point.y = y;

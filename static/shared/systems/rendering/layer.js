@@ -30,32 +30,32 @@ import {
   Gl
  } from "../../gl.js";
 var bound = (function() {
-  /* eval.sibilant:2:337 */
+  /* eval.sibilant:2:346 */
 
   return arguments[0].bind();
 }),
     clear = (function() {
-  /* eval.sibilant:2:362 */
+  /* eval.sibilant:2:371 */
 
   return arguments[0].clear();
 }),
     rendered = (function() {
-  /* eval.sibilant:2:391 */
+  /* eval.sibilant:2:400 */
 
   return arguments[0].render();
 }),
     unbound = (function() {
-  /* eval.sibilant:2:421 */
+  /* eval.sibilant:2:430 */
 
   return arguments[0].unbind();
 }),
     disabled = (function() {
-  /* eval.sibilant:2:450 */
+  /* eval.sibilant:2:459 */
 
   return arguments[0].disable();
 }),
     enabled = (function() {
-  /* eval.sibilant:2:481 */
+  /* eval.sibilant:2:490 */
 
   return arguments[0].enable();
 });

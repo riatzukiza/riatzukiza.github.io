@@ -79,7 +79,7 @@ var OrderedMap = Interface.define("OrderedMap", {
   map( callback = this.callback,_members = this._members,_values = this._values ){ 
     
       return (function(r) {
-        /* inc/misc.sibilant:1:1508 */
+        /* eval.sibilant:2:336 */
       
         _values.each(((item, node) => {
         	return r.set(node.key, callback(item, node.key, r));

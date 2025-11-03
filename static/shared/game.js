@@ -62,7 +62,7 @@ var Game = Saveable.define("Game", {
           setSystemBySymbol = systems.set;
       systems.getBySymbol = getSystemBySymbol;
       systems.get = (function systems$get$(proto, ent) {
-        /* systems.get eval.sibilant:2:1367 */
+        /* systems.get eval.sibilant:2:1376 */
       
         var sys = getSystemBySymbol.call(systems, proto.symbol);
         return (function() {
@@ -109,7 +109,7 @@ var Game = Saveable.define("Game", {
       events.emit("start", this);
       return events.on("tick", ((t) => {
       	systems.each((function() {
-        /* eval.sibilant:2:1954 */
+        /* eval.sibilant:2:1963 */
       
         return arguments[0].update();
       }));
@@ -132,7 +132,7 @@ var Game = Saveable.define("Game", {
       entities.clear();
       events.removeAllListeners();
       return systems.each((function() {
-        /* eval.sibilant:2:2272 */
+        /* eval.sibilant:2:2281 */
       
         return arguments[0].clear();
       }));

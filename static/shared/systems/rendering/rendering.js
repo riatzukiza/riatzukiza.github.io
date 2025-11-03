@@ -33,42 +33,42 @@ import {
   Scalar
  } from "../../math/scalar.js";
 window.size = (function window$size$() {
-  /* window.size eval.sibilant:2:337 */
+  /* window.size eval.sibilant:2:346 */
 
   return [ window.innerWidth, window.innerHeight ];
 });
 var bound = (function() {
-  /* eval.sibilant:2:420 */
+  /* eval.sibilant:2:429 */
 
   return arguments[0].bind();
 }),
     clear = (function() {
-  /* eval.sibilant:2:445 */
+  /* eval.sibilant:2:454 */
 
   return arguments[0].clear();
 }),
     rendered = (function() {
-  /* eval.sibilant:2:474 */
+  /* eval.sibilant:2:483 */
 
   return arguments[0].render();
 }),
     unbound = (function() {
-  /* eval.sibilant:2:504 */
+  /* eval.sibilant:2:513 */
 
   return arguments[0].unbind();
 }),
     disabled = (function() {
-  /* eval.sibilant:2:533 */
+  /* eval.sibilant:2:542 */
 
   return arguments[0].disable();
 }),
     enabled = (function() {
-  /* eval.sibilant:2:564 */
+  /* eval.sibilant:2:573 */
 
   return arguments[0].enable();
 });
 var allowAlphaBlending = (function allowAlphaBlending$(context) {
-  /* allow-alpha-blending eval.sibilant:2:582 */
+  /* allow-alpha-blending eval.sibilant:2:591 */
 
   context.gl = context.canvas.getContext("webgl2");
   context.gl.enable(context.gl.BLEND);
@@ -85,19 +85,19 @@ var Rendering = PooledSystem.define("Rendering", {
       this.zoomLevel = 0.0001;
       var mouseHeld = false;
       context.canvas.onmousedown = (function context$canvas$onmousedown$(e) {
-        /* context.canvas.onmousedown eval.sibilant:2:1616 */
+        /* context.canvas.onmousedown eval.sibilant:2:1625 */
       
         e.preventDefault();
         return mouseHeld = true;
       });
       context.canvas.onmouseup = (function context$canvas$onmouseup$(e) {
-        /* context.canvas.onmouseup eval.sibilant:2:1717 */
+        /* context.canvas.onmouseup eval.sibilant:2:1726 */
       
         e.preventDefault();
         return mouseHeld = false;
       });
       context.canvas.onmousemove = (function context$canvas$onmousemove$(e) {
-        /* context.canvas.onmousemove eval.sibilant:2:1815 */
+        /* context.canvas.onmousemove eval.sibilant:2:1824 */
       
         e.preventDefault();
         return (function() {
@@ -108,7 +108,7 @@ var Rendering = PooledSystem.define("Rendering", {
         }).call(this);
       });
       context.canvas.onwheel = (function context$canvas$onwheel$(e) {
-        /* context.canvas.onwheel eval.sibilant:2:2293 */
+        /* context.canvas.onwheel eval.sibilant:2:2302 */
       
         e.preventDefault();
         const oldScale=(1 / self.zoomLevel);

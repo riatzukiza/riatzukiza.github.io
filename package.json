@@ -12,6 +12,7 @@
         "dev:server": "kit-shell < ./scripts/server.sibilant",
         "dev:watch": "kit-shell < ./scripts/watch.sibilant",
         "dev:compile": "kit-shell < ./script/compile.sibilant",
+      "dev":"kit-shell < ./scripts/dev.sibilant",
         "start": "node ./server/index.js",
         "publish": "git add .;git commit -m 'published';git push origin master; git push heroku master;",
         "bundles": "browserify -r mousetrap -r tree-kit -r jimp -r kit-events -r events -r fs -r assert  -r kit/js/matrix -r kit/js/util -r deeplearn -r mathjs -r ramda -r kit-interface -r webgl -o ./bundles/dependencies.js"

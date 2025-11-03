@@ -130,7 +130,7 @@ var Physics = System.define("Physics", {
   _updateComponent( c ){ 
     
       return c.forces.each((function() {
-        /* eval.sibilant:2:1635 */
+        /* eval.sibilant:2:1644 */
       
         return arguments[0].apply(c);
       }));

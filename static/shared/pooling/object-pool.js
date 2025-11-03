@@ -29,7 +29,7 @@ return m;
 });
 var ObjectPool = Interface.define("ObjectPool", { 
   init( size = this.size,_interface = null,_array = (function(array) {
-    /* eval.sibilant:2:327 */
+    /* inc/misc.sibilant:1:1508 */
   
     (function() {
       /* inc/loops.sibilant:26:8 */
@@ -41,7 +41,7 @@ var ObjectPool = Interface.define("ObjectPool", {
         /* inc/loops.sibilant:28:35 */
       
         array.push((function() {
-          /* eval.sibilant:2:398 */
+          /* eval.sibilant:2:407 */
         
           return Object.create(_interface);
         }).call(this));
@@ -87,7 +87,7 @@ var ObjectPool = Interface.define("ObjectPool", {
     
       "remove an object from the collection of available ones,\n"+"adding it to the collection of objects currently in use,\n"+"and return it to the caller.";
       return (function(member) {
-        /* eval.sibilant:2:327 */
+        /* inc/misc.sibilant:1:1508 */
       
         _inUse.add(member);
         return member;

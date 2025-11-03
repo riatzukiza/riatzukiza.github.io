@@ -27,7 +27,7 @@ import {
   Interface
  } from "../kit/interface/index.js";
 var sumOf = (function sumOf$(list, p) {
-  /* sum-of eval.sibilant:2:376 */
+  /* sum-of eval.sibilant:2:385 */
 
   return list.reduce(((total, e) => {
   	return (total + e[p]);
@@ -73,7 +73,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(newPool) {
-        /* eval.sibilant:2:327 */
+        /* eval.sibilant:2:336 */
       
         buckets.unshift(newPool);
         return newPool;
@@ -130,7 +130,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(object) {
-        /* eval.sibilant:2:327 */
+        /* eval.sibilant:2:336 */
       
         object.bucket = this.current;
         (function() {
@@ -233,7 +233,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(r) {
-        /* eval.sibilant:2:327 */
+        /* eval.sibilant:2:336 */
       
         r.init(...args);
         return r;

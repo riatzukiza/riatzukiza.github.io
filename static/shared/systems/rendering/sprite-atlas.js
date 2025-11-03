@@ -356,13 +356,13 @@ var SpriteAtlas = System.define("SpriteAtlas", {
     
       this.prepare();
       return (function() {
-        var while$99 = undefined;
+        var while$103 = undefined;
         while (this.queue.length) {
-          while$99 = (function() {
+          while$103 = (function() {
             return this._updateComponent(this.queue.pop());
           }).call(this);
         };
-        return while$99;
+        return while$103;
       }).call(this);
     
    },

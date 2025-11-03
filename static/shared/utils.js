@@ -23,12 +23,12 @@ import {
   EventEmitter
  } from "./kit/events/index.js";
 EventEmitter.removeAllListeners = (function EventEmitter$removeAllListeners$(...args) {
-  /* Event-emitter.remove-all-listeners eval.sibilant:2:225 */
+  /* Event-emitter.remove-all-listeners eval.sibilant:2:234 */
 
   return events.EventEmitter.prototype.removeAllListeners.call(this, ...args);
 });
 var rgb = (function rgb$(r, g, b) {
-  /* rgb eval.sibilant:2:394 */
+  /* rgb eval.sibilant:2:403 */
 
   return { 
     r,
@@ -40,7 +40,7 @@ export {
   rgb
  };
 var memoize = (function memoize$(f) {
-  /* memoize eval.sibilant:2:444 */
+  /* memoize eval.sibilant:2:453 */
 
   "create a memoized version of any function. A memoized function will return\n"+"previously calculated results from a cache if the arguments given to it are the same";
   var m = {  };
