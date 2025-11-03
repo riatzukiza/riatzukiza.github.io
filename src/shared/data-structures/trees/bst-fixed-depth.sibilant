@@ -177,7 +177,7 @@
     (const branch (.search this key this.depth))
     (if (.remove branch.values value)
         (if (= branch.values.length 0)
-            (assign this.key null))))
+            (assign branch.key null))))
 
   (def prune (key depth)
     (doc-string "shared.datastructures.trees.binary-search-tree.prune"
