@@ -1,8 +1,8 @@
 (import Interface "/shared/kit/interface/index.js")
 
-(const max-mass (* 8 8 8 8 16 1024))
+(const max-mass (*  8 8 16 1024))
 (const spawn-area (* 8 max-mass ))
-(const group-count 256)
+(const group-count 8)
 (const attractor-thread-count 8)
 (const groups-per-thread (/  group-count attractor-thread-count))
 (const collision-group-count 8)
@@ -35,7 +35,7 @@
   ( max-mass max-mass)
   (min-mass min-mass)
 
-  ( gravitational-constant 0.0000000000000000000000000000000000003711365152319191)
+  ( gravitational-constant 0.0000000000000000000000000003711365152319191)
   ( min-dist min-mass)
   (max-collisions max-collisions)
 
