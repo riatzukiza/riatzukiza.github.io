@@ -47,3 +47,4 @@ images/
 # Ignore Smart Environment folder
 .smart-env
 node_modules
+.nx/
