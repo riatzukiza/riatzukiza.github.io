@@ -28,6 +28,9 @@
 ;; (def-describe Document (*root *tree))
 
 (define Document-node Event-emitter
+(doc-string "null"
+                "Defines null")
+
   (init (tag-name
          attributes
          (*children [])
@@ -41,10 +44,16 @@
   (gett style this.*node.style)
 
   (def-generic clear (*node)
+  (doc-string "*node"
+                  "Defines *node")
+
     (assign *node.innerHTML "") this)
 
 
   (def-generic render (*parent attributes tag-name *node children)
+  (doc-string "*parent attributes tag-name *node children"
+                  "Defines *parent attributes tag-name *node children")
+
 
     ;; (print "rendering" (lit *parent attributes tag-name *node children))
     ;; (when *node (.remove this *node *parent))
@@ -71,15 +80,24 @@
     ((create Document-node) *node.tag-name {} [] *parent *node))
 
   (def-generic append (node children)
+  (doc-string "node children"
+                  "Defines node children")
+
     "add a child to the bottom of this one"
     (.push children node)
     this)
 
   (def-generic prepend (node children)
+  (doc-string "node children"
+                  "Defines node children")
+
     "add a child to the top of this one"
     (assign this.children [node children]))
 
   (def-generic remove (*node *parent)
+  (doc-string "*node *parent"
+                  "Defines *node *parent")
+
     "remove this element from the tree."
 
     (.remove *node)
@@ -92,6 +110,9 @@
 (export Document-node)
 
 (define Document-root  Document-node
+(doc-string "null"
+                "Defines null")
+
   (gett *parent this)
   (tag-name "html")
   (*node document.document-element)
@@ -100,6 +121,9 @@
 
 
 (define Document-body  Document-node
+(doc-string "null"
+                "Defines null")
+
   (gett *parent this)
   (tag-name "body")
   (gett *node document.body)
@@ -109,6 +133,9 @@
 
 
 (define Document-head  Document-node
+(doc-string "null"
+                "Defines null")
+
   (gett *parent this)
   (tag-name "head")
   (*node document.head)

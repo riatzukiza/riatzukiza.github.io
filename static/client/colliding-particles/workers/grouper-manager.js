@@ -49,6 +49,7 @@ const {
   gravitationalConstant
  }=config;
 var GrouperSystem = ThreadedSystem.define("GrouperSystem", { 
+  docString:"null",
   url:"/client/colliding-particles/workers/grouper-system.js",
   data:[]
  });
@@ -66,6 +67,7 @@ threads.push(thread)
 }
 ;
 var GroupManager = ParentSystem.define("GroupManager", { 
+  docString:"null",
   dataTypes:[ Vector2DArray, PhysicsArray, GroupIdArray, KdTree, BarycenterArray ],
   async update( args,data ){ 
   

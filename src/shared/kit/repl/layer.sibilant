@@ -15,6 +15,9 @@
 (var curry R.curry)
 
 (define Layer Actor
+(doc-string "repl).null"
+                "Defines null")
+
 
   (init ( types (members (.map types (=> (t) ((create t))))))
         (each types (t i) (set this t.symbol (get members i)))
@@ -29,9 +32,15 @@
                   (bubble  this 'error))))
 
   (def-generic *send (d members)
+  (doc-string "repl).d members"
+                  "Defines d members")
+
     (.send (first members) d))
 
   (def-generic start (members)
+  (doc-string "repl).members"
+                  "Defines members")
+
 
     (fluently
 

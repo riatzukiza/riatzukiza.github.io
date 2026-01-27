@@ -35,7 +35,22 @@ import {
 var TrailsPropertyView = PropertyView.define("TrailsPropertyView", { 
   
  });
+`
+obstacles)/null.md
+
+# obstacles).null
+
+## arguments
+
+Defines null
+
+## description
+
+`
+
+;
 var TrailsPanel = ViewPanel.define("TrailsPanel", { 
+  docString:"obstacles).null",
   get trailDots(  ){ 
     
       return this.game.systems.getBySymbol(TrailDots.symbol);

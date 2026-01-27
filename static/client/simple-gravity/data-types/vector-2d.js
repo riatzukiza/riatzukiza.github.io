@@ -21,6 +21,7 @@ import {
   DataType
  } from "./data-type.js";
 var Vector2D = DataType.define("Vector2D", { 
+  docString:"null",
   keys:[ "x", "y" ],
   setAngle( angle ){ 
     

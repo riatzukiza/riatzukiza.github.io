@@ -1,6 +1,9 @@
 (import Saveable "../saveable.js")
 
 (define Spawnable Saveable
+(doc-string "null"
+                "Defines null")
+
   (def build ()
     (.call Saveable.init this)
     (assign this.pool []))

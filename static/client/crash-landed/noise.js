@@ -29,6 +29,20 @@ import {
 var getTileNoise = (function getTileNoise$(x = this.x, y = this.y, z = config.noiseZ, angleZoom = config.angleZoom, force = 16, v = Vector.spawn(1, 1)) {
   /* get-tile-noise inc/core/function-expressions.sibilant:28:8 */
 
+  `
+  x y (z config/noise-z.md
+
+  # x y (z config.noise-z
+
+  ## arguments
+
+  Defines x y (z config.noise-z
+
+  ## description
+
+  `
+
+  ;
   v.setAngle((simplex3((x / angleZoom / 5), (y / angleZoom / 5), (z / 10000)) * Math.PI * 2));
   const length=simplex3(((x / 50) + 40000), ((x / 50) + 40000), (z / 10000));
   v.setLength((length * force));
@@ -40,6 +54,20 @@ export {
 var getMoveNoise = (function getMoveNoise$(x = this.x, y = this.y, t = this.t, force = 16, v = Vector.spawn(1, 1)) {
   /* get-move-noise inc/core/function-expressions.sibilant:28:8 */
 
+  `
+  x y t (force 16.md
+
+  # x y t (force 16
+
+  ## arguments
+
+  Defines x y t (force 16
+
+  ## description
+
+  `
+
+  ;
   v.setAngle((simplex3((x / config.angleZoom / 5), (y / config.angleZoom / 5), (t * (config.noiseZ / 10000))) * Math.PI * 2));
   const length=simplex3(((x / 50) + 40000), ((x / 50) + 40000), (t * (config.noiseZ / 10000)));
   v.setLength((length * force));

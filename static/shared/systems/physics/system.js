@@ -31,6 +31,7 @@ import {
   Interface
  } from "/shared/kit/interface/index.js";
 var PhysicalProperties = Component.define("PhysicalProperties", { 
+  docString:"null",
   _scale:1,
   _mass:1,
   priorMass:0,
@@ -107,16 +108,45 @@ export {
   PhysicalProperties
  };
 var Physics = System.define("Physics", { 
+  docString:"null",
   Component:PhysicalProperties,
   _forces:[],
   registerForce( F = this.F,_forces = this._forces ){ 
     
+      `
+      F *forces.md
+
+      # F *forces
+
+      ## arguments
+
+      Defines F *forces
+
+      ## description
+
+      `
+
+      ;
       console.log("registering force", F);
       return create(F)(this);
     
    },
   register( forces = this.forces ){ 
     
+      `
+      forces.md
+
+      # forces
+
+      ## arguments
+
+      Defines forces
+
+      ## description
+
+      `
+
+      ;
       return this._forces = forces.map(((F) => {
       	return this.registerForce(F, forces);
       }));
@@ -130,7 +160,7 @@ var Physics = System.define("Physics", {
   _updateComponent( c ){ 
     
       return c.forces.each((function() {
-        /* eval.sibilant:2:1644 */
+        /* eval.sibilant:14:167 */
       
         return arguments[0].apply(c);
       }));
@@ -141,6 +171,7 @@ export {
   Physics
  };
 Physics.Force = Interface.define("Physics.Force", { 
+  docString:"null",
   init( physics = this.physics ){ 
     
       this.physics = physics;
@@ -161,6 +192,20 @@ Physics.Force = Interface.define("Physics.Force", {
    },
   apply( physicalProperties = this.physicalProperties ){ 
     
+      `
+      physical-properties.md
+
+      # physical-properties
+
+      ## arguments
+
+      Defines physical-properties
+
+      ## description
+
+      `
+
+      ;
       throw (new Error("force does not have an applicator.")())
     
    }

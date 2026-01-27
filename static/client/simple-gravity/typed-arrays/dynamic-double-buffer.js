@@ -18,6 +18,7 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 var DynamicDoubleBuffer = Interface.define("DynamicDoubleBuffer", { 
+  docString:"null",
   get bucketType(  ){ 
     
       const t=Object.create(DoubleBufferedArray);

@@ -24,6 +24,7 @@ import {
   DataType
  } from "../data-types/data-type.js";
 var CompositeTypedArray = Spawnable.define("CompositeTypedArray", { 
+  docString:"null",
   dataType:DataType,
   init( length = 0,buffer = this.dataType.buffer(length),array = (new Float64Array(buffer)),currentState = this,nextState = this ){ 
     

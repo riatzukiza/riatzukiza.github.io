@@ -28,6 +28,7 @@ import {
   ParentSystem
  } from "../system.js";
 var VelocitySystem = ParentSystem.define("VelocitySystem", { 
+  docString:"null",
   dataTypes:[ Vector2DArray, Vector2DArray, Vector2DArray ],
   async update( args,[ velocities, corrections, positions ] ){ 
   

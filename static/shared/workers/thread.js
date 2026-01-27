@@ -18,6 +18,7 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 var Thread = WebWorker.define("Thread", { 
+  docString:"null",
   init( url = this.url,promise = Promise.resolve() ){ 
     
       this.url = url;this.promise = promise;

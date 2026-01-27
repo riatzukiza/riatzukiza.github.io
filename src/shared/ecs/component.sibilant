@@ -22,6 +22,9 @@
 (def decapitalize (string) (+ (.to-lower-case (.char-at string 0)) (.slice string 1)))
 
 (define Component Saveable
+(doc-string "null"
+                "Defines null")
+
   (def register ()
     (doc-string "shared.ecs.Component.register"
                 "no arguements"
@@ -33,6 +36,9 @@
 
 
 (def-generic Component.clear (system)
+(doc-string "system"
+                "Defines system")
+
 
   (if (not this.*clear)
       (throw (new Error "Clear function must be defined to relase from object pool.")))

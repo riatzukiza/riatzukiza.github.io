@@ -39,6 +39,9 @@
 
 
 (define Rendering Pooled-system
+(doc-string "null"
+                "Defines null")
+
 
   (init
    ((dimensions (window.size))
@@ -96,12 +99,18 @@
               (.clear-color  0 0 0 1)))
 
   (def-generic resize ([ width height] context)
+  (doc-string "[ width height] context"
+                  "Defines [ width height] context")
+
     (.resize context width height))
 
   (def load ((lit dimensions  blend))
     ((create Rendering ) dimensions  blend))
 
   (def-generic update (layers context blend)
+  (doc-string "layers context blend"
+                  "Defines layers context blend")
+
     "render each visible dot to the screen"
 
     (.each layers rendered)))

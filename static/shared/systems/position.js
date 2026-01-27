@@ -22,6 +22,7 @@ import {
   System
  } from "../ecs.js";
 var PositionInterface = Component.define("PositionInterface", { 
+  docString:"null",
   _x:0,
   _y:0,
   z:0,
@@ -80,6 +81,7 @@ export {
   PositionInterface
  };
 var Position = System.define("Position", { 
+  docString:"null",
   Component:PositionInterface,
   queue:[],
   shift( c,[ xshift, yshift ] ){ 

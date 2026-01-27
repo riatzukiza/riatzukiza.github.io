@@ -22,6 +22,7 @@ import {
  } from "./spawnable.js";
 const emptyNodes=[];
 var Node = Spawnable.define("Node", { 
+  docString:"shared).null",
   init( list = this.list,next = this.next,prev = this.prev,item = this.item ){ 
     
       this.list = list;this.next = next;this.prev = prev;this.item = item;
@@ -59,6 +60,7 @@ var Node = Spawnable.define("Node", {
    }
  });
 var List = Spawnable.define("List", { 
+  docString:"shared).null",
   init(  ){ 
     
       
@@ -85,6 +87,20 @@ var List = Spawnable.define("List", {
   	return a;
   }) ){ 
     
+      `
+      shared)/array-like (f (=> (a.md
+
+      # shared).array-like (f (=> (a
+
+      ## arguments
+
+      Defines array-like (f (=> (a
+
+      ## description
+
+      `
+
+      ;
       const list=create(this)();
       arrayLike.each(((e, i) => {
       	return list.push(f(e));
@@ -95,13 +111,13 @@ var List = Spawnable.define("List", {
   clear(  ){ 
     
       return (function() {
-        var while$25 = undefined;
+        var while$333 = undefined;
         while (this.length > 0) {
-          while$25 = (function() {
+          while$333 = (function() {
             return this.pop();
           }).call(this);
         };
-        return while$25;
+        return while$333;
       }).call(this);
     
    },
@@ -138,9 +154,9 @@ var List = Spawnable.define("List", {
       var node = this.head;
       var r = false;
       (function() {
-        var while$26 = undefined;
+        var while$334 = undefined;
         while ((node && !(r))) {
-          while$26 = (function() {
+          while$334 = (function() {
             return (function() {
               if (node.item !== item) {
                 return node = node.next;
@@ -151,7 +167,7 @@ var List = Spawnable.define("List", {
             }).call(this);
           }).call(this);
         };
-        return while$26;
+        return while$334;
       }).call(this);
       return item;
     
@@ -249,14 +265,14 @@ var List = Spawnable.define("List", {
     
       var node = this.head;
       (function() {
-        var while$27 = undefined;
+        var while$335 = undefined;
         while (node) {
-          while$27 = (function() {
+          while$335 = (function() {
             f(node.item, node);
             return node = node.next;
           }).call(this);
         };
-        return while$27;
+        return while$335;
       }).call(this);
       return this;
     
@@ -266,13 +282,13 @@ var List = Spawnable.define("List", {
       var result = create(List)();
       var node = this.head;
       return (function() {
-        var while$28 = undefined;
+        var while$336 = undefined;
         while (node) {
-          while$28 = (function() {
+          while$336 = (function() {
             return result.push(f(node, node.next, node.prev));
           }).call(this);
         };
-        return while$28;
+        return while$336;
       }).call(this);
     
    },
@@ -289,6 +305,20 @@ var List = Spawnable.define("List", {
    },
   findNode( f = this.f,node = this.head ){ 
     
+      `
+      shared)/f (node this/head.md
+
+      # shared).f (node this.head
+
+      ## arguments
+
+      Defines f (node this.head
+
+      ## description
+
+      `
+
+      ;
       return (function() {
         if (f(node)) {
           return node;
@@ -302,6 +332,20 @@ var List = Spawnable.define("List", {
    },
   find( f = this.f,node = this.head ){ 
     
+      `
+      shared)/f (node this/head.md
+
+      # shared).f (node this.head
+
+      ## arguments
+
+      Defines f (node this.head
+
+      ## description
+
+      `
+
+      ;
       var r = List.findNode(f, node);
       return (function() {
         if (r) {
@@ -314,18 +358,46 @@ var List = Spawnable.define("List", {
    },
   rotate(  ){ 
     
+      `
+      shared)/null.md
+
+      # shared).null
+
+      ## arguments
+
+      Defines null
+
+      ## description
+
+      `
+
+      ;
       this.push(this.shift());
       return this;
     
    },
   rotateUntil( predicate = this.predicate ){ 
     
+      `
+      shared)/predicate.md
+
+      # shared).predicate
+
+      ## arguments
+
+      Defines predicate
+
+      ## description
+
+      `
+
+      ;
       var r = false;
       var t = 0;
       (function() {
-        var while$29 = undefined;
+        var while$337 = undefined;
         while ((!(r) && t < this.size)) {
-          while$29 = (function() {
+          while$337 = (function() {
             return (function() {
               if (predicate(this.head.item)) {
                 return r = this.head.item;
@@ -336,7 +408,7 @@ var List = Spawnable.define("List", {
             }).call(this);
           }).call(this);
         };
-        return while$29;
+        return while$337;
       }).call(this);
       return r;
     

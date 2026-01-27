@@ -24,7 +24,22 @@ import {
 var AntsPropertyView = PropertyView.define("AntsPropertyView", { 
   
  });
+`
+obstacles)/null.md
+
+# obstacles).null
+
+## arguments
+
+Defines null
+
+## description
+
+`
+
+;
 var AntPanel = ViewPanel.define("AntPanel", { 
+  docString:"obstacles).null",
   pageSize:5,
   page:0,
   cursor:0,

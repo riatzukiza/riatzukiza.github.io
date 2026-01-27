@@ -21,6 +21,7 @@ import {
   Interface
  } from "/shared/kit/interface/index.js";
 var TerrainModule = Interface.define("TerrainModule", { 
+  docString:"null",
   directions:[ [ "northWest", 0 ], [ "north", 1 ], [ "northEast", 2 ], [ "west", 3 ], [ "center", 4 ], [ "east", 5 ], [ "southWest", 6 ], [ "south", 7 ], [ "southEast", 8 ] ],
   modules:[],
   get chunks(  ){ 
@@ -30,6 +31,7 @@ var TerrainModule = Interface.define("TerrainModule", {
    },
   weight:1,
   indexes:Interface.define("indexes", { 
+    docString:"null",
     northWest:0,
     north:1,
     northEast:2,
@@ -59,6 +61,20 @@ var TerrainModule = Interface.define("TerrainModule", {
    },
   each( f = this.f,data = this.data,directions = this.directions ){ 
     
+      `
+      f data directions.md
+
+      # f data directions
+
+      ## arguments
+
+      Defines f data directions
+
+      ## description
+
+      `
+
+      ;
       return directions.each(((dir, i) => {
       	return f(data[dir[1]], dir[0], i);
       }));
@@ -66,6 +82,20 @@ var TerrainModule = Interface.define("TerrainModule", {
    },
   reduce( f = this.f,initialValue = this.initialValue,data = this.data,directions = this.directions ){ 
     
+      `
+      f initial-value data directions.md
+
+      # f initial-value data directions
+
+      ## arguments
+
+      Defines f initial-value data directions
+
+      ## description
+
+      `
+
+      ;
       return directions.reduce(((acc, dir, i) => {
       	return f(acc, data[dir[1]], dir[0], i);
       }), initialValue);
@@ -73,6 +103,20 @@ var TerrainModule = Interface.define("TerrainModule", {
    },
   every( f = this.f,data = this.data,directions = this.directions ){ 
     
+      `
+      f data directions.md
+
+      # f data directions
+
+      ## arguments
+
+      Defines f data directions
+
+      ## description
+
+      `
+
+      ;
       return directions.every(((dir, i) => {
       	return f(data[dir[1]], dir[0], i);
       }));

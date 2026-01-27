@@ -18,6 +18,7 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 var StructType = Spawnable.define("StructType", { 
+  docString:"null",
   init( id = this.id,typedArrays = this.typedArrays ){ 
     
       this.id = id;this.typedArrays = typedArrays;
@@ -31,6 +32,7 @@ var StructType = Spawnable.define("StructType", {
    }
  });
 var Struct = Spawnable.define("Struct", { 
+  docString:"null",
   get keys(  ){ 
     
       return (function() {
@@ -70,6 +72,7 @@ var Struct = Spawnable.define("Struct", {
   build( keys = this.keys,dataTypes = this.dataTypes ){ 
     
    },
+  docString:"keys data-types",
   get typedArrays(  ){ 
     
       return (function() {

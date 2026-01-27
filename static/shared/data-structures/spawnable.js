@@ -21,6 +21,7 @@ import {
   Saveable
  } from "../saveable.js";
 var Spawnable = Saveable.define("Spawnable", { 
+  docString:"null",
   build(  ){ 
     
       Saveable.init.call(this);

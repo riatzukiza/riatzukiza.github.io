@@ -3,6 +3,9 @@
 (import List "../list.js")
 
 (define Red-black-tree Binary-search-tree
+(doc-string "shared).null"
+                "Defines null")
+
   (init ((key null)
          (parent null)
          (color "red";; (if parent (if parent.is-black? "red" "black")
@@ -44,6 +47,9 @@
     (assign node.color temp))
 
   (def-generic fix-red-red ()
+  (doc-string "shared).null"
+                  "Defines null")
+
     (if! this.is-root?
          (assign this.color "black")
          (return))
@@ -76,6 +82,9 @@
                     (.rotate-left grandparent))))))
 
   (def-generic fix-double-black (sibling parent)
+  (doc-string "shared).sibling parent"
+                  "Defines sibling parent")
+
     (if! this.is-root?
          (return))
     (if (not sibling)
@@ -119,6 +128,9 @@
          (or this.left this.right)))
 
   (def-generic delete-node (parent)
+  (doc-string "shared).parent"
+                  "Defines parent")
+
     (var u (.get-replacement-node this))
     (var uv-black (and (or (not u) u.is-black?)
                       this.is-black?))
@@ -185,6 +197,9 @@
     (.delete-node node))
 
   (def-generic remove (key value (depth null))
+  (doc-string "shared).key value (depth null"
+                  "Defines key value (depth null")
+
     (const node (.search this key depth))
     ;; (if! node.is-root? (print "removing root node" key value))
     ;; (print "removing" key value this node node.values node.values.length)
@@ -201,6 +216,9 @@
           )))
 
   (def-generic insert (key (depth null))
+  (doc-string "shared).key (depth null"
+                  "Defines key (depth null")
+
     (if!  this.is-root?
           (if! (not this.key)
                (if! (or this.left this.right)
@@ -228,6 +246,9 @@
     (return new-node))
 
   (def-generic search (key (depth null))
+  (doc-string "shared).key (depth null"
+                  "Defines key (depth null")
+
     (var temp this
          break? false)
     (while! (and temp (not break?)
@@ -253,6 +274,9 @@
     (return temp))
 
   (def-generic set (key value (depth null))
+  (doc-string "shared).key value (depth null"
+                  "Defines key value (depth null")
+
     (const node (.insert this key depth ))
     (.push (get node 'values) value)
     node))

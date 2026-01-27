@@ -27,6 +27,7 @@ import {
   particleGroups
  } from "./data.js";
 var VelocitySystem = ThreadedSystem.define("VelocitySystem", { 
+  docString:"null",
   url:"/client/colliding-particles/workers/velocity.js",
   data:[ particles.vel, particles.correction, particles.pos ]
  });
@@ -34,6 +35,7 @@ export {
   VelocitySystem
  };
 var AccelerationSystem = ThreadedSystem.define("AccelerationSystem", { 
+  docString:"null",
   url:"/client/colliding-particles/workers/acceleration.js",
   data:[ particles.vel, particles.deflection, particles.nearGravity, particles.farGravity ]
  });
@@ -41,6 +43,7 @@ export {
   AccelerationSystem
  };
 var ParticleAttractorSystem = ThreadedSystem.define("ParticleAttractorSystem", { 
+  docString:"null",
   url:"/client/colliding-particles/workers/local-attractor-manager.js",
   data:[ particles.pos, particles.phys, particles.groupId, particles.nearGravity ]
  });
@@ -48,6 +51,7 @@ export {
   ParticleAttractorSystem
  };
 var ClusterAttractorSystem = ThreadedSystem.define("ClusterAttractorSystem", { 
+  docString:"null",
   url:"/client/colliding-particles/workers/cluster-attractor-manager.js",
   data:[ particles.pos, particles.phys, particles.groupId, particleGroups, particles.farGravity ]
  });
@@ -55,6 +59,7 @@ export {
   ClusterAttractorSystem
  };
 var GroupingSystem = ThreadedSystem.define("GroupingSystem", { 
+  docString:"null",
   url:"/client/colliding-particles/workers/kd-grouper.js",
   data:[ particles.pos, particles.phys, particles.groupId, particles.kdTree, particleGroups ]
  });
@@ -62,6 +67,7 @@ export {
   GroupingSystem
  };
 var ElasticDeflectionSystem = ThreadedSystem.define("ElasticDeflectionSystem", { 
+  docString:"null",
   url:"/client/colliding-particles/workers/elastic-deflection-manager.js",
   data:[ particles.pos, particles.vel, particles.phys, particles.kdTree, particles.deflection, particles.correction ]
  });
@@ -69,10 +75,12 @@ export {
   ElasticDeflectionSystem
  };
 var KdTreeBuilder = ThreadedSystem.define("KdTreeBuilder", { 
+  docString:"null",
   url:"/client/colliding-particles/workers/kd-tree-builder.js",
   data:[ particles.pos, particles.kdTree ]
  });
 var GameSystemsManager = SystemsManager.define("GameSystemsManager", { 
+  docString:"null",
   systems:[ VelocitySystem, GroupingSystem, AccelerationSystem, ParticleAttractorSystem, ClusterAttractorSystem, ElasticDeflectionSystem, KdTreeBuilder ],
   data:gameData
  });

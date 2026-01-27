@@ -1,5 +1,8 @@
 (import  Spawnable "../spawnable.js")
 (define Heapable Spawnable
+(doc-string "null"
+                "Defines null")
+
   (expects heap)
   (expects index)
   (expects compare-to)
@@ -7,6 +10,9 @@
   (gett left-index (+ (* 2 this.index) 1))
   (gett parent-index (Math.floor (/ (- this.index 1) 2)))
   (def-generic get-parent-index (index)
+  (doc-string "index"
+                  "Defines index")
+
     (Math.floor (/ (- index 1) 2)))
   (gett smallest-child-index
         (if (or (>= this.right-index this.heap.length)
@@ -22,6 +28,9 @@
   (gett parent (get this.heap this.parent-index)))
 (export Heapable)
 (define Binary-heap Heapable
+(doc-string "null"
+                "Defines null")
+
   (interface Heapable)
   (gett heap this.*heap)
   (gett index this.*index)
@@ -33,10 +42,16 @@
     (assign this.heap.length 0)
     )
   (def-generic includes (heapable heap)
+  (doc-string "heapable heap"
+                  "Defines heapable heap")
+
     (= heapable (get heap heapable.index))
 
     )
   (def-generic heapify (*heap)
+  (doc-string "*heap"
+                  "Defines *heap")
+
     (for-of! heapable *heap
              (.*sift-down this
                           heapable.index
@@ -46,9 +61,15 @@
     *heap)
   (def get-min () this.root)
   (def-generic update-by-index (index heap)
+  (doc-string "index heap"
+                  "Defines index heap")
+
     (const node (get heap index))
     (.*sift-up this index node.parent-index heap))
   (def-generic extract-min (min-val heap)
+  (doc-string "min-val heap"
+                  "Defines min-val heap")
+
     (if! (not heap.length)
          (return null))
     (var new-root (last heap))
@@ -60,6 +81,9 @@
     (.*sift-down this 0 new-root.left-index new-root.right-index)
     (return min-val))
   (def-generic insert (heapable heap)
+  (doc-string "heapable heap"
+                  "Defines heapable heap")
+
     (if! (not heapable.heap) (throw (new Type-error "Inserting non heapable value")))
     (if! (!= heapable.heap heap) (throw (new Type-error "Inserting heapable to wrong heap")))
     (assign heapable.index heap.length)
@@ -68,6 +92,9 @@
     )
 
   (def-generic *sift-up (index parent-index heap)
+  (doc-string "index parent-index heap"
+                  "Defines index parent-index heap")
+
     (while (and (!= index 0)
                 (= (.compare-to (get heap index )
                                 (get heap parent-index )) -1))
@@ -85,6 +112,9 @@
     )
 
   (def-generic *sift-down (index left-index right-index heap)
+  (doc-string "index left-index right-index heap"
+                  "Defines index left-index right-index heap")
+
     (while (or (and (< left-index heap.length)
                     (= (.compare-to (get heap index )
                                     (get heap left-index  ))

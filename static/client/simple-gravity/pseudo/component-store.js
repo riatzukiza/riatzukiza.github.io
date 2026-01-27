@@ -18,6 +18,7 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 var Component = Interface.define("Component", { 
+  docString:"null",
   init( store = this.store,id = this.id ){ 
     
       this.store = store;this.id = id;
@@ -26,6 +27,7 @@ var Component = Interface.define("Component", {
    }
  });
 var ComponentStore = Interface.define("ComponentStore", { 
+  docString:"null",
   Component:null,
   worker:null,
   current:[],
@@ -51,5 +53,6 @@ var ComponentStore = Interface.define("ComponentStore", {
    }
  });
 var ComponentStoreThread = InlineWorker.define("ComponentStoreThread", { 
+  docString:"null",
   defThreaded:main
  });

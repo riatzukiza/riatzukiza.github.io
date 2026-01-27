@@ -61,6 +61,20 @@ var MatrixMap = Interface.define("MatrixMap", {
    },
   each( f = this.f,width = this.width,height = this.height ){ 
     
+      `
+      f width height .md
+
+      # f width height 
+
+      ## arguments
+
+      Defines f width height 
+
+      ## description
+
+      `
+
+      ;
       "standard itterative operator, accepts a function and applies it to every\n"+"element of the matrix";
       var r = this;
       for (var i = 0;i < width;++(i))

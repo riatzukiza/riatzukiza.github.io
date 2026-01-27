@@ -22,6 +22,7 @@ import {
  } from "../spawnable.js";
 import "../list.js";
 var BinarySearchTree = Spawnable.define("BinarySearchTree", { 
+  docString:"null",
   init( key = null,parent = null,values = List.spawn() ){ 
     
       this.key = key;this.parent = parent;this.values = values;
@@ -42,13 +43,13 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
     
       var node = this;
       (function() {
-        var while$63 = undefined;
+        var while$349 = undefined;
         while (node.parent) {
-          while$63 = (function() {
+          while$349 = (function() {
             return node = node.parent;
           }).call(this);
         };
-        return while$63;
+        return while$349;
       }).call(this);
       return node;
     
@@ -67,13 +68,13 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
     
       var temp = this;
       (function() {
-        var while$64 = undefined;
+        var while$350 = undefined;
         while (temp.left) {
-          while$64 = (function() {
+          while$350 = (function() {
             return temp = temp.left;
           }).call(this);
         };
-        return while$64;
+        return while$350;
       }).call(this);
       return temp;
     
@@ -143,6 +144,20 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
    },
   rotateLeft(  ){ 
     
+      `
+      null.md
+
+      # null
+
+      ## arguments
+
+      Defines null
+
+      ## description
+
+      `
+
+      ;
       const nParent=this.right;
       this.moveDown(nParent);
       this.right = nParent.left;
@@ -156,6 +171,20 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
    },
   rotateRight(  ){ 
     
+      `
+      null.md
+
+      # null
+
+      ## arguments
+
+      Defines null
+
+      ## description
+
+      `
+
+      ;
       const nParent=this.left;
       this.moveDown(nParent);
       this.left = nParent.right;
@@ -169,6 +198,20 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
    },
   set( key = this.key,value = this.value ){ 
     
+      `
+      key value .md
+
+      # key value 
+
+      ## arguments
+
+      Defines key value 
+
+      ## description
+
+      `
+
+      ;
       (function() {
         if ((!(this.key) || key === this.key)) {
           this.key = key;
@@ -312,6 +355,20 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
    },
   findRange( low = this.low,high = this.high,answer = [] ){ 
     
+      `
+      low high (answer [].md
+
+      # low high (answer []
+
+      ## arguments
+
+      Defines low high (answer []
+
+      ## description
+
+      `
+
+      ;
       (function() {
         if ((this.key >= low && this.key <= high)) {
           (function() {
@@ -338,6 +395,20 @@ var BinarySearchTree = Spawnable.define("BinarySearchTree", {
   	return null;
   }) ){ 
     
+      `
+      low high (f (-> null.md
+
+      # low high (f (-> null
+
+      ## arguments
+
+      Defines low high (f (-> null
+
+      ## description
+
+      `
+
+      ;
       return (function() {
         if ((this.key >= low && this.key <= high)) {
           (function() {

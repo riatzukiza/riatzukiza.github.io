@@ -26,6 +26,7 @@ import {
  } from "/client/obstacles/colors.js";
 const baseColor=rgba(20, 20, 125, 255);
 var TrailDot = DotInterface.define("TrailDot", { 
+  docString:"obstacles).null",
   _color:baseColor,
   changed__QUERY:true,
   get color(  ){ 
@@ -60,6 +61,7 @@ export {
   TrailDot
  };
 var TrailDots = Dot.define("TrailDots", { 
+  docString:"obstacles).null",
   maxVerts:300000,
   interface:TrailDot,
   register(  ){ 

@@ -24,6 +24,7 @@ import {
   Thread
  } from "/shared/worker.js";
 var ThreadedSystem = Spawnable.define("ThreadedSystem", { 
+  docString:"null",
   data:[],
   args:{  },
   init( url = this.url,data = this.data,args = this.args ){ 
@@ -61,6 +62,7 @@ export {
   ThreadedSystem
  };
 var ParentSystem = Spawnable.define("ParentSystem", { 
+  docString:"null",
   dataTypes:[],
   init(  ){ 
     
@@ -71,6 +73,20 @@ var ParentSystem = Spawnable.define("ParentSystem", {
    },
   _update( args = this.args,buffers = this.buffers,data = this.data ){ 
     
+      `
+      args buffers data.md
+
+      # args buffers data
+
+      ## arguments
+
+      Defines args buffers data
+
+      ## description
+
+      `
+
+      ;
       (function() {
         if (!(data)) {
           return this.data = buffers.map((([ b1, b2 ], i) => {
@@ -96,7 +112,7 @@ var ParentSystem = Spawnable.define("ParentSystem", {
       	return this._update(args, buffers);
       });
       self.onmessage = (function self$onmessage$(e) {
-        /* self.onmessage eval.sibilant:36:4 */
+        /* self.onmessage eval.sibilant:45:4 */
       
         const buffers=e.data.buffers;
         const args=e.data.args;
@@ -115,6 +131,7 @@ export {
   ParentSystem
  };
 var SystemsManager = Spawnable.define("SystemsManager", { 
+  docString:"null",
   systems:[],
   data:[],
   init( systems = this.systems,data = this.data ){ 
@@ -128,6 +145,20 @@ var SystemsManager = Spawnable.define("SystemsManager", {
    },
   start( systems = this.systems ){ 
     
+      `
+      systems.md
+
+      # systems
+
+      ## arguments
+
+      Defines systems
+
+      ## description
+
+      `
+
+      ;
       return systems.each(((system) => {
       	return system.start();
       }));

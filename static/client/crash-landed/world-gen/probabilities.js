@@ -33,6 +33,7 @@ import {
   summate
  } from "/shared/math/math.js";
 var ProbabilityDistrobution = Spawnable.define("ProbabilityDistrobution", { 
+  docString:"null",
   get grass(  ){ 
     
       throw (new TypeError((this.name + " expects a definition of " + "grass")))
@@ -92,6 +93,7 @@ export {
   ProbabilityDistrobution
  };
 var SuperPositionDistrobution = ProbabilityDistrobution.define("SuperPositionDistrobution", { 
+  docString:"null",
   init( superPosition = this.superPosition ){ 
     
       this.superPosition = superPosition;
@@ -123,6 +125,7 @@ export {
   SuperPositionDistrobution
  };
 var BaseDistrobution = ProbabilityDistrobution.define("BaseDistrobution", { 
+  docString:"null",
   get totalWeight(  ){ 
     
       return (function() {
@@ -334,6 +337,7 @@ export {
   BaseDistrobution
  };
 var CurrentDistrobution = ProbabilityDistrobution.define("CurrentDistrobution", { 
+  docString:"null",
   grassInstances:1,
   stoneInstances:1,
   floweryGrassInstances:1,
@@ -362,6 +366,7 @@ export {
   CurrentDistrobution
  };
 var ExpectedLikelyhoodGivenCurrentState = ProbabilityDistrobution.define("ExpectedLikelyhoodGivenCurrentState", { 
+  docString:"null",
   base:BaseDistrobution,
   current:CurrentDistrobution,
   get B(  ){ 

@@ -39,6 +39,7 @@ var runIn = R.curry((function(string) {
    });
 }));
 var Evaluator = Actor.define("Evaluator", { 
+  docString:"repl).null",
   init(  ){ 
     
       
@@ -51,8 +52,23 @@ var Evaluator = Actor.define("Evaluator", {
       return create(this)();
     
    },
+  docString:"repl).null",
   _send( js = (typeof js !== "undefined") ? js : this.js;,context = (typeof context !== "undefined") ? context : this.context; ){ 
     
+      `
+      repl)/js context.md
+
+      # repl).js context
+
+      ## arguments
+
+      Defines js context
+
+      ## description
+
+      `
+
+      ;
       return Promise.resolve(js).then(runIn).then(((result) => {
       	return this.emit("message", [ "result", result ]);
       }), result).catch(((err) => {

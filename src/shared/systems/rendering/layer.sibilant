@@ -14,6 +14,9 @@
 
 
 (define Layer  Pooled-system
+(doc-string "null"
+                "Defines null")
+
   (render? true)
   (Renderable Renderable)
   (init (limit
@@ -44,10 +47,16 @@
     (pipe this.*pool (.release o)))
 
   (def-generic clear (buffer *members context)
+  (doc-string "buffer *members context"
+                  "Defines buffer *members context")
+
 
     (pipe buffer .bind (.data *members.data) .unbind))
 
   (def-generic enable (buffer uniform program context)
+  (doc-string "buffer uniform program context"
+                  "Defines buffer uniform program context")
+
 
     (.bind buffer)
 
@@ -62,6 +71,9 @@
     (.enable-gl-attributes this.Renderable.structure))
 
   (def-generic disable (buffer uniform program)
+  (doc-string "buffer uniform program"
+                  "Defines buffer uniform program")
+
 
     (.disable program)
 
@@ -69,11 +81,17 @@
     (.unbind buffer))
 
   (def-generic draw (context)
+  (doc-string "context"
+                  "Defines context")
+
 
     (unless (= this.*pool.used 0)
       (.draw context context.POINTS  (- this.*pool.size this.*pool.used ) this.*pool.used)))
 
   (def-generic render ()
+  (doc-string "null"
+                  "Defines null")
+
 
     (when this.render?
       (.clear this)

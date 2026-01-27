@@ -24,6 +24,7 @@ import {
   PhysicsObject
  } from "../data-types/physics-object.js";
 var PhysicsArray = DoubleBufferedArray.define("PhysicsArray", { 
+  docString:"null",
   dataType:PhysicsObject
  });
 export { 

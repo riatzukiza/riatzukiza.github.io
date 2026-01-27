@@ -21,6 +21,7 @@ import {
   CompositeTypedArray
  } from "./composite.js";
 var DoubleBufferedArray = CompositeTypedArray.define("DoubleBufferedArray", { 
+  docString:"null",
   get arrayType(  ){ 
     
       const t=Object.create(CompositeTypedArray);

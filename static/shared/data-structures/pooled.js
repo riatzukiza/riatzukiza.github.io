@@ -25,6 +25,7 @@ import {
  } from "/shared/kit/interface/index.js";
 const pools=(new Map());
 var PooledDataStructure = Interface.define("PooledDataStructure", { 
+  docString:"null",
   init(  ){ 
     
       

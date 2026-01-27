@@ -21,6 +21,7 @@ import {
   DataType
  } from "./data-type.js";
 var GroupId = DataType.define("GroupId", { 
+  docString:"null",
   keys:[ "groupId" ]
  });
 export { 

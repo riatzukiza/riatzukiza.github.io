@@ -18,6 +18,7 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 var DoubleBuffer = Interface.define("DoubleBuffer", { 
+  docString:"null",
   get data(  ){ 
     
       return this.currentState;

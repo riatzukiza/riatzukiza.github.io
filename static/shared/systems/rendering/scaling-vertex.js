@@ -24,6 +24,7 @@ import {
   Renderable
  } from "./renderable.js";
 var ScalingVertex = Renderable.define("ScalingVertex", { 
+  docString:"null",
   init( layer = this.layer ){ 
     
       this.layer = layer;

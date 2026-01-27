@@ -27,6 +27,9 @@
 
 
 (define Http Interface
+(doc-string "http).null"
+                "Defines null")
+
 
   (def get (config)
        (make-promise
@@ -40,10 +43,16 @@
                           (.on 'error fail)))))))
 (assign module.exports Http)
 (define Http.Request Interface
+(doc-string "http).null"
+                "Defines null")
+
   (init (config)))
 
 
 (define Http.Message Interface
+(doc-string "http).null"
+                "Defines null")
+
   (init (request response))
 
   (gett url (parse this.request.url))
@@ -58,6 +67,9 @@
                         (.end "resource not found.")))
 
 (define Middle-ware Interface
+(doc-string "http).null"
+                "Defines null")
+
 
   (init ((router ((create Router)))))
 
@@ -74,6 +86,9 @@
     (.send this.router message)))
 
 (define Http.Middle-ware Middle-ware
+(doc-string "http).null"
+                "Defines null")
+
 
   (def *parse-key (path) (.split path "/"))
 
@@ -87,6 +102,9 @@
   (get (parse path) 'key))
 
 (define Router Interface
+(doc-string "http).null"
+                "Defines null")
+
   (init ( (*tree ((create Tree-map)))
           (events ((create Event-emitter)))))
   (def start () (.init this))
@@ -110,6 +128,9 @@
          (extend message (lit (key (.slice message.key route.value.key.length)))))))
 
   (def-generic add (key handler *tree)
+  (doc-string "http).key handler *tree"
+                  "Defines key handler *tree")
+
 
     "introduce a new routing node to the tree."
 
@@ -117,6 +138,9 @@
     this)
 
   (def-generic find (key *tree )
+  (doc-string "http).key *tree "
+                  "Defines key *tree ")
+
     "locate a route given an array of keys"
 
     (let* ((s (first key))
@@ -126,19 +150,31 @@
           *tree)))
 
   (def-generic stop ()))
+  (doc-string "http).null"
+                  "Defines null")
+
 
 (export Router)
 
 (define Read-stream Interface
+(doc-string "http).null"
+                "Defines null")
+
 
   (init (stream))
 
   (def-generic reduce (f value stream )
+  (doc-string "http).f value stream "
+                  "Defines f value stream ")
+
     (pipe Read-stream
           (.each (=> (chunk) (assign value (f value chunk))) stream)
           (.then (-> value))))
 
   (def-generic each (f stream)
+  (doc-string "http).f stream"
+                  "Defines f stream")
+
     (make-promise
      (pipe stream
            (.on  'data f)
@@ -146,9 +182,15 @@
            (.on 'end success))))
 
   (def-generic drain (stream)
+  (doc-string "http).stream"
+                  "Defines stream")
+
     (.reduce Read-stream (=> (value chunk) (+ value chunk)) "" stream)))
 
 (define Http.Server Interface
+(doc-string "http).null"
+                "Defines null")
+
 
   (init (port (*server (.create-server http ))
               (*middle-wares [])))

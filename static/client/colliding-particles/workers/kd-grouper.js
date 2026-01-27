@@ -50,6 +50,7 @@ const {
   maxObjects
  }=config;
 var ParticleGroup = Spawnable.define("ParticleGroup", { 
+  docString:"null",
   init( members = (this.members || []) ){ 
     
       this.members = members;
@@ -140,6 +141,7 @@ var ParticleGroup = Spawnable.define("ParticleGroup", {
    }
  });
 var Particle = Spawnable.define("Particle", { 
+  docString:"null",
   init( posSource = this.posSource,physSource = this.physSource,pos = Vector.spawn(posSource.x, posSource.y) ){ 
     
       this.posSource = posSource;this.physSource = physSource;this.pos = pos;
@@ -201,6 +203,7 @@ var Particle = Spawnable.define("Particle", {
    }
  });
 var GrouperSystem = ParentSystem.define("GrouperSystem", { 
+  docString:"null",
   dataTypes:[ Vector2DArray, PhysicsArray, GroupIdArray, KdTree, BarycenterArray ],
   async update( { 
   bounds:[ minX, minY, maxX, maxY ]

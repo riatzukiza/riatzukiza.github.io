@@ -2,6 +2,9 @@
 (import Spawnable "./data-structures/spawnable.js")
 (import Event-emitter "./kit/events/index.js")
 (define Inline-worker Web-worker
+(doc-string "null"
+                "Defines null")
+
   (expects code)
   (cached url  (window.URL.create-objectURL this.blob))
   (cached blob (new Blob [ this.code ]

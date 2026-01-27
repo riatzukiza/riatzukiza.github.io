@@ -11,6 +11,9 @@
   (gett height (second this.dim))
 
   (def-generic each  (f width height )
+  (doc-string "f width height "
+                  "Defines f width height ")
+
     "standard itterative operator, accepts a function and applies it to every
 element of the matrix"
     (var r this)

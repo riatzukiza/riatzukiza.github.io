@@ -27,13 +27,14 @@ import {
   Interface
  } from "../kit/interface/index.js";
 var sumOf = (function sumOf$(list, p) {
-  /* sum-of eval.sibilant:2:385 */
+  /* sum-of eval.sibilant:2:401 */
 
   return list.reduce(((total, e) => {
   	return (total + e[p]);
   }), 0);
 });
 var DynamicPool = Interface.define("DynamicPool", { 
+  docString:"null",
   bucketSize:256,
   init( proto = this.proto,bucketSize = this.bucketSize,buckets = List.of(create(ObjectPool)(this.bucketSize, proto)) ){ 
     
@@ -53,7 +54,9 @@ var DynamicPool = Interface.define("DynamicPool", {
    },
   get used(  ){ 
     
-      return sumOf(this.buckets, "used");
+      return this.buckets.reduce(((sum, el) => {
+      	return (sum + (el.used || 0));
+      }), 0);
     
    },
   grow( buckets = this.buckets,bucketSize = this.bucketSize,self = this ){ 
@@ -73,7 +76,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(newPool) {
-        /* eval.sibilant:2:336 */
+        /* eval.sibilant:2:352 */
       
         buckets.unshift(newPool);
         return newPool;
@@ -98,7 +101,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       var p = buckets.rotateUntil((function() {
-        /* eval.sibilant:3:127 */
+        /* eval.sibilant:6:127 */
       
         return arguments[0].free > 0;
       }));
@@ -130,7 +133,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(object) {
-        /* eval.sibilant:2:336 */
+        /* eval.sibilant:2:352 */
       
         object.bucket = this.current;
         (function() {
@@ -185,7 +188,7 @@ var DynamicPool = Interface.define("DynamicPool", {
       ;
       var self = this;
       return self.each((function() {
-        /* eval.sibilant:3:1799 */
+        /* eval.sibilant:6:1799 */
       
         return self.despawn(arguments[0]);
       }));
@@ -210,7 +213,7 @@ var DynamicPool = Interface.define("DynamicPool", {
       ;
       var self = this;
       return buckets.each((function() {
-        /* eval.sibilant:3:2085 */
+        /* eval.sibilant:6:2085 */
       
         return arguments[0]._inUse.each(f);
       }));
@@ -233,7 +236,7 @@ var DynamicPool = Interface.define("DynamicPool", {
 
       ;
       return (function(r) {
-        /* eval.sibilant:2:336 */
+        /* eval.sibilant:2:352 */
       
         r.init(...args);
         return r;

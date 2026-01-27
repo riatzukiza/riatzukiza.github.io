@@ -18,9 +18,10 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 var ComponentStore = Interface.define("ComponentStore", { 
-  
+  docString:"null"
  });
 var GameComponent = DataType.define("GameComponent", { 
+  docString:"null",
   get keys(  ){ 
     
       return (function() {
@@ -38,9 +39,10 @@ var GameComponent = DataType.define("GameComponent", {
    }
  });
 var GameEntity = DataType.define("GameEntity", { 
-  
+  docString:"null"
  });
 var GameSystem = Spawnable.define("GameSystem", { 
+  docString:"null",
   init( components = this.components ){ 
     
       this.components = components;

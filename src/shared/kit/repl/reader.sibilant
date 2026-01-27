@@ -43,6 +43,9 @@
 (validator "}"   (decr this.curly-braces))
 
 (define Reader Actor
+(doc-string "repl).null"
+                "Defines null")
+
 
   (init ((fragment [])
          (parens 0)
@@ -58,6 +61,9 @@
               (.start ((create Parser)))))
 
   (def-generic *send (string fragment)
+  (doc-string "repl).string fragment"
+                  "Defines string fragment")
+
 
     (var lines (.split string "\n"))
 

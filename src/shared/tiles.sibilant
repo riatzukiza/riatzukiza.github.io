@@ -5,6 +5,9 @@
 (import Physics "./systems/physics.js")
 
 (define Tile-node Spawnable
+(doc-string "null"
+                "Defines null")
+
   (init (*x *y entity graph )
         (set entity.position-interface
              'x (* this.graph.tile-size *x)
@@ -41,6 +44,9 @@
                this.south-west
                ])
   (def-generic traverse-area (f n  (visited (new Set)))
+  (doc-string "f n (visited (new Set"
+                  "Defines f n (visited (new Set")
+
     (for! (x (- this.x n)) (<= x (+ this.x n) ) (++ x)
           (for! (y (- this.y n)) (<= y (+ this.y n) ) (++ y)
                 (const tile (.get this.graph x y))
@@ -51,6 +57,9 @@
 
 (export Tile-node)
 (define Tile-graph Spawnable
+(doc-string "null"
+                "Defines null")
+
   (init ((tile-size 30)
          (tile-properties [])
          game

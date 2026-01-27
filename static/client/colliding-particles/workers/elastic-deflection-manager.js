@@ -49,7 +49,8 @@ import {
   ParentSystem
  } from "../system.js";
 var DeflectionGroupSystem = ThreadedSystem.define("DeflectionGroupSystem", { 
-  url:"/client/colliding-particles/workers/local-attractor-system.js",
+  docString:"null",
+  url:"/client/colliding-particles/workers/kd-deflection.js",
   data:[]
  });
 const threads=[];
@@ -62,6 +63,7 @@ threads.push(thread)
 }
 ;
 var ElasticDeflectionSystem = ParentSystem.define("ElasticDeflectionSystem", { 
+  docString:"null",
   dataTypes:[ Vector2DArray, Vector2DArray, PhysicsArray, KdTree, Vector2DArray, Vector2DArray ],
   async update( { 
   bounds

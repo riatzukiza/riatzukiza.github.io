@@ -70,6 +70,7 @@ import {
   UnitGroup
  } from "/shared/units.js";
 var ItemUnit = UnitInstance.define("ItemUnit", { 
+  docString:"null",
   get data(  ){ 
     
       return this.entity.itemInterface;
@@ -90,6 +91,7 @@ export {
   ItemUnit
  };
 var ItemGroup = UnitGroup.define("ItemGroup", { 
+  docString:"null",
   instanceInterface:ItemUnit,
   template:false,
   groupName:"item",
@@ -99,6 +101,7 @@ export {
   ItemGroup
  };
 var PlayerUnit = UnitInstance.define("PlayerUnit", { 
+  docString:"null",
   get sprite(  ){ 
     
       return this.entity.playerSprite;
@@ -139,6 +142,7 @@ export {
   PlayerUnit
  };
 var Player = UnitGroup.define("Player", { 
+  docString:"null",
   template:false,
   instanceInterface:PlayerUnit,
   groupName:"player",

@@ -28,6 +28,7 @@ import {
  } from "../events/index.js";
 var sibilant = require("sibilant");
 var Compiler = Actor.define("Compiler", { 
+  docString:"repl).null",
   init(  ){ 
     
       
@@ -37,8 +38,22 @@ var Compiler = Actor.define("Compiler", {
    },
   _send( data = (typeof data !== "undefined") ? data : this.data; ){ 
     
+      `
+      repl)/data.md
+
+      # repl).data
+
+      ## arguments
+
+      Defines data
+
+      ## description
+
+      `
+
+      ;
       return Promise.resolve(data).then((function() {
-        /* eval.sibilant:24:17 */
+        /* eval.sibilant:30:17 */
       
         return sibilant(arguments[0].toString()).js;
       })).then(R.tap(emit("message", this))).catch(((e) => {
@@ -49,6 +64,20 @@ var Compiler = Actor.define("Compiler", {
    },
   spawn(  ){ 
     
+      `
+      repl)/null.md
+
+      # repl).null
+
+      ## arguments
+
+      Defines null
+
+      ## description
+
+      `
+
+      ;
       return create(this)();
     
    }

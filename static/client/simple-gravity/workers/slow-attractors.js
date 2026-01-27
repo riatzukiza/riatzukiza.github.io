@@ -38,12 +38,15 @@ const gravitationalConstant=1e-8;
 const minDist=1;
 const particleSize=512;
 var PhysicalProperty = DataType.define("PhysicalProperty", { 
+  docString:"null",
   keys:[ "mass" ]
  });
 var PhysicalProperties = DoubleBufferedArray.define("PhysicalProperties", { 
+  docString:"null",
   dataType:PhysicalProperty
  });
 var Particle = Spawnable.define("Particle", { 
+  docString:"null",
   init( posSource = this.posSource,attractor = this.attractor,mass = this.mass,x = posSource.x,y = posSource.y,height = 256,width = 256,pos = Vector.spawn(posSource.x, posSource.y),vel = Vector.spawn(attractor.x, attractor.y) ){ 
     
       this.posSource = posSource;this.attractor = attractor;this.mass = mass;this.x = x;this.y = y;this.height = height;this.width = width;this.pos = pos;this.vel = vel;
@@ -68,7 +71,7 @@ var Particle = Spawnable.define("Particle", {
    }
  });
 self.onmessage = (function self$onmessage$(e) {
-  /* self.onmessage eval.sibilant:49:0 */
+  /* self.onmessage eval.sibilant:58:0 */
 
   const [ [ vb1, vb2 ], [ pb1, pb2 ], [ ab1, ab2 ], [ mb1, mb2 ] ]=e.data.buffers;
   const velocities=Vector2DPhaseSpace.fromBuffers(vb1, vb2);

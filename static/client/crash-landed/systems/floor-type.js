@@ -28,6 +28,7 @@ import {
   Interface
  } from "/shared/kit/interface/index.js";
 var GroundType = Spawnable.define("GroundType", { 
+  docString:"null",
   init( spriteCoordMinX = 0,spriteCoordMinY = 0,spriteCoordMaxX = 3,spriteCoordMaxY = 3,movementSpeed = 0.75 ){ 
     
       this.spriteCoordMinX = spriteCoordMinX;this.spriteCoordMinY = spriteCoordMinY;this.spriteCoordMaxX = spriteCoordMaxX;this.spriteCoordMaxY = spriteCoordMaxY;this.movementSpeed = movementSpeed;
@@ -36,6 +37,7 @@ var GroundType = Spawnable.define("GroundType", {
    }
  });
 var Ground = Component.define("Ground", { 
+  docString:"null",
   type:null,
   get stats(  ){ 
     
@@ -44,8 +46,10 @@ var Ground = Component.define("Ground", {
    }
  });
 var GroundTypes = System.define("GroundTypes", { 
+  docString:"null",
   Component:Ground,
   types:Interface.define("types", { 
+    docString:"null",
     grass:GroundType.spawn(0, 0, 3, 3, 0.75),
     stone:GroundType.spawn(0, 3, 3, 7, 1.1),
     brokenStone:GroundType.spawn(3, 3, 7, 7, 1),

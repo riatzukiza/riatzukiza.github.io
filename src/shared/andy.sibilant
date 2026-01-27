@@ -16,6 +16,9 @@
 (var (lit Buffer Program Shader Attribute Type Context Uniform) Gl
      (lit Blend-mode) Color)
 (def-lit-macro dots (obj)
+(doc-string "null"
+                "Defines null")
+
   ["..." obj]
   )
 

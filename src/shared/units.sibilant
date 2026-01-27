@@ -6,6 +6,9 @@
 (import Saveable "/shared/saveable.js")
 
 (define Unit-instance Spawnable
+(doc-string "null"
+                "Defines null")
+
   (init (entity group))
   (gett game this.group.game)
   (gett pos this.entity.position-interface)

@@ -3,6 +3,9 @@
 
 (const empty-nodes [])
 (define Node Spawnable
+(doc-string "shared).null"
+                "Defines null")
+
   (init (list  next prev item))
   (def clear ()
     (set this 'list null
@@ -14,11 +17,17 @@
   (def set (item) (assign this.item item) this))
 
 (define List Spawnable
+(doc-string "shared).null"
+                "Defines null")
+
   (init () (assign this.length 0))
   (gett count this.length)
   (gett size this.length )
   (gett empty? (= this.length 0))
   (def-generic from (array-like (f (=> (a) a)))
+  (doc-string "shared).array-like (f (=> (a"
+                  "Defines array-like (f (=> (a")
+
     (const list ((create this)))
     (each array-like (e i)
           (list.push (f e)))
@@ -110,17 +119,26 @@
   (def reduce (f r) (.each this (=> (e i l) (assign r (f r e i l)))) r)
 
   (def-generic find-node (f (node this.head))
+  (doc-string "shared).f (node this.head"
+                  "Defines f (node this.head")
+
     (if (f node)
         node
         (not (= node this.tail))
         (List.find f node.next)
         false))
   (def-generic find (f (node this.head))
+  (doc-string "shared).f (node this.head"
+                  "Defines f (node this.head")
+
     (var r (List.find-node f node))
     (if r r.value false))
 
 
   (def-generic rotate ()
+  (doc-string "shared).null"
+                  "Defines null")
+
     ;; (const last-node (this.pop-node true))
     ;; (print "rotating list" last-node this)
     ;; (this.unshift-node last-node)
@@ -129,6 +147,9 @@
     )
 
   (def-generic rotate-until (predicate)
+  (doc-string "shared).predicate"
+                  "Defines predicate")
+
     (var r false)
 
     (var t 0)

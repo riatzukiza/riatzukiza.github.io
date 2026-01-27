@@ -60,6 +60,7 @@ var GridView = Spawnable.define("GridView", {
    }
  });
 var GridCell = Spawnable.define("GridCell", { 
+  docString:"null",
   init( x = this.x,y = this.y,grid = this.grid ){ 
     
       this.x = x;this.y = y;this.grid = grid;
@@ -151,6 +152,7 @@ export {
   GridCell
  };
 var GridChunk = GridView.define("GridChunk", { 
+  docString:"null",
   init( x = this.x,y = this.y,_grid = this._grid ){ 
     
       this.x = x;this.y = y;this._grid = _grid;
@@ -290,6 +292,7 @@ export {
   GridChunk
  };
 var RectangularView = GridView.define("RectangularView", { 
+  docString:"null",
   init( x = this.x,y = this.y,w = this.w,h = this.h,grid = this.grid ){ 
     
       this.x = x;this.y = y;this.w = w;this.h = h;this.grid = grid;
@@ -346,6 +349,7 @@ export {
   RectangularView
  };
 var Grid = Spawnable.define("Grid", { 
+  docString:"null",
   Chunk:GridChunk,
   Cell:GridCell,
   init( cells = Trie.spawn(),chunks = Trie.spawn() ){ 
@@ -358,16 +362,58 @@ var Grid = Spawnable.define("Grid", {
   overlapFactor:2,
   getNearestChunk( x = this.x,y = this.y,chunkSize = this.chunkSize,overlapFactor = this.overlapFactor ){ 
     
+      `
+      x y chunk-size overlap-factor.md
+
+      # x y chunk-size overlap-factor
+
+      ## arguments
+
+      Defines x y chunk-size overlap-factor
+
+      ## description
+
+      `
+
+      ;
       return this.getChunk(Math.round((x / chunkSize / overlapFactor)), Math.round((y / chunkSize / overlapFactor)));
     
    },
   getNearestChunks( x = this.x,y = this.y,n = this.n,chunkSize = this.chunkSize,overlapFactor = this.overlapFactor ){ 
     
+      `
+      x y n chunk-size overlap-factor.md
+
+      # x y n chunk-size overlap-factor
+
+      ## arguments
+
+      Defines x y n chunk-size overlap-factor
+
+      ## description
+
+      `
+
+      ;
       return this.chunkSquareArea(Math.round((x / chunkSize / overlapFactor)), Math.round((y / chunkSize / overlapFactor)), n);
     
    },
   getChunk( x = this.x,y = this.y,chunkSize = this.chunkSize,overlapFactor = this.overlapFactor ){ 
     
+      `
+      x y chunk-size overlap-factor.md
+
+      # x y chunk-size overlap-factor
+
+      ## arguments
+
+      Defines x y chunk-size overlap-factor
+
+      ## description
+
+      `
+
+      ;
       return (function() {
         if (this.chunks.has([ x, y ])) {
           return this.chunks.get([ x, y ]);

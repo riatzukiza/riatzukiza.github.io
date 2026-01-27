@@ -33,6 +33,7 @@ import {
   Physics
  } from "./systems/physics.js";
 var TileNode = Spawnable.define("TileNode", { 
+  docString:"null",
   init( _x = this._x,_y = this._y,entity = this.entity,graph = this.graph ){ 
     
       this._x = _x;this._y = _y;this.entity = entity;this.graph = graph;
@@ -123,6 +124,20 @@ var TileNode = Spawnable.define("TileNode", {
    },
   traverseArea( f = this.f,n = this.n,visited = (new Set()) ){ 
     
+      `
+      f n (visited (new Set.md
+
+      # f n (visited (new Set
+
+      ## arguments
+
+      Defines f n (visited (new Set
+
+      ## description
+
+      `
+
+      ;
       for (var x = (this.x - n);x <= (this.x + n);++(x))
       {
       for (var y = (this.y - n);y <= (this.y + n);++(y))
@@ -141,6 +156,7 @@ export {
   TileNode
  };
 var TileGraph = Spawnable.define("TileGraph", { 
+  docString:"null",
   init( tileSize = 30,tileProperties = [],game = this.game,trie = Trie.spawn(),tileEntities = create(EntityGroup)("tiles", [ Position, Physics ].concat(tileProperties), game.ent) ){ 
     
       this.tileSize = tileSize;this.tileProperties = tileProperties;this.game = game;this.trie = trie;this.tileEntities = tileEntities;

@@ -25,6 +25,7 @@ import {
   List
  } from "/shared/data-structures/list.js";
 var Needs = Component.define("Needs", { 
+  docString:"null",
   caloriesStored:2000,
   caloriesMax:5000,
   hungerThreshold:1000,
@@ -115,6 +116,7 @@ export {
   Needs
  };
 var Metabolisim = System.define("Metabolisim", { 
+  docString:"null",
   Component:Needs,
   _updateComponent( c ){ 
     

@@ -23,6 +23,7 @@ import {
  } from "/shared/systems/rendering/sprite-atlas.js";
 const spriteImage=document.getElementById("props-sprite");
 var PropsSprite = AnimatedSprite.define("PropsSprite", { 
+  docString:"null",
   _column:4,
   _row:3,
   get container(  ){ 
@@ -74,6 +75,7 @@ export {
   PropsSprite
  };
 var PropsSprites = SpriteAtlas.define("PropsSprites", { 
+  docString:"null",
   maxSprites:100000,
   Component:PropsSprite,
   frameDimensions:[ 16, 16 ],

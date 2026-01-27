@@ -23,6 +23,7 @@ import {
 const maxMass=(8 * 1024);
 const spawnArea=(maxMass * 2);
 var config = Interface.define("config", { 
+  docString:"null",
   spawnArea:spawnArea,
   spawnWidth:spawnArea,
   spawnHeight:spawnArea,

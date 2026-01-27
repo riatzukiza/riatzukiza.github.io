@@ -26,8 +26,9 @@ var Interface = {
       return this;
     
    },
-  define( name = this.name,_obj = this._obj,_types = this._types,_symbols = this._symbols,_shares = (_obj.borrows || _obj.shares || []),_ext = (_obj.extend || this),_build = _obj.build ){ 
+  define( docString = this.docString,"interface).null" = this["interface).null"],"Defines null" = this["Defines null"] ){ 
     
+      name(_obj, _types, _symbols, _shares((_obj.borrows || _obj.shares || [])), _ext((_obj.extend || this)), _build(_obj.build));
       return (function() {
         if (name in _symbols) {
           return mixin(_obj, _types[_symbols[name]]);
@@ -39,11 +40,25 @@ var Interface = {
    },
   _construct( name = this.name,_obj = this._obj,_ext = this._ext,_shares = this._shares,_symbols = this._symbols,_types = this._types,_build = this._build ){ 
     
+      `
+      interface)/name *obj *ext *shares *symbols *types *build.md
+
+      # interface).name *obj *ext *shares *symbols *types *build
+
+      ## arguments
+
+      Defines name *obj *ext *shares *symbols *types *build
+
+      ## description
+
+      `
+
+      ;
       return (function(proto) {
         /* inc/scope.sibilant:12:9 */
       
         proto.construct = (function proto$construct$() {
-          /* proto.construct eval.sibilant:33:32 */
+          /* proto.construct eval.sibilant:39:32 */
         
           return Object.create(proto).init(...arguments);
         });

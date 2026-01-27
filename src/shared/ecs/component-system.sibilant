@@ -38,12 +38,18 @@
                 "## Example Usage"
                 (example
                  (define New-component Component
+                 (doc-string "null"
+                                 "Defines null")
+
                    (def I-need-somthing-from-my-system (x)
                      (assign this.dependent-property
                              (+ x this.system.needed-thing))
                      )
                    )
                  (define New-system Component-system
+                 (doc-string "null"
+                                 "Defines null")
+
                    (def register ()
 
                      (assign this.needed-thing [])
@@ -67,16 +73,25 @@
       (.init this)))
 
   (def-generic clear (pool components entity )
+  (doc-string "pool components entity "
+                  "Defines pool components entity ")
+
     (.delete components entity)
     (.clear pool))
 
   (def-generic get (entity components)
+  (doc-string "entity components"
+                  "Defines entity components")
+
     (.get components entity))
   (def release (c)
     (.delete this.components c.entity)
     (.release this.pool c))
 
   (def-generic spawn (entity pool components)
+  (doc-string "entity pool components"
+                  "Defines entity pool components")
+
     (collect c (.spawn pool entity  this)
              (.set components entity c)))
 
@@ -90,6 +105,9 @@
   (def cleanup () (.*cleanup this))
 
   (def-generic *update-all (t components )
+  (doc-string "t components "
+                  "Defines t components ")
+
     (this.prepare)
     (.each components (fpipe (this.*update-component t)))
     (.cleanup this))
@@ -103,10 +121,16 @@
     (.init this)))
 
 (def-generic System.clear (pool components  )
+(doc-string "pool components "
+                "Defines pool components ")
+
   (.clear components)
   (.clear pool))
 
 (def-generic System.get (entity components)
+(doc-string "entity components"
+                "Defines entity components")
+
   (.get components entity))
 
 

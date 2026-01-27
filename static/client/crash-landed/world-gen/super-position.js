@@ -47,6 +47,7 @@ var calculateEntropy = (function calculateEntropy$(weights) {
   return (Math.log(sumOfWeights) - (sumOfLogWeights / sumOfWeights));
 });
 var SuperPosition = Spawnable.define("SuperPosition", { 
+  docString:"null",
   init( cell = this.cell,possibleStates = TerrainModule.modules.map(((chunkType) => {
   	return PossibleState.spawn(this, chunkType);
   })) ){ 
@@ -222,6 +223,20 @@ var SuperPosition = Spawnable.define("SuperPosition", {
    },
   collapse( depth = 0,maxDepth = 3,overlap = 2,cell = this.cell ){ 
     
+      `
+       (depth 0.md
+
+      #  (depth 0
+
+      ## arguments
+
+      Defines  (depth 0
+
+      ## description
+
+      `
+
+      ;
       if( this.state ){ 
         return ;
        };

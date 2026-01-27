@@ -28,13 +28,14 @@ import {
  } from "../events/index.js";
 var curry = R.curry;
 var Layer = Actor.define("Layer", { 
+  docString:"repl).null",
   init( types = (typeof types !== "undefined") ? types : this.types;,members = (typeof members !== "undefined") ? members : types.map(((t) => {
   	return create(t)();
   })); ){ 
     
       this.types = types;this.members = members;
       t(i).forEach((function(types) {
-        /* eval.sibilant:21:8 */
+        /* eval.sibilant:24:8 */
       
         return this[t.symbol] = members[i];
       }));
@@ -52,11 +53,39 @@ var Layer = Actor.define("Layer", {
    },
   _send( d = (typeof d !== "undefined") ? d : this.d;,members = (typeof members !== "undefined") ? members : this.members; ){ 
     
+      `
+      repl)/d members.md
+
+      # repl).d members
+
+      ## arguments
+
+      Defines d members
+
+      ## description
+
+      `
+
+      ;
       return members[0].send(d);
     
    },
   start( members = (typeof members !== "undefined") ? members : this.members; ){ 
     
+      `
+      repl)/members.md
+
+      # repl).members
+
+      ## arguments
+
+      Defines members
+
+      ## description
+
+      `
+
+      ;
       return (function() {
         /* headers/repl.sibilant:3:27 */
       

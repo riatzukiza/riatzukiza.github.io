@@ -18,5 +18,6 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 var BoundingBox = DataType.define("BoundingBox", { 
+  docString:"null",
   keys:[ "minX", "minY", "maxX", "maxY" ]
  });

@@ -54,6 +54,20 @@ var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
 
   return (Math.round((Math.pow(10, n) * d)) / Math.pow(10, n));
 });
+`
+obstacles)/d (n 6.md
+
+# obstacles).d (n 6
+
+## arguments
+
+Defines d (n 6
+
+## description
+
+`
+
+;
 const gameView=createDocumentNode("div", {
   'id': "game-view",
   'className': "panel",
@@ -142,7 +156,7 @@ export {
   debugView
  };
 var startInterface = (function startInterface$() {
-  /* start-interface eval.sibilant:115:0 */
+  /* start-interface eval.sibilant:118:0 */
 
   createDocumentNode("div", { 'id': "frame" }, [ container ]).render(DocumentBody);
   return game.events.on("tick", ((t) => {

@@ -25,6 +25,7 @@ import {
   List
  } from "/shared/data-structures/list.js";
 var VisibleStatus = Component.define("VisibleStatus", { 
+  docString:"null",
   _visible__QUERY:false,
   _explored__QUERY:false,
   get visible__QUERY(  ){ 
@@ -74,6 +75,7 @@ var VisibleStatus = Component.define("VisibleStatus", {
    }
  });
 var TileVisibility = System.define("TileVisibility", { 
+  docString:"null",
   Component:VisibleStatus,
   _updateAll(  ){ 
     

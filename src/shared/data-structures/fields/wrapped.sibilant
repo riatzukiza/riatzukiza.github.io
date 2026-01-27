@@ -1,4 +1,7 @@
 (define Wrapping-vector-field Interface
+(doc-string "null"
+                "Defines null")
+
 
   (init (columns rows (*data (new Array columns)))
         (.populate this columns rows *data))
@@ -6,6 +9,9 @@
   (gett data this.*data)
 
   (def-generic get (x y columns rows)
+  (doc-string "x y columns rows"
+                  "Defines x y columns rows")
+
     (get this.data
          (or (Math.min (Math.max (Math.round x) 0)
                        (- columns 1))
@@ -15,6 +21,9 @@
              0)))
 
   (def-generic each (f columns rows data)
+  (doc-string "f columns rows data"
+                  "Defines f columns rows data")
+
     (for! (x 0) (< x columns) (++ x)
           (for! (y 0) (< y rows) (++ y)
                 (f (get data x y) [x y])))
@@ -24,6 +33,9 @@
     )
 
   (def-generic populate (columns rows *data)
+  (doc-string "columns rows *data"
+                  "Defines columns rows *data")
+
     (for! (x 0) (< x columns) (++ x)
           (set *data x (new Array rows))
           (for! (y 0) (< y rows) (++ y)

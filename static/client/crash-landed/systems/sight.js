@@ -25,6 +25,7 @@ import {
   List
  } from "/shared/data-structures/list.js";
 var FieldOfView = Component.define("FieldOfView", { 
+  docString:"null",
   visibleTiles:List.spawn(),
   unloadedTiles:List.spawn(),
   loadingTiles:(new Set()),
@@ -38,6 +39,7 @@ var FieldOfView = Component.define("FieldOfView", {
   collapseRange:64
  });
 var Sight = System.define("Sight", { 
+  docString:"null",
   Component:FieldOfView,
   registerTileGraph( tiles ){ 
     

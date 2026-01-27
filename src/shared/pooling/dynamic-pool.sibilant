@@ -9,6 +9,9 @@
 (def sum-of (list p) (.reduce list (=> (total e) (+ total (get e p))) 0))
 
 (define Dynamic-pool Interface
+(doc-string "null"
+                "Defines null")
+
   (bucket-size 256)
   (init (proto
          bucket-size

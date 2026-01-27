@@ -50,6 +50,7 @@ export {
   vertices
  };
 var particles = Interface.define("particles", { 
+  docString:"null",
   pos:Vector2DArray.spawn(config.particleCount),
   vel:Vector2DArray.spawn(config.particleCount),
   nearGravity:Vector2DArray.spawn(config.particleCount),

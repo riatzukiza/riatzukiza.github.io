@@ -42,6 +42,7 @@ import {
   Vector
  } from "/shared/vectors.js";
 var Tile = GridCell.define("Tile", { 
+  docString:"null",
   get superPosition(  ){ 
     
       return (function() {
@@ -74,7 +75,7 @@ var Tile = GridCell.define("Tile", {
    }
  });
 var sleep = (function sleep$(n) {
-  /* sleep eval.sibilant:36:0 */
+  /* sleep eval.sibilant:48:0 */
 
   return (new Promise(((success, fail) => {
   	var resolve = success,
@@ -83,6 +84,7 @@ var sleep = (function sleep$(n) {
   })));
 });
 var Chunk = GridChunk.define("Chunk", { 
+  docString:"null",
   get positionVector(  ){ 
     
       return (function() {
@@ -171,6 +173,7 @@ export {
   Tile
  };
 var TileGrid = Grid.define("TileGrid", { 
+  docString:"null",
   init(  ){ 
     
       

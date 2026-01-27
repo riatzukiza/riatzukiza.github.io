@@ -25,6 +25,7 @@ import {
   List
  } from "/shared/data-structures/list.js";
 var Container = Component.define("Container", { 
+  docString:"null",
   itemLimit:1,
   objects:null,
   get tile(  ){ 
@@ -85,6 +86,7 @@ export {
   Container
  };
 var Containers = System.define("Containers", { 
+  docString:"null",
   Component:Container,
   _updateAll(  ){ 
     

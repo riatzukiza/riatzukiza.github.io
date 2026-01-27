@@ -36,6 +36,7 @@ import {
   Saveable
  } from "/shared/saveable.js";
 var UnitInstance = Spawnable.define("UnitInstance", { 
+  docString:"null",
   init( entity = this.entity,group = this.group ){ 
     
       this.entity = entity;this.group = group;

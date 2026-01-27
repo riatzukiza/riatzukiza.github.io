@@ -65,6 +65,7 @@ var clear = (function() {
   return arguments[0].clear();
 });
 var EntitySystem = Saveable.define("EntitySystem", { 
+  docString:"null",
   currentId:0,
   init( process = this.process,pool = create(DynamicPool)(Entity, 256) ){ 
     

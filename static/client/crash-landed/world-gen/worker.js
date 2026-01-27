@@ -22,6 +22,7 @@ import {
   InlineThread
  } from "/shared/worker.js";
 var TileGenerator = Thread.define("TileGenerator", { 
+  docString:"null",
   url:"/client/crash-landed/world-gen/worker-index.js",
   load( saveName ){ 
     
@@ -78,6 +79,20 @@ var TileGenerator = Thread.define("TileGenerator", {
    },
   getNear( x = this.x,y = this.y,n = 3 ){ 
     
+      `
+      x y (n 3.md
+
+      # x y (n 3
+
+      ## arguments
+
+      Defines x y (n 3
+
+      ## description
+
+      `
+
+      ;
       return this.send({ 
         type:"chunksNear",
         x,

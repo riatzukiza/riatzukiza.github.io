@@ -33,6 +33,7 @@ import {
   rgba
  } from "/client/obstacles/colors.js";
 var EntityPanel = Interface.define("EntityPanel", { 
+  docString:"null",
   init( entity = this.entity ){ 
     
       this.entity = entity;
@@ -51,6 +52,20 @@ var EntityPanel = Interface.define("EntityPanel", {
    },
   render( _parent = this._parent,attributes = this.attributes,tagName = this.tagName,_node = this._node,children = this.children ){ 
     
+      `
+      *parent attributes tag-name *node children.md
+
+      # *parent attributes tag-name *node children
+
+      ## arguments
+
+      Defines *parent attributes tag-name *node children
+
+      ## description
+
+      `
+
+      ;
       const componentPanel=((component) => {
       	return Object.keys(component).reduce(((accumulator, key) => {
       	const property=component[key];

@@ -10,16 +10,28 @@
        ["*"name  `(parenthetic (comma @args.contents))
            `(curly (do-block ...@body))])
 (def-lit-macro def-async (name args ...body)
+(doc-string "shared).null"
+                "Defines null")
+
   [" async "name  `(parenthetic (comma @args.contents))
             `(curly (do-block ...@body))])
 
 (def-lit-macro def-async* (name args ...body)
+(doc-string "shared).null"
+                "Defines null")
+
   [" async *"name  `(parenthetic (comma @args.contents))
              `(curly (do-block ...@body))])
 
 (def-lit-macro def-generic* (name args ...body)
+(doc-string "shared).null"
+                "Defines null")
+
   `(generic @name (method*) @args ...@body))
 (define Saveable Interface
+(doc-string "shared).null"
+                "Defines null")
+
 
   (*non-serializable-keys [])
 
@@ -36,6 +48,9 @@
   (def *injestion-target () (Object.create this))
 
   (def-generic injest-property (data)
+  (doc-string "shared).data"
+                  "Defines data")
+
     (if data.save-index
         (do (const instance (.load (get *types data.collection-name)
                                    save-name
@@ -63,6 +78,9 @@
 
         data))
   (def-generic injest (serialized-object
+  (doc-string "shared).null"
+                  "Defines null")
+
                        save-name
                        (database ((create Database) save-name))
                        (r (this.*injestion-target))
@@ -100,6 +118,9 @@
                    describer.value))
           (.flat)))
   (def-generic serialize ()
+  (doc-string "shared).null"
+                  "Defines null")
+
     (const serialized-object
            (lit
             (type-name this.name)
@@ -123,6 +144,9 @@
                    result)))
 
   (def-generic save (save-name (database ((create Database) save-name)))
+  (doc-string "shared).save-name (database ((create Database"
+                  "Defines save-name (database ((create Database")
+
     (.put database this.name (.serialize this))
     (each (.get-saveable-members this) (key describer )
           (.save describer.value save-name database)))
@@ -135,6 +159,9 @@
                     (.injest this obj)))
     (return r))
   (def-generic load (save-name (save-index 0) (database ((create Database) save-name)))
+  (doc-string "shared).save-name (save-index 0"
+                  "Defines save-name (save-index 0")
+
     (cache this.loaded-instances save-index
            (pipe (.get database [this.name save-index])
                  (then data (.injest this data save-name save-index database)))))

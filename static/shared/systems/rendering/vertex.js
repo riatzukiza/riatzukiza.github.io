@@ -24,7 +24,7 @@ import {
   Renderable
  } from "./renderable.js";
 var setColor = (function setColor$(r, g, b, a, vert) {
-  /* set-color eval.sibilant:2:229 */
+  /* set-color eval.sibilant:2:245 */
 
   vert.color.r = r;
   vert.color.g = g;
@@ -32,13 +32,14 @@ var setColor = (function setColor$(r, g, b, a, vert) {
   return vert.color.a = a;
 });
 var setPoint = (function setPoint$(x, y, z, vert) {
-  /* set-point eval.sibilant:2:335 */
+  /* set-point eval.sibilant:2:351 */
 
   vert.point.x = x;
   vert.point.y = y;
   return vert.point.z = z;
 });
 var Vertex = Renderable.define("Vertex", { 
+  docString:"null",
   init( layer = this.layer ){ 
     
       this.layer = layer;

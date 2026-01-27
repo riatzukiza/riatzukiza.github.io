@@ -11,6 +11,9 @@
                       (return r))))
 (const defined (=> (value) (not (= value undefined))))
 (def-generic mixin (sources (target {}))
+(doc-string "kit).sources (target {}"
+                "Defines sources (target {}")
+
   (assign sources (ternary (.is-array Array sources)
                            sources
                            [sources]))
@@ -93,6 +96,9 @@
 
 
 (def-generic curry (f (args []) self)
+(doc-string "kit).f (args []"
+                "Defines f (args []")
+
   (if (= args.length f.length)
       (.apply f self args)
       (lambda ((dots args))
@@ -110,9 +116,15 @@
             mixin
             (keys Object.keys)
             (def-generic map (o f (target {})
+            (doc-string "kit).o f (target {}"
+                            "Defines o f (target {}")
+
                                 (keys (Obj.keys o)))
               (Arr.mapto keys (=> (k) (f (get o k) k o target keys)) target))
             (def-generic product (o f (target {}) keys)
+            (doc-string "kit).o f (target {}"
+                            "Defines o f (target {}")
+
               (each (Obj.keys o) (k)
                     (set target k ((get f k)
                                    (get o k)
@@ -120,6 +132,9 @@
             (def Product (f) (=> (o) (Obj.product o f)))
 
             (def-generic symbolize ( (structure {})
+            (doc-string "kit). (structure {}"
+                            "Defines  (structure {}")
+
                                      (symbol-names (Obj.keys structure))
                                      ($ Sym.Namespace symbol-names)
                                      (target { init:structure.init

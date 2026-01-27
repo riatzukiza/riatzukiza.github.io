@@ -18,6 +18,7 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 var GameSystem = Interface.define("GameSystem", { 
+  docString:"null",
   init( buffers = [] ){ 
     
       this.buffers = buffers;
@@ -39,5 +40,5 @@ var GameSystem = Interface.define("GameSystem", {
    }
  });
 var ThreadedGameSystem = GameSystem.define("ThreadedGameSystem", { 
-  
+  docString:"null"
  });

@@ -55,12 +55,15 @@ var calculateGravitationalIntensity = (function calculateGravitationalIntensity$
   return Math.abs(((gravitationalConstant * affector.mass * usedDistance) / Math.pow(mag, 2)));
 });
 var PhysicalProperty = DataType.define("PhysicalProperty", { 
+  docString:"null",
   keys:[ "mass", "scale" ]
  });
 var PhysicalProperties = DoubleBufferedArray.define("PhysicalProperties", { 
+  docString:"null",
   dataType:PhysicalProperty
  });
 var AttractorGroup = Spawnable.define("AttractorGroup", { 
+  docString:"null",
   init( members = (this.members || []) ){ 
     
       this.members = members;
@@ -147,6 +150,7 @@ var AttractorGroup = Spawnable.define("AttractorGroup", {
    }
  });
 var Particle = Spawnable.define("Particle", { 
+  docString:"null",
   init( posSource = this.posSource,attractor = this.attractor,mass = this.mass,scale = this.scale,height = scale,width = scale,baseVel = Vector.spawn(attractor.x, attractor.y),pos = Vector.spawn(posSource.x, posSource.y),vel = Vector.spawn(0, 0) ){ 
     
       this.posSource = posSource;this.attractor = attractor;this.mass = mass;this.scale = scale;this.height = height;this.width = width;this.baseVel = baseVel;this.pos = pos;this.vel = vel;
@@ -182,7 +186,7 @@ var Particle = Spawnable.define("Particle", {
    }
  });
 self.onmessage = (function self$onmessage$(e) {
-  /* self.onmessage eval.sibilant:83:0 */
+  /* self.onmessage eval.sibilant:95:0 */
 
   const [ [ vb1, vb2 ], [ pb1, pb2 ], [ ab1, ab2 ], [ mb1, mb2 ] ]=e.data.buffers;
   const { 

@@ -62,6 +62,7 @@ var clear = (function() {
   return arguments[0].clear();
 });
 var Entity = Saveable.define("Entity", { 
+  docString:"null",
   doc:"used as a key to retrieve related components from different systems.",
   init( system = this.system,id = this.id,aspects = this.aspects,components = aspects.map(((aspect, i) => {
   	return system.process.systems.get(aspect).spawn(this);
@@ -78,6 +79,20 @@ var Entity = Saveable.define("Entity", {
    },
   despawn( entity = this.entity,components = this.components ){ 
     
+      `
+      entity components .md
+
+      # entity components 
+
+      ## arguments
+
+      Defines entity components 
+
+      ## description
+
+      `
+
+      ;
       entity.components.each(remove(entity));
       return entity.id = null;
     
@@ -91,11 +106,39 @@ var Entity = Saveable.define("Entity", {
 Entity.despawn = (function Entity$despawn$(entity = this.entity, components = this.components) {
   /* Entity.despawn inc/core/function-expressions.sibilant:28:8 */
 
+  `
+  entity components .md
+
+  # entity components 
+
+  ## arguments
+
+  Defines entity components 
+
+  ## description
+
+  `
+
+  ;
   return this.system.pool.release(this);
 });
 Entity.clear = (function Entity$clear$() {
   /* Entity.clear inc/core/function-expressions.sibilant:28:8 */
 
+  `
+  null.md
+
+  # null
+
+  ## arguments
+
+  Defines null
+
+  ## description
+
+  `
+
+  ;
   this.components.each(((c) => {
   	c.system.release(c);
   return c.entity = null;

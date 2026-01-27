@@ -39,12 +39,27 @@ import {
 var getMoveNoise = (function getMoveNoise$(x = this.x, y = this.y, t = this.t, force = 16, v = Vector.spawn(1, 1)) {
   /* get-move-noise inc/core/function-expressions.sibilant:28:8 */
 
+  `
+  x y t (force 16.md
+
+  # x y t (force 16
+
+  ## arguments
+
+  Defines x y t (force 16
+
+  ## description
+
+  `
+
+  ;
   v.setAngle((simplex3((x / config.angleZoom / 5), (y / config.angleZoom / 5), (t * (config.noiseZ / 10000))) * Math.PI * 2));
   const length=simplex3(((x / 50) + 40000), ((x / 50) + 40000), (t * (config.noiseZ / 10000)));
   v.setLength((length * force));
   return v;
 });
 var MindState = Component.define("MindState", { 
+  docString:"null",
   get needs(  ){ 
     
       return this.entity.needs;
@@ -113,6 +128,7 @@ export {
   MindState
  };
 var MentalState = System.define("MentalState", { 
+  docString:"null",
   Component:MindState,
   addVisibleFoodToTree( c ){ 
     
@@ -191,9 +207,9 @@ var MentalState = System.define("MentalState", {
       const searchLimit=10;
       var i = 0;
       return (function() {
-        var while$166 = undefined;
+        var while$472 = undefined;
         while (!((c.entity.currentPath.end || i > searchLimit))) {
-          while$166 = (function() {
+          while$472 = (function() {
             const noiseV=getMoveNoise(newX, newY, this.game.ticker.ticks, (1 * config.gameScale));
             ((i)++);
             newX = (newX + (20 * noiseV.x));
@@ -209,7 +225,7 @@ var MentalState = System.define("MentalState", {
             return noiseV.despawn();
           }).call(this);
         };
-        return while$166;
+        return while$472;
       }).call(this);
     
    },

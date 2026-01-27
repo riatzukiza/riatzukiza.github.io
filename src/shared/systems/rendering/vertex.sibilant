@@ -15,6 +15,9 @@
        'z z))
 
 (define Vertex Renderable
+(doc-string "null"
+                "Defines null")
+
 
   (init (layer))
 
