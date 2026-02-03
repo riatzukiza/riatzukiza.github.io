@@ -24,3 +24,6 @@ node_modules/
 *.swp
 *.swo
 *~
+
+# Clj-kondo cache
+.clj-kondo/.cache/
