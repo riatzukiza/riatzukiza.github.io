@@ -55,15 +55,22 @@ import {
   config
  } from "/client/obstacles/config.js";
 import { 
-  Friction
+  Friction,
+  SignalField
  } from "/client/obstacles/forces.js";
 const systems=[ Position, TrailDots, DecayingTrails, TrailsPanel ];
 const trailSegments=create(EntityGroup)("Trail segments", systems, game.ent);
+export { 
+  trailSegments
+ };
 var getTrailSegments = (function getTrailSegments$() {
   /* get-trail-segments eval.sibilant:23:0 */
 
   return trailSegments;
 });
+export { 
+  getTrailSegments
+ };
 var spawnAntTrailSegment = (function spawnAntTrailSegment$(ant) {
   /* spawn-ant-trail-segment eval.sibilant:25:0 */
 

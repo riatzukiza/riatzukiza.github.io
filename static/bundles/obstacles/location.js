@@ -10571,17 +10571,15 @@ var config = require("@obstacles/config.js");
 var randomLocation = (function randomLocation$() {
   /* random-location eval.sibilant:2:0 */
 
-  return [ (function() {
-    /* eval.sibilant:1:657 */
-  
-    var rand = ((Math.random() * (config.dimensions[0] - 0)) + 0);
-    return (config.dimensions[0] - (rand / 2));
-  }).call(this), (function() {
-    /* eval.sibilant:1:657 */
-  
-    var rand = ((Math.random() * (config.dimensions[1] - 0)) + 0);
-    return (config.dimensions[1] - (rand / 2));
-  }).call(this) ];
+  var [ homeX, homeY ] = config.homeLocation;
+  var world = (config.worldDimensions || config.dimensions);
+  var angle = (Math.random() * Math.PI * 2);
+  var minRadius = Math.min((world[0] * 0.18), (world[1] * 0.18));
+  var maxRadius = Math.min((world[0] * 0.32), (world[1] * 0.32));
+  var radius = (minRadius + (Math.random() * (maxRadius - minRadius)));
+  var x = (homeX + (Math.cos(angle) * radius));
+  var y = (homeY + (Math.sin(angle) * radius));
+  return [ Math.max(24, Math.min((world[0] - 24), x)), Math.max(24, Math.min((world[1] - 24), y)) ];
 });
 exports.randomLocation = randomLocation;
 },{"@kit-js/core/js/util":2,"@obstacles/config.js":"@obstacles/config.js","ramda":3}]},{},[]);

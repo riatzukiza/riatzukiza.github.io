@@ -106,29 +106,23 @@ var Position = System.define("Position", {
       return null;
     
    },
-  wraps__QUERY:true,
+  wraps__QUERY:false,
   _updateComponent( c ){ 
     
-      (function() {
-        if (this.wraps__QUERY) {
-          (function() {
-            if (c._x < 0) {
-              return c._x = (c._x + this.process.rendering.dimensions[0]);
-            }
-          }).call(this);
-          (function() {
-            if (c._y < 0) {
-              return c._y = (c._y + this.process.rendering.dimensions[1]);
-            }
-          }).call(this);
-          c._x = (c._x % this.process.rendering.dimensions[0]);
-          return c._y = (c._y % this.process.rendering.dimensions[1]);
-        }
-      }).call(this);
+      const home = this.process?.config?.homeLocation || [ (this.process.rendering.dimensions[0] * 0.5), (this.process.rendering.dimensions[1] * 0.5) ];
+      const roam = this.process?.config?.roamRadius || [ (this.process.rendering.dimensions[0] * 1.15), (this.process.rendering.dimensions[1] * 1.15) ];
+      const roamX = roam[0];
+      const roamY = roam[1];
+      const xMin = (home[0] - roamX);
+      const xMax = (home[0] + roamX);
+      const yMin = (home[1] - roamY);
+      const yMax = (home[1] + roamY);
+      c._x = Math.max(xMin, Math.min(c._x, xMax));
+      c._y = Math.max(yMin, Math.min(c._y, yMax));
       return c.moved = false;
     
    }
- });
+  });
 export { 
   Position
  };

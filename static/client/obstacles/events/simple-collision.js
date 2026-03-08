@@ -28,7 +28,7 @@ import {
  } from "../game.js";
 import { 
   createParticleUpdater
- } from "/shared/field.js";
+ } from "../field.js";
 import { 
   plants,
   ants,

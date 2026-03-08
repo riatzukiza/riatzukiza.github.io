@@ -10625,17 +10625,7 @@ var spawnAnt = (function spawnAnt$(x_y$2, home, startingLife) {
   var v = game.systems.get(Velocity, ant);
   (function() {
     if (!(config.spawnStatic === 0)) {
-      return v.accelerate([ (1 + (function() {
-        /* eval.sibilant:1:657 */
-      
-        var rand = ((Math.random() * (config.spawnStatic - 0)) + 0);
-        return (config.spawnStatic - (rand / 2));
-      }).call(this)), (1 + (function() {
-        /* eval.sibilant:1:657 */
-      
-        var rand = ((Math.random() * (config.spawnStatic - 0)) + 0);
-        return (config.spawnStatic - (rand / 2));
-      }).call(this)) ]);
+      return v.accelerate([ ((Math.random() * (2 * config.spawnStatic)) - config.spawnStatic), ((Math.random() * (2 * config.spawnStatic)) - config.spawnStatic) ]);
     }
   }).call(this);
   return placeEntity(ant, game, config);

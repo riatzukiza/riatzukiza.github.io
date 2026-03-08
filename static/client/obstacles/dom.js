@@ -98,7 +98,11 @@ ants.clear();
 plants.clear();
 trailSegments.clear();
 return game.systems.getBySymbol(Physics.symbol).forces.each(((force) => {
-	return f.reset();
+	return (function() {
+  if (typeof force?.reset === "function") {
+    return force.reset();
+  }
+}).call(this);
 }));
 }) }, [ "Reset" ]);
 const inputField=((label, initialInput, type, f) => {
@@ -118,7 +122,8 @@ const numberInput=((label, initialInput, f) => {
 });
 const configNumberInput=((label) => {
 	return numberInput(label, config[label], ((event) => {
-	return config[label] = event.target.value;
+	config[label] = event.target.value;
+  return config[label];
 }));
 });
 const settingsPanel=createDocumentNode("div", { 'className': "panel" }, [ configNumberInput("angleZoom"), configNumberInput("noiseZ"), configNumberInput("fieldForce"), configNumberInput("decay"), configNumberInput("maxLength"), configNumberInput("trailResultDuration"), configNumberInput("growthRate"), configNumberInput("plantMassLimit"), configNumberInput("maxInDecay"), configNumberInput("trailLimit"), configNumberInput("antLife"), configNumberInput("antInfluence"), configNumberInput("trailResolution"), configNumberInput("stationaryResistanceCoefficiant") ]);

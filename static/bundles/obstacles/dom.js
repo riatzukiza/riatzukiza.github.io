@@ -10684,8 +10684,12 @@ const resetButton=createDocumentNode("button", { 'onclick': (() => {
   plants.clear();
   trailSegments.clear();
   return game.systems.getBySymbol(Physics.symbol).forces.each(((force) => {
-  	
-    return f.reset();
+	
+    return (function() {
+      if (typeof force?.reset === "function") {
+        return force.reset();
+      }
+    }).call(this);
   
   }));
 

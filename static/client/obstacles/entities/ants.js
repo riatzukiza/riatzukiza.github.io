@@ -55,6 +55,10 @@ import {
 import { 
   config
  } from "../config.js";
+import { 
+  Friction,
+  SignalField
+ } from "../forces.js";
 const ants=create(EntityGroup)("Ants", [ Collision, AntSprites, AntPanel, Physics, Velocity, Position, AntTrails, AntLifeTimer ], game.ent);
 var clearAnts = (function clearAnts$() {
   /* clear-ants eval.sibilant:31:0 */

@@ -10695,7 +10695,7 @@ var Rendering = PooledSystem.define("Rendering", {
       const self=this;
       this.xOffset = 0;
       this.yOffset = 0;
-      this.zoomLevel = 0.2;
+      this.zoomLevel = 0.65;
       var mouseHeld = false;
       context.canvas.onmousedown = (function context$canvas$onmousedown$(e) {
         /* context.canvas.onmousedown eval.sibilant:1:1878 */
@@ -10750,7 +10750,7 @@ var Rendering = PooledSystem.define("Rendering", {
     a
    } ){ 
     
-      return this.context.makeCurrent().clearColor(0, 0, 0, 1);
+      return this.context.makeCurrent().clearColor((r / 255), (g / 255), (b / 255), (a / 255));
     
    },
   resize( [ width, height ] = [ this.width, this.height ],context = this.context ){ 

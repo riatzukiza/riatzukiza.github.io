@@ -17,7 +17,6 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var QuadTree = require("@timohausmann/quadtree-js");
 import "/shared/systems/rendering/dot.js";
 import { 
   Position
@@ -100,7 +99,8 @@ var rockGenStep = (function rockGenStep$(position = lastRockPos, mass = (config.
   spawnRock(position, (config.rockMassScalingFactor * scale * mass), scale);
   rockPlacementVector.rotateTo((5 * Math.random()));
   rockPlacementVector.setLength((((Math.random() * ( - 50)) + 50) * scale));
-  return lastRockPos = [ (Math.abs((position[0] + rockPlacementVector.x)) % config.dimensions[0]), (Math.abs((position[1] + rockPlacementVector.y)) % config.dimensions[1]) ];
+  lastRockPos = [ (Math.abs((position[0] + rockPlacementVector.x)) % config.dimensions[0]), (Math.abs((position[1] + rockPlacementVector.y)) % config.dimensions[1]) ];
+  return lastRockPos;
 });
 export { 
   rocks

@@ -11065,11 +11065,12 @@ exports.Collision = Collision;
 var placeEntity = (function placeEntity$(entity = this.entity, game = this.game, config = this.config) {
   /* place-entity node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
+  const world = (config.worldDimensions || config.dimensions);
   const placementTree=(new QuadTree({ 
     x:0,
     y:0,
-    width:config.dimensions[0],
-    height:config.dimensions[1]
+    width:world[0],
+    height:world[1]
    }, 20, 500));
   const c=game.systems.get(Collision, entity);
   const placementVector=Vector.spawn(1, 1);

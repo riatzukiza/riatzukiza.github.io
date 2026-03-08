@@ -10597,6 +10597,7 @@ var entity = (function entity$(aspects) {
 });
 var home = entity([ Dot, Position, Physics, Collision ]);
 var homePos = game.systems.get(Position, home);
+var homeDot = game.systems.get(Dot, home);
 game.systems.get(Dot, home).color = rgba(0, 255, 0, 255);
 game.systems.get(Position, home).x = config.homeLocation[0];
 game.systems.get(Position, home).y = config.homeLocation[1];
@@ -10605,6 +10606,7 @@ game.systems.get(Physics, home).scale = 5;
 game.systems.get(Physics, home).mass = 1;
 game.systems.get(Physics, home).forces = [];
 game.systems.get(Collision, home).name = "home";
+game.systems.getBySymbol(Dot.symbol)._updateComponent(homeDot);
 home.name = "home";
 exports.home = home;
 exports.homePos = homePos;

@@ -37,6 +37,9 @@ import {
   Andy
  } from "../../andy.js";
 import { 
+  Interface
+ } from "../../kit/interface/index.js";
+import { 
   Renderable
  } from "./renderable.js";
 var setPoint = (function setPoint$(x, y, z, vert) {
@@ -44,7 +47,8 @@ var setPoint = (function setPoint$(x, y, z, vert) {
 
   vert.point.x = x;
   vert.point.y = y;
-  return vert.point.z = z;
+  vert.point.z = z;
+  return vert.point.z;
 });
 var SpriteRenderable = Renderable.define("SpriteRenderable", { 
   init( layer = this.layer ){ 
@@ -61,7 +65,8 @@ var SpriteRenderable = Renderable.define("SpriteRenderable", {
   clear(  ){ 
     
       setPoint(0, 0, 0, this);
-      return this.point.scale = 0;
+      this.point.scale = 0;
+      return this.point.scale;
     
    },
   despawn(  ){ 
@@ -232,7 +237,8 @@ var Sprite = Component.define("Sprite", {
     
       return (function() {
         if (!(this.sprite)) {
-          return this.sprite = this.system.sprites.spawn();
+          this.sprite = this.system.sprites.spawn();
+          return this.sprite;
         }
       }).call(this);
     
@@ -242,7 +248,8 @@ var Sprite = Component.define("Sprite", {
       this.point.x = 0;
       this.point.y = 0;
       this.point.z = 0;
-      return this.sprite.size = 0;
+      this.sprite.size = 0;
+      return this.sprite.size;
     
    }
  });
@@ -253,7 +260,8 @@ var Sprites = System.define("Sprites", {
   maxSprites:100000,
   register(  ){ 
     
-      return this.sprites = spriteLayer(this.maxSprites, this.img, this.game);
+      this.sprites = spriteLayer(this.maxSprites, this.img, this.game);
+      return this.sprites;
     
    },
   interface:Sprite,

@@ -10710,7 +10710,7 @@ var shaders = Interface.define("shaders", {
 
   vec4 clipspace_coordinate (vec3 xyz, float scale, vec2 res)
   {
-    return (vec4((((xyz ) * u_Zoom * scale) + u_Offset
+    return (vec4((((xyz + u_Offset) * u_Zoom * scale)
                   / vec3(res,1.0) * 1.98 - 0.99), 1.0)
             * vec4( 1.0,-1.0,1.0,1.0 ));
 
@@ -10824,7 +10824,7 @@ var Dot = System.define("Dot", {
       dot.vertex.point.x = dot.pos.x;
       dot.vertex.point.y = dot.pos.y;
       dot.vertex.point.z = dot.pos.z;
-      dot.vertex.size = dot.scale;
+      dot.vertex.size = Math.max(dot.scale, 12);
       dot.vertex.color.r = dot.color.r;
       dot.vertex.color.g = dot.color.g;
       dot.vertex.color.b = dot.color.b;

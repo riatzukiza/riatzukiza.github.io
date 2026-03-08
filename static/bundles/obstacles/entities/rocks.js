@@ -11150,16 +11150,104 @@ var spawnRock = (function spawnRock$(x_y$1, mass, scale) {
   var hardness = Math.max(60, Math.min(225, Math.round((maxRockDensity / phys.density))));
   return placeEntity(rock, game, config);
 });
-var lastRockPos = [ ((Math.random() * ( - config.dimensions[0])) + config.dimensions[0]), ((Math.random() * ( - config.dimensions[1])) + config.dimensions[1]) ];
+var world = (config.worldDimensions || config.dimensions);
+var clampRockPoint = ((x, y, scale) => {
+	return [ Math.max(scale, Math.min((world[0] - scale), x)), Math.max(scale, Math.min((world[1] - scale), y)) ];
+});
+var lastRockPos = [ ((Math.random() * ( - world[0])) + world[0]), ((Math.random() * ( - world[1])) + world[1]) ];
 var rockGenStep = (function rockGenStep$(position = lastRockPos, mass = (config.rockMinMassFactor + ((Math.random() * ( - rockMassVariation)) + rockMassVariation)), scale = (config.rockMinSize + ((Math.random() * ( - rockScaleVariation)) + rockScaleVariation))) {
   /* rock-gen-step node_modules/kit/inc/core/function-expressions.sibilant:29:8 */
 
   spawnRock(position, (config.rockMassScalingFactor * scale * mass), scale);
   rockPlacementVector.rotateTo((5 * Math.random()));
   rockPlacementVector.setLength((((Math.random() * ( - 50)) + 50) * scale));
-  return lastRockPos = [ (Math.abs((position[0] + rockPlacementVector.x)) % config.dimensions[0]), (Math.abs((position[1] + rockPlacementVector.y)) % config.dimensions[1]) ];
+  return lastRockPos = clampRockPoint((position[0] + rockPlacementVector.x), (position[1] + rockPlacementVector.y), scale);
+});
+var carveRecursiveDivisionMaze = ((columns, rows, rand = Math.random) => {
+	const grid = Array.from({ length: rows }, (() => Array(columns).fill(false)));
+	const carveBoundary = (() => {
+	  for (let x = 0; x < columns; x += 1) {
+	    grid[0][x] = true;
+	    grid[(rows - 1)][x] = true;
+	  }
+	  for (let y = 0; y < rows; y += 1) {
+	    grid[y][0] = true;
+	    grid[y][(columns - 1)] = true;
+	  }
+	});
+	const chooseEven = (min, max) => {
+	  const values = [];
+	  for (let value = min; value <= max; value += 1) {
+	    if ((value % 2) === 0) {
+	      values.push(value);
+	    }
+	  }
+	  return values[Math.floor((rand() * values.length))];
+	};
+	const chooseOdd = (min, max) => {
+	  const values = [];
+	  for (let value = min; value <= max; value += 1) {
+	    if ((value % 2) === 1) {
+	      values.push(value);
+	    }
+	  }
+	  return values[Math.floor((rand() * values.length))];
+	};
+	const divide = (x, y, width, height) => {
+	  if ((width < 4) || (height < 4)) {
+	    return;
+	  }
+	  const horizontal = ((width < height) || ((width === height) && (rand() > 0.5)));
+	  if (horizontal) {
+	    const wallY = chooseEven((y + 1), ((y + height) - 2));
+	    const gapX = chooseOdd(x, ((x + width) - 1));
+	    for (let wallX = x; wallX < (x + width); wallX += 1) {
+	      if (wallX !== gapX) {
+	        grid[wallY][wallX] = true;
+	      }
+	    }
+	    divide(x, y, width, (wallY - y));
+	    divide(x, (wallY + 1), width, ((y + height) - wallY - 1));
+	  } else {
+	    const wallX = chooseEven((x + 1), ((x + width) - 2));
+	    const gapY = chooseOdd(y, ((y + height) - 1));
+	    for (let wallY = y; wallY < (y + height); wallY += 1) {
+	      if (wallY !== gapY) {
+	        grid[wallY][wallX] = true;
+	      }
+	    }
+	    divide(x, y, (wallX - x), height);
+	    divide((wallX + 1), y, ((x + width) - wallX - 1), height);
+	  }
+	};
+	carveBoundary();
+	divide(1, 1, (columns - 2), (rows - 2));
+	return grid;
+});
+var spawnMazeRocks = (() => {
+	const cellSize = 48;
+	const columns = Math.max(9, Math.floor((world[0] / cellSize)));
+	const rows = Math.max(9, Math.floor((world[1] / cellSize)));
+	const maze = carveRecursiveDivisionMaze(columns, rows);
+	for (let row = 0; row < rows; row += 1) {
+	  for (let column = 0; column < columns; column += 1) {
+	    if (!(maze[row][column])) {
+	      continue;
+	    }
+	    const x = ((column * cellSize) + (cellSize * 0.5));
+	    const y = ((row * cellSize) + (cellSize * 0.5));
+	    const safeHome = (Math.abs((x - config.homeLocation[0])) < (cellSize * 2.5)) && (Math.abs((y - config.homeLocation[1])) < (cellSize * 2.5));
+	    if (safeHome) {
+	      continue;
+	    }
+	    const scale = (config.rockMinSize + ((Math.random() * (config.rockMaxSize - config.rockMinSize))));
+	    const mass = (config.rockMassScalingFactor * scale * (config.rockMinMassFactor + ((Math.random() * (config.rockMaxMassFactor - config.rockMinMassFactor)))));
+	    spawnRock(clampRockPoint(x, y, scale), mass, scale);
+	  }
+	}
 });
 exports.rocks = rocks;
 exports.spawnRock = spawnRock;
 exports.rockGenStep = rockGenStep;
+exports.spawnMazeRocks = spawnMazeRocks;
 },{"@kit-js/core/js/util":2,"@obstacles/colors.js":"@obstacles/colors.js","@obstacles/config.js":"@obstacles/config.js","@obstacles/forces.js":"@obstacles/forces.js","@obstacles/game.js":"@obstacles/game.js","@obstacles/systems/position.js":"@obstacles/systems/position.js","@obstacles/systems/rock-sprites.js":"@obstacles/systems/rock-sprites.js","@obstacles/systems/velocity.js":"@obstacles/systems/velocity.js","@shared/data-structures/group.js":"@shared/data-structures/group.js","@shared/data-structures/list.js":"@shared/data-structures/list.js","@shared/data-structures/trees/trie.js":"@shared/data-structures/trees/trie.js","@shared/ecs.js":"@shared/ecs.js","@shared/systems/collision.js":"@shared/systems/collision.js","@shared/systems/physics/index.js":"@shared/systems/physics/index.js","@shared/systems/rendering/dot.js":"@shared/systems/rendering/dot.js","@shared/vectors.js":"@shared/vectors.js","@timohausmann/quadtree-js":3,"ramda":6,"tree-kit":315}]},{},[]);

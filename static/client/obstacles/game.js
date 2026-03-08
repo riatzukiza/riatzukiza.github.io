@@ -12,74 +12,74 @@ Object.prototype.each = (function Object$prototype$each$(f) {
   }));
 });
 import '/bundles/external.js';
-import { 
+import {
   mixin,
   create,
   extend
  } from "/shared/kit/core/util.js";
-import { 
+import {
   Game
  } from "/shared/game.js";
-import { 
+import {
   Dot
  } from "/shared/systems/rendering/dot.js";
-import { 
+import {
   Sprites
  } from "/shared/systems/rendering/gl-sprites.js";
-import { 
+import {
   Position
  } from "./systems/position.js";
-import { 
+import {
   Velocity
  } from "./systems/velocity.js";
-import { 
+import {
   Physics
  } from "/shared/systems/physics.js";
-import { 
+import {
   Collision
  } from "/shared/systems/collision.js";
-import { 
+import {
   rendering
  } from "./rendering.js";
-import { 
+import {
   ViewPanel
  } from "./systems/property-view.js";
-import { 
+import {
   AntDots
  } from "./systems/ants/ant-dot.js";
-import { 
+import {
   AntTrails
  } from "./systems/ants/ant-trails.js";
-import { 
+import {
   AntLifeTimer
  } from "./systems/ants/ant-life-timer.js";
-import { 
+import {
   TrailDots
  } from "./systems/ants/trail-dots.js";
-import { 
+import {
   AntPanel
  } from "./systems/ants/ant-panel.js";
-import { 
+import {
   TrailsPanel
  } from "./systems/ants/trail-panel.js";
-import { 
+import {
   DecayingTrails
  } from "./systems/ants/trail-segments.js";
-import { 
+import {
   AntSprites
  } from "./systems/ant-sprites.js";
-import { 
+import {
   RockSprites
  } from "./systems/rock-sprites.js";
-import { 
+import {
   config
  } from "./config.js";
 Position.wraps__QUERY = true;
-var activeGameSystems = [ DecayingTrails, AntLifeTimer, Dot, TrailDots, AntDots, AntPanel, TrailsPanel, RockSprites, AntSprites, AntTrails, Physics, Velocity, Position, Collision ];
+var activeGameSystems = [DecayingTrails, AntLifeTimer, TrailDots, AntDots, AntPanel, TrailsPanel, RockSprites, AntSprites, AntTrails, Physics, Velocity, Position, Collision, Dot ];
 var game = create(Game)(config, rendering, activeGameSystems, config.gameSpeed);
-export { 
+export {
   game
  };
-export { 
+export {
   activeGameSystems
  };

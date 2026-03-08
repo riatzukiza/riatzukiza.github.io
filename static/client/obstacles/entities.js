@@ -17,8 +17,8 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-global.mixin = mixin;
-global.create = create;
+globalThis.mixin = mixin;
+globalThis.create = create;
 import { 
   rocks,
   spawnRock,
@@ -55,7 +55,8 @@ var nextSpawn = ((game) => {
 return (function() {
   if ((nextSpawnTime > (1000 / config.spawnRate) && ants.group.size <= config.antLimit)) {
     spawnAnt([ homePos.x, homePos.y ], home);
-    return nextSpawnTime = 0;
+    nextSpawnTime = 0;
+    return nextSpawnTime;
   }
 }).call(this);
 });

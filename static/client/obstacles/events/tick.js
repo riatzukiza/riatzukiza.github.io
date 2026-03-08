@@ -34,7 +34,7 @@ import {
  } from "/shared/systems/physics/system.js";
 import { 
   createParticleUpdater
- } from "/shared/field.js";
+ } from "../field.js";
 import { 
   nextSpawn,
   spawnAnt,

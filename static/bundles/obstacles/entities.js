@@ -10650,7 +10650,8 @@ global.create = create;
 var { 
   rocks,
   spawnRock,
-  rockGenStep
+  rockGenStep,
+  spawnMazeRocks
  } = require("@obstacles/entities/rocks.js"),
     { 
   ants,
@@ -10676,6 +10677,7 @@ var clear = (function() {
   return arguments[0].clear();
 });
 var nextSpawnTime = 0;
+spawnMazeRocks();
 var nextSpawn = ((game) => {
 	
   nextSpawnTime += game.ticker.elapsed;
@@ -10689,6 +10691,7 @@ var nextSpawn = ((game) => {
 });
 exports.nextSpawn = nextSpawn;
 exports.rockGenStep = rockGenStep;
+exports.spawnMazeRocks = spawnMazeRocks;
 exports.spawnRock = spawnRock;
 exports.spawnPlant = spawnPlant;
 exports.spawnAnt = spawnAnt;

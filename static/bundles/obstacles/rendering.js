@@ -10576,9 +10576,9 @@ const rendering=Rendering.load({
   blend:true
  });
 rendering.backgroundColor = { 
-  r:0,
-  g:0,
-  b:0,
+  r:237,
+  g:161,
+  b:94,
   a:255
  };
 exports.rendering = rendering;

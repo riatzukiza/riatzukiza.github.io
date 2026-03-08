@@ -28,7 +28,7 @@ import {
  } from "../game.js";
 import { 
   createParticleUpdater
- } from "/shared/field.js";
+ } from "../field.js";
 import { 
   homePos,
   plants,
@@ -70,5 +70,8 @@ av.pos.x = homePos.x;
 av.pos.y = homePos.y;
 placeEntity(ant.entity, game, config);
 var pp = game.systems.get(Physics, plant.entity);
-return pp.scale = pp.mass = Math.max((pp.mass - (0.05 * ap.mass)), 0);
+const nextMass=Math.max((pp.mass - (0.05 * ap.mass)), 0);
+pp.mass = nextMass;
+pp.scale = nextMass;
+return nextMass;
 }));

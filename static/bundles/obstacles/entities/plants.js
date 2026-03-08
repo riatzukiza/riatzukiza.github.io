@@ -10604,6 +10604,7 @@ var spawnPlant = (function spawnPlant$(x_y$3, mass) {
       y = x_y$3[1];
 
   var plant = plants.spawn([ Dot, Position, Physics, Collision, Velocity ]);
+  var plantDot = game.systems.get(Dot, plant);
   game.systems.get(Dot, plant).color = rgba(0, 255, 0, 255);
   game.systems.get(Physics, plant).mass = mass;
   game.systems.get(Physics, plant).scale = mass;
@@ -10611,6 +10612,7 @@ var spawnPlant = (function spawnPlant$(x_y$3, mass) {
   game.systems.get(Position, plant).x = x;
   game.systems.get(Position, plant).y = y;
   game.systems.get(Position, plant).z = 0;
+  game.systems.getBySymbol(Dot.symbol)._updateComponent(plantDot);
   return placeEntity(plant, game, config);
 });
 exports.plants = plants;
