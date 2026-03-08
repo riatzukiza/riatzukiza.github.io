@@ -10587,6 +10587,7 @@ module.exports.growthRate = 0.0005;
 module.exports.startingPlants = 18;
 module.exports.plantMassLimit = 32;
 module.exports.antLimit = 220;
+module.exports.redAntRatio = 0.18;
 module.exports.maxInDecay = 1000;
 module.exports.trailLimit = 60000;
 module.exports.antLife = 120000;

@@ -10590,7 +10590,7 @@ module.exports.createParticleUpdater = (function module$exports$createParticleUp
   
     const pos=Vector.spawn((Math.min(Math.max(Math.round((p.x / config.size)), 0), (config.columns - 1)) || 1), (Math.min(Math.max(Math.round((p.y / config.size)), 0), (config.rows - 1)) || 1));
     const angle=(noise.simplex3((pos.x / config.angleZoom / 5), (pos.y / config.angleZoom / 5), (tick * (config.noiseZ / 10000))) * Math.PI * 2);
-    const length=((noise.simplex3(((pos.x / 50) + 40000), ((pos.x / 50) + 40000), (tick * (config.noiseZ / 10000))) * config.fieldForce) / 20);
+    const length=((noise.simplex3(((pos.x / 50) + 40000), ((pos.y / 50) + 40000), (tick * (config.noiseZ / 10000))) * config.fieldForce) / 20);
     const pH=pheremones[pos.x][pos.y];
     field[pos.x][pos.y].setLength(length);
     field[pos.x][pos.y].setAngle(angle);

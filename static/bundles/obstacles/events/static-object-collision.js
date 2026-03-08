@@ -10609,7 +10609,11 @@ game.events.on("staticObjectCollision", ((o1, o2) => {
   const s=r.getLength();
   const d=p1.distanceTo(p2);
   const dl=d.getLength();
-  d.setLength((Math.max(s, 0.1) / dl));
+  if( (dl <= 0.0001) ){ 
+    d.x = ((Math.random() * 2) - 1);
+    d.y = ((Math.random() * 2) - 1);
+  };
+  d.setLength((Math.max(s, 0.1) / Math.max(dl, 0.0001)));
   (function() {
     if (s > 0) {
       return d.setAngle(r.getAngle());
