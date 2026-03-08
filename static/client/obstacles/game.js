@@ -75,7 +75,7 @@ import {
   config
  } from "./config.js";
 Position.wraps__QUERY = true;
-var activeGameSystems = [DecayingTrails, AntLifeTimer, TrailDots, AntDots, AntPanel, TrailsPanel, RockSprites, AntSprites, AntTrails, Physics, Velocity, Position, Collision, Dot ];
+var activeGameSystems = [ DecayingTrails, AntLifeTimer, Dot, TrailDots, AntDots, AntPanel, TrailsPanel, RockSprites, AntSprites, AntTrails, Physics, Velocity, Position, Collision ];
 var game = create(Game)(config, rendering, activeGameSystems, config.gameSpeed);
 export {
   game
