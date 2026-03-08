@@ -11,6 +11,58 @@
             font-family: Arial, sans-serif;
         }
 
+        #site-shell {
+            position: fixed;
+            top: 12px;
+            left: 12px;
+            z-index: 9999;
+            width: min(430px, calc(100vw - 24px));
+            color: #20160d;
+            background: rgba(245, 231, 205, 0.9);
+            border: 1px solid rgba(74, 48, 20, 0.25);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
+            backdrop-filter: blur(6px);
+            padding: 12px 14px;
+            box-sizing: border-box;
+        }
+
+        #site-shell h1 {
+            margin: 0 0 6px;
+            font: 700 18px/1.1 Georgia, serif;
+            letter-spacing: 0.02em;
+        }
+
+        #site-shell p {
+            margin: 0 0 10px;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        #site-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 12px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        #site-links a {
+            color: #2d1e12;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(45, 30, 18, 0.25);
+        }
+
+        #site-links a:hover {
+            border-bottom-color: rgba(45, 30, 18, 0.7);
+        }
+
+        #webring-shell {
+            min-height: 42px;
+            font-size: 12px;
+        }
+
         #frame,
         #container {
             width: 100vw;
@@ -58,6 +110,13 @@ position:absolute;
 }
 
         @media (max-width: 900px) {
+            #site-shell {
+                width: calc(100vw - 16px);
+                left: 8px;
+                top: 8px;
+                padding: 10px 12px;
+            }
+
             #container {
                 flex-direction: column;
             }
@@ -196,6 +255,26 @@ position:absolute;
 <script src='/bundles/obstacles/systems/ants/trail-view.js' ></script>
 <body><img id='ant-texture'  src='/ant.png'  hidden='true' >
 <img id='rock-texture'  src='/rock.png'  hidden='true' >
+<div id="site-shell">
+  <h1>Riatzukiza Obstacles</h1>
+  <p>Elastic ant collisions, hungry green food, and a sand-colored maze field that keeps mutating under tiny collective pressure.</p>
+  <div id="site-links">
+    <a href="/">index</a>
+    <a href="/projects/obstacles.html">module wrapper</a>
+    <a href="https://obstacles.ussyco.de">ussy redirect</a>
+    <a href="https://riatzukiza.github.io">github pages</a>
+  </div>
+  <div id="webring-shell" data-theme="light"></div>
+</div>
 </body>
+<script src="https://ussyco.de/api/webring/widget.js"></script>
+<script>
+  (function() {
+    var target = document.getElementById('webring-shell');
+    if (target) {
+      target.id = 'webring';
+    }
+  })();
+</script>
 <script src='/bundles/obstacles/main.js' ></script>
 </html>
