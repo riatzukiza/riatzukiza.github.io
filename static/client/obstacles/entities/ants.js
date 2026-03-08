@@ -62,7 +62,7 @@ import {
   Friction,
   SignalField
  } from "../forces.js";
-const ants=create(EntityGroup)("Ants", [ Collision, AntDots, AntSprites, AntPanel, Physics, Velocity, Position, AntTrails, AntLifeTimer ], game.ent);
+const ants=create(EntityGroup)("Ants", [ Collision, AntSprites, AntPanel, Physics, Velocity, Position, AntTrails, AntLifeTimer ], game.ent);
 var clearAnts = (function clearAnts$() {
   /* clear-ants eval.sibilant:31:0 */
 
@@ -78,17 +78,9 @@ var spawnAnt = (function spawnAnt$(x_y$1, home, startingLife) {
   game.systems.get(Position, ant).x = x;
   game.systems.get(Position, ant).y = y;
   game.systems.get(Position, ant).z = 0;
-  ant.faction = ((Math.random() < config.redAntRatio) ? "red-daimoi" : "black-daimoi");
   game.systems.get(Physics, ant).scale = 1;
   game.systems.get(Physics, ant).mass = 1;
   game.systems.get(Physics, ant).forces = [ SignalField, Friction ];
-  game.systems.get(AntDots, ant).color = (function() {
-    if (ant.faction === "red-daimoi") {
-      return rgba(255, 52, 52, 255);
-    } else {
-      return rgba(20, 20, 20, 255);
-    }
-  }).call(this);
   var v = game.systems.get(Velocity, ant);
   (function() {
     if (!(config.spawnStatic === 0)) {
