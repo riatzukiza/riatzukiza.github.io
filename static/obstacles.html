@@ -38,6 +38,63 @@
             line-height: 1.4;
         }
 
+        #site-shell .small {
+            font-size: 11px;
+            line-height: 1.45;
+            color: rgba(32, 22, 13, 0.82);
+        }
+
+        #myth-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+        .myth-card {
+            background: rgba(255, 250, 240, 0.42);
+            border: 1px solid rgba(74, 48, 20, 0.14);
+            padding: 8px;
+            min-height: 64px;
+        }
+
+        .myth-card b {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 12px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        #fork-note {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed rgba(45, 30, 18, 0.22);
+        }
+
+        #legend-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 14px;
+            margin-top: 8px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .swatch {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin-right: 6px;
+            vertical-align: middle;
+            border: 1px solid rgba(32, 22, 13, 0.18);
+        }
+
+        .swatch.green { background: #18ff18; }
+        .swatch.red { background: #ff3f3f; }
+        .swatch.blue { background: #14147d; }
+
         #site-links {
             display: flex;
             flex-wrap: wrap;
@@ -110,6 +167,10 @@ position:absolute;
 }
 
         @media (max-width: 900px) {
+            #myth-grid {
+                grid-template-columns: 1fr;
+            }
+
             #site-shell {
                 width: calc(100vw - 16px);
                 left: 8px;
@@ -256,13 +317,35 @@ position:absolute;
 <body><img id='ant-texture'  src='/ant.png'  hidden='true' >
 <img id='rock-texture'  src='/rock.png'  hidden='true' >
 <div id="site-shell">
-  <h1>Riatzukiza Obstacles</h1>
-  <p>Elastic ant collisions, hungry green food, and a sand-colored maze field that keeps mutating under tiny collective pressure.</p>
+  <h1>Fork Field of the Daimoi</h1>
+  <p>This obstacle field is the folk memory that later turned into <code>fork_tales</code>: Presences nesting at the center, Daimoi scattering along vector prayer-lines, and Nexus loci pulling motive into collision, hunger, and return.</p>
   <div id="site-links">
     <a href="/">index</a>
     <a href="/projects/obstacles.html">module wrapper</a>
     <a href="https://obstacles.ussyco.de">ussy redirect</a>
     <a href="https://riatzukiza.github.io">github pages</a>
+  </div>
+  <div id="myth-grid" class="small">
+    <div class="myth-card">
+      <b>Presence</b>
+      The nest. The still point. What later became the loaded center of a scene graph and a witness frame.
+    </div>
+    <div class="myth-card">
+      <b>Daimoi</b>
+      The ants. Self-motivated agents moving under noise, appetite, inertia, and copied rumor. Black Daimoi hold to ordinary forage. Red Daimoi are remembered here as splinter-lit raiders in the old tale, even if the field only half confesses them.
+    </div>
+    <div class="myth-card">
+      <b>Nexus</b>
+      Food, rocks, obstacles, witness-points. Anything that bends a path and becomes lore because contact happened there.
+    </div>
+  </div>
+  <div id="legend-row" class="small">
+    <span><i class="swatch green"></i>nexus food</span>
+    <span><i class="swatch blue"></i>memory trail</span>
+    <span><i class="swatch red"></i>splinter / hostile trace</span>
+  </div>
+  <div id="fork-note" class="small">
+    The trail algorithm here is one of the seeds that later mutated into the field logic behind <code>fork_tales</code>. This page is not the backend. It is the mythic prehistory: a sand table where Daimoi learned to listen to pressure, leave marks, fight over a Nexus, and mistake old routes for destiny. In later Fork Tales language, a Presence gathers, Daimoi fork, and every Nexus becomes a story because something collided there first.
   </div>
   <div id="webring-shell" data-theme="light"></div>
 </div>
