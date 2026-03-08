@@ -10602,6 +10602,9 @@ var {
     { 
   AntPanel
  } = require("@obstacles/systems/ants/ant-panel.js"),
+    { 
+  rgba
+ } = require("@obstacles/colors.js"),
     config = require("@obstacles/config.js");
 const ants=create(EntityGroup)("Ants", [ Collision, AntDots, AntSprites, AntPanel, Physics, Velocity, Position, AntTrails, AntLifeTimer ], game.ent);
 var clearAnts = (function clearAnts$() {
