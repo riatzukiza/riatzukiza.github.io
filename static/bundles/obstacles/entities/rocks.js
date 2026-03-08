@@ -11225,7 +11225,7 @@ var carveRecursiveDivisionMaze = ((columns, rows, rand = Math.random) => {
 	return grid;
 });
 var spawnMazeRocks = (() => {
-	const cellSize = 96;
+	const cellSize = 72;
 	const columns = Math.max(9, Math.floor((world[0] / cellSize)));
 	const rows = Math.max(9, Math.floor((world[1] / cellSize)));
 	const maze = carveRecursiveDivisionMaze(columns, rows);
@@ -11236,7 +11236,7 @@ var spawnMazeRocks = (() => {
 	    }
 	    const x = ((column * cellSize) + (cellSize * 0.5));
 	    const y = ((row * cellSize) + (cellSize * 0.5));
-	    const safeHome = (Math.abs((x - config.homeLocation[0])) < (cellSize * 2.5)) && (Math.abs((y - config.homeLocation[1])) < (cellSize * 2.5));
+	    const safeHome = (Math.abs((x - config.homeLocation[0])) < (cellSize * 2.0)) && (Math.abs((y - config.homeLocation[1])) < (cellSize * 2.0));
 	    if (safeHome) {
 	      continue;
 	    }
