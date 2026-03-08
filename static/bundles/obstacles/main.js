@@ -65,7 +65,7 @@ var {
     { 
   startInterface
  } = require("@obstacles/dom.js");
-Collision.setBounds(config.worldDimensions[0], config.worldDimensions[1], 500, 1000);
+Collision.setBounds(config.worldDimensions[0], config.worldDimensions[1], 500, 10);
 game.start();
 require("@obstacles/events/ant-collision.js");
 require("@obstacles/events/ant-found-plant.js");

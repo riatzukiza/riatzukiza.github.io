@@ -10604,20 +10604,27 @@ game.events.on("collision", ((c, c_) => {
     if( (ants.has(c_.entity) && plants.has(c.entity)) ){ 
       return game.events.emit("antFoundPlant", c_, c);
      };
-    if( (ants.has(c.entity) && plants.has(c_.entity)) ){ 
-      return game.events.emit("antFoundPlant", c, c_);
-     };
-    v.pos.x = (v.priorX || v.pos.x);;
-    v.pos.y = (v.priorY || v.pos.y);;
-    if( (ants.has(c.entity) && ants.has(c_.entity)) ){ 
-      game.events.emit("antCollision", c, c_);
-      return game.events.emit("simpleCollision", c_, c);
-     };
-    if( ((plants.has(c.entity) && plants.has(c_.entity)) || (plants.has(c.entity) && rocks.has(c_.entity)) || (rocks.has(c.entity) && plants.has(c_.entity)) || (rocks.has(c.entity) && rocks.has(c_.entity))) ){ 
-      game.events.emit("staticObjectCollision", c, c_)
-     };
-    game.events.emit("simpleCollision", c_, c)
+  if( (ants.has(c.entity) && plants.has(c_.entity)) ){ 
+    return game.events.emit("antFoundPlant", c, c_);
    };
+  v.pos.x = (v.priorX || v.pos.x);;
+  v.pos.y = (v.priorY || v.pos.y);;
+  v_.pos.x = (v_.priorX || v_.pos.x);;
+  v_.pos.y = (v_.priorY || v_.pos.y);;
+  const leftSpeed=((v.xd * v.xd) + (v.yd * v.yd));
+  const rightSpeed=((v_.xd * v_.xd) + (v_.yd * v_.yd));
+  const movingCollision=((leftSpeed >= rightSpeed) ? c : c_);
+  const resistingCollision=((movingCollision === c) ? c_ : c);
+  if( (ants.has(c.entity) && ants.has(c_.entity)) ){ 
+    game.events.emit("antCollision", c, c_);
+    game.events.emit("simpleCollision", c, c_);
+    return game.events.emit("simpleCollision", c_, c);
+   };
+  if( ((plants.has(c.entity) && plants.has(c_.entity)) || (plants.has(c.entity) && rocks.has(c_.entity)) || (rocks.has(c.entity) && plants.has(c_.entity)) || (rocks.has(c.entity) && rocks.has(c_.entity))) ){ 
+    game.events.emit("staticObjectCollision", c, c_)
+   };
+  game.events.emit("simpleCollision", movingCollision, resistingCollision)
+ };
   c_.colliding = false;
   return c.colliding = false;
 

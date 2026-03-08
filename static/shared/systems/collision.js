@@ -119,6 +119,22 @@ var CollisionBounds = Component.define("CollisionBounds", {
       return this.entity.velocityInterface;
     
    },
+  get quadTreeRect(  ){ 
+    
+      var rect = this._quadTreeRect;
+      if( !rect ){ 
+        rect = { 
+          collision:this
+         };
+        this._quadTreeRect = rect;
+       };
+      rect.x = this.minX;
+      rect.y = this.minY;
+      rect.width = this.width;
+      rect.height = this.height;
+      return rect;
+    
+   },
   isColliding__QUERY( c_ = this.c_,c = this ){ 
     
       var d1x = (c_.minX - c.maxX),
@@ -132,19 +148,26 @@ var CollisionBounds = Component.define("CollisionBounds", {
 export { 
   CollisionBounds
  };
+var clampQuadTreeLevels = ((requested = 10,width = 100,height = 100,hardLimit = 10) => {
+	const maxDimension=Math.max(1, width, height);
+	const maxUsefulLevels=Math.max(1, Math.ceil(Math.log2(maxDimension)));
+	return Math.max(1, Math.min(requested, maxUsefulLevels, hardLimit));
+});
+var createQuadTree = ((width, height, maxObjects = 10, maxLevels = 10, hardLimit = 10) => (new QuadTree({ 
+  x:0,
+  y:0,
+  width,
+  height
+ }, maxObjects, clampQuadTreeLevels(maxLevels, width, height, hardLimit))));
 var Collision = System.define("Collision", { 
   Component:CollisionBounds,
-  setBounds( height = 100,width = 100,maxObjects = 10,maxLevels = 10 ){ 
+  setBounds( width = 100,height = 100,maxObjects = 10,maxLevels = 10 ){ 
     
       if( this.quads ){ 
         throw (new Error("bounds are already set"))
        };
-      return this.quads = (new QuadTree({ 
-        x:0,
-        y:0,
-        width,
-        height
-       }, maxObjects, maxLevels));
+      this.quads = createQuadTree(width, height, maxObjects, maxLevels, 10);
+      return this.quads;
     
    },
   _check( c,c_ ){ 
@@ -158,19 +181,23 @@ var Collision = System.define("Collision", {
   _updateAll( t = this.t,components = this.components ){ 
     
       this.quads.clear();
-      var node = this.components.values.head;
+      var node = this.components.values.head,
+          c = null,
+          rect = null,
+          c_ = null;
       while( node ){ 
-        var c = node.item;;
+        c = node.item;;
         c.checked = false;;
-        this.quads.insert(c);
+        this.quads.insert(c.quadTreeRect);
         node = node.next;
        };
       node = this.components.values.head;
       while( node ){ 
-        var c = node.item;;
-        const possibleCollisions=this.quads.retrieve(c);;
-        for (var c_ of possibleCollisions)
+        c = node.item;;
+        const possibleCollisions=this.quads.retrieve(c.quadTreeRect);;
+        for (rect of possibleCollisions)
         {
+        c_ = rect.collision;;
         if( (!(c === c_) && !(c_.checked)) ){ 
           this._check(c, c_)
          };
@@ -190,31 +217,30 @@ export {
 var placeEntity = (function placeEntity$(entity = this.entity, game = this.game, config = this.config) {
   /* place-entity inc/core/function-expressions.sibilant:28:8 */
 
-  const placementTree=(new QuadTree({ 
-    x:0,
-    y:0,
-    width:config.dimensions[0],
-    height:config.dimensions[1]
-   }, 20, 500));
+  const world = (config.worldDimensions || config.dimensions);
+  const placementTree=createQuadTree(world[0], world[1], 20, 500, 8);
   const c=game.systems.get(Collision, entity);
   const placementVector=Vector.spawn(1, 1);
-  var colliding = true;
+  var colliding = true,
+      rect = null,
+      c_ = null;
   (function() {
     var while$44 = undefined;
     while (colliding) {
       while$44 = (function() {
         var noCollisions = true;
         placementTree.clear();
-        c.system.components.each(((c_) => {
-        	return (function() {
-          if (!(c === c_)) {
-            return placementTree.insert(c_);
-          }
-        }).call(this);
+        c.system.components.each(((candidate) => {
+          	return (function() {
+           if (!(c === candidate)) {
+            return placementTree.insert(candidate.quadTreeRect);
+           }
+         }).call(this);
         }));
-        const possibleCollisions=placementTree.retrieve(c);
-        for (var c_ of possibleCollisions)
+        const possibleCollisions=placementTree.retrieve(c.quadTreeRect);
+        for (rect of possibleCollisions)
         {
+        c_ = rect.collision;
         (function() {
           var while$45 = undefined;
           while (c.isColliding__QUERY(c_)) {
@@ -231,7 +257,7 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         ;
         (function() {
           if (noCollisions) {
-            return colliding = false;
+            colliding = false;
           }
         }).call(this);
         return null;

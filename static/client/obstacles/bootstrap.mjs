@@ -19,7 +19,7 @@ export const initializeObstacles = async ({
   startInterface,
   loadEventModules = loadDefaultEventModules,
 }) => {
-  Collision.setBounds(config.dimensions[0], config.dimensions[1], 500, 1000);
+  Collision.setBounds(config.dimensions[0], config.dimensions[1], 500, 10);
   await loadEventModules();
   startInterface();
   game.start();

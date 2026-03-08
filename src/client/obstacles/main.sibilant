@@ -9,7 +9,7 @@
 
 (.set-bounds Collision (first config.dimensions) (second config.dimensions)
              500
-             1000)
+             10)
 
 (.start game)
 
@@ -22,4 +22,3 @@
 (import "./events/simple-collision.js")
 
 (start-interface)
-

@@ -63,6 +63,16 @@
   (gett position this.entity.position-interface)
   (gett pos this.position)
   (gett velocity this.entity.velocity-interface)
+  (gett quad-tree-rect
+        (do
+          (unless this._quad-tree-rect
+            (assign this._quad-tree-rect (lit (collision this))))
+          (set this._quad-tree-rect
+               'x this.min-x
+               'y this.min-y
+               'width this.width
+               'height this.height)
+          this._quad-tree-rect))
 
   (def-generic is-colliding?  (c* (c this))
 
@@ -73,22 +83,30 @@
 
 (export Collision-bounds)
 
+(def clamp-quad-tree-levels ((requested 10) (width 100) (height 100) (hard-limit 10))
+  (const max-dimension (Math.max 1 width height))
+  (const max-useful-levels (Math.max 1 (Math.ceil (Math.log2 max-dimension))))
+  (Math.max 1 (Math.min requested max-useful-levels hard-limit)))
+
+(def create-quad-tree (width height (max-objects 10) (max-levels 10) (hard-limit 10))
+  (new Quad-tree
+       (lit (x 0)
+            (y 0)
+            width,height)
+       max-objects
+       (clamp-quad-tree-levels max-levels width height hard-limit)))
+
 (define Collision System
 
   (Component Collision-bounds)
 
 
-  (def-generic set-bounds ((height 100) (width 100)
+  (def-generic set-bounds ((width 100) (height 100)
                            (max-objects 10)
                            (max-levels 10))
     (if! this.quads (throw (new Error "bounds are already set")))
 
-    (assign this.quads (new Quad-tree
-                            (lit (x 0)
-                                 (y 0)
-                                 width,height)
-                            max-objects
-                            max-levels)))
+    (assign this.quads (create-quad-tree width height max-objects max-levels 10)))
   (def *check  (c c*)
     (if! (.is-colliding? c c*)
          (.emit c.system.game.events "collision"
@@ -98,20 +116,21 @@
   (def-generic *update-all (t components)
     (.clear this.quads)
 
-    (var node this.components.values.head)
+    (var node this.components.values.head c nil rect nil c* nil)
     (while! node
-            (var c node.item)
+            (assign c node.item)
             (assign c.checked false)
-            (.insert this.quads c)
+            (.insert this.quads c.quad-tree-rect)
             (assign node node.next))
 
     (assign node this.components.values.head)
     (while! node
-            (var c node.item)
-            (const possible-collisions (.retrieve this.quads c))
-            (for-of! c* possible-collisions
+            (assign c node.item)
+            (const possible-collisions (.retrieve this.quads c.quad-tree-rect))
+            (for-of! rect possible-collisions
+                     (assign c* rect.collision)
                      (if! (and (not (= c c*)) (not c*.checked))
-                          (.*check this c c*))
+                           (.*check this c c*))
                      null)
             (assign c.checked true)
             (assign node node.next))
@@ -120,19 +139,18 @@
 (export Collision)
 
 (def-generic place-entity (entity game config)
-  (const placement-tree (new Quad-tree
-                             (lit (x 0)
-                                  (y 0)
-                                  (width (first config.dimensions))
-                                  (height (second config.dimensions)))
-                             20
-                             500))
+  (const world (or config.world-dimensions config.dimensions))
+  (const placement-tree (create-quad-tree (first world)
+                                          (second world)
+                                          20
+                                          500
+                                          8))
   (const c (.get game.systems Collision entity))
 
   (const placement-vector (.spawn Vector 1 1 ))
 
 
-  (var colliding true)
+  (var colliding true rect nil c* nil)
 
   ;; (print "checking for collisions at" c.x c.y)
   (while colliding
@@ -142,14 +160,15 @@
     ;; (const placed-entities (new Map))
 
     (.clear placement-tree)
-    (each  c.system.components (c*)
-           (unless (= c c*)
-             ;; (const pos [ c*.pos.x c*.pos.y c*.entity])
-             ;; (.set placed-entities pos c*)
-             (.insert placement-tree c*)))
+    (each  c.system.components (candidate)
+           (unless (= c candidate)
+              ;; (const pos [ c*.pos.x c*.pos.y c*.entity])
+              ;; (.set placed-entities pos c*)
+              (.insert placement-tree candidate.quad-tree-rect)))
 
-    (const possible-collisions (.retrieve placement-tree c))
-    (for-of! c* possible-collisions
+    (const possible-collisions (.retrieve placement-tree c.quad-tree-rect))
+    (for-of! rect possible-collisions
+             (assign c* rect.collision)
              ;; (const node (.find placed-entities [pc.x pc.y]))
              ;; (while (.is-colliding? c c*.value)
              (while (.is-colliding? c c*)
@@ -158,9 +177,9 @@
                (assign no-collisions false)
                (.set-length placement-vector (* 1 c*.scale) )
                ;; (.set-length placement-vector 1 )
-               (.set-angle placement-vector (random-float 360))
+                (.set-angle placement-vector (random-float 360))
 
-               (c.pos.system.shift c.pos [placement-vector.x placement-vector.y])))
+                (c.pos.system.shift c.pos [placement-vector.x placement-vector.y])))
     ;; (print "colliding?" no-collisions)
     (if no-collisions (assign colliding false))
 
