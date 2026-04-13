@@ -30,6 +30,20 @@ import {
 var setMoveNoise = (function setMoveNoise$(v = this.v, x = this.x, y = this.y, t = 0, force = 0.01, angleZoom = 1000, noiseZ = 100) {
   /* set-move-noise inc/core/function-expressions.sibilant:28:8 */
 
+  `
+  v x y (t 0.md
+
+  # v x y (t 0
+
+  ## arguments
+
+  Defines v x y (t 0
+
+  ## description
+
+  `
+
+  ;
   const v_=Vector.spawn();
   const z=(noiseZ / 10000);
   const angle=(simplex3((angleZoom / x / 5), (angleZoom / y / 5), (t * z)) * Math.PI * 2);
@@ -41,7 +55,7 @@ var setMoveNoise = (function setMoveNoise$(v = this.v, x = this.x, y = this.y, t
 });
 var i = 0;
 self.onmessage = (function self$onmessage$(e) {
-  /* self.onmessage eval.sibilant:27:0 */
+  /* self.onmessage eval.sibilant:30:0 */
 
   const [ [ vb1, vb2 ], [ pb1, pb2 ] ]=e.data.buffers;
   const velocities=Vector2DPhaseSpace.fromBuffers(vb1, vb2);

@@ -79,6 +79,7 @@ var renderClosingTag = (function renderClosingTag$(stream, name) {
   });
 });
 var HtmlElement = Interface.define("HtmlElement", { 
+  docString:"null",
   get body(  ){ 
     
       return this._body;
@@ -102,6 +103,20 @@ var HtmlElement = Interface.define("HtmlElement", {
    },
   render( stream = this.stream,name = this.name,attributes = this.attributes,body = this.body,promise = this.promise ){ 
     
+      `
+      stream name attributes body promise.md
+
+      # stream name attributes body promise
+
+      ## arguments
+
+      Defines stream name attributes body promise
+
+      ## description
+
+      `
+
+      ;
       
       return (function(renderElementAttribute) {
         /* inc/scope.sibilant:12:9 */

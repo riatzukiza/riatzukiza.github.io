@@ -46,10 +46,25 @@ var sample = (function sample$(array, n) {
   return r;
 });
 var KdTree = BinaryTree.define("KdTree", { 
+  docString:"null",
   dataType:KdTreeNode,
   bucketSize:32,
   constructTree( points = this.points,node = this.root,depth = 0 ){ 
     
+      `
+      points (node this/root.md
+
+      # points (node this.root
+
+      ## arguments
+
+      Defines points (node this.root
+
+      ## description
+
+      `
+
+      ;
       if( (node === this.root && depth !== 0) ){ 
         throw (new Error("Root not in root"))
        };
@@ -94,14 +109,15 @@ var KdTree = BinaryTree.define("KdTree", {
       return this;
     
    },
-  query( x = this.x,y = this.y,range = this.range,min = { 
-    x:(x - range),
-    y:(y - range)
-   },max = { 
-    x:(x + range),
-    y:(y + range)
-   },node = this.root,depth = 0,matches = [],limit = config.groupSize ){ 
+  query( docString = this.docString,"null" = this.null,"Defines null" = this["Defines null"] ){ 
     
+      x(y, range, min({ 
+        x:(x - range),
+        y:(y - range)
+       }), max({ 
+        x:(x + range),
+        y:(y + range)
+       }), node(this.root), depth(0), matches([]), limit(config.groupSize));
       if( node.empty__QUERY ){ 
         return matches;
        };

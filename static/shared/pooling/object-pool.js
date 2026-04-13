@@ -28,8 +28,9 @@ var _assignId = ((m, k) => {
 return m;
 });
 var ObjectPool = Interface.define("ObjectPool", { 
+  docString:"null",
   init( size = this.size,_interface = null,_array = (function(array) {
-    /* inc/misc.sibilant:1:1508 */
+    /* eval.sibilant:2:352 */
   
     (function() {
       /* inc/loops.sibilant:26:8 */
@@ -41,7 +42,7 @@ var ObjectPool = Interface.define("ObjectPool", {
         /* inc/loops.sibilant:28:35 */
       
         array.push((function() {
-          /* eval.sibilant:2:407 */
+          /* eval.sibilant:2:423 */
         
           return Object.create(_interface);
         }).call(this));
@@ -77,6 +78,20 @@ var ObjectPool = Interface.define("ObjectPool", {
    },
   clear( size = this.size,_interface = this._interface,_array = this._array,_inUse = this._inUse ){ 
     
+      `
+      size *interface *array *in-use.md
+
+      # size *interface *array *in-use
+
+      ## arguments
+
+      Defines size *interface *array *in-use
+
+      ## description
+
+      `
+
+      ;
       _inUse.each(((o) => {
       	return o.clear();
       }));
@@ -85,9 +100,23 @@ var ObjectPool = Interface.define("ObjectPool", {
    },
   aquire( _available = this._available,_members = this._members,_inUse = this._inUse ){ 
     
+      `
+       *available *members *in-use .md
+
+      #  *available *members *in-use 
+
+      ## arguments
+
+      Defines  *available *members *in-use 
+
+      ## description
+
+      `
+
+      ;
       "remove an object from the collection of available ones,\n"+"adding it to the collection of objects currently in use,\n"+"and return it to the caller.";
       return (function(member) {
-        /* inc/misc.sibilant:1:1508 */
+        /* eval.sibilant:2:352 */
       
         _inUse.add(member);
         return member;
@@ -96,6 +125,20 @@ var ObjectPool = Interface.define("ObjectPool", {
    },
   release( obj = this.obj,_available = this._available,_members = this._members,_inUse = this._inUse ){ 
     
+      `
+      obj *available *members *in-use.md
+
+      # obj *available *members *in-use
+
+      ## arguments
+
+      Defines obj *available *members *in-use
+
+      ## description
+
+      `
+
+      ;
       "take an object that is a member of this pool, and remove it\n"+"from the collection of in use objects, and adding it to the collection of\n"+"available ones, for later use";
       obj.clear();
       _inUse.remove(obj);

@@ -24,6 +24,7 @@ import {
   EventEmitter
  } from "./kit/events/index.js";
 var WebWorker = Spawnable.define("WebWorker", { 
+  docString:"null",
   init( events = create(EventEmitter)() ){ 
     
       this.events = events;
@@ -84,12 +85,12 @@ var WebWorker = Spawnable.define("WebWorker", {
     
       const self=this;
       this.worker.onmessage = (function this$worker$onmessage$(m) {
-        /* this.worker.onmessage eval.sibilant:15:4 */
+        /* this.worker.onmessage eval.sibilant:18:4 */
       
         return self.events.emit("message", m.data);
       });
       this.worker.onerror = (function this$worker$onerror$(e) {
-        /* this.worker.onerror eval.sibilant:17:4 */
+        /* this.worker.onerror eval.sibilant:20:4 */
       
         console.log("error:", e);
         return self.events.emit("error", e.message);
@@ -112,6 +113,7 @@ export {
   WebWorker
  };
 var InlineWorker = WebWorker.define("InlineWorker", { 
+  docString:"null",
   get code(  ){ 
     
       throw (new TypeError((this.name + " expects a definition of " + "code")))
@@ -154,7 +156,7 @@ export {
   InlineWorker
  };
 var sendThread = (function sendThread$(data) {
-  /* send-thread eval.sibilant:35:0 */
+  /* send-thread eval.sibilant:41:0 */
 
   return this.promise = this.promise.then(((resolved) => {
   	this.busy = true;
@@ -175,6 +177,7 @@ var sendThread = (function sendThread$(data) {
   }));
 });
 var InlineThread = InlineWorker.define("InlineThread", { 
+  docString:"null",
   init( code = this.code,promise = Promise.resolve() ){ 
     
       this.code = code;this.promise = promise;
@@ -188,6 +191,7 @@ export {
   InlineThread
  };
 var Thread = WebWorker.define("Thread", { 
+  docString:"null",
   init( url = this.url,promise = Promise.resolve() ){ 
     
       this.url = url;this.promise = promise;

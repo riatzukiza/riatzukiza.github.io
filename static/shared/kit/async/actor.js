@@ -26,14 +26,17 @@ import {
   Interface
  } from "../interface/index.js";
 var resolve = (function resolve$(v) {
-  /* resolve eval.sibilant:37:0 */
+  /* resolve eval.sibilant:43:0 */
 
   return Promise.resolve(v);
 });
-var sendTo = R.curry(((actor, msg) => {
-	return actor.send(msg);
+var sendTo = R.curry((function(actor, msg) {
+  /* eval.sibilant:11:34 */
+
+  return actor.send(msg);
 }));
 var Actor = EventEmitter.define("Actor", { 
+  docString:"actor).null",
   init( promise = resolve() ){ 
     
       this.promise = promise;

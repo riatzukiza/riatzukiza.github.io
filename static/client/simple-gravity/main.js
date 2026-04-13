@@ -59,6 +59,7 @@ import {
   startButton
  } from "./ui.js";
 var ThreadedSystem = Thread.define("ThreadedSystem", { 
+  docString:"null",
   data:[],
   update( args ){ 
     
@@ -72,9 +73,11 @@ var ThreadedSystem = Thread.define("ThreadedSystem", {
    }
  });
 var PhysicalProperty = DataType.define("PhysicalProperty", { 
+  docString:"null",
   keys:[ "mass", "scale" ]
  });
 var PhysicalProperties = DoubleBufferedArray.define("PhysicalProperties", { 
+  docString:"null",
   dataType:PhysicalProperty
  });
 const { 
@@ -93,15 +96,17 @@ const physicalProperties=PhysicalProperties.spawn(particleCount);
 const positions=Vector2DPhaseSpace.spawn(particleCount);
 const vertices=vertexLayer(particleCount);
 var MovementSystem = ThreadedSystem.define("MovementSystem", { 
+  docString:"null",
   url:("/client/simple-gravity/workers/movement.js"),
   data:[ velocities, positions, attractors ]
  });
 var AttractorSystem = ThreadedSystem.define("AttractorSystem", { 
+  docString:"null",
   url:"/client/simple-gravity/workers/attractors.js",
   data:[ velocities, positions, attractors, physicalProperties ]
  });
 var initializeMotes = (function initializeMotes$(positions, verts) {
-  /* initialize-motes eval.sibilant:60:0 */
+  /* initialize-motes eval.sibilant:75:0 */
 
   for (var p of positions.data)
   {
@@ -123,7 +128,7 @@ const randomSignedFloat=((range) => {
 	return ((Math.random() * (range - (-1 * range))) + (-1 * range));
 });
 var randomlyPlaceParticles = (function randomlyPlaceParticles$() {
-  /* randomly-place-particles eval.sibilant:76:0 */
+  /* randomly-place-particles eval.sibilant:91:0 */
 
   const spawnPos=Vector.spawn(0, 0);
   for (var p of positions.data)
@@ -144,7 +149,7 @@ var randomlyPlaceParticles = (function randomlyPlaceParticles$() {
   return null;
 });
 var getBounds = (function getBounds$(positions) {
-  /* get-bounds eval.sibilant:96:0 */
+  /* get-bounds eval.sibilant:111:0 */
 
   var minX = 0,
       minY = 0,
@@ -183,7 +188,7 @@ velocities.step();
 initializeMotes(positions, vertices);
 rendering.update();
 var wait = (function wait$(n) {
-  /* wait eval.sibilant:120:0 */
+  /* wait eval.sibilant:135:0 */
 
   return (new Promise(((success, fail) => {
   	var resolve = success,

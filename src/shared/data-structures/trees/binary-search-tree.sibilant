@@ -2,6 +2,9 @@
 (import "../list.js")
 
 (define Binary-search-tree  Spawnable
+(doc-string "null"
+                "Defines null")
+
   (init ((key null)
          (parent null)
          (values (.spawn List))))
@@ -61,6 +64,9 @@
     )
 
   (def-generic rotate-left ()
+  (doc-string "null"
+                  "Defines null")
+
     (const n-parent this.right)
 
     (.move-down this n-parent)
@@ -72,6 +78,9 @@
     (assign n-parent.left this))
 
   (def-generic rotate-right ()
+  (doc-string "null"
+                  "Defines null")
+
     (const n-parent this.left)
 
     (.move-down this n-parent)
@@ -83,6 +92,9 @@
     (assign n-parent.right this))
 
   (def-generic set (key value )
+  (doc-string "key value "
+                  "Defines key value ")
+
     (if (or (not this.key) (= key this.key) )
         (do (set this 'key key )
             (.push this.values value))
@@ -148,6 +160,9 @@
         this))
 
   (def-generic find-range (low high (answer []))
+  (doc-string "low high (answer []"
+                  "Defines low high (answer []")
+
     (if (and (>= this.key low) (<= this.key high))
         (do (if this.left (.find-range this.left low high answer))
             (.push answer this)
@@ -158,6 +173,9 @@
         (.find-range this.left low high answer))
     (return answer))
   (def-generic for-each-in-range (low high (f (-> null) ))
+  (doc-string "low high (f (-> null"
+                  "Defines low high (f (-> null")
+
     (if (and (>= this.key low) (<= this.key high))
         (do (if this.left (.for-each-in-range this.left low high f))
             (.each this.values f)

@@ -42,6 +42,7 @@ var getDatabase = (function getDatabase$(name) {
   }).call(this);
 });
 var Saveable = Interface.define("Saveable", { 
+  docString:"shared).null",
   _nonSerializableKeys:[],
   get loadedInstances(  ){ 
     
@@ -91,6 +92,20 @@ var Saveable = Interface.define("Saveable", {
    },
   injestProperty( data = this.data ){ 
     
+      `
+      shared)/data.md
+
+      # shared).data
+
+      ## arguments
+
+      Defines data
+
+      ## description
+
+      `
+
+      ;
       return (function() {
         if (data.saveIndex) {
           const instance=_types[data.collectionName].load(saveName, data.saveIndex, database);
@@ -128,7 +143,7 @@ var Saveable = Interface.define("Saveable", {
       }).call(this);
     
    },
-  injest( serializedObject = this.serializedObject,saveName = this.saveName,database = create(Database)(saveName),r = this._injestionTarget(),_types = this._types ){ 
+  injest( serializedObject = this.serializedObject,docString = "shared).null",saveName = this.saveName,database = create(Database)(saveName),r = this._injestionTarget(),_types = this._types ){ 
     
       Object.keys(serializedObject).each(((key) => {
       	const data=serializedObject[key];
@@ -181,6 +196,20 @@ var Saveable = Interface.define("Saveable", {
    },
   serialize(  ){ 
     
+      `
+      shared)/null.md
+
+      # shared).null
+
+      ## arguments
+
+      Defines null
+
+      ## description
+
+      `
+
+      ;
       const serializedObject={ 
         typeName:this.name,
         saveId:this.saveId
@@ -220,6 +249,20 @@ var Saveable = Interface.define("Saveable", {
    },
   save( saveName = this.saveName,database = create(Database)(saveName) ){ 
     
+      `
+      shared)/save-name (database ((create Database.md
+
+      # shared).save-name (database ((create Database
+
+      ## arguments
+
+      Defines save-name (database ((create Database
+
+      ## description
+
+      `
+
+      ;
       database.put(this.name, this.serialize());
       return this.getSaveableMembers().each(((key, describer) => {
       	return describer.value.save(saveName, database);
@@ -232,7 +275,19 @@ var Saveable = Interface.define("Saveable", {
     for (var p of this.db.getCursor(this.name))
     {
     const obj=await p;;
-    cache(this.loadedInstances, saveIndex, this.injest(obj))
+    (function() {
+      if (this.loadedInstances.has(saveIndex)) {
+        return this.loadedInstances.get(saveIndex);
+      } else {
+        var r = (function() {
+          /* eval.sibilant:12:23 */
+        
+          return this.injest(obj);
+        }).call(this);
+        this.loadedInstances.set(saveIndex, r);
+        return r;
+      }
+    }).call(this)
     }
     ;
     return r;
@@ -240,9 +295,35 @@ var Saveable = Interface.define("Saveable", {
  },
   load( saveName = this.saveName,saveIndex = 0,database = create(Database)(saveName) ){ 
     
-      return cache(this.loadedInstances, saveIndex, database.get([ this.name, saveIndex ]).then(((data) => {
-      	return this.injest(data, saveName, saveIndex, database);
-      })));
+      `
+      shared)/save-name (save-index 0.md
+
+      # shared).save-name (save-index 0
+
+      ## arguments
+
+      Defines save-name (save-index 0
+
+      ## description
+
+      `
+
+      ;
+      return (function() {
+        if (this.loadedInstances.has(saveIndex)) {
+          return this.loadedInstances.get(saveIndex);
+        } else {
+          var r = (function() {
+            /* eval.sibilant:12:23 */
+          
+            return database.get([ this.name, saveIndex ]).then(((data) => {
+            	return this.injest(data, saveName, saveIndex, database);
+            }));
+          }).call(this);
+          this.loadedInstances.set(saveIndex, r);
+          return r;
+        }
+      }).call(this);
     
    },
    async delete(  ){ 

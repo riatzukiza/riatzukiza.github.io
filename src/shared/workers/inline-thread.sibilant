@@ -13,6 +13,9 @@
                 (reject message))))))
 
 (define Inline-thread Inline-worker
+(doc-string "null"
+                "Defines null")
+
   (init (code (promise (Promise.resolve)))
         (.call Web-worker.init this))
   (send send-thread)

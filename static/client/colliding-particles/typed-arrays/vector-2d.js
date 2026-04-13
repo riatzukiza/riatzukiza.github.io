@@ -24,6 +24,7 @@ import {
   Vector2D
  } from "../data-types/vector-2d.js";
 var Vector2DArray = DoubleBufferedArray.define("Vector2DArray", { 
+  docString:"null",
   dataType:Vector2D,
   addTo( vector2dArray ){ 
     

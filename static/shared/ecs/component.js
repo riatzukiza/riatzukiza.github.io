@@ -75,6 +75,7 @@ var decapitalize = (function decapitalize$(string) {
   return (string.charAt(0).toLowerCase() + string.slice(1));
 });
 var Component = Saveable.define("Component", { 
+  docString:"null",
   register(  ){ 
     
       return `
@@ -105,6 +106,20 @@ var Component = Saveable.define("Component", {
 Component.clear = (function Component$clear$(system = this.system) {
   /* Component.clear inc/core/function-expressions.sibilant:28:8 */
 
+  `
+  system.md
+
+  # system
+
+  ## arguments
+
+  Defines system
+
+  ## description
+
+  `
+
+  ;
   (function() {
     if (!(this._clear)) {
       throw (new Error("Clear function must be defined to relase from object pool."))

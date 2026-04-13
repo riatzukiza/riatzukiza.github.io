@@ -4,6 +4,9 @@
 (import Interface "/shared/kit/interface/index.js")
 
 (define Physical-properties Component
+(doc-string "null"
+                "Defines null")
+
 
   (*scale 1)
   (*mass 1)
@@ -43,14 +46,23 @@
 (export Physical-properties)
 
 (define Physics System
+(doc-string "null"
+                "Defines null")
+
   (Component Physical-properties)
   (*forces [])
 
   (def-generic register-force (F *forces)
+  (doc-string "F *forces"
+                  "Defines F *forces")
+
     (print "registering force" F)
     ((create F) this))
 
   (def-generic register (forces)
+  (doc-string "forces"
+                  "Defines forces")
+
     (assign this.*forces (.map forces (=> (F) (.register-force this F forces)))))
 
   (gett forces this.*forces)
@@ -61,6 +73,9 @@
 (export Physics)
 
 (define Physics.Force Interface
+(doc-string "null"
+                "Defines null")
+
   (init (physics)
         (.register this))
   (template true)
@@ -70,6 +85,9 @@
          (.push Physics.forces this)))
 
   (def-generic apply (physical-properties)
+  (doc-string "physical-properties"
+                  "Defines physical-properties")
+
     (throw (new (Error "force does not have an applicator.")))))
 
 

@@ -97,6 +97,20 @@ var TimeLimit = Component.define("TimeLimit", {
    },
   reset( duration = this.duration ){ 
     
+      `
+      duration.md
+
+      # duration
+
+      ## arguments
+
+      Defines duration
+
+      ## description
+
+      `
+
+      ;
       ((this.system.started)++);
       this.removeFromTree();
       this.createdAt = Date.now();

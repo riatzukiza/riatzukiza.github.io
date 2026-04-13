@@ -24,6 +24,7 @@ import {
   List
  } from "../list.js";
 var RedBlackTree = BinarySearchTree.define("RedBlackTree", { 
+  docString:"shared).null",
   init( key = null,parent = null,color = "red",values = List.spawn() ){ 
     
       this.key = key;this.parent = parent;this.color = color;this.values = values;
@@ -35,14 +36,14 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
       var count = 1;
       var node = this;
       (function() {
-        var while$70 = undefined;
+        var while$357 = undefined;
         while (node) {
-          while$70 = (function() {
+          while$357 = (function() {
             node = node.left;
             return ((count)++);
           }).call(this);
         };
-        return while$70;
+        return while$357;
       }).call(this);
       return count;
     
@@ -81,6 +82,20 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
    },
   fixRedRed(  ){ 
     
+      `
+      shared)/null.md
+
+      # shared).null
+
+      ## arguments
+
+      Defines null
+
+      ## description
+
+      `
+
+      ;
       if( this.isRoot__QUERY ){ 
         this.color = "black";;
         return ;
@@ -128,6 +143,20 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
    },
   fixDoubleBlack( sibling = this.sibling,parent = this.parent ){ 
     
+      `
+      shared)/sibling parent.md
+
+      # shared).sibling parent
+
+      ## arguments
+
+      Defines sibling parent
+
+      ## description
+
+      `
+
+      ;
       if( this.isRoot__QUERY ){ 
         return ;
        };
@@ -210,6 +239,20 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
    },
   deleteNode( parent = this.parent ){ 
     
+      `
+      shared)/parent.md
+
+      # shared).parent
+
+      ## arguments
+
+      Defines parent
+
+      ## description
+
+      `
+
+      ;
       var u = this.getReplacementNode();
       var uvBlack = ((!(u) || u.isBlack__QUERY) && this.isBlack__QUERY);
       if( !(u) ){ 
@@ -301,6 +344,20 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
    },
   remove( key = this.key,value = this.value,depth = null ){ 
     
+      `
+      shared)/key value (depth null.md
+
+      # shared).key value (depth null
+
+      ## arguments
+
+      Defines key value (depth null
+
+      ## description
+
+      `
+
+      ;
       const node=this.search(key, depth);
       const item=node.values.remove(value);
       (function() {
@@ -317,6 +374,20 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
    },
   insert( key = this.key,depth = null ){ 
     
+      `
+      shared)/key (depth null.md
+
+      # shared).key (depth null
+
+      ## arguments
+
+      Defines key (depth null
+
+      ## description
+
+      `
+
+      ;
       if( this.isRoot__QUERY ){ 
         if( !(this.key) ){ 
           if( (this.left || this.right) ){ 
@@ -348,6 +419,20 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
    },
   search( key = this.key,depth = null ){ 
     
+      `
+      shared)/key (depth null.md
+
+      # shared).key (depth null
+
+      ## arguments
+
+      Defines key (depth null
+
+      ## description
+
+      `
+
+      ;
       var temp = this,
           break__QUERY = false;
       while( (temp && !(break__QUERY) && (typeof depth === "number") ? depth > 0 : true) ){ 
@@ -376,6 +461,20 @@ var RedBlackTree = BinarySearchTree.define("RedBlackTree", {
    },
   set( key = this.key,value = this.value,depth = null ){ 
     
+      `
+      shared)/key value (depth null.md
+
+      # shared).key value (depth null
+
+      ## arguments
+
+      Defines key value (depth null
+
+      ## description
+
+      `
+
+      ;
       const node=this.insert(key, depth);
       node.values.push(value);
       return node;

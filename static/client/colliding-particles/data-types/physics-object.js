@@ -21,6 +21,7 @@ import {
   DataType
  } from "./data-type.js";
 var PhysicsObject = DataType.define("PhysicsObject", { 
+  docString:"null",
   keys:[ "mass", "scale" ]
  });
 export { 

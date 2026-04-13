@@ -27,6 +27,7 @@ import {
   BinaryTreeNode
  } from "./binary-tree-node.js";
 var KdTreeNode = BinaryTreeNode.define("KdTreeNode", { 
+  docString:"null",
   keys:[ "x", "y", "bucketId", "pid" ],
   kIndexes:[ "x", "y" ],
   get empty__QUERY(  ){ 

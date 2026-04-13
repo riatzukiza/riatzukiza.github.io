@@ -24,6 +24,7 @@ import {
   Spawnable
  } from "../data-structures/spawnable.js";
 var Group = Spawnable.define("Group", { 
+  docString:"null",
   init( _list = List.spawn(),_members = (new Map()) ){ 
     
       this._list = _list;this._members = _members;
@@ -47,6 +48,20 @@ var Group = Spawnable.define("Group", {
    },
   clear( _list = this._list,_members = this._members ){ 
     
+      `
+      *list *members.md
+
+      # *list *members
+
+      ## arguments
+
+      Defines *list *members
+
+      ## description
+
+      `
+
+      ;
       _members.clear();
       return _list.clear();
     
@@ -68,6 +83,20 @@ var Group = Spawnable.define("Group", {
   	return a;
   }) ){ 
     
+      `
+      items (fn (=> (a.md
+
+      # items (fn (=> (a
+
+      ## arguments
+
+      Defines items (fn (=> (a
+
+      ## description
+
+      `
+
+      ;
       "create a new group instance from an array like, or iterable object.";
       const list=List.from(Array.from(items).map(fn));
       const members=(new Map());
@@ -79,9 +108,23 @@ var Group = Spawnable.define("Group", {
    },
   pop( _list = this._list,_members = this._members ){ 
     
+      `
+      *list *members.md
+
+      # *list *members
+
+      ## arguments
+
+      Defines *list *members
+
+      ## description
+
+      `
+
+      ;
       "remove and return the element last in the groups ordering.";
       return (function(item) {
-        /* inc/misc.sibilant:1:1508 */
+        /* eval.sibilant:2:352 */
       
         _members.delete(item);
         return item;
@@ -90,11 +133,39 @@ var Group = Spawnable.define("Group", {
    },
   push( value = this.value ){ 
     
+      `
+      value.md
+
+      # value
+
+      ## arguments
+
+      Defines value
+
+      ## description
+
+      `
+
+      ;
       return "Add an element to the end of the groups ordering.";
     
    },
   each( f = this.f,_list = this._list ){ 
     
+      `
+      f *list.md
+
+      # f *list
+
+      ## arguments
+
+      Defines f *list
+
+      ## description
+
+      `
+
+      ;
       "Call the given function on every element of the group, returning the group which is being itterated on";
       _list.each(f);
       return this;
@@ -102,16 +173,44 @@ var Group = Spawnable.define("Group", {
    },
   find( f = this.f,_list = this._list ){ 
     
+      `
+      f *list.md
+
+      # f *list
+
+      ## arguments
+
+      Defines f *list
+
+      ## description
+
+      `
+
+      ;
       return _list.find(f);
     
    },
   add( member = this.member,_list = this._list,_members = this._members ){ 
     
+      `
+      member *list *members.md
+
+      # member *list *members
+
+      ## arguments
+
+      Defines member *list *members
+
+      ## description
+
+      `
+
+      ;
       "Add an value to the group, unless the group already has that member.";
       return (function() {
         if (!(_members.has(member))) {
           return (function(node) {
-            /* inc/misc.sibilant:1:1508 */
+            /* eval.sibilant:2:352 */
           
             _members.set(member, node);
             _list.pushNode(node);
@@ -126,17 +225,46 @@ var Group = Spawnable.define("Group", {
       return _list.reduce(f, accumulator);
     
    },
+  docString:"f accumulator *list",
   has( member = this.member,_members = this._members ){ 
     
+      `
+      member *members.md
+
+      # member *members
+
+      ## arguments
+
+      Defines member *members
+
+      ## description
+
+      `
+
+      ;
       "Check if the group has the given member, returning true if yes, and false if no.";
       return _members.has(member);
     
    },
   remove( member = this.member,_list = this._list,_members = this._members ){ 
     
+      `
+      member *list *members.md
+
+      # member *list *members
+
+      ## arguments
+
+      Defines member *list *members
+
+      ## description
+
+      `
+
+      ;
       "Remove a specific member from the group.";
       return (function(node) {
-        /* inc/misc.sibilant:1:1508 */
+        /* eval.sibilant:2:352 */
       
         (function() {
           if (node) {

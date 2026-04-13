@@ -29,6 +29,20 @@ var OrderedBucketMap = Interface.define("OrderedBucketMap", {
    },
   set( k = this.k,v = this.v,_buckets = this._buckets ){ 
     
+      `
+      k v *buckets .md
+
+      # k v *buckets 
+
+      ## arguments
+
+      Defines k v *buckets 
+
+      ## description
+
+      `
+
+      ;
       return (function() {
         if (_buckets.has(k)) {
           return _buckets.get(k).push(v);
@@ -40,22 +54,65 @@ var OrderedBucketMap = Interface.define("OrderedBucketMap", {
    },
   get( k = this.k,value = this.value,_buckets = this._buckets ){ 
     
+      `
+      k value *buckets.md
+
+      # k value *buckets
+
+      ## arguments
+
+      Defines k value *buckets
+
+      ## description
+
+      `
+
+      ;
       return _buckets.get(k);
     
    },
   each( f = this.f,_buckets = this._buckets ){ 
     
+      `
+      f *buckets.md
+
+      # f *buckets
+
+      ## arguments
+
+      Defines f *buckets
+
+      ## description
+
+      `
+
+      ;
       return _buckets.each(f);
     
    },
   map( f = this.f,_buckets = this._buckets ){ 
     
+      `
+      f *buckets.md
+
+      # f *buckets
+
+      ## arguments
+
+      Defines f *buckets
+
+      ## description
+
+      `
+
+      ;
       return _buckets.map(f);
     
    },
   delete( [ k, value ] = [ this.k, this.value ] ){ 
     
-   }
+   },
+  docString:"[k value]"
  });
 export { 
   OrderedBucketMap

@@ -40,7 +40,22 @@ import {
 import { 
   PooledDataStructure
  } from "../data-structures/pooled.js";
+`
+null.md
+
+# null
+
+## arguments
+
+Defines null
+
+## description
+
+`
+
+;
 var CollisionBounds = Component.define("CollisionBounds", { 
+  docString:"null",
   _clear(  ){ 
     
    },
@@ -137,6 +152,20 @@ var CollisionBounds = Component.define("CollisionBounds", {
    },
   isColliding__QUERY( c_ = this.c_,c = this ){ 
     
+      `
+      c* (c this.md
+
+      # c* (c this
+
+      ## arguments
+
+      Defines c* (c this
+
+      ## description
+
+      `
+
+      ;
       var d1x = (c_.minX - c.maxX),
           d1y = (c_.minY - c.maxY),
           d2x = (c.minX - c_.maxX),
@@ -160,8 +189,9 @@ var createQuadTree = ((width, height, maxObjects = 10, maxLevels = 10, hardLimit
   height
  }, maxObjects, clampQuadTreeLevels(maxLevels, width, height, hardLimit))));
 var Collision = System.define("Collision", { 
+  docString:"null",
   Component:CollisionBounds,
-  setBounds( width = 100,height = 100,maxObjects = 10,maxLevels = 10 ){ 
+  setBounds( height = 100,width = 100,docString = "(height 100",maxObjects = 10,maxLevels = 10 ){ 
     
       if( this.quads ){ 
         throw (new Error("bounds are already set"))
@@ -180,6 +210,20 @@ var Collision = System.define("Collision", {
    },
   _updateAll( t = this.t,components = this.components ){ 
     
+      `
+      t components.md
+
+      # t components
+
+      ## arguments
+
+      Defines t components
+
+      ## description
+
+      `
+
+      ;
       this.quads.clear();
       var node = this.components.values.head,
           c = null,
@@ -217,17 +261,35 @@ export {
 var placeEntity = (function placeEntity$(entity = this.entity, game = this.game, config = this.config) {
   /* place-entity inc/core/function-expressions.sibilant:28:8 */
 
-  const world = (config.worldDimensions || config.dimensions);
-  const placementTree=createQuadTree(world[0], world[1], 20, 500, 8);
+  `
+  entity game config.md
+
+  # entity game config
+
+  ## arguments
+
+  Defines entity game config
+
+  ## description
+
+  `
+
+  ;
+  const placementTree=(new QuadTree({ 
+    x:0,
+    y:0,
+    width:config.dimensions[0],
+    height:config.dimensions[1]
+   }, 20, 500));
   const c=game.systems.get(Collision, entity);
   const placementVector=Vector.spawn(1, 1);
   var colliding = true,
       rect = null,
       c_ = null;
   (function() {
-    var while$44 = undefined;
+    var while$388 = undefined;
     while (colliding) {
-      while$44 = (function() {
+      while$388 = (function() {
         var noCollisions = true;
         placementTree.clear();
         c.system.components.each(((candidate) => {
@@ -242,16 +304,16 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         {
         c_ = rect.collision;
         (function() {
-          var while$45 = undefined;
+          var while$389 = undefined;
           while (c.isColliding__QUERY(c_)) {
-            while$45 = (function() {
+            while$389 = (function() {
               noCollisions = false;
               placementVector.setLength((1 * c_.scale));
               placementVector.setAngle(((Math.random() * ( - 360)) + 360));
               return c.pos.system.shift(c.pos, [ placementVector.x, placementVector.y ]);
             }).call(this);
           };
-          return while$45;
+          return while$389;
         }).call(this)
         }
         ;
@@ -263,7 +325,7 @@ var placeEntity = (function placeEntity$(entity = this.entity, game = this.game,
         return null;
       }).call(this);
     };
-    return while$44;
+    return while$388;
   }).call(this);
   placementVector.despawn();
   return entity;

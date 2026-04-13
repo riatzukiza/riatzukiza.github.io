@@ -11,6 +11,9 @@
 
 
 (define uniforms Interface
+(doc-string "null"
+                "Defines null")
+
   (init (game))
   (gett res (-> (Gl.uniform 'Vector2 "Resolution" this.game.config.dimensions)))
   (gett zoom (-> (Gl.uniform 'Vector3 "Zoom" [ 1.0 1.0 this.game.rendering.zoom-level  ])))
@@ -19,6 +22,9 @@
   )
 
 (define shaders Interface
+(doc-string "null"
+                "Defines null")
+
 
   (vert (read-shader "./shaders/scaling.vert"))
 
@@ -35,6 +41,9 @@
           [shaders.vert shaders.frag]))
 
 (define Dot-interface Component
+(doc-string "null"
+                "Defines null")
+
 
   (*color {r 0 g 0 b 0 a 0})
   (gett color this.*color)
@@ -61,6 +70,9 @@
 (export Dot-interface)
 
 (define Dot System
+(doc-string "null"
+                "Defines null")
+
   (max-verts 100000)
   (def register ()
     (assign this.verts (vertex-layer this.max-verts this.game)))

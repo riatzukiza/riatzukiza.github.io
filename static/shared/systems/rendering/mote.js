@@ -39,6 +39,7 @@ var setPoint = (function setPoint$(x, y, z, vert) {
   return vert.point.z = z;
 });
 var Mote = Renderable.define("Mote", { 
+  docString:"null",
   init( layer = this.layer ){ 
     
       this.layer = layer;

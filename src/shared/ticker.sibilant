@@ -3,6 +3,9 @@
 (import Interface "/shared/kit/interface/index.js")
 (import Spawnable "/shared/data-structures/spawnable.js")
 (define Ticker Spawnable
+(doc-string "null"
+                "Defines null")
+
 
   (state false)
   (ticks 0)
@@ -18,6 +21,9 @@
   (init (fps (latency-accumulator ((create List)))))
 
   (def-generic update (previous rate)
+  (doc-string "previous rate"
+                  "Defines previous rate")
+
 
     (when this.state
 

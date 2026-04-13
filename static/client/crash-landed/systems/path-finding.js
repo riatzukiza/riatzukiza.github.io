@@ -67,6 +67,7 @@ var calculateDistanceCost = (function calculateDistanceCost$(start, end) {
 const MOVE_STRAIGHT_COST=10;
 const MOVE_DIAGONAL_COST=14;
 var PathNode = Heapable.define("PathNode", { 
+  docString:"null",
   get heap(  ){ 
     
       return this._heap.heap;
@@ -220,15 +221,15 @@ var PathNode = Heapable.define("PathNode", {
       var path = List.spawn();
       var node = this;
       return (function() {
-        var while$170 = undefined;
+        var while$476 = undefined;
         while (node) {
-          while$170 = (function() {
+          while$476 = (function() {
             path.unshift(node);
             node = node.parent;
             return path;
           }).call(this);
         };
-        return while$170;
+        return while$476;
       }).call(this);
     
    },
@@ -272,6 +273,7 @@ var PathNode = Heapable.define("PathNode", {
    }
  });
 var CurrentPath = Component.define("CurrentPath", { 
+  docString:"null",
   start:null,
   end:null,
   currentNode:null,
@@ -302,6 +304,7 @@ var CurrentPath = Component.define("CurrentPath", {
    }
  });
 var PathFinding = System.define("PathFinding", { 
+  docString:"null",
   Component:CurrentPath,
   tiles:null,
   findShortestPath( c ){ 
@@ -322,9 +325,9 @@ var PathFinding = System.define("PathFinding", {
       }).call(this);
       c.open.insert(startingNode);
       return (function() {
-        var while$171 = undefined;
+        var while$477 = undefined;
         while (c.open.root) {
-          while$171 = (function() {
+          while$477 = (function() {
             const currentNode=c.nextOpenNode;
             return (function() {
               if (currentNode.tile === c.end) {
@@ -368,7 +371,7 @@ var PathFinding = System.define("PathFinding", {
             }).call(this);
           }).call(this);
         };
-        return while$171;
+        return while$477;
       }).call(this);
     
    },

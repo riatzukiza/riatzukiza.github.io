@@ -124,6 +124,7 @@ readers["}"] = (function(char) {
   }).call(this);
 });
 var Reader = Actor.define("Reader", { 
+  docString:"repl).null",
   init( fragment = (typeof fragment !== "undefined") ? fragment : [];,parens = (typeof parens !== "undefined") ? parens : 0;,squareBraces = (typeof squareBraces !== "undefined") ? squareBraces : 0;,curlyBraces = (typeof curlyBraces !== "undefined") ? curlyBraces : 0;,inQuote__QUERY = (typeof inQuote__QUERY !== "undefined") ? inQuote__QUERY : false; ){ 
     
       this.fragment = fragment;this.parens = parens;this.squareBraces = squareBraces;this.curlyBraces = curlyBraces;this.inQuote__QUERY = inQuote__QUERY;
@@ -151,18 +152,32 @@ var Reader = Actor.define("Reader", {
    },
   _send( string = (typeof string !== "undefined") ? string : this.string;,fragment = (typeof fragment !== "undefined") ? fragment : this.fragment; ){ 
     
+      `
+      repl)/string fragment.md
+
+      # repl).string fragment
+
+      ## arguments
+
+      Defines string fragment
+
+      ## description
+
+      `
+
+      ;
       var lines = string.split("\n");
       return line().forEach((function(lines) {
-        /* eval.sibilant:65:4 */
+        /* eval.sibilant:71:4 */
       
         var looping = true,
             i = 0;
         var chars = line.split("");
         this.comment = false;
         (function() {
-          var while$89 = undefined;
+          var while$377 = undefined;
           while ((looping && !(this.comment))) {
-            while$89 = (function() {
+            while$377 = (function() {
               var char = chars[((i)++)];
               (function() {
                 if (readers[char]) {
@@ -192,7 +207,7 @@ var Reader = Actor.define("Reader", {
               }).call(this);
             }).call(this);
           };
-          return while$89;
+          return while$377;
         }).call(this);
         return this.fragment.push("\n");
       }));

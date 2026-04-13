@@ -27,6 +27,7 @@ import {
   Collision
  } from "/shared/systems/collision.js";
 var SignalField = Physics.Force.define("SignalField", { 
+  docString:"null",
   template:true,
   get config(  ){ 
     
@@ -60,6 +61,20 @@ var SignalField = Physics.Force.define("SignalField", {
    },
   apply( c = this.c,field = this.field,layer = this.layer,config = this.config,game = this.game,entities = this.entities,updateParticle = this.updateParticle ){ 
     
+      `
+      c, field, layer config game entities update-particle.md
+
+      # c, field, layer config game entities update-particle
+
+      ## arguments
+
+      Defines c, field, layer config game entities update-particle
+
+      ## description
+
+      `
+
+      ;
       var v = c.velocity;
       var collision = c.system.process.systems.get(Collision, c.entity);
       updateParticle(v, v.pos, field, layer, game.ticker.ticks, false, false, entities.homePos);

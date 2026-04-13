@@ -24,6 +24,7 @@ import {
   GroupId
  } from "../data-types/group-id.js";
 var GroupIdArray = DoubleBufferedArray.define("GroupIdArray", { 
+  docString:"null",
   dataType:GroupId
  });
 export { 

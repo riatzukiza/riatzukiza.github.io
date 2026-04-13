@@ -2,6 +2,9 @@
 (import Renderable "./renderable.js")
 
 (define Scaling-vertex Renderable
+(doc-string "null"
+                "Defines null")
+
 
   (init (layer))
 

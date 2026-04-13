@@ -24,6 +24,7 @@ import {
   List
  } from "../list.js";
 var FixedBst = Spawnable.define("FixedBst", { 
+  docString:"null",
   init( key = null,depth = 20,parent = null,_root = (function() {
     if (!(parent)) {
       return this;
@@ -46,13 +47,13 @@ var FixedBst = Spawnable.define("FixedBst", {
         } else {
           var node = this;
           return this._root = (function() {
-            var while$67 = undefined;
+            var while$354 = undefined;
             while (node.parent) {
-              while$67 = (function() {
+              while$354 = (function() {
                 return node = node.parent;
               }).call(this);
             };
-            return while$67;
+            return while$354;
           }).call(this);
         }
       }).call(this);
@@ -82,13 +83,13 @@ var FixedBst = Spawnable.define("FixedBst", {
     
       var temp = this;
       return (function() {
-        var while$68 = undefined;
+        var while$355 = undefined;
         while (temp.left) {
-          while$68 = (function() {
+          while$355 = (function() {
             return temp = temp.left;
           }).call(this);
         };
-        return while$68;
+        return while$355;
       }).call(this);
     
    },
@@ -154,6 +155,20 @@ var FixedBst = Spawnable.define("FixedBst", {
    },
   rotateLeft(  ){ 
     
+      `
+      null.md
+
+      # null
+
+      ## arguments
+
+      Defines null
+
+      ## description
+
+      `
+
+      ;
       var x = this;
       var y = x.right;
       x.right = y.left;
@@ -180,6 +195,20 @@ var FixedBst = Spawnable.define("FixedBst", {
    },
   rotateRight(  ){ 
     
+      `
+      null.md
+
+      # null
+
+      ## arguments
+
+      Defines null
+
+      ## description
+
+      `
+
+      ;
       var x = this;
       var y = x.left;
       x.left = y.right;
@@ -203,6 +232,20 @@ var FixedBst = Spawnable.define("FixedBst", {
    },
   set( key = null,value = this.value,depth = this.depth ){ 
     
+      `
+      (key null.md
+
+      # (key null
+
+      ## arguments
+
+      Defines (key null
+
+      ## description
+
+      `
+
+      ;
       (function() {
         if ((!(this.key) || key === this.key || depth === 0)) {
           this.key = key;

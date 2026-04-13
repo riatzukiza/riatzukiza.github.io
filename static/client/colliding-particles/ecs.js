@@ -20,7 +20,22 @@ import {
 var ComponentStore = Interface.define("ComponentStore", { 
   
  });
+`
+null.md
+
+# null
+
+## arguments
+
+Defines null
+
+## description
+
+`
+
+;
 var GameComponent = DataType.define("GameComponent", { 
+  docString:"null",
   get keys(  ){ 
     
       return (function() {
@@ -40,7 +55,22 @@ var GameComponent = DataType.define("GameComponent", {
 var GameEntity = DataType.define("GameEntity", { 
   
  });
+`
+null.md
+
+# null
+
+## arguments
+
+Defines null
+
+## description
+
+`
+
+;
 var GameSystem = Spawnable.define("GameSystem", { 
+  docString:"null",
   init( components = this.components ){ 
     
       this.components = components;

@@ -18,6 +18,7 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 var Particle = Struct.define("Particle", { 
+  docString:"null",
   pos:Vector2DArray,
   vel:Vector2DArray,
   nearGravity:Vector2DArray,

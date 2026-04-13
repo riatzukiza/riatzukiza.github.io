@@ -18,6 +18,7 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 var Vector2D = DataType.define("Vector2D", { 
+  docString:"null",
   keys:[ "x", "y" ],
   setAngle( angle ){ 
     

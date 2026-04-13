@@ -1,9 +1,15 @@
 (import Interface "/shared/kit/interface/index.js")
 (import Event-emitter "/shared/kit/events/index.js")
 (def-lit-macro def-async (name args ...body)
+(doc-string "null"
+                "Defines null")
+
   [" async "name  `(parenthetic (comma @args.contents))
             `(curly (do-block ...@body))])
 (define Collection Interface
+(doc-string "null"
+                "Defines null")
+
   (init (name database))
   (def *state-transaction ()
     )
@@ -12,6 +18,9 @@
   (def set (key value)))
 
 (define Database Interface
+(doc-string "null"
+                "Defines null")
+
 
   (init (name (events ((create Event-emitter)))))
   (cached db (.start this))

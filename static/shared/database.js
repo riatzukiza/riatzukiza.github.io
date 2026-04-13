@@ -24,6 +24,7 @@ import {
   EventEmitter
  } from "/shared/kit/events/index.js";
 var Collection = Interface.define("Collection", { 
+  docString:"null",
   init( name = this.name,database = this.database ){ 
     
       this.name = name;this.database = database;
@@ -44,6 +45,7 @@ var Collection = Interface.define("Collection", {
    }
  });
 var Database = Interface.define("Database", { 
+  docString:"null",
   init( name = this.name,events = create(EventEmitter)() ){ 
     
       this.name = name;this.events = events;
@@ -141,7 +143,7 @@ var Database = Interface.define("Database", {
     	var resolve = success,
         reject = fail;
     cursor.onsuccess = (function cursor$onsuccess$(e) {
-      /* cursor.onsuccess eval.sibilant:54:25 */
+      /* cursor.onsuccess eval.sibilant:63:25 */
     
       return success(e.target.result);
     });
@@ -171,7 +173,7 @@ var Database = Interface.define("Database", {
     	var resolve = success,
         reject = fail;
     cursor.onsuccess = (function cursor$onsuccess$(e) {
-      /* cursor.onsuccess eval.sibilant:72:5 */
+      /* cursor.onsuccess eval.sibilant:81:5 */
     
       const c=e.target.result;
       return (function() {
@@ -198,12 +200,12 @@ var Database = Interface.define("Database", {
     	var resolve = success,
         reject = fail;
     request.onsuccess = (function request$onsuccess$(event) {
-      /* request.onsuccess eval.sibilant:84:5 */
+      /* request.onsuccess eval.sibilant:93:5 */
     
       return success(event.result);
     });
     request.onerror = (function request$onerror$(event) {
-      /* request.onerror eval.sibilant:86:5 */
+      /* request.onerror eval.sibilant:95:5 */
     
       return reject(event);
     });
@@ -221,12 +223,12 @@ var Database = Interface.define("Database", {
     	var resolve = success,
         reject = fail;
     request.onsuccess = (function request$onsuccess$(event) {
-      /* request.onsuccess eval.sibilant:94:5 */
+      /* request.onsuccess eval.sibilant:103:5 */
     
       return success(event.result);
     });
     request.onerror = (function request$onerror$(event) {
-      /* request.onerror eval.sibilant:96:5 */
+      /* request.onerror eval.sibilant:105:5 */
     
       return reject(event);
     });
@@ -244,12 +246,12 @@ var Database = Interface.define("Database", {
     	var resolve = success,
         reject = fail;
     request.onsuccess = (function request$onsuccess$(event) {
-      /* request.onsuccess eval.sibilant:105:5 */
+      /* request.onsuccess eval.sibilant:114:5 */
     
       return success(event);
     });
     request.onerror = (function request$onerror$(event) {
-      /* request.onerror eval.sibilant:107:5 */
+      /* request.onerror eval.sibilant:116:5 */
     
       return reject(event);
     });
@@ -261,7 +263,7 @@ var Database = Interface.define("Database", {
   
     const request=indexedDB.open(this.name, this.version);
     request.onupgradeneeded = (function request$onupgradeneeded$(e) {
-      /* request.onupgradeneeded eval.sibilant:111:4 */
+      /* request.onupgradeneeded eval.sibilant:120:4 */
     
       return this.upgrade(e.target.result);
     });
@@ -269,12 +271,12 @@ var Database = Interface.define("Database", {
     	var resolve = success,
         reject = fail;
     request.onerror = (function request$onerror$(e) {
-      /* request.onerror eval.sibilant:113:5 */
+      /* request.onerror eval.sibilant:122:5 */
     
       return reject(e);
     });
     request.onsuccess = (function request$onsuccess$(e) {
-      /* request.onsuccess eval.sibilant:114:5 */
+      /* request.onsuccess eval.sibilant:123:5 */
     
       this.events.emit("start", this.db);
       return success(this);

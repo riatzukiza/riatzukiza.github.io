@@ -21,6 +21,7 @@ import {
   DataType
  } from "./data-type.js";
 var Barycenter = DataType.define("Barycenter", { 
+  docString:"null",
   keys:[ "x", "y", "mass" ]
  });
 export { 

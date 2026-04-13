@@ -16,6 +16,9 @@
        'z z))
 
 (define Sprite-atlas-renderable Renderable
+(doc-string "null"
+                "Defines null")
+
 
   (init (layer))
 
@@ -47,6 +50,9 @@
 
 
 (define uniforms Interface
+(doc-string "null"
+                "Defines null")
+
   (init (game))
   (gett res (-> (Gl.uniform 'Vector2 "Resolution" this.game.config.dimensions)))
   (gett zoom (-> (Gl.uniform 'Vector3 "Zoom" [ 1.0 1.0 this.game.rendering.zoom-level  ])))
@@ -61,12 +67,18 @@
 
 
 (define shaders Interface
+(doc-string "null"
+                "Defines null")
+
 
   (vert (read-shader "./shaders/sprite-atlas.vert"))
   (frag (read-shader "./shaders/sprite-atlas.frag")))
 
 
 (define Texture Interface
+(doc-string "null"
+                "Defines null")
+
   (init (img context id (texture (.create-texture gl)))
         (const gl context.gl)
 
@@ -92,6 +104,9 @@
         )
   (gett gl  this.context.gl)
   (def-generic enable (img texture gl)
+  (doc-string "img texture gl"
+                  "Defines img texture gl")
+
 
     (.active-texture gl (+ gl.TEXTURE0 this.id))
     (.bind-texture gl gl.TEXTURE_2D texture)
@@ -118,6 +133,9 @@
 
 
 (define  Animated-sprite Component
+(doc-string "null"
+                "Defines null")
+
 
 
   (gett pos this.entity.position-interface)
@@ -163,6 +181,9 @@
 (export Animated-sprite)
 
 (define Sprite-atlas System
+(doc-string "null"
+                "Defines null")
+
   (max-sprites 100000)
   ;; (gett img (throw (new Error "no image defined for sprite system")))
   (*non-serializable-keys ['sprites 'queue])

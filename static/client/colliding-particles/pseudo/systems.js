@@ -18,6 +18,7 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 var System = Interface.define("System", { 
+  docString:"null",
   init( inputs = this.inputs,target = this.target,entities = this.entities ){ 
     
       this.inputs = inputs;this.target = target;this.entities = entities;
@@ -47,6 +48,7 @@ var System = Interface.define("System", {
  }
  });
 var Movement = System.define("Movement", { 
+  docString:"null",
   inputs:[ Position, Velocity ],
   outputs:Position,
   update( pos,vel,target ){ 
@@ -57,6 +59,7 @@ var Movement = System.define("Movement", {
    }
  });
 var Acceleration = System.define("Acceleration", { 
+  docString:"null",
   inputs:[ Acceleration, Velocity ],
   update( accel,vel,target ){ 
     
@@ -66,6 +69,7 @@ var Acceleration = System.define("Acceleration", {
    }
  });
 var CollisionDetection = System.define("CollisionDetection", { 
+  docString:"null",
   components:[ Position, Geometry ],
   target:Position,
   defThreaded:update

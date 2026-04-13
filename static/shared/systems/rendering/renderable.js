@@ -21,6 +21,7 @@ import {
   Interface
  } from "../../kit/interface/index.js";
 var Renderable = Interface.define("Renderable", { 
+  docString:"null",
   init( layer = this.layer,structure = this.structure ){ 
     
       this.layer = layer;this.structure = structure;

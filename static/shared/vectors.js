@@ -30,6 +30,7 @@ import {
   Spawnable
  } from "./data-structures/spawnable.js";
 var Vector = Spawnable.define("Vector", { 
+  docString:"null",
   init( _x = 0,_y = 0 ){ 
     
       this._x = _x;this._y = _y;
@@ -214,6 +215,7 @@ export {
   Vector
  };
 var TrailVector = Spawnable.define("TrailVector", { 
+  docString:"null",
   init( x = this.x,y = this.y,pheremones = this.pheremones ){ 
     
       this.x = x;this.y = y;this.pheremones = pheremones;

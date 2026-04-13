@@ -3,6 +3,9 @@
 (import Position "./position.js")
 
 (define Velocity-interface Component
+(doc-string "null"
+                "Defines null")
+
 
   (gett parent-view this.entity.property-view.view )
   (gett update-view? this.moved)
@@ -37,6 +40,9 @@
 (export Velocity-interface)
 
 (define Velocity System
+(doc-string "null"
+                "Defines null")
+
 
   (Component Velocity-interface)
   (real-time? true)

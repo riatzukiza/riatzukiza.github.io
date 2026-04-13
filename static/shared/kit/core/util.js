@@ -25,6 +25,20 @@ const defined=((value) => {
 var mixin = (function mixin$(sources = this.sources, target = {  }) {
   /* mixin inc/core/function-expressions.sibilant:28:8 */
 
+  `
+  kit)/sources (target {}.md
+
+  # kit).sources (target {}
+
+  ## arguments
+
+  Defines sources (target {}
+
+  ## description
+
+  `
+
+  ;
   sources = (Array.isArray(sources)) ? sources : [ sources ];
   sources.each(((source) => {
   	const descriptors=Object.keys(source).reduce(((descriptors, key) => {
@@ -44,18 +58,18 @@ var mixin = (function mixin$(sources = this.sources, target = {  }) {
   return target;
 });
 var extend = (function extend$(proto, extension) {
-  /* extend eval.sibilant:32:0 */
+  /* extend eval.sibilant:35:0 */
 
   return mixin(extension, Object.create(proto));
 });
 var hasProperties = (function hasProperties$(object, key, ...keys) {
-  /* has-properties eval.sibilant:36:0 */
+  /* has-properties eval.sibilant:39:0 */
 
   const hasKey=object.hasOwnProperty(key);
   return (!(keys.length)) ? hasKey : (hasKey && hasProperties(object, ...keys));
 });
 var either = (function either$(left, right, value) {
-  /* either eval.sibilant:44:0 */
+  /* either eval.sibilant:47:0 */
 
   return (function() {
     if (value) {
@@ -69,7 +83,7 @@ export {
   either
  };
 var conditional = (function conditional$(value, pred, action, ...rest) {
-  /* conditional eval.sibilant:49:0 */
+  /* conditional eval.sibilant:52:0 */
 
   "A functional conditional operator. Immediately evaluates its arguements.";
   return (function() {
@@ -92,7 +106,7 @@ export {
   conditional
  };
 var cond = (function cond$(pred, action, ...rest) {
-  /* cond eval.sibilant:62:0 */
+  /* cond eval.sibilant:65:0 */
 
   "A lazy application of a functional conditional operator. Waits for a value to be given to it before applying its functional arguements";
   return ((value) => {
@@ -103,11 +117,11 @@ export {
   cond
  };
 var partiallyApplyAfter = (function partiallyApplyAfter$(f, ...args) {
-  /* partially-apply-after eval.sibilant:67:0 */
+  /* partially-apply-after eval.sibilant:70:0 */
 
   "partially apply a function with the rest of the arguements to this function being appended to the end of the arguements of the given function";
   return (function(...restArgs) {
-    /* eval.sibilant:69:2 */
+    /* eval.sibilant:72:2 */
   
     return f(...restArgs, ...args);
   });
@@ -135,7 +149,7 @@ Array.prototype.each = (function Array$prototype$each$(f = this.f, array = this)
   return this;
 });
 Map.prototype.each = (function Map$prototype$each$(f) {
-  /* Map.prototype.each eval.sibilant:90:0 */
+  /* Map.prototype.each eval.sibilant:93:0 */
 
   this.forEach(f);
   return this;
@@ -143,12 +157,26 @@ Map.prototype.each = (function Map$prototype$each$(f) {
 var curry = (function curry$(f = this.f, args = [], self = this.self) {
   /* curry inc/core/function-expressions.sibilant:28:8 */
 
+  `
+  kit)/f (args [].md
+
+  # kit).f (args []
+
+  ## arguments
+
+  Defines f (args []
+
+  ## description
+
+  `
+
+  ;
   return (function() {
     if (args.length === f.length) {
       return f.apply(self, args);
     } else {
       return (function(...args) {
-        /* eval.sibilant:98:6 */
+        /* eval.sibilant:104:6 */
       
         return curry(f, [ ...args, ...newArgs ], (self || this));
       });
@@ -156,7 +184,7 @@ var curry = (function curry$(f = this.f, args = [], self = this.self) {
   }).call(this);
 });
 Function.prototype.curry = (function Function$prototype$curry$(args) {
-  /* Function.prototype.curry eval.sibilant:102:0 */
+  /* Function.prototype.curry eval.sibilant:108:0 */
 
   var args = Array.prototype.slice.call(arguments, 0);
 
@@ -168,7 +196,7 @@ const Obj={
   create,
   mixin,
   keys:Object.keys,
-  map( o = this.o,f = this.f,target = {  },keys = Obj.keys(o) ){ 
+  map( o = this.o,f = this.f,target = {  },docString = "kit).o f (target {}",keys = Obj.keys(o) ){ 
     
       return Arr.mapto(keys, ((k) => {
       	return f(o[k], k, o, target, keys);
@@ -177,6 +205,20 @@ const Obj={
    },
   product( o = this.o,f = this.f,target = {  },keys = this.keys ){ 
     
+      `
+      kit)/o f (target {}.md
+
+      # kit).o f (target {}
+
+      ## arguments
+
+      Defines o f (target {}
+
+      ## description
+
+      `
+
+      ;
       return Obj.keys(o).each(((k) => {
       	return target[k] = f[k](o[k], k, o, target);
       }));
@@ -189,7 +231,7 @@ const Obj={
       });
     
    },
-  symbolize( structure = {  },symbolNames = Obj.keys(structure),$ = Sym.Namespace,target = {
+  symbolize( structure = {  },docString = "kit). (structure {}",symbolNames = Obj.keys(structure),$ = Sym.Namespace,target = {
     init: structure.init,
     $: $
   } ){ 

@@ -4,6 +4,9 @@
 (import Spawnable "./data-structures/spawnable.js")
 
 (define Vector Spawnable
+(doc-string "null"
+                "Defines null")
+
   (init ((*x 0) (*y 0))
         (if (or (isNaN *x) (isNaN *y))
             (throw (new Error "Vector parameter is NaN")))
@@ -100,6 +103,9 @@
   )
 (export Vector)
 (define Trail-vector Spawnable
+(doc-string "null"
+                "Defines null")
+
   (init (x y pheremones))
   (def clear ()
     (assign this.x null)

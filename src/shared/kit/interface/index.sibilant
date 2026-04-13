@@ -9,6 +9,9 @@
                      ( *types {})
                      (init (name *obj (*types {}) (*symbols {})))
                      (def-generic define
+                     (doc-string "interface).null"
+                                     "Defines null")
+
                          (name
 
                           *obj *types *symbols
@@ -23,6 +26,9 @@
                            (.*construct  Interface name *obj *ext *shares *symbols *types *build)))
 
                      (def-generic *construct (name *obj *ext *shares *symbols *types *build)
+                     (doc-string "interface).name *obj *ext *shares *symbols *types *build"
+                                     "Defines name *obj *ext *shares *symbols *types *build")
+
                        (collect proto (extend  *ext (mixin  [ (lit name (symbol (Symbol name))
                                                                    (define Interface.define)
                                                                    (proto *ext)

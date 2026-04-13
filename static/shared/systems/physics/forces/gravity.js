@@ -18,6 +18,7 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 var Gravity = Physics.Force.define("Gravity", { 
+  docString:"null",
   apply( c ){ 
     
       var v = c.velocity;

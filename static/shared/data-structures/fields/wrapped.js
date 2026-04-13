@@ -18,6 +18,7 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 var WrappingVectorField = Interface.define("WrappingVectorField", { 
+  docString:"null",
   init( columns = this.columns,rows = this.rows,_data = (new Array(columns)) ){ 
     
       this.columns = columns;this.rows = rows;this._data = _data;
@@ -32,11 +33,39 @@ var WrappingVectorField = Interface.define("WrappingVectorField", {
    },
   get( x = this.x,y = this.y,columns = this.columns,rows = this.rows ){ 
     
+      `
+      x y columns rows.md
+
+      # x y columns rows
+
+      ## arguments
+
+      Defines x y columns rows
+
+      ## description
+
+      `
+
+      ;
       return this.data[(Math.min(Math.max(Math.round(x), 0), (columns - 1)) || 0)][(Math.min(Math.max(Math.round(y), 0), (rows - 1)) || 0)];
     
    },
   each( f = this.f,columns = this.columns,rows = this.rows,data = this.data ){ 
     
+      `
+      f columns rows data.md
+
+      # f columns rows data
+
+      ## arguments
+
+      Defines f columns rows data
+
+      ## description
+
+      `
+
+      ;
       for (var x = 0;x < columns;++(x))
       {
       for (var y = 0;y < rows;++(y))
@@ -54,6 +83,20 @@ var WrappingVectorField = Interface.define("WrappingVectorField", {
    },
   populate( columns = this.columns,rows = this.rows,_data = this._data ){ 
     
+      `
+      columns rows *data.md
+
+      # columns rows *data
+
+      ## arguments
+
+      Defines columns rows *data
+
+      ## description
+
+      `
+
+      ;
       for (var x = 0;x < columns;++(x))
       {
       _data[x] = (new Array(rows));;

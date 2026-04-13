@@ -3,12 +3,18 @@
 
 
 (define  Pooled-system  Interface
+(doc-string "null"
+                "Defines null")
+
   (init ( Interface (*pool ((create Dynamic-pool) Interface)))
         (.register this Interface))
 
   (systems (new Map))
 
   (def-generic clear (*pooled)
+  (doc-string "*pooled"
+                  "Defines *pooled")
+
     (.each *pooled (feach despawned))
     (.clear *pooled))
 

@@ -24,6 +24,7 @@ import {
   Interface
  } from "../kit/interface/index.js";
 var PooledSystem = Interface.define("PooledSystem", { 
+  docString:"null",
   init( Interface = this.Interface,_pool = create(DynamicPool)(Interface) ){ 
     
       this.Interface = Interface;this._pool = _pool;
@@ -34,6 +35,20 @@ var PooledSystem = Interface.define("PooledSystem", {
   systems:(new Map()),
   clear( _pooled = this._pooled ){ 
     
+      `
+      *pooled.md
+
+      # *pooled
+
+      ## arguments
+
+      Defines *pooled
+
+      ## description
+
+      `
+
+      ;
       _pooled.each(feach(despawned));
       return _pooled.clear();
     
@@ -42,7 +57,7 @@ var PooledSystem = Interface.define("PooledSystem", {
     
       "aquire an object from the systems pool, and initialize it.";
       return (function(r) {
-        /* inc/misc.sibilant:1:1508 */
+        /* eval.sibilant:2:352 */
       
         r.init(...args);
         return r;

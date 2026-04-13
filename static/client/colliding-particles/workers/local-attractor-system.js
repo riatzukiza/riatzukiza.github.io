@@ -57,6 +57,7 @@ var calculateGravitationalIntensity = (function calculateGravitationalIntensity$
   return dist;
 });
 var LocalParticle = Spawnable.define("LocalParticle", { 
+  docString:"null",
   init( posSource = this.posSource,physSource = this.physSource,groupIdSource = this.groupIdSource,nearGravitySource = this.nearGravitySource,mass = physSource.mass,scale = physSource.scale,groupId = groupIdSource.groupId,height = scale,width = scale,pos = Vector.spawn(posSource.x, posSource.y),vel = Vector.spawn(0, 0) ){ 
     
       this.posSource = posSource;this.physSource = physSource;this.groupIdSource = groupIdSource;this.nearGravitySource = nearGravitySource;this.mass = mass;this.scale = scale;this.groupId = groupId;this.height = height;this.width = width;this.pos = pos;this.vel = vel;
@@ -91,6 +92,7 @@ var LocalParticle = Spawnable.define("LocalParticle", {
    }
  });
 var LocalAttractorSystem = ParentSystem.define("LocalAttractorSystem", { 
+  docString:"null",
   dataTypes:[ Vector2DArray, PhysicsArray, GroupIdArray, Vector2DArray ],
   async update( { 
   threadId

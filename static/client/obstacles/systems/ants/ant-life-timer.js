@@ -39,6 +39,7 @@ import {
  } from "../../entities/trail-segments.js";
 const views=(new Map());
 var AntLife = TimeLimit.define("AntLife", { 
+  docString:"null",
   duration:config.antLife,
   updateView__QUERY:true,
   defView:view,
@@ -87,6 +88,7 @@ export {
   AntLife
  };
 var AntLifeTimer = Timer.define("AntLifeTimer", { 
+  docString:"null",
   get defaultDuration(  ){ 
     
       return config.antLife;

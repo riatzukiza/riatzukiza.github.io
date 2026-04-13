@@ -17,6 +17,9 @@
 
 (var clear (#->  .clear))
 (define Entity-system Saveable
+(doc-string "null"
+                "Defines null")
+
   (current-id 0)
   (init (process (pool ((create Dynamic-pool) Entity 256))))
   (gett game this.process)

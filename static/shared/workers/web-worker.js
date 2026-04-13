@@ -24,6 +24,7 @@ import {
   EventEmitter
  } from "./kit/events/index.js";
 var WebWorker = Spawnable.define("WebWorker", { 
+  docString:"null",
   get url(  ){ 
     
       throw (new TypeError((this.name + " expects a definition of " + "url")))
@@ -74,12 +75,12 @@ var WebWorker = Spawnable.define("WebWorker", {
     
       const self=this;
       this.worker.onmessage = (function this$worker$onmessage$(m) {
-        /* this.worker.onmessage eval.sibilant:18:4 */
+        /* this.worker.onmessage eval.sibilant:21:4 */
       
         return self.events.emit("message", m.data);
       });
       this.worker.onerror = (function this$worker$onerror$(e) {
-        /* this.worker.onerror eval.sibilant:21:4 */
+        /* this.worker.onerror eval.sibilant:24:4 */
       
         console.log("error:", e);
         return self.events.emit("error", e.message);

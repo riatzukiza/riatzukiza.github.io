@@ -10,10 +10,16 @@
 
 
 (def-lit-macro def-curried (name args ...body) `(property @name (R.curry (lambda @args ...@body))))
+(doc-string "null"
+                "Defines null")
+
 ;; (define Bounding-box Pooled-data-structure
 ;;   (init (x y height width)))
 
 (define Collision-bounds Component
+(doc-string "null"
+                "Defines null")
+
   (def *clear () )
 
   (gett dimensions this.area)
@@ -75,6 +81,9 @@
           this._quad-tree-rect))
 
   (def-generic is-colliding?  (c* (c this))
+  (doc-string "c* (c this"
+                  "Defines c* (c this")
+
 
 
     (var d1x (- c*.min-x c.max-x) d1y (- c*.min-y c.max-y) d2x (- c.min-x c*.max-x) d2y (- c.min-y c*.max-y))
@@ -97,11 +106,17 @@
        (clamp-quad-tree-levels max-levels width height hard-limit)))
 
 (define Collision System
+(doc-string "null"
+                "Defines null")
+
 
   (Component Collision-bounds)
 
 
-  (def-generic set-bounds ((width 100) (height 100)
+  (def-generic set-bounds ((height 100) (width 100)
+  (doc-string "(height 100"
+                  "Defines (height 100")
+
                            (max-objects 10)
                            (max-levels 10))
     (if! this.quads (throw (new Error "bounds are already set")))
@@ -114,6 +129,9 @@
       (return))
 
   (def-generic *update-all (t components)
+  (doc-string "t components"
+                  "Defines t components")
+
     (.clear this.quads)
 
     (var node this.components.values.head c nil rect nil c* nil)
@@ -139,12 +157,16 @@
 (export Collision)
 
 (def-generic place-entity (entity game config)
-  (const world (or config.world-dimensions config.dimensions))
-  (const placement-tree (create-quad-tree (first world)
-                                          (second world)
-                                          20
-                                          500
-                                          8))
+(doc-string "entity game config"
+                "Defines entity game config")
+
+  (const placement-tree (new Quad-tree
+                             (lit (x 0)
+                                  (y 0)
+                                  (width (first config.dimensions))
+                                  (height (second config.dimensions)))
+                             20
+                             500))
   (const c (.get game.systems Collision entity))
 
   (const placement-vector (.spawn Vector 1 1 ))

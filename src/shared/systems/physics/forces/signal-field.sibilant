@@ -5,6 +5,9 @@
 
 
 (define SignalField Physics.Force
+(doc-string "null"
+                "Defines null")
+
 
   (template true)
 
@@ -16,6 +19,9 @@
   (gett layer (throw (Error "No signal field layer (this.layer)   provided for signal-field force sub system")))
 
   (def-generic apply (c, field, layer config game entities update-particle)
+  (doc-string "c, field, layer config game entities update-particle"
+                  "Defines c, field, layer config game entities update-particle")
+
     (var v c.velocity)
     (var collision (.get c.system.process.systems Collision c.entity))
     (update-particle v, v.pos, field, layer, game.ticker.ticks,

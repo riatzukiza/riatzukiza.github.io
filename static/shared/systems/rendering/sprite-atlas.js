@@ -50,6 +50,7 @@ var setPoint = (function setPoint$(x, y, z, vert) {
   return vert.point.z = z;
 });
 var SpriteAtlasRenderable = Renderable.define("SpriteAtlasRenderable", { 
+  docString:"null",
   init( layer = this.layer ){ 
     
       this.layer = layer;
@@ -79,6 +80,7 @@ export {
   SpriteAtlasRenderable
  };
 var uniforms = Interface.define("uniforms", { 
+  docString:"null",
   init( game = this.game ){ 
     
       this.game = game;
@@ -121,6 +123,7 @@ var uniforms = Interface.define("uniforms", {
    }
  });
 var shaders = Interface.define("shaders", { 
+  docString:"null",
   vert:`#version 300 es
   in vec3 a_point;
   in float a_size;
@@ -193,6 +196,7 @@ var shaders = Interface.define("shaders", {
   `
  });
 var Texture = Interface.define("Texture", { 
+  docString:"null",
   init( img = this.img,context = this.context,id = this.id,texture = gl.createTexture() ){ 
     
       this.img = img;this.context = context;this.id = id;this.texture = texture;
@@ -212,13 +216,27 @@ var Texture = Interface.define("Texture", {
    },
   enable( img = this.img,texture = this.texture,gl = this.gl ){ 
     
+      `
+      img texture gl.md
+
+      # img texture gl
+
+      ## arguments
+
+      Defines img texture gl
+
+      ## description
+
+      `
+
+      ;
       gl.activeTexture((gl.TEXTURE0 + this.id));
       return gl.bindTexture(gl.TEXTURE_2D, texture);
     
    }
  });
 var spriteLayer = (function spriteLayer$(limit, textureData, game) {
-  /* sprite-layer eval.sibilant:96:0 */
+  /* sprite-layer eval.sibilant:111:0 */
 
   uniforms.init(game);
   var id = uniforms.id;
@@ -227,6 +245,7 @@ var spriteLayer = (function spriteLayer$(limit, textureData, game) {
   return layer;
 });
 var AnimatedSprite = Component.define("AnimatedSprite", { 
+  docString:"null",
   get pos(  ){ 
     
       return this.entity.positionInterface;
@@ -326,6 +345,7 @@ export {
   AnimatedSprite
  };
 var SpriteAtlas = System.define("SpriteAtlas", { 
+  docString:"null",
   maxSprites:100000,
   _nonSerializableKeys:[ "sprites", "queue" ],
   register(  ){ 
@@ -356,13 +376,13 @@ var SpriteAtlas = System.define("SpriteAtlas", {
     
       this.prepare();
       return (function() {
-        var while$103 = undefined;
+        var while$404 = undefined;
         while (this.queue.length) {
-          while$103 = (function() {
+          while$404 = (function() {
             return this._updateComponent(this.queue.pop());
           }).call(this);
         };
-        return while$103;
+        return while$404;
       }).call(this);
     
    },

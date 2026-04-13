@@ -24,6 +24,7 @@ import {
   EventEmitter
  } from "./kit/events/index.js";
 var InlineWorker = WebWorker.define("InlineWorker", { 
+  docString:"null",
   get code(  ){ 
     
       throw (new TypeError((this.name + " expects a definition of " + "code")))

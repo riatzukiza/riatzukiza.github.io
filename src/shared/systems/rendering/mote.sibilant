@@ -16,6 +16,9 @@
        'z z))
 
 (define Mote Renderable
+(doc-string "null"
+                "Defines null")
+
 
   (init (layer))
 

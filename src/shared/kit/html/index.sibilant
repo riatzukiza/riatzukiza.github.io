@@ -64,6 +64,9 @@
 (def render-closing-tag   (stream name)
   (-> (promise-write-to-stream stream (+ "</" name ">\n"))))
 (define Html-element Interface
+(doc-string "null"
+                "Defines null")
+
 
   (gett body  this.*body)
   (gett stream  ((create Promise-writer) this.*stream))
@@ -75,6 +78,9 @@
          *stream
          (*promise (Promise.resolve))))
   (def-generic render  (stream name  attributes body promise)
+  (doc-string "stream name attributes body promise"
+                  "Defines stream name attributes body promise")
+
 
     (doc "Write an html document fragment to a stream, and its content. Content can be a string, promise, or a renderable.") 
 

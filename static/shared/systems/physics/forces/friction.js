@@ -21,6 +21,7 @@ import {
   Physics
  } from "../system.js";
 var Friction = Physics.Force.define("Friction", { 
+  docString:"null",
   template:true,
   get config(  ){ 
     
@@ -29,6 +30,20 @@ var Friction = Physics.Force.define("Friction", {
    },
   apply( c = this.c,config = this.config ){ 
     
+      `
+      c config.md
+
+      # c config
+
+      ## arguments
+
+      Defines c config
+
+      ## description
+
+      `
+
+      ;
       var v = c.velocity;
       var physics = c.system.process.systems.get(Physics, c.entity);
       return (function() {

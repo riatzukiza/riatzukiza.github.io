@@ -18,6 +18,7 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 var CompositeTypedArray = Interface.define("CompositeTypedArray", { 
+  docString:"null",
   dataType:DataType,
   init( length = 0,buffer = this.dataType.buffer(),array = (new Float64Array(buffer)),currentState = this,nextState = this ){ 
     

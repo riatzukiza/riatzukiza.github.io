@@ -31,6 +31,7 @@ import {
   Layer
  } from "./layer.js";
 var REPL = Layer.of([ Reader, Compiler, Evaluator ]).define("REPL", { 
+  docString:"repl).null",
   init(  ){ 
     
       

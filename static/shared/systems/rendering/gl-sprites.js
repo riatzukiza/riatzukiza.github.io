@@ -51,6 +51,7 @@ var setPoint = (function setPoint$(x, y, z, vert) {
   return vert.point.z;
 });
 var SpriteRenderable = Renderable.define("SpriteRenderable", { 
+  docString:"null",
   init( layer = this.layer ){ 
     
       this.layer = layer;
@@ -79,6 +80,7 @@ export {
   SpriteRenderable
  };
 var uniforms = Interface.define("uniforms", { 
+  docString:"null",
   init( game = this.game ){ 
     
       this.game = game;
@@ -121,6 +123,7 @@ var uniforms = Interface.define("uniforms", {
    }
  });
 var shaders = Interface.define("shaders", { 
+  docString:"null",
   vert:`#version 300 es
   in vec3 a_point;
   in float a_size;
@@ -180,6 +183,7 @@ var shaders = Interface.define("shaders", {
   `
  });
 var Texture = Interface.define("Texture", { 
+  docString:"null",
   init( img = this.img,context = this.context,id = this.id,texture = gl.createTexture() ){ 
     
       this.img = img;this.context = context;this.id = id;this.texture = texture;
@@ -198,13 +202,27 @@ var Texture = Interface.define("Texture", {
    },
   enable( img = this.img,texture = this.texture,gl = this.gl ){ 
     
+      `
+      img texture gl.md
+
+      # img texture gl
+
+      ## arguments
+
+      Defines img texture gl
+
+      ## description
+
+      `
+
+      ;
       gl.activeTexture((gl.TEXTURE0 + this.id));
       return gl.bindTexture(gl.TEXTURE_2D, texture);
     
    }
  });
 var spriteLayer = (function spriteLayer$(limit, textureData, game) {
-  /* sprite-layer eval.sibilant:84:0 */
+  /* sprite-layer eval.sibilant:99:0 */
 
   uniforms.init(game);
   var id = uniforms.id;
@@ -213,6 +231,7 @@ var spriteLayer = (function spriteLayer$(limit, textureData, game) {
   return layer;
 });
 var Sprite = Component.define("Sprite", { 
+  docString:"null",
   get pos(  ){ 
     
       return this.entity.positionInterface;
@@ -257,6 +276,7 @@ export {
   Sprite
  };
 var Sprites = System.define("Sprites", { 
+  docString:"null",
   maxSprites:100000,
   register(  ){ 
     

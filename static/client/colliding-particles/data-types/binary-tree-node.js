@@ -21,6 +21,7 @@ import {
   DataType
  } from "./data-type.js";
 var BinaryTreeNode = DataType.define("BinaryTreeNode", { 
+  docString:"null",
   occupied:false,
   get left(  ){ 
     

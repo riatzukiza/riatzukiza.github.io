@@ -16,9 +16,15 @@
 (require! 'sibilant)
 
 (define Compiler Actor
+(doc-string "repl).null"
+                "Defines null")
+
 
   (init () (.call Actor.init this))
   (def-generic *send (data)
+  (doc-string "repl).data"
+                  "Defines data")
+
     (pipe (Promise.resolve data)
           (.then (#-> .to-string sibilant (get  'js )))
           (.then (R.tap (emit 'message this)))
@@ -26,6 +32,9 @@
                       (.emit this 'error e)
                       (throw e)))))
   (def-generic spawn ()
+  (doc-string "repl).null"
+                  "Defines null")
+
     ((create this))))
 
 

@@ -62,6 +62,7 @@ var clear = (function() {
   return arguments[0].clear();
 });
 var EntityGroup = Saveable.define("EntityGroup", { 
+  docString:"null",
   init( name = this.name,aspects = this.aspects,system = this.system,group = create(Group)() ){ 
     
       this.name = name;this.aspects = aspects;this.system = system;this.group = group;
@@ -75,9 +76,23 @@ var EntityGroup = Saveable.define("EntityGroup", {
    },
   spawn( aspects = this.aspects,system = this.system,group = this.group ){ 
     
+      `
+       aspects system group.md
+
+      #  aspects system group
+
+      ## arguments
+
+      Defines  aspects system group
+
+      ## description
+
+      `
+
+      ;
       const self=this;
       return (function(e) {
-        /* inc/misc.sibilant:1:1508 */
+        /* eval.sibilant:2:352 */
       
         e.group = self;
         group.add(e);
@@ -87,6 +102,20 @@ var EntityGroup = Saveable.define("EntityGroup", {
    },
   clear( group = this.group ){ 
     
+      `
+      group.md
+
+      # group
+
+      ## arguments
+
+      Defines group
+
+      ## description
+
+      `
+
+      ;
       group.each(((entity) => {
       	return entity.despawn();
       }));
@@ -98,8 +127,23 @@ var EntityGroup = Saveable.define("EntityGroup", {
       return group.has(entity);
     
    },
+  docString:"entity group",
   despawn( entity = this.entity,group = this.group ){ 
     
+      `
+      entity group.md
+
+      # entity group
+
+      ## arguments
+
+      Defines entity group
+
+      ## description
+
+      `
+
+      ;
       group.remove(entity);
       return entity.despawn();
     

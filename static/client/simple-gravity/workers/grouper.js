@@ -38,6 +38,7 @@ import {
   config
  } from "../config.js";
 var ParticleGroup = Spawnable.define("ParticleGroup", { 
+  docString:"null",
   init( members = (this.members || []) ){ 
     
       this.members = members;
@@ -124,6 +125,7 @@ var ParticleGroup = Spawnable.define("ParticleGroup", {
    }
  });
 var Particle = Spawnable.define("Particle", { 
+  docString:"null",
   init( posSource = this.posSource,mass = this.mass,scale = this.scale,height = scale,width = scale,pos = Vector.spawn(posSource.x, posSource.y) ){ 
     
       this.posSource = posSource;this.mass = mass;this.scale = scale;this.height = height;this.width = width;this.pos = pos;
@@ -158,7 +160,7 @@ var Particle = Spawnable.define("Particle", {
    }
  });
 self.onmessage = (function self$onmessage$(e) {
-  /* self.onmessage eval.sibilant:63:0 */
+  /* self.onmessage eval.sibilant:69:0 */
 
   const [ [ pb1, pb2 ], [ mb1, mb2 ] ]=e.data.buffers;
   const groupBuffers=e.data.groupBuffers;

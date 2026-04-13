@@ -42,10 +42,12 @@ rendering.backgroundColor = {
   b:0,
   a:255
  };
+rendering.zoomLevel = 0.01;
 export { 
   rendering
  };
 var shaders = Interface.define("shaders", { 
+  docString:"null",
   vert:`#version 300 es
   in vec3 a_point;
   in vec4 a_color;
@@ -105,6 +107,7 @@ var shaders = Interface.define("shaders", {
   `
  });
 var uniforms = Interface.define("uniforms", { 
+  docString:"null",
   get res(  ){ 
     
       return (() => {
@@ -135,7 +138,7 @@ var uniforms = Interface.define("uniforms", {
    }
  });
 var vertexLayer = (function vertexLayer$(limit) {
-  /* vertex-layer eval.sibilant:34:0 */
+  /* vertex-layer eval.sibilant:42:0 */
 
   const context=rendering.context;
   const layer=rendering.spawn(limit, Mote, [ uniforms.res, uniforms.scale, uniforms.zoom, uniforms.offset ], [ shaders.vert, shaders.frag ]);

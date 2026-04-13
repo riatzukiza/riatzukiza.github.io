@@ -23,6 +23,7 @@ import {
  } from "/shared/systems/rendering/sprite-atlas.js";
 const spriteImage=document.getElementById("grass-sprite");
 var FloorSprite = AnimatedSprite.define("FloorSprite", { 
+  docString:"null",
   get visible__QUERY(  ){ 
     
       return this.entity.visibleStatus.visible__QUERY;
@@ -74,6 +75,7 @@ export {
   FloorSprite
  };
 var FloorSprites = SpriteAtlas.define("FloorSprites", { 
+  docString:"null",
   maxSprites:1000000,
   Component:FloorSprite,
   frameDimensions:[ 32, 32 ],

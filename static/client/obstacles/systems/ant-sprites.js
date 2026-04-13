@@ -25,7 +25,22 @@ const antImage=document.getElementById("ant-texture");
 var AntSprite = Sprite.define("AntSprite", { 
   
  });
+`
+null.md
+
+# null
+
+## arguments
+
+Defines null
+
+## description
+
+`
+
+;
 var AntSprites = Sprites.define("AntSprites", { 
+  docString:"null",
   id:1,
   interface:AntSprite,
   img:antImage

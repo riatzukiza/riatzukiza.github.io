@@ -130,6 +130,20 @@ var SparseVectorField = Spawnable.define("SparseVectorField", {
    },
   get( x = this.x,y = this.y,t = this.t,data = this.data ){ 
     
+      `
+      x y t data.md
+
+      # x y t data
+
+      ## arguments
+
+      Defines x y t data
+
+      ## description
+
+      `
+
+      ;
       p = [ Math.round(x), Math.round(y), t ];
       return (function() {
         if (data.has(p)) {

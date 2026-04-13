@@ -18,8 +18,10 @@ import {
   extend
  } from "/shared/kit/core/util.js";
 var Float = DataType.define("Float", { 
+  docString:"null",
   keys:[ "value" ]
  });
 var Int = DataType.define("Int", { 
+  docString:"null",
   keys:[ "value" ]
  });

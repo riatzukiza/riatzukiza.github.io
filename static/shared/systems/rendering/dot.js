@@ -34,6 +34,7 @@ import {
   Interface
  } from "../../kit/interface/index.js";
 var uniforms = Interface.define("uniforms", { 
+  docString:"null",
   init( game = this.game ){ 
     
       this.game = game;
@@ -70,6 +71,7 @@ var uniforms = Interface.define("uniforms", {
    }
  });
 var shaders = Interface.define("shaders", { 
+  docString:"null",
   vert:`#version 300 es
   in vec3 a_point;
   in vec4 a_color;
@@ -118,13 +120,14 @@ var shaders = Interface.define("shaders", {
   `
  });
 var vertexLayer = (function vertexLayer$(limit, game) {
-  /* vertex-layer eval.sibilant:2:1074 */
+  /* vertex-layer eval.sibilant:8:107 */
 
   uniforms.init(game);
   const context=game.rendering.context;
   return game.rendering.spawn(limit, Vertex, [ uniforms.res, uniforms.scale, uniforms.zoom, uniforms.offset ], [ shaders.vert, shaders.frag ]);
 });
 var DotInterface = Component.define("DotInterface", { 
+  docString:"null",
   _color:{
     r: 0,
     g: 0,
@@ -182,6 +185,7 @@ export {
   DotInterface
  };
 var Dot = System.define("Dot", { 
+  docString:"null",
   maxVerts:100000,
   register(  ){ 
     

@@ -1,6 +1,9 @@
 (import Spawnable "./data-structures/spawnable.js")
 (import Event-emitter "./kit/events/index.js")
 (define Web-worker Spawnable
+(doc-string "null"
+                "Defines null")
+
 
   (init ((events ((create Event-emitter)))))
   (cached worker (new Worker this.url (lit (type "module"))))
@@ -25,6 +28,9 @@
 (export Web-worker)
 
 (define Inline-worker Web-worker
+(doc-string "null"
+                "Defines null")
+
   (expects code)
   (cached url  (window.URL.create-objectURL this.blob))
   (cached blob (new Blob [this.code] (lit (type "text/javascript")))))
@@ -47,6 +53,9 @@
      (.once this.events 'error handle-error))))
 
 (define Inline-thread Inline-worker
+(doc-string "null"
+                "Defines null")
+
   (init (code (promise (Promise.resolve)))
         (.call Web-worker.init this))
   (send send-thread)
@@ -54,6 +63,9 @@
 
 (export Inline-thread)
 (define Thread Web-worker
+(doc-string "null"
+                "Defines null")
+
   (init (url (promise (Promise.resolve)))
         (.call Web-worker.init this))
   (send send-thread))

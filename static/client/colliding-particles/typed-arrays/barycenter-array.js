@@ -24,6 +24,7 @@ import {
   Barycenter
  } from "../data-types/barycenter.js";
 var BarycenterArray = DoubleBufferedArray.define("BarycenterArray", { 
+  docString:"null",
   dataType:Barycenter
  });
 export { 

@@ -21,6 +21,7 @@ import {
   Spawnable
  } from "/shared/data-structures/spawnable.js";
 var DataType = Spawnable.define("DataType", { 
+  docString:"null",
   keys:[],
   init( id = this.id,array = this.array ){ 
     

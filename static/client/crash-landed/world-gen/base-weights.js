@@ -21,6 +21,7 @@ import {
   Interface
  } from "/shared/kit/interface/index.js";
 var baseWeights = Interface.define("baseWeights", { 
+  docString:"null",
   grass:10,
   stone:1,
   floweryGrass:10

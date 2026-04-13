@@ -21,6 +21,7 @@ import {
   Interface
  } from "../kit/interface/index.js";
 var Tensor = Interface.define("Tensor", { 
+  docString:"null",
   init( rank = this.rank,array = [] ){ 
     
       this.rank = rank;this.array = array;
@@ -32,8 +33,23 @@ var Tensor = Interface.define("Tensor", {
       return (width * height);
     
    },
+  docString:"height width",
   getIndex( keys = this.keys,shape = this.shape ){ 
     
+      `
+      keys shape.md
+
+      # keys shape
+
+      ## arguments
+
+      Defines keys shape
+
+      ## description
+
+      `
+
+      ;
       "generate an index for an element in a 1d array from nd coordinates.";
       var idx = 0;
       forIn__BANG(ik, keys, const id=keys[ik];, for (var j of shape)
@@ -52,9 +68,23 @@ var Tensor = Interface.define("Tensor", {
    },
   convolve( B = this.B,A = this,height = this.height,width = this.width ){ 
     
+      `
+      B (A this.md
+
+      # B (A this
+
+      ## arguments
+
+      Defines B (A this
+
+      ## description
+
+      `
+
+      ;
       "perform a kernel filter convolution of two tensors of the same rank '";
       return (function(m) {
-        /* inc/misc.sibilant:1:1508 */
+        /* eval.sibilant:2:352 */
       
         for (var x = 0;x < width;++(x))
         {
@@ -71,6 +101,20 @@ var Tensor = Interface.define("Tensor", {
    },
   get( x = this.x,y = this.y,width = this.width,height = this.height,array = this.array,getIndex = this.getIndex ){ 
     
+      `
+      x y width height array get-index.md
+
+      # x y width height array get-index
+
+      ## arguments
+
+      Defines x y width height array get-index
+
+      ## description
+
+      `
+
+      ;
       "retrieve an element of a matrix by its x and y coordinates ";
       x = ((x + width) % width);
       y = ((y + height) % height);
@@ -79,6 +123,20 @@ var Tensor = Interface.define("Tensor", {
    },
   set( x = this.x,y = this.y,value = this.value,width = this.width,height = this.height,array = this.array,getIndex = this.getIndex ){ 
     
+      `
+      x y value width height array get-index .md
+
+      # x y value width height array get-index 
+
+      ## arguments
+
+      Defines x y value width height array get-index 
+
+      ## description
+
+      `
+
+      ;
       "change the value of an array using 2d coordinates.";
       x = ((x + width) % width);
       y = ((y + height) % height);
@@ -87,6 +145,20 @@ var Tensor = Interface.define("Tensor", {
    },
   addToCell( x = this.x,y = this.y,value = this.value,height = this.height,width = this.width,array = this.array ){ 
     
+      `
+      x y value height width array.md
+
+      # x y value height width array
+
+      ## arguments
+
+      Defines x y value height width array
+
+      ## description
+
+      `
+
+      ;
       "add a number to a value found with 2d coordinates";
       var i = this.getIndex([ x, y ]);
       return array[i] = (array[i] + value);
@@ -95,8 +167,23 @@ var Tensor = Interface.define("Tensor", {
   add(  ){ 
     
    },
+  docString:"null",
   scalarMultiply( scalar = this.scalar,m = this ){ 
     
+      `
+      scalar (m this.md
+
+      # scalar (m this
+
+      ## arguments
+
+      Defines scalar (m this
+
+      ## description
+
+      `
+
+      ;
       return m.map(((v) => {
       	return (v * scalar);
       }));
@@ -104,6 +191,20 @@ var Tensor = Interface.define("Tensor", {
    },
   mult( value = this.value,m = this ){ 
     
+      `
+      value (m this.md
+
+      # value (m this
+
+      ## arguments
+
+      Defines value (m this
+
+      ## description
+
+      `
+
+      ;
       return (function() {
         if (typeof value === "number") {
           return m.scalarMultiply(value);
@@ -115,17 +216,45 @@ var Tensor = Interface.define("Tensor", {
    },
   transit( target = this.target,f = this.f,matrix = this,height = this.height,width = this.width ){ 
     
+      `
+      target f (matrix this.md
+
+      # target f (matrix this
+
+      ## arguments
+
+      Defines target f (matrix this
+
+      ## description
+
+      `
+
+      ;
       "Mapping operator. Performs a map over every element in a matrix, inserting the\n"+"map's results into a target matrix of the same dimensions as the originating matrix ";
       return matrix.map(f, matrix, height, width, target);
     
    },
   dotProduct( B = this.B,A = this ){ 
     
+      `
+      B (A this.md
+
+      # B (A this
+
+      ## arguments
+
+      Defines B (A this
+
+      ## description
+
+      `
+
+      ;
       "Standard matrix multiplication, two matricies can only be multiplied\n"+"if the height of the second is equal to the width of the first.";
       return (function() {
         if (A.width === B.height) {
           return (function(m) {
-            /* inc/misc.sibilant:1:1508 */
+            /* eval.sibilant:2:352 */
           
             for (var r = 0;r < A.width;++(r))
             {
@@ -149,6 +278,20 @@ var Tensor = Interface.define("Tensor", {
    },
   each( f = this.f,width = this.width,height = this.height ){ 
     
+      `
+      f width height .md
+
+      # f width height 
+
+      ## arguments
+
+      Defines f width height 
+
+      ## description
+
+      `
+
+      ;
       "standard itterative operator, accepts a function and applies it to every\n"+"element of the matrix";
       var r = this;
       for (var x = 0;x < width;++(x))
@@ -165,9 +308,23 @@ var Tensor = Interface.define("Tensor", {
    },
   map( f = this.f,m = this,width = this.width,height = this.height,result = create(Matrix)(width, height) ){ 
     
+      `
+      f (m this.md
+
+      # f (m this
+
+      ## arguments
+
+      Defines f (m this
+
+      ## description
+
+      `
+
+      ;
       "standard itterative operator, takes a produces a new Matrix from the successive\n"+"application of that function to every element of the input matrix";
       return (function(r) {
-        /* inc/misc.sibilant:1:1508 */
+        /* eval.sibilant:2:352 */
       
         m.each(((v, x, y, m) => {
         	return r.set(x, y, (f(v, x, y, m) || 0));
@@ -178,6 +335,20 @@ var Tensor = Interface.define("Tensor", {
    },
   dmap( f = this.f,m = this,width = this.width,height = this.height ){ 
     
+      `
+      f (m this.md
+
+      # f (m this
+
+      ## arguments
+
+      Defines f (m this
+
+      ## description
+
+      `
+
+      ;
       "short for destructive map, dmap takes a function and applies it to every\n"+"element of the matrix, swapping out the value of the functions return with its input. ";
       return m.map(f, m, width, height, m);
     

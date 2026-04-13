@@ -24,6 +24,7 @@ import {
   BinaryTreeNode
  } from "../data-types/binary-tree-node.js";
 var BinaryTree = DoubleBufferedArray.define("BinaryTree", { 
+  docString:"null",
   dataType:BinaryTreeNode,
   get root(  ){ 
     

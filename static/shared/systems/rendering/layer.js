@@ -30,36 +30,37 @@ import {
   Gl
  } from "../../gl.js";
 var bound = (function() {
-  /* eval.sibilant:2:346 */
+  /* eval.sibilant:2:362 */
 
   return arguments[0].bind();
 }),
     clear = (function() {
-  /* eval.sibilant:2:371 */
+  /* eval.sibilant:2:387 */
 
   return arguments[0].clear();
 }),
     rendered = (function() {
-  /* eval.sibilant:2:400 */
+  /* eval.sibilant:2:416 */
 
   return arguments[0].render();
 }),
     unbound = (function() {
-  /* eval.sibilant:2:430 */
+  /* eval.sibilant:2:446 */
 
   return arguments[0].unbind();
 }),
     disabled = (function() {
-  /* eval.sibilant:2:459 */
+  /* eval.sibilant:2:475 */
 
   return arguments[0].disable();
 }),
     enabled = (function() {
-  /* eval.sibilant:2:490 */
+  /* eval.sibilant:2:506 */
 
   return arguments[0].enable();
 });
 var Layer = PooledSystem.define("Layer", { 
+  docString:"null",
   render__QUERY:true,
   Renderable:Renderable,
   init( limit = this.limit,Renderable = this.Renderable,uniform = [],shaders = [],context = this.context,program = Gl.program(shaders[0], shaders[1], context),_members = Renderable.structure.Array(limit),buffer = Gl.buffer(_members, context) ){ 
@@ -82,11 +83,39 @@ var Layer = PooledSystem.define("Layer", {
    },
   clear( buffer = this.buffer,_members = this._members,context = this.context ){ 
     
+      `
+      buffer *members context.md
+
+      # buffer *members context
+
+      ## arguments
+
+      Defines buffer *members context
+
+      ## description
+
+      `
+
+      ;
       return buffer.bind().data(_members.data).unbind();
     
    },
   enable( buffer = this.buffer,uniform = this.uniform,program = this.program,context = this.context ){ 
     
+      `
+      buffer uniform program context.md
+
+      # buffer uniform program context
+
+      ## arguments
+
+      Defines buffer uniform program context
+
+      ## description
+
+      `
+
+      ;
       buffer.bind();
       program.enable();
       uniform.each(((uniform) => {
@@ -103,12 +132,40 @@ var Layer = PooledSystem.define("Layer", {
    },
   disable( buffer = this.buffer,uniform = this.uniform,program = this.program ){ 
     
+      `
+      buffer uniform program.md
+
+      # buffer uniform program
+
+      ## arguments
+
+      Defines buffer uniform program
+
+      ## description
+
+      `
+
+      ;
       program.disable();
       return buffer.unbind();
     
    },
   draw( context = this.context ){ 
     
+      `
+      context.md
+
+      # context
+
+      ## arguments
+
+      Defines context
+
+      ## description
+
+      `
+
+      ;
       return (function() {
         if (!(this._pool.used === 0)) {
           return context.draw(context.POINTS, (this._pool.size - this._pool.used), this._pool.used);
@@ -118,6 +175,20 @@ var Layer = PooledSystem.define("Layer", {
    },
   render(  ){ 
     
+      `
+      null.md
+
+      # null
+
+      ## arguments
+
+      Defines null
+
+      ## description
+
+      `
+
+      ;
       return (function() {
         if (this.render__QUERY) {
           this.clear();

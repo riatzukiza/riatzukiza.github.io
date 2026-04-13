@@ -1,4 +1,7 @@
 (def-generic define
+(doc-string "null"
+                "Defines null")
+
     (interface-name
      *obj *types *symbols
      ( *shares (or *obj.borrows *obj.shares []))
@@ -11,6 +14,9 @@
       (.*construct  Interface interface-name *obj *ext *shares *symbols *types *build)))
 
 (def-generic *construct (interface-name *obj *ext *shares *symbols *types *build)
+(doc-string "interface-name *obj *ext *shares *symbols *types *build"
+                "Defines interface-name *obj *ext *shares *symbols *types *build")
+
   (collect proto (extend  *ext (mixin  [ (lit interface-name
                                               (symbol (Symbol interface-name))
                                               (define Interface.define)

@@ -24,6 +24,7 @@ import {
   baseWeights
  } from "./base-weights.js";
 var PossibleState = Spawnable.define("PossibleState", { 
+  docString:"null",
   init( superPosition = this.superPosition,configuration = this.configuration ){ 
     
       this.superPosition = superPosition;this.configuration = configuration;
@@ -106,6 +107,20 @@ var PossibleState = Spawnable.define("PossibleState", {
    },
   calculateWeight( configuration = this.configuration ){ 
     
+      `
+      configuration.md
+
+      # configuration
+
+      ## arguments
+
+      Defines configuration
+
+      ## description
+
+      `
+
+      ;
       return configuration.reduce(((weight, tileType, direction) => {
       	return (weight + (configuration.weight * baseWeights[tileType]));
       }), 0);
@@ -113,6 +128,20 @@ var PossibleState = Spawnable.define("PossibleState", {
    },
   isValid__QUERY( tile = this.tile,configuration = this.configuration ){ 
     
+      `
+      tile configuration.md
+
+      # tile configuration
+
+      ## arguments
+
+      Defines tile configuration
+
+      ## description
+
+      `
+
+      ;
       if( !(this.weight) ){ 
         return false;
        };

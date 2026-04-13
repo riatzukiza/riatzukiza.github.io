@@ -30,6 +30,7 @@ import {
   Spawnable
  } from "/shared/data-structures/spawnable.js";
 var Ticker = Spawnable.define("Ticker", { 
+  docString:"null",
   state:false,
   ticks:0,
   events:create(EventEmitter)(),
@@ -58,6 +59,20 @@ var Ticker = Spawnable.define("Ticker", {
    },
   update( previous = this.previous,rate = this.rate ){ 
     
+      `
+      previous rate.md
+
+      # previous rate
+
+      ## arguments
+
+      Defines previous rate
+
+      ## description
+
+      `
+
+      ;
       (function() {
         if (this.state) {
           var now = Date.now();

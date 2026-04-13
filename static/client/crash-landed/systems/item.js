@@ -25,6 +25,7 @@ import {
   List
  } from "/shared/data-structures/list.js";
 var ItemInterface = Component.define("ItemInterface", { 
+  docString:"null",
   type:"food",
   calories:500,
   container:null,
@@ -64,6 +65,7 @@ export {
   ItemInterface
  };
 var Item = System.define("Item", { 
+  docString:"null",
   Component:ItemInterface,
   _updateComponent(  ){ 
     

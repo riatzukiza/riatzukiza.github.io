@@ -32,6 +32,7 @@ import {
   spawnAntTrailSegment
  } from "/client/obstacles/entities/trail-segments.js";
 var AntTrail = Component.define("AntTrail", { 
+  docString:"null",
   _clear(  ){ 
     
       return this.segments.each(((s) => {
@@ -53,6 +54,7 @@ export {
   AntTrail
  };
 var AntTrails = System.define("AntTrails", { 
+  docString:"null",
   interface:AntTrail,
   get spawnAntTrailSegment(  ){ 
     

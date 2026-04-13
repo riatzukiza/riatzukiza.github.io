@@ -49,6 +49,7 @@ const {
   gravitationalConstant
  }=config;
 var AttractorGroupSystem = ThreadedSystem.define("AttractorGroupSystem", { 
+  docString:"null",
   url:"/client/colliding-particles/workers/cluster-attractor-system.js",
   data:[]
  });
@@ -66,6 +67,7 @@ threads.push(thread)
 }
 ;
 var ClusterAttractorManager = ParentSystem.define("ClusterAttractorManager", { 
+  docString:"null",
   dataTypes:[ Vector2DArray, PhysicsArray, GroupIdArray, BarycenterArray, Vector2DArray ],
   async update( args,data ){ 
   

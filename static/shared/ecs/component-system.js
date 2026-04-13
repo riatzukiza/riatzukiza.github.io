@@ -86,6 +86,7 @@ var System = Saveable.define("System", {
 
       \`\`\`javascript
       var NewComponent = Component.define("NewComponent", { 
+        docString:"null",
         INeedSomthingFromMySystem( x ){ 
 
             return this.dependentProperty = (x + this.system.neededThing);
@@ -93,6 +94,7 @@ var System = Saveable.define("System", {
          }
        });
       var NewSystem = ComponentSystem.define("NewSystem", { 
+        docString:"null",
         register(  ){ 
 
             this.neededThing = [];
@@ -151,12 +153,40 @@ var System = Saveable.define("System", {
    },
   clear( pool = this.pool,components = this.components,entity = this.entity ){ 
     
+      `
+      pool components entity .md
+
+      # pool components entity 
+
+      ## arguments
+
+      Defines pool components entity 
+
+      ## description
+
+      `
+
+      ;
       components.delete(entity);
       return pool.clear();
     
    },
   get( entity = this.entity,components = this.components ){ 
     
+      `
+      entity components.md
+
+      # entity components
+
+      ## arguments
+
+      Defines entity components
+
+      ## description
+
+      `
+
+      ;
       return components.get(entity);
     
    },
@@ -168,8 +198,22 @@ var System = Saveable.define("System", {
    },
   spawn( entity = this.entity,pool = this.pool,components = this.components ){ 
     
+      `
+      entity pool components.md
+
+      # entity pool components
+
+      ## arguments
+
+      Defines entity pool components
+
+      ## description
+
+      `
+
+      ;
       return (function(c) {
-        /* inc/misc.sibilant:1:1508 */
+        /* eval.sibilant:2:352 */
       
         components.set(entity, c);
         return c;
@@ -199,6 +243,20 @@ var System = Saveable.define("System", {
    },
   _updateAll( t = this.t,components = this.components ){ 
     
+      `
+      t components .md
+
+      # t components 
+
+      ## arguments
+
+      Defines t components 
+
+      ## description
+
+      `
+
+      ;
       this.prepare();
       components.each((($fpipe) => {
       	return this._updateComponent($fpipe, t);
@@ -215,7 +273,7 @@ var System = Saveable.define("System", {
    }
  });
 System.build = (function System$build$() {
-  /* System.build eval.sibilant:102:0 */
+  /* System.build eval.sibilant:120:0 */
 
   return (function() {
     if (!((this.template))) {
@@ -226,16 +284,44 @@ System.build = (function System$build$() {
 System.clear = (function System$clear$(pool = this.pool, components = this.components) {
   /* System.clear inc/core/function-expressions.sibilant:28:8 */
 
+  `
+  pool components .md
+
+  # pool components 
+
+  ## arguments
+
+  Defines pool components 
+
+  ## description
+
+  `
+
+  ;
   components.clear();
   return pool.clear();
 });
 System.get = (function System$get$(entity = this.entity, components = this.components) {
   /* System.get inc/core/function-expressions.sibilant:28:8 */
 
+  `
+  entity components.md
+
+  # entity components
+
+  ## arguments
+
+  Defines entity components
+
+  ## description
+
+  `
+
+  ;
   return components.get(entity);
 });
 System.update = (function System$update$(t) {
-  /* System.update eval.sibilant:114:0 */
+  /* System.update eval.sibilant:138:0 */
 
   return this.thread = this.thread.then(((nil) => {
   	return this._updateAll(t);

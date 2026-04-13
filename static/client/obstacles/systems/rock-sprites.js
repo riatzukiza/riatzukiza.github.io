@@ -24,8 +24,23 @@ import {
 var RockSprite = Sprite.define("RockSprite", { 
   
  });
+`
+null.md
+
+# null
+
+## arguments
+
+Defines null
+
+## description
+
+`
+
+;
 const rockImage=document.getElementById("rock-texture");
 var RockSprites = Sprites.define("RockSprites", { 
+  docString:"null",
   interface:RockSprite,
   id:1,
   img:rockImage

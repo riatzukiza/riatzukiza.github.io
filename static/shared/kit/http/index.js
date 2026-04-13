@@ -39,6 +39,7 @@ var parse = (function parse$(path) {
   })(url.parse(path));
 });
 var Http = Interface.define("Http", { 
+  docString:"http).null",
   get( config ){ 
     
       return (new Promise(((success, fail) => {
@@ -64,6 +65,7 @@ var Http = Interface.define("Http", {
  });
 module.exports = Http;
 Http.Request = Interface.define("Http.Request", { 
+  docString:"http).null",
   init( config = this.config ){ 
     
       this.config = config;
@@ -72,6 +74,7 @@ Http.Request = Interface.define("Http.Request", {
    }
  });
 Http.Message = Interface.define("Http.Message", { 
+  docString:"http).null",
   init( request = this.request,response = this.response ){ 
     
       this.request = request;this.response = response;
@@ -95,7 +98,7 @@ Http.Message = Interface.define("Http.Message", {
    }
  });
 var notFound404 = (function() {
-  /* eval.sibilant:56:19 */
+  /* eval.sibilant:65:19 */
 
   return (function() {
     /* src/macros/pipe.sibilant:66:9 */
@@ -106,6 +109,7 @@ var notFound404 = (function() {
   })(arguments[0].response).end("resource not found.");
 });
 var MiddleWare = Interface.define("MiddleWare", { 
+  docString:"http).null",
   init( router = create(Router)() ){ 
     
       this.router = router;
@@ -131,6 +135,7 @@ var MiddleWare = Interface.define("MiddleWare", {
    }
  });
 Http.MiddleWare = MiddleWare.define("Http.MiddleWare", { 
+  docString:"http).null",
   _parseKey( path ){ 
     
       return path.split("/");
@@ -146,11 +151,12 @@ Http.MiddleWare = MiddleWare.define("Http.MiddleWare", {
    }
  });
 var keyOf = (function keyOf$(path) {
-  /* key-of eval.sibilant:87:0 */
+  /* key-of eval.sibilant:102:0 */
 
   return parse(path).key;
 });
 var Router = Interface.define("Router", { 
+  docString:"http).null",
   init( _tree = create(TreeMap)(),events = create(EventEmitter)() ){ 
     
       this._tree = _tree;this.events = events;
@@ -175,13 +181,13 @@ var Router = Interface.define("Router", {
           return cond((() => {
           	return typeof route.value === "function";
           }), (function() {
-            /* eval.sibilant:108:15 */
+            /* eval.sibilant:126:15 */
           
             return route.value(arguments[0]);
           }), (() => {
           	return typeof route.value.send === "function";
           }), (function() {
-            /* eval.sibilant:110:15 */
+            /* eval.sibilant:128:15 */
           
             return route.value.send(arguments[0]);
           }))(extend(message, { 
@@ -193,6 +199,20 @@ var Router = Interface.define("Router", {
    },
   add( key = this.key,handler = this.handler,_tree = this._tree ){ 
     
+      `
+      http)/key handler *tree.md
+
+      # http).key handler *tree
+
+      ## arguments
+
+      Defines key handler *tree
+
+      ## description
+
+      `
+
+      ;
       "introduce a new routing node to the tree.";
       _tree.set(key, handler);
       return this;
@@ -200,6 +220,20 @@ var Router = Interface.define("Router", {
    },
   find( key = this.key,_tree = this._tree ){ 
     
+      `
+      http)/key *tree .md
+
+      # http).key *tree 
+
+      ## arguments
+
+      Defines key *tree 
+
+      ## description
+
+      `
+
+      ;
       "locate a route given an array of keys";
       return (function(s) {
         /* inc/scope.sibilant:12:9 */
@@ -222,10 +256,25 @@ var Router = Interface.define("Router", {
     
    }
  });
+`
+http)/null.md
+
+# http).null
+
+## arguments
+
+Defines null
+
+## description
+
+`
+
+;
 export { 
   Router
  };
 var ReadStream = Interface.define("ReadStream", { 
+  docString:"http).null",
   init( stream = this.stream ){ 
     
       this.stream = stream;
@@ -234,6 +283,20 @@ var ReadStream = Interface.define("ReadStream", {
    },
   reduce( f = this.f,value = this.value,stream = this.stream ){ 
     
+      `
+      http)/f value stream .md
+
+      # http).f value stream 
+
+      ## arguments
+
+      Defines f value stream 
+
+      ## description
+
+      `
+
+      ;
       return ReadStream.each(((chunk) => {
       	return value = f(value, chunk);
       }), stream).then((() => {
@@ -243,6 +306,20 @@ var ReadStream = Interface.define("ReadStream", {
    },
   each( f = this.f,stream = this.stream ){ 
     
+      `
+      http)/f stream.md
+
+      # http).f stream
+
+      ## arguments
+
+      Defines f stream
+
+      ## description
+
+      `
+
+      ;
       return (new Promise(((success, fail) => {
       	var resolve = success,
           reject = fail;
@@ -252,6 +329,20 @@ var ReadStream = Interface.define("ReadStream", {
    },
   drain( stream = this.stream ){ 
     
+      `
+      http)/stream.md
+
+      # http).stream
+
+      ## arguments
+
+      Defines stream
+
+      ## description
+
+      `
+
+      ;
       return ReadStream.reduce(((value, chunk) => {
       	return (value + chunk);
       }), "", stream);
@@ -259,6 +350,7 @@ var ReadStream = Interface.define("ReadStream", {
    }
  });
 Http.Server = Interface.define("Http.Server", { 
+  docString:"http).null",
   init( port = this.port,_server = http.createServer(),_middleWares = [] ){ 
     
       this.port = port;this._server = _server;this._middleWares = _middleWares;

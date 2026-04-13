@@ -9,6 +9,9 @@
 (import Rendering "/shared/systems/rendering/rendering.js")
 
 (define Game Saveable
+(doc-string "null"
+                "Defines null")
+
   (init (config
          (system-types [])
          (game-speed 1)
@@ -20,6 +23,9 @@
         (.register this))
 
   (def-generic register (systems system-types config)
+  (doc-string "systems system-types config"
+                  "Defines systems system-types config")
+
 
     (assign this.rendering (.load Rendering
                             (lit (dimensions
@@ -50,8 +56,14 @@
   (gett events Ticker.events)
 
   (def-generic add (s systems game) (.push systems [s.symbol ((create s) this)]))
+  (doc-string "s systems game"
+                  "Defines s systems game")
+
 
   (def-generic start (systems events ticker rendering)
+  (doc-string "systems events ticker rendering"
+                  "Defines systems events ticker rendering")
+
 
     (.start ticker)
     (.emit events 'start this)
@@ -62,10 +74,16 @@
         ))
 
   (def-generic stop (ticker events)
+  (doc-string "ticker events"
+                  "Defines ticker events")
+
     (.stop ticker)
     (.remove-all-listeners events 'tick))
 
   (def-generic clear (systems entities events ticker)
+  (doc-string "systems entities events ticker"
+                  "Defines systems entities events ticker")
+
     (.stop ticker)
     (.clear entities )
     (.remove-all-listeners events)

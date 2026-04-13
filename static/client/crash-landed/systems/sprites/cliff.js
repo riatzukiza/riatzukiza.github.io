@@ -23,6 +23,7 @@ import {
  } from "/shared/systems/rendering/sprite-atlas.js";
 const spriteImage=document.getElementById("cliff-sprite");
 var CliffSprite = AnimatedSprite.define("CliffSprite", { 
+  docString:"null",
   column:15,
   row:15,
   get visible__QUERY(  ){ 
@@ -71,6 +72,7 @@ var CliffSprite = AnimatedSprite.define("CliffSprite", {
    }
  });
 var CliffSprites = SpriteAtlas.define("CliffSprites", { 
+  docString:"null",
   Component:CliffSprite,
   frameDimensions:[ 32, 32 ],
   height:16,

@@ -44,6 +44,7 @@ import {
   ParentSystem
  } from "../system.js";
 var ElasticParticle = Spawnable.define("ElasticParticle", { 
+  docString:"null",
   init( posSource = this.posSource,velSource = this.velSource,physSource = this.physSource,deflectionSource = this.deflectionSource,correctionSource = this.correctionSource,_mass = physSource.mass,_scale = physSource.scale,deflection = Vector.spawn(0, 0),correction = Vector.spawn(0, 0),pos = Vector.spawn(posSource.x, posSource.y),vel = Vector.spawn(velSource.x, velSource.y) ){ 
     
       this.posSource = posSource;this.velSource = velSource;this.physSource = physSource;this.deflectionSource = deflectionSource;this.correctionSource = correctionSource;this._mass = _mass;this._scale = _scale;this.deflection = deflection;this.correction = correction;this.pos = pos;this.vel = vel;
@@ -112,6 +113,7 @@ var ElasticParticle = Spawnable.define("ElasticParticle", {
    }
  });
 var ElasticDeflectionSystem = ParentSystem.define("ElasticDeflectionSystem", { 
+  docString:"null",
   dataTypes:[ Vector2DArray, Vector2DArray, PhysicsArray, KdTree, Vector2DArray, Vector2DArray ],
   async update( { 
   bounds:[ minX, minY, maxX, maxY ],
@@ -194,8 +196,11 @@ var ElasticDeflectionSystem = ParentSystem.define("ElasticDeflectionSystem", {
       const m=target.mass;;
       const m_=affector.mass;;
       const u1=Vector.spawn((((v1.x * (m - m_)) / (m + m_)) + (v2.x * 2 * (m_ / (m + m_)))), v1.y).rotateTo((-1 * theta));;
+      const u2=Vector.spawn((((v2.x * (m_ - m)) / (m_ + m)) + (v1.x * 2 * (m / (m_ + m)))), v2.y).rotateTo(theta);;
       target.deflection.addTo(u1);
+      affector.deflection.addTo(u2);
       u1.despawn();
+      u2.despawn();
       v1.despawn();
       v2.despawn()
      };

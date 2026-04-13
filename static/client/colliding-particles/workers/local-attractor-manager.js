@@ -43,6 +43,7 @@ const {
   gravitationalConstant
  }=config;
 var AttractorGroupSystem = ThreadedSystem.define("AttractorGroupSystem", { 
+  docString:"null",
   url:"/client/colliding-particles/workers/local-attractor-system.js",
   data:[]
  });
@@ -60,7 +61,7 @@ threads.push(thread)
 }
 ;
 self.onmessage = (function self$onmessage$(e) {
-  /* self.onmessage eval.sibilant:31:0 */
+  /* self.onmessage eval.sibilant:34:0 */
 
   const [ [ pb1, pb2 ], [ mb1, mb2 ], [ gb1, gb2 ], [ nb1, nb2 ] ]=e.data.buffers;
   const positions=Vector2DArray.fromBuffers(pb1, pb2);

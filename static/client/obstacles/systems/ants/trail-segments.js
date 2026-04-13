@@ -35,6 +35,20 @@ var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
 
   return (Math.round((Math.pow(10, n) * d)) / Math.pow(10, n));
 });
+`
+obstacles)/d (n 6.md
+
+# obstacles).d (n 6
+
+## arguments
+
+Defines d (n 6
+
+## description
+
+`
+
+;
 var TrailSegment = TimeLimit.define("TrailSegment", { 
   docString:"obstacles.systems.ant-trails.Trail-vector",
   duration:config.trailLimit,
@@ -110,6 +124,7 @@ export {
   TrailSegment
  };
 var DecayingTrails = Timer.define("DecayingTrails", { 
+  docString:"obstacles).null",
   get defaultDuration(  ){ 
     
       return config.trailLimit;

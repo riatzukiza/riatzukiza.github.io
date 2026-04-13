@@ -47,6 +47,9 @@
     (return v))
 
   (def-generic get (x y t data)
+  (doc-string "x y t data"
+                  "Defines x y t data")
+
     (assign p [(Math.round x)
                (Math.round y)
                t])

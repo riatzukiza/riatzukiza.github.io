@@ -21,6 +21,9 @@
   (expects grid-y)
   (expects get))
 (define Grid-cell Spawnable
+(doc-string "null"
+                "Defines null")
+
   (init (x y  grid) )
   (expects data)
 
@@ -44,6 +47,9 @@
 
 (export Grid-cell)
 (define Grid-chunk Grid-view
+(doc-string "null"
+                "Defines null")
+
 
   (init (x y *grid))
   (gett grid this.*grid)
@@ -75,6 +81,9 @@
           (+ grid-y (mod y size)))))
 (export Grid-chunk)
 (define Rectangular-view Grid-view
+(doc-string "null"
+                "Defines null")
+
   (init (x y w h grid))
   (cached grid-x (* this.x this.w 2))
   (cached grid-y (* this.y this.h 2))
@@ -83,6 +92,9 @@
 
 
 (define Grid Spawnable
+(doc-string "null"
+                "Defines null")
+
   (Chunk Grid-chunk)
   (Cell Grid-cell)
   (init ((cells (.spawn Trie ))
@@ -92,10 +104,16 @@
   (overlap-factor 2)
 
   (def-generic get-nearest-chunk (x y chunk-size overlap-factor)
+  (doc-string "x y chunk-size overlap-factor"
+                  "Defines x y chunk-size overlap-factor")
+
     (.get-chunk this (Math.round (/ x chunk-size overlap-factor))
           (Math.round (/ y chunk-size overlap-factor))))
 
   (def-generic get-nearest-chunks (x y n chunk-size overlap-factor)
+  (doc-string "x y n chunk-size overlap-factor"
+                  "Defines x y n chunk-size overlap-factor")
+
     (pipe this
           (.chunk-square-area
            (Math.round (/ x chunk-size overlap-factor))
@@ -103,6 +121,9 @@
            n )))
 
   (def-generic get-chunk (x y chunk-size overlap-factor)
+  (doc-string "x y chunk-size overlap-factor"
+                  "Defines x y chunk-size overlap-factor")
+
     (remember this.chunks [x y]
               (.spawn this.Chunk x y this)))
 

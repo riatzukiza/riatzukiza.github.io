@@ -32,8 +32,23 @@ var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
 
   return (Math.round((Math.pow(10, n) * d)) / Math.pow(10, n));
 });
+`
+obstacles)/d (n 6.md
+
+# obstacles).d (n 6
+
+## arguments
+
+Defines d (n 6
+
+## description
+
+`
+
+;
 const views=(new Map());
 var PropertyView = Component.define("PropertyView", { 
+  docString:"obstacles).null",
   register(  ){ 
     
       return this.panelId = ("entity-panel" + this.entity.id);
@@ -52,6 +67,7 @@ var PropertyView = Component.define("PropertyView", {
   defView:view
  });
 var ViewPanel = System.define("ViewPanel", { 
+  docString:"obstacles).null",
   interface:PropertyView,
   pageSize:10,
   page:0,

@@ -22,6 +22,20 @@ var displayDecimal = (function displayDecimal$(d = this.d, n = 6) {
 
   return (Math.round((Math.pow(10, n) * d)) / Math.pow(10, n));
 });
+`
+crash-landed)/d (n 6.md
+
+# crash-landed).d (n 6
+
+## arguments
+
+Defines d (n 6
+
+## description
+
+`
+
+;
 export { 
   displayDecimal
  };

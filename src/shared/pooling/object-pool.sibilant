@@ -10,6 +10,9 @@
                  (do-times @size (.push array (scoped ...@body)) array)))
 
 (define Object-pool Interface
+(doc-string "null"
+                "Defines null")
+
   (init (size
          (*interface null)
          (*array (array-of size (Object.create *interface)))
@@ -29,11 +32,17 @@
   (gett total this.size)
 
   (def-generic clear (size *interface *array *in-use)
+  (doc-string "size *interface *array *in-use"
+                  "Defines size *interface *array *in-use")
+
     (each *in-use (o)
           (.clear o))
     (.init this size *interface *array))
 
   (def-generic aquire ( *available *members *in-use )
+  (doc-string " *available *members *in-use "
+                  "Defines  *available *members *in-use ")
+
     "remove an object from the collection of available ones,
 adding it to the collection of objects currently in use,
 and return it to the caller."
@@ -46,6 +55,9 @@ and return it to the caller."
               (.add *in-use member)))
 
   (def-generic release (obj *available *members *in-use)
+  (doc-string "obj *available *members *in-use"
+                  "Defines obj *available *members *in-use")
+
     "take an object that is a member of this pool, and remove it
 from the collection of in use objects, and adding it to the collection of
 available ones, for later use"

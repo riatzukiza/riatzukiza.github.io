@@ -28,6 +28,7 @@ import {
   Position
  } from "./position.js";
 var VelocityInterface = Component.define("VelocityInterface", { 
+  docString:"null",
   get parentView(  ){ 
     
       return this.entity.propertyView.view;
@@ -102,6 +103,7 @@ export {
   VelocityInterface
  };
 var Velocity = System.define("Velocity", { 
+  docString:"null",
   Component:VelocityInterface,
   realTime__QUERY:true,
   _updateComponent( m ){ 

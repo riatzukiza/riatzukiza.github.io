@@ -23,6 +23,7 @@ import {
  } from "/shared/systems/rendering/sprite-atlas.js";
 const spriteImage=document.getElementById("player-sprite");
 var PlayerSprite = AnimatedSprite.define("PlayerSprite", { 
+  docString:"null",
   get sequenceIndex(  ){ 
     
       return this.column;
@@ -80,6 +81,7 @@ var PlayerSprite = AnimatedSprite.define("PlayerSprite", {
    }
  });
 var PlayerSprites = SpriteAtlas.define("PlayerSprites", { 
+  docString:"null",
   maxSprites:1,
   id:0,
   Component:PlayerSprite,

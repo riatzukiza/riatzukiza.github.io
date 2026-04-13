@@ -28,6 +28,7 @@ import {
   ParentSystem
  } from "../system.js";
 var KdTreeBuilder = ParentSystem.define("KdTreeBuilder", { 
+  docString:"null",
   dataTypes:[ Vector2DArray, KdTree ],
   async update( args,[ positions, kdTree ] ){ 
   

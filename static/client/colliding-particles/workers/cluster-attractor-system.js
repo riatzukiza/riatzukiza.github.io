@@ -47,6 +47,7 @@ const {
   minDist
  }=config;
 var ParticleGroup = Spawnable.define("ParticleGroup", { 
+  docString:"null",
   init( barycenter = this.barycenter ){ 
     
       this.barycenter = barycenter;
@@ -141,6 +142,7 @@ var ParticleGroup = Spawnable.define("ParticleGroup", {
    }
  });
 var DistantParticle = Spawnable.define("DistantParticle", { 
+  docString:"null",
   init( posSource = this.posSource,physSource = this.physSource,groupIdSource = this.groupIdSource,farGravitySource = this.farGravitySource,mass = physSource.mass,scale = physSource.scale,groupId = groupIdSource.groupId,height = scale,width = scale,pos = Vector.spawn(posSource.x, posSource.y),vel = Vector.spawn(0, 0) ){ 
     
       this.posSource = posSource;this.physSource = physSource;this.groupIdSource = groupIdSource;this.farGravitySource = farGravitySource;this.mass = mass;this.scale = scale;this.groupId = groupId;this.height = height;this.width = width;this.pos = pos;this.vel = vel;
@@ -176,6 +178,7 @@ var DistantParticle = Spawnable.define("DistantParticle", {
    }
  });
 var ClusterAttractorSystem = ParentSystem.define("ClusterAttractorSystem", { 
+  docString:"null",
   dataTypes:[ Vector2DArray, PhysicsArray, GroupIdArray, BarycenterArray, Vector2DArray ],
   async update( { 
   threadId

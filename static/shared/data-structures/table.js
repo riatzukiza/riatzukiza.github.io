@@ -21,6 +21,7 @@ import {
   PooledDataStructure
  } from "./pooled.js";
 var Table = PooledDataStructure.define("Table", { 
+  docString:"null",
   init( iterable = null,_map = this._map ){ 
     
       this.iterable = iterable;this._map = _map;
@@ -43,27 +44,45 @@ var Table = PooledDataStructure.define("Table", {
       return _map.get(key);
     
    },
+  docString:"(key null",
   set( key = null,value = null,_map = this._map ){ 
     
       return _map.set(key, value);
     
    },
+  docString:"(key null",
   has( key = null,_map = this._map ){ 
     
       return _map.has(key);
     
    },
+  docString:"(key null",
   delete( key = null,_map = this._map ){ 
     
       return _map.delete(key);
     
    },
+  docString:"(key null",
   each( f = null,_map = this._map ){ 
     
       return _map.each(f);
     
    }
  });
+`
+(f null.md
+
+# (f null
+
+## arguments
+
+Defines (f null
+
+## description
+
+`
+
+;
 export { 
   Table
  };

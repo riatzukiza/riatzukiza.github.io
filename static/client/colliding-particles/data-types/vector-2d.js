@@ -24,6 +24,7 @@ import {
   Vector
  } from "/shared/vectors.js";
 var Vector2D = DataType.define("Vector2D", { 
+  docString:"null",
   keys:[ "x", "y" ],
   setAngle( angle ){ 
     

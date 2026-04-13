@@ -17,9 +17,10 @@ import {
   create,
   extend
  } from "/shared/kit/core/util.js";
-var define = (function define$(interfaceName = this.interfaceName, _obj = this._obj, _types = this._types, _symbols = this._symbols, _shares = (_obj.borrows || _obj.shares || []), _ext = (_obj.extend || this), _build = _obj.build) {
+var define = (function define$(docString = this.docString, "null" = this.null, "Defines null" = this["Defines null"]) {
   /* define inc/core/function-expressions.sibilant:28:8 */
 
+  interfaceName(_obj, _types, _symbols, _shares((_obj.borrows || _obj.shares || [])), _ext((_obj.extend || this)), _build(_obj.build));
   return (function() {
     if (interfaceName in _symbols) {
       return mixin(_obj, _types[_symbols[interfaceName]]);
@@ -31,11 +32,25 @@ var define = (function define$(interfaceName = this.interfaceName, _obj = this._
 var _construct = (function _construct$(interfaceName = this.interfaceName, _obj = this._obj, _ext = this._ext, _shares = this._shares, _symbols = this._symbols, _types = this._types, _build = this._build) {
   /* *construct inc/core/function-expressions.sibilant:28:8 */
 
+  `
+  interface-name *obj *ext *shares *symbols *types *build.md
+
+  # interface-name *obj *ext *shares *symbols *types *build
+
+  ## arguments
+
+  Defines interface-name *obj *ext *shares *symbols *types *build
+
+  ## description
+
+  `
+
+  ;
   return (function(proto) {
-    /* inc/misc.sibilant:1:1508 */
+    /* eval.sibilant:2:352 */
   
     proto.construct = (function proto$construct$() {
-      /* proto.construct eval.sibilant:22:11 */
+      /* proto.construct eval.sibilant:28:11 */
     
       return Object.create(proto).init(...arguments);
     });

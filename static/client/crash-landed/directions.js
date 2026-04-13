@@ -50,6 +50,7 @@ export {
   getCardinalDirection
  };
 var directionActions = Interface.define("directionActions", { 
+  docString:"null",
   north:[ 0, 1 ],
   northEast:[ 1, 1 ],
   east:[ 1, 0 ],
@@ -63,7 +64,7 @@ export {
   directionActions
  };
 var getCardinalDirectionName = (function getCardinalDirectionName$(vector) {
-  /* get-cardinal-direction-name eval.sibilant:38:0 */
+  /* get-cardinal-direction-name eval.sibilant:41:0 */
 
   const angle=vector.getAngle();
   const i=(Math.abs(Math.round((angle / eigthTurn))) % 8);

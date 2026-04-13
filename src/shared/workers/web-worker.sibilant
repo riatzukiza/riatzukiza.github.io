@@ -1,6 +1,9 @@
 (import Spawnable "./data-structures/spawnable.js")
 (import Event-emitter "./kit/events/index.js")
 (define Web-worker Spawnable
+(doc-string "null"
+                "Defines null")
+
 
   (expects url)
   (init ((worker (new Worker this.url (lit (type "module"))))
