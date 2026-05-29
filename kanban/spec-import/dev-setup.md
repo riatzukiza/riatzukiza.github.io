@@ -1,3 +1,17 @@
+---
+uuid: "orgs-riatzukiza-riatzukiza-github-io-kanban-orgs-riatzukiza-riatzukiza-github-io-spec-dev-setup-md"
+title: "Development Setup Notes"
+status: incoming
+priority: P3
+labels: ["specs", "migrated-spec"]
+created_at: "2026-05-29T04:01:06.198Z"
+source: "orgs/riatzukiza/riatzukiza.github.io/spec/dev-setup.md"
+category: "specs"
+---
+
+> Source: `orgs/riatzukiza/riatzukiza.github.io/spec/dev-setup.md`
+> Migrated-to-kanban: `orgs/riatzukiza/riatzukiza.github.io/kanban/spec-import/dev-setup.md`
+
 # Development Setup Notes
 
 ## Prompt
