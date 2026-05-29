@@ -6,11 +6,18 @@
 
 (const create (=> (source)
                   (=> ((dots args))
+                      (doc-string "kit.core.create" "source [...args]"
+                                 "Create an object with the given source as its prototype and initialize it with the provided arguments.")
                       (const r (.create Object source))
                       (.init r (dots args))
                       (return r))))
-(const defined (=> (value) (not (= value undefined))))
+(const defined (=> (value)
+                   (doc-string "kit.core.defined" "value"
+                              "Determine if a value is not strictly undefined.")
+                   (not (= value undefined))))
 (def-generic mixin (sources (target {}))
+  (doc-string "kit.core.mixin" "sources [target]"
+             "Copy enumerable properties from the given source objects onto the target object.")
   (assign sources (ternary (.is-array Array sources)
                            sources
                            [sources]))
@@ -30,10 +37,14 @@
         (.define-properties Object target descriptors))
   (return target))
 (def extend (proto extension)
+  (doc-string "kit.core.extend" "proto extension"
+             "Create a new object from the given prototype and mix in the extension properties.")
   (mixin extension (.create Object proto)))
 
 
 (def has-properties (object key (dots keys))
+  (doc-string "kit.core.has-properties" "object key [...keys]"
+             "Check that an object possesses the given property chain.")
   (const has-key (.has-own-property object key))
   (ternary (not keys.length)
            has-key
@@ -42,12 +53,15 @@
 
 
 (def either (left right value)
+  (doc-string "kit.core.either" "left right value"
+             "Apply \`left\` when \`value\` is truthy, otherwise use \`right\`.")
   (if value (left value) (right value)))
 
 (export either)
 
 (def conditional (value pred action (dots rest))
-  "A functional conditional operator. Immediately evaluates its arguements."
+  (doc-string "kit.core.conditional" "value pred action [...rest]"
+             "Immediately evaluate a functional conditional with the provided value and predicates.")
   (if action
       (if (pred value) (action value)
 
@@ -60,12 +74,14 @@
 (export conditional)
 
 (def cond (pred action (dots rest))
-  "A lazy application of a functional conditional operator. Waits for a value to be given to it before applying its functional arguements"
+  (doc-string "kit.core.cond" "pred action [...rest]"
+             "Return a function that delays evaluation of a conditional until a value is supplied.")
   (=> (value) (conditional value pred action (dots rest))))
 (export cond)
 
 (def partially-apply-after (f (dots args))
-  "partially apply a function with the rest of the arguements to this function being appended to the end of the arguements of the given function"
+  (doc-string "kit.core.partially-apply-after" "f [...args]"
+             "Partially apply \`f\` with arguments that will be appended after any later supplied values.")
   (lambda ((dots rest-args))
     (f (dots rest-args) (dots args))))
 
@@ -75,24 +91,33 @@
 
 (generic Object.prototype.keys (def)
          ((object this))
+         (doc-string "kit.core.Object.keys" "object"
+                    "Retrieve the enumerable own property keys of \`object\`.")
          (Object.keys object))
 
 (generic Object.prototype.each (def)
          (f (object this))
-
+         (doc-string "kit.core.Object.each" "f object"
+                    "Iterate over each enumerable property of \`object\`. The callback receives (value, key, object).")
          (each (object.keys) (k i) (f (get object k) k object))
-
          object)
-(generic Array.prototype.each (def) (f (array this))
+(generic Array.prototype.each (def)
+         (f (array this))
+         (doc-string "kit.core.Array.each" "f array"
+                    "Iterate over each element in \`array\` with the provided callback.")
          (.for-each array f)
          this)
 
 (def Map.prototype.each (f)
+  (doc-string "kit.core.Map.each" "f"
+             "Execute a callback for every key/value pair in the Map instance.")
   (.for-each this f)
   this)
 
 
 (def-generic curry (f (args []) self)
+  (doc-string "kit.core.curry" "f [args] [self]"
+             "Recursively build a curried version of \`f\` until all arguments are supplied.")
   (if (= args.length f.length)
       (.apply f self args)
       (lambda ((dots args))
@@ -100,6 +125,8 @@
                  (or self this)))))
 
 (def Function.prototype.curry (...args)
+  (doc-string "kit.core.Function.curry" "...args"
+             "Return a curried version of this function with the provided initial arguments.")
   (curry this args))
 
 

@@ -17,11 +17,15 @@
 (define Layer Actor
 
   (init ( types (members (.map types (=> (t) ((create t))))))
+        (doc-string "repl.Layer.init" "types"
+                   "Instantiate member actors for each type and initialize the layer.")
         (each types (t i) (set this t.symbol (get members i)))
         (.call Actor.init this))
 
   (gett assign-handlers
         (=> (a i)
+            (doc-string "repl.Layer.assign-handlers" "actor index"
+                       "Connect message handlers between adjacent actors in the layer.")
             (var members this.members)
             (pipe a
                   (.on 'message (R.pipe
@@ -29,9 +33,13 @@
                   (bubble  this 'error))))
 
   (def-generic *send (d members)
+    (doc-string "repl.Layer.*send" "data members"
+               "Send a message to the first actor in the layer.")
     (.send (first members) d))
 
   (def-generic start (members)
+    (doc-string "repl.Layer.start" "members"
+               "Start the layer by wiring handlers and bubbling messages from the last actor.")
 
     (fluently
 
@@ -42,7 +50,10 @@
 
      (bubble  last this 'message )))
 
-  (def of (types) (extend this (lit types))))
+  (def of (types)
+    (doc-string "repl.Layer.of" "types"
+               "Create a new Layer composed of the given actor types.")
+    (extend this (lit types))))
 
 (export Layer)
 
